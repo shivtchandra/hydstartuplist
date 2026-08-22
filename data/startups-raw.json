@@ -1,0 +1,674 @@
+[
+  {
+    "name": "Zenoti",
+    "website": "https://www.zenoti.com",
+    "sector": "SaaS",
+    "fundingStage": "Series D",
+    "area": "Hyderabad",
+    "description": "All-in-one software platform for salons and spas, serving 5,000+ clients across 30 countries."
+  },
+  {
+    "name": "Darwinbox",
+    "website": "https://www.darwinbox.com",
+    "sector": "SaaS",
+    "fundingStage": "Growth",
+    "area": "Hyderabad",
+    "description": "HR-tech unicorn providing an end-to-end HR management platform."
+  },
+  {
+    "name": "Zenwork",
+    "website": "https://www.zenwork.com",
+    "sector": "Fintech",
+    "fundingStage": "Private Equity",
+    "area": "Hyderabad",
+    "description": "Tax and compliance SaaS platform."
+  },
+  {
+    "name": "Zaggle",
+    "website": "https://www.zaggle.in",
+    "sector": "Fintech",
+    "fundingStage": "Public",
+    "area": "Hyderabad",
+    "description": "Publicly listed payments-management and employee spend SaaS platform."
+  },
+  {
+    "name": "Keka HR",
+    "website": "https://www.keka.com",
+    "sector": "SaaS",
+    "fundingStage": "Series A",
+    "area": "Gachibowli, Hyderabad",
+    "description": "HR automation and payroll software."
+  },
+  {
+    "name": "NxtWave",
+    "website": "https://www.ccbp.in",
+    "sector": "Edtech",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Tech upskilling and coding education platform."
+  },
+  {
+    "name": "Skyroot Aerospace",
+    "website": "https://www.skyroot.in",
+    "sector": "Deeptech",
+    "fundingStage": "Series C",
+    "area": "Hyderabad",
+    "description": "Private aerospace company building orbital-class launch vehicles."
+  },
+  {
+    "name": "Pi Datacenters",
+    "website": "https://www.pidatacenters.com",
+    "sector": "Other",
+    "fundingStage": "Series B",
+    "area": "Hyderabad",
+    "description": "Enterprise data center infrastructure provider."
+  },
+  {
+    "name": "AdOnMo",
+    "website": "https://www.adonmo.com",
+    "sector": "Other",
+    "fundingStage": "Undisclosed",
+    "area": "Hyderabad",
+    "description": "Out-of-home advertising and digital signage network."
+  },
+  {
+    "name": "Equal Identity",
+    "website": "https://www.equal.in",
+    "sector": "Fintech",
+    "fundingStage": "Series B",
+    "area": "Hyderabad",
+    "description": "Identity verification platform for fintech and enterprise KYC."
+  },
+  {
+    "name": "ekincare",
+    "website": "https://www.ekincare.com",
+    "sector": "Healthtech",
+    "fundingStage": "Series C",
+    "area": "Hyderabad",
+    "description": "Corporate employee health benefits and wellness platform."
+  },
+  {
+    "name": "NowFloats",
+    "website": "https://www.nowfloats.com",
+    "sector": "SaaS",
+    "fundingStage": "Series B",
+    "area": "Hyderabad",
+    "description": "Local search and digital presence platform for small businesses."
+  },
+  {
+    "name": "Nephroplus",
+    "website": "https://www.nephroplus.com",
+    "sector": "Healthtech",
+    "fundingStage": "Series F",
+    "area": "Hyderabad",
+    "description": "Dialysis and chronic kidney care network."
+  },
+  {
+    "name": "Vivifi India",
+    "website": "https://vivifi.in",
+    "sector": "Fintech",
+    "fundingStage": "Debt Financing",
+    "area": "Hyderabad",
+    "description": "Digital lending and consumer credit platform."
+  },
+  {
+    "name": "BrightChamps",
+    "website": "https://www.brightchamps.com",
+    "sector": "Edtech",
+    "fundingStage": "Undisclosed",
+    "area": "Hyderabad",
+    "description": "Online coding and life-skills education for kids."
+  },
+  {
+    "name": "Recykal",
+    "website": "https://www.recykal.com",
+    "sector": "Other",
+    "fundingStage": "Undisclosed",
+    "area": "Hyderabad",
+    "description": "Circular economy and waste management marketplace."
+  },
+  {
+    "name": "Omega Hospitals",
+    "website": "https://www.omegahospitals.com",
+    "sector": "Healthtech",
+    "fundingStage": "Private Equity",
+    "area": "Hyderabad",
+    "description": "Cancer care hospital network."
+  },
+  {
+    "name": "Gati-KWE",
+    "website": "https://www.gatikwe.com",
+    "sector": "Logistics",
+    "fundingStage": "Secondary Market",
+    "area": "Hyderabad",
+    "description": "Express distribution and supply chain logistics provider."
+  },
+  {
+    "name": "CallHealth",
+    "website": "https://www.callhealth.com",
+    "sector": "Healthtech",
+    "fundingStage": "Venture Round",
+    "area": "Hyderabad",
+    "description": "Integrated digital healthcare services platform."
+  },
+  {
+    "name": "Raghu Vamsi Aerospace Group",
+    "website": "https://www.raghuvamsi.com",
+    "sector": "Deeptech",
+    "fundingStage": "Series B",
+    "area": "Hyderabad",
+    "description": "Aerospace and defense manufacturing group."
+  },
+  {
+    "name": "Leap India Food & Logistics",
+    "website": "https://leapindia.net",
+    "sector": "Logistics",
+    "fundingStage": "Debt Financing",
+    "area": "Hyderabad",
+    "description": "Pallet-pooling and cold-chain logistics for food and agri supply chains."
+  },
+  {
+    "name": "Deccan AI",
+    "website": "https://deccan.ai",
+    "sector": "AI",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "AI data and model-training infrastructure company."
+  },
+  {
+    "name": "CtrlS Datacenters",
+    "website": "https://www.ctrls.in",
+    "sector": "Other",
+    "fundingStage": "Growth",
+    "area": "Hyderabad",
+    "description": "Tier-4 rated enterprise data center operator."
+  },
+  {
+    "name": "Dhruva Space",
+    "website": "https://www.dhruvaspace.com",
+    "sector": "Deeptech",
+    "fundingStage": "Series B",
+    "area": "Hyderabad",
+    "description": "Satellite and space technology manufacturer."
+  },
+  {
+    "name": "Enmovil",
+    "website": "https://www.enmovil.com",
+    "sector": "Logistics",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Fleet and mobility management technology."
+  },
+  {
+    "name": "Sid's Farm",
+    "website": "https://www.sidsfarm.com",
+    "sector": "D2C",
+    "fundingStage": "Series B",
+    "area": "Hyderabad",
+    "description": "Farm-to-home dairy and milk delivery brand."
+  },
+  {
+    "name": "TurboHire",
+    "website": "https://www.turbohire.co",
+    "sector": "SaaS",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "AI-powered recruitment and hiring automation platform."
+  },
+  {
+    "name": "Helex",
+    "website": "",
+    "sector": "Deeptech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Biotechnology research company."
+  },
+  {
+    "name": "Bharat Biotech",
+    "website": "https://www.bharatbiotech.com",
+    "sector": "Healthtech",
+    "fundingStage": "Growth",
+    "area": "Hyderabad",
+    "description": "Vaccine research, development and manufacturing company."
+  },
+  {
+    "name": "Landeed",
+    "website": "https://www.landeed.com",
+    "sector": "Other",
+    "fundingStage": "Growth",
+    "area": "Hyderabad",
+    "description": "Land record verification and property document platform."
+  },
+  {
+    "name": "HYLENR",
+    "website": "https://hylenr.com",
+    "sector": "Deeptech",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Low energy nuclear reaction (clean energy) research company."
+  },
+  {
+    "name": "Imimobile",
+    "website": "https://www.imimobile.com",
+    "sector": "SaaS",
+    "fundingStage": "Acquired",
+    "area": "Hyderabad",
+    "description": "Cloud communications platform, acquired by Cisco."
+  },
+  {
+    "name": "Zuddl",
+    "website": "https://www.zuddl.com",
+    "sector": "SaaS",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Virtual and hybrid events and webinar platform."
+  },
+  {
+    "name": "Rainbow Hospitals",
+    "website": "https://www.rainbowhospitals.in",
+    "sector": "Healthtech",
+    "fundingStage": "Other",
+    "area": "Hyderabad",
+    "description": "Pediatric and multi-specialty hospital network."
+  },
+  {
+    "name": "Questbook",
+    "website": "https://questbook.app",
+    "sector": "Other",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Web3 grants and funding coordination platform."
+  },
+  {
+    "name": "Reclaim Protocol",
+    "website": "https://www.reclaimprotocol.org",
+    "sector": "Other",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Decentralized identity verification protocol."
+  },
+  {
+    "name": "Cusmat Tech",
+    "website": "https://www.cusmat.com",
+    "sector": "Deeptech",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Virtual reality and immersive technology company."
+  },
+  {
+    "name": "Isthara",
+    "website": "https://www.isthara.com",
+    "sector": "Consumer",
+    "fundingStage": "Other",
+    "area": "Hyderabad",
+    "description": "Co-living and managed hospitality spaces operator."
+  },
+  {
+    "name": "Digi-Prex",
+    "website": "https://www.digiprex.com",
+    "sector": "Healthtech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Biotechnology and digital prescription company."
+  },
+  {
+    "name": "KFin Technologies",
+    "website": "https://www.kfintech.com",
+    "sector": "Fintech",
+    "fundingStage": "Public",
+    "area": "Financial District, Hyderabad",
+    "description": "Investor servicing, fund administration and technology platform for asset managers."
+  },
+  {
+    "name": "RED.Health",
+    "website": "https://www.red.health",
+    "sector": "Healthtech",
+    "fundingStage": "Series B",
+    "area": "Hyderabad",
+    "description": "Emergency response and ambulance aggregation platform (formerly StanPlus)."
+  },
+  {
+    "name": "Pure EV",
+    "website": "https://www.pureev.in",
+    "sector": "Deeptech",
+    "fundingStage": "Growth",
+    "area": "Hyderabad",
+    "description": "Electric two-wheeler and battery technology manufacturer, incubated at IIT Hyderabad."
+  },
+  {
+    "name": "Fourth Partner Energy",
+    "website": "https://www.fourthpartner.co",
+    "sector": "Other",
+    "fundingStage": "Growth",
+    "area": "Hyderabad",
+    "description": "Distributed solar energy and renewable infrastructure company."
+  },
+  {
+    "name": "MARUT Drones",
+    "website": "https://www.marutdrones.com",
+    "sector": "Deeptech",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Agricultural and industrial drone manufacturer."
+  },
+  {
+    "name": "Qualizeal",
+    "website": "https://www.qualizeal.com",
+    "sector": "SaaS",
+    "fundingStage": "Bootstrapped",
+    "area": "Hyderabad",
+    "description": "Independent digital quality engineering and software testing services."
+  },
+  {
+    "name": "Gradious Technologies",
+    "website": "https://www.gradious.com",
+    "sector": "SaaS",
+    "fundingStage": "Seed",
+    "area": "Hitech City, Hyderabad",
+    "description": "Software product engineering, cloud and digital transformation services."
+  },
+  {
+    "name": "Hala Mobility",
+    "website": "https://www.halamobility.com",
+    "sector": "Logistics",
+    "fundingStage": "Seed",
+    "area": "Madhapur, Hyderabad",
+    "description": "Electric vehicle rental and subscription mobility platform."
+  },
+  {
+    "name": "Credright",
+    "website": "https://www.credright.com",
+    "sector": "Fintech",
+    "fundingStage": "Series A",
+    "area": "Madhapur, Hyderabad",
+    "description": "Embedded lending platform addressing credit gaps for India's MSMEs."
+  },
+  {
+    "name": "Aragen Life Sciences",
+    "website": "https://www.aragen.com",
+    "sector": "Healthtech",
+    "fundingStage": "Growth",
+    "area": "Hyderabad",
+    "description": "Contract research and drug discovery / development services."
+  },
+  {
+    "name": "JEH Aerospace",
+    "website": "https://www.jehaerospace.com",
+    "sector": "Deeptech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Aerospace and defense precision manufacturing company."
+  },
+  {
+    "name": "Indrajaal",
+    "website": "https://www.indrajaal.in",
+    "sector": "Deeptech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Autonomous wide-area anti-drone defense systems."
+  },
+  {
+    "name": "Way2News",
+    "website": "https://www.way2news.co",
+    "sector": "Consumer",
+    "fundingStage": "Series B",
+    "area": "Hyderabad",
+    "description": "Short-form regional-language news app."
+  },
+  {
+    "name": "Bhanzu",
+    "website": "https://www.bhanzu.com",
+    "sector": "Edtech",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Online math education and coaching platform."
+  },
+  {
+    "name": "Neeman's",
+    "website": "https://www.neemans.com",
+    "sector": "D2C",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Sustainable footwear brand using natural materials."
+  },
+  {
+    "name": "Infinity Learn",
+    "website": "https://www.infinitylearn.com",
+    "sector": "Edtech",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "K-12 and competitive exam prep edtech platform by Sri Chaitanya."
+  },
+  {
+    "name": "Spicenet",
+    "website": "https://www.spicenet.io",
+    "sector": "Fintech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Unified digital assets and payments infrastructure platform."
+  },
+  {
+    "name": "GoKwik",
+    "website": "https://www.gokwik.co",
+    "sector": "Fintech",
+    "fundingStage": "Series B",
+    "area": "Hyderabad",
+    "description": "Ecommerce enablement and checkout / RTO-reduction platform."
+  },
+  {
+    "name": "Xbattery Energy",
+    "website": "https://www.xbattery.in",
+    "sector": "Deeptech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Energy storage and battery technology startup."
+  },
+  {
+    "name": "Wehouse",
+    "website": "https://www.wehouse.in",
+    "sector": "Other",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Tech-enabled home construction management platform."
+  },
+  {
+    "name": "Adya",
+    "website": "",
+    "sector": "SaaS",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Enterprise workflow and productivity software startup."
+  },
+  {
+    "name": "Cosmoserve Space",
+    "website": "",
+    "sector": "Deeptech",
+    "fundingStage": "Pre-seed",
+    "area": "Hyderabad",
+    "description": "Space technology and satellite services startup."
+  },
+  {
+    "name": "Botanic Healthcare",
+    "website": "https://www.botanichealthcare.net",
+    "sector": "Healthtech",
+    "fundingStage": "Growth",
+    "area": "Hyderabad",
+    "description": "Herbal extracts, nutraceuticals and natural ingredients manufacturer."
+  },
+  {
+    "name": "Yapan Bio",
+    "website": "https://www.yapanbio.com",
+    "sector": "Healthtech",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Biopharmaceutical contract development and manufacturing (CDMO) for vaccines and biologics."
+  },
+  {
+    "name": "Omni Hospitals",
+    "website": "https://www.omnihospitals.in",
+    "sector": "Healthtech",
+    "fundingStage": "Growth",
+    "area": "Hyderabad",
+    "description": "Multi-specialty hospital chain."
+  },
+  {
+    "name": "Oliva Skin & Hair Clinic",
+    "website": "https://www.olivaclinic.com",
+    "sector": "Healthtech",
+    "fundingStage": "Growth",
+    "area": "Hyderabad",
+    "description": "Dermatology, skin and hair clinic chain."
+  },
+  {
+    "name": "Makers Hive",
+    "website": "https://www.makershive.com",
+    "sector": "Deeptech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Medical robotics and bionic prosthetics maker."
+  },
+  {
+    "name": "Freyr Energy",
+    "website": "https://www.freyrenergy.com",
+    "sector": "Other",
+    "fundingStage": "Series B",
+    "area": "Hyderabad",
+    "description": "Rooftop solar energy solutions and financing platform."
+  },
+  {
+    "name": "Indian Eagle",
+    "website": "https://www.indianeagle.com",
+    "sector": "Consumer",
+    "fundingStage": "Bootstrapped",
+    "area": "Hyderabad",
+    "description": "Online travel and flight booking platform for the Indian diaspora."
+  },
+  {
+    "name": "Tech Cloud ERP",
+    "website": "https://www.techclouderp.com",
+    "sector": "SaaS",
+    "fundingStage": "Bootstrapped",
+    "area": "Hyderabad",
+    "description": "Cloud ERP software for SMEs."
+  },
+  {
+    "name": "Donatekart",
+    "website": "https://www.donatekart.com",
+    "sector": "Consumer",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Product-based crowdfunding platform for NGOs and donors."
+  },
+  {
+    "name": "UrbanKisaan",
+    "website": "https://www.urbankisaan.com",
+    "sector": "D2C",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Hydroponic farming and fresh produce D2C brand."
+  },
+  {
+    "name": "Olectra Greentech",
+    "website": "https://www.olectra.com",
+    "sector": "Deeptech",
+    "fundingStage": "Public",
+    "area": "Hyderabad",
+    "description": "Electric bus manufacturer and composite polymer insulators maker."
+  },
+  {
+    "name": "Banyan Nation",
+    "website": "https://www.banyannation.com",
+    "sector": "Other",
+    "fundingStage": "Series A",
+    "area": "Hyderabad",
+    "description": "Plastic recycling and circular-economy technology company."
+  },
+  {
+    "name": "Quantum Energy",
+    "website": "https://www.quantumenergy.co.in",
+    "sector": "Deeptech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Electric two-wheeler manufacturer."
+  },
+  {
+    "name": "DiabetOmics",
+    "website": "https://www.diabetomics.com",
+    "sector": "Healthtech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Non-invasive diagnostics for diabetes and maternal health."
+  },
+  {
+    "name": "Apollo Micro Systems",
+    "website": "https://www.apollo-micro.com",
+    "sector": "Deeptech",
+    "fundingStage": "Public",
+    "area": "Hyderabad",
+    "description": "Defense and aerospace electronic systems manufacturer."
+  },
+  {
+    "name": "Dodla Dairy",
+    "website": "https://www.dodladairy.com",
+    "sector": "D2C",
+    "fundingStage": "Public",
+    "area": "Hyderabad",
+    "description": "Dairy products company, publicly listed."
+  },
+  {
+    "name": "Greenko Group",
+    "website": "https://www.greenkogroup.com",
+    "sector": "Other",
+    "fundingStage": "Growth",
+    "area": "Hyderabad",
+    "description": "Renewable energy and energy storage developer."
+  },
+  {
+    "name": "Pixelvide",
+    "website": "https://www.pixelvide.com",
+    "sector": "SaaS",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Govtech and enterprise digital transformation SaaS."
+  },
+  {
+    "name": "Tenet Diagnostics",
+    "website": "https://www.tenetdiagnostics.com",
+    "sector": "Healthtech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Diagnostics and pathology lab network."
+  },
+  {
+    "name": "Kisanwala",
+    "website": "https://www.kisanwala.com",
+    "sector": "D2C",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Agritech and farm-produce supply platform."
+  },
+  {
+    "name": "uBlood",
+    "website": "https://ublood.com",
+    "sector": "Healthtech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Blood donor discovery and emergency blood supply platform."
+  },
+  {
+    "name": "Kraionyx AI",
+    "website": "https://www.kraionyx.com",
+    "sector": "AI",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Artificial intelligence and data solutions company."
+  },
+  {
+    "name": "Nexoraa AI",
+    "website": "https://www.nexoraa.com",
+    "sector": "AI",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "AI-driven information systems and software company."
+  }
+]

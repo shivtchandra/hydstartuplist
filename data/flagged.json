@@ -1,0 +1,20 @@
+[
+  {
+    "id": "e3b04621-38d4-44af-92bb-bec21ef293b0",
+    "name": "Helex",
+    "website": "",
+    "sector": "Deeptech",
+    "fundingStage": "Seed",
+    "area": "Hyderabad",
+    "description": "Biotechnology research company.",
+    "careers": "https://www.linkedin.com/jobs/search/?keywords=Helex",
+    "address": "20, ASPIRE BioNEST, School of Lifesciences, UNIVERSITY OF HYDERABAD, Gachibowli, Hyderabad, Serilingampalle (M), Telangana 500046",
+    "lat": 17.4567372,
+    "lng": 78.32638399999999,
+    "locSource": "places-fixed",
+    "status": "approved",
+    "active": false,
+    "activeCheckedAt": "2026-08-22T00:54:11.932Z",
+    "flagReason": "no-website"
+  }
+]

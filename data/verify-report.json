@@ -1,0 +1,145 @@
+[
+  {
+    "id": "7566fb7b-eb4c-4cad-8886-bd7a46210f8f",
+    "name": "Pi Datacenters",
+    "website": "https://www.pidatacenters.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "pidatacenters.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "466b7f02-c96a-4ece-8d01-bc457d918ec9",
+    "name": "Vivifi India",
+    "website": "https://vivifi.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "location-ok",
+    "placeDomain": "vivifin.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "6b025a05-9db3-4730-9584-9f1b7a06179a",
+    "name": "Raghu Vamsi Aerospace Group",
+    "website": "https://www.raghuvamsi.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "raghuvamsi.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "eb360dec-cdd0-475d-b9a2-356e243a8c87",
+    "name": "CtrlS Datacenters",
+    "website": "https://www.ctrls.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "ctrls.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2aecf295-a845-4b97-8fdb-29218304ec1b",
+    "name": "Enmovil",
+    "website": "https://www.enmovil.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "enmovil.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f6a83417-9b8d-4313-94e0-8c1012b758a1",
+    "name": "Landeed",
+    "website": "https://www.landeed.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": null,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "66e342cb-581e-4bd8-beb3-8115785c63d9",
+    "name": "Reclaim Protocol",
+    "website": "https://www.reclaimprotocol.org",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "sentineldatarecovery.com",
+    "km": 5,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "9bd3e107-b930-4f36-a9ed-95f8fecf7eae",
+    "name": "Digi-Prex",
+    "website": "https://www.digiprex.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "digi-prex.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ed02a9db-86e4-4e27-9963-80bba28e0979",
+    "name": "KFin Technologies",
+    "website": "https://www.kfintech.com",
+    "area": "Financial District, Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "kfintech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8d16f7a7-2959-4b20-a328-783c8931f0f5",
+    "name": "Hala Mobility",
+    "website": "https://www.halamobility.com",
+    "area": "Madhapur, Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "halamobility.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "0788abe8-7f51-4345-8584-bb58dd7311cc",
+    "name": "Credright",
+    "website": "https://www.credright.com",
+    "area": "Madhapur, Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "credright.com",
+    "km": 2.82,
+    "issues": [
+      "no-logo"
+    ]
+  }
+]

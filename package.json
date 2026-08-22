@@ -1,0 +1,22 @@
+{
+  "name": "hyderabad-startup-map",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "seed": "node scripts/geocode-seed.mjs"
+  },
+  "dependencies": {
+    "firebase": "^12.18.0",
+    "leaflet": "^1.9.4",
+    "leaflet.markercluster": "^1.5.3",
+    "next": "^14.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.6.1"
+  }
+}
