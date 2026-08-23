@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import SiteNav from "../components/SiteNav.jsx";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../lib/firebase.js";
 import { colorFor, faviconUrl, prettyName, normalizeArea } from "../../lib/startupUi.js";
@@ -102,16 +103,9 @@ export default function NewsletterPage() {
   const recentNews = news.slice(0, 5);
 
   return (
-    <div className="nls-page">
-      <div className="feed-head" style={{ maxWidth: 1180, margin: "0 auto", padding: "28px 32px 0" }}>
-        <Link href="/" className="feed-back-btn">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
-            <path d="M15 6 9 12l6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          Back to map
-        </Link>
-      </div>
-
+    <div className="page-with-nav">
+      <SiteNav active="newsletter" />
+      <div className="nls-page">
       <section className="nls-hero">
         <div className="nls-hero-eyebrow">Hyderabad Startup Map · Newsletter</div>
         <h1 className="nls-hero-title">
@@ -174,6 +168,7 @@ export default function NewsletterPage() {
         <p>One place for Hyderabad's startup jobs, funding news and new launches.</p>
         <SubscribeForm variant="nls-cta-form" />
       </section>
+      </div>
     </div>
   );
 }

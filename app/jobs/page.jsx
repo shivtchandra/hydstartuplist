@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import SiteNav from "../components/SiteNav.jsx";
 
 function timeAgo(iso) {
   if (!iso) return "";
@@ -12,12 +12,20 @@ function timeAgo(iso) {
   return `${Math.floor(hrs / 24)}d ago`;
 }
 
+const TABS = [
+  { key: "all", label: "All" },
+  { key: "startup", label: "Startups" },
+  { key: "gcc", label: "GCCs" },
+  { key: "other", label: "Other Hyderabad jobs" },
+];
+
 export default function JobsPage() {
   const [jobs, setJobs] = useState([]);
   const [fetchedAt, setFetchedAt] = useState(null);
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
+  const [tab, setTab] = useState("all");
 
   useEffect(() => {
     fetch("/api/jobs")
@@ -26,21 +34,26 @@ export default function JobsPage() {
       .catch(() => setLoading(false));
   }, []);
 
+  const counts = useMemo(() => {
+    const c = { all: jobs.length, startup: 0, gcc: 0, other: 0 };
+    for (const j of jobs) c[j.category] = (c[j.category] || 0) + 1;
+    return c;
+  }, [jobs]);
+
   const filtered = useMemo(() => {
-    if (!q.trim()) return jobs;
-    const needle = q.toLowerCase();
-    return jobs.filter((j) => j.title?.toLowerCase().includes(needle) || j.company?.toLowerCase().includes(needle));
-  }, [jobs, q]);
+    let list = tab === "all" ? jobs : jobs.filter((j) => j.category === tab);
+    if (q.trim()) {
+      const needle = q.toLowerCase();
+      list = list.filter((j) => j.title?.toLowerCase().includes(needle) || j.company?.toLowerCase().includes(needle));
+    }
+    return list;
+  }, [jobs, q, tab]);
 
   return (
-    <div className="feed-page">
+    <div className="page-with-nav">
+      <SiteNav active="jobs" />
+      <div className="feed-page">
       <div className="feed-head">
-        <Link href="/" className="feed-back-btn">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
-            <path d="M15 6 9 12l6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          Back to map
-        </Link>
         <h1>Hyderabad tech jobs</h1>
         <p className="form-sub">
           Real open roles pulled straight from startups' own career pages, mixed with the broader
@@ -52,15 +65,31 @@ export default function JobsPage() {
       </div>
 
       {jobs.length > 0 && (
-        <input
-          className="jobs-search"
-          placeholder="Filter by title or company…"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-        />
+        <>
+          <div className="jobs-tabs">
+            {TABS.map((t) => (
+              <button
+                key={t.key}
+                className={tab === t.key ? "on" : ""}
+                onClick={() => setTab(t.key)}
+              >
+                {t.label} <span className="jobs-tab-count">{counts[t.key] || 0}</span>
+              </button>
+            ))}
+          </div>
+          <input
+            className="jobs-search"
+            placeholder="Filter by title or company…"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
+        </>
       )}
 
       {loading && <p className="form-sub">Loading…</p>}
+      {!loading && jobs.length > 0 && filtered.length === 0 && (
+        <p className="form-sub">No jobs match this filter.</p>
+      )}
 
       <div className="feed-list">
         {filtered.map((j) => (
@@ -69,11 +98,9 @@ export default function JobsPage() {
               <div className="feed-row-name">{j.title}</div>
               <div className="feed-row-sub">{j.company} · {j.location} · {timeAgo(j.postedAt)}</div>
             </div>
-            <span className={`job-source-tag ${j.source === "careers" ? "job-source-careers" : "job-source-adzuna"}`}>
-              {j.source === "careers" ? "Careers page" : "Adzuna"}
-            </span>
           </a>
         ))}
+      </div>
       </div>
     </div>
   );

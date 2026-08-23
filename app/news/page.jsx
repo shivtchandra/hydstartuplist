@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import SiteNav from "../components/SiteNav.jsx";
 import { colorFor, faviconUrl, prettyName, domainOf } from "../../lib/startupUi.js";
 
 function NewsLogoBadge({ companyName, website, sector, size = 38 }) {
@@ -66,14 +66,10 @@ export default function NewsPage() {
   }, []);
 
   return (
-    <div className="feed-page">
+    <div className="page-with-nav">
+      <SiteNav active="news" />
+      <div className="feed-page">
       <div className="feed-head">
-        <Link href="/" className="feed-back-btn">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
-            <path d="M15 6 9 12l6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          Back to map
-        </Link>
         <h1 className="form-title">Startup News</h1>
         <p className="form-sub">
           Recent coverage of Hyderabad startups pulled from verified news sources.
@@ -86,6 +82,7 @@ export default function NewsPage() {
       )}
       <div className="news-grid">
         {items.map((item, i) => <NewsRow key={item.url + i} item={item} />)}
+      </div>
       </div>
     </div>
   );

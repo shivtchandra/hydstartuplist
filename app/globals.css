@@ -122,6 +122,19 @@ a:hover {
   flex-shrink: 0;
 }
 
+/* Secondary pages (Feed/Insights/News/Jobs/GCCs/Newsletter) are normal
+   scrolling documents, not the map's fixed-height flex shell — sticky
+   keeps the nav pinned while that page's own content scrolls under it. */
+.site-nav-sticky {
+  position: sticky;
+  top: 0;
+}
+
+.page-with-nav {
+  min-height: 100vh;
+  background: var(--bg-color);
+}
+
 .topnav-row {
   height: 64px;
   display: flex;
@@ -1227,25 +1240,44 @@ a:hover {
   gap: 18px;
 }
 
-.job-source-tag {
-  flex-shrink: 0;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  padding: 4px 9px;
+.jobs-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.jobs-tabs button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid var(--border-glass);
   border-radius: var(--radius-full);
-  align-self: center;
+  background: var(--surface-card);
+  font-family: var(--font-main);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
-.job-source-careers {
-  background: var(--badge-hiring-bg);
-  color: var(--badge-hiring-text);
+.jobs-tabs button:hover {
+  border-color: var(--accent-primary);
+  color: var(--text-main);
 }
 
-.job-source-adzuna {
+.jobs-tabs button.on {
   background: var(--accent-soft);
+  border-color: var(--accent-primary);
   color: var(--accent-primary);
+}
+
+.jobs-tab-count {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.75;
 }
 
 .jobs-search {

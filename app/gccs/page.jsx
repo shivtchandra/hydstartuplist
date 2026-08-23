@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import SiteNav from "../components/SiteNav.jsx";
 import { domainOf, faviconUrl } from "../../lib/startupUi.js";
 
 function GccLogoBadge({ name, website, size = 40 }) {
@@ -40,14 +40,10 @@ export default function GccsPage() {
   }, []);
 
   return (
-    <div className="feed-page">
+    <div className="page-with-nav">
+      <SiteNav active="gccs" />
+      <div className="feed-page">
       <div className="feed-head">
-        <Link href="/" className="feed-back-btn">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
-            <path d="M15 6 9 12l6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          Back to map
-        </Link>
         <h1>Global Capability Centers hiring in Hyderabad</h1>
         <p className="form-sub">
           Large companies' in-house Hyderabad engineering/ops centers — not startups, but major local
@@ -70,6 +66,7 @@ export default function GccsPage() {
             <span className="nls-more-link">View careers →</span>
           </a>
         ))}
+      </div>
       </div>
     </div>
   );

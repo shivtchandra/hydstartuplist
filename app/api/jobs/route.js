@@ -1,8 +1,28 @@
 import { NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 import { getAdminDb } from "../../../lib/firebaseAdmin.js";
 import { getApproved } from "../../../lib/store.js";
 
 export const dynamic = "force-dynamic";
+
+function gccNames() {
+  const file = path.join(process.cwd(), "data", "gccs.json");
+  return JSON.parse(fs.readFileSync(file, "utf-8")).map((g) => g.name.toLowerCase());
+}
+
+// Classify each job so the UI can offer real filters instead of exposing
+// "adzuna vs careers" plumbing as a badge. Career-page picks are already
+// known-accurate startup roles. Adzuna's own company field is free text, so
+// only match it against the curated GCC list (distinctive proper nouns —
+// "Amazon", "Wells Fargo" — safe substring matches); everything else that
+// doesn't hit either bucket is general Hyderabad market listings.
+function categorize(job, gccs) {
+  if (job.source === "careers") return "startup";
+  const company = (job.company || "").toLowerCase();
+  if (gccs.some((g) => company.includes(g) || g.includes(company))) return "gcc";
+  return "other";
+}
 
 // Company career-page picks — the same real {title, url} roles check-hiring
 // already found on each startup's own ATS/careers page (app/page.jsx's
@@ -30,19 +50,24 @@ async function careerPicks() {
 
 export async function GET() {
   const picks = await careerPicks();
+  const gccs = gccNames();
 
   const db = await getAdminDb();
-  if (!db) return NextResponse.json({ jobs: picks, fetchedAt: null, note: "Adzuna not configured yet" });
+  if (!db) {
+    const jobs = picks.map((j) => ({ ...j, category: categorize(j, gccs) }));
+    return NextResponse.json({ jobs, fetchedAt: null, note: "Adzuna not configured yet" });
+  }
 
   try {
     const snap = await db.collection("job_board").doc("adzuna_latest").get();
     const adzuna = snap.exists ? snap.data() : { jobs: [], fetchedAt: null };
-    const jobs = [...picks, ...(adzuna.jobs || [])].sort(
-      (a, b) => new Date(b.postedAt || 0) - new Date(a.postedAt || 0)
-    );
-    return NextResponse.json({ jobs, fetchedAt: adzuna.fetchedAt || null, careerPicks: picks.length, adzunaCount: (adzuna.jobs || []).length });
+    const jobs = [...picks, ...(adzuna.jobs || [])]
+      .map((j) => ({ ...j, category: categorize(j, gccs) }))
+      .sort((a, b) => new Date(b.postedAt || 0) - new Date(a.postedAt || 0));
+    return NextResponse.json({ jobs, fetchedAt: adzuna.fetchedAt || null });
   } catch (err) {
     console.error("jobs read error:", err);
-    return NextResponse.json({ jobs: picks, fetchedAt: null, note: "Adzuna read error" });
+    const jobs = picks.map((j) => ({ ...j, category: categorize(j, gccs) }));
+    return NextResponse.json({ jobs, fetchedAt: null, note: "Adzuna read error" });
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import SiteNav from "../components/SiteNav.jsx";
 import { colorFor, faviconUrl, prettyName, domainOf } from "../../lib/startupUi.js";
 
 function FeedLogoBadge({ startup, size = 38 }) {
@@ -77,14 +77,10 @@ export default function FeedPage() {
   const recent = all.filter((s) => s.addedAt).sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt));
 
   return (
-    <div className="feed-page">
+    <div className="page-with-nav">
+      <SiteNav active="feed" />
+      <div className="feed-page">
       <div className="feed-head">
-        <Link href="/" className="feed-back-btn">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
-            <path d="M15 6 9 12l6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          Back to map
-        </Link>
         <h1 className="form-title">Live Startup Feed</h1>
         <p className="form-sub">What's moving in the Hyderabad startup ecosystem right now.</p>
       </div>
@@ -113,6 +109,7 @@ export default function FeedPage() {
           {recent.slice(0, 30).map((s) => <Row key={s.id} s={s} />)}
         </div>
       </section>
+      </div>
     </div>
   );
 }

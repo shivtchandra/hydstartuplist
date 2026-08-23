@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import SiteNav from "../components/SiteNav.jsx";
 
 const RAMP = ["#fdf1ec", "#fbe0d3", "#f6c3ab", "#f0a17e", "#e97e54", "#e0562b", "#b8441f", "#8f3418"];
 
@@ -47,14 +47,10 @@ export default function InsightsPage() {
   const hiringCount = useMemo(() => all.filter((s) => s.hiring).length, [all]);
 
   return (
-    <div className="feed-page">
+    <div className="page-with-nav">
+      <SiteNav active="insights" />
+      <div className="feed-page">
       <div className="feed-head">
-        <Link href="/" className="feed-back-btn">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
-            <path d="M15 6 9 12l6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          Back to map
-        </Link>
         <h1 className="form-title">Ecosystem Insights</h1>
         <p className="form-sub">
           Sector × funding-stage density matrix across all {all.length.toLocaleString()} tracked Hyderabad startups.
@@ -137,6 +133,7 @@ export default function InsightsPage() {
           </div>
         </>
       )}
+      </div>
     </div>
   );
 }
