@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getStartupById } from "../../../../lib/store.js";
+import { getStartupById, visibleHiring } from "../../../../lib/store.js";
 
 // Single-record detail — the enriched fields (address, careers, description)
 // are served one at a time here, only when a user opens a startup.
@@ -18,7 +18,7 @@ export async function GET(req, { params }) {
     description: s.description,
     address: s.address,
     careers: s.careers,
-    hiring: s.hiring || null,
+    hiring: visibleHiring(s),
     news: s.news || null,
   });
 }

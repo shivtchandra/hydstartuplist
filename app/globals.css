@@ -1281,6 +1281,17 @@ a:hover {
   color: var(--text-main);
 }
 
+.admin-stale-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #b45309;
+  background: #fef3c7;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
 .admin-claim-badge {
   font-size: 10.5px;
   font-weight: 700;

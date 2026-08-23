@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { filterStartups } from "../../../lib/store.js";
+import { filterStartups, visibleHiring } from "../../../lib/store.js";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +13,7 @@ export async function GET(req) {
   });
 
   const slim = list.map((s) => {
-    const hiring = s.hiring;
+    const hiring = visibleHiring(s);
     return {
       id: s.id,
       name: s.name,
@@ -23,7 +23,7 @@ export async function GET(req) {
       fundingStage: s.fundingStage,
       website: s.website,
       area: s.area,
-      hiring: hiring?.active ? { count: hiring.count ?? null, roles: hiring.roles || [] } : null,
+      hiring: hiring ? { count: hiring.count ?? null, roles: hiring.roles || [] } : null,
       founded: s.founded ?? null,
       active: s.active !== false,
       addedAt: s.addedAt ?? null,

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { getAdminDb } from "../../../lib/firebaseAdmin.js";
-import { getApproved } from "../../../lib/store.js";
+import { getApproved, visibleHiring } from "../../../lib/store.js";
 
 export const dynamic = "force-dynamic";
 
@@ -32,15 +32,16 @@ async function careerPicks() {
   const all = await getApproved();
   const jobs = [];
   for (const s of all) {
-    if (!s.hiring?.active || !Array.isArray(s.hiring.roles)) continue;
-    for (const role of s.hiring.roles) {
+    const hiring = visibleHiring(s);
+    if (!hiring || !Array.isArray(hiring.roles)) continue;
+    for (const role of hiring.roles) {
       jobs.push({
         id: `careers-${s.id}-${role.url}`,
         title: role.title,
         company: s.name,
         location: s.area || "Hyderabad",
         url: role.url,
-        postedAt: s.hiring.checkedAt || null,
+        postedAt: hiring.checkedAt || null,
         source: "careers",
       });
     }

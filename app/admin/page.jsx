@@ -20,6 +20,33 @@ export default function AdminPage() {
   const [nlPreview, setNlPreview] = useState(null);
   const [nlBusy, setNlBusy] = useState(false);
   const [nlResult, setNlResult] = useState(null);
+  const [hiring, setHiring] = useState([]);
+  const [hiringBusyId, setHiringBusyId] = useState(null);
+
+  async function loadHiring() {
+    try {
+      const res = await fetch("/api/admin/hiring", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      setHiring(res.results || []);
+    } catch (e) {
+      setNote((n) => n || "Hiring results load failed: " + e.message);
+    }
+  }
+
+  async function toggleHiringHidden(item) {
+    setHiringBusyId(item.id);
+    try {
+      await fetch("/api/admin/hiring", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-passcode": PASSCODE },
+        body: JSON.stringify({ id: item.id, hidden: !item.hiringHidden }),
+      });
+      setHiring((h) => h.map((x) => (x.id === item.id ? { ...x, hiringHidden: !x.hiringHidden } : x)));
+    } catch (e) {
+      setNote("Hide toggle failed: " + e.message);
+    } finally {
+      setHiringBusyId(null);
+    }
+  }
 
   async function loadNewsletterPreview() {
     try {
@@ -62,7 +89,7 @@ export default function AdminPage() {
   }
 
   useEffect(() => {
-    if (authed) { load(); loadNewsletterPreview(); }
+    if (authed) { load(); loadNewsletterPreview(); loadHiring(); }
   }, [authed]);
 
   async function approve(item) {
@@ -176,6 +203,44 @@ export default function AdminPage() {
               </button>
               <button className="btn btn-ghost" disabled={busyId === item.id} onClick={() => reject(item)}>
                 Reject
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="admin-head" style={{ marginTop: 32 }}>
+        <div>
+          <h2 className="form-title" style={{ margin: 0, fontSize: 20 }}>Hiring scraper results</h2>
+          <p className="form-sub" style={{ margin: "2px 0 0" }}>
+            {hiring.length} companies with a detected hiring result. Anything older than 7 days auto-hides from
+            the public site; hide any wrong/stale one manually here too.
+          </p>
+        </div>
+      </div>
+
+      {hiring.length === 0 && <p className="form-sub">No scraper results yet — run check-hiring.</p>}
+
+      <div className="admin-list">
+        {hiring.map((h) => (
+          <div key={h.id} className="admin-row">
+            <div className="admin-info">
+              <div className="admin-name">
+                {h.name}
+                {!h.fresh && <span className="admin-stale-badge">Stale</span>}
+                {h.hiringHidden && <span className="admin-claim-badge" style={{ color: "var(--text-light)", background: "var(--border-subtle)" }}>Hidden</span>}
+              </div>
+              <div className="admin-meta">
+                {h.hiring.count ?? h.hiring.roles?.length ?? 0} roles · via {h.hiring.source || "unknown"}
+                {h.hiring.checkedAt && <> · checked {new Date(h.hiring.checkedAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</>}
+              </div>
+              {h.hiring.roles?.length > 0 && (
+                <div className="admin-desc">{h.hiring.roles.slice(0, 3).map((r) => r.title).join(" · ")}</div>
+              )}
+            </div>
+            <div className="admin-actions">
+              <button className="btn btn-ghost" disabled={hiringBusyId === h.id} onClick={() => toggleHiringHidden(h)}>
+                {hiringBusyId === h.id ? "…" : h.hiringHidden ? "Unhide" : "Hide"}
               </button>
             </div>
           </div>
