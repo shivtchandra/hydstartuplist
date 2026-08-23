@@ -391,42 +391,6 @@ function SpotlightShelf({ startups, onSelect }) {
   );
 }
 
-function ThemeToggle() {
-  const [theme, setTheme] = useState("light");
-  useEffect(() => {
-    const saved = localStorage.getItem("hsm-theme") || "light";
-    setTheme(saved);
-    document.documentElement.setAttribute("data-theme", saved);
-  }, []);
-
-  function toggle() {
-    const next = theme === "light" ? "dark" : "light";
-    setTheme(next);
-    localStorage.setItem("hsm-theme", next);
-    document.documentElement.setAttribute("data-theme", next);
-  }
-
-  return (
-    <button
-      className="theme-toggle-btn"
-      onClick={toggle}
-      title={`Switch to ${theme === "light" ? "Dark" : "Light"} Mode`}
-      aria-label="Toggle theme"
-    >
-      {theme === "light" ? (
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-        </svg>
-      ) : (
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-        </svg>
-      )}
-    </button>
-  );
-}
-
 export default function Page() {
   const mapContainerRef = useRef(null);
   const { ready, setMarkers, flyTo, fitToMarkers, invalidateSize } = useLeafletMap(mapContainerRef);
@@ -585,8 +549,6 @@ export default function Page() {
             <Link href="/insights">Insights</Link>
             <Link href="/newsletter">Newsletter</Link>
           </nav>
-
-          <ThemeToggle />
 
           <Link className="btn cmd-submit tn-cta" href="/submit">Submit</Link>
         </div>

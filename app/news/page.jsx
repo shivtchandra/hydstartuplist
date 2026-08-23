@@ -38,15 +38,18 @@ function NewsLogoBadge({ companyName, website, sector, size = 38 }) {
 function NewsRow({ item }) {
   const age = item.publishedAt ? new Date(item.publishedAt) : null;
   return (
-    <a className="feed-row" href={item.url} target="_blank" rel="noreferrer">
-      <NewsLogoBadge companyName={item.companyName} website={item.website} sector={item.sector} size={40} />
-      <div className="feed-row-body">
-        <div className="feed-row-name">{item.title}</div>
-        <div className="feed-row-sub">
-          {prettyName(item.companyName)}{item.source ? ` · ${item.source}` : ""}
-          {age ? ` · ${age.toLocaleDateString("en-IN", { day: "numeric", month: "short" })}` : ""}
-        </div>
+    <a className="news-card" href={item.url} target="_blank" rel="noreferrer">
+      <div className="news-card-head">
+        <NewsLogoBadge companyName={item.companyName} website={item.website} sector={item.sector} size={36} />
+        <div className="news-card-company">{prettyName(item.companyName)}</div>
+        {item.source && <span className="news-card-source">{item.source}</span>}
       </div>
+      <div className="news-card-title">{item.title}</div>
+      {age && (
+        <div className="news-card-date">
+          {age.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+        </div>
+      )}
     </a>
   );
 }
@@ -81,7 +84,7 @@ export default function NewsPage() {
       {!loading && items.length === 0 && (
         <p className="form-sub">No recent news found yet — this refreshes periodically.</p>
       )}
-      <div className="feed-list">
+      <div className="news-grid">
         {items.map((item, i) => <NewsRow key={item.url + i} item={item} />)}
       </div>
     </div>

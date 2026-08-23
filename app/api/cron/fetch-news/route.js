@@ -93,12 +93,15 @@ export async function GET(req) {
     if (items.length) {
       hits++;
       results.push({ id: entry.id, name: entry.name, news: items });
-      if (db) {
-        try {
-          await db.collection("startups_dynamic").doc(entry.id).set({ news: items, updatedAt: new Date().toISOString() }, { merge: true });
-        } catch (err) {
-          console.error(`Firestore news write error for ${entry.name}:`, err);
-        }
+    }
+  }
+
+  if (db) {
+    for (const entry of results) {
+      try {
+        await db.collection("startups_dynamic").doc(entry.id).set({ news: entry.news, updatedAt: new Date().toISOString() }, { merge: true });
+      } catch (err) {
+        console.error(`Firestore news write error for ${entry.name}:`, err);
       }
     }
   }

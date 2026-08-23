@@ -43,9 +43,10 @@ export default function JobsPage() {
         </Link>
         <h1>Hyderabad tech jobs</h1>
         <p className="form-sub">
-          Live IT job postings across Hyderabad, refreshed daily via Adzuna (a licensed job aggregator —
-          not scraped from LinkedIn/Naukri, which their terms don't allow).
-          {fetchedAt && ` Last updated ${timeAgo(fetchedAt)}.`}
+          Real open roles pulled straight from startups' own career pages, mixed with the broader
+          Hyderabad IT market via Adzuna (a licensed job aggregator — not scraped from LinkedIn/Naukri,
+          which their terms don't allow).
+          {fetchedAt && ` Adzuna last updated ${timeAgo(fetchedAt)}.`}
         </p>
         {note && !jobs.length && <p className="form-sub">{note}</p>}
       </div>
@@ -68,6 +69,9 @@ export default function JobsPage() {
               <div className="feed-row-name">{j.title}</div>
               <div className="feed-row-sub">{j.company} · {j.location} · {timeAgo(j.postedAt)}</div>
             </div>
+            <span className={`job-source-tag ${j.source === "careers" ? "job-source-careers" : "job-source-adzuna"}`}>
+              {j.source === "careers" ? "Careers page" : "Adzuna"}
+            </span>
           </a>
         ))}
       </div>
