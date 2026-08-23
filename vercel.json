@@ -1,8 +1,7 @@
 {
   "crons": [
-    {
-      "path": "/api/cron/newsletter",
-      "schedule": "30 3 * * 0"
-    }
+    { "path": "/api/cron/check-hiring?limit=60", "schedule": "0 2 * * *" },
+    { "path": "/api/cron/fetch-news?limit=50", "schedule": "0 4 * * *" },
+    { "path": "/api/cron/newsletter", "schedule": "30 3 * * 0" }
   ]
 }

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getApproved } from "../../../../lib/store.js";
-import { db } from "../../../../lib/firebase.js";
-import { doc, setDoc } from "firebase/firestore";
+import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60; // Max allowed serverless duration on Vercel Pro
@@ -260,10 +259,22 @@ export async function GET(req) {
     }
   }
 
-  const all = getApproved();
+  const all = await getApproved();
   const { searchParams } = new URL(req.url);
   const limit = parseInt(searchParams.get("limit") || "40", 10);
-  const targets = all.slice(0, limit);
+  const db = await getAdminDb();
+
+  // Rotating cursor: each run picks up where the last one left off and
+  // wraps to 0 past the end, so successive daily cron runs eventually cover
+  // every company with no manual offset bookkeeping. An explicit ?offset=
+  // overrides the stored cursor (useful for a manual one-off run).
+  const cursorRef = db ? db.collection("cron_state").doc("check_hiring") : null;
+  let offset = parseInt(searchParams.get("offset") || "", 10);
+  if (Number.isNaN(offset)) {
+    const cursorSnap = cursorRef ? await cursorRef.get() : null;
+    offset = cursorSnap?.exists ? cursorSnap.data().offset || 0 : 0;
+  }
+  const targets = all.slice(offset, offset + limit);
 
   const results = [];
   let hits = 0;
@@ -280,12 +291,22 @@ export async function GET(req) {
     if (h) {
       hits++;
       results.push({ id: entry.id, name: entry.name, hiring: h });
-      // Persist dynamic update to Cloud Firestore
-      try {
-        await setDoc(doc(db, "startups_dynamic", entry.id), { hiring: h, updatedAt: new Date().toISOString() }, { merge: true });
-      } catch (err) {
-        console.error(`Firestore write error for ${entry.name}:`, err);
+      if (db) {
+        try {
+          await db.collection("startups_dynamic").doc(entry.id).set({ hiring: h, updatedAt: new Date().toISOString() }, { merge: true });
+        } catch (err) {
+          console.error(`Firestore write error for ${entry.name}:`, err);
+        }
       }
+    }
+  }
+
+  const nextOffset = offset + limit >= all.length ? 0 : offset + limit;
+  if (cursorRef) {
+    try {
+      await cursorRef.set({ offset: nextOffset, lastRunAt: new Date().toISOString() });
+    } catch (err) {
+      console.error("cursor write error:", err);
     }
   }
 
@@ -293,6 +314,8 @@ export async function GET(req) {
     success: true,
     checked: targets.length,
     hiringHits: hits,
+    offset,
+    nextOffset,
     results,
     timestamp: new Date().toISOString(),
   });

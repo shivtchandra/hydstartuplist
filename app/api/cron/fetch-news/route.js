@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getApproved } from "../../../../lib/store.js";
-import { db } from "../../../../lib/firebase.js";
-import { doc, setDoc } from "firebase/firestore";
+import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -72,11 +71,19 @@ export async function GET(req) {
     }
   }
 
-  const all = getApproved();
+  const all = await getApproved();
   const curated = all.filter((x) => x.locSource !== "startupindia+places" && !TOO_GENERIC.has(x.name));
   const { searchParams } = new URL(req.url);
   const limit = parseInt(searchParams.get("limit") || "30", 10);
-  const targets = curated.slice(0, limit);
+  const db = await getAdminDb();
+
+  const cursorRef = db ? db.collection("cron_state").doc("fetch_news") : null;
+  let offset = parseInt(searchParams.get("offset") || "", 10);
+  if (Number.isNaN(offset)) {
+    const cursorSnap = cursorRef ? await cursorRef.get() : null;
+    offset = cursorSnap?.exists ? cursorSnap.data().offset || 0 : 0;
+  }
+  const targets = curated.slice(offset, offset + limit);
 
   const results = [];
   let hits = 0;
@@ -86,11 +93,22 @@ export async function GET(req) {
     if (items.length) {
       hits++;
       results.push({ id: entry.id, name: entry.name, news: items });
-      try {
-        await setDoc(doc(db, "startups_dynamic", entry.id), { news: items, updatedAt: new Date().toISOString() }, { merge: true });
-      } catch (err) {
-        console.error(`Firestore news write error for ${entry.name}:`, err);
+      if (db) {
+        try {
+          await db.collection("startups_dynamic").doc(entry.id).set({ news: items, updatedAt: new Date().toISOString() }, { merge: true });
+        } catch (err) {
+          console.error(`Firestore news write error for ${entry.name}:`, err);
+        }
       }
+    }
+  }
+
+  const nextOffset = offset + limit >= curated.length ? 0 : offset + limit;
+  if (cursorRef) {
+    try {
+      await cursorRef.set({ offset: nextOffset, lastRunAt: new Date().toISOString() });
+    } catch (err) {
+      console.error("cursor write error:", err);
     }
   }
 
@@ -98,6 +116,8 @@ export async function GET(req) {
     success: true,
     checked: targets.length,
     newsHits: hits,
+    offset,
+    nextOffset,
     results,
     timestamp: new Date().toISOString(),
   });

@@ -6,7 +6,8 @@ import { getApproved } from "../../../lib/store.js";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const items = getApproved()
+  const all = await getApproved();
+  const items = all
     .filter((s) => Array.isArray(s.news) && s.news.length)
     .flatMap((s) =>
       s.news.map((n) => ({

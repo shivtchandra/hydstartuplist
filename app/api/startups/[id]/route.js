@@ -6,7 +6,7 @@ import { getStartupById } from "../../../../lib/store.js";
 export const dynamic = "force-dynamic";
 
 export async function GET(req, { params }) {
-  const s = getStartupById(params.id);
+  const s = await getStartupById(params.id);
   if (!s) return NextResponse.json({ error: "not found" }, { status: 404 });
   return NextResponse.json({
     id: s.id,

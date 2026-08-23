@@ -15,8 +15,8 @@ import { getApproved } from "../../../../lib/store.js";
 // NOT send real email to real people.
 export const dynamic = "force-dynamic";
 
-function buildDigest() {
-  const all = getApproved();
+async function buildDigest() {
+  const all = await getApproved();
   const hiring = all.filter((s) => s.hiring).sort((a, b) => (b.hiring.count || 0) - (a.hiring.count || 0)).slice(0, 5);
   const news = all
     .flatMap((s) => (s.news || []).map((n) => ({ ...n, companyName: s.name })))
@@ -26,13 +26,9 @@ function buildDigest() {
 }
 
 async function getSubscribers() {
-  if (!process.env.FIREBASE_SERVICE_ACCOUNT) return null; // not configured yet
-  const { initializeApp, getApps, cert } = await import("firebase-admin/app");
-  const { getFirestore } = await import("firebase-admin/firestore");
-  const app = getApps().length
-    ? getApps()[0]
-    : initializeApp({ credential: cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)) });
-  const db = getFirestore(app);
+  const { getAdminDb } = await import("../../../../lib/firebaseAdmin.js");
+  const db = await getAdminDb();
+  if (!db) return null; // FIREBASE_SERVICE_ACCOUNT not configured yet
   const snap = await db.collection("subscribers").get();
   return snap.docs.map((d) => d.data());
 }
@@ -64,7 +60,7 @@ export async function GET(req) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  const digest = buildDigest();
+  const digest = await buildDigest();
   const subscribers = await getSubscribers();
 
   if (!subscribers) {
