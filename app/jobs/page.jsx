@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
+import LoadingScreen from "../components/LoadingScreen.jsx";
 
 function timeAgo(iso) {
   if (!iso) return "";
@@ -86,7 +87,7 @@ export default function JobsPage() {
         </>
       )}
 
-      {loading && <p className="form-sub">Loading…</p>}
+      {loading && <LoadingScreen label="Fetching today's openings…" />}
       {!loading && jobs.length > 0 && filtered.length === 0 && (
         <p className="form-sub">No jobs match this filter.</p>
       )}

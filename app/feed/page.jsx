@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
+import LoadingScreen from "../components/LoadingScreen.jsx";
 import { colorFor, faviconUrl, prettyName, domainOf } from "../../lib/startupUi.js";
 
 function FeedLogoBadge({ startup, size = 38 }) {
@@ -89,7 +90,7 @@ export default function FeedPage() {
         <h2 className="feed-section-title">
           Hiring now <span className="feed-count">{hiring.length}</span>
         </h2>
-        {loading && <p className="form-sub">Loading openings…</p>}
+        {loading && <LoadingScreen label="Waking up the hiring feed…" />}
         {!loading && hiring.length === 0 && (
           <p className="form-sub">No detected openings right now — check back soon, or search the map directly.</p>
         )}

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
+import LoadingScreen from "../components/LoadingScreen.jsx";
 
 const RAMP = ["#fdf1ec", "#fbe0d3", "#f6c3ab", "#f0a17e", "#e97e54", "#e0562b", "#b8441f", "#8f3418"];
 
@@ -58,7 +59,7 @@ export default function InsightsPage() {
       </div>
 
       {loading ? (
-        <p className="form-sub">Loading ecosystem insights…</p>
+        <LoadingScreen label="Crunching the ecosystem numbers…" />
       ) : (
         <>
           <div className="feed-list" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>

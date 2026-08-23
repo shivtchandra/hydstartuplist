@@ -135,6 +135,53 @@ a:hover {
   background: var(--bg-color);
 }
 
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 48px 20px;
+}
+
+.loading-art {
+  width: 160px;
+  height: auto;
+}
+
+.loading-sleeper {
+  transform-origin: 80px 92px;
+  animation: loading-snore 1.8s ease-in-out infinite;
+}
+
+@keyframes loading-snore {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(1.5px) rotate(-1.2deg); }
+}
+
+.loading-z1, .loading-z2, .loading-z3 {
+  opacity: 0;
+  animation: loading-float 2.4s ease-in-out infinite;
+}
+
+.loading-z1 { animation-delay: 0s; }
+.loading-z2 { animation-delay: 0.35s; }
+.loading-z3 { animation-delay: 0.7s; }
+
+@keyframes loading-float {
+  0% { opacity: 0; transform: translate(0, 0); }
+  15% { opacity: 1; }
+  70% { opacity: 0.7; }
+  100% { opacity: 0; transform: translate(10px, -18px); }
+}
+
+.loading-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
 .topnav-row {
   height: 64px;
   display: flex;

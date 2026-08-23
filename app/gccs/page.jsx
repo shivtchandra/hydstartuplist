@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
+import LoadingScreen from "../components/LoadingScreen.jsx";
 import { domainOf, faviconUrl } from "../../lib/startupUi.js";
 
 function GccLogoBadge({ name, website, size = 40 }) {
@@ -53,7 +54,7 @@ export default function GccsPage() {
         </p>
       </div>
 
-      {loading && <p className="form-sub">Loading…</p>}
+      {loading && <LoadingScreen label="Rounding up the GCCs…" />}
 
       <div className="feed-list">
         {gccs.map((g) => (

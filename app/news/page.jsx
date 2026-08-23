@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
+import LoadingScreen from "../components/LoadingScreen.jsx";
 import { colorFor, faviconUrl, prettyName, domainOf } from "../../lib/startupUi.js";
 
 function NewsLogoBadge({ companyName, website, sector, size = 38 }) {
@@ -76,7 +77,7 @@ export default function NewsPage() {
         </p>
       </div>
 
-      {loading && <p className="form-sub">Loading news updates…</p>}
+      {loading && <LoadingScreen label="Catching up on the news…" />}
       {!loading && items.length === 0 && (
         <p className="form-sub">No recent news found yet — this refreshes periodically.</p>
       )}
