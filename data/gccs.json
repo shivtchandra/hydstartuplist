@@ -1,0 +1,16 @@
+[
+  { "id": "amazon", "name": "Amazon", "industry": "Tech", "website": "https://www.amazon.com", "careers": "https://www.amazon.jobs/en/locations/hyderabad-india" },
+  { "id": "microsoft", "name": "Microsoft", "industry": "Tech", "website": "https://www.microsoft.com", "careers": "https://careers.microsoft.com" },
+  { "id": "google", "name": "Google", "industry": "Tech", "website": "https://www.google.com", "careers": "https://careers.google.com" },
+  { "id": "salesforce", "name": "Salesforce", "industry": "Tech", "website": "https://www.salesforce.com", "careers": "https://www.salesforce.com/company/careers/" },
+  { "id": "deloitte-usi", "name": "Deloitte USI", "industry": "Consulting", "website": "https://www.deloitte.com", "careers": "https://www.deloitte.com/us/en/careers.html" },
+  { "id": "qualcomm", "name": "Qualcomm", "industry": "Semiconductors", "website": "https://www.qualcomm.com", "careers": "https://www.qualcomm.com/company/careers" },
+  { "id": "jpmorgan", "name": "JPMorgan Chase", "industry": "Finance", "website": "https://www.jpmorganchase.com", "careers": "https://careers.jpmorgan.com" },
+  { "id": "wellsfargo", "name": "Wells Fargo", "industry": "Finance", "website": "https://www.wellsfargo.com", "careers": "https://www.wellsfargo.com/about/careers/" },
+  { "id": "goldmansachs", "name": "Goldman Sachs", "industry": "Finance", "website": "https://www.goldmansachs.com", "careers": "https://www.goldmansachs.com/careers/" },
+  { "id": "ibm", "name": "IBM", "industry": "Tech", "website": "https://www.ibm.com", "careers": "https://www.ibm.com/careers" },
+  { "id": "franklintempleton", "name": "Franklin Templeton", "industry": "Finance", "website": "https://www.franklintempleton.com", "careers": "https://www.franklintempletoncareers.com" },
+  { "id": "novartis", "name": "Novartis", "industry": "Pharma", "website": "https://www.novartis.com", "careers": "https://www.novartis.com/careers" },
+  { "id": "micron", "name": "Micron", "industry": "Semiconductors", "website": "https://www.micron.com", "careers": "https://micron.com/careers" },
+  { "id": "accenture", "name": "Accenture", "industry": "Consulting", "website": "https://www.accenture.com", "careers": "https://www.accenture.com/us-en/careers" }
+]
