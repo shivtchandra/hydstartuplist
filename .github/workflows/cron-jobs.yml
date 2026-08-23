@@ -1,0 +1,52 @@
+name: Scheduled data refresh
+
+# Triggers the same cron API routes Vercel Cron calls (see vercel.json) —
+# GitHub Actions has no cap on scheduled-workflow count and no cost on a
+# public repo, so this runs alongside (or instead of) Vercel Cron if the
+# Vercel plan's cron limit is a problem. Needs two repo secrets:
+#   SITE_URL     — the deployed site's origin, e.g. https://yourdomain.com
+#   CRON_SECRET  — same value as the CRON_SECRET env var set in Vercel
+on:
+  schedule:
+    - cron: "0 2 * * *"   # check-hiring, 2am UTC
+    - cron: "0 4 * * *"   # fetch-news, 4am UTC
+    - cron: "0 5 * * *"   # adzuna-jobs, 5am UTC
+    - cron: "30 3 * * 0"  # newsletter, Sundays 3:30am UTC
+  workflow_dispatch: {}    # manual "Run workflow" button for one-off triggers
+
+jobs:
+  check-hiring:
+    if: github.event.schedule == '0 2 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call check-hiring
+        run: |
+          curl -sf -X GET "${{ secrets.SITE_URL }}/api/cron/check-hiring?limit=60" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
+
+  fetch-news:
+    if: github.event.schedule == '0 4 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call fetch-news
+        run: |
+          curl -sf -X GET "${{ secrets.SITE_URL }}/api/cron/fetch-news?limit=50" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
+
+  adzuna-jobs:
+    if: github.event.schedule == '0 5 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call adzuna-jobs
+        run: |
+          curl -sf -X GET "${{ secrets.SITE_URL }}/api/cron/adzuna-jobs" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
+
+  newsletter:
+    if: github.event.schedule == '30 3 * * 0' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call newsletter digest
+        run: |
+          curl -sf -X GET "${{ secrets.SITE_URL }}/api/cron/newsletter" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
