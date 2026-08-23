@@ -1280,6 +1280,25 @@ a:hover {
   gap: 18px;
 }
 
+.jobs-search {
+  width: 100%;
+  max-width: 420px;
+  height: 42px;
+  padding: 0 16px;
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-full);
+  background: var(--surface-card);
+  font-family: var(--font-main);
+  font-size: 14px;
+  color: var(--text-main);
+}
+
+.jobs-search:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
 .feed-row {
   background: var(--surface-card);
   border: 1px solid var(--border-glass);

@@ -579,6 +579,7 @@ export default function Page() {
 
           <nav className="tn-links">
             <Link href="/feed">Feed</Link>
+            <Link href="/jobs">Jobs</Link>
             <Link href="/gccs">GCCs</Link>
             <Link href="/news">News</Link>
             <Link href="/insights">Insights</Link>
