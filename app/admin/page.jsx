@@ -13,6 +13,7 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [code, setCode] = useState("");
   const [pending, setPending] = useState([]);
+  const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [busyId, setBusyId] = useState(null);
   const [note, setNote] = useState("");
@@ -24,9 +25,14 @@ export default function AdminPage() {
       setPending(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
     } catch (e) {
       setNote("Load failed: " + e.message);
-    } finally {
-      setLoading(false);
     }
+    try {
+      const subRes = await fetch("/api/admin/subscribers", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      setSubscribers(subRes.subscribers || []);
+    } catch (e) {
+      setNote((n) => n || "Subscribers load failed: " + e.message);
+    }
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -86,7 +92,7 @@ export default function AdminPage() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (code === PASSCODE && PASSCODE) setAuthed(true);
+              if (code === PASSCODE && PASSCODE) { setAuthed(true); setNote(""); }
               else setNote("Wrong passcode.");
             }}
             className="form-grid"
@@ -145,6 +151,30 @@ export default function AdminPage() {
               <button className="btn btn-ghost" disabled={busyId === item.id} onClick={() => reject(item)}>
                 Reject
               </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="admin-head" style={{ marginTop: 32 }}>
+        <div>
+          <h2 className="form-title" style={{ margin: 0, fontSize: 20 }}>Newsletter subscribers</h2>
+          <p className="form-sub" style={{ margin: "2px 0 0" }}>{subscribers.length} subscribed</p>
+        </div>
+      </div>
+
+      {!loading && subscribers.length === 0 && <p className="form-sub">No subscribers yet.</p>}
+
+      <div className="admin-list">
+        {subscribers.map((s) => (
+          <div key={s.id} className="admin-row">
+            <div className="admin-info">
+              <div className="admin-name">{s.email}</div>
+              <div className="admin-meta">
+                {s.wantsJobAlerts ? "Wants job alerts" : "News only"}
+                {s.source && <> · {s.source}</>}
+                {s.createdAt && <> · {new Date(s.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</>}
+              </div>
             </div>
           </div>
         ))}
