@@ -370,6 +370,27 @@ function StartupCard({ startup, onClick, active }) {
   );
 }
 
+function SpotlightShelf({ startups, onSelect }) {
+  if (!startups.length) return null;
+  return (
+    <div className="spotlight-shelf">
+      <div className="spotlight-head">
+        <span className="spotlight-title">🌟 Spotlight</span>
+        <span className="spotlight-sub">Well-known Hyderabad startups</span>
+      </div>
+      <div className="spotlight-row">
+        {startups.map((s) => (
+          <button key={s.id} className="spotlight-card" onClick={() => onSelect(s)}>
+            <LogoBadge startup={s} size={32} />
+            <div className="spotlight-name">{prettyName(s.name)}</div>
+            <div className="spotlight-sector">{s.sector}</div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ThemeToggle() {
   const [theme, setTheme] = useState("light");
   useEffect(() => {
@@ -436,6 +457,7 @@ export default function Page() {
     () => [...new Set(all.map((s) => normalizeArea(s.area)))].sort(),
     [all]
   );
+  const spotlight = useMemo(() => all.filter((s) => s.spotlight), [all]);
 
   const filtered = useMemo(() => {
     return all.filter((s) => {
@@ -633,6 +655,9 @@ export default function Page() {
                 <button className={sidebarView === "areas" ? "on" : ""} onClick={() => setSidebarView("areas")}>Areas</button>
               </div>
             </div>
+            {sidebarView === "list" && !hasActiveFilters && (
+              <SpotlightShelf startups={spotlight} onSelect={openStartup} />
+            )}
             {sidebarView === "list" ? (
               <div className="sb-list">
                 {visible.map((s) => (

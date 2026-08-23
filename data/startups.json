@@ -57,7 +57,8 @@
         }
       ],
       "checkedAt": "2026-08-22T19:59:29.884Z"
-    }
+    },
+    "spotlight": true
   },
   {
     "id": "b141da39-e987-47f5-9d7f-d8a4a475b09d",
@@ -87,7 +88,8 @@
         "source": "Business Wire",
         "publishedAt": "2026-05-14T07:00:00.000Z"
       }
-    ]
+    ],
+    "spotlight": true
   },
   {
     "id": "ffc3538d-a9cc-4652-bf4f-de337bc141d0",
@@ -176,7 +178,8 @@
         "source": "SMEStreet",
         "publishedAt": "2026-01-24T08:00:00.000Z"
       }
-    ]
+    ],
+    "spotlight": true
   },
   {
     "id": "69202061-81b2-4f20-8e6b-00d43ed8f311",
@@ -234,7 +237,8 @@
         }
       ],
       "checkedAt": "2026-08-22T19:59:54.981Z"
-    }
+    },
+    "spotlight": true
   },
   {
     "id": "7566fb7b-eb4c-4cad-8886-bd7a46210f8f",
@@ -775,7 +779,8 @@
         "source": "The New Indian Express",
         "publishedAt": "2026-02-27T08:00:00.000Z"
       }
-    ]
+    ],
+    "spotlight": true
   },
   {
     "id": "f6a83417-9b8d-4313-94e0-8c1012b758a1",
@@ -1008,7 +1013,8 @@
         "source": "BigInfo.in",
         "publishedAt": "2026-07-28T07:00:00.000Z"
       }
-    ]
+    ],
+    "spotlight": true
   },
   {
     "id": "57a74765-464b-4b20-86ea-e2ef397b8551",
@@ -1037,7 +1043,8 @@
         "source": "Inc42",
         "publishedAt": "2025-07-28T07:00:00.000Z"
       }
-    ]
+    ],
+    "spotlight": true
   },
   {
     "id": "f5aed858-3a02-4380-8079-7398a22f56b0",
@@ -1124,7 +1131,8 @@
         "source": "The Hindu",
         "publishedAt": "2024-11-05T08:00:00.000Z"
       }
-    ]
+    ],
+    "spotlight": true
   },
   {
     "id": "cbeb9544-4590-42af-9a18-20ff591badfc",
@@ -1255,7 +1263,8 @@
         "source": "NewsMeter",
         "publishedAt": "2026-07-10T07:00:00.000Z"
       }
-    ]
+    ],
+    "spotlight": true
   },
   {
     "id": "e8d2551b-4093-4b99-b129-76518b8c34ff",
@@ -1371,7 +1380,8 @@
         "source": "TheWire.in",
         "publishedAt": "2026-05-23T07:00:00.000Z"
       }
-    ]
+    ],
+    "spotlight": true
   },
   {
     "id": "dea7c8a3-14b7-47bb-85b1-4e27488cc688",
@@ -1400,7 +1410,8 @@
         "source": "Telangana Today",
         "publishedAt": "2025-11-28T08:00:00.000Z"
       }
-    ]
+    ],
+    "spotlight": true
   },
   {
     "id": "0362bb93-dba2-4306-85e8-cdccfe8d1954",
@@ -3923,7 +3934,8 @@
         "source": "Entrackr",
         "publishedAt": "2024-12-18T08:00:00.000Z"
       }
-    ]
+    ],
+    "spotlight": true
   },
   {
     "id": "a11543ed-3270-4b9d-843f-184814880617",

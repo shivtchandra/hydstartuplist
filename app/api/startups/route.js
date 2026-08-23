@@ -27,6 +27,7 @@ export async function GET(req) {
       founded: s.founded ?? null,
       active: s.active !== false,
       addedAt: s.addedAt ?? null,
+      spotlight: s.spotlight === true,
     };
   });
 
