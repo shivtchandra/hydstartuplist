@@ -52,7 +52,11 @@ export default function AdminPage() {
 
       await deleteDoc(doc(db, "pending", item.id));
       setPending((p) => p.filter((x) => x.id !== item.id));
-      setNote(`Approved ${item.name} → placed at ${res.address}. Now live on the map (${res.total} total).`);
+      setNote(
+        res.claimed
+          ? `Claim applied — ${item.name}'s listing updated (verified). ${res.total} total on the map.`
+          : `Approved ${item.name} → placed at ${res.address}. Now live on the map (${res.total} total).`
+      );
     } catch (e) {
       setNote("Approve failed: " + e.message);
     } finally {
@@ -120,7 +124,10 @@ export default function AdminPage() {
         {pending.map((item) => (
           <div key={item.id} className="admin-row">
             <div className="admin-info">
-              <div className="admin-name">{item.name}</div>
+              <div className="admin-name">
+                {item.name}
+                {item.claimFor && <span className="admin-claim-badge">Claim</span>}
+              </div>
               <div className="tags">
                 <span className="tag">{item.sector}</span>
                 <span className="tag tag-stage">{item.fundingStage}</span>

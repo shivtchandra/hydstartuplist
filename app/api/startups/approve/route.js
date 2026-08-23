@@ -20,8 +20,10 @@ async function search(query) {
   return d.places?.[0] || null;
 }
 
-// Approve a submission: geocode it to a real Hyderabad office, then append it
-// to the in-code dataset (data/startups.json). No Firestore involved.
+// Approve a submission: geocode it to a real Hyderabad office, then either
+// merge it into an existing entry (claims — s.claimFor is the target id) or
+// append it as a new entry — into the in-code dataset (data/startups.json).
+// No Firestore involved.
 export async function POST(req) {
   const s = await req.json();
   if (!s?.name) return NextResponse.json({ error: "name required" }, { status: 400 });
@@ -33,16 +35,43 @@ export async function POST(req) {
       hit = await search(`${s.area || s.name}, Hyderabad`);
       lat = hit?.location?.latitude; lng = hit?.location?.longitude;
     }
-    if (!hit || lat == null || !IN_HYD(lat, lng)) {
-      return NextResponse.json({ ok: false, reason: "no Hyderabad location found" });
-    }
+    const foundLocation = hit && lat != null && IN_HYD(lat, lng);
 
     let website = s.website || "";
-    if (!website && hit.websiteUri) {
+    if (!website && hit?.websiteUri) {
       try { website = new URL(hit.websiteUri).origin; } catch {}
     }
 
     const list = JSON.parse(fs.readFileSync(DB, "utf-8"));
+
+    if (s.claimFor) {
+      const idx = list.findIndex((x) => x.id === s.claimFor);
+      if (idx === -1) return NextResponse.json({ ok: false, reason: "claimed listing not found" });
+      const existing = list[idx];
+      const merged = {
+        ...existing,
+        website: website || existing.website,
+        sector: s.sector || existing.sector,
+        fundingStage: s.fundingStage || existing.fundingStage,
+        area: s.area || existing.area,
+        description: s.description || existing.description,
+        careers: website ? `${website}/careers` : existing.careers,
+        address: foundLocation ? hit.formattedAddress : existing.address,
+        lat: foundLocation ? lat : existing.lat,
+        lng: foundLocation ? lng : existing.lng,
+        verified: true,
+      };
+      if (s.hiring) {
+        merged.hiring = { active: true, count: null, source: "manual", checkedAt: new Date().toISOString() };
+      }
+      list[idx] = merged;
+      fs.writeFileSync(DB, JSON.stringify(list, null, 2));
+      return NextResponse.json({ ok: true, address: merged.address, total: list.length, claimed: true });
+    }
+
+    if (!foundLocation) {
+      return NextResponse.json({ ok: false, reason: "no Hyderabad location found" });
+    }
     if (list.some((x) => x.name.toLowerCase() === s.name.toLowerCase())) {
       return NextResponse.json({ ok: false, reason: "already on the map" });
     }
@@ -60,6 +89,7 @@ export async function POST(req) {
       lat, lng,
       locSource: "submission+places",
       status: "approved",
+      addedAt: new Date().toISOString(),
     };
     if (s.hiring) {
       entry.hiring = { active: true, count: null, source: "manual", checkedAt: new Date().toISOString() };

@@ -1,19 +1,11 @@
-// Daily hiring check: for each startup, detect known ATS platforms (Greenhouse,
-// Lever, Ashby, Recruitee, Workable, Breezy HR, SmartRecruiters, BambooHR, Freshteam)
-// via domain probes AND HTML careers-page link discovery, then pull live roles.
-// Manual "we're hiring" flags (hiring.source === "manual") are preserved.
-//
-// Run: node scripts/check-hiring.mjs   (optional LIMIT=50 to sample)
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import dotenv from "dotenv";
+import { NextResponse } from "next/server";
+import { getApproved } from "../../../../lib/store.js";
+import { db } from "../../../../lib/firebase.js";
+import { doc, setDoc } from "firebase/firestore";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.join(__dirname, "..", ".env.local") });
+export const dynamic = "force-dynamic";
+export const maxDuration = 60; // Max allowed serverless duration on Vercel Pro
 
-const DB = path.join(__dirname, "..", "data", "startups.json");
-const LIMIT = parseInt(process.env.LIMIT || "0", 10);
 const FIRECRAWL_KEY = process.env.FIRECRAWL_API_KEY;
 const UA = {
   "User-Agent":
@@ -32,7 +24,7 @@ async function getJson(url) {
 
 async function getText(url) {
   try {
-    const resp = await fetch(url, { headers: UA, redirect: "follow", signal: AbortSignal.timeout(5000) });
+    const resp = await fetch(url, { redirect: "follow", headers: UA, signal: AbortSignal.timeout(5000) });
     if (!resp.ok) return "";
     return await resp.text();
   } catch {
@@ -40,7 +32,6 @@ async function getText(url) {
   }
 }
 
-// Generate intelligent slug candidates from company domain & name
 function slugCandidates(entry) {
   const slugs = new Set();
   if (entry.website) {
@@ -59,7 +50,6 @@ function slugCandidates(entry) {
   return [...slugs];
 }
 
-// Expanded ATS Probes covering Greenhouse, Lever, Ashby, Recruitee, Workable, BreezyHR, SmartRecruiters
 function atsProbes(slug) {
   return [
     { source: "greenhouse", url: `https://boards-api.greenhouse.io/v1/boards/${slug}/jobs`, boardUrl: `https://boards.greenhouse.io/${slug}` },
@@ -101,7 +91,6 @@ function roleOf(source, j, boardUrl) {
   return { title, url };
 }
 
-// Auto-discover embedded ATS links from company HTML homepage & careers page
 async function discoverAtsFromHtml(entry) {
   const urlsToFetch = new Set();
   if (entry.website) urlsToFetch.add(entry.website);
@@ -116,7 +105,6 @@ async function discoverAtsFromHtml(entry) {
     const html = await getText(pageUrl);
     if (!html) continue;
 
-    // Pattern matches for ATS URLs embedded in href or iframe attributes
     const patterns = [
       { source: "greenhouse", regex: /boards\.greenhouse\.io\/([a-z0-9_-]+)/i },
       { source: "lever", regex: /jobs\.lever\.co\/([a-z0-9_-]+)/i },
@@ -131,7 +119,6 @@ async function discoverAtsFromHtml(entry) {
       const match = html.match(regex);
       if (match && match[1] && match[1].length > 2) {
         const slug = match[1].toLowerCase();
-        // Probe this discovered slug directly!
         const probes = atsProbes(slug).filter((p) => p.source === source);
         for (const probe of probes) {
           const d = await getJson(probe.url);
@@ -159,7 +146,6 @@ async function discoverAtsFromHtml(entry) {
   return null;
 }
 
-// Fallback JobPosting JSON-LD schema parsing
 async function schemaOrgJobs(entry) {
   if (!entry.careers || entry.careers.includes("linkedin.com")) return null;
   const html = await getText(entry.careers);
@@ -179,7 +165,6 @@ async function schemaOrgJobs(entry) {
   };
 }
 
-// Deep Scraping Fallback using Firecrawl API (.env.local FIRECRAWL_API_KEY)
 async function firecrawlJobs(entry) {
   if (!FIRECRAWL_KEY || (!entry.careers && !entry.website)) return null;
   const targetUrl = entry.careers || `${entry.website.replace(/\/$/, "")}/careers`;
@@ -224,7 +209,6 @@ const SRC_ORDER = { greenhouse: 0, lever: 1, ashby: 2, recruitee: 3, workable: 4
 async function checkOne(entry) {
   if (!entry.website) return null;
 
-  // 1. Direct ATS API Probes by slug
   const tasks = [];
   for (const slug of slugCandidates(entry)) {
     for (const probe of atsProbes(slug)) {
@@ -257,45 +241,59 @@ async function checkOne(entry) {
     return results[0];
   }
 
-  // 2. HTML Careers Page Auto-Discovery (Extracts embedded ATS URLs)
   const discovered = await discoverAtsFromHtml(entry);
   if (discovered) return discovered;
 
-  // 3. Schema.org JobPosting Fallback
   const schemaHit = await schemaOrgJobs(entry);
   if (schemaHit) return schemaHit;
 
-  // 4. Firecrawl AI Deep Scraping Fallback
   return firecrawlJobs(entry);
 }
 
-// Execution Loop
-const data = JSON.parse(fs.readFileSync(DB, "utf-8"));
-const targets = LIMIT ? data.slice(0, LIMIT) : data;
-let hits = 0, checked = 0;
-
-console.log(`Starting enhanced hiring check for ${targets.length} startups...`);
-
-for (const entry of targets) {
-  if (entry.hiring?.source === "manual") continue;
-  checked++;
-  let h = null;
-  try {
-    h = await checkOne(entry);
-  } catch {
-    h = null;
+export async function GET(req) {
+  // Authorization check for Vercel Cron
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret) {
+    const authHeader = req.headers.get("authorization");
+    if (authHeader !== `Bearer ${cronSecret}`) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
   }
 
-  if (h) {
-    entry.hiring = h;
-    hits++;
-    console.log(`  HIRING ${entry.name}: ${h.count} role(s) via ${h.source}`);
-  } else if (entry.hiring && entry.hiring.source !== "manual") {
-    delete entry.hiring;
+  const all = getApproved();
+  const { searchParams } = new URL(req.url);
+  const limit = parseInt(searchParams.get("limit") || "40", 10);
+  const targets = all.slice(0, limit);
+
+  const results = [];
+  let hits = 0;
+
+  for (const entry of targets) {
+    if (entry.hiring?.source === "manual") continue;
+    let h = null;
+    try {
+      h = await checkOne(entry);
+    } catch {
+      h = null;
+    }
+
+    if (h) {
+      hits++;
+      results.push({ id: entry.id, name: entry.name, hiring: h });
+      // Persist dynamic update to Cloud Firestore
+      try {
+        await setDoc(doc(db, "startups_dynamic", entry.id), { hiring: h, updatedAt: new Date().toISOString() }, { merge: true });
+      } catch (err) {
+        console.error(`Firestore write error for ${entry.name}:`, err);
+      }
+    }
   }
 
-  if (checked % 100 === 0) console.log(`…checked ${checked}, hiring ${hits}`);
+  return NextResponse.json({
+    success: true,
+    checked: targets.length,
+    hiringHits: hits,
+    results,
+    timestamp: new Date().toISOString(),
+  });
 }
-
-fs.writeFileSync(DB, JSON.stringify(data, null, 2));
-console.log(`\nDone. Checked ${checked}, currently hiring ${hits}.`);

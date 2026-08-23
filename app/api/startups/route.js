@@ -1,10 +1,23 @@
 import { NextResponse } from "next/server";
 import { filterStartups } from "../../../lib/store.js";
+import { db } from "../../../lib/firebase.js";
+import { collection, getDocs } from "firebase/firestore";
 
-// Public list = render-only fields. The enriched, expensive-to-build layer
-// (address, careers, description) is NOT shipped in bulk — it loads one record
-// at a time via /api/startups/[id] on pin click, so the whole dataset can't be
-// scraped from a single request in DevTools.
+export const dynamic = "force-dynamic";
+
+async function getDynamicOverrides() {
+  try {
+    const snap = await getDocs(collection(db, "startups_dynamic"));
+    const map = new Map();
+    snap.forEach((doc) => {
+      map.set(doc.id, doc.data());
+    });
+    return map;
+  } catch {
+    return new Map();
+  }
+}
+
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const list = filterStartups({
@@ -13,18 +26,27 @@ export async function GET(req) {
     area: searchParams.get("area") || "",
     q: searchParams.get("q") || "",
   });
-  const slim = list.map((s) => ({
-    id: s.id,
-    name: s.name,
-    lat: s.lat,
-    lng: s.lng,
-    sector: s.sector,
-    fundingStage: s.fundingStage,
-    website: s.website, // needed for the favicon logo marker
-    area: s.area,       // coarse locality (exact street address stays in the detail route)
-    hiring: s.hiring?.active ? { count: s.hiring.count ?? null } : null,
-    founded: s.founded ?? null,
-    active: s.active !== false, // default true until the meta-check marks it
-  }));
+
+  const overrides = await getDynamicOverrides();
+
+  const slim = list.map((s) => {
+    const dynamicData = overrides.get(s.id);
+    const hiring = dynamicData?.hiring || s.hiring;
+    return {
+      id: s.id,
+      name: s.name,
+      lat: s.lat,
+      lng: s.lng,
+      sector: s.sector,
+      fundingStage: s.fundingStage,
+      website: s.website,
+      area: s.area,
+      hiring: hiring?.active ? { count: hiring.count ?? null, roles: hiring.roles || [] } : null,
+      founded: s.founded ?? null,
+      active: s.active !== false,
+      addedAt: s.addedAt ?? null,
+    };
+  });
+
   return NextResponse.json(slim);
 }

@@ -3,6 +3,8 @@ import { getStartupById } from "../../../../lib/store.js";
 
 // Single-record detail — the enriched fields (address, careers, description)
 // are served one at a time here, only when a user opens a startup.
+export const dynamic = "force-dynamic";
+
 export async function GET(req, { params }) {
   const s = getStartupById(params.id);
   if (!s) return NextResponse.json({ error: "not found" }, { status: 404 });
@@ -17,5 +19,6 @@ export async function GET(req, { params }) {
     address: s.address,
     careers: s.careers,
     hiring: s.hiring || null,
+    news: s.news || null,
   });
 }

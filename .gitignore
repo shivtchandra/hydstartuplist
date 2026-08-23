@@ -1,4 +1,8 @@
 data/*.tmp.json
+data/*.bak.json
+data/verify-report.json
+data/legit-report.json
 node_modules
 .next
 .env.local
+.mini-*.log

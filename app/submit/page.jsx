@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../lib/firebase.js";
 
 const SECTORS = ["AI", "Fintech", "Edtech", "Healthtech", "SaaS", "Gaming", "Logistics", "D2C", "Deeptech", "Consumer", "Other"];
 const STAGES = ["Pre-seed", "Seed", "Series A", "Series B", "Series C", "Growth", "Bootstrapped", "Public", "Recognised"];
 
-export default function SubmitPage() {
+function SubmitForm() {
+  const params = useSearchParams();
+  const claimFor = params.get("claim") || null;
+  const claimName = params.get("name") || "";
+
   const [form, setForm] = useState({
-    name: "", website: "", sector: "AI", fundingStage: "Seed", area: "", description: "", hiring: false,
+    name: claimName, website: "", sector: "AI", fundingStage: "Seed", area: "", description: "", hiring: false,
   });
   const [status, setStatus] = useState("idle"); // idle | saving | done | error
   const [error, setError] = useState("");
@@ -31,6 +36,7 @@ export default function SubmitPage() {
         area: form.area.trim(),
         status: "pending",
         createdAt: serverTimestamp(),
+        ...(claimFor ? { claimFor } : {}),
       });
       setStatus("done");
     } catch (err) {
@@ -45,7 +51,11 @@ export default function SubmitPage() {
         <div className="form-card form-done">
           <div className="form-check">✓</div>
           <h2>Submitted for review</h2>
-          <p>Thanks! Your startup is now pending. Once approved it will appear on the map.</p>
+          <p>
+            {claimFor
+              ? "Thanks! Your claim is pending review. Once approved, this listing will show your updates."
+              : "Thanks! Your startup is now pending. Once approved it will appear on the map."}
+          </p>
           <Link className="btn" href="/">Back to map</Link>
         </div>
       </div>
@@ -56,12 +66,22 @@ export default function SubmitPage() {
     <div className="form-page">
       <div className="form-card">
         <Link className="form-back" href="/">← Back to map</Link>
-        <h1 className="form-title">Submit a startup</h1>
-        <p className="form-sub">Add a Hyderabad startup to the map. Submissions are reviewed before they go live.</p>
+        <h1 className="form-title">{claimFor ? `Claim "${claimName}"` : "Submit a startup"}</h1>
+        <p className="form-sub">
+          {claimFor
+            ? "Update this listing's details. Changes are reviewed before they go live."
+            : "Add a Hyderabad startup to the map. Submissions are reviewed before they go live."}
+        </p>
         <form onSubmit={handleSubmit} className="form-grid">
           <label className="field">
             <span>Startup name *</span>
-            <input placeholder="e.g. Zenoti" value={form.name} onChange={update("name")} required />
+            <input
+              placeholder="e.g. Zenoti"
+              value={form.name}
+              onChange={update("name")}
+              readOnly={!!claimFor}
+              required
+            />
           </label>
           <label className="field">
             <span>Website</span>
@@ -99,10 +119,18 @@ export default function SubmitPage() {
           </label>
           {status === "error" && <div className="form-error">{error}</div>}
           <button className="btn cmd-submit" type="submit" disabled={status === "saving"}>
-            {status === "saving" ? "Submitting…" : "Submit for review"}
+            {status === "saving" ? "Submitting…" : claimFor ? "Submit claim for review" : "Submit for review"}
           </button>
         </form>
       </div>
     </div>
+  );
+}
+
+export default function SubmitPage() {
+  return (
+    <Suspense fallback={null}>
+      <SubmitForm />
+    </Suspense>
   );
 }

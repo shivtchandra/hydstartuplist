@@ -80,7 +80,8 @@ for (let i = 0; i < targets.length; i++) {
   // Address
   let addrStatus = "unverified", placeDomain = null, km = null;
   if (e.lat && e.lng) {
-    const hit = await placeByName(e.name, e.area);
+    let hit = null;
+    try { hit = await placeByName(e.name, e.area); } catch { hit = null; }
     if (hit) {
       placeDomain = domainOf(hit.websiteUri || "");
       const loc = hit.location;
@@ -104,7 +105,10 @@ for (let i = 0; i < targets.length; i++) {
     report.push({ id: e.id, name: e.name, website: e.website, area: e.area,
       logoOk, addrStatus, placeDomain, km, issues });
   }
-  if ((i + 1) % 100 === 0) console.log(`…${i + 1}/${targets.length} | flagged ${report.length}`);
+  if ((i + 1) % 100 === 0) {
+    console.log(`…${i + 1}/${targets.length} | flagged ${report.length}`);
+    fs.writeFileSync(REPORT, JSON.stringify(report, null, 2)); // checkpoint
+  }
 }
 
 fs.writeFileSync(REPORT, JSON.stringify(report, null, 2));
