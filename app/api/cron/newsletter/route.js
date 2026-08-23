@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
-import { getApproved } from "../../../../lib/store.js";
+import { buildDigest, getSubscribers, sendDigestEmail } from "../../../../lib/newsletter.js";
 
 // Weekly digest — triggered by Vercel Cron (vercel.json: Sundays 09:00 IST).
+// Also triggerable on-demand from the admin panel (/api/admin/newsletter),
+// which shares this same digest/send logic via lib/newsletter.js.
 //
 // Two things this needs before it can actually send, neither wired yet:
 //   1. RESEND_API_KEY        — sign up at resend.com, create an API key.
@@ -14,43 +16,6 @@ import { getApproved } from "../../../../lib/store.js";
 // Until both exist, this route composes the digest and logs it — it does
 // NOT send real email to real people.
 export const dynamic = "force-dynamic";
-
-async function buildDigest() {
-  const all = await getApproved();
-  const hiring = all.filter((s) => s.hiring).sort((a, b) => (b.hiring.count || 0) - (a.hiring.count || 0)).slice(0, 5);
-  const news = all
-    .flatMap((s) => (s.news || []).map((n) => ({ ...n, companyName: s.name })))
-    .sort((a, b) => new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0))
-    .slice(0, 5);
-  return { hiring, news, total: all.length, generatedAt: new Date().toISOString() };
-}
-
-async function getSubscribers() {
-  const { getAdminDb } = await import("../../../../lib/firebaseAdmin.js");
-  const db = await getAdminDb();
-  if (!db) return null; // FIREBASE_SERVICE_ACCOUNT not configured yet
-  const snap = await db.collection("subscribers").get();
-  return snap.docs.map((d) => d.data());
-}
-
-async function sendEmail(to, digest) {
-  if (!process.env.RESEND_API_KEY) return { sent: false, reason: "RESEND_API_KEY not set" };
-  const subject = `${digest.hiring.length} Hyderabad startups hiring this week`;
-  const html = `
-    <h2>Hyderabad Startup Map — Weekly Digest</h2>
-    <p>${digest.total} startups tracked.</p>
-    <h3>Hiring now</h3>
-    <ul>${digest.hiring.map((s) => `<li><a href="https://hyderabadstartupmap.example">${s.name}</a> — ${s.hiring.count} open roles</li>`).join("")}</ul>
-    <h3>Recent news</h3>
-    <ul>${digest.news.map((n) => `<li><a href="${n.url}">${n.title}</a></li>`).join("")}</ul>
-  `;
-  const resp = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from: "Hyderabad Startup Map <digest@yourdomain.com>", to, subject, html }),
-  });
-  return { sent: resp.ok, status: resp.status };
-}
 
 export async function GET(req) {
   // Vercel Cron sends this header automatically when CRON_SECRET is set —
@@ -74,7 +39,7 @@ export async function GET(req) {
 
   const results = [];
   for (const sub of subscribers) {
-    results.push(await sendEmail(sub.email, digest));
+    results.push(await sendDigestEmail(sub.email, digest));
   }
   const sent = results.filter((r) => r.sent).length;
 

@@ -17,6 +17,32 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [busyId, setBusyId] = useState(null);
   const [note, setNote] = useState("");
+  const [nlPreview, setNlPreview] = useState(null);
+  const [nlBusy, setNlBusy] = useState(false);
+  const [nlResult, setNlResult] = useState(null);
+
+  async function loadNewsletterPreview() {
+    try {
+      const res = await fetch("/api/admin/newsletter", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      setNlPreview(res);
+    } catch (e) {
+      setNlPreview({ note: "Preview failed: " + e.message });
+    }
+  }
+
+  async function sendNewsletter() {
+    if (!confirm(`Send the weekly digest to ${nlPreview?.subscriberCount ?? "all"} subscribers now?`)) return;
+    setNlBusy(true);
+    setNlResult(null);
+    try {
+      const res = await fetch("/api/admin/newsletter", { method: "POST", headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      setNlResult(res);
+    } catch (e) {
+      setNlResult({ ok: false, note: "Send failed: " + e.message });
+    } finally {
+      setNlBusy(false);
+    }
+  }
 
   async function load() {
     setLoading(true);
@@ -36,7 +62,7 @@ export default function AdminPage() {
   }
 
   useEffect(() => {
-    if (authed) load();
+    if (authed) { load(); loadNewsletterPreview(); }
   }, [authed]);
 
   async function approve(item) {
@@ -155,6 +181,42 @@ export default function AdminPage() {
           </div>
         ))}
       </div>
+
+      <div className="admin-head" style={{ marginTop: 32 }}>
+        <div>
+          <h2 className="form-title" style={{ margin: 0, fontSize: 20 }}>Weekly newsletter</h2>
+          <p className="form-sub" style={{ margin: "2px 0 0" }}>
+            {nlPreview?.subscriberCount ?? "…"} subscriber{nlPreview?.subscriberCount === 1 ? "" : "s"} would receive this.
+          </p>
+        </div>
+      </div>
+
+      <div className="admin-newsletter-card">
+        <div>
+          {nlPreview?.digest && (
+            <div>
+              {nlPreview.digest.hiring.length} hiring picks · {nlPreview.digest.news.length} news items · {nlPreview.digest.total.toLocaleString()} startups tracked
+            </div>
+          )}
+          {!nlPreview?.canSend && (
+            <div className="admin-newsletter-preview" style={{ marginTop: 0, borderTop: "none", paddingTop: 0 }}>
+              RESEND_API_KEY isn't set yet — sending is a safe no-op until it is (nothing goes out, this just composes and logs).
+            </div>
+          )}
+          {nlPreview?.note && <div className="admin-newsletter-preview" style={{ marginTop: 0, borderTop: "none", paddingTop: 0 }}>{nlPreview.note}</div>}
+        </div>
+        <button className="btn cmd-submit" disabled={nlBusy || !nlPreview} onClick={sendNewsletter}>
+          {nlBusy ? "Sending…" : "Send now"}
+        </button>
+      </div>
+
+      {nlResult && (
+        <div className="admin-note" style={{ marginTop: 12 }}>
+          {nlResult.ok
+            ? `Sent to ${nlResult.sent} of ${nlResult.of ?? nlResult.sent} subscribers.${nlResult.note ? ` (${nlResult.note})` : ""}`
+            : nlResult.note || "Send failed."}
+        </div>
+      )}
 
       <div className="admin-head" style={{ marginTop: 32 }}>
         <div>
