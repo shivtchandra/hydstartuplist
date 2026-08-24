@@ -1,6 +1,14 @@
 import "./globals.css";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+// Resolve the public origin so OG/Twitter image URLs are absolute in production.
+// Prefer an explicit env; otherwise use Vercel's built-in production-domain var
+// (set automatically on every Vercel deploy) so share cards work with no config.
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : null) ||
+  "http://localhost:3000";
 const OG_TITLE = "HydMap — Every Hyderabad startup on one map";
 const OG_DESC =
   "Interactive map, hiring feed, jobs, funding stages, news and analytics for 1,000+ Hyderabad startups.";
