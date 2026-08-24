@@ -24,6 +24,7 @@ export async function GET(req) {
       sector: s.sector,
       fundingStage: s.fundingStage,
       website: s.website,
+      logoUrl: s.logoUrl || null,
       area: s.area,
       hiring: hiring ? { count: hiring.count ?? null, roles: hiring.roles || [] } : null,
       founded: s.founded ?? null,
@@ -34,5 +35,9 @@ export async function GET(req) {
     };
   });
 
-  return NextResponse.json(slim);
+  return NextResponse.json(slim, {
+    headers: {
+      "Cache-Control": "no-store, max-age=0",
+    },
+  });
 }

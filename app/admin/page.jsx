@@ -48,14 +48,28 @@ export default function AdminPage() {
   }
 
   function openPlace(item) {
+    const matchedId = siteInfo[item.id]?.matches?.[0]?.id || "";
     setPlaceOpenId(item.id);
-    setPf({ type: "featured", startupId: item.startupId || "", days: item.days || 14, startsAt: today(), label: "Sponsored" });
+    setPf({
+      type: "featured",
+      startupId: item.placedStartupId || item.startupId || matchedId,
+      days: item.days || 14,
+      startsAt: today(),
+      label: "Sponsored",
+    });
     if (!siteInfo[item.id]) fetchSite(item);
   }
 
   async function activateSlot(item) {
+    const matches = siteInfo[item.id]?.matches || [];
+    const selectedMatch = matches.find((m) => m.id === pf.startupId.trim());
     if (pf.type === "featured" && !pf.startupId.trim()) {
       setNote("A startup ID is required to place a featured pin — use a matched startup below or paste an ID.");
+      setLastMapLink("");
+      return;
+    }
+    if (pf.type === "featured" && matches.length > 0 && !selectedMatch) {
+      setNote("Use one of the matched map listing IDs before activating. The display name will not work as a startupId.");
       setLastMapLink("");
       return;
     }
@@ -86,6 +100,7 @@ export default function AdminPage() {
 
       if (!res.ok) {
         setNote("Activate failed: " + (res.error || "unknown"));
+        setLastMapLink("");
         return;
       }
       setFeaturedReqs((rs) => rs.map((x) => (
@@ -488,7 +503,7 @@ export default function AdminPage() {
                   {r.status === "placed" ? "Placed ✓ · edit" : placeOpenId === r.id ? "Close" : "Place on map"}
                 </button>
               )}
-              {r.status === "placed" && (r.placedStartupId || r.startupId) && (
+              {r.status === "placed" && siteInfo[r.id]?.matches?.some((m) => m.id === (r.placedStartupId || r.startupId)) && (
                 <Link className="btn btn-ghost" href={`/?startup=${encodeURIComponent(r.placedStartupId || r.startupId)}`}>
                   View on map
                 </Link>
@@ -523,7 +538,12 @@ export default function AdminPage() {
                 <div className="place-matches">
                   <span className="form-sub">Matched map listings — click to use its ID:</span>
                   {siteInfo[r.id].matches.map((m) => (
-                    <button key={m.id} type="button" className="place-match-chip" onClick={() => setPf((p) => ({ ...p, startupId: m.id }))}>
+                    <button
+                      key={m.id}
+                      type="button"
+                      className={`place-match-chip${pf.startupId === m.id ? " is-selected" : ""}`}
+                      onClick={() => setPf((p) => ({ ...p, startupId: m.id }))}
+                    >
                       {m.name} <code>{m.id.slice(0, 8)}</code>
                     </button>
                   ))}
@@ -545,11 +565,11 @@ export default function AdminPage() {
                 </select>
               </label>
               <label className="field">
-                <span>{pf.type === "featured" ? "Startup ID" : pf.type === "gcc" ? "GCC ID" : "Company match"}</span>
+                <span>{pf.type === "featured" ? "Matched startup ID" : pf.type === "gcc" ? "GCC ID" : "Company match"}</span>
                 <input
                   value={pf.startupId}
                   onChange={(e) => setPf((p) => ({ ...p, startupId: e.target.value }))}
-                  placeholder={pf.type === "featured" ? "startupId" : pf.type === "gcc" ? "gccId" : "company name to boost"}
+                  placeholder={pf.type === "featured" ? "Click a matched listing above" : pf.type === "gcc" ? "gccId" : "company name to boost"}
                 />
               </label>
               <label className="field">

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
+import { getApproved } from "../../../../lib/store.js";
 
 export const dynamic = "force-dynamic";
 
@@ -53,10 +54,21 @@ export async function POST(req) {
   const start = startsAt ? new Date(startsAt) : new Date();
   const nDays = Math.max(1, Math.floor(Number(days) || 1));
   const end = new Date(start.getTime() + nDays * 86400000);
+  const cleanStartupId = type === "featured" ? String(startupId).trim() : null;
+
+  if (type === "featured") {
+    const startups = await getApproved();
+    if (!startups.some((s) => s.id === cleanStartupId)) {
+      return NextResponse.json(
+        { error: `No approved startup found with id "${cleanStartupId}". Use a matched listing id first.` },
+        { status: 400 }
+      );
+    }
+  }
 
   const doc = {
     type,
-    startupId: type === "featured" ? String(startupId).trim() : null,
+    startupId: cleanStartupId,
     gccId: type === "gcc" ? String(gccId).trim() : null,
     match: type === "jobBoost" ? match || {} : null,
     label: label || "Sponsored",
@@ -68,7 +80,18 @@ export async function POST(req) {
     createdAt: new Date().toISOString(),
   };
 
-  const ref = await db.collection("granted_placements").add(doc);
+  let ref = null;
+  let existingSlotId = null;
+  if (requestId) {
+    const requestSnap = await db.collection("featured_requests").doc(requestId).get();
+    existingSlotId = requestSnap.exists ? requestSnap.data()?.placedSlotId : null;
+  }
+  if (existingSlotId) {
+    ref = db.collection("granted_placements").doc(existingSlotId);
+    await ref.set(doc, { merge: true });
+  } else {
+    ref = await db.collection("granted_placements").add(doc);
+  }
 
   // Mark the originating payment request as placed (if any).
   if (requestId) {

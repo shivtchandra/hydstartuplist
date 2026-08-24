@@ -14,6 +14,7 @@ export async function GET(req, { params }) {
     id: s.id,
     name: s.name,
     website: s.website,
+    logoUrl: s.logoUrl || null,
     sector: s.sector,
     fundingStage: s.fundingStage,
     area: s.area,
@@ -24,5 +25,9 @@ export async function GET(req, { params }) {
     news: s.news || null,
     spotlight: s.spotlight === true,
     sponsored,
+  }, {
+    headers: {
+      "Cache-Control": "no-store, max-age=0",
+    },
   });
 }

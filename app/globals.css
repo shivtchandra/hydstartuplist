@@ -2568,6 +2568,12 @@ a:hover {
   color: var(--accent-primary);
 }
 
+.place-match-chip.is-selected {
+  border-color: rgba(255, 87, 34, 0.42);
+  background: var(--accent-soft);
+  color: var(--accent-primary);
+}
+
 .place-match-chip code {
   font-size: 11px;
   color: var(--text-light);

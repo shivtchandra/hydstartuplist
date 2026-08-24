@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import fs from "fs";
 import path from "path";
-import { getApproved } from "../../../../lib/store.js";
+import { getApproved, invalidateDynamicOverlay } from "../../../../lib/store.js";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 
 const DB = path.join(process.cwd(), "data", "startups.json");
@@ -73,6 +73,7 @@ export async function POST(req) {
 
       if (db) {
         await db.collection("startups_dynamic").doc(s.claimFor).set(overrides, { merge: true });
+        invalidateDynamicOverlay();
       } else {
         const list = JSON.parse(fs.readFileSync(DB, "utf-8"));
         const idx = list.findIndex((x) => x.id === s.claimFor);
@@ -112,6 +113,7 @@ export async function POST(req) {
 
     if (db) {
       await db.collection("startups_dynamic").doc(id).set({ ...entry, _full: true });
+      invalidateDynamicOverlay();
     } else {
       const list = JSON.parse(fs.readFileSync(DB, "utf-8"));
       list.push(entry);
