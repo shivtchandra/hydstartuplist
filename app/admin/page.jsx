@@ -22,6 +22,33 @@ export default function AdminPage() {
   const [nlResult, setNlResult] = useState(null);
   const [hiring, setHiring] = useState([]);
   const [hiringBusyId, setHiringBusyId] = useState(null);
+  const [featuredReqs, setFeaturedReqs] = useState([]);
+  const [frBusyId, setFrBusyId] = useState(null);
+
+  async function loadFeatured() {
+    try {
+      const res = await fetch("/api/admin/featured", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      setFeaturedReqs(res.requests || []);
+    } catch (e) {
+      setNote((n) => n || "Featured requests load failed: " + e.message);
+    }
+  }
+
+  async function setFeaturedStatus(item, status) {
+    setFrBusyId(item.id);
+    try {
+      await fetch("/api/admin/featured", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-passcode": PASSCODE },
+        body: JSON.stringify({ id: item.id, status }),
+      });
+      setFeaturedReqs((rs) => rs.map((x) => (x.id === item.id ? { ...x, status } : x)));
+    } catch (e) {
+      setNote("Featured update failed: " + e.message);
+    } finally {
+      setFrBusyId(null);
+    }
+  }
 
   async function loadHiring() {
     try {
@@ -100,7 +127,7 @@ export default function AdminPage() {
   }
 
   useEffect(() => {
-    if (authed) { load(); loadNewsletterPreview(); loadHiring(); }
+    if (authed) { load(); loadNewsletterPreview(); loadHiring(); loadFeatured(); }
   }, [authed]);
 
   async function approve(item) {
@@ -266,6 +293,58 @@ export default function AdminPage() {
               <button className="btn btn-ghost" disabled={busyId === item.id} onClick={() => reject(item)}>
                 Reject
               </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="admin-head" style={{ marginTop: 32 }}>
+        <div>
+          <h2 className="form-title" style={{ margin: 0, fontSize: 20 }}>Featured pin requests (UPI)</h2>
+          <p className="form-sub" style={{ margin: "2px 0 0" }}>
+            {featuredReqs.filter((r) => r.status === "pending_verification").length} awaiting verification.
+            Confirm the UPI transaction landed in your account, mark it Verified, then add the slot to
+            data/placements.json.
+          </p>
+        </div>
+      </div>
+
+      {featuredReqs.length === 0 && <p className="form-sub">No featured requests yet.</p>}
+
+      <div className="admin-list">
+        {featuredReqs.map((r) => (
+          <div key={r.id} className="admin-row">
+            <div className="admin-info">
+              <div className="admin-name">
+                {r.name}
+                {r.status === "verified" && <span className="admin-claim-badge">Verified</span>}
+                {r.status === "rejected" && <span className="admin-stale-badge">Rejected</span>}
+                {r.status === "pending_verification" && <span className="admin-stale-badge" style={{ background: "var(--accent-soft)", color: "var(--accent-primary)" }}>Pending</span>}
+              </div>
+              <div className="admin-meta">
+                ₹{(r.amount ?? 0).toLocaleString("en-IN")} · {r.days} days
+                {r.startupId && <> · id {r.startupId}</>}
+                {r.createdAt && <> · {new Date(r.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</>}
+              </div>
+              <div className="admin-desc">
+                UPI txn: <strong>{r.upiTxnId}</strong> → {r.upiVpa}
+                {" · "}
+                <a href={r.website} target="_blank" rel="noreferrer">{(r.website || "").replace(/^https?:\/\//, "")}</a>
+                {" · "}{r.contactEmail}
+                {r.notes && <> · {r.notes}</>}
+              </div>
+            </div>
+            <div className="admin-actions">
+              {r.status !== "verified" && (
+                <button className="btn cmd-submit" disabled={frBusyId === r.id} onClick={() => setFeaturedStatus(r, "verified")}>
+                  {frBusyId === r.id ? "…" : "Verify"}
+                </button>
+              )}
+              {r.status !== "rejected" && (
+                <button className="btn btn-ghost" disabled={frBusyId === r.id} onClick={() => setFeaturedStatus(r, "rejected")}>
+                  Reject
+                </button>
+              )}
             </div>
           </div>
         ))}

@@ -13,29 +13,20 @@ import {
 const PRESETS = FEATURED_PRICING.packages;
 const TABLE = featuredPricingTable();
 
-function loadRazorpayScript() {
-  return new Promise((resolve, reject) => {
-    if (typeof window === "undefined") {
-      reject(new Error("Checkout only runs in the browser"));
-      return;
-    }
-    if (window.Razorpay) {
-      resolve();
-      return;
-    }
-    const existing = document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]');
-    if (existing) {
-      existing.addEventListener("load", () => resolve());
-      existing.addEventListener("error", () => reject(new Error("Failed to load Razorpay")));
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error("Failed to load Razorpay"));
-    document.body.appendChild(script);
+// Manual UPI payment: buyer pays this VPA, then submits the UPI transaction id.
+const UPI_VPA = "shivachandra9490-1@okaxis";
+const UPI_PAYEE = "Hyderabad Startup Map";
+
+/** Build a upi:// intent link that pre-fills payee + amount in any UPI app. */
+function upiLink(amount, note) {
+  const p = new URLSearchParams({
+    pa: UPI_VPA,
+    pn: UPI_PAYEE,
+    am: String(amount),
+    cu: "INR",
+    tn: note || "Featured pin",
   });
+  return `upi://pay?${p.toString()}`;
 }
 
 function FeatureForm() {
@@ -53,10 +44,11 @@ function FeatureForm() {
   });
   const [daysMode, setDaysMode] = useState(14);
   const [customDays, setCustomDays] = useState(21);
-  const [status, setStatus] = useState("idle"); // idle | saving | checkout | done | unpaid | error
+  const [status, setStatus] = useState("idle"); // idle | pay | saving | done | error
   const [error, setError] = useState("");
   const [confirmed, setConfirmed] = useState(null);
-  const [bookingId, setBookingId] = useState(null);
+  const [upiTxnId, setUpiTxnId] = useState("");
+  const [copied, setCopied] = useState(false);
 
   const selectedDays = daysMode === "custom" ? customDays : daysMode;
   const quote = useMemo(() => quoteFeatured(selectedDays), [selectedDays]);
@@ -65,186 +57,82 @@ function FeatureForm() {
     return (e) => setForm({ ...form, [field]: e.target.value });
   }
 
-  async function openCheckout(order) {
-    await loadRazorpayScript();
-    setStatus("checkout");
-
-    return new Promise((resolve) => {
-      const rzp = new window.Razorpay({
-        key: order.keyId,
-        amount: order.amountPaise,
-        currency: order.currency || "INR",
-        name: "Hyderabad Startup Map",
-        description: `Featured pin · ${order.days} days`,
-        order_id: order.orderId,
-        prefill: {
-          name: form.name.trim(),
-          email: form.contactEmail.trim(),
-        },
-        notes: {
-          bookingId: order.bookingId,
-        },
-        theme: { color: "#1a1a1a" },
-        handler: async (response) => {
-          try {
-            const verify = await fetch("/api/featured/verify", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                bookingId: order.bookingId,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              }),
-            }).then((r) => r.json());
-
-            if (!verify.ok) {
-              setError(verify.error || "Payment received but verification failed. Contact us with your payment ID.");
-              setConfirmed({
-                days: order.days,
-                amount: order.amount,
-                display: order.display,
-                bookingId: order.bookingId,
-              });
-              setStatus("unpaid");
-              resolve("verify_failed");
-              return;
-            }
-
-            setConfirmed({
-              days: order.days,
-              amount: order.amount,
-              display: order.display,
-              bookingId: order.bookingId,
-              paid: true,
-            });
-            setStatus("done");
-            resolve("paid");
-          } catch (err) {
-            setError(err.message || "Verification failed");
-            setConfirmed({
-              days: order.days,
-              amount: order.amount,
-              display: order.display,
-              bookingId: order.bookingId,
-            });
-            setStatus("unpaid");
-            resolve("verify_error");
-          }
-        },
-        modal: {
-          ondismiss: () => {
-            setConfirmed({
-              days: order.days,
-              amount: order.amount,
-              display: order.display,
-              bookingId: order.bookingId,
-            });
-            setBookingId(order.bookingId);
-            setStatus("unpaid");
-            setError("Payment was not completed. You can retry anytime — your booking is saved.");
-            resolve("dismissed");
-          },
-        },
-      });
-
-      rzp.on("payment.failed", (resp) => {
-        const desc = resp?.error?.description || "Payment failed";
-        setError(desc);
-        setConfirmed({
-          days: order.days,
-          amount: order.amount,
-          display: order.display,
-          bookingId: order.bookingId,
-        });
-        setBookingId(order.bookingId);
-        setStatus("unpaid");
-        resolve("failed");
-      });
-
-      rzp.open();
-    });
-  }
-
-  async function createOrderAndPay({ retry = false } = {}) {
-    setStatus("saving");
-    setError("");
-    const q = quoteFeatured(selectedDays);
-
+  async function copyVpa() {
     try {
-      const payload = retry && bookingId
-        ? { bookingId }
-        : {
-            name: form.name.trim(),
-            website: form.website.trim(),
-            contactEmail: form.contactEmail.trim(),
-            startupId: form.startupId.trim() || null,
-            days: q.days,
-            startPreference: form.startPreference || null,
-            notes: form.notes.trim() || null,
-          };
-
-      const res = await fetch("/api/featured/create-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      }).then((r) => r.json());
-
-      if (res.alreadyPaid) {
-        setConfirmed({
-          days: q.days,
-          amount: res.amount,
-          display: formatINR(res.amount),
-          bookingId: res.bookingId,
-          paid: true,
-        });
-        setStatus("done");
-        return;
-      }
-
-      if (!res.ok) {
-        setError(
-          res.configured === false
-            ? res.error || "Payments are not configured yet. Please try again later."
-            : res.error || "Could not start checkout."
-        );
-        // Keep retry screen if we already have a booking; otherwise show form error.
-        setStatus(bookingId || (retry && confirmed) ? "unpaid" : "error");
-        return;
-      }
-
-      setBookingId(res.bookingId);
-      await openCheckout(res);
-    } catch (err) {
-      setError(err.message || "Could not start payment. Try again.");
-      setStatus("error");
+      await navigator.clipboard.writeText(UPI_VPA);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    } catch {
+      /* clipboard blocked — the VPA is shown for manual copy anyway */
     }
   }
 
-  async function handleSubmit(e) {
+  // Step 1: form submit — validate, then move to the UPI pay screen (no write yet;
+  // we only record a request once the buyer says they've paid and gives a txn id).
+  function handleSubmit(e) {
     e.preventDefault();
-    await createOrderAndPay({ retry: false });
+    setError("");
+    if (!form.name.trim() || !form.website.trim() || !form.contactEmail.trim()) {
+      setError("Please fill startup name, website and contact email.");
+      return;
+    }
+    setStatus("pay");
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  async function handleRetry() {
-    await createOrderAndPay({ retry: true });
+  // Step 2: buyer has paid via UPI and entered the transaction id — record it.
+  async function submitTxn() {
+    if (!upiTxnId.trim()) {
+      setError("Enter the UPI transaction / reference ID from your payment app.");
+      return;
+    }
+    setStatus("saving");
+    setError("");
+    try {
+      const res = await fetch("/api/featured/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          website: form.website.trim(),
+          contactEmail: form.contactEmail.trim(),
+          startupId: form.startupId.trim() || null,
+          days: quote.days,
+          startPreference: form.startPreference || null,
+          notes: form.notes.trim() || null,
+          upiTxnId: upiTxnId.trim(),
+        }),
+      }).then((r) => r.json());
+
+      if (!res.ok) {
+        setError(res.error || "Could not submit your request. Try again.");
+        setStatus("pay");
+        return;
+      }
+      setConfirmed({ days: quote.days, display: quote.display, requestId: res.requestId });
+      setStatus("done");
+    } catch (err) {
+      setError(err.message || "Could not submit. Try again.");
+      setStatus("pay");
+    }
   }
 
-  if (status === "done" && confirmed?.paid) {
+  if (status === "done") {
     return (
       <div className="form-page feature-page">
         <div className="form-card form-done">
           <div className="form-check">✓</div>
-          <h2>Payment received</h2>
+          <h2>Request received</h2>
           <p className="feature-confirm-line">
             {confirmed.days} days · {confirmed.display}
           </p>
           <p>
-            Thanks — your featured spot is paid and queued for review. We&apos;ll activate the Sponsored pin
-            once availability is confirmed (max {FEATURED_PRICING.maxPins} featured pins).
+            Thanks — we&apos;ve got your payment details. We&apos;ll verify the UPI transaction and
+            activate your Sponsored pin (max {FEATURED_PRICING.maxPins} featured pins). You&apos;ll hear
+            from us at <strong>{form.contactEmail.trim()}</strong>.
           </p>
-          {confirmed.bookingId ? (
-            <p className="feature-pay-note">Reference: {confirmed.bookingId}</p>
+          {confirmed.requestId ? (
+            <p className="feature-pay-note">Reference: {confirmed.requestId}</p>
           ) : null}
           <div className="feature-done-actions">
             <Link className="btn cmd-submit" href="/">
@@ -259,37 +147,61 @@ function FeatureForm() {
     );
   }
 
-  const showUnpaid =
-    confirmed &&
-    !confirmed.paid &&
-    (status === "unpaid" || status === "saving" || status === "checkout");
-
-  if (showUnpaid) {
-    const busy = status === "saving" || status === "checkout";
+  if (status === "pay" || status === "saving") {
+    const busy = status === "saving";
     return (
       <div className="form-page feature-page">
-        <div className="form-card form-done">
-          <h2>Payment incomplete</h2>
-          <p className="feature-confirm-line">
-            {confirmed.days} days · {confirmed.display}
+        <div className="form-card">
+          <button type="button" className="form-back" onClick={() => setStatus("idle")}>
+            ← Edit details
+          </button>
+          <h1 className="form-title">Pay by UPI</h1>
+          <p className="form-sub">
+            Pay <strong>{quote.display}</strong> for <strong>{form.name.trim()}</strong> ({quote.days} days),
+            then enter your UPI transaction ID below. We verify it and activate your Sponsored pin.
           </p>
-          <p>
-            Your booking is saved as unpaid. Complete payment to lock the featured request —
-            limited inventory (max {FEATURED_PRICING.maxPins}).
-          </p>
-          {error && status === "unpaid" ? <div className="form-error">{error}</div> : null}
-          <div className="feature-done-actions">
-            <button className="btn cmd-submit" type="button" onClick={handleRetry} disabled={busy}>
-              {status === "saving"
-                ? "Creating order…"
-                : status === "checkout"
-                  ? "Waiting for payment…"
-                  : `Retry payment · ${confirmed.display}`}
-            </button>
-            <Link className="feature-link-muted" href="/">
-              ← Back to map
-            </Link>
+
+          <div className="upi-pay-box">
+            <div className="upi-amount">
+              <span className="upi-amount-kicker">Amount</span>
+              <strong>{quote.display}</strong>
+            </div>
+            <div className="upi-vpa-row">
+              <div className="upi-vpa">
+                <span className="upi-vpa-label">Pay to UPI ID</span>
+                <span className="upi-vpa-value">{UPI_VPA}</span>
+              </div>
+              <button type="button" className="btn btn-ghost upi-copy" onClick={copyVpa}>
+                {copied ? "Copied ✓" : "Copy"}
+              </button>
+            </div>
+            <a className="btn cmd-submit upi-app-btn" href={upiLink(quote.amount, `Featured ${quote.days}d`)}>
+              Open UPI app to pay
+            </a>
+            <p className="upi-hint">
+              On desktop? Open any UPI app (GPay / PhonePe / Paytm) on your phone, pay <strong>{quote.display}</strong> to
+              the ID above, then come back and paste the transaction ID.
+            </p>
           </div>
+
+          <label className="field">
+            <span>UPI transaction / reference ID *</span>
+            <input
+              placeholder="e.g. 4312xxxxxx or UTR from your UPI app"
+              value={upiTxnId}
+              onChange={(e) => setUpiTxnId(e.target.value)}
+            />
+          </label>
+
+          {error && <div className="form-error">{error}</div>}
+
+          <button className="btn cmd-submit" type="button" onClick={submitTxn} disabled={busy}>
+            {busy ? "Submitting…" : "I've paid — submit for verification"}
+          </button>
+          <p className="feature-pay-note">
+            No auto-charge. This just records that you paid {quote.display} to {UPI_VPA}; we confirm it manually
+            before your pin goes live.
+          </p>
         </div>
       </div>
     );
@@ -308,7 +220,7 @@ function FeatureForm() {
         </p>
 
         <div className="feature-scarcity" role="note">
-          Limited featured pins (max {FEATURED_PRICING.maxPins}) · Pay securely via Razorpay on submit
+          Limited featured pins (max {FEATURED_PRICING.maxPins}) · Pay by UPI, we verify &amp; activate
         </div>
 
         <div className="feature-pricing-table" aria-label="Featured pin pricing">
@@ -385,7 +297,7 @@ function FeatureForm() {
               <strong className="feature-quote-amount">{quote.display}</strong>
             </div>
             <span className="feature-quote-meta">
-              {quote.days} days · ~{formatINR(quote.effectiveDaily)}/day · INR · Razorpay checkout
+              {quote.days} days · ~{formatINR(quote.effectiveDaily)}/day · INR · pay by UPI
             </span>
           </div>
 
@@ -446,20 +358,13 @@ function FeatureForm() {
 
           {status === "error" && <div className="form-error">{error}</div>}
 
-          <button
-            className="btn cmd-submit"
-            type="submit"
-            disabled={status === "saving" || status === "checkout"}
-          >
-            {status === "saving"
-              ? "Creating order…"
-              : status === "checkout"
-                ? "Waiting for payment…"
-                : `Pay ${quote.display} · Get featured`}
+          <button className="btn cmd-submit" type="submit">
+            Continue to UPI payment · {quote.display}
           </button>
           <p className="feature-pay-note">
-            You&apos;ll pay now via Razorpay. After payment we review and activate your Sponsored pin.
-            Map listing itself stays free — <Link href="/submit">submit a basic pin</Link> anytime.
+            Next you&apos;ll pay {quote.display} by UPI and submit the transaction ID. We verify it and
+            activate your Sponsored pin. Map listing itself stays free —{" "}
+            <Link href="/submit">submit a basic pin</Link> anytime.
           </p>
         </form>
       </div>

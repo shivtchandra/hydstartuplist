@@ -2357,6 +2357,92 @@ a:hover {
   margin: 4px 0 8px;
 }
 
+/* ── UPI manual-payment box (on /feature) ─────────────────────────── */
+.upi-pay-box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  margin: 4px 0 18px;
+}
+
+.upi-amount {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.upi-amount-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.upi-amount strong {
+  font-family: var(--font-heading);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--accent-primary);
+}
+
+.upi-vpa-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--surface-card);
+  border: 1px dashed var(--accent-primary);
+  border-radius: var(--radius-sm);
+}
+
+.upi-vpa {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.upi-vpa-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.upi-vpa-value {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+  word-break: break-all;
+}
+
+.upi-copy {
+  flex-shrink: 0;
+  height: 34px;
+  padding: 0 14px;
+  font-size: 12.5px;
+}
+
+.upi-app-btn {
+  width: 100%;
+}
+
+.upi-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
 .feature-done-actions {
   display: flex;
   flex-direction: column;

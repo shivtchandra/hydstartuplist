@@ -1,5 +1,5 @@
 {
-  "_doc": "Manual monetization placements. Edit + redeploy to sell inventory (Razorpay checkout at /feature). Basic map listings stay free. spotlight=true on startups.json is editorial/free; slots here are paid Sponsored. Dates ISO; omit endsAt for open-ended. Leave featuredPins.slots empty to show honest Available placeholders in the UI. Fill chromeSlots.mapSidebar with live copy when sold, or keep mode:available for inventory CTA. Featured booking form: /feature. Day rates live in lib/featured-pricing.js.",
+  "_doc": "Manual monetization placements. Edit + redeploy to sell inventory (UPI pay + admin verification at /feature; requests land in Firestore featured_requests, verify in /admin, then add the slot here). Basic map listings stay free. spotlight=true on startups.json is editorial/free; slots here are paid Sponsored. Dates ISO; omit endsAt for open-ended. Leave featuredPins.slots empty to show honest Available placeholders in the UI. Fill chromeSlots.mapSidebar with live copy when sold, or keep mode:available for inventory CTA. Featured booking form: /feature. Day rates live in lib/featured-pricing.js.",
   "featuredPins": {
     "maxActive": 5,
     "slots": []
