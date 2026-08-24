@@ -50,11 +50,11 @@ function useLeafletMap(containerRef) {
         zoomAnimation: true,
       });
       L.control.zoom({ position: "bottomright" }).addTo(mapRef.current);
-      // Standard OpenStreetMap tiles keep parks, lakes, roads and local labels
-      // colorful like the social map references.
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      // Colorful roads/parks/water without third-party POI labels; startup
+      // markers should be the only business pins on the map.
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png", {
         attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
         maxZoom: 20,
       }).addTo(mapRef.current);
       layerRef.current = L.markerClusterGroup({
