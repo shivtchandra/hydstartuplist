@@ -1,8 +1,8 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../lib/firebase.js";
 
@@ -13,6 +13,14 @@ function SubmitForm() {
   const params = useSearchParams();
   const claimFor = params.get("claim") || null;
   const claimName = params.get("name") || "";
+  const wantFeatured = params.get("intent") === "featured";
+
+  const router = useRouter();
+  useEffect(() => {
+    if (wantFeatured && !claimFor) {
+      router.replace("/feature");
+    }
+  }, [wantFeatured, claimFor, router]);
 
   const [form, setForm] = useState({
     name: claimName, website: "", sector: "AI", fundingStage: "Seed", area: "", description: "", hiring: false,
@@ -37,12 +45,18 @@ function SubmitForm() {
         status: "pending",
         createdAt: serverTimestamp(),
         ...(claimFor ? { claimFor } : {}),
+        ...(wantFeatured ? { intent: "featured" } : {}),
       });
       setStatus("done");
     } catch (err) {
       setError(err.message || "Could not submit. Try again.");
       setStatus("error");
     }
+  }
+
+  // Featured ads use the dedicated /feature form — don't render mid-redirect.
+  if (wantFeatured && !claimFor) {
+    return null;
   }
 
   if (status === "done") {
@@ -56,7 +70,7 @@ function SubmitForm() {
               ? "Thanks! Your claim is pending review. Once approved, this listing will show your updates."
               : "Thanks! Your startup is now pending. Once approved it will appear on the map."}
           </p>
-          <Link className="btn" href="/">Back to map</Link>
+          <Link className="btn cmd-submit" href="/">← Back to map</Link>
         </div>
       </div>
     );
@@ -70,8 +84,15 @@ function SubmitForm() {
         <p className="form-sub">
           {claimFor
             ? "Update this listing's details. Changes are reviewed before they go live."
-            : "Add a Hyderabad startup to the map. Submissions are reviewed before they go live."}
+            : wantFeatured
+              ? "Map listing stays free. Tell us you want a Featured / Sponsored pin — limited inventory, reviewed manually."
+              : "Add a Hyderabad startup to the map. Submissions are reviewed before they go live."}
         </p>
+        {wantFeatured && !claimFor && (
+          <div className="form-featured-note" role="note">
+            Featured pin request — listing stays free; Sponsored placement is limited and reviewed manually.
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="form-grid">
           <label className="field">
             <span>Startup name *</span>

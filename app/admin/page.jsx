@@ -75,7 +75,18 @@ export default function AdminPage() {
     setLoading(true);
     try {
       const snap = await getDocs(query(collection(db, "pending"), orderBy("createdAt", "desc")));
-      setPending(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+      const rows = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+      rows.sort((a, b) => {
+        const aFeat = a.intent === "featured" || a.type === "featured_booking";
+        const bFeat = b.intent === "featured" || b.type === "featured_booking";
+        if (aFeat && bFeat) {
+          const aPaid = a.paymentStatus === "paid" ? 0 : 1;
+          const bPaid = b.paymentStatus === "paid" ? 0 : 1;
+          if (aPaid !== bPaid) return aPaid - bPaid;
+        }
+        return 0;
+      });
+      setPending(rows);
     } catch (e) {
       setNote("Load failed: " + e.message);
     }
@@ -118,6 +129,20 @@ export default function AdminPage() {
       );
     } catch (e) {
       setNote("Approve failed: " + e.message);
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  async function dismissFeatured(item) {
+    if (!confirm(`Mark featured request for "${item.name}" as handled and remove from queue?`)) return;
+    setBusyId(item.id);
+    try {
+      await deleteDoc(doc(db, "pending", item.id));
+      setPending((p) => p.filter((x) => x.id !== item.id));
+      setNote(`Handled featured request — ${item.name} (${item.days}d · ₹${(item.amount || 0).toLocaleString("en-IN")}).`);
+    } catch (e) {
+      setNote("Dismiss failed: " + e.message);
     } finally {
       setBusyId(null);
     }
@@ -186,21 +211,58 @@ export default function AdminPage() {
               <div className="admin-name">
                 {item.name}
                 {item.claimFor && <span className="admin-claim-badge">Claim</span>}
+                {(item.intent === "featured" || item.type === "featured_booking") && (
+                  <>
+                    <span className="admin-claim-badge">Featured · {item.days}d · ₹{(item.amount || 0).toLocaleString("en-IN")}</span>
+                    <span className={`admin-pay-badge ${item.paymentStatus === "paid" ? "is-paid" : "is-unpaid"}`}>
+                      {item.paymentStatus === "paid" ? "Paid" : "Unpaid"}
+                    </span>
+                    {item.status === "paid_pending_review" && (
+                      <span className="admin-claim-badge">Awaiting activation</span>
+                    )}
+                  </>
+                )}
               </div>
               <div className="tags">
-                <span className="tag">{item.sector}</span>
-                <span className="tag tag-stage">{item.fundingStage}</span>
+                {item.sector && <span className="tag">{item.sector}</span>}
+                {item.fundingStage && <span className="tag tag-stage">{item.fundingStage}</span>}
+                {item.contactEmail && <span className="tag">{item.contactEmail}</span>}
               </div>
-              <div className="admin-desc">{item.description || <em>no description</em>}</div>
+              <div className="admin-desc">
+                {item.intent === "featured" || item.type === "featured_booking"
+                  ? (item.notes || (
+                      <em>
+                        {item.paymentStatus === "paid"
+                          ? "Featured booking — paid, activate Sponsored pin when ready"
+                          : "Featured booking — unpaid (checkout incomplete or not configured)"}
+                      </em>
+                    ))
+                  : (item.description || <em>no description</em>)}
+              </div>
               <div className="admin-meta">
-                {item.area}
+                {item.area || (item.startupId ? `startupId: ${item.startupId}` : null)}
                 {item.website && <> · <a href={item.website} target="_blank" rel="noreferrer">{item.website.replace(/^https?:\/\//, "")}</a></>}
+                {item.startPreference && <> · start {item.startPreference}</>}
+                {(item.intent === "featured" || item.type === "featured_booking") && item.razorpayPaymentId && (
+                  <> · pay {item.razorpayPaymentId}</>
+                )}
               </div>
             </div>
             <div className="admin-actions">
-              <button className="btn cmd-submit" disabled={busyId === item.id} onClick={() => approve(item)}>
-                {busyId === item.id ? "…" : "Approve"}
-              </button>
+              {item.intent === "featured" || item.type === "featured_booking" ? (
+                <button
+                  className="btn cmd-submit"
+                  disabled={busyId === item.id}
+                  onClick={() => dismissFeatured(item)}
+                  title="Dismiss after you activate the Sponsored placement"
+                >
+                  {busyId === item.id ? "…" : "Mark handled"}
+                </button>
+              ) : (
+                <button className="btn cmd-submit" disabled={busyId === item.id} onClick={() => approve(item)}>
+                  {busyId === item.id ? "…" : "Approve"}
+                </button>
+              )}
               <button className="btn btn-ghost" disabled={busyId === item.id} onClick={() => reject(item)}>
                 Reject
               </button>

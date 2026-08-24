@@ -3,13 +3,10 @@
 import { useEffect, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
 import LoadingScreen from "../components/LoadingScreen.jsx";
-import { colorFor, faviconUrl, prettyName, domainOf } from "../../lib/startupUi.js";
+import { colorFor, logoSrcs, prettyName } from "../../lib/startupUi.js";
 
 function FeedLogoBadge({ startup, size = 38 }) {
-  const domain = domainOf(startup.website);
-  const srcs = domain
-    ? [`https://logo.clearbit.com/${domain}?size=128`, faviconUrl(startup.website)]
-    : [];
+  const srcs = logoSrcs(startup.website);
   const [stage, setStage] = useState(0);
   useEffect(() => { setStage(0); }, [startup.website]);
 

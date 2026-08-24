@@ -17,12 +17,24 @@ async function fetchDataUri(url) {
   }
 }
 
-// Real logo first (Clearbit), fall back to Google favicon.
+// Clearbit → Google favicon → DuckDuckGo → same-origin favicon paths.
 async function fetchLogoDataUri(domain) {
-  return (
-    (await fetchDataUri(`https://logo.clearbit.com/${encodeURIComponent(domain)}?size=64`)) ||
-    (await fetchDataUri(`https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=64`))
-  );
+  const bare = domain.replace(/^www\./, "");
+  const hosts = [...new Set([domain, bare, `www.${bare}`].filter(Boolean))];
+  for (const h of hosts) {
+    const uri =
+      (await fetchDataUri(`https://logo.clearbit.com/${encodeURIComponent(h)}?size=64`)) ||
+      (await fetchDataUri(`https://www.google.com/s2/favicons?domain=${encodeURIComponent(h)}&sz=64`)) ||
+      (await fetchDataUri(`https://icons.duckduckgo.com/ip3/${encodeURIComponent(h)}.ico`));
+    if (uri) return uri;
+  }
+  for (const h of hosts) {
+    for (const path of ["/apple-touch-icon.png", "/favicon.svg", "/favicon.ico", "/favicon-32x32.png", "/favicon.png"]) {
+      const uri = await fetchDataUri(`https://${h}${path}`);
+      if (uri) return uri;
+    }
+  }
+  return null;
 }
 
 export async function GET(req) {

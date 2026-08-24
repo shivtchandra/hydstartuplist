@@ -1,0 +1,57 @@
+{
+  "_doc": "Manual monetization placements. Edit + redeploy to sell inventory (Razorpay checkout at /feature). Basic map listings stay free. spotlight=true on startups.json is editorial/free; slots here are paid Sponsored. Dates ISO; omit endsAt for open-ended. Leave featuredPins.slots empty to show honest Available placeholders in the UI. Fill chromeSlots.mapSidebar with live copy when sold, or keep mode:available for inventory CTA. Featured booking form: /feature. Day rates live in lib/featured-pricing.js.",
+  "featuredPins": {
+    "maxActive": 5,
+    "slots": []
+  },
+  "gccHiringSpotlight": {
+    "maxActive": 3,
+    "slots": []
+  },
+  "sponsoredJobBoosts": {
+    "maxActive": 8,
+    "slots": []
+  },
+  "chromeSlots": {
+    "homepageBanner": null,
+    "mapSidebar": {
+      "headline": "Featured partner spot",
+      "body": "Limited featured pins open — Sponsored placement on the map.",
+      "ctaLabel": "Reserve a spot",
+      "ctaHref": "/feature",
+      "mode": "available"
+    }
+  },
+  "newsletterSponsor": null,
+  "_examples": {
+    "featuredPins.slots[]": {
+      "startupId": "ce8748f6-8eb8-487f-9a95-b49e928853cd",
+      "label": "Sponsored",
+      "startsAt": "2026-08-01",
+      "endsAt": "2026-09-01",
+      "note": "Acme Q3 pin — invoice #…"
+    },
+    "gccHiringSpotlight.slots[]": {
+      "gccId": "amazon",
+      "label": "Hiring spotlight",
+      "startsAt": "2026-08-01",
+      "endsAt": "2026-09-01"
+    },
+    "sponsoredJobBoosts.slots[]": {
+      "match": {
+        "companyIncludes": "Zenoti"
+      },
+      "label": "Sponsored",
+      "startsAt": "2026-08-01",
+      "endsAt": "2026-09-01"
+    }
+  },
+  "sales": {
+    "headline": "Feature this pin",
+    "body": "Limited featured pins — stand out above free listings. Map listing itself stays free.",
+    "ctaLabel": "Get featured",
+    "ctaHref": "/feature",
+    "pricingConfig": "lib/featured-pricing.js",
+    "formHref": "/feature"
+  }
+}

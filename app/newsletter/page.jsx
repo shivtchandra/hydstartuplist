@@ -5,13 +5,13 @@ import Link from "next/link";
 import SiteNav from "../components/SiteNav.jsx";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../lib/firebase.js";
-import { colorFor, faviconUrl, prettyName, normalizeArea } from "../../lib/startupUi.js";
+import { colorFor, logoSrcs, prettyName, normalizeArea } from "../../lib/startupUi.js";
 
 function LogoBadge({ name, website, sector, size = 36 }) {
-  const fav = faviconUrl(website);
-  const [failed, setFailed] = useState(false);
-  if (fav && !failed) {
-    return <img className="card-logo" src={fav} alt="" width={size} height={size} style={{ width: size, height: size }} onError={() => setFailed(true)} />;
+  const srcs = logoSrcs(website);
+  const [stage, setStage] = useState(0);
+  if (stage < srcs.length) {
+    return <img className="card-logo" src={srcs[stage]} alt="" width={size} height={size} style={{ width: size, height: size }} onError={() => setStage((s) => s + 1)} />;
   }
   return (
     <div className="card-logo-fallback" style={{ width: size, height: size, background: colorFor(sector) }}>

@@ -3,13 +3,10 @@
 import { useEffect, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
 import LoadingScreen from "../components/LoadingScreen.jsx";
-import { colorFor, faviconUrl, prettyName, domainOf } from "../../lib/startupUi.js";
+import { colorFor, logoSrcs, prettyName } from "../../lib/startupUi.js";
 
 function NewsLogoBadge({ companyName, website, sector, size = 38 }) {
-  const domain = domainOf(website);
-  const srcs = domain
-    ? [`https://logo.clearbit.com/${domain}?size=128`, faviconUrl(website)]
-    : [];
+  const srcs = logoSrcs(website);
   const [stage, setStage] = useState(0);
   useEffect(() => { setStage(0); }, [website]);
 

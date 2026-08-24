@@ -1,5 +1,19 @@
 [
   {
+    "id": "b141da39-e987-47f5-9d7f-d8a4a475b09d",
+    "name": "Darwinbox",
+    "website": "https://www.darwinbox.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": null,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
     "id": "7566fb7b-eb4c-4cad-8886-bd7a46210f8f",
     "name": "Pi Datacenters",
     "website": "https://www.pidatacenters.com",
@@ -140,6 +154,5421 @@
     "km": 2.82,
     "issues": [
       "no-logo"
+    ]
+  },
+  {
+    "id": "e8d2551b-4093-4b99-b129-76518b8c34ff",
+    "name": "JEH Aerospace",
+    "website": "https://www.jehaerospace.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "location-ok",
+    "placeDomain": "jeh.aero",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a95d4efa-81cb-4110-b566-8b96b11efeb0",
+    "name": "Freyr Energy",
+    "website": "https://www.freyrenergy.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": null,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "c6038ad1-6128-4519-8c76-7b0cc2e4deb6",
+    "name": "Banyan Nation",
+    "website": "https://www.banyannation.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "banyannation.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ffc00bc6-764a-40f2-8c65-596d26daae4d",
+    "name": "Quantum Energy",
+    "website": "https://www.quantumenergy.co.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "quantumenergy.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "fb5fd7a4-e468-46f0-9c9c-bbd1c4e7750d",
+    "name": "Apollo Micro Systems",
+    "website": "https://www.apollo-micro.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "apollo-micro.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1957d16d-fa8b-4f0d-978e-97ed4df9406b",
+    "name": "Kisanwala",
+    "website": "https://www.kisanwala.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "kisanwala.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1f5847f1-db61-45f5-abce-259477662b9b",
+    "name": "uBlood",
+    "website": "https://ublood.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 2.46,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "c48024c1-f457-4448-a2a9-c03dcab0ada7",
+    "name": "UNOCAREER SERVICES PRIVATE LIMITED",
+    "website": "https://www.unocareer.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "unocareer.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2d8a2c90-353f-45d8-bb2c-e87c94a7173a",
+    "name": "GEOSILICON TECHNOLOGIES (OPC) PRIVATE LIMITED",
+    "website": "http://www.geo-silicon.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "geo-silicon.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "46f2c225-56d5-4162-9531-ec347a3164c6",
+    "name": "TechnoHouse IT Solutions",
+    "website": "http://technohouseit.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "technohouseit.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "330c4cdb-cbb7-47a2-b361-2f287dfaf51b",
+    "name": "COX QUALITY TECHNOLOGY SOLUTIONS PRIVATE LIMITED",
+    "website": "https://www.qualitythought.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "coacts.in",
+    "km": 10.32,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "b089306f-3a8d-4e88-9230-886bb7067e62",
+    "name": "INKPROG TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://inkprog.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "inkprog.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "9e3a1584-90ce-4890-a3f1-4f0dd8493902",
+    "name": "Antariksh Technology Ventures (OPC) Pvt Ltd",
+    "website": "https://antariksh.co",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "antariksh.co",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "667d915c-3ca2-4abb-bacd-50ef6efb2f0b",
+    "name": "EZTax.in",
+    "website": "https://eztax.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "eztax.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "81c401c5-f889-4de9-b73d-fad4fc75dd3d",
+    "name": "P&S INFOSOFT TECHNOLOGIES LLP",
+    "website": "http://www.rootsinfosoft.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "spsoftglobal.com",
+    "km": 2.46,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "067e3dbc-e64d-4af4-a1c0-75d15d51c6c8",
+    "name": "Srinivas",
+    "website": "http://www.gsvca.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "book.healthplix.com",
+    "km": 6.83,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "d62b1e02-e0ce-4a8e-94a2-ea9cf1cf107b",
+    "name": "ARTERAS ENGINEERING SERVICES PRIVATE LIMITED",
+    "website": "https://arteras-inc.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "arteras-inc.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "88cb4214-20bd-48ee-bfb6-ecd9b88703c4",
+    "name": "GAZO DOCUMENT SOLUTIONS PRIVATE LIMITED",
+    "website": "http://gazoindia.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "gazoindia.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f2e4b359-c87e-463b-a88f-20f3ae120719",
+    "name": "XOOT ACCESS TECH PRIVATE LIMITED",
+    "website": "http://www.myxoot.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "myxoot.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "b5fd5c79-ff6c-4121-a98b-61f129914638",
+    "name": "AVISHKAR SOFT LABS PRIVATE LIMITED (OPC)",
+    "website": "http://www.avishkarsoftlabs.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": null,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "82017d78-1999-4146-bebc-86387ba19585",
+    "name": "glouniTech",
+    "website": "https://glounitech.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "global-tech-computers.grexa.site",
+    "km": 15.52,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "7868d995-a493-436f-af63-21f977ead6ab",
+    "name": "Vencertec",
+    "website": "http://www.vencertec.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vencertec.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "749039be-cabd-441e-bf09-978a91f0f961",
+    "name": "PENCAP TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://www.pencaptech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "pencaptech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "d85a63b1-07df-410d-aa0f-c2986ccce48b",
+    "name": "SIYANDA TECHLOGICS PRIVATE LIMITED",
+    "website": "https://siyanda-techlogics-pvt-ltd.ueniweb.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "siyanda-techlogics-pvt-ltd.ueniweb.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "b83a2760-d6bc-4962-8e1c-b617e36e8454",
+    "name": "ASMAN SOFTWARE SOLUTIONS PRIVATE LIMITED",
+    "website": "http://www.asmansoft.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "asmansoft.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c588683f-cbf7-4554-a12c-bd93c62d5b0b",
+    "name": "Sreeal Technologies Pvt Ltd ",
+    "website": "http://www.sreeal.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "sreeviaai.com",
+    "km": 18.4,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "4fa88cac-585a-4998-ad7f-82f794cb5c9c",
+    "name": "NAVIKARANA IT SOLUTIONS",
+    "website": "https://www.navikaranait.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "navikaranait.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "b4a776c9-48b5-4df8-bb65-a78766e54acb",
+    "name": "BSIT Software Services Private Limited",
+    "website": "http://www.bsitsoftware.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "bsitsoftware.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "008f62a9-062a-41c3-a1c9-907f4b746768",
+    "name": "RECHLINKS PRIVATE LIMITED",
+    "website": "http://rechlinks.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "rechlinks.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "0414cfa0-56d4-41b7-9ff1-ce02552d76de",
+    "name": "SUCCESS METRIC PRIVATE LIMITED",
+    "website": "https://www.successmetric.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "successmetric.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e2ee060e-aff8-4c2e-b42f-c70f704b64b0",
+    "name": "NECUN INNOVATIONS PRIVATE LIMITED",
+    "website": "http://www.necun.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "necun.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c11ff925-52e3-4a34-8554-09b94a47faf9",
+    "name": "ERASMUS TRAINING SERVICES PRIVATE LIMITED",
+    "website": "http://erasmus.co.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "erasmus.co.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "cf1a15a5-2536-44ec-b4c1-5f1b50365c26",
+    "name": "AMTECH",
+    "website": "http://www.amtechitsolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "amtechitsolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3d412dd3-e183-4b34-8357-39c804a093af",
+    "name": "SQUARE SOFTWARE LABS",
+    "website": "http://dsquarelabs.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "ssquaredatalabs.in",
+    "km": 5.05,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "d3d79896-6d44-4155-bb8d-2897dac162dc",
+    "name": "TEKOPT",
+    "website": "http://tekopt.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "tekopt.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "361e7d68-6469-465a-81f6-7ba3f1b3be3b",
+    "name": "PRODUCERS ONLINE (INDIA) PRIVATE LIMITED",
+    "website": "http://atfpg.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "tfpc.in",
+    "km": 2.47,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "25e2cb9d-99d1-40d5-ad35-bdf51bf2f01d",
+    "name": "EVENTEX TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://eventex-technologies-pvt-ltd.ueniweb.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "eventex-technologies-pvt-ltd.ueniweb.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "5770989c-2822-4ce0-aac1-05989a54d45a",
+    "name": "PVK SOFT SOLUTIONS PVT LTD",
+    "website": "http://www.phksofttech.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 17.78,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "7304fa74-b76c-4794-9c35-bee1ed05c351",
+    "name": "Neobric",
+    "website": "http://neobric.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "neobric.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "4517fa58-da88-4b15-88ac-71cf467f51a4",
+    "name": "Gati-KWE",
+    "website": "https://www.gatikwe.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "location-ok",
+    "placeDomain": null,
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "4815362d-16a9-4531-9402-708bb33ca098",
+    "name": "Xbattery Energy",
+    "website": "https://www.xbattery.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "xbattery.energy",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "bee20991-9fa2-4d57-8458-6ebda5fe0b2c",
+    "name": "Adya",
+    "website": "https://www.aadyainfotechs.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 5.13,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "b03a70e6-2ac8-4428-a1d6-6009afa47ac8",
+    "name": "Greenko Group",
+    "website": "https://www.greenkogroup.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "location-ok",
+    "placeDomain": null,
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "448d7a0f-38c6-44c5-a9c6-dba5bab5c0ca",
+    "name": "DZPAY PRIVATE LIMITED",
+    "website": "https://www.dzpay.org",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "dzpay.org",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "406a62d7-bf1f-4b9a-b263-97dfaf88796d",
+    "name": "Monks & Bots",
+    "website": "http://heybbetter.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "heybbetter.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "92e9521f-efed-4108-b2da-62cf5715e857",
+    "name": "BHARAT SEVA CENTRE LLP",
+    "website": "http://www.bharatseva.org",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "bharatseva.org",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "df75408f-4609-42bf-99f3-0ffa50d362ac",
+    "name": "FINDLOGICS SOFTWARE SOLUTIONS PRIVATE LIMITED",
+    "website": "http://www.findlogics.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "findlogics.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2c575f7a-e406-40fc-9d51-20354816e2b0",
+    "name": "GATADI TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://www.gataditech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "gaido.in",
+    "km": 6.97,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "f3eec58e-e5b0-4d85-8b76-08f87dfe87e9",
+    "name": "APPOIDS TECH SOLUTIONS PRIVATE LIMITED",
+    "website": "http://appoids.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "appoids.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e641d7fb-ba9c-4aaa-b0ea-b0cc3c60f763",
+    "name": "KLEE TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://kleetechnologies.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "kleetechnologies.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ad51fd50-cd1f-44d1-bf65-842597a56fa7",
+    "name": "SyngyMAXIM Solutions Pvt Ltd",
+    "website": "http://www.syngymaxim.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "syngymaxim.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ca0a4974-9a10-47f6-8ee6-4486da0e89ab",
+    "name": "Zebi Data India Pvt Ltd",
+    "website": "http://zebi.co",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "zebi.co",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "088479df-74d8-44b2-bdcb-0d7c75ec115d",
+    "name": "posvallo technologies private limited",
+    "website": "https://www.posvallo.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "posvallo.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3a48c0f8-5cb0-4049-b276-cf6698c6c98f",
+    "name": "InnoMick Technology Pvt Ltd",
+    "website": "https://www.innomicktechnologies.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "innomicktechnologies.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "7c0a2623-5725-4c83-b575-d27195650862",
+    "name": "pragnya consulting & Services",
+    "website": "https://taxall.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "taxall.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "5199330d-3c7e-44e6-a5eb-d3d24713ec2b",
+    "name": "THINK TANKERS INNOVATIVE SOLUTIONS PRIVATE LIMITED",
+    "website": "https://www.thethinktankers.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "thethinktankers.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8e99d6f1-b8ca-4b7e-a929-2a47ed54d1e2",
+    "name": "Winzy App",
+    "website": "http://winzy.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": null,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "bc257cab-32b0-43fc-86eb-301c94faf4d1",
+    "name": "LIONIZE TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://lionizetech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "lionizetech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a49f525c-9bc1-48a7-a473-85b2868b8688",
+    "name": "BEAVERSIN TECHNOLOGY PRIVATE LIMITED",
+    "website": "https://www.beaversin.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "beaversin.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "7536c509-e198-423e-9e2b-3e3baa7e21bc",
+    "name": "StampIT Business Solutions LLP",
+    "website": "http://www.stampitbiz.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "stampitbiz.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "84189885-0a5b-4dff-bbb1-f26ed751206e",
+    "name": "LIGHTNING INSIGHTS PRIVATE LIMITED",
+    "website": "https://www.birdanalytics.ai",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "birdanalytics.ai",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "cbd6dd0d-2ed7-482b-abbf-6fd329b3c83a",
+    "name": "VixSpace India Pvt Ltd",
+    "website": "http://vixspace.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vixspace.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3b4812f5-0ebe-4a0c-97e2-37b686016c9c",
+    "name": "Corpus Insights",
+    "website": "http://www.thecorpusgroup.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "thecorpusgroup.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "4310a5cc-a2bf-4ee3-b307-571d2e979168",
+    "name": "CHERISH CONSULTING AND SOFTWARE SERVICESPRIVATE LIMITED",
+    "website": "http://cherish-css.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "location-ok",
+    "placeDomain": "cherish-hr.com",
+    "km": 0.02,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "cfbafdc2-f224-46cb-aba2-3420883fce2f",
+    "name": "S INFINITY SOLUTIONS ",
+    "website": "https://infinityservicesolutionss.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "infinityservicesolutionss.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "39b7c4c2-8060-4f44-8a95-2fd386713bac",
+    "name": "Winzy",
+    "website": "http://winzy.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "winzy.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ee1e7bab-b516-4a77-b477-4076dfc50cdf",
+    "name": "QUBE ENTERPRISES SERVICES",
+    "website": "http://qube.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "qube.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f2d16051-cda4-420a-9e79-3312744f85a1",
+    "name": "Vectorform Software Private Limited",
+    "website": "https://www.vectorform.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vectorform.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "74814e4b-6f12-406f-92b6-b7e18d6f3258",
+    "name": "IVAR INFOSYSTEMS PRIVATE LIMITED",
+    "website": "https://www.ivarinfosystems.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "ivarinfosystems.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f1cb2456-3051-4614-9139-7a8af746523d",
+    "name": "Wisdom IT Services",
+    "website": "http://wisdomoverseas.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "wisdomoverseas.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8958db9f-8c2b-4569-85f5-5c184e73ff93",
+    "name": "IAMEM IT CONSULTING",
+    "website": "http://iamemglobal.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "iamemglobal.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c27c2eef-73a5-4d6f-b988-4708c65060b3",
+    "name": "IKVOX SOFTWARE PRIVATE LIMITED",
+    "website": "http://ikvoxsoftware.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "ikvoxsoftware.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "29d1b6d0-959d-4f2d-8fb0-f06d0c1e3977",
+    "name": "Antler Technologies",
+    "website": "http://antlerit.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "antlerit.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "d5d93080-d487-4412-909b-1a135de2db9f",
+    "name": "Scale Business Services Private Limited",
+    "website": "http://www.scaleoxperts.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "linusbusiness.in",
+    "km": 4.76,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "13961081-07cd-4c81-a857-d2d2b00eef81",
+    "name": "VASKA TECHNOLOGIES",
+    "website": "http://www.vaska.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vaska.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ecd2fad7-4dbd-4b29-a7de-6ad78c57f363",
+    "name": "LSATECH Private Limited",
+    "website": "https://www.lsagroups.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "lsagroups.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1ca6aefe-1c7b-45e1-a663-5e390fa0cf0c",
+    "name": "QEEL SUPPORT LLP",
+    "website": "https://aqeel-home-service.grexa.site",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "qualizeal.com",
+    "km": 8.67,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "c6e0fbe6-c11e-43b8-bd27-fe2a66dc5bf3",
+    "name": "COMPLINOVA ASSOCIATES PRIVATE LIMITED",
+    "website": "https://www.complinova.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "complinova.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "05d11410-7975-4f84-84c5-93e25d715416",
+    "name": "eMoboMo Soft Pvt Ltd",
+    "website": "http://www.emobomo.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "emobomo.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "45f3a211-1935-408e-9521-b4e8fa7a4551",
+    "name": "Sarja Technologies Private Limited",
+    "website": "https://sarjatechnologies.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "sarjatechnologies.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e092788b-b1ce-4712-bc5d-43b89a6e8b55",
+    "name": "SPOORTHY CONSULTANCY AND IT SOLUTIONS PVT LTD",
+    "website": "http://www.scits.co.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "scits.co.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3447dfea-63d6-4587-b62f-eb6314fcb85f",
+    "name": "Notuno Infotech Private Limited",
+    "website": "http://www.notunoinfotech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "notunoinfotech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "cdd065e3-7e88-4c77-b6fe-a387892b5c07",
+    "name": "AKSHAYA CONCEPTS",
+    "website": "https://akshayainfra.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 7.71,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "2c6c6521-c547-4989-a9ca-eb25c3b5b934",
+    "name": "MAHAVEER SOFT SOLUTIONS PRIVATE LIMITED",
+    "website": "http://mahaveersoftsolutions.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "mahaveersoftsolutions.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f92fb084-6581-47fa-9910-0f96fd888fc2",
+    "name": "Mkay Labs Private Limited",
+    "website": "https://www.mkaylabs.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "mkaylabs.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c0cdad81-2e87-4770-abe6-f36532a861dd",
+    "name": "DOITUP INNOVATIVE TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://doitup.global",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "doitup.global",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "97fd7615-2d3d-4bd4-abb3-5dfd2a7f85f2",
+    "name": "PARSUPP IT SERVICES PRIVATE LIMITED",
+    "website": "http://parsupp.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "prasoftit.in",
+    "km": 8.32,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "9886feae-3afb-4109-83f1-88b3d9ea7576",
+    "name": "Itvista Software Private Limited",
+    "website": "https://itvistas.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "itvistas.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c08338a8-5cc5-4e64-a03c-5bbd1a7989fe",
+    "name": "Capnxt Global Private Limited",
+    "website": "https://www.capnxt.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "capnxt.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "43762bca-47a1-4f68-802b-c2ada8707e58",
+    "name": "Devopod Private Limited",
+    "website": "https://devopod.co.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "devopod.co.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "b1ca27b6-d5c8-4b6d-a6b6-25df76935e17",
+    "name": "NYDIA TECH PRIVATE LIMITED",
+    "website": "https://nydia.tech",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "nydia.tech",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "45f1ad69-5425-45c8-83cb-7ac1c818a961",
+    "name": "SRS SOLUTIONS",
+    "website": "http://srsconsultinginc.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "srsconsultinginc.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1d991ce8-47a6-490a-8897-879087deef98",
+    "name": "BHARATH TECHNOLOGIES",
+    "website": "https://www.bharathcladforge.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "globaltechnology2814.com",
+    "km": 16.93,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "d2a18af2-f7c5-4e7f-9205-35d2bbfcaf12",
+    "name": "AXP Technologies Private Limited",
+    "website": "https://ahex.co",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "amhawks.com",
+    "km": 13.38,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "1bd9438d-cbd1-40af-82da-d37cfb774cbe",
+    "name": "DATADAPT IT SERVICES LLP",
+    "website": "http://datadapt.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "datapointinfo.com",
+    "km": 7.35,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "6b008c9c-cc6f-4a17-b5bb-52f55a2f8efd",
+    "name": "ARCHANA INFO SOLUTIONS PRIVATE LIMITED",
+    "website": "http://www.archanainfosolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "archanainfosolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c9cab925-2f08-421c-8b3b-5ecf2e7daddc",
+    "name": "Figgia Private Limited",
+    "website": "http://figgia.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": null,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "61f2797a-9051-424c-acfa-f124cc92c28f",
+    "name": "Puja Karomi",
+    "website": "https://pujakaromi.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "pujakaromi.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2a5988a1-95c0-4572-9bff-d40766b1cf63",
+    "name": "Altiquence Communications Private Limited",
+    "website": "https://www.altiquence.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "altiquence.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "0aa333b9-79f1-4e59-b187-a55b077248a8",
+    "name": "Cyberekta Security Solutions Private Limited",
+    "website": "https://www.cyberekta.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "cyberekta.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ecc391f0-d199-4914-ac66-561151d351fc",
+    "name": "Laraid Software Solutions (Opc) Private Limited",
+    "website": "https://www.laraidsolutions.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "laraidsolutions.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "6681448b-4e9d-4768-a605-4cabc7ebfd7d",
+    "name": "Ssdt Technologies Llp",
+    "website": "https://www.ssdttech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "ssdttech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ed64acb3-cea8-4abd-849c-c5d5ac12a6ab",
+    "name": "Anturus Private Limited",
+    "website": "http://www.anturus.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "centaurusindia.com",
+    "km": 11.17,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "268762d9-73bb-451a-b162-b7cc4c323e99",
+    "name": "SOURATRON IT SOLUTIONS PVT LTD",
+    "website": "http://souratron.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "souratron.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "295b3f0f-3bca-402f-bf44-b16ac2843595",
+    "name": "Monopoly IT Solutions Pvt Ltd",
+    "website": "https://monopolyit.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "monopolyit.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "76a474fb-22bc-4a08-b660-ff71e6a2d002",
+    "name": "IVAR ANALYTICS PRIVATE LIMITED",
+    "website": "https://www.ivarinfosystems.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "ivarinfosystems.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8dfb6e97-7c9b-4fd9-9b55-94c51930ae0e",
+    "name": "QR CABS",
+    "website": "https://hyderabadoutstationcabs.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "apnacarrental.in",
+    "km": 15.26,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "4b5f5e08-2f50-4d74-957a-4c953756cd35",
+    "name": "CLOUDALIV CONSULTING SERVICES PRIVATE LIMITED",
+    "website": "https://cloudaliv.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "cloudaliv.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "87043ecd-d870-478f-95b9-34d2078ad3e0",
+    "name": "SOURATRON IT SOLUTIONS PRIVATE LIMITED",
+    "website": "http://souratron.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "souratron.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "982c3656-9243-48ae-ad84-aebd6003a1ea",
+    "name": "WELKIN DIGITAL PRIVATE LIMITED",
+    "website": "http://www.welkinglobal.co",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "groupwelkin.com",
+    "km": 16.29,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "c43b4620-b8db-4e39-98a1-3646781657aa",
+    "name": "REALTECHPAGE PRIVATE LIMITED",
+    "website": "http://realtechpage.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "realtechpage.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "9e4f93ec-0549-4cf4-acb1-a979f59f2356",
+    "name": "RESOFTWA TECHNOLOGIES & SOLUTIONS PRIVATE LIMITED",
+    "website": "http://resoftwa.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "resoftwa.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "052f0aad-01ad-4c5c-975d-de00cbabd49a",
+    "name": "JEETH BALAJI TECH PRIVATE LIMITED",
+    "website": "http://jeeth.co.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "jeeth.co.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "de236ed7-1605-467a-ba99-90007d993347",
+    "name": "Meta Technology",
+    "website": "http://www.metatechservices.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "metatechservices.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "deb12963-59fd-494e-bf26-bac7cc767703",
+    "name": "TECHVERSYS IT SERVICES PRIVATE LIMITED",
+    "website": "https://techversysit.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "techversysit.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3a7ee575-70d9-4bbf-bfa0-bb3d2035ce41",
+    "name": "Digital Associates India Private Limited",
+    "website": "http://dalabs.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "dalabs.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "5a4328c1-ce2f-4510-b48c-e36dbcb66107",
+    "name": "Inspire Tk Private Limited",
+    "website": "http://inspireacademyhyd.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "inspireleap.org",
+    "km": 12.85,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "056b2a12-e50a-42c6-bc10-84b97f88a430",
+    "name": "Get Website Services",
+    "website": "https://getwebsite.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "venkatnagaram.com",
+    "km": 11.05,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "1d077237-490e-4fc8-9eb8-991abc5455d6",
+    "name": "Hydizo Global Solutions Private Limited",
+    "website": "https://hydizo.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "hydizo.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "b0febdc7-dda4-4659-bc10-b42baae7b13f",
+    "name": "Marven Data Systems",
+    "website": "http://mdsinc.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "mdsinc.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "d800f83d-ef1b-469f-a8b6-fffc1c63c413",
+    "name": "Jeena",
+    "website": "http://www.jeena.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "hiims.in",
+    "km": 3.29,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "2e83c138-de84-4b3b-a6fb-18acaa48b14b",
+    "name": "SAAWM SOLUTION (OPC) PRIVATE LIMITED",
+    "website": "https://www.saawm.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "esam.in",
+    "km": 7.22,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "e611de2d-e473-4711-96ba-f51542397a40",
+    "name": "ASL Information Services Private Limited",
+    "website": "https://aslinformationservices.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "aslinformationservices.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "0e5bd52a-55dc-4cec-bc59-26800dcf51aa",
+    "name": "In Focus Software Solutions",
+    "website": "https://www.focussoftnet.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "focussoftnet.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "9fcd6671-416e-48ff-9805-9f2017c96f5a",
+    "name": "TenAI",
+    "website": "https://tenedutech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "tenedutech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2a348f9b-5aee-43f5-8d76-e70963888bbb",
+    "name": "SWANA TECHNO IT CONSULTING SERVICES PRIVATE LIMITED",
+    "website": "http://swanatechno.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "swanatechno.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "cb490c8b-ec24-444f-9b99-de6def9de227",
+    "name": "SYNTRINO PRIVATE LIMITED",
+    "website": "http://syntrino.net",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "syntrino.net",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2dfb9388-31b7-404f-bc6c-2e3aa7f52960",
+    "name": "GTK Software Solutions LLP",
+    "website": "https://gtksoft.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "gtksoft.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a0716b84-3841-4bc0-8288-5043c52dcaeb",
+    "name": "SAYUKTH TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://sayukth.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "sayukth.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a3d0cdf2-9473-4c53-9f52-2dc94b672914",
+    "name": "VIBA PURSUITS PRIVATE LIMITED",
+    "website": "https://www.vibasolutions.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "teamviba.com",
+    "km": 11.51,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "06377896-3ae5-4f26-9099-ccadb9efb085",
+    "name": "Vikazana private limited",
+    "website": "http://vikazana.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vikazana.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "6717d64c-d00e-4f31-9544-7ff39fcd1b3e",
+    "name": "BEAN BAG LABS PRIVATE LIMITED",
+    "website": "https://www.beanskart.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "beanskart.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8a117c1f-cb60-49f2-8688-f6a9c3efbf67",
+    "name": "ADVAITHA INFORMATION TECHNOLOGY SERVICES PRIVATE LIMITED",
+    "website": "https://advithatechs.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "advithatechs.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a837556a-ff50-474e-9c6a-450025fea49a",
+    "name": "BRILLIANT BUSINESS SERVICES PRIVATE LIMITED",
+    "website": "http://brilliantfilings.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "brilliantfilings.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "51cba742-0f60-4d9c-adc8-e3c9d7064611",
+    "name": "Nayana Group",
+    "website": "https://nayanagroup.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "nayanagroup.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "355490cf-e8d8-439b-b8d1-d0d660ff8125",
+    "name": "M3Y MOBILE SOLUTIONS PRIVATE LIMITED",
+    "website": "https://mapmymobile.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "mapmymobile.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "97c57c32-be54-4fdc-b257-cdf8deae45e1",
+    "name": "DIGITAL EDZE BUSINESS SOLUTIONS LLP",
+    "website": "https://digitaledze.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "digitaledze.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "92303b4a-fb9b-42aa-8f6d-e62979bdf83f",
+    "name": "PEDESIS PRIVATE LIMITED",
+    "website": "http://pedesis.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "pedesis.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "54096c6a-7c07-44b2-8147-2d6350277e43",
+    "name": "FACTSERVICES PRIVATE LIMITED",
+    "website": "https://www.factservices.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "factservices.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "49d0b4df-552f-4b20-aaeb-c66571603ff0",
+    "name": "BRIGHT DATA SOLUTIONS PRIVATE LIMITED",
+    "website": "http://www.brightdatasolutions.co.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "brightdatasolutions.co.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "77b5ae4a-dc57-45d8-9e1c-e3e657c66422",
+    "name": "POTAMI SOFTWARE LLP",
+    "website": "http://potamisoftware.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "potlatechsolutions.com",
+    "km": 17.83,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "6b78b20c-59ac-4dc6-9966-756d413dd595",
+    "name": "Infospoke Technologies",
+    "website": "http://www.infospoke.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "infospoke.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "0ea03c2e-9cec-417c-bde0-1f78fe0c8110",
+    "name": "MSD PUBLICATIONS INDIA PRIVATE LIMITED",
+    "website": "https://msdpublications.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "msdpublications.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "0ae3ff9f-3f28-4c73-8eb1-9d4871db3aa5",
+    "name": "Notion51 Digital Technologies pvt ltd",
+    "website": "https://www.notion51.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "notion51.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "d30d45a0-d0ff-435d-bfeb-698eff738c3c",
+    "name": "GKNYAK IT PRIVATE LIMITED",
+    "website": "http://www.gknyak.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "gknyak.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a7fa97f0-8ef8-468e-8271-3b6a651d00b5",
+    "name": "SMART PHARMA SOFT SOLUTIONS PRIVATE LIMITED",
+    "website": "http://smartpharmasolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "smartpharmasolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2d2c1168-863f-4f43-98b8-01fbcca44054",
+    "name": "ARUDRA CONSULTING PRIVATE LIMITED",
+    "website": "https://arudrainfra.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "arudrainfra.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "17eda23c-0651-404e-9e2c-5ded615ee798",
+    "name": "Souratron IT Solutions",
+    "website": "http://souratron.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "souratron.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "fb47c98d-9e86-44bc-b819-cca71608250f",
+    "name": "BITBOTS TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://bit-bots.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "bit-bots.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "5f6ff85f-be24-42dd-80c8-7cf9bc75c2d3",
+    "name": "Accenflair IT Solutions Private Limited",
+    "website": "https://www.accenfair.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "accenfair.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "104a1102-5100-4844-a461-64e0818e6b08",
+    "name": "VIBA TECH SOLUTIONS PRIVATE LIMITED",
+    "website": "https://www.vibasolutions.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "teamviba.com",
+    "km": 11.64,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "e035f35b-df1c-4d91-96a6-0c616b182831",
+    "name": "PROXYM CONNECT PRIVATE LIMITED",
+    "website": "https://proxymconnect.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "proxymconnect.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "52d9b759-74dd-48f1-b199-0240c403a12b",
+    "name": "WINZARD SOLUTIONS PRIVATE LIMITED",
+    "website": "https://www.winzard.io",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "winzard.io",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1c056cb3-c839-44c5-b8e5-a691f3ae6c1f",
+    "name": "Core IT Systems and Services",
+    "website": "https://coreservicesandautomation.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "coreservicesandautomation.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8b470ecf-c997-48d6-b041-a160ad10add0",
+    "name": "MAYIL TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://mayiltech.co",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "mayiltech.co",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c0b15f75-285b-4d4a-a172-aa6ea3edee39",
+    "name": "Nana IT Solutions Private Limited",
+    "website": "http://www.nanait.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "nanait.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3f207a9d-397c-4ef6-a163-c3fa38a894c0",
+    "name": "DATA SIMPLE TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://www.datahill.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "datangle.net",
+    "km": 5.53,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "45c68850-cdd7-4844-abaf-92128baf6afd",
+    "name": "RADHAKRISHNA IT SOLUTIONS PRIVATE LIMITED",
+    "website": "http://radhakrishnaitsolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 11.86,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "2193f6a6-a5d7-4731-aada-095b231cbf84",
+    "name": "QAZTECH SOFTWARE PRIVATE LIMITED",
+    "website": "http://qaztechs.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "qaztechs.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "cf2d227f-bf94-4400-912e-834fcb273e0b",
+    "name": "AppDeviser",
+    "website": "http://appdeviser.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "iprismtech.com",
+    "km": 2.11,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "a158607e-d004-4e74-91aa-19f896424830",
+    "name": "SEERA SOFT SOLUTIONS PRIVATE LIMITED",
+    "website": "https://www.seerasoft.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "seerasoft.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "96cbbdd8-eebf-4723-9465-297ce22efcd6",
+    "name": "S&M Scholarly Solutions ",
+    "website": "http://smscholarly.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "smscholarly.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "30bc4bf3-2dcf-4cac-811f-59f1b5dce52c",
+    "name": "HAPPY DARSHAN SERVICES LLP",
+    "website": "http://happydarshan.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "happydarshan.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "75065d2e-52a7-4c2c-ba2d-3981ad8db7fc",
+    "name": "Kushal Technologies",
+    "website": "https://kushaltechnologies.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "kushaltechnologies.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "5e902c11-3529-46d6-9653-30f2849e4f40",
+    "name": "ISCS Technologies Pvt. Ltd",
+    "website": "http://www.iscstech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "iscstech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "bfd71724-ebe7-4344-9f49-6f9cfeba4621",
+    "name": "Adhaata Computing Systems Pvt Ltd.",
+    "website": "http://www.adhaatacs.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "adhaatacs.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "980674ba-a967-403f-b838-1945363a1a33",
+    "name": "Sytech Labs Private Limited",
+    "website": "https://www.sytechlabs.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "sytechlabs.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "104fede7-43cb-498e-8306-e32465fc63da",
+    "name": "KANVITECH SOLUTIONS PRIVATE LIMITED",
+    "website": "https://kanvitech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "kanvitech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "fc29f402-d161-4c40-b755-b35f477a4c2f",
+    "name": "AOCINC",
+    "website": "http://aocinc.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "aocinc.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ee35912a-15ce-4f19-963a-cf0bcec317e0",
+    "name": "GLAUBEN INDUSTRIES PRIVATE LIMITED",
+    "website": "https://glaubenindustries.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "glaubenindustries.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "11832c35-8acf-4436-9169-dac62c9e0450",
+    "name": "SahiList",
+    "website": "http://sahilist.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 6.94,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "5c2d2f11-ed25-4900-a858-9f90d3efe892",
+    "name": "OAKSPRO SOFTWARE SOLUTIONS",
+    "website": "https://internship.oakspro.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "internship.oakspro.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c88cf7bb-00cd-4d62-858a-97cb17b724ec",
+    "name": "RUDRASA WEB DEVELOPMENT AND MARKETING PRIVATE LIMITED",
+    "website": "https://www.rudrasa.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "rudrasa.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ff99f813-e0d9-470a-8228-00363e47175c",
+    "name": "ENENR INFO PVT LTD",
+    "website": "https://enenrinfo.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "enenrinfo.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2e51ad31-2cf3-4dd0-946a-43885caad99c",
+    "name": "Sf Web Solutions Private Limited",
+    "website": "https://www.sfwebsolutions.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "sfwebsolutions.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "03009518-ac93-47bc-ae1e-b8038870a07c",
+    "name": "Aria Apps Digital ",
+    "website": "http://www.ariaapps.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "ariaapps.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c8a0214f-d8c4-4686-af2d-4cc592211349",
+    "name": "HBM INFOTECH PVT LTD",
+    "website": "http://hbm-it.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "hbm-it.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "9e594eb7-5f50-4fd3-a237-3bab01eace2e",
+    "name": "GUSTASI INFORMATICS PRIVATE LIMITED",
+    "website": "https://marketing.gustasi.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "marketing.gustasi.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "82f1930c-16e6-4b3d-9944-c9f243ef1616",
+    "name": "WILDBLUE DIGITAL LLP",
+    "website": "https://wildbluedigital.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "wildbluedigital.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "520c2bde-5798-4122-bd58-126d37554f95",
+    "name": "O7LAB INFOTECH PRIVATE LIMITED",
+    "website": "https://www.o7labinfotech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "o7labinfotech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "12e8d604-2ccc-456a-b09b-9eb703ab8b97",
+    "name": "GoitDEV Technlogies OPC Pvt ltd",
+    "website": "http://www.goitdev.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "goitdev.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ee40b4dd-ec3e-467e-b8cc-075bd7d89736",
+    "name": "SMAC IT",
+    "website": "http://www.smacit.co",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "smacit.co",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a0238377-284c-47b6-b780-494667dbc8e4",
+    "name": "AccessDeeds",
+    "website": "http://www.accessdeeds.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "accessdeeds.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "485c54d8-121f-4654-acdf-64804978cfed",
+    "name": "Thincovate Software Solutions",
+    "website": "http://www.thincovate.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "thincovate.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "49e182a3-291b-4995-87ba-d3807178b5da",
+    "name": "Meet at your home!",
+    "website": "http://www.meetyourneeds.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "meetyourneeds.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "20c3b1a9-da4d-4af9-b596-be551f879e47",
+    "name": "BR Group",
+    "website": "http://brgroups.org",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "brgroups.org",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f35a07d2-adc7-453c-9698-dccf8486ad7b",
+    "name": "FINTRA SOFTWARE PRIVATE LIMITED",
+    "website": "https://fintrasoftware.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "fintrasoftware.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "4e9a984b-9b5c-4f67-ab12-1f9749da8fa9",
+    "name": "Entirety Technologies",
+    "website": "http://www.entiretytec.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "entiretytec.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "0acf710d-8630-42a3-93f9-365460b7a323",
+    "name": "Storlane",
+    "website": "https://www.storlane.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "thestoryline.in",
+    "km": 12.77,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "53dc8fb2-0da6-4311-b081-f78950049a1c",
+    "name": "TRUEQUATIONS PRIVATE LIMITED",
+    "website": "https://www.truequations.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "truequations.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a98ca541-4c71-4c26-a969-3793feb67e13",
+    "name": "Aurora E Labs Private Limited",
+    "website": "https://www.auroraelabs.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "auroraelabs.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f232d233-bb53-4d05-9b5e-a8494f59cf66",
+    "name": "AIOT TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://www.aiotcorp.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "aiotcorp.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "45c5e939-f428-45ad-9c0c-52c295a7e8bf",
+    "name": "Prabodh technologies LLP",
+    "website": "https://www.prabodh.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "prabodh.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "34ccb9c7-be78-44e4-8beb-e0e8a3c384fd",
+    "name": "Esdy Information System Private Limited",
+    "website": "http://www.esdy.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "esdy.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "67e4dce2-958f-4a32-ae85-131d515e44ee",
+    "name": "innoGen Research",
+    "website": "http://www.innogentech.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "innogentech.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a04bfc64-e35b-40f9-88e1-eb8963b9a611",
+    "name": "IT DIGITAL HUB",
+    "website": "https://www.digitalithubservices.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "digitalithubservices.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8b4d1221-cb85-433f-99db-3a1f3b175776",
+    "name": "CIPHERTEXT TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://www.ciphertext.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "ciphertext.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a8fb5c89-f776-423b-970f-32daa5d2d145",
+    "name": "GLENN STAR TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://glennstartech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "glennstartech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "15f2edd4-7379-4838-bd51-26c31735362e",
+    "name": "TAKSHA X ONLIN PRIVATE LIMITED",
+    "website": "https://www.onlin.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "onlin.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f7404776-6620-48ec-aa15-bdc399aec44f",
+    "name": "fentastech private limited",
+    "website": "https://fentastech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "fentastech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "365e49bd-b343-4150-8a09-600afe213dd9",
+    "name": "HARMONY PLATFORMS PRIVATE LIMITED",
+    "website": "https://www.harmonygt.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "harmoni.co.in",
+    "km": 16.73,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "1d7753ab-4d0c-4e22-bef8-a709f2e74a8d",
+    "name": "Zippifyr Technologies",
+    "website": "https://www.zippifyr.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "zippr.co",
+    "km": 1.63,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "30cd04bb-2ef3-4a36-842c-43b065af9c07",
+    "name": "BLOCKFORTRUST SOLUTIONS PRIVATE LIMITED",
+    "website": "https://blockfortrust.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "blockfortrust.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "99ddc3c7-7a2f-4685-a0a8-112f832b1f8c",
+    "name": "SETUSERV INFORMATICS PRIVATE LIMITED",
+    "website": "http://setuserv.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "setuserv.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e7fc5cf1-e5ab-429d-b2ae-df621213048b",
+    "name": "KOVID ANALYTICS SOLUTIONS INDIA PRIVATE LIMITED",
+    "website": "http://kovida.co.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "kovida.co.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ee771c84-b35d-4192-882b-af502ffd9366",
+    "name": "MOR INNOVATIVE TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://www.ints.co.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "innovativeinfotech.com",
+    "km": 6.74,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "0b797b68-6240-4f9a-87f1-a9fe87446234",
+    "name": "GOOGOL TECHKNOWLOGIES PRIVATE LIMITED",
+    "website": "http://googoltech.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "googoltech.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c7f8052f-f4e5-436a-b51d-dc5f130fa1d1",
+    "name": "Cloud4.io",
+    "website": "https://www.cloud4c.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "cloudstechnologies.in",
+    "km": 6.76,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "c4062595-d9df-4bac-bacd-4b19fb873e33",
+    "name": "RYVER TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://ryvertech.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 6.87,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "1a8de1af-29da-4b55-bc39-fc237b14a497",
+    "name": "SDA Innovative IT Solutions PVT LTD",
+    "website": "https://www.innovativetechnologysolutions.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "innovativesoftwaresolutions.org",
+    "km": 13.91,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "21ab8ebd-9cd5-4f11-87d8-1343836e9e62",
+    "name": "hai.support",
+    "website": "http://aadisolutions.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "aadisolutions.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "b1133bcb-6e83-47a1-bbc6-9dc43bae9f97",
+    "name": "GUNJUTE TECHNOLOGIES (OPC) PRIVATE LIMITED",
+    "website": "https://gunjutech.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "gunjutech.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a419cb75-3112-4299-9bac-54d597027b32",
+    "name": "GANDIVA IT SERVICES PRIVATE LIMITED",
+    "website": "http://gandivaits.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 8.8,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "23a88948-6fd6-4929-8dc2-c508f0032292",
+    "name": "TEK NINJAS PRIVATE LIMITED",
+    "website": "https://tekninjas.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "tekninjas.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3a090566-d994-4a4f-be67-a56500886ab9",
+    "name": "BAM FORCE PRIVATE LIMITED",
+    "website": "http://www.hyderabadforce.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "metaforce.in",
+    "km": 5.12,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "460a9af8-2b60-46f3-8700-d83ee3797977",
+    "name": "DIGITALCODE SOFTECH PRIVATE LIMITED",
+    "website": "https://www.digitalcodesoftech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "digitalcodesoftech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "b63e5244-0ae9-46ad-9003-02cc74b2bcaf",
+    "name": "Atriyo Technologies",
+    "website": "http://atriyo.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "atriyo.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "6d5d7be8-a953-4537-9ecd-aee0c7d48fc3",
+    "name": "ADDATTO SOFTWARE SERVICES PRIVATE LIMITED",
+    "website": "https://addatto.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "addatto.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "35df1328-f9d5-46f8-9eee-45f53100fb7e",
+    "name": "2080 TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://2080tpl.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "2080tpl.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "94eaf971-ffa5-466b-acbc-6898ad28b1d3",
+    "name": "Sign Panel",
+    "website": "http://www.zoomsignage.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "zoomsignage.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e1b37b0e-fe16-4c7a-bb1d-bba175758474",
+    "name": "MIRAI GEN PRIVATE LIMITED",
+    "website": "http://pavanimirai.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 21,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "ac79ddf2-4a93-467f-9a8c-2129c297f266",
+    "name": "VELSPRINT TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://velsprint.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "velsprint.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "60659d99-6f57-4f73-afe1-2c40079d565c",
+    "name": "HEXARACT SOLUTIONS PRIVATE LIMITED",
+    "website": "https://hexaractsolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "hexaractsolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8d2c79d2-a265-465a-a8e0-cdbe567cb148",
+    "name": "SACHA TECHNOLOGIES",
+    "website": "http://sachatechnologies.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "sachatechnologies.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "9fb34af7-72cc-49ef-ae9a-77fb814b8040",
+    "name": "Toltec Solutions (OPC) Pvt. Ltd.",
+    "website": "http://toltec-solutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "toltec-solutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "32f167e4-3642-42f5-ae2d-a08c57accaf5",
+    "name": "NFR INFOTECH (OPC) PRIVATE LIMITED",
+    "website": "https://nfrinfotech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "nfrinfotech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "d8dcb4e2-3c87-4adb-adb1-c2f3da3dc250",
+    "name": "HASHTAG DIAL PRIVATE LIMITED",
+    "website": "https://hashtag-banjara-hills.grexa.site",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 5.94,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "ce8e4506-5d22-46a7-a921-c1c5fab5c836",
+    "name": "BabyCornSoft LLP",
+    "website": "http://babycornsoft.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 26.48,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "b49ee630-c71a-4cc1-a47f-5f336c74ce1e",
+    "name": "Slyko Technologies Private Limited",
+    "website": "http://slyko.tech",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "slyko.tech",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "40254573-1b65-45a7-98ee-339cfc4bee35",
+    "name": "Jupiter Meta",
+    "website": "https://jupitermeta.io",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "jupitermeta.io",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "58bfaaed-a75e-4f3d-bccd-21022858b394",
+    "name": "TRISHOKA DIGITAL SERVICES",
+    "website": "http://www.trishoka.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "trishoka.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "048506c1-3d8b-4a35-b239-63627b90e545",
+    "name": "CEEWELL TECHNOLOGIES PVT LTD",
+    "website": "https://ceewelltech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "ceewelltech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2b3b85a6-7987-4127-981b-e125d34cb09e",
+    "name": "AIMNXT TECHNOLOGIES LLP",
+    "website": "https://aimnxt.org",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "aimnxt.org",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "af715d1a-cd39-498b-bfa5-a439862e207c",
+    "name": "CODEHIVE LABS PRIVATE LIMITED",
+    "website": "http://www.codehivesolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "codehivesolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "21a559c1-854b-4c61-9d00-b74da58611f7",
+    "name": "LINCHPIN SOFT SOLUTIONS PRIVATE LIMITED",
+    "website": "https://www.linchpinsoftsolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "linchpinsoftsolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "d6e043f7-f5e2-4da9-98ad-60acf5429d41",
+    "name": "DNR SURVEYS",
+    "website": "https://dnr360surveys.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "dnr360surveys.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "58818653-1bfc-4e71-a435-a8792f4bfe5f",
+    "name": "Teqmate Innovative Solutions",
+    "website": "https://teqmate.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "teqmate.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "b9ebf570-f4c9-4c78-b4fd-d340ac5077fd",
+    "name": "CLOUD 9 SECURE TALENT PRIVATE LIMITED",
+    "website": "https://cloud9digital.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "taashee.com",
+    "km": 1.52,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "0d072a22-0afd-428a-9267-a304dbdfc5ea",
+    "name": "CPD",
+    "website": "https://www.cpd.net.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "cpd.net.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "003b534b-851a-45d2-9262-d345d5620012",
+    "name": "ATPS GLOBAL PRIVATE LIMITED",
+    "website": "https://www.atpsglobal.io",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "atpsglobal.io",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ee93e94b-396f-450a-82f5-786bc94a4567",
+    "name": "FIXEL MEDIA PRIVATE LIMITED",
+    "website": "https://fixelmedia.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "fixelmedia.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1955a501-4e06-4b5b-a1be-fd7e46779e92",
+    "name": "wexdi software services",
+    "website": "https://www.wexdisoftwareservices.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "wexdisoftwareservices.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "00c0932a-3b63-40e9-963b-71358feb9187",
+    "name": "SMALL FARE SERVICES PRIVATE LIMITED",
+    "website": "http://smallpage.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "smallpage.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2e90d4ff-fdfc-4052-9f57-a08743e33347",
+    "name": "VIDURA INFOTECH LLP",
+    "website": "http://www.viduralearning.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "viduralearning.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "5d909477-40ab-4aa4-a10a-6bc8f9986f71",
+    "name": "SAPPHIRUS SYSTEMS PRIVATE LIMITED",
+    "website": "http://www.sapphirus.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "sapphirus.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "4b69a94b-d9a0-4384-9e7c-3570e1bfbcc6",
+    "name": "EARBOR LLP",
+    "website": "http://earbor.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "earbor.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "7757bf48-3f48-4083-9b26-8740bf008e0c",
+    "name": "PHELIX IT SOLUTIONS PRIVATE LIMITED",
+    "website": "http://phelixitsolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "phelixitsolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "15e9c0a0-506f-467e-b267-3c2d5e29a969",
+    "name": "TEKNOVATE ENTERPRISE SOLUTIONS PRIVATE LIMITED",
+    "website": "https://www.teknovate.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "teknovate.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "813f2176-7a37-4a67-a9a6-e0e829e4a90f",
+    "name": "TEAMSPR TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://teamsprtech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "teamsprtech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "97335093-70ef-4382-bdcf-9f656ec3538d",
+    "name": "CLIM IT SOLUTIONS PRIVATE LIMITED",
+    "website": "http://www.climitsolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "climitsolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "b7265e05-f25f-4c2b-93be-00fd0425da67",
+    "name": "STUDIO DYNAMICS PRIVATE LIMITED",
+    "website": "https://dramatic.studio",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "dramatic.studio",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a83c3acf-9e82-483e-a4df-0063aeaa08d1",
+    "name": "SUDARSINI SOLUTIONS LLP",
+    "website": "http://www.sudarsini.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "sudarsini.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "d21df637-d89e-471f-8de5-b7f210153e75",
+    "name": "SREEVIA AI TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://www.sreeviaai.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "sreeviaai.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f15dea44-cee1-417d-996b-2cadda4e4dfa",
+    "name": "CROSKAL TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://www.croskal.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "croskal.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8c597475-866c-4e36-99c1-6c310e046279",
+    "name": "TAGSOL NOVA LLP",
+    "website": "https://nova.tagsol.tech",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "nova.tagsol.tech",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "37bdd2ce-4519-4c5c-9874-e2a1acb0b11d",
+    "name": "SRIVEN DIGITAL INDIA PRIVATE LIMITED",
+    "website": "http://www.srivencorporation.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 1.9,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "aac1abe9-1f36-42ea-b540-d51760ebbec8",
+    "name": "LEVER & FULCRUM SOLUTIONS PRIVATE LIMITED",
+    "website": "https://www.leverandfulcrum.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "leverandfulcrum.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ba4e3836-c7e9-4d52-84c5-4fda0237cb9a",
+    "name": "ELV8PRO CONSULTS PRIVATE LIMITED",
+    "website": "https://www.elv8pro.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "elv8pro.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "56b3b00a-9b65-42e6-9177-3a461798e1eb",
+    "name": "RJAY Technologies Private Limited",
+    "website": "http://rjaytechnologies.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "rjaytechnologies.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "7bd9a7df-9c30-453a-baf5-d55020e36b0e",
+    "name": "SRI YANTRA VIDYA INTELLIGENT SYSTEMS PRIVATE LIMITED",
+    "website": "https://www.syvminds.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "syvminds.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "bd82b608-600b-47da-acac-45d4b92e225a",
+    "name": "BIOECOSAT DIGITAL PRIVATE LIMITED",
+    "website": "https://bioecosatdigital.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": null,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "d447a7cc-eef8-4048-adc4-c522ad0f33e5",
+    "name": "ISCS Technologies Private Limited",
+    "website": "http://www.iscstech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "iscstech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "772bd359-bbb7-4c9f-914a-8098b0d26ce8",
+    "name": "FUTURE STERN SOFTWARE SOLUTIONS PRIVATE LIMITED",
+    "website": "https://futuretechsolution.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "spectrumft.com",
+    "km": 9.56,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "c3c2c5c3-e452-43fe-a6aa-026347df7554",
+    "name": "APPSPIRE SOLUTIONS (OPC) PRIVATE LIMITED",
+    "website": "https://www.appspiresolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "appspiresolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1fec9513-dccd-4a4e-b0c2-e3b62394c933",
+    "name": "SRR FUTURE TECH SOLUTIONS PRIVATE LIMITED",
+    "website": "https://futuretechsolution.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "futuretechsolution.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "aa6dbf73-fbd5-4d46-a444-cedd7e46d371",
+    "name": "YGR GOBAL IT SERVICES PRIVATE LIMITED",
+    "website": "https://ygrgobalitservices.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "ygrgobalitservices.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "25e06fee-f6f7-426a-b6db-1bc926622f76",
+    "name": "APEX ENVISION SPATIAL PRIVATE LIMITED",
+    "website": "http://futureapex.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "envisionesl.com",
+    "km": 18.16,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "e0b2a66f-4dbb-45ce-ab01-f9a1b5004ffb",
+    "name": "FLY EXPLORE TRAVELTECH PRIVATE LIMITED",
+    "website": "http://flytoexploreholidays.ezyro.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "flytoexploreholidays.ezyro.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "9f5891ff-419d-4e8d-8005-e71e99d918ca",
+    "name": "BUSINESSPORT INDIA LLP",
+    "website": "https://businessport.ltd",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "businessport.ltd",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "0b3f470c-055d-46bd-8fe6-a62ac6c9434e",
+    "name": "SAVYASACHEE AI TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://savyasachee.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "saitvox.com",
+    "km": 2.82,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "c4cf6f1a-997a-43fe-8611-6a11e8e2cef1",
+    "name": "BAZOOKA TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://bazookatechnologies.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "bazookatechnologies.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e87c6a07-e000-4945-a58c-b85210918472",
+    "name": "SWAKRITHI INNOVATIONS PRIVATE LIMITED",
+    "website": "https://www.swakrithi.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "swakrithi.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3e32f5a6-3547-4a2d-bcac-f8dd1005500c",
+    "name": "Vatsa Procons, LLP.",
+    "website": "https://www.vatsaprocons.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vatsaprocons.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "577f6a0c-6d63-4dbf-a0f5-2fd028b13c4a",
+    "name": "SAMYAK ECO SOLUTIONS LLP",
+    "website": "https://thesamyakenterprises.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "samsact.com",
+    "km": 35.21,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "79bc3c8d-0a2d-4ff4-9857-024dee2620ba",
+    "name": "BOSS GLOBAL PRIVATE LIMITED",
+    "website": "http://www.bossllcusa.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "bosch-softwaretechnologies.com",
+    "km": 1.76,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "fa53b12c-6ed0-4a97-b84a-38b73903f590",
+    "name": "DREAM LEVEL SOLUTIONS PRIVATE  LIMITED",
+    "website": "https://www.dreamsmediasolutions.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 3.36,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "86086e66-ff26-415a-86b5-966c2287aa44",
+    "name": "Arkah Technologies",
+    "website": "https://www.arkahenterprises.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "arkahenterprises.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ac8b160c-89e5-46b4-9c2c-4f9a36f2c009",
+    "name": "REDIHIRE GLOBAL SERVICES PRIVATE LIMITED",
+    "website": "https://www.redihire.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "redihire.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "68d5d5ed-20da-46fd-abd0-79cc94f6f6ed",
+    "name": "SOFTURECS AI LABS PRIVATE LIMITED",
+    "website": "https://softurecs.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "softurecs.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3fedbf8a-834a-441d-96d2-f26ff961d338",
+    "name": "HYPERGRID TECHNOLOGY SOLUTIONS PRIVATE LIMITED",
+    "website": "https://hypergts.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "hypergts.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "90b71ae6-9ae8-4467-b3b0-597bfd713f1c",
+    "name": "SFON TECHNOLOGIES LLP",
+    "website": "http://www.sfontechnologies.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "sfontechnologies.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "74892d85-861b-4d70-a73c-28afb5a05c32",
+    "name": "DIGO IT SOLUTIONS PRIVATE LIMITED",
+    "website": "https://digoit.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "digoit.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a27b5997-29e1-46f0-8e3a-d201480c5a90",
+    "name": "MONEY MITRA GROUP INDIA LLP",
+    "website": "https://mitra.money",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "mitra.money",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8305a3e0-d637-4abd-b91b-4a5d647964bf",
+    "name": "GIFTY APP SOLUTIONS",
+    "website": "https://giftysolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "giftysolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "5998af9c-d69a-46b5-a30a-0bf4f862cb12",
+    "name": "CASPIAN SOLUTIONS LLP",
+    "website": "http://caspianservices.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "caspianservices.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "beeb131b-6266-406b-b26c-494eee69f9ab",
+    "name": "PROCESS GRIT PRIVATE LIMITED",
+    "website": "http://www.processgrit.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": null,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "b852360f-3fd9-4eb2-8db0-0722a3059d84",
+    "name": "I4D PARISHKAAR TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://parishkaar.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 8.14,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "9eb3119c-a5fe-4d85-bf44-20a3ed05b548",
+    "name": "JAC MAGNUS PRIVATE LIMITED",
+    "website": "https://www.magnuspro.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "magnusgroup.org",
+    "km": 6.64,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "515bc062-360b-4596-ae1e-f1e9b4ffef70",
+    "name": "Srivin Tech Private Limited",
+    "website": "http://srivin.org",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "srivin.org",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c3a3ff5e-3d16-4694-9566-fdee8a094d62",
+    "name": "TATTVA TECH SOLUTIONS PRIVATE LIMITED",
+    "website": "https://www.tattvatechsolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "tattvatechsolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "cfb0e7c6-7bb4-478f-8bdc-9b12da88a589",
+    "name": "VOLKSSKATT INFOTECH PRIVATE LIMITED",
+    "website": "http://www.volksskatt.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "volksskatt.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1336937c-9869-4c3b-8a7e-ecff23e8a64f",
+    "name": "CREATIVE GROUND TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://www.creativetechnologiesasia.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "location-ok",
+    "placeDomain": "creativetechno.in",
+    "km": 1.44,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a4a95d1b-49bd-4894-8d39-21837199a1aa",
+    "name": "DestinPQ",
+    "website": "https://www.destinpq.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "destinpq.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "613e81ff-2161-4e10-b4a1-e6cb0b70fd1c",
+    "name": "LINUS PLATFORMS PRIVATE LIMITED",
+    "website": "http://www.linusbusiness.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 8.99,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "98e34cf2-8fdb-488e-9b4c-ba5848b78c8b",
+    "name": "BLUE WHEEL INNOVATIONS PRIVATE LIMITED",
+    "website": "https://bluewheel.app",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "bluewheel.app",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "154b3be3-8b12-48b6-8e84-399ce05ca5db",
+    "name": "SRI DIVYA SANKALPSHAKTHI PRIVATE LIMITED",
+    "website": "http://sankalpshakthi.co",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "sankalpshakthi.co",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8fc21438-5ebf-49cf-b2eb-2c0cec0a96fa",
+    "name": "XPLORE NEW",
+    "website": "https://xplorenew.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "xplorenew.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "37e929a5-3b11-489e-816c-d978bd509448",
+    "name": "CYLONOAK TECHNOLOGY PRIVATE LIMITED",
+    "website": "http://www.cylonoak.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "cylonoak.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1e03d2f1-026c-41cf-9fc4-fcb5d174bd45",
+    "name": "VISHMUKA TECHWORKS PRIVATE LIMITED",
+    "website": "http://www.vishmuka.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vishmuka.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "193d7069-c84e-4729-8a8c-8d0ca53af875",
+    "name": "TECH DHISHANA PRIVATE LIMITED",
+    "website": "http://www.krishnasdigitech.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "dtdsgp.com",
+    "km": 20.68,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "deceed5f-036d-4d7f-8112-2d0ecf73bdd4",
+    "name": "MIO SYNERGY LLP",
+    "website": "http://www.synergyinfra.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "synergyinfra.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "89328a54-34b2-4f86-a25d-1745d6991098",
+    "name": "AKVIP Technologies",
+    "website": "http://www.akvip.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "akvip.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "382e6f06-f974-4e42-97a3-1e7b72e3928b",
+    "name": "GROWTHX AI PARTNERS LLP",
+    "website": "https://www.growthxagency.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "growthxagency.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ad200f98-07cf-4972-881f-d1a4b6e642ff",
+    "name": "AAJ CODERS HUB PRIVATE LIMITED",
+    "website": "https://rm1codershub.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "rm1codershub.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "cc047dc2-348e-447a-87e7-7c406c4e4eb1",
+    "name": "Noventis It Private limited",
+    "website": "https://www.noventisit.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "noventisit.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f9322752-85b3-443c-ad06-a757a6e5202b",
+    "name": "GALACTIX SOLUTIONS PRIVATE LIMITED",
+    "website": "https://galactixsolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "galactixsolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a77670b6-8357-49c2-90b2-6846b05c02a9",
+    "name": "SYK TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://syktechnologies.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 17.03,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "5e77c3c6-7cff-4590-b7f9-1e2090818079",
+    "name": "MAINFRAME CONSULTING LLP",
+    "website": "https://mainframetrainings.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "mainframetrainings.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "b47795ab-4bda-489d-8ccd-0e64ac450c62",
+    "name": "VIRTUAX TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://virtuaxtechnologies.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "virtuaxtechnologies.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f0b6f939-b326-4422-ba99-ae357ecec4de",
+    "name": "AADHYA INNOVATIONS GROUP (OPC) PRIVATE LIMITED",
+    "website": "https://aadhyainnovationsgroup.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "aadhyainnovationsgroup.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "92f0ed84-dd1b-4061-a048-116da4905dbc",
+    "name": "Vijay Software Solutions Private Limited ",
+    "website": "https://vs-solutions.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vs-solutions.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "44d32aed-de8d-4bbf-b761-2f4eda1e4218",
+    "name": "CLOUDVETO TECHNOLOGIES (OPC) PRIVATE LIMITED",
+    "website": "https://cloudveto.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "cloudveto.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f3aa78a4-c0fa-4b04-8361-eb2ac55846b4",
+    "name": "HASHKRAFT TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://www.hashkraft.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "hashkraft.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "6ce33e01-6731-4b99-a986-a85f2614ff37",
+    "name": "Aarvin IT Edge Private Limited",
+    "website": "https://www.aarvinitedge.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "aarvinitedge.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "bb5411f9-ee70-406e-86cf-4cc08749406f",
+    "name": "HAMMU SOLUTIONS LLP",
+    "website": "https://hammusolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "hammusolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "5c5048ec-bb3f-476e-aca2-49be31620c3b",
+    "name": "AURINKO IT SOLUTIONS PRIVATE LIMITED",
+    "website": "http://www.aurinkoitsolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "aurinkoitsolutions.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ebad5721-e115-4fb8-a836-ab0d96847b98",
+    "name": "MITRA VERIFY",
+    "website": "https://www.mitravisa.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "foodlicensefoodsafetymitra.in",
+    "km": 8.63,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "021e5aba-b619-4140-bb8f-4c4eee8406d3",
+    "name": "KYNEXUS GLOBAL TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://kynexusglobal.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "kynexusglobal.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f33c5724-50d4-4b61-b1a6-c18a1b7b98ed",
+    "name": "QUANTOVA LLP",
+    "website": "https://quantova.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "quantova.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e529a3c6-a1f0-4990-932b-65aefb798cd1",
+    "name": "LAPIS LAZULI SOFTWARE SOLUTIONS PRIVATE LIMITED",
+    "website": "http://www.lapistechnologies.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "lapistechnologies.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "24a77c8d-1355-4d55-be47-67340cb8461b",
+    "name": "RakshaQ Pvt Ltd",
+    "website": "https://www.rakshaq.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "rakshatech.com",
+    "km": 8.53,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "786a2084-c84a-42af-88f1-308fa748b6c9",
+    "name": "KIran",
+    "website": "https://www.drkirangastro.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "drgkiran.com",
+    "km": 2.63,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "04d8931d-c89d-4939-9f72-49fb95408105",
+    "name": "Activation Functions (P) Limited",
+    "website": "http://www.sparkactivation.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "wwwkonnectevent.odoo.com",
+    "km": 2.73,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "524cba00-c765-4804-9694-6c3782d51725",
+    "name": "HEDGELOOP TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://www.hedgeloop.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "hedgeloop.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "540f4c45-7ee1-4194-b02e-c632cb9c1e47",
+    "name": "KALYANKAR ANALYTICS PRIVATE LIMITED",
+    "website": "https://kalyankaranalytics.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "kalyankaranalytics.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "720b4977-aee8-4ca4-9ed1-5f6f52b8b0db",
+    "name": "COGNIER INSIGHTS PVT LTD",
+    "website": "https://www.cognierinsights.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "cognierinsights.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a5a93164-0c88-4f29-9e28-fc551471d758",
+    "name": "AIBRIDGE ML PRIVATE LIMITED",
+    "website": "http://aibridgeml.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "aibridgeml.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "20d9d4ae-63b7-4d66-9b30-e26e7317d470",
+    "name": "HIREX.AI PRIVATE LIMITED",
+    "website": "https://www.hirex.ai",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "hirexa.com",
+    "km": 10.92,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "8a6c2fb5-be90-4307-8abe-5fd01eab0381",
+    "name": "PROJECT YUGA (OPC) PRIVATE LIMITED",
+    "website": "https://www.shrisunyugaprojects.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "xyug.in",
+    "km": 13.09,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "c0dfad4a-24ca-4cdc-b72f-cf37102701ce",
+    "name": "MVG INNOVATIONS PRIVATE LIMITED",
+    "website": "https://mvg-innovations.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "mvg-innovations.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "fd54b4fa-9949-45b6-a512-0e5a0b594b18",
+    "name": "SMARTCOW AI TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://smartcow.ai",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "smartcow.ai",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2fb3da5d-6ba3-4584-b720-7e6de84e0551",
+    "name": "Neural Labs Private Limited",
+    "website": "http://neuralindustrialautomation.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 14.24,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "0041a708-730a-4a72-9261-4fb008d635d3",
+    "name": "DeployH.ai Technologies Private Limited",
+    "website": "https://thestudentai.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "thestudentai.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "917176c6-e5bf-4dbc-b98c-08dcaec701c5",
+    "name": "REDSECOPS CYBER INDIA PRIVATE LIMITED",
+    "website": "http://redsecops.dev",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "redsecops.dev",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "727aa0db-9581-4a9c-a886-c1360ec8f488",
+    "name": "HUTAH TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://hutahai.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "hutahindustries.com",
+    "km": 1845.07,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "89b7478f-a157-40c7-81d3-c4cae4082d7a",
+    "name": "Tars.Ai",
+    "website": "https://www.harfa.in",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "tarslab.in",
+    "km": 15.06,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "0f20a454-da77-4592-8b50-bc54117001c1",
+    "name": "MUSQUARE TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://www.musquaretech.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "musquaretech.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "65edd740-01cc-4dd3-aee2-4d2acbf75198",
+    "name": "Ai Hawks Software Solutions Private Limited",
+    "website": "http://aihawkssoft.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "aihawkssoft.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3fbdcca5-2174-4000-8cba-4a189ffc2c8c",
+    "name": "Grad Commerce Ai Services Private Limited",
+    "website": "https://www.gradcommerce.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "gradcommerce.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "df6d1ef5-219d-4416-a9cc-757e23068e30",
+    "name": "ALGOHIRE TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://algohire.ai",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "algohire.ai",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "c680da6d-c0af-41ad-a0ed-992216e876b5",
+    "name": "ENIXTA INNOVATIONS PRIVATE LIMITED",
+    "website": "http://www.enixta.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "enixta.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "fdb3edd6-1885-4b9f-af7e-ca38537a3ff2",
+    "name": "VIDHAATA STRATEGIES PRIVATE LIMITED",
+    "website": "https://vidhaata.co",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vidhaata.co",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a683e0bc-5830-40ed-8927-ffa3456ba2de",
+    "name": "IPHIPI TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://iphipi.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "iphipi.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "b64f1f4d-5a60-49e8-b353-02eaa3f14695",
+    "name": "MIGHTYMONK TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://mightymonk.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "mightymonk.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "8b188a63-f434-4fa9-a5a0-41e84de3cbbc",
+    "name": "SLASHNSAP TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://www.slashnsap.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "slashnsap.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "5c674920-4e67-4207-8506-cfc17742667f",
+    "name": "Vipas.AI",
+    "website": "https://www.vipas.ai",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vipas.ai",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "fe3b73b9-5038-4ce5-b7ce-501cca57abb5",
+    "name": "KALYAN SOFTWARE SOLUTIONS PRIVATE LIMITED",
+    "website": "http://www.thekalyangroup.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "thekalyangroup.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "7d46e309-b3b2-4d7f-a6db-1f6879af2e07",
+    "name": "TensorGo Software Private Limited",
+    "website": "http://www.tensorgo.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "tensorgo.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "9e6c7091-f1ad-4267-b3f0-4d0e2654cfbb",
+    "name": "HOMEYHUTS PRIVATE LIMITED",
+    "website": "https://homeyhuts.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "homeyhuts.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f07d2163-b0d1-4bd1-8181-68125d7715bd",
+    "name": "STARK.AI",
+    "website": "https://stark.ai",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "stark.ai",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "9368f94f-bc68-4a9d-aee0-b058cfd636d9",
+    "name": "APEX AI TECHNOLOGIES LLP",
+    "website": "https://www.apexaiindia.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "apexaiindia.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e7d725d6-b06f-4500-97b7-18cdeb2c7d9d",
+    "name": "HYTOMA AUTOMATION LLP",
+    "website": "https://www.hytoma.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "hytoma.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "660cea10-d356-4558-a1b0-502be0592362",
+    "name": "LORVEN AI MEDIAVISION LLP",
+    "website": "http://lorvensstudios.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "lorven.in",
+    "km": 2.15,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "bf4cd0d0-11ba-4a9c-bdf4-35c74238326a",
+    "name": "ALQON INNOVATIONS PRIVATE LIMITED",
+    "website": "https://www.alqon.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "alqon.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "58971d41-36d1-493c-b146-4271ff3ef46b",
+    "name": "Sodhana AI Private Limited",
+    "website": "http://www.sodhana.ai",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 2.11,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "d7f49b0e-1e62-4e2e-9a8d-57fd2a6bc026",
+    "name": "GEOSRI INNOVATIONS PRIVATE LIMITED",
+    "website": "https://geosriinnovations.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "geosriinnovations.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "7da62b38-a7a5-4be8-accc-8a46ee5b4950",
+    "name": "FUSIONEVALX PRIVATE LIMITED",
+    "website": "https://www.fusionevalx.ai",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "fusionevalx.ai",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3f4a139b-0575-4458-b382-f90e5bb8bd2f",
+    "name": "STEPUPMARK MARKETING INNOVATIONS PRIVATE LIMITED",
+    "website": "https://stepupmark.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "stepupmark.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "6f995274-9093-45a9-b317-0df6f67521b4",
+    "name": "CEREVYN SOLUTIONS PRIVATE LIMITED",
+    "website": "https://cerevyn.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "cerevyn.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "d71c67b3-7ac8-4352-a0b0-bb4ab0cfd367",
+    "name": "ZENERATIVE MINDS PRIVATE LIMITED",
+    "website": "http://zenerativeminds.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "zenerativeminds.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e4dbe87d-d354-4532-8345-a66189680eb9",
+    "name": "DHRUVAAI TECHNOLOGIES PRIVATE LIMITED",
+    "website": "https://dhruvaai.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "dhruvaai.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "7377ffee-e543-421b-854d-e0646ffeb8ac",
+    "name": "NIRVISTA ARTIFICIAL INTELLIGENCE PRIVATE LIMITED",
+    "website": "https://nirvistagroup.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "nirvistagroup.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "269159be-9832-4c1b-9530-2600f8d0c2c6",
+    "name": "DIGIKNOTS CLOUD X SERVICES PRIVATE LIMITED",
+    "website": "http://www.digiknots.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "digiknots.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ae2e7059-5c2d-4c7b-abb0-b23c85ac4a91",
+    "name": "Logic & Litera Consulting LLP",
+    "website": "https://applogicconsulting.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": null,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "85d7235e-91ff-436b-b1c6-39c6f01a0f03",
+    "name": "BRIGHTCOM DEFENCE PRIVATE LIMITED",
+    "website": "http://brightcomgroup.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 11.98,
+    "issues": [
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "42cc8fe4-13d8-46be-aa25-720d26b629d5",
+    "name": "WEBPIPL SOLUTIONS PRIVATE LIMITED",
+    "website": "http://www.webpipl.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "webpipl.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "514cb4c4-d49c-41d0-ba16-aae1cbb36b9a",
+    "name": "VIHAANG AI GLOBAL SERVICES PRIVATE LIMITED",
+    "website": "https://www.vihaangai.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vihaangai.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "d0eaaae2-d2ce-42d9-9bf8-2215285cca04",
+    "name": "Sparro.ai",
+    "website": "http://www.sparrow.net.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "sparrow.net.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "fe7f2245-ecf9-4d25-b510-0ea5a202bceb",
+    "name": "INNOIRA CONSULTING SERVICES PRIVATE LIMITED",
+    "website": "https://innoira.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "innoira.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1b040ccb-5de5-4849-9854-49f40d4eef9b",
+    "name": "Gnosis",
+    "website": "http://www.gnosisvvp.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "gnosisvvp.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "de2e20ff-2dc3-49ef-be64-9b1c56e6cc31",
+    "name": "CreditVidya",
+    "website": "https://marketplace.creditvidya.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "marketplace.creditvidya.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ce11b1a9-d2e4-4cb2-9392-0241aceeedc3",
+    "name": "Credex Finsol Pvt Ltd",
+    "website": "https://credex.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "credex.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "efd13a8e-bdd1-42fb-9705-f2360692f349",
+    "name": "HEXADOTS TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://hexadots.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "hexadots.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "df7dbded-352f-4396-8f68-77b6e597ba32",
+    "name": "Finoramic",
+    "website": "http://finoramic.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "finoramic.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1acfc0a5-6d7f-43ed-8f78-7e6417535064",
+    "name": "TENSOR FIELDS CONSULTANCY SERVICES PRIVATE LIMITED",
+    "website": "http://www.tensorgo.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "tensorgo.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "f9c74077-b5a1-4b2a-a395-7ee547bf98d6",
+    "name": "Flyboat Startups and Innovations",
+    "website": "http://flyboat.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "flyboat.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "22c6a2d6-0537-48b3-96a5-7e361b088a24",
+    "name": "USRPAY",
+    "website": "http://www.usrpay.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "usrpay.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "7de9c9f9-df70-497b-a26e-e2d40e9a4b49",
+    "name": "LLAYAKARE GROUP PRIVATE LIMITED",
+    "website": "http://www.llayakare.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "llayakare.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "0e191455-5586-48a8-8f0f-916442f9758a",
+    "name": "Flush Door",
+    "website": "http://www.flushdoorsmanufacturers.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "deccandoors.com",
+    "km": 4.39,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "a9c51971-1e9d-432a-8bd0-8ec2c7214cf1",
+    "name": "FINCSQUARE FINTECH PRIVATE LIMITED",
+    "website": "https://www.fincsquare.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "fincsquare.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "7544913c-078e-47e0-b156-0e4a9e4f9260",
+    "name": "MODUS BUSINESS CONSULTING PRIVATE LIMITED",
+    "website": "https://www.modusgroup.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "modusgroup.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "75e0cbd3-4673-405c-93c9-d2260a6d3ce6",
+    "name": "RUPID TECHNOLOGY LABS PRIVATE LIMITED",
+    "website": "https://rupid.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "rupid.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1598f75c-eb5f-4bcc-be30-31530b14c90f",
+    "name": "Legitimate kpo services LLP",
+    "website": "http://www.legitimatekpo.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "legitimatekpo.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "91d274e4-27af-4209-afd7-5bdbc29ba9ea",
+    "name": "Pramsuh Chit Funds Private Limited",
+    "website": "http://pramsuhchits.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "pramsuhchits.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "7f42ae60-2126-460c-9612-2c5615374746",
+    "name": "AGARWAL WEALTH E-MANAGEMENT PRIVATE LIMITED",
+    "website": "http://camsagarwal.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "msagarwal.com",
+    "km": 3.59,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "1f9d8ea5-fed2-477b-aa58-56f1509462e0",
+    "name": "MSPR INFRASTRUCTURE INDIA PRIVATE LIMITED",
+    "website": "https://www.mspr.co.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "mspr.co.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "5b7cc9fb-a2c3-4736-a0bf-fcca124d8e55",
+    "name": "Vikazana Pvt Ltd",
+    "website": "http://vikazana.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vikazana.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "4273b1e2-137f-414c-ae99-efe95b51a0f8",
+    "name": "Moneylinks Solutions Private Limited",
+    "website": "http://moneylinks.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "moneylinks.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e47d638a-8703-4108-850e-ab56fd23c267",
+    "name": "WEALTH CENTRIC ADVISORS (OPC) PRIVATE LIMITED",
+    "website": "http://www.thewealthcentric.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "thewealthcentric.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "42660d23-7c34-418c-b12f-a443e873a54f",
+    "name": "FINANCE BOX PRIVATE LIMITED",
+    "website": "https://financebox.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "financebox.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "addd9e7a-a7af-48a3-ad32-168203ae7582",
+    "name": "PayG",
+    "website": "https://payg.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "payg.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e8f8c313-fb48-49b2-8434-59aeef4b6adf",
+    "name": "Jocata Financial Advisory and Technology Services Private Limited",
+    "website": "https://www.jocata.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "jocata.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "a0b7074e-a287-4767-86b9-0873f09bd59e",
+    "name": "CATNOVA SYSTEMS PRIVATE LIMITED",
+    "website": "https://catnovasystems.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "catnovasystems.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "938fc04f-9905-4ce2-ad0e-9d22ae273ac2",
+    "name": "Mudra Vyapar Suvidha Kendra",
+    "website": "http://mudramoney.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "mudramoney.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "1975f632-16d0-44ab-adde-31e169092eca",
+    "name": "UNI-CHROME SOLUTIONS PRIVATE LIMITED",
+    "website": "http://unichromesolutions.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": 4.98,
+    "issues": [
+      "no-logo",
+      "address-unverified"
+    ]
+  },
+  {
+    "id": "f9d5971c-d1bb-4394-9add-7c8e4457afe6",
+    "name": "NAIDU SOFTWARE TECHNOLOGIES PRIVATE LIMITED",
+    "website": "http://paymamaapp.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "paymamaapp.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "bbb82219-86d0-4516-883e-e8d6b5df9246",
+    "name": "Finsol Connect Private Limited",
+    "website": "http://finsoltech.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "finsol.co.in",
+    "km": 492.67,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "07a1751e-ad84-415a-a24e-9aa5c53f881f",
+    "name": "GOLDNOON FINTECH PRIVATE LIMITED",
+    "website": "http://goldnoon.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "goldnoon.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e62e3c87-2f73-4258-84c4-44cbdfe75fe0",
+    "name": "ADVIZIN PRIVATE LIMITED",
+    "website": "http://advizin.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "advizin.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "5e0dd179-339f-453d-a48d-db220df560a8",
+    "name": "Boost",
+    "website": "https://bootboost.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "nowfloats.com",
+    "km": 7.01,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "3ae92472-c0a4-4658-b222-b4dcff5754c5",
+    "name": "2 PLUS FORTUNE ALLIANCES PRIVATE LIMITED",
+    "website": "http://2plusfortunealliances.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "2plusfortunealliances.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "11e0aa05-9bf2-40ca-bcdf-86ec6c5a52c9",
+    "name": "Gayatri",
+    "website": "http://www.gayatri.co.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "gayatri.co.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "0c4340a1-24b3-465f-860c-5e53c781505f",
+    "name": "SVK FINTAX SOLUTIONS LLP",
+    "website": "https://www.svkfintax.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "svkfintax.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "ba645235-88fb-4f46-be99-9b5667e5f0c3",
+    "name": "Astra Varaahi Consulting Private Limited",
+    "website": "http://www.astraviseservices.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "astraagritech.co",
+    "km": 14.01,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "5232a306-6b95-4f7a-95bc-be0b34fe172c",
+    "name": "TRUEMARK ACADEMY & ADVISORY SERVICES LLP",
+    "website": "https://www.truemarkadvisoryservices.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "truemarkadvisoryservices.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e7d406e1-8931-42eb-87e4-f22a159c7460",
+    "name": "REVIVE CORPORATE ADVISORS LLP",
+    "website": "https://www.taxrevive.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "svr.org.in",
+    "km": 8.67,
+    "issues": [
+      "no-logo",
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "5bfba7cd-5a62-45bb-b9bd-8c605f0a3aa4",
+    "name": "VR ASSOCIATES LLP",
+    "website": "https://www.vrassociates.org.in",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vrassociates.org.in",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "2509f747-ee94-4808-87e7-1986d654c642",
+    "name": "TOP OF THE WORLD PRIVATE LIMITED",
+    "website": "http://www.theworldjh.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "oftogbusiness.com",
+    "km": 4.88,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "68922359-be37-4d0c-a707-4ec6bffd9237",
+    "name": "KUBERAN PAY SOFTWARE PRIVATE LIMITED",
+    "website": "https://kuberanpay.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "kuberanpay.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "3f398f0b-e09e-4270-8acf-676673d1c7cc",
+    "name": "ONGOLEBULLS INVEST PRIVATE LIMITED",
+    "website": "https://www.ongolebullsinvest.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "ongolebullsinvest.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "aa3b9b5f-21b1-48bf-8f68-f717c9e6cb8e",
+    "name": "VERTOFI PRIVATE LIMITED",
+    "website": "http://www.vertofi.com",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "vertofi.com",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "89661a83-c917-469e-9f29-e3303a730678",
+    "name": "Upsure ( Jiva Business Ventures Private Limited)",
+    "website": "http://www.upsure.io",
+    "area": "Hyderabad",
+    "logoOk": false,
+    "addrStatus": "match",
+    "placeDomain": "upsure.io",
+    "km": 0,
+    "issues": [
+      "no-logo"
+    ]
+  },
+  {
+    "id": "e40e41ae-cc44-44ab-bd61-d550f0499f2f",
+    "name": "DECCAN PEAKS PRIVATE LIMITED",
+    "website": "http://www.deccantrails.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "domain-mismatch",
+    "placeDomain": "deccanchemicals.com",
+    "km": 3.69,
+    "issues": [
+      "address-domain-mismatch"
+    ]
+  },
+  {
+    "id": "ab2be5d6-0398-4aa6-802c-0f670b7ea2de",
+    "name": "Getto India",
+    "website": "https://www.gettoindia.com",
+    "area": "Hyderabad",
+    "logoOk": true,
+    "addrStatus": "unverified",
+    "placeDomain": null,
+    "km": null,
+    "issues": [
+      "address-unverified"
     ]
   }
 ]

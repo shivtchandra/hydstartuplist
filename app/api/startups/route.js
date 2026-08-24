@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { filterStartups, visibleHiring } from "../../../lib/store.js";
+import { featuredPinIdSet } from "../../../lib/placements.js";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +13,7 @@ export async function GET(req) {
     q: searchParams.get("q") || "",
   });
 
+  const sponsoredIds = featuredPinIdSet();
   const slim = list.map((s) => {
     const hiring = visibleHiring(s);
     return {
@@ -28,6 +30,7 @@ export async function GET(req) {
       active: s.active !== false,
       addedAt: s.addedAt ?? null,
       spotlight: s.spotlight === true,
+      sponsored: sponsoredIds.has(s.id) || s.sponsored === true,
     };
   });
 

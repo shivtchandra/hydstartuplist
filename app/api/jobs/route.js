@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { getAdminDb } from "../../../lib/firebaseAdmin.js";
 import { getApproved, visibleHiring } from "../../../lib/store.js";
+import { getJobBoosts, jobIsBoosted } from "../../../lib/placements.js";
 
 export const dynamic = "force-dynamic";
 
@@ -49,26 +50,34 @@ async function careerPicks() {
   return jobs;
 }
 
+
+function withBoost(jobs) {
+  const boosts = getJobBoosts();
+  return jobs
+    .map((j) => ({ ...j, sponsored: jobIsBoosted(j, boosts) }))
+    .sort((a, b) => Number(b.sponsored) - Number(a.sponsored) || new Date(b.postedAt || 0) - new Date(a.postedAt || 0));
+}
+
 export async function GET() {
   const picks = await careerPicks();
   const gccs = gccNames();
 
   const db = await getAdminDb();
   if (!db) {
-    const jobs = picks.map((j) => ({ ...j, category: categorize(j, gccs) }));
+    const jobs = withBoost(picks.map((j) => ({ ...j, category: categorize(j, gccs) })));
     return NextResponse.json({ jobs, fetchedAt: null, note: "Adzuna not configured yet" });
   }
 
   try {
     const snap = await db.collection("job_board").doc("adzuna_latest").get();
     const adzuna = snap.exists ? snap.data() : { jobs: [], fetchedAt: null };
-    const jobs = [...picks, ...(adzuna.jobs || [])]
-      .map((j) => ({ ...j, category: categorize(j, gccs) }))
-      .sort((a, b) => new Date(b.postedAt || 0) - new Date(a.postedAt || 0));
+    const jobs = withBoost(
+      [...picks, ...(adzuna.jobs || [])].map((j) => ({ ...j, category: categorize(j, gccs) }))
+    );
     return NextResponse.json({ jobs, fetchedAt: adzuna.fetchedAt || null });
   } catch (err) {
     console.error("jobs read error:", err);
-    const jobs = picks.map((j) => ({ ...j, category: categorize(j, gccs) }));
+    const jobs = withBoost(picks.map((j) => ({ ...j, category: categorize(j, gccs) })));
     return NextResponse.json({ jobs, fetchedAt: null, note: "Adzuna read error" });
   }
 }

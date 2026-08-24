@@ -3,11 +3,10 @@
 import { useEffect, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
 import LoadingScreen from "../components/LoadingScreen.jsx";
-import { domainOf, faviconUrl } from "../../lib/startupUi.js";
+import { logoSrcs } from "../../lib/startupUi.js";
 
 function GccLogoBadge({ name, website, size = 40 }) {
-  const domain = domainOf(website);
-  const srcs = domain ? [`https://logo.clearbit.com/${domain}?size=128`, faviconUrl(website)] : [];
+  const srcs = logoSrcs(website);
   const [stage, setStage] = useState(0);
   if (stage < srcs.length) {
     return (
@@ -56,8 +55,32 @@ export default function GccsPage() {
 
       {loading && <LoadingScreen label="Rounding up the GCCs…" />}
 
+      {gccs.some((g) => g.sponsored) && (
+        <div className="gcc-spotlight-block">
+          <div className="spotlight-head" style={{ padding: "0 0 10px" }}>
+            <span className="spotlight-title">Hiring spotlight</span>
+            <span className="spotlight-sub">Sponsored GCC placements</span>
+          </div>
+          <div className="feed-list">
+            {gccs.filter((g) => g.sponsored).map((g) => (
+              <a key={g.id} className="feed-row feed-row-sponsored" href={g.careers} target="_blank" rel="noreferrer">
+                <GccLogoBadge name={g.name} website={g.website} />
+                <div className="feed-row-body">
+                  <div className="feed-row-name">
+                    {g.name}
+                    <span className="sponsored-badge">Sponsored</span>
+                  </div>
+                  <div className="feed-row-sub">{g.industry} · Hyderabad · Global Capability Center</div>
+                </div>
+                <span className="nls-more-link">View careers →</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="feed-list">
-        {gccs.map((g) => (
+        {gccs.filter((g) => !g.sponsored).map((g) => (
           <a key={g.id} className="feed-row" href={g.careers} target="_blank" rel="noreferrer">
             <GccLogoBadge name={g.name} website={g.website} />
             <div className="feed-row-body">

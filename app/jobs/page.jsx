@@ -27,6 +27,29 @@ export default function JobsPage() {
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
   const [tab, setTab] = useState("all");
+  const [sharedId, setSharedId] = useState(null);
+
+  async function shareJob(j) {
+    const site = `${window.location.origin}/jobs`;
+    const text = `${j.title} at ${j.company} — ${j.location}\nApply: ${j.url}\n\nMore Hyderabad startup jobs → ${site}`;
+    const data = { title: `${j.title} at ${j.company}`, text, url: j.url };
+    try {
+      if (navigator.share) {
+        await navigator.share(data);
+        return;
+      }
+    } catch (e) {
+      if (e && e.name === "AbortError") return; // user dismissed the sheet
+    }
+    // Fallback for desktop / no Web Share: copy the shareable text.
+    try {
+      await navigator.clipboard.writeText(text);
+      setSharedId(j.id);
+      setTimeout(() => setSharedId((cur) => (cur === j.id ? null : cur)), 1600);
+    } catch {
+      window.prompt("Copy this to share:", text);
+    }
+  }
 
   useEffect(() => {
     fetch("/api/jobs")
@@ -94,12 +117,41 @@ export default function JobsPage() {
 
       <div className="feed-list">
         {filtered.map((j) => (
-          <a key={j.id} className="feed-row" href={j.url} target="_blank" rel="noreferrer">
-            <div className="feed-row-body">
-              <div className="feed-row-name">{j.title}</div>
+          <div key={j.id} className={`feed-row${j.sponsored ? " feed-row-sponsored" : ""}`}>
+            <a className="feed-row-body" href={j.url} target="_blank" rel="noreferrer">
+              <div className="feed-row-name">
+                {j.title}
+                {j.sponsored && <span className="sponsored-badge">Sponsored</span>}
+              </div>
               <div className="feed-row-sub">{j.company} · {j.location} · {timeAgo(j.postedAt)}</div>
-            </div>
-          </a>
+            </a>
+            <button
+              type="button"
+              className="job-share-btn"
+              onClick={() => shareJob(j)}
+              aria-label={`Share ${j.title} at ${j.company}`}
+              title="Share this job"
+            >
+              {sharedId === j.id ? (
+                <>
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m5 12 5 5L20 6" />
+                  </svg>
+                  Copied
+                </>
+              ) : (
+                <>
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="18" cy="5" r="3" />
+                    <circle cx="6" cy="12" r="3" />
+                    <circle cx="18" cy="19" r="3" />
+                    <path d="m8.6 13.5 6.8 4M15.4 6.5 8.6 10.5" />
+                  </svg>
+                  Share
+                </>
+              )}
+            </button>
+          </div>
         ))}
       </div>
       </div>

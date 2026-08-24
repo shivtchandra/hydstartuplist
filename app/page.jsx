@@ -4,13 +4,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../lib/firebase.js";
-import { normalizeArea, domainOf, faviconUrl, colorFor, prettyName, careersUrl } from "../lib/startupUi.js";
+import { normalizeArea, domainOf, hostnameOf, logoSrcs, colorFor, prettyName, careersUrl } from "../lib/startupUi.js";
+import MobileTabBar from "./components/MobileTabBar.jsx";
 
 const HYDERABAD_CENTER = { lat: 17.42, lng: 78.44 };
 
 // Circular logo marker via same-origin API route (embeds favicon server-side).
 function circleIcon(startup) {
-  const domain = domainOf(startup.website);
+  const domain = hostnameOf(startup.website) || domainOf(startup.website);
   const params = new URLSearchParams({
     color: colorFor(startup.sector),
     initial: startup.name.charAt(0) || "?",
@@ -78,16 +79,26 @@ function useLeafletMap(containerRef) {
     const L = LRef.current;
     if (!L || !layerRef.current) return;
     layerRef.current.clearLayers();
-    startups
-      .filter((s) => s.lat && s.lng)
-      .forEach((s) => {
+    // Sponsored featured pins render above free pins (higher z-index) with a ring.
+    const ordered = [...startups.filter((s) => s.lat && s.lng)].sort(
+      (a, b) => Number(!!b.sponsored) - Number(!!a.sponsored)
+    );
+    ordered.forEach((s) => {
+        const featured = !!s.sponsored;
+        const size = featured ? 52 : 44;
         const icon = L.divIcon({
-          className: "leaf-marker",
-          html: `<img src="${circleIcon(s)}" width="44" height="44" alt="" />`,
-          iconSize: [44, 44],
-          iconAnchor: [22, 22],
+          className: `leaf-marker${featured ? " leaf-marker-sponsored" : ""}`,
+          html: featured
+            ? `<div class="pin-sponsored-ring"><img src="${circleIcon(s)}" width="44" height="44" alt="" /><span class="pin-sponsored-label">Sponsored</span></div>`
+            : `<img src="${circleIcon(s)}" width="44" height="44" alt="" />`,
+          iconSize: [size, featured ? 64 : size],
+          iconAnchor: [size / 2, size / 2],
         });
-        L.marker([s.lat, s.lng], { icon, title: prettyName(s.name) })
+        L.marker([s.lat, s.lng], {
+          icon,
+          title: prettyName(s.name),
+          zIndexOffset: featured ? 600 : 0,
+        })
           .addTo(layerRef.current)
           .on("click", () => onSelect(s));
       });
@@ -169,11 +180,8 @@ function Dropdown({ value, onChange, options, placeholder, counts }) {
 }
 
 function LogoBadge({ startup, size = 34 }) {
-  const domain = domainOf(startup.website);
-  // Try a real logo (Clearbit) first, then favicon, then the initial fallback.
-  const srcs = domain
-    ? [`https://logo.clearbit.com/${domain}?size=128`, faviconUrl(startup.website)]
-    : [];
+  // Clearbit → Google favicon (www-aware) → DuckDuckGo → initial fallback.
+  const srcs = logoSrcs(startup.website);
   const [stage, setStage] = useState(0);
   useEffect(() => { setStage(0); }, [startup.website]);
   if (stage < srcs.length) {
@@ -225,7 +233,12 @@ function DetailModal({ startup, onClose }) {
         <div className="modal-head">
           <LogoBadge startup={startup} size={56} />
           <div>
-            <h2 className="modal-title">{prettyName(startup.name)}</h2>
+            <h2 className="modal-title">
+              {prettyName(startup.name)}
+              {(startup.sponsored || detail?.sponsored) && (
+                <span className="sponsored-badge">Sponsored</span>
+              )}
+            </h2>
             <div className="tags">
               <span className="tag" style={{ background: "#eef2ff", color: colorFor(startup.sector) }}>
                 {startup.sector}
@@ -346,11 +359,14 @@ function NewsletterBar() {
 
 function StartupCard({ startup, onClick, active }) {
   return (
-    <div className={`s-card${active ? " s-card-on" : ""}`} onClick={onClick}>
+    <div className={`s-card${active ? " s-card-on" : ""}${startup.sponsored ? " s-card-sponsored" : ""}`} onClick={onClick}>
       <div className="s-card-head">
         <LogoBadge startup={startup} size={40} />
         <div className="s-card-id">
-          <div className="s-card-name">{prettyName(startup.name)}</div>
+          <div className="s-card-name">
+            {prettyName(startup.name)}
+            {startup.sponsored && <span className="sponsored-badge">Sponsored</span>}
+          </div>
           <div className="s-card-sub">{startup.sector} · {startup.area}</div>
         </div>
       </div>
@@ -391,6 +407,162 @@ function SpotlightShelf({ startups, onSelect }) {
   );
 }
 
+/** Paid featured inventory — live Sponsored pins + honest Available placeholders. */
+function SponsoredShelf({ startups, available = 0, cta, onSelect }) {
+  const open = Math.max(0, available);
+  if (!startups.length && open <= 0) return null;
+  const href = cta?.ctaHref || "/feature";
+  const label = cta?.ctaLabel || "Get featured";
+  const filled = startups.length;
+  const max = filled + open;
+  const shownOpen = Math.min(open, 3);
+  return (
+    <div className="spotlight-shelf sponsored-shelf">
+      <div className="spotlight-head">
+        <span className="spotlight-title">Featured</span>
+        <span className="spotlight-sub">
+          Limited featured pins · {filled}/{max || "—"} filled
+          {open > 0 ? ` · ${open} open` : ""}
+        </span>
+      </div>
+      <div className="spotlight-row">
+        {startups.map((s) => (
+          <button key={s.id} type="button" className="spotlight-card spotlight-card-sponsored" onClick={() => onSelect(s)}>
+            <LogoBadge startup={s} size={32} />
+            <div className="spotlight-name">{prettyName(s.name)}</div>
+            <div className="spotlight-sector"><span className="sponsored-badge">Sponsored</span></div>
+          </button>
+        ))}
+        {Array.from({ length: shownOpen }, (_, i) => (
+          <Link
+            key={`avail-${i}`}
+            href={href}
+            className="spotlight-card spotlight-card-available"
+            title="Featured pin available"
+          >
+            <span className="avail-slot-mark" aria-hidden="true">+</span>
+            <div className="spotlight-name">Your startup here</div>
+            <div className="spotlight-sector">{label}</div>
+          </Link>
+        ))}
+      </div>
+      <p className="sponsored-shelf-note">
+        Basic map listings stay free. Featured pins get a Sponsored badge and priority on the map.
+      </p>
+    </div>
+  );
+}
+
+/** Subtle map-sidebar chrome for paid inventory (from placements chromeSlots). */
+function FeaturedPartnerStrip({ chrome }) {
+  if (!chrome) return null;
+  const href = chrome.ctaHref || "/feature";
+  return (
+    <div className={`featured-partner-strip${chrome.mode === "available" ? " is-available" : ""}`}>
+      <div className="fps-copy">
+        <span className="fps-kicker">Featured partner</span>
+        <strong className="fps-headline">{chrome.headline || "Feature this pin"}</strong>
+        {chrome.body ? <span className="fps-body">{chrome.body}</span> : null}
+      </div>
+      <Link className="fps-cta" href={href}>
+        {chrome.ctaLabel || "Reserve a spot"}
+      </Link>
+    </div>
+  );
+}
+
+/**
+ * Always-on Featured inventory on the map pane — survives sidebar/list closed.
+ * Collapsed pill keeps sellable signal; expands for live pins + open slots.
+ */
+function MapFeaturedChrome({ startups, available = 0, cta, onSelect, preferOpen = false }) {
+  const open = Math.max(0, available);
+  const [expanded, setExpanded] = useState(preferOpen);
+  useEffect(() => {
+    if (preferOpen) setExpanded(true);
+  }, [preferOpen]);
+  if (!startups.length && open <= 0) return null;
+
+  const href = cta?.ctaHref || "/feature";
+  const label = cta?.ctaLabel || "Get featured";
+  const filled = startups.length;
+  const max = filled + open;
+  const shownOpen = Math.min(open, 2);
+  const peek = startups.slice(0, 3);
+
+  return (
+    <div
+      className={`map-featured-chrome${expanded ? " is-expanded" : ""}${open > 0 ? " has-open" : ""}`}
+      role="region"
+      aria-label="Featured map placements"
+    >
+      <button
+        type="button"
+        className="mfc-pill"
+        aria-expanded={expanded}
+        onClick={() => setExpanded((v) => !v)}
+      >
+        <span className="mfc-pill-mark" aria-hidden="true" />
+        <span className="mfc-pill-title">Featured</span>
+        {peek.length > 0 && (
+          <span className="mfc-peek" aria-hidden="true">
+            {peek.map((s) => (
+              <span key={s.id} className="mfc-peek-logo">
+                <LogoBadge startup={s} size={18} />
+              </span>
+            ))}
+          </span>
+        )}
+        <span className="mfc-pill-meta">
+          {open > 0 ? `${open} open` : `${filled}/${max || filled} filled`}
+        </span>
+        <span className="mfc-caret" aria-hidden="true">{expanded ? "▾" : "▴"}</span>
+      </button>
+
+      {expanded && (
+        <div className="mfc-panel">
+          <div className="mfc-head">
+            <span className="mfc-sub">
+              Limited pins · {filled}/{max || "—"} filled
+              {open > 0 ? ` · ${open} open` : ""}
+            </span>
+            <Link className="mfc-cta" href={href}>
+              {label}
+            </Link>
+          </div>
+          <div className="mfc-row">
+            {startups.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                className="mfc-chip mfc-chip-live"
+                onClick={() => onSelect(s)}
+                title={prettyName(s.name)}
+              >
+                <LogoBadge startup={s} size={28} />
+                <span className="mfc-chip-name">{prettyName(s.name)}</span>
+                <span className="sponsored-badge">Sponsored</span>
+              </button>
+            ))}
+            {Array.from({ length: shownOpen }, (_, i) => (
+              <Link
+                key={`mfc-avail-${i}`}
+                href={href}
+                className="mfc-chip mfc-chip-avail"
+                title="Featured pin available"
+              >
+                <span className="avail-slot-mark mfc-avail-mark" aria-hidden="true">+</span>
+                <span className="mfc-chip-name">Your startup here</span>
+              </Link>
+            ))}
+          </div>
+          <p className="mfc-note">Listings stay free. Featured pins get a Sponsored ring on the map.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Page() {
   const mapContainerRef = useRef(null);
   const { ready, setMarkers, flyTo, fitToMarkers, invalidateSize } = useLeafletMap(mapContainerRef);
@@ -405,13 +577,30 @@ export default function Page() {
   const [newOnly, setNewOnly] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarView, setSidebarView] = useState("list"); // "list" | "areas" — what the sidebar shows
+  const [featuredInv, setFeaturedInv] = useState(null); // from /api/placements
 
   const CURRENT_YEAR = new Date().getFullYear();
+
+  // On mobile the list is a full-screen overlay over the map, so default it
+  // closed — land on the map, open the list via "Show list" / the pull-up.
+  // Desktop keeps the sidebar open beside the map.
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth <= 768) {
+      setSidebarOpen(false);
+    }
+  }, []);
 
   useEffect(() => {
     fetch("/api/startups")
       .then((r) => r.json())
       .then(setAll)
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/placements")
+      .then((r) => r.json())
+      .then(setFeaturedInv)
       .catch(() => {});
   }, []);
 
@@ -422,6 +611,7 @@ export default function Page() {
     [all]
   );
   const spotlight = useMemo(() => all.filter((s) => s.spotlight), [all]);
+  const sponsoredPins = useMemo(() => all.filter((s) => s.sponsored), [all]);
 
   const filtered = useMemo(() => {
     return all.filter((s) => {
@@ -488,6 +678,10 @@ export default function Page() {
       .sort((a, b) => b.count - a.count);
   }, [filtered]);
 
+  const listOrder = useMemo(
+    () => [...filtered].sort((a, b) => Number(!!b.sponsored) - Number(!!a.sponsored)),
+    [filtered]
+  );
   const hiringInView = useMemo(() => filtered.filter((s) => s.hiring).length, [filtered]);
 
   useEffect(() => {
@@ -514,7 +708,7 @@ export default function Page() {
   const hasActiveFilters = Boolean(sector || fundingStage || area || hiringOnly || newOnly || q);
 
   const CAP = 150;
-  const visible = filtered.slice(0, CAP);
+  const visible = listOrder.slice(0, CAP);
 
   return (
     <div className="app">
@@ -522,9 +716,11 @@ export default function Page() {
         <div className="topnav-row">
           <Link href="/" className="tn-brand">
             <span className="cmd-mark" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-                <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z" fill="currentColor" />
-                <circle cx="12" cy="10" r="2.6" fill="#fff" />
+              <svg viewBox="0 0 100 120" width="17" height="20" fill="none">
+                <rect x="21" y="18" width="15" height="64" rx="3" fill="currentColor" />
+                <rect x="21" y="42" width="58" height="15" rx="3" fill="currentColor" />
+                <path d="M64 18 H79 V57 C79 63 77 68 73.5 72.5 L71.5 75 L69 111 L66.3 75.5 L64.3 72.8 C61 68.2 64 63.4 64 57 Z" fill="currentColor" />
+                <circle cx="71.5" cy="40" r="7" fill="#ff5722" />
               </svg>
             </span>
             <span className="tn-title">
@@ -550,7 +746,7 @@ export default function Page() {
             <Link href="/newsletter">Newsletter</Link>
           </nav>
 
-          <Link className="btn cmd-submit tn-cta" href="/submit">Submit</Link>
+          <Link className="btn cmd-submit tn-cta" href="/submit" aria-label="Submit a startup">Submit a startup</Link>
         </div>
 
         <div className="topnav-filters filter-pills">
@@ -619,6 +815,17 @@ export default function Page() {
                 <button className={sidebarView === "areas" ? "on" : ""} onClick={() => setSidebarView("areas")}>Areas</button>
               </div>
             </div>
+            {sidebarView === "list" && (
+              <SponsoredShelf
+                startups={sponsoredPins}
+                available={
+                  featuredInv?.featured?.available ??
+                  Math.max(0, (featuredInv?.featured?.maxActive ?? 5) - sponsoredPins.length)
+                }
+                cta={featuredInv?.featured?.cta || { ctaLabel: "Get featured", ctaHref: "/feature" }}
+                onSelect={openStartup}
+              />
+            )}
             {sidebarView === "list" && !hasActiveFilters && (
               <SpotlightShelf startups={spotlight} onSelect={openStartup} />
             )}
@@ -657,45 +864,41 @@ export default function Page() {
               </div>
             )}
           </div>
+          <FeaturedPartnerStrip
+            chrome={
+              featuredInv?.chrome?.mapSidebar || {
+                headline: "Feature this pin",
+                body: "Limited featured pins open — Sponsored placement on the map.",
+                ctaLabel: "Reserve a spot",
+                ctaHref: "/feature",
+                mode: "available",
+              }
+            }
+          />
           <NewsletterBar />
         </aside>
 
         <main className="map-area">
           <div ref={mapContainerRef} className="map-full" />
+          <MapFeaturedChrome
+            startups={sponsoredPins}
+            available={
+              featuredInv?.featured?.available ??
+              Math.max(0, (featuredInv?.featured?.maxActive ?? 5) - sponsoredPins.length)
+            }
+            cta={featuredInv?.featured?.cta || { ctaLabel: "Get featured", ctaHref: "/feature" }}
+            onSelect={openStartup}
+            preferOpen={!sidebarOpen}
+          />
         </main>
       </div>
 
-      <div className="mobile-view-toggle">
-        <button
-          type="button"
-          className={`m-vt-btn${!sidebarOpen ? " active" : ""}`}
-          onClick={() => {
-            setSidebarOpen(false);
-            setTimeout(invalidateSize, 260);
-          }}
-        >
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z" />
-            <circle cx="12" cy="10" r="2.5" />
-          </svg>
-          Map
-        </button>
-        <button
-          type="button"
-          className={`m-vt-btn${sidebarOpen ? " active" : ""}`}
-          onClick={() => setSidebarOpen(true)}
-        >
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="8" y1="6" x2="21" y2="6" />
-            <line x1="8" y1="12" x2="21" y2="12" />
-            <line x1="8" y1="18" x2="21" y2="18" />
-            <line x1="3" y1="6" x2="3.01" y2="6" />
-            <line x1="3" y1="12" x2="3.01" y2="12" />
-            <line x1="3" y1="18" x2="3.01" y2="18" />
-          </svg>
-          List ({filtered.length})
-        </button>
-      </div>
+      <MobileTabBar
+        onMapTab={() => {
+          setSidebarOpen(false);
+          setTimeout(invalidateSize, 260);
+        }}
+      />
 
       <DetailModal startup={selected} onClose={() => setSelected(null)} />
     </div>
