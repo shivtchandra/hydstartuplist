@@ -17,6 +17,9 @@ const TABLE = featuredPricingTable();
 const UPI_VPA = "shivachandra9490-1@okaxis";
 const UPI_PAYEE = "Hyderabad Startup Map";
 
+/** "1 day" / "14 days" */
+const nDays = (n) => `${n} day${Number(n) === 1 ? "" : "s"}`;
+
 /** Build a upi:// intent link that pre-fills payee + amount in any UPI app. */
 function upiLink(amount, note) {
   const p = new URLSearchParams({
@@ -124,7 +127,7 @@ function FeatureForm() {
           <div className="form-check">✓</div>
           <h2>Request received</h2>
           <p className="feature-confirm-line">
-            {confirmed.days} days · {confirmed.display}
+            {nDays(confirmed.days)} · {confirmed.display}
           </p>
           <p>
             Thanks — we&apos;ve got your payment details. We&apos;ll verify the UPI transaction and
@@ -157,7 +160,7 @@ function FeatureForm() {
           </button>
           <h1 className="form-title">Pay by UPI</h1>
           <p className="form-sub">
-            Pay <strong>{quote.display}</strong> for <strong>{form.name.trim()}</strong> ({quote.days} days),
+            Pay <strong>{quote.display}</strong> for <strong>{form.name.trim()}</strong> ({nDays(quote.days)}),
             then enter your UPI transaction ID below. We verify it and activate your Sponsored pin.
           </p>
 
@@ -232,14 +235,14 @@ function FeatureForm() {
           {TABLE.map((row) => (
             <div key={row.days} className="feature-pricing-row">
               <span>
-                {row.label} · {row.days} days
+                {row.label} · {nDays(row.days)}
               </span>
               <span className="feature-pricing-amt">{row.display}</span>
               <span className="feature-pricing-per">{row.perDay}</span>
             </div>
           ))}
           <div className="feature-pricing-foot">
-            Custom length: {formatINR(FEATURED_PRICING.dailyRate)}/day (min {FEATURED_PRICING.minDays} days)
+            Custom length: {formatINR(FEATURED_PRICING.dailyRate)}/day (min {FEATURED_PRICING.minDays} day{FEATURED_PRICING.minDays === 1 ? "" : "s"})
           </div>
         </div>
 
@@ -259,7 +262,7 @@ function FeatureForm() {
                     aria-pressed={active}
                   >
                     <span className="fdc-label">{p.label}</span>
-                    <span className="fdc-days">{p.days} days</span>
+                    <span className="fdc-days">{nDays(p.days)}</span>
                     <span className="fdc-price">{q.display}</span>
                     {p.blurb ? <span className="fdc-blurb">{p.blurb}</span> : null}
                   </button>
@@ -297,7 +300,7 @@ function FeatureForm() {
               <strong className="feature-quote-amount">{quote.display}</strong>
             </div>
             <span className="feature-quote-meta">
-              {quote.days} days · ~{formatINR(quote.effectiveDaily)}/day · INR · pay by UPI
+              {nDays(quote.days)} · ~{formatINR(quote.effectiveDaily)}/day · INR · pay by UPI
             </span>
           </div>
 
