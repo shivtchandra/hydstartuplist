@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { getFeaturedInventory, getChromeSlots } from "../../../lib/placements.js";
+import { getFeaturedInventoryAsync, getChromeSlots } from "../../../lib/placements.js";
 
 export const dynamic = "force-dynamic";
 
 /** Public inventory summary for map chrome / Featured shelf (no secrets). */
 export async function GET() {
-  const inventory = getFeaturedInventory();
+  const inventory = await getFeaturedInventoryAsync();
   const chrome = getChromeSlots();
   const sidebarRaw = chrome.mapSidebar;
   const baseCta = inventory.cta;

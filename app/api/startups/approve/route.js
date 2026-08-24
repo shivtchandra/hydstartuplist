@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import fs from "fs";
 import path from "path";
+import { getApproved } from "../../../../lib/store.js";
+import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 
 const DB = path.join(process.cwd(), "data", "startups.json");
 const IN_HYD = (lat, lng) => lat > 17.0 && lat < 17.75 && lng > 78.0 && lng < 78.85;
@@ -20,10 +22,12 @@ async function search(query) {
   return d.places?.[0] || null;
 }
 
-// Approve a submission: geocode it to a real Hyderabad office, then either
-// merge it into an existing entry (claims — s.claimFor is the target id) or
-// append it as a new entry — into the in-code dataset (data/startups.json).
-// No Firestore involved.
+// Approve a submission: geocode it to a real Hyderabad office, then persist it.
+// Vercel's filesystem is read-only at request time, so we write to Firestore's
+// `startups_dynamic` overlay (merged onto data/startups.json by getApproved).
+// Claims (s.claimFor) store field overrides on the existing id; new approvals
+// store the full record (_full:true) under a fresh id. Falls back to a local
+// file write only when no admin DB is configured (offline dev).
 export async function POST(req) {
   const s = await req.json();
   if (!s?.name) return NextResponse.json({ error: "name required" }, { status: 400 });
@@ -42,14 +46,15 @@ export async function POST(req) {
       try { website = new URL(hit.websiteUri).origin; } catch {}
     }
 
-    const list = JSON.parse(fs.readFileSync(DB, "utf-8"));
+    const db = await getAdminDb();
+    const all = await getApproved();
 
+    // ── Claim: merge overrides onto an existing listing ──────────────────
     if (s.claimFor) {
-      const idx = list.findIndex((x) => x.id === s.claimFor);
-      if (idx === -1) return NextResponse.json({ ok: false, reason: "claimed listing not found" });
-      const existing = list[idx];
-      const merged = {
-        ...existing,
+      const existing = all.find((x) => x.id === s.claimFor);
+      if (!existing) return NextResponse.json({ ok: false, reason: "claimed listing not found" });
+
+      const overrides = {
         website: website || existing.website,
         sector: s.sector || existing.sector,
         fundingStage: s.fundingStage || existing.fundingStage,
@@ -62,22 +67,30 @@ export async function POST(req) {
         verified: true,
       };
       if (s.hiring) {
-        merged.hiring = { active: true, count: null, source: "manual", checkedAt: new Date().toISOString() };
+        overrides.hiring = { active: true, count: null, source: "manual", checkedAt: new Date().toISOString() };
       }
-      list[idx] = merged;
-      fs.writeFileSync(DB, JSON.stringify(list, null, 2));
-      return NextResponse.json({ ok: true, address: merged.address, total: list.length, claimed: true });
+
+      if (db) {
+        await db.collection("startups_dynamic").doc(s.claimFor).set(overrides, { merge: true });
+      } else {
+        const list = JSON.parse(fs.readFileSync(DB, "utf-8"));
+        const idx = list.findIndex((x) => x.id === s.claimFor);
+        if (idx !== -1) { list[idx] = { ...list[idx], ...overrides }; fs.writeFileSync(DB, JSON.stringify(list, null, 2)); }
+      }
+      return NextResponse.json({ ok: true, address: overrides.address, total: all.length, claimed: true });
     }
 
+    // ── New approval: needs a real Hyderabad location ────────────────────
     if (!foundLocation) {
       return NextResponse.json({ ok: false, reason: "no Hyderabad location found" });
     }
-    if (list.some((x) => x.name.toLowerCase() === s.name.toLowerCase())) {
+    if (all.some((x) => x.name.toLowerCase() === s.name.toLowerCase())) {
       return NextResponse.json({ ok: false, reason: "already on the map" });
     }
 
+    const id = randomUUID();
     const entry = {
-      id: randomUUID(),
+      id,
       name: s.name,
       website,
       sector: s.sector || "Other",
@@ -94,10 +107,16 @@ export async function POST(req) {
     if (s.hiring) {
       entry.hiring = { active: true, count: null, source: "manual", checkedAt: new Date().toISOString() };
     }
-    list.push(entry);
-    fs.writeFileSync(DB, JSON.stringify(list, null, 2));
 
-    return NextResponse.json({ ok: true, address: entry.address, total: list.length });
+    if (db) {
+      await db.collection("startups_dynamic").doc(id).set({ ...entry, _full: true });
+    } else {
+      const list = JSON.parse(fs.readFileSync(DB, "utf-8"));
+      list.push(entry);
+      fs.writeFileSync(DB, JSON.stringify(list, null, 2));
+    }
+
+    return NextResponse.json({ ok: true, address: entry.address, total: all.length + 1 });
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

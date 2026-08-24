@@ -24,11 +24,84 @@ export default function AdminPage() {
   const [hiringBusyId, setHiringBusyId] = useState(null);
   const [featuredReqs, setFeaturedReqs] = useState([]);
   const [frBusyId, setFrBusyId] = useState(null);
+  const [placeOpenId, setPlaceOpenId] = useState(null);
+  const [siteInfo, setSiteInfo] = useState({}); // requestId -> { preview, matches, loading }
+  const [pf, setPf] = useState({ type: "featured", startupId: "", days: 14, startsAt: "", label: "Sponsored" });
+
+  function today() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  async function fetchSite(item) {
+    setSiteInfo((s) => ({ ...s, [item.id]: { loading: true } }));
+    try {
+      const res = await fetch(
+        `/api/admin/site-preview?url=${encodeURIComponent(item.website || "")}&name=${encodeURIComponent(item.name || "")}`,
+        { headers: { "x-admin-passcode": PASSCODE } }
+      ).then((r) => r.json());
+      setSiteInfo((s) => ({ ...s, [item.id]: { ...res, loading: false } }));
+    } catch (e) {
+      setSiteInfo((s) => ({ ...s, [item.id]: { loading: false, error: e.message } }));
+    }
+  }
+
+  function openPlace(item) {
+    setPlaceOpenId(item.id);
+    setPf({ type: "featured", startupId: item.startupId || "", days: item.days || 14, startsAt: today(), label: "Sponsored" });
+    if (!siteInfo[item.id]) fetchSite(item);
+  }
+
+  async function activateSlot(item) {
+    if (pf.type === "featured" && !pf.startupId.trim()) {
+      setNote("A startup ID is required to place a featured pin — use a matched startup below or paste an ID.");
+      return;
+    }
+    if (pf.type === "gcc" && !pf.startupId.trim()) {
+      setNote("Enter the GCC id to spotlight.");
+      return;
+    }
+    setFrBusyId(item.id);
+    try {
+      const payload = {
+        action: "activate",
+        type: pf.type,
+        days: Number(pf.days) || item.days || 14,
+        startsAt: pf.startsAt || today(),
+        label: pf.label || "Sponsored",
+        requestId: item.id,
+      };
+      if (pf.type === "featured") payload.startupId = pf.startupId.trim();
+      else if (pf.type === "gcc") payload.gccId = pf.startupId.trim();
+      else payload.match = { companyIncludes: pf.startupId.trim() || item.name };
+
+      const res = await fetch("/api/admin/placements", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-passcode": PASSCODE },
+        body: JSON.stringify(payload),
+      }).then((r) => r.json());
+
+      if (!res.ok) {
+        setNote("Activate failed: " + (res.error || "unknown"));
+        return;
+      }
+      setFeaturedReqs((rs) => rs.map((x) => (x.id === item.id ? { ...x, status: "placed" } : x)));
+      setPlaceOpenId(null);
+      setNote(`Live — ${item.name} placed as ${pf.type} until ${new Date(res.endsAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}.`);
+    } catch (e) {
+      setNote("Activate failed: " + e.message);
+    } finally {
+      setFrBusyId(null);
+    }
+  }
 
   async function loadFeatured() {
     try {
       const res = await fetch("/api/admin/featured", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
-      setFeaturedReqs(res.requests || []);
+      const reqs = res.requests || [];
+      setFeaturedReqs(reqs);
+      // Fetch each site's details up front so the admin sees who they are
+      // (logo + title + matched listing) without clicking into a request.
+      reqs.forEach((it) => fetchSite(it));
     } catch (e) {
       setNote((n) => n || "Featured requests load failed: " + e.message);
     }
@@ -303,8 +376,8 @@ export default function AdminPage() {
           <h2 className="form-title" style={{ margin: 0, fontSize: 20 }}>Featured pin requests (UPI)</h2>
           <p className="form-sub" style={{ margin: "2px 0 0" }}>
             {featuredReqs.filter((r) => r.status === "pending_verification").length} awaiting verification.
-            Confirm the UPI transaction landed in your account, mark it Verified, then add the slot to
-            data/placements.json.
+            Confirm the UPI transaction landed in your account → Verify → Place on map (picks the spot and
+            goes live instantly, no redeploy).
           </p>
         </div>
       </div>
@@ -313,7 +386,8 @@ export default function AdminPage() {
 
       <div className="admin-list">
         {featuredReqs.map((r) => (
-          <div key={r.id} className="admin-row">
+          <div key={r.id} className="admin-req-block">
+            <div className="admin-row">
             <div className="admin-info">
               <div className="admin-name">
                 {r.name}
@@ -333,11 +407,39 @@ export default function AdminPage() {
                 {" · "}{r.contactEmail}
                 {r.notes && <> · {r.notes}</>}
               </div>
+
+              {/* Fetched site identity — shown up front so you can vet them. */}
+              {siteInfo[r.id]?.loading && <div className="admin-site-mini-loading">Fetching site details…</div>}
+              {siteInfo[r.id]?.preview && (
+                <div className="admin-site-mini">
+                  <img
+                    className="admin-site-favicon"
+                    src={`https://www.google.com/s/2/favicons?sz=64&domain_url=${encodeURIComponent(r.website || "")}`}
+                    alt=""
+                  />
+                  <div className="admin-site-mini-body">
+                    <div className="admin-site-mini-title">{siteInfo[r.id].preview.title || r.name}</div>
+                    {siteInfo[r.id].preview.description && (
+                      <div className="admin-site-mini-desc">{siteInfo[r.id].preview.description}</div>
+                    )}
+                    {siteInfo[r.id].matches?.length > 0 && (
+                      <div className="admin-site-mini-match">
+                        On map as: {siteInfo[r.id].matches.map((m) => m.name).join(", ")}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
             <div className="admin-actions">
-              {r.status !== "verified" && (
+              {r.status === "pending_verification" && (
                 <button className="btn cmd-submit" disabled={frBusyId === r.id} onClick={() => setFeaturedStatus(r, "verified")}>
                   {frBusyId === r.id ? "…" : "Verify"}
+                </button>
+              )}
+              {(r.status === "verified" || r.status === "placed") && (
+                <button className="btn cmd-submit" disabled={frBusyId === r.id} onClick={() => (placeOpenId === r.id ? setPlaceOpenId(null) : openPlace(r))}>
+                  {r.status === "placed" ? "Placed ✓ · edit" : placeOpenId === r.id ? "Close" : "Place on map"}
                 </button>
               )}
               {r.status !== "rejected" && (
@@ -346,7 +448,74 @@ export default function AdminPage() {
                 </button>
               )}
             </div>
+            </div>
+
+            {placeOpenId === r.id && (
+          <div className="place-panel">
+            {/* Who are they — fetched from their site + startup matches */}
+            <div className="place-site">
+              {siteInfo[r.id]?.loading && <span className="form-sub">Fetching {(r.website || "").replace(/^https?:\/\//, "")}…</span>}
+              {siteInfo[r.id]?.preview && (
+                <div className="place-site-card">
+                  {siteInfo[r.id].preview.image && (
+                    <img src={siteInfo[r.id].preview.image} alt="" className="place-site-img" />
+                  )}
+                  <div>
+                    <div className="place-site-title">{siteInfo[r.id].preview.title || r.name}</div>
+                    {siteInfo[r.id].preview.description && (
+                      <div className="place-site-desc">{siteInfo[r.id].preview.description}</div>
+                    )}
+                  </div>
+                </div>
+              )}
+              {siteInfo[r.id]?.matches?.length > 0 && (
+                <div className="place-matches">
+                  <span className="form-sub">Matched map listings — click to use its ID:</span>
+                  {siteInfo[r.id].matches.map((m) => (
+                    <button key={m.id} type="button" className="place-match-chip" onClick={() => setPf((p) => ({ ...p, startupId: m.id }))}>
+                      {m.name} <code>{m.id.slice(0, 8)}</code>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {siteInfo[r.id] && !siteInfo[r.id].loading && !siteInfo[r.id].matches?.length && (
+                <span className="form-sub">No existing map listing matched — they may need a free /submit first, then paste that ID.</span>
+              )}
+            </div>
+
+            {/* Where to place them */}
+            <div className="place-grid">
+              <label className="field">
+                <span>Spot</span>
+                <select value={pf.type} onChange={(e) => setPf((p) => ({ ...p, type: e.target.value }))}>
+                  <option value="featured">Featured pin (map)</option>
+                  <option value="gcc">GCC hiring spotlight</option>
+                  <option value="jobBoost">Sponsored job boost</option>
+                </select>
+              </label>
+              <label className="field">
+                <span>{pf.type === "featured" ? "Startup ID" : pf.type === "gcc" ? "GCC ID" : "Company match"}</span>
+                <input
+                  value={pf.startupId}
+                  onChange={(e) => setPf((p) => ({ ...p, startupId: e.target.value }))}
+                  placeholder={pf.type === "featured" ? "startupId" : pf.type === "gcc" ? "gccId" : "company name to boost"}
+                />
+              </label>
+              <label className="field">
+                <span>Start</span>
+                <input type="date" value={pf.startsAt} onChange={(e) => setPf((p) => ({ ...p, startsAt: e.target.value }))} />
+              </label>
+              <label className="field">
+                <span>Days</span>
+                <input type="number" min={1} value={pf.days} onChange={(e) => setPf((p) => ({ ...p, days: Number(e.target.value) || 1 }))} />
+              </label>
+            </div>
+            <button className="btn cmd-submit" disabled={frBusyId === r.id} onClick={() => activateSlot(r)}>
+              {frBusyId === r.id ? "Activating…" : "Activate slot — goes live now"}
+            </button>
           </div>
+        )}
+        </div>
         ))}
       </div>
 
