@@ -12,6 +12,7 @@ const SITE_URL =
 const OG_TITLE = "HydMap — Every Hyderabad startup on one map";
 const OG_DESC =
   "Interactive map, hiring feed, jobs, funding stages, news and analytics for 1,000+ Hyderabad startups.";
+const OG_IMAGE = "/opengraph-image";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -24,11 +25,20 @@ export const metadata = {
     url: SITE_URL,
     type: "website",
     locale: "en_IN",
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: OG_TITLE,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: OG_TITLE,
     description: OG_DESC,
+    images: [OG_IMAGE],
   },
 };
 
@@ -47,4 +57,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-

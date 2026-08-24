@@ -32,7 +32,7 @@ function categorize(job, gccs) {
 async function careerPicks() {
   const all = await getApproved();
   const jobs = [];
-  for (const s of all) {
+  for (const s of all.filter((startup) => startup.active !== false)) {
     const hiring = visibleHiring(s);
     if (!hiring || !Array.isArray(hiring.roles)) continue;
     for (const role of hiring.roles) {

@@ -22,6 +22,9 @@ export default function AdminPage() {
   const [nlResult, setNlResult] = useState(null);
   const [hiring, setHiring] = useState([]);
   const [hiringBusyId, setHiringBusyId] = useState(null);
+  const [approvedStartups, setApprovedStartups] = useState([]);
+  const [approvedBusyId, setApprovedBusyId] = useState(null);
+  const [showHiddenApproved, setShowHiddenApproved] = useState(false);
   const [featuredReqs, setFeaturedReqs] = useState([]);
   const [frBusyId, setFrBusyId] = useState(null);
   const [placeOpenId, setPlaceOpenId] = useState(null);
@@ -129,6 +132,39 @@ export default function AdminPage() {
       reqs.forEach((it) => fetchSite(it));
     } catch (e) {
       setNote((n) => n || "Featured requests load failed: " + e.message);
+    }
+  }
+
+  async function loadApprovedStartups() {
+    try {
+      const res = await fetch("/api/admin/startups", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      setApprovedStartups(res.startups || []);
+    } catch (e) {
+      setNote((n) => n || "Approved listings load failed: " + e.message);
+    }
+  }
+
+  async function toggleStartupVisible(item) {
+    const nextActive = item.active === false;
+    setApprovedBusyId(item.id);
+    setNote("");
+    try {
+      const res = await fetch("/api/admin/startups", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-passcode": PASSCODE },
+        body: JSON.stringify({ id: item.id, active: nextActive }),
+      }).then((r) => r.json());
+      if (!res.ok) {
+        setNote("Listing visibility update failed: " + (res.error || "unknown"));
+        return;
+      }
+      setApprovedStartups((xs) => xs.map((x) => (x.id === item.id ? { ...x, active: nextActive } : x)));
+      setNote(nextActive ? `Visible again — ${item.name} is back on the map.` : `Hidden — ${item.name} is off the public map.`);
+      setLastMapLink(nextActive ? `/?startup=${encodeURIComponent(item.id)}` : "");
+    } catch (e) {
+      setNote("Listing visibility update failed: " + e.message);
+    } finally {
+      setApprovedBusyId(null);
     }
   }
 
@@ -278,7 +314,7 @@ export default function AdminPage() {
   }
 
   useEffect(() => {
-    if (authed) { load(); loadNewsletterPreview(); loadHiring(); loadFeatured(); }
+    if (authed) { load(); loadNewsletterPreview(); loadHiring(); loadFeatured(); loadApprovedStartups(); }
   }, [authed]);
 
   async function approve(item) {
@@ -301,6 +337,7 @@ export default function AdminPage() {
 
       await deleteDoc(doc(db, "pending", item.id));
       setPending((p) => p.filter((x) => x.id !== item.id));
+      loadApprovedStartups();
       if (res.id) setLastMapLink(`/?startup=${encodeURIComponent(res.id)}`);
       setNote(
         res.claimed
@@ -333,6 +370,10 @@ export default function AdminPage() {
   const visibleFeaturedReqs = useMemo(
     () => (showPlacedFeatured ? featuredReqs : featuredReqs.filter((r) => r.status !== "placed")),
     [featuredReqs, showPlacedFeatured]
+  );
+  const visibleApprovedStartups = useMemo(
+    () => (showHiddenApproved ? approvedStartups : approvedStartups.filter((s) => s.active !== false)),
+    [approvedStartups, showHiddenApproved]
   );
 
   async function reject(item) {
@@ -380,7 +421,16 @@ export default function AdminPage() {
           <p className="form-sub" style={{ margin: "2px 0 0" }}>{pending.length} awaiting review</p>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
-          <button className="btn btn-ghost" onClick={load} disabled={loading}>
+          <button
+            className="btn btn-ghost"
+            onClick={() => {
+              load();
+              loadApprovedStartups();
+              loadFeatured();
+              loadHiring();
+            }}
+            disabled={loading}
+          >
             {loading ? "Refreshing…" : "Refresh"}
           </button>
           <Link className="btn btn-ghost" href="/">Map</Link>
@@ -465,6 +515,66 @@ export default function AdminPage() {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="admin-head" style={{ marginTop: 32 }}>
+        <div>
+          <h2 className="form-title" style={{ margin: 0, fontSize: 20 }}>Approved listings</h2>
+          <p className="form-sub" style={{ margin: "2px 0 0" }}>
+            {approvedStartups.length.toLocaleString()} approved map listings.
+            Hide removes a startup from the public map without deleting the approval record.
+          </p>
+        </div>
+        <label className="admin-toggle">
+          <input
+            type="checkbox"
+            checked={showHiddenApproved}
+            onChange={(e) => setShowHiddenApproved(e.target.checked)}
+          />
+          <span>Show hidden</span>
+        </label>
+      </div>
+
+      {visibleApprovedStartups.length === 0 && (
+        <p className="form-sub">
+          {approvedStartups.length === 0 ? "No approved listings yet." : "Hidden approved listings are hidden."}
+        </p>
+      )}
+
+      <div className="admin-list">
+        {visibleApprovedStartups.slice(0, 80).map((s) => (
+          <div key={s.id} className="admin-row">
+            <div className="admin-info">
+              <div className="admin-name">
+                {s.name}
+                {s.active === false && <span className="admin-stale-badge">Hidden</span>}
+                {s.verified && <span className="admin-claim-badge">Verified</span>}
+              </div>
+              <div className="admin-meta">
+                {s.sector} · {s.fundingStage} · {s.area}
+                {s.addedAt && <> · approved {new Date(s.addedAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</>}
+              </div>
+              <div className="admin-desc">
+                <code>{s.id}</code>
+                {s.website && <> · <a href={s.website} target="_blank" rel="noreferrer">{s.website.replace(/^https?:\/\//, "")}</a></>}
+                {s.hiring && <> · hiring</>}
+              </div>
+            </div>
+            <div className="admin-actions">
+              {s.active !== false && (
+                <Link className="btn btn-ghost" href={`/?startup=${encodeURIComponent(s.id)}`}>
+                  View on map
+                </Link>
+              )}
+              <button className="btn btn-ghost" disabled={approvedBusyId === s.id} onClick={() => toggleStartupVisible(s)}>
+                {approvedBusyId === s.id ? "…" : s.active === false ? "Show on map" : "Hide from map"}
+              </button>
+            </div>
+          </div>
+        ))}
+        {visibleApprovedStartups.length > 80 && (
+          <div className="sb-more">Showing 80 of {visibleApprovedStartups.length.toLocaleString()} approved listings.</div>
+        )}
       </div>
 
       <div className="admin-head" style={{ marginTop: 32 }}>

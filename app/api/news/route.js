@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const all = await getApproved();
   const items = all
+    .filter((s) => s.active !== false)
     .filter((s) => Array.isArray(s.news) && s.news.length)
     .flatMap((s) =>
       s.news.map((n) => ({

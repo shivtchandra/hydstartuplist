@@ -21,7 +21,7 @@ function circleIcon(startup) {
   return `/api/marker?${params.toString()}`;
 }
 
-// Free OSM/CARTO tiles via Leaflet — no per-load Google charge for map opens.
+// Free OSM tiles via Leaflet — no per-load Google charge for map opens.
 // Google is only used at seed time (geocoding), never in the browser.
 function useLeafletMap(containerRef) {
   const mapRef = useRef(null);
@@ -50,10 +50,11 @@ function useLeafletMap(containerRef) {
         zoomAnimation: true,
       });
       L.control.zoom({ position: "bottomright" }).addTo(mapRef.current);
-      // CARTO Positron — clean light basemap (same family the reference uses).
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      // Standard OpenStreetMap tiles keep parks, lakes, roads and local labels
+      // colorful like the social map references.
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 20,
       }).addTo(mapRef.current);
       layerRef.current = L.markerClusterGroup({
