@@ -22,7 +22,7 @@ export async function GET(req) {
   return NextResponse.json({ slots });
 }
 
-// Activate a slot (goes live immediately) or deactivate an existing one.
+// Activate a slot (goes live immediately), show/hide an existing one.
 //   POST { action: "activate", type, startupId?|gccId?|match?, days, startsAt?, label?, requestId? }
 //   POST { action: "deactivate", id }
 export async function POST(req) {
@@ -37,7 +37,24 @@ export async function POST(req) {
   if (action === "deactivate") {
     if (!body.id) return NextResponse.json({ error: "id required" }, { status: 400 });
     await db.collection("granted_placements").doc(body.id).set({ active: false }, { merge: true });
+    if (body.requestId) {
+      await db.collection("featured_requests").doc(body.requestId).set(
+        { placementVisible: false, placementHiddenAt: new Date().toISOString() },
+        { merge: true }
+      );
+    }
     return NextResponse.json({ ok: true, id: body.id, active: false });
+  }
+  if (action === "show") {
+    if (!body.id) return NextResponse.json({ error: "id required" }, { status: 400 });
+    await db.collection("granted_placements").doc(body.id).set({ active: true }, { merge: true });
+    if (body.requestId) {
+      await db.collection("featured_requests").doc(body.requestId).set(
+        { placementVisible: true, placementShownAt: new Date().toISOString() },
+        { merge: true }
+      );
+    }
+    return NextResponse.json({ ok: true, id: body.id, active: true });
   }
 
   const { type, startupId, gccId, match, days, startsAt, label, requestId } = body;
@@ -100,6 +117,7 @@ export async function POST(req) {
         status: "placed",
         placedSlotId: ref.id,
         placedStartupId: doc.startupId,
+        placementVisible: true,
         placedAt: new Date().toISOString(),
       },
       { merge: true }

@@ -148,6 +148,43 @@ export default function AdminPage() {
     }
   }
 
+  async function togglePlacementVisible(item) {
+    if (!item.placedSlotId) {
+      setNote("No placed slot found yet. Activate the slot once before toggling visibility.");
+      setLastMapLink("");
+      return;
+    }
+    const nextVisible = item.placementVisible === false;
+    setFrBusyId(item.id);
+    setNote("");
+    try {
+      const res = await fetch("/api/admin/placements", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-passcode": PASSCODE },
+        body: JSON.stringify({
+          action: nextVisible ? "show" : "deactivate",
+          id: item.placedSlotId,
+          requestId: item.id,
+        }),
+      }).then((r) => r.json());
+      if (!res.ok) {
+        setNote("Visibility toggle failed: " + (res.error || "unknown"));
+        setLastMapLink("");
+        return;
+      }
+      setFeaturedReqs((rs) => rs.map((x) => (
+        x.id === item.id ? { ...x, placementVisible: nextVisible } : x
+      )));
+      setNote(nextVisible ? `Visible again — ${item.name} is back on the map.` : `Hidden — ${item.name} is no longer visible as Featured.`);
+      setLastMapLink(nextVisible && (item.placedStartupId || item.startupId) ? `/?startup=${encodeURIComponent(item.placedStartupId || item.startupId)}` : "");
+    } catch (e) {
+      setNote("Visibility toggle failed: " + e.message);
+      setLastMapLink("");
+    } finally {
+      setFrBusyId(null);
+    }
+  }
+
   async function loadHiring() {
     try {
       const res = await fetch("/api/admin/hiring", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
@@ -448,6 +485,7 @@ export default function AdminPage() {
                 {r.name}
                 {r.status === "verified" && <span className="admin-claim-badge">Verified</span>}
                 {r.status === "rejected" && <span className="admin-stale-badge">Rejected</span>}
+                {r.status === "placed" && r.placementVisible === false && <span className="admin-stale-badge">Hidden</span>}
                 {r.status === "pending_verification" && <span className="admin-stale-badge" style={{ background: "var(--accent-soft)", color: "var(--accent-primary)" }}>Pending</span>}
               </div>
               <div className="admin-meta">
@@ -501,6 +539,11 @@ export default function AdminPage() {
               {(r.status === "verified" || r.status === "placed") && (
                 <button className="btn cmd-submit" disabled={frBusyId === r.id} onClick={() => (placeOpenId === r.id ? setPlaceOpenId(null) : openPlace(r))}>
                   {r.status === "placed" ? "Placed ✓ · edit" : placeOpenId === r.id ? "Close" : "Place on map"}
+                </button>
+              )}
+              {r.status === "placed" && (
+                <button className="btn btn-ghost" disabled={frBusyId === r.id} onClick={() => togglePlacementVisible(r)}>
+                  {r.placementVisible === false ? "Show on map" : "Hide from map"}
                 </button>
               )}
               {r.status === "placed" && siteInfo[r.id]?.matches?.some((m) => m.id === (r.placedStartupId || r.startupId)) && (
