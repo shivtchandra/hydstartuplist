@@ -42,6 +42,7 @@ export async function POST(req) {
 
   const name = String(body.name || "").trim();
   const website = String(body.website || "").trim();
+  const logoUrl = String(body.logoUrl || "").trim() || null;
   const contactEmail = String(body.contactEmail || "").trim();
   const days = Number(body.days);
   const startupId = String(body.startupId || "").trim() || null;
@@ -93,6 +94,7 @@ export async function POST(req) {
         status: "pending",
         name,
         website,
+        logoUrl,
         contactEmail,
         startupId,
         days: quote.days,

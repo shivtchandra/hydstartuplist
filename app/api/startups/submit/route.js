@@ -3,7 +3,7 @@ import { randomUUID } from "crypto";
 import { addPending } from "../../../../lib/store.js";
 
 export async function POST(req) {
-  const { name, website, sector, fundingStage, area, description } = await req.json();
+  const { name, website, logoUrl, sector, fundingStage, area, description } = await req.json();
   if (!name || !sector || !area) {
     return NextResponse.json({ error: "name, sector, area required" }, { status: 400 });
   }
@@ -11,6 +11,7 @@ export async function POST(req) {
     id: randomUUID(),
     name,
     website: website || "",
+    logoUrl: logoUrl || "",
     sector,
     fundingStage: fundingStage || "Undisclosed",
     area,

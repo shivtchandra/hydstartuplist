@@ -45,6 +45,7 @@ export async function GET() {
     featured: {
       maxActive: max,
       filledCount: filled,
+      filled: inventory.filled,
       available,
       cta: baseCta,
     },

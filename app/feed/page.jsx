@@ -6,9 +6,9 @@ import LoadingScreen from "../components/LoadingScreen.jsx";
 import { colorFor, logoSrcs, prettyName } from "../../lib/startupUi.js";
 
 function FeedLogoBadge({ startup, size = 38 }) {
-  const srcs = logoSrcs(startup.website);
+  const srcs = logoSrcs(startup.website, startup.logoUrl);
   const [stage, setStage] = useState(0);
-  useEffect(() => { setStage(0); }, [startup.website]);
+  useEffect(() => { setStage(0); }, [startup.website, startup.logoUrl]);
 
   if (stage < srcs.length) {
     return (
@@ -19,6 +19,11 @@ function FeedLogoBadge({ startup, size = 38 }) {
         width={size}
         height={size}
         style={{ width: size, height: size }}
+        onLoad={(e) => {
+          if (e.currentTarget.naturalWidth <= 16 && e.currentTarget.naturalHeight <= 16) {
+            setStage((s) => s + 1);
+          }
+        }}
         onError={() => setStage((s) => s + 1)}
       />
     );
@@ -111,4 +116,3 @@ export default function FeedPage() {
     </div>
   );
 }
-

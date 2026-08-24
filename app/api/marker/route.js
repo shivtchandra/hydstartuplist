@@ -17,17 +17,9 @@ async function fetchDataUri(url) {
   }
 }
 
-// Clearbit → Google favicon → DuckDuckGo → same-origin favicon paths.
 async function fetchLogoDataUri(domain) {
   const bare = domain.replace(/^www\./, "");
-  const hosts = [...new Set([domain, bare, `www.${bare}`].filter(Boolean))];
-  for (const h of hosts) {
-    const uri =
-      (await fetchDataUri(`https://logo.clearbit.com/${encodeURIComponent(h)}?size=64`)) ||
-      (await fetchDataUri(`https://www.google.com/s2/favicons?domain=${encodeURIComponent(h)}&sz=64`)) ||
-      (await fetchDataUri(`https://icons.duckduckgo.com/ip3/${encodeURIComponent(h)}.ico`));
-    if (uri) return uri;
-  }
+  const hosts = [...new Set([domain, `www.${bare}`, bare].filter(Boolean))];
   for (const h of hosts) {
     for (const path of ["/apple-touch-icon.png", "/favicon.svg", "/favicon.ico", "/favicon-32x32.png", "/favicon.png"]) {
       const uri = await fetchDataUri(`https://${h}${path}`);
@@ -37,13 +29,25 @@ async function fetchLogoDataUri(domain) {
   return null;
 }
 
+function safeImageUrl(url) {
+  if (!url) return null;
+  try {
+    const parsed = new URL(url);
+    if (!["http:", "https:"].includes(parsed.protocol)) return null;
+    return parsed.toString();
+  } catch {
+    return null;
+  }
+}
+
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const domain = searchParams.get("domain");
+  const logoUrl = safeImageUrl(searchParams.get("logoUrl"));
   const color = searchParams.get("color") || "#64748b";
   const initial = (searchParams.get("initial") || "?").slice(0, 1).toUpperCase();
 
-  const dataUri = domain ? await fetchLogoDataUri(domain) : null;
+  const dataUri = (logoUrl ? await fetchDataUri(logoUrl) : null) || (domain ? await fetchLogoDataUri(domain) : null);
   const inner = dataUri
     ? `<image href="${dataUri}" x="9" y="9" width="26" height="26" clip-path="url(#clip)" preserveAspectRatio="xMidYMid slice"/>`
     : `<text x="22" y="28" font-size="16" font-weight="700" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">${initial}</text>`;

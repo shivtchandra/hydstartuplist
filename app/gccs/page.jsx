@@ -17,6 +17,11 @@ function GccLogoBadge({ name, website, size = 40 }) {
         width={size}
         height={size}
         style={{ width: size, height: size }}
+        onLoad={(e) => {
+          if (e.currentTarget.naturalWidth <= 16 && e.currentTarget.naturalHeight <= 16) {
+            setStage((s) => s + 1);
+          }
+        }}
         onError={() => setStage((s) => s + 1)}
       />
     );

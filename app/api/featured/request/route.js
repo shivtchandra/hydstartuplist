@@ -11,7 +11,7 @@ const UPI_VPA = process.env.FEATURED_UPI_VPA || "shivachandra9490-1@okaxis";
 
 export async function POST(req) {
   const body = await req.json().catch(() => ({}));
-  const { name, website, contactEmail, startupId, days, startPreference, notes, upiTxnId } = body;
+  const { name, website, logoUrl, contactEmail, startupId, days, startPreference, notes, upiTxnId } = body;
 
   if (!name || !website || !contactEmail || !days || !upiTxnId) {
     return NextResponse.json(
@@ -34,6 +34,7 @@ export async function POST(req) {
   const doc = {
     name: String(name).trim(),
     website: String(website).trim(),
+    logoUrl: logoUrl ? String(logoUrl).trim() : null,
     contactEmail: String(contactEmail).trim(),
     startupId: startupId ? String(startupId).trim() : null,
     days: quote.days,

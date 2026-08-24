@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   collection, getDocs, deleteDoc, doc, query, orderBy,
@@ -25,6 +25,8 @@ export default function AdminPage() {
   const [featuredReqs, setFeaturedReqs] = useState([]);
   const [frBusyId, setFrBusyId] = useState(null);
   const [placeOpenId, setPlaceOpenId] = useState(null);
+  const [showPlacedFeatured, setShowPlacedFeatured] = useState(false);
+  const [lastMapLink, setLastMapLink] = useState("");
   const [siteInfo, setSiteInfo] = useState({}); // requestId -> { preview, matches, loading }
   const [pf, setPf] = useState({ type: "featured", startupId: "", days: 14, startsAt: "", label: "Sponsored" });
 
@@ -54,10 +56,12 @@ export default function AdminPage() {
   async function activateSlot(item) {
     if (pf.type === "featured" && !pf.startupId.trim()) {
       setNote("A startup ID is required to place a featured pin — use a matched startup below or paste an ID.");
+      setLastMapLink("");
       return;
     }
     if (pf.type === "gcc" && !pf.startupId.trim()) {
       setNote("Enter the GCC id to spotlight.");
+      setLastMapLink("");
       return;
     }
     setFrBusyId(item.id);
@@ -84,11 +88,17 @@ export default function AdminPage() {
         setNote("Activate failed: " + (res.error || "unknown"));
         return;
       }
-      setFeaturedReqs((rs) => rs.map((x) => (x.id === item.id ? { ...x, status: "placed" } : x)));
+      setFeaturedReqs((rs) => rs.map((x) => (
+        x.id === item.id
+          ? { ...x, status: "placed", placedStartupId: pf.type === "featured" ? pf.startupId.trim() : x.placedStartupId }
+          : x
+      )));
       setPlaceOpenId(null);
+      setLastMapLink(pf.type === "featured" ? `/?startup=${encodeURIComponent(pf.startupId.trim())}` : "");
       setNote(`Live — ${item.name} placed as ${pf.type} until ${new Date(res.endsAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}.`);
     } catch (e) {
       setNote("Activate failed: " + e.message);
+      setLastMapLink("");
     } finally {
       setFrBusyId(null);
     }
@@ -206,6 +216,7 @@ export default function AdminPage() {
   async function approve(item) {
     setBusyId(item.id);
     setNote("");
+    setLastMapLink("");
     try {
       // Geocode + append to the in-code dataset (startups.json). No Firestore write.
       const res = await fetch("/api/startups/approve", {
@@ -222,6 +233,7 @@ export default function AdminPage() {
 
       await deleteDoc(doc(db, "pending", item.id));
       setPending((p) => p.filter((x) => x.id !== item.id));
+      if (res.id) setLastMapLink(`/?startup=${encodeURIComponent(res.id)}`);
       setNote(
         res.claimed
           ? `Claim applied — ${item.name}'s listing updated (verified). ${res.total} total on the map.`
@@ -229,6 +241,7 @@ export default function AdminPage() {
       );
     } catch (e) {
       setNote("Approve failed: " + e.message);
+      setLastMapLink("");
     } finally {
       setBusyId(null);
     }
@@ -241,12 +254,18 @@ export default function AdminPage() {
       await deleteDoc(doc(db, "pending", item.id));
       setPending((p) => p.filter((x) => x.id !== item.id));
       setNote(`Handled featured request — ${item.name} (${item.days}d · ₹${(item.amount || 0).toLocaleString("en-IN")}).`);
+      setLastMapLink("");
     } catch (e) {
       setNote("Dismiss failed: " + e.message);
     } finally {
       setBusyId(null);
     }
   }
+
+  const visibleFeaturedReqs = useMemo(
+    () => (showPlacedFeatured ? featuredReqs : featuredReqs.filter((r) => r.status !== "placed")),
+    [featuredReqs, showPlacedFeatured]
+  );
 
   async function reject(item) {
     if (!confirm(`Reject and delete "${item.name}"?`)) return;
@@ -300,7 +319,16 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {note && <div className="admin-note">{note}</div>}
+      {note && (
+        <div className="admin-note admin-note-row">
+          <span>{note}</span>
+          {lastMapLink && (
+            <Link className="btn btn-ghost admin-note-link" href={lastMapLink}>
+              View listing on map
+            </Link>
+          )}
+        </div>
+      )}
 
       {!loading && pending.length === 0 && <p className="form-sub">Nothing pending. All caught up.</p>}
 
@@ -380,12 +408,24 @@ export default function AdminPage() {
             goes live instantly, no redeploy).
           </p>
         </div>
+        <label className="admin-toggle">
+          <input
+            type="checkbox"
+            checked={showPlacedFeatured}
+            onChange={(e) => setShowPlacedFeatured(e.target.checked)}
+          />
+          <span>Show placed</span>
+        </label>
       </div>
 
-      {featuredReqs.length === 0 && <p className="form-sub">No featured requests yet.</p>}
+      {visibleFeaturedReqs.length === 0 && (
+        <p className="form-sub">
+          {featuredReqs.length === 0 ? "No featured requests yet." : "Placed featured requests are hidden."}
+        </p>
+      )}
 
       <div className="admin-list">
-        {featuredReqs.map((r) => (
+        {visibleFeaturedReqs.map((r) => (
           <div key={r.id} className="admin-req-block">
             <div className="admin-row">
             <div className="admin-info">
@@ -404,6 +444,12 @@ export default function AdminPage() {
                 UPI txn: <strong>{r.upiTxnId}</strong> → {r.upiVpa}
                 {" · "}
                 <a href={r.website} target="_blank" rel="noreferrer">{(r.website || "").replace(/^https?:\/\//, "")}</a>
+                {r.logoUrl && (
+                  <>
+                    {" · "}
+                    <a href={r.logoUrl} target="_blank" rel="noreferrer">submitted logo</a>
+                  </>
+                )}
                 {" · "}{r.contactEmail}
                 {r.notes && <> · {r.notes}</>}
               </div>
@@ -441,6 +487,11 @@ export default function AdminPage() {
                 <button className="btn cmd-submit" disabled={frBusyId === r.id} onClick={() => (placeOpenId === r.id ? setPlaceOpenId(null) : openPlace(r))}>
                   {r.status === "placed" ? "Placed ✓ · edit" : placeOpenId === r.id ? "Close" : "Place on map"}
                 </button>
+              )}
+              {r.status === "placed" && (r.placedStartupId || r.startupId) && (
+                <Link className="btn btn-ghost" href={`/?startup=${encodeURIComponent(r.placedStartupId || r.startupId)}`}>
+                  View on map
+                </Link>
               )}
               {r.status !== "rejected" && (
                 <button className="btn btn-ghost" disabled={frBusyId === r.id} onClick={() => setFeaturedStatus(r, "rejected")}>

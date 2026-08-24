@@ -73,7 +73,12 @@ export async function POST(req) {
   // Mark the originating payment request as placed (if any).
   if (requestId) {
     await db.collection("featured_requests").doc(requestId).set(
-      { status: "placed", placedSlotId: ref.id, placedAt: new Date().toISOString() },
+      {
+        status: "placed",
+        placedSlotId: ref.id,
+        placedStartupId: doc.startupId,
+        placedAt: new Date().toISOString(),
+      },
       { merge: true }
     );
   }

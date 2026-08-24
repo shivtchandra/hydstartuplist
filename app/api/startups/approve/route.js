@@ -56,6 +56,7 @@ export async function POST(req) {
 
       const overrides = {
         website: website || existing.website,
+        logoUrl: s.logoUrl || existing.logoUrl || "",
         sector: s.sector || existing.sector,
         fundingStage: s.fundingStage || existing.fundingStage,
         area: s.area || existing.area,
@@ -77,7 +78,7 @@ export async function POST(req) {
         const idx = list.findIndex((x) => x.id === s.claimFor);
         if (idx !== -1) { list[idx] = { ...list[idx], ...overrides }; fs.writeFileSync(DB, JSON.stringify(list, null, 2)); }
       }
-      return NextResponse.json({ ok: true, address: overrides.address, total: all.length, claimed: true });
+      return NextResponse.json({ ok: true, id: s.claimFor, address: overrides.address, total: all.length, claimed: true });
     }
 
     // ── New approval: needs a real Hyderabad location ────────────────────
@@ -97,6 +98,7 @@ export async function POST(req) {
       fundingStage: s.fundingStage || "Recognised",
       area: s.area || "Hyderabad",
       description: s.description || "",
+      logoUrl: s.logoUrl || "",
       careers: website ? `${website}/careers` : `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(s.name)}`,
       address: hit.formattedAddress || null,
       lat, lng,
@@ -116,7 +118,7 @@ export async function POST(req) {
       fs.writeFileSync(DB, JSON.stringify(list, null, 2));
     }
 
-    return NextResponse.json({ ok: true, address: entry.address, total: all.length + 1 });
+    return NextResponse.json({ ok: true, id, address: entry.address, total: all.length + 1 });
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

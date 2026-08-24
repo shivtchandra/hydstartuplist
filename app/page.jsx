@@ -17,6 +17,7 @@ function circleIcon(startup) {
     initial: startup.name.charAt(0) || "?",
   });
   if (domain) params.set("domain", domain);
+  if (startup.logoUrl) params.set("logoUrl", startup.logoUrl);
   return `/api/marker?${params.toString()}`;
 }
 
@@ -180,10 +181,9 @@ function Dropdown({ value, onChange, options, placeholder, counts }) {
 }
 
 function LogoBadge({ startup, size = 34 }) {
-  // Clearbit → Google favicon (www-aware) → DuckDuckGo → initial fallback.
-  const srcs = logoSrcs(startup.website);
+  const srcs = logoSrcs(startup.website, startup.logoUrl);
   const [stage, setStage] = useState(0);
-  useEffect(() => { setStage(0); }, [startup.website]);
+  useEffect(() => { setStage(0); }, [startup.website, startup.logoUrl]);
   if (stage < srcs.length) {
     return (
       <img
@@ -193,6 +193,11 @@ function LogoBadge({ startup, size = 34 }) {
         width={size}
         height={size}
         style={{ width: size, height: size }}
+        onLoad={(e) => {
+          if (e.currentTarget.naturalWidth <= 16 && e.currentTarget.naturalHeight <= 16) {
+            setStage((s) => s + 1);
+          }
+        }}
         onError={() => setStage((s) => s + 1)}
       />
     );
@@ -305,7 +310,7 @@ function DetailModal({ startup, onClose }) {
   );
 }
 
-function NewsletterBar() {
+function NewsletterBar({ onDismiss }) {
   const [email, setEmail] = useState("");
   const [wantsJobAlerts, setWantsJobAlerts] = useState(true);
   const [status, setStatus] = useState("idle"); // idle | saving | done | error
@@ -333,6 +338,9 @@ function NewsletterBar() {
 
   return (
     <form className="nl-bar" onSubmit={handleSubmit}>
+      <button type="button" className="promo-dismiss nl-dismiss" onClick={onDismiss} aria-label="Hide newsletter signup">
+        x
+      </button>
       <div className="nl-copy">
         <strong>Get notified</strong> about new Hyderabad startups &amp; jobs — sending isn't live yet, this just saves your spot.
       </div>
@@ -454,11 +462,14 @@ function SponsoredShelf({ startups, available = 0, cta, onSelect }) {
 }
 
 /** Subtle map-sidebar chrome for paid inventory (from placements chromeSlots). */
-function FeaturedPartnerStrip({ chrome }) {
+function FeaturedPartnerStrip({ chrome, onDismiss }) {
   if (!chrome) return null;
   const href = chrome.ctaHref || "/feature";
   return (
     <div className={`featured-partner-strip${chrome.mode === "available" ? " is-available" : ""}`}>
+      <button type="button" className="promo-dismiss fps-dismiss" onClick={onDismiss} aria-label="Hide featured partner promo">
+        x
+      </button>
       <div className="fps-copy">
         <span className="fps-kicker">Featured partner</span>
         <strong className="fps-headline">{chrome.headline || "Feature this pin"}</strong>
@@ -578,6 +589,20 @@ export default function Page() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarView, setSidebarView] = useState("list"); // "list" | "areas" — what the sidebar shows
   const [featuredInv, setFeaturedInv] = useState(null); // from /api/placements
+  const [newsletterHidden, setNewsletterHidden] = useState(false);
+  const [featuredPartnerHidden, setFeaturedPartnerHidden] = useState(false);
+  const openedFromUrlRef = useRef(null);
+
+  // Use the inventory response as the source of truth for paid pins too. The
+  // startups and placements requests are independent; if one Firestore read
+  // briefly fails, the UI must not say a slot is filled while hiding its card.
+  const displayedStartups = useMemo(() => {
+    const ids = new Set((featuredInv?.featured?.filled || []).map((slot) => slot.startupId));
+    if (!ids.size) return all;
+    return all.map((startup) =>
+      ids.has(startup.id) && !startup.sponsored ? { ...startup, sponsored: true } : startup
+    );
+  }, [all, featuredInv]);
 
   const CURRENT_YEAR = new Date().getFullYear();
 
@@ -604,17 +629,17 @@ export default function Page() {
       .catch(() => {});
   }, []);
 
-  const sectors = useMemo(() => [...new Set(all.map((s) => s.sector))].sort(), [all]);
-  const stages = useMemo(() => [...new Set(all.map((s) => s.fundingStage))].sort(), [all]);
+  const sectors = useMemo(() => [...new Set(displayedStartups.map((s) => s.sector))].sort(), [displayedStartups]);
+  const stages = useMemo(() => [...new Set(displayedStartups.map((s) => s.fundingStage))].sort(), [displayedStartups]);
   const areas = useMemo(
-    () => [...new Set(all.map((s) => normalizeArea(s.area)))].sort(),
-    [all]
+    () => [...new Set(displayedStartups.map((s) => normalizeArea(s.area)))].sort(),
+    [displayedStartups]
   );
-  const spotlight = useMemo(() => all.filter((s) => s.spotlight), [all]);
-  const sponsoredPins = useMemo(() => all.filter((s) => s.sponsored), [all]);
+  const spotlight = useMemo(() => displayedStartups.filter((s) => s.spotlight), [displayedStartups]);
+  const sponsoredPins = useMemo(() => displayedStartups.filter((s) => s.sponsored), [displayedStartups]);
 
   const filtered = useMemo(() => {
-    return all.filter((s) => {
+    return displayedStartups.filter((s) => {
       if (hiringOnly && !s.hiring) return false;
       if (newOnly && !(s.founded && s.founded >= CURRENT_YEAR - 2)) return false;
       if (sector && s.sector !== sector) return false;
@@ -627,7 +652,7 @@ export default function Page() {
       }
       return true;
     });
-  }, [all, sector, fundingStage, area, q, hiringOnly, newOnly]);
+  }, [displayedStartups, sector, fundingStage, area, q, hiringOnly, newOnly]);
 
   // Faceted counts per dropdown: how many results each option would leave,
   // given every OTHER active filter (but not the dropdown's own selection) —
@@ -647,16 +672,16 @@ export default function Page() {
   }
   function countsFor(skip, keyFn) {
     const counts = {};
-    for (const s of all) {
+    for (const s of displayedStartups) {
       if (!baseFilter(s, skip)) continue;
       const key = keyFn(s);
       counts[key] = (counts[key] || 0) + 1;
     }
     return counts;
   }
-  const sectorCounts = useMemo(() => countsFor("sector", (s) => s.sector), [all, fundingStage, area, q, hiringOnly, newOnly]);
-  const stageCounts = useMemo(() => countsFor("stage", (s) => s.fundingStage), [all, sector, area, q, hiringOnly, newOnly]);
-  const areaCounts = useMemo(() => countsFor("area", (s) => normalizeArea(s.area)), [all, sector, fundingStage, q, hiringOnly, newOnly]);
+  const sectorCounts = useMemo(() => countsFor("sector", (s) => s.sector), [displayedStartups, fundingStage, area, q, hiringOnly, newOnly]);
+  const stageCounts = useMemo(() => countsFor("stage", (s) => s.fundingStage), [displayedStartups, sector, area, q, hiringOnly, newOnly]);
+  const areaCounts = useMemo(() => countsFor("area", (s) => normalizeArea(s.area)), [displayedStartups, sector, fundingStage, q, hiringOnly, newOnly]);
 
   const areaGroups = useMemo(() => {
     const map = new Map();
@@ -687,6 +712,18 @@ export default function Page() {
   useEffect(() => {
     if (ready) setMarkers(filtered, openStartup);
   }, [ready, filtered]);
+
+  useEffect(() => {
+    const startupParam = new URLSearchParams(window.location.search).get("startup");
+    if (!ready || !startupParam || openedFromUrlRef.current === startupParam) return;
+    const startup = displayedStartups.find((s) => s.id === startupParam);
+    if (!startup) return;
+    openedFromUrlRef.current = startupParam;
+    setSelected(startup);
+    setSidebarOpen(false);
+    flyTo(startup.lat, startup.lng);
+    setTimeout(invalidateSize, 260);
+  }, [ready, displayedStartups, flyTo, invalidateSize]);
 
   const firstFilterRun = useRef(true);
   useEffect(() => {
@@ -826,9 +863,10 @@ export default function Page() {
                 onSelect={openStartup}
               />
             )}
-            {sidebarView === "list" && !hasActiveFilters && (
-              <SpotlightShelf startups={spotlight} onSelect={openStartup} />
-            )}
+            {/*
+              Free editorial Spotlight is intentionally hidden while Featured
+              pins are sold as paid placements.
+            */}
             {sidebarView === "list" ? (
               <div className="sb-list">
                 {visible.map((s) => (
@@ -864,32 +902,37 @@ export default function Page() {
               </div>
             )}
           </div>
-          <FeaturedPartnerStrip
-            chrome={
-              featuredInv?.chrome?.mapSidebar || {
-                headline: "Feature this pin",
-                body: "Limited featured pins open — Sponsored placement on the map.",
-                ctaLabel: "Reserve a spot",
-                ctaHref: "/feature",
-                mode: "available",
+          {!featuredPartnerHidden && (
+            <FeaturedPartnerStrip
+              chrome={
+                featuredInv?.chrome?.mapSidebar || {
+                  headline: "Feature this pin",
+                  body: "Limited featured pins open — Sponsored placement on the map.",
+                  ctaLabel: "Reserve a spot",
+                  ctaHref: "/feature",
+                  mode: "available",
+                }
               }
-            }
-          />
-          <NewsletterBar />
+              onDismiss={() => setFeaturedPartnerHidden(true)}
+            />
+          )}
+          {!newsletterHidden && <NewsletterBar onDismiss={() => setNewsletterHidden(true)} />}
         </aside>
 
         <main className="map-area">
           <div ref={mapContainerRef} className="map-full" />
-          <MapFeaturedChrome
-            startups={sponsoredPins}
-            available={
-              featuredInv?.featured?.available ??
-              Math.max(0, (featuredInv?.featured?.maxActive ?? 5) - sponsoredPins.length)
-            }
-            cta={featuredInv?.featured?.cta || { ctaLabel: "Get featured", ctaHref: "/feature" }}
-            onSelect={openStartup}
-            preferOpen={!sidebarOpen}
-          />
+          {!sidebarOpen && (
+            <MapFeaturedChrome
+              startups={sponsoredPins}
+              available={
+                featuredInv?.featured?.available ??
+                Math.max(0, (featuredInv?.featured?.maxActive ?? 5) - sponsoredPins.length)
+              }
+              cta={featuredInv?.featured?.cta || { ctaLabel: "Get featured", ctaHref: "/feature" }}
+              onSelect={openStartup}
+              preferOpen
+            />
+          )}
         </main>
       </div>
 

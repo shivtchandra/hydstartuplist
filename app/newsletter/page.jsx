@@ -7,11 +7,26 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../lib/firebase.js";
 import { colorFor, logoSrcs, prettyName, normalizeArea } from "../../lib/startupUi.js";
 
-function LogoBadge({ name, website, sector, size = 36 }) {
-  const srcs = logoSrcs(website);
+function LogoBadge({ name, website, logoUrl, sector, size = 36 }) {
+  const srcs = logoSrcs(website, logoUrl);
   const [stage, setStage] = useState(0);
   if (stage < srcs.length) {
-    return <img className="card-logo" src={srcs[stage]} alt="" width={size} height={size} style={{ width: size, height: size }} onError={() => setStage((s) => s + 1)} />;
+    return (
+      <img
+        className="card-logo"
+        src={srcs[stage]}
+        alt=""
+        width={size}
+        height={size}
+        style={{ width: size, height: size }}
+        onLoad={(e) => {
+          if (e.currentTarget.naturalWidth <= 16 && e.currentTarget.naturalHeight <= 16) {
+            setStage((s) => s + 1);
+          }
+        }}
+        onError={() => setStage((s) => s + 1)}
+      />
+    );
   }
   return (
     <div className="card-logo-fallback" style={{ width: size, height: size, background: colorFor(sector) }}>
@@ -134,7 +149,7 @@ export default function NewsletterPage() {
         <div className="feed-list">
           {topHiring.map((s) => (
             <a key={s.id} className="feed-row" style={{ "--row-accent": colorFor(s.sector) }} href={`/?company=${s.id}`}>
-              <LogoBadge name={s.name} website={s.website} sector={s.sector} />
+              <LogoBadge name={s.name} website={s.website} logoUrl={s.logoUrl} sector={s.sector} />
               <div className="feed-row-body">
                 <div className="feed-row-name">{prettyName(s.name)}</div>
                 <div className="feed-row-sub">{s.sector} · {s.area}</div>
@@ -152,7 +167,7 @@ export default function NewsletterPage() {
         <div className="feed-list">
           {recentNews.map((item, i) => (
             <a key={item.url + i} className="feed-row" href={item.url} target="_blank" rel="noreferrer">
-              <LogoBadge name={item.companyName} website={item.website} sector={item.sector} />
+              <LogoBadge name={item.companyName} website={item.website} logoUrl={item.logoUrl} sector={item.sector} />
               <div className="feed-row-body">
                 <div className="feed-row-name">{item.title}</div>
                 <div className="feed-row-sub">{prettyName(item.companyName)}{item.source ? ` · ${item.source}` : ""}</div>

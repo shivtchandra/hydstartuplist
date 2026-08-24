@@ -5,10 +5,10 @@ import SiteNav from "../components/SiteNav.jsx";
 import LoadingScreen from "../components/LoadingScreen.jsx";
 import { colorFor, logoSrcs, prettyName } from "../../lib/startupUi.js";
 
-function NewsLogoBadge({ companyName, website, sector, size = 38 }) {
-  const srcs = logoSrcs(website);
+function NewsLogoBadge({ companyName, website, logoUrl, sector, size = 38 }) {
+  const srcs = logoSrcs(website, logoUrl);
   const [stage, setStage] = useState(0);
-  useEffect(() => { setStage(0); }, [website]);
+  useEffect(() => { setStage(0); }, [website, logoUrl]);
 
   if (stage < srcs.length) {
     return (
@@ -19,6 +19,11 @@ function NewsLogoBadge({ companyName, website, sector, size = 38 }) {
         width={size}
         height={size}
         style={{ width: size, height: size }}
+        onLoad={(e) => {
+          if (e.currentTarget.naturalWidth <= 16 && e.currentTarget.naturalHeight <= 16) {
+            setStage((s) => s + 1);
+          }
+        }}
         onError={() => setStage((s) => s + 1)}
       />
     );
@@ -38,7 +43,7 @@ function NewsRow({ item }) {
   return (
     <a className="news-card" href={item.url} target="_blank" rel="noreferrer">
       <div className="news-card-head">
-        <NewsLogoBadge companyName={item.companyName} website={item.website} sector={item.sector} size={36} />
+        <NewsLogoBadge companyName={item.companyName} website={item.website} logoUrl={item.logoUrl} sector={item.sector} size={36} />
         <div className="news-card-company">{prettyName(item.companyName)}</div>
         {item.source && <span className="news-card-source">{item.source}</span>}
       </div>
@@ -85,4 +90,3 @@ export default function NewsPage() {
     </div>
   );
 }
-

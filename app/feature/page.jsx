@@ -40,6 +40,7 @@ function FeatureForm() {
   const [form, setForm] = useState({
     name: prefillName,
     website: "",
+    logoUrl: "",
     contactEmail: "",
     startupId: prefillId,
     startPreference: "",
@@ -98,6 +99,7 @@ function FeatureForm() {
         body: JSON.stringify({
           name: form.name.trim(),
           website: form.website.trim(),
+          logoUrl: form.logoUrl.trim() || null,
           contactEmail: form.contactEmail.trim(),
           startupId: form.startupId.trim() || null,
           days: quote.days,
@@ -321,6 +323,15 @@ function FeatureForm() {
               value={form.website}
               onChange={update("website")}
               required
+            />
+          </label>
+          <label className="field">
+            <span>Logo or product image URL (optional)</span>
+            <input
+              type="url"
+              placeholder="https://…/logo.png"
+              value={form.logoUrl}
+              onChange={update("logoUrl")}
             />
           </label>
           <label className="field">

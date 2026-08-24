@@ -23,7 +23,7 @@ function SubmitForm() {
   }, [wantFeatured, claimFor, router]);
 
   const [form, setForm] = useState({
-    name: claimName, website: "", sector: "AI", fundingStage: "Seed", area: "", description: "", hiring: false,
+    name: claimName, website: "", logoUrl: "", sector: "AI", fundingStage: "Seed", area: "", description: "", hiring: false,
   });
   const [status, setStatus] = useState("idle"); // idle | saving | done | error
   const [error, setError] = useState("");
@@ -41,6 +41,7 @@ function SubmitForm() {
         ...form,
         name: form.name.trim(),
         website: form.website.trim(),
+        logoUrl: form.logoUrl.trim(),
         area: form.area.trim(),
         status: "pending",
         createdAt: serverTimestamp(),
@@ -107,6 +108,15 @@ function SubmitForm() {
           <label className="field">
             <span>Website</span>
             <input placeholder="https://…" value={form.website} onChange={update("website")} />
+          </label>
+          <label className="field">
+            <span>Logo or product image URL (optional)</span>
+            <input
+              type="url"
+              placeholder="https://…/logo.png"
+              value={form.logoUrl}
+              onChange={update("logoUrl")}
+            />
           </label>
           <div className="field-row">
             <label className="field">
