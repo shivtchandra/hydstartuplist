@@ -9,6 +9,7 @@
     "seed": "node scripts/geocode-seed.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "firebase": "^12.18.0",
     "firebase-admin": "^14.3.0",
     "leaflet": "^1.9.4",

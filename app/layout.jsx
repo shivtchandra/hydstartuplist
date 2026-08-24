@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 
 // Resolve the public origin so OG/Twitter image URLs are absolute in production.
 // Prefer an explicit env; otherwise use Vercel's built-in production-domain var
@@ -53,7 +54,10 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
