@@ -135,12 +135,28 @@ export default function AdminPage() {
   async function setFeaturedStatus(item, status) {
     setFrBusyId(item.id);
     try {
-      await fetch("/api/admin/featured", {
+      const res = await fetch("/api/admin/featured", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-admin-passcode": PASSCODE },
         body: JSON.stringify({ id: item.id, status }),
-      });
-      setFeaturedReqs((rs) => rs.map((x) => (x.id === item.id ? { ...x, status } : x)));
+      }).then((r) => r.json());
+      if (!res.ok) {
+        setNote("Featured update failed: " + (res.error || "unknown"));
+        return;
+      }
+      setFeaturedReqs((rs) => rs.map((x) => (
+        x.id === item.id
+          ? {
+              ...x,
+              status,
+              ...(status === "rejected" ? { placementVisible: false } : {}),
+            }
+          : x
+      )));
+      if (status === "rejected") {
+        setNote(item.placedSlotId ? `Removed — ${item.name} is no longer visible on the map.` : `Rejected — ${item.name}.`);
+        setLastMapLink("");
+      }
     } catch (e) {
       setNote("Featured update failed: " + e.message);
     } finally {
@@ -551,7 +567,12 @@ export default function AdminPage() {
                   View on map
                 </Link>
               )}
-              {r.status !== "rejected" && (
+              {r.status === "placed" && (
+                <button className="btn btn-ghost" disabled={frBusyId === r.id} onClick={() => setFeaturedStatus(r, "rejected")}>
+                  Remove from map
+                </button>
+              )}
+              {r.status !== "rejected" && r.status !== "placed" && (
                 <button className="btn btn-ghost" disabled={frBusyId === r.id} onClick={() => setFeaturedStatus(r, "rejected")}>
                   Reject
                 </button>

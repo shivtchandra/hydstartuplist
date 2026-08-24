@@ -34,8 +34,20 @@ export async function POST(req) {
   const db = await getAdminDb();
   if (!db) return NextResponse.json({ error: "FIREBASE_SERVICE_ACCOUNT not configured" }, { status: 500 });
 
+  const existing = await db.collection("featured_requests").doc(id).get();
+  const placedSlotId = existing.exists ? existing.data()?.placedSlotId : null;
+  if (status === "rejected" && placedSlotId) {
+    await db.collection("granted_placements").doc(placedSlotId).set({ active: false }, { merge: true });
+  }
+
   await db.collection("featured_requests").doc(id).set(
-    { status, reviewedAt: new Date().toISOString() },
+    {
+      status,
+      reviewedAt: new Date().toISOString(),
+      ...(status === "rejected" && placedSlotId
+        ? { placementVisible: false, placementRemovedAt: new Date().toISOString() }
+        : {}),
+    },
     { merge: true }
   );
   return NextResponse.json({ ok: true, id, status });
