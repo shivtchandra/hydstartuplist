@@ -41,17 +41,24 @@ export async function GET() {
     sidebar.mode = available > 0 ? "available" : "live";
   }
 
-  return NextResponse.json({
-    featured: {
-      maxActive: max,
-      filledCount: filled,
-      filled: inventory.filled,
-      available,
-      cta: baseCta,
+  return NextResponse.json(
+    {
+      featured: {
+        maxActive: max,
+        filledCount: filled,
+        filled: inventory.filled,
+        available,
+        cta: baseCta,
+      },
+      chrome: {
+        mapSidebar: sidebar,
+        homepageBanner: chrome.homepageBanner ?? null,
+      },
     },
-    chrome: {
-      mapSidebar: sidebar,
-      homepageBanner: chrome.homepageBanner ?? null,
-    },
-  });
+    {
+      headers: {
+        "Cache-Control": "no-store, max-age=0",
+      },
+    }
+  );
 }
