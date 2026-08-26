@@ -43,19 +43,22 @@ function useLeafletMap(containerRef) {
         center: [HYDERABAD_CENTER.lat, HYDERABAD_CENTER.lng],
         zoom: 12,
         zoomControl: false,
-        zoomSnap: 0.25,           // allow fractional zoom levels — no hard jumps
+        zoomSnap: 0,              // fully continuous zoom — no snap-back at the end of a gesture
         zoomDelta: 0.5,           // +/- buttons and dblclick step half a level
-        wheelPxPerZoomLevel: 140, // less sensitive wheel/trackpad — stops over-zoom
-        wheelDebounceTime: 40,
+        wheelPxPerZoomLevel: 120, // trackpad sensitivity — lower is faster
+        wheelDebounceTime: 15,    // short debounce keeps the wheel feeling live
         zoomAnimation: true,
+        zoomAnimationThreshold: 8,
+        bounceAtZoomLimits: false,
+        maxZoom: 19,
       });
       L.control.zoom({ position: "bottomright" }).addTo(mapRef.current);
-      // Colorful roads/parks/water without third-party POI labels; startup
-      // markers should be the only business pins on the map.
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png", {
+      // Colorful roads/parks/water. OSM standard tiles need no API key —
+      // CARTO now watermarks every basemap tile served without one.
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        maxZoom: 20,
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19,
       }).addTo(mapRef.current);
       layerRef.current = L.markerClusterGroup({
         maxClusterRadius: 46,
