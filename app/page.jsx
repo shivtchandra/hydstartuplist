@@ -605,6 +605,7 @@ export default function Page() {
   const { ready, setMarkers, flyTo, fitToMarkers, invalidateSize } = useLeafletMap(mapContainerRef);
 
   const [all, setAll] = useState([]);
+  const [startupsFetched, setStartupsFetched] = useState(false);
   const [sector, setSector] = useState("");
   const [fundingStage, setFundingStage] = useState("");
   const [area, setArea] = useState("");
@@ -644,8 +645,8 @@ export default function Page() {
   useEffect(() => {
     fetch("/api/startups")
       .then((r) => r.json())
-      .then(setAll)
-      .catch(() => {});
+      .then((data) => { setAll(data); setStartupsFetched(true); })
+      .catch(() => { setStartupsFetched(true); });
   }, []);
 
   useEffect(() => {
@@ -869,7 +870,10 @@ export default function Page() {
             <div className="sb-head">
               <h2 className="sb-city">Hyderabad Startups</h2>
               <div className="sb-stat">
-                <strong>{filtered.length.toLocaleString()}</strong> companies
+                {startupsFetched
+                  ? <><strong>{filtered.length.toLocaleString()}</strong> companies</>
+                  : <span className="sb-loading-pulse">Loading…</span>
+                }
                 {hiringInView > 0 && <span className="sb-hiring"> · {hiringInView} hiring now</span>}
               </div>
               <p className="sb-desc">Filter startups by sector, funding stage, and open job roles on the map.</p>
@@ -881,7 +885,7 @@ export default function Page() {
             {sidebarView === "list" && (
               <div className="sb-results-row">
                 <span className="sb-results-label">STARTUPS</span>
-                <span className="sb-results-count">{filtered.length.toLocaleString()} RESULTS</span>
+                <span className="sb-results-count">{startupsFetched ? `${filtered.length.toLocaleString()} RESULTS` : "…"}</span>
               </div>
             )}
             {sidebarView === "list" && (
@@ -938,7 +942,7 @@ export default function Page() {
         </aside>
 
         <main className="map-area">
-          <div ref={mapContainerRef} className="map-full" />
+          <div ref={mapContainerRef} className={`map-full${ready ? "" : " map-loading"}`} />
           {!sidebarOpen && (
             <MapFeaturedChrome
               startups={sponsoredPins}

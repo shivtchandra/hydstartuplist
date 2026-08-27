@@ -403,6 +403,16 @@ a:hover:not(.btn) {
   background: var(--surface-glass-solid);
 }
 
+.sb-loading-pulse {
+  color: var(--text-light);
+  animation: pulse-opacity 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse-opacity {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
 .sb-results-label {
   font-size: 10.5px;
   font-weight: 700;
@@ -922,6 +932,30 @@ a:hover:not(.btn) {
   width: 100%;
   height: 100%;
   z-index: 1;
+  /* Stadia Alidade Smooth approximate background — prevents blank-white flash
+     while Leaflet and the first tile batch load. */
+  background: #f5f3ef;
+}
+
+.map-full.map-loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255,255,255,0.18) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: map-shimmer 1.6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes map-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* Floating Glass Filter Bar */
