@@ -2999,6 +2999,38 @@ a:hover:not(.btn) {
   color: var(--text-muted);
 }
 
+/* Quiet single-line featured CTA — shown when no sponsors exist */
+.sb-featured-cta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  font-size: 12px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sb-featured-cta-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.sb-featured-cta-link {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-primary);
+  text-decoration: none;
+}
+
+.sb-featured-cta-link:hover {
+  text-decoration: underline;
+}
+
 .spotlight-card-available {
   border-style: dashed;
   border-color: rgba(255, 87, 34, 0.45);

@@ -453,20 +453,26 @@ function SpotlightShelf({ startups, onSelect }) {
 /** Paid featured inventory — live Sponsored pins + honest Available placeholders. */
 function SponsoredShelf({ startups, available = 0, cta, onSelect }) {
   const open = Math.max(0, available);
-  if (!startups.length && open <= 0) return null;
   const href = cta?.ctaHref || "/feature";
   const label = cta?.ctaLabel || "Get featured";
-  const filled = startups.length;
-  const max = filled + open;
-  const shownOpen = Math.min(open, 3);
+
+  // No sponsors yet — show a single quiet CTA line, not a full shelf of empty slots.
+  if (!startups.length) {
+    if (open <= 0) return null;
+    return (
+      <div className="sb-featured-cta">
+        <span className="sb-featured-cta-dot" />
+        <span>{open} featured pin{open !== 1 ? "s" : ""} available</span>
+        <Link href={href} className="sb-featured-cta-link">{label} →</Link>
+      </div>
+    );
+  }
+
   return (
     <div className="spotlight-shelf sponsored-shelf">
       <div className="spotlight-head">
         <span className="spotlight-title">Featured</span>
-        <span className="spotlight-sub">
-          Limited featured pins · {filled}/{max || "—"} filled
-          {open > 0 ? ` · ${open} open` : ""}
-        </span>
+        <Link href={href} className="sb-featured-cta-link" style={{ fontSize: 11 }}>{label} →</Link>
       </div>
       <div className="spotlight-row">
         {startups.map((s) => (
@@ -476,22 +482,7 @@ function SponsoredShelf({ startups, available = 0, cta, onSelect }) {
             <div className="spotlight-sector"><span className="sponsored-badge">Sponsored</span></div>
           </button>
         ))}
-        {Array.from({ length: shownOpen }, (_, i) => (
-          <Link
-            key={`avail-${i}`}
-            href={href}
-            className="spotlight-card spotlight-card-available"
-            title="Featured pin available"
-          >
-            <span className="avail-slot-mark" aria-hidden="true">+</span>
-            <div className="spotlight-name">Your startup here</div>
-            <div className="spotlight-sector">{label}</div>
-          </Link>
-        ))}
       </div>
-      <p className="sponsored-shelf-note">
-        Basic map listings stay free. Featured pins get a Sponsored badge and priority on the map.
-      </p>
     </div>
   );
 }
@@ -943,20 +934,6 @@ export default function Page() {
               </div>
             )}
           </div>
-          {!featuredPartnerHidden && (
-            <FeaturedPartnerStrip
-              chrome={
-                featuredInv?.chrome?.mapSidebar || {
-                  headline: "Feature this pin",
-                  body: "Limited featured pins open — Sponsored placement on the map.",
-                  ctaLabel: "Reserve a spot",
-                  ctaHref: "/feature",
-                  mode: "available",
-                }
-              }
-              onDismiss={() => setFeaturedPartnerHidden(true)}
-            />
-          )}
           {!newsletterHidden && <NewsletterBar onDismiss={() => setNewsletterHidden(true)} />}
         </aside>
 
