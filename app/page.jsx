@@ -54,12 +54,16 @@ function useLeafletMap(containerRef) {
         maxZoom: 19,
       });
       L.control.zoom({ position: "bottomright" }).addTo(mapRef.current);
-      // Colorful roads/parks/water. OSM standard tiles need no API key —
-      // CARTO now watermarks every basemap tile served without one.
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      // Stadia Alidade Smooth — clean light tiles, no POI clutter.
+      // Works on localhost without a key; set NEXT_PUBLIC_STADIA_KEY in prod.
+      const stadiaKey = process.env.NEXT_PUBLIC_STADIA_KEY;
+      const tileUrl = stadiaKey
+        ? `https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=${stadiaKey}`
+        : "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png";
+      L.tileLayer(tileUrl, {
         attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19,
+          '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom: 20,
       }).addTo(mapRef.current);
       layerRef.current = L.markerClusterGroup({
         maxClusterRadius: 46,
