@@ -27,6 +27,7 @@ function useLeafletMap(containerRef) {
   const mapRef = useRef(null);
   const layerRef = useRef(null);
   const LRef = useRef(null);
+  const markerMapRef = useRef(new Map()); // id → L.marker, never rebuilt on stable pins
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -77,36 +78,59 @@ function useLeafletMap(containerRef) {
     })();
     return () => {
       cancelled = true;
+      markerMapRef.current.clear();
     };
   }, [containerRef]);
 
   function setMarkers(startups, onSelect) {
     const L = LRef.current;
-    if (!L || !layerRef.current) return;
-    layerRef.current.clearLayers();
-    // Sponsored featured pins render above free pins (higher z-index) with a ring.
-    const ordered = [...startups.filter((s) => s.lat && s.lng)].sort(
+    const layer = layerRef.current;
+    if (!L || !layer) return;
+
+    // Build lookup of the incoming set (lat/lng required).
+    const nextIds = new Map();
+    for (const s of startups) {
+      if (s.lat && s.lng) nextIds.set(s.id, s);
+    }
+
+    // Remove markers that fell out of the filtered set.
+    const toRemove = [];
+    for (const [id, marker] of markerMapRef.current) {
+      if (!nextIds.has(id)) {
+        toRemove.push(marker);
+        markerMapRef.current.delete(id);
+      }
+    }
+    if (toRemove.length) layer.removeLayers(toRemove);
+
+    // Add markers that are new — existing ones are left completely untouched
+    // (no icon rebuild, no DOM removal, no image re-request).
+    const toAdd = [];
+    // Sponsored pins sort first so they get higher z-index in the cluster.
+    const ordered = [...nextIds.values()].sort(
       (a, b) => Number(!!b.sponsored) - Number(!!a.sponsored)
     );
-    ordered.forEach((s) => {
-        const featured = !!s.sponsored;
-        const size = featured ? 52 : 44;
-        const icon = L.divIcon({
-          className: `leaf-marker${featured ? " leaf-marker-sponsored" : ""}`,
-          html: featured
-            ? `<div class="pin-sponsored-ring"><img src="${circleIcon(s)}" width="44" height="44" alt="" /><span class="pin-sponsored-label">Sponsored</span></div>`
-            : `<img src="${circleIcon(s)}" width="44" height="44" alt="" />`,
-          iconSize: [size, featured ? 64 : size],
-          iconAnchor: [size / 2, size / 2],
-        });
-        L.marker([s.lat, s.lng], {
-          icon,
-          title: prettyName(s.name),
-          zIndexOffset: featured ? 600 : 0,
-        })
-          .addTo(layerRef.current)
-          .on("click", () => onSelect(s));
+    for (const s of ordered) {
+      if (markerMapRef.current.has(s.id)) continue;
+      const featured = !!s.sponsored;
+      const size = featured ? 52 : 44;
+      const icon = L.divIcon({
+        className: `leaf-marker${featured ? " leaf-marker-sponsored" : ""}`,
+        html: featured
+          ? `<div class="pin-sponsored-ring"><img src="${circleIcon(s)}" width="44" height="44" alt="" /><span class="pin-sponsored-label">Sponsored</span></div>`
+          : `<img src="${circleIcon(s)}" width="44" height="44" alt="" />`,
+        iconSize: [size, featured ? 64 : size],
+        iconAnchor: [size / 2, size / 2],
       });
+      const marker = L.marker([s.lat, s.lng], {
+        icon,
+        title: prettyName(s.name),
+        zIndexOffset: featured ? 600 : 0,
+      }).on("click", () => onSelect(s));
+      markerMapRef.current.set(s.id, marker);
+      toAdd.push(marker);
+    }
+    if (toAdd.length) layer.addLayers(toAdd);
   }
 
   function flyTo(lat, lng) {
