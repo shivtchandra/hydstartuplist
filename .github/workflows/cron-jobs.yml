@@ -28,7 +28,7 @@ jobs:
             echo "SITE_URL secret not set — skipping. Set it once the site is deployed."
             exit 0
           fi
-          curl -sf -X GET "$SITE_URL/api/cron/check-hiring?limit=60" \
+          curl -sf --max-time 90 -X GET "$SITE_URL/api/cron/check-hiring?limit=60" \
             -H "Authorization: Bearer $CRON_SECRET"
 
   fetch-news:
