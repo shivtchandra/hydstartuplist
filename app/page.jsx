@@ -401,7 +401,7 @@ function StartupCard({ startup, onClick, active }) {
   return (
     <div className={`s-card${active ? " s-card-on" : ""}${startup.sponsored ? " s-card-sponsored" : ""}`} onClick={onClick}>
       <div className="s-card-head">
-        <LogoBadge startup={startup} size={40} />
+        <LogoBadge startup={startup} size={44} />
         <div className="s-card-id">
           <div className="s-card-name">
             {prettyName(startup.name)}
@@ -410,6 +410,9 @@ function StartupCard({ startup, onClick, active }) {
           <div className="s-card-sub">{startup.sector} · {startup.area}</div>
         </div>
       </div>
+      {startup.description && (
+        <p className="s-card-desc">{startup.description}</p>
+      )}
       <div className="s-card-foot">
         <span className="s-card-meta">
           <span className="s-chip">{startup.fundingStage}</span>
@@ -884,6 +887,12 @@ export default function Page() {
                 <button className={sidebarView === "areas" ? "on" : ""} onClick={() => setSidebarView("areas")}>Areas</button>
               </div>
             </div>
+            {sidebarView === "list" && (
+              <div className="sb-results-row">
+                <span className="sb-results-label">STARTUPS</span>
+                <span className="sb-results-count">{filtered.length.toLocaleString()} RESULTS</span>
+              </div>
+            )}
             {sidebarView === "list" && (
               <SponsoredShelf
                 startups={sponsoredPins}

@@ -32,6 +32,7 @@ export async function GET(req) {
       addedAt: s.addedAt ?? null,
       spotlight: s.spotlight === true,
       sponsored: sponsoredIds.has(s.id) || s.sponsored === true,
+      description: s.description ? s.description.slice(0, 140) : null,
     };
   });
 
