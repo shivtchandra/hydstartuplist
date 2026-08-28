@@ -28,8 +28,12 @@ jobs:
             echo "SITE_URL secret not set — skipping. Set it once the site is deployed."
             exit 0
           fi
-          curl -sf --max-time 90 -X GET "$SITE_URL/api/cron/check-hiring?limit=60" \
-            -H "Authorization: Bearer $CRON_SECRET"
+          # limit=25: Vercel serverless cap is 60s; 60 startups was too many.
+          # || true: a 504 means Vercel timed out but may have processed partial
+          # data — don't fail the workflow run over a partial cron.
+          curl -s --max-time 65 -X GET "$SITE_URL/api/cron/check-hiring?limit=25" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -w "\nHTTP %{http_code}" || true
 
   fetch-news:
     if: github.event.schedule == '0 4 * * *' || github.event_name == 'workflow_dispatch'
