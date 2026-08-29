@@ -100,19 +100,22 @@ async function discoverAtsFromHtml(entry) {
     urlsToFetch.add(`${base}/jobs`);
   }
 
-  for (const pageUrl of urlsToFetch) {
-    const html = await getText(pageUrl);
-    if (!html) continue;
+  // Fetch all candidate pages concurrently — was sequential (up to 4 × 5s = 20s
+  // per company), which is why check-hiring blew the 60s function budget.
+  const htmls = await Promise.all([...urlsToFetch].map((u) => getText(u)));
 
-    const patterns = [
-      { source: "greenhouse", regex: /boards\.greenhouse\.io\/([a-z0-9_-]+)/i },
-      { source: "lever", regex: /jobs\.lever\.co\/([a-z0-9_-]+)/i },
-      { source: "ashby", regex: /jobs\.ashbyhq\.com\/([a-z0-9_-]+)/i },
-      { source: "recruitee", regex: /([a-z0-9_-]+)\.recruitee\.com/i },
-      { source: "workable", regex: /apply\.workable\.com\/([a-z0-9_-]+)/i },
-      { source: "breezy", regex: /([a-z0-9_-]+)\.breezy\.hr/i },
-      { source: "smartrecruiters", regex: /jobs\.smartrecruiters\.com\/([a-z0-9_-]+)/i },
-    ];
+  const patterns = [
+    { source: "greenhouse", regex: /boards\.greenhouse\.io\/([a-z0-9_-]+)/i },
+    { source: "lever", regex: /jobs\.lever\.co\/([a-z0-9_-]+)/i },
+    { source: "ashby", regex: /jobs\.ashbyhq\.com\/([a-z0-9_-]+)/i },
+    { source: "recruitee", regex: /([a-z0-9_-]+)\.recruitee\.com/i },
+    { source: "workable", regex: /apply\.workable\.com\/([a-z0-9_-]+)/i },
+    { source: "breezy", regex: /([a-z0-9_-]+)\.breezy\.hr/i },
+    { source: "smartrecruiters", regex: /jobs\.smartrecruiters\.com\/([a-z0-9_-]+)/i },
+  ];
+
+  for (const html of htmls) {
+    if (!html) continue;
 
     for (const { source, regex } of patterns) {
       const match = html.match(regex);
@@ -279,29 +282,55 @@ export async function GET(req) {
   const results = [];
   let hits = 0;
 
-  for (const entry of targets) {
-    if (entry.hiring?.source === "manual") continue;
-    let h = null;
-    try {
-      h = await checkOne(entry);
-    } catch {
-      h = null;
-    }
+  // Companies were being checked one at a time — each miss falls through a
+  // slow ATS-discovery chain (~20-37s), so a sequential batch of 25 blew past
+  // Vercel's 60s cap and the cursor (written only after the loop) never
+  // advanced, stalling on the same stuck batch every run. Run with bounded
+  // concurrency and a time budget instead; `attempted` tracks what actually
+  // finished so the cursor advances only past real progress.
+  const CONCURRENCY = 6;
+  const TIME_BUDGET_MS = 45_000; // headroom under the 60s function cap
+  const startedAt = Date.now();
+  const attempted = new Array(targets.length).fill(false);
 
-    if (h) {
-      hits++;
-      results.push({ id: entry.id, name: entry.name, hiring: h });
-      if (db) {
-        try {
-          await db.collection("startups_dynamic").doc(entry.id).set({ hiring: h, updatedAt: new Date().toISOString() }, { merge: true });
-        } catch (err) {
-          console.error(`Firestore write error for ${entry.name}:`, err);
+  async function worker() {
+    while (true) {
+      const idx = nextIdx++;
+      if (idx >= targets.length) return;
+      if (Date.now() - startedAt > TIME_BUDGET_MS) return; // out of time — leave unattempted for next cursor pass
+      const entry = targets[idx];
+      if (entry.hiring?.source === "manual") {
+        attempted[idx] = true;
+        continue;
+      }
+      let h = null;
+      try {
+        h = await checkOne(entry);
+      } catch {
+        h = null;
+      }
+      attempted[idx] = true;
+      if (h) {
+        hits++;
+        results.push({ id: entry.id, name: entry.name, hiring: h });
+        if (db) {
+          try {
+            await db.collection("startups_dynamic").doc(entry.id).set({ hiring: h, updatedAt: new Date().toISOString() }, { merge: true });
+          } catch (err) {
+            console.error(`Firestore write error for ${entry.name}:`, err);
+          }
         }
       }
     }
   }
+  let nextIdx = 0;
+  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, targets.length) }, worker));
 
-  const nextOffset = offset + limit >= all.length ? 0 : offset + limit;
+  const firstUnattempted = attempted.findIndex((v) => !v);
+  const nextOffset =
+    firstUnattempted === -1
+      ? (offset + limit >= all.length ? 0 : offset + limit)
+      : offset + firstUnattempted;
   if (cursorRef) {
     try {
       await cursorRef.set({ offset: nextOffset, lastRunAt: new Date().toISOString() });
