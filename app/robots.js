@@ -1,10 +1,7 @@
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "https://hydmap.in");
+import { getSiteUrl } from "../lib/site-url.js";
 
 export default function robots() {
+  const SITE_URL = getSiteUrl();
   return {
     rules: [
       {

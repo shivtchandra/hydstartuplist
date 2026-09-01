@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
 import LoadingScreen from "../components/LoadingScreen.jsx";
@@ -54,7 +55,8 @@ export default function InsightsPage() {
       <div className="feed-head">
         <h1 className="form-title">Ecosystem Insights</h1>
         <p className="form-sub">
-          Sector × funding-stage density matrix across all {all.length.toLocaleString()} tracked Hyderabad startups.
+          Sector × funding-stage density matrix across all {all.length.toLocaleString()} tracked Hyderabad startups.{" "}
+          <Link href="/jobs">Browse open startup jobs →</Link>
         </p>
       </div>
 

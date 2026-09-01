@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
 import LoadingScreen from "../components/LoadingScreen.jsx";
@@ -51,10 +52,11 @@ export default function GccsPage() {
       <div className="feed-head">
         <h1>Global Capability Centers hiring in Hyderabad</h1>
         <p className="form-sub">
-          Large companies' in-house Hyderabad engineering/ops centers — not startups, but major local
-          employers. Most run Workday-style ATS we can't reliably probe for live counts yet, so this is a
+          Large companies&apos; in-house Hyderabad engineering/ops centers — not startups, but major local
+          employers. Most run Workday-style ATS we can&apos;t reliably probe for live counts yet, so this is a
           curated list of real, verified career pages rather than a job count — click through to search
-          Hyderabad roles directly on each company's own site.
+          Hyderabad roles directly on each company&apos;s own site. For startup roles, see{" "}
+          <Link href="/jobs">startup jobs in Hyderabad →</Link>
         </p>
       </div>
 

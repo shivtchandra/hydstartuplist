@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { getSiteUrl } from "../../lib/site-url.js";
 import SiteNav from "../components/SiteNav.jsx";
 
 export const metadata = {
   title: "Stories | Hyderabad Startup Map",
   description:
     "Research notes on the Hyderabad startup ecosystem — funding, GCCs, deeptech, and how Hyd compares to Bengaluru.",
+  alternates: { canonical: `${getSiteUrl()}/stories` },
   openGraph: {
     title: "Stories | Hyderabad Startup Map",
     description:
@@ -14,6 +16,12 @@ export const metadata = {
 };
 
 const STORIES = [
+  {
+    href: "/stories/hyderabad-startup-hiring-report-2026",
+    title: "Hyderabad startup hiring report — who's hiring in 2026",
+    blurb:
+      "Live snapshot of open roles across mapped Hyderabad startups: top hiring companies, sectors, and links to browse by role, area, and sector.",
+  },
   {
     href: "/stories/bengaluru-vs-hyderabad-startup-limelight",
     title: "Bengaluru still owns the limelight. Hyderabad is writing a different script.",

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
 import LoadingScreen from "../components/LoadingScreen.jsx";
@@ -85,7 +86,10 @@ export default function FeedPage() {
       <div className="feed-page">
       <div className="feed-head">
         <h1 className="form-title">Live Startup Feed</h1>
-        <p className="form-sub">What's moving in the Hyderabad startup ecosystem right now.</p>
+        <p className="form-sub">
+          What&apos;s moving in the Hyderabad startup ecosystem right now.{" "}
+          <Link href="/jobs">See all open roles →</Link>
+        </p>
       </div>
 
       <section className="feed-section">

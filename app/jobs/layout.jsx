@@ -1,8 +1,10 @@
-export const metadata = {
-  title: "Startup Jobs in Hyderabad – Open Roles at 1,000+ Companies",
-  description: "Browse hundreds of open roles at Hyderabad startups. Filter by company, sector, and funding stage.",
-};
+import { Suspense } from "react";
+import LoadingScreen from "../components/LoadingScreen.jsx";
 
 export default function Layout({ children }) {
-  return children;
+  return (
+    <Suspense fallback={<div className="page-with-nav"><LoadingScreen label="Loading jobs…" /></div>}>
+      {children}
+    </Suspense>
+  );
 }

@@ -1,159 +1,129 @@
-"use client";
-
-import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import SiteNav from "../components/SiteNav.jsx";
-import LoadingScreen from "../components/LoadingScreen.jsx";
+import JobsBreadcrumbs from "../components/JobsBreadcrumbs.jsx";
+import JobsClient from "./JobsClient.jsx";
+import { getAllJobs } from "../../lib/jobs.js";
+import { getAdminDb } from "../../lib/firebaseAdmin.js";
+import { getSiteUrl } from "../../lib/site-url.js";
+import {
+  breadcrumbJsonLd,
+  itemListJsonLd,
+  JOB_AREA_LANDINGS,
+  JOB_SECTOR_LANDINGS,
+  JOB_ROLE_LANDINGS,
+} from "../../lib/jobs-seo.js";
 
-function timeAgo(iso) {
-  if (!iso) return "";
-  const diff = Date.now() - new Date(iso).getTime();
-  const hrs = Math.floor(diff / 3_600_000);
-  if (hrs < 1) return "just now";
-  if (hrs < 24) return `${hrs}h ago`;
-  return `${Math.floor(hrs / 24)}d ago`;
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata() {
+  const jobs = await getAllJobs();
+  const count = jobs.length;
+  const title = `Startup Jobs in Hyderabad – ${count}+ Open Roles at Tech Companies`;
+  const description =
+    "Find startup jobs in Hyderabad at 1,000+ mapped companies. Browse open roles from SaaS, fintech, and deeptech startups in Gachibowli, Madhapur, and HITEC City — plus broader IT openings.";
+  return {
+    title,
+    description,
+    alternates: { canonical: `${getSiteUrl()}/jobs` },
+    openGraph: {
+      title,
+      description,
+      url: `${getSiteUrl()}/jobs`,
+      type: "website",
+    },
+    keywords: [
+      "startup jobs hyderabad",
+      "hyderabad startup jobs",
+      "tech jobs hyderabad startups",
+      "hyderabad startup careers",
+      "saas jobs hyderabad",
+      "fintech jobs hyderabad",
+    ],
+  };
 }
 
-const TABS = [
-  { key: "all", label: "All" },
-  { key: "startup", label: "Startups" },
-  { key: "gcc", label: "GCCs" },
-  { key: "other", label: "Other Hyderabad jobs" },
-];
-
-export default function JobsPage() {
-  const [jobs, setJobs] = useState([]);
-  const [fetchedAt, setFetchedAt] = useState(null);
-  const [note, setNote] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [q, setQ] = useState("");
-  const [tab, setTab] = useState("all");
-  const [sharedId, setSharedId] = useState(null);
-
-  async function shareJob(j) {
-    const site = `${window.location.origin}/jobs`;
-    const text = `${j.title} at ${j.company} — ${j.location}\nApply: ${j.url}\n\nMore Hyderabad startup jobs → ${site}`;
-    const data = { title: `${j.title} at ${j.company}`, text, url: j.url };
-    try {
-      if (navigator.share) {
-        await navigator.share(data);
-        return;
-      }
-    } catch (e) {
-      if (e && e.name === "AbortError") return; // user dismissed the sheet
-    }
-    // Fallback for desktop / no Web Share: copy the shareable text.
-    try {
-      await navigator.clipboard.writeText(text);
-      setSharedId(j.id);
-      setTimeout(() => setSharedId((cur) => (cur === j.id ? null : cur)), 1600);
-    } catch {
-      window.prompt("Copy this to share:", text);
-    }
+async function getFetchedAt() {
+  const db = await getAdminDb();
+  if (!db) return null;
+  try {
+    const snap = await db.collection("job_board").doc("adzuna_latest").get();
+    return snap.exists ? snap.data().fetchedAt : null;
+  } catch {
+    return null;
   }
+}
 
-  useEffect(() => {
-    fetch("/api/jobs")
-      .then((r) => r.json())
-      .then((d) => { setJobs(d.jobs || []); setFetchedAt(d.fetchedAt); setNote(d.note); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, []);
-
-  const counts = useMemo(() => {
-    const c = { all: jobs.length, startup: 0, gcc: 0, other: 0 };
-    for (const j of jobs) c[j.category] = (c[j.category] || 0) + 1;
-    return c;
-  }, [jobs]);
-
-  const filtered = useMemo(() => {
-    let list = tab === "all" ? jobs : jobs.filter((j) => j.category === tab);
-    if (q.trim()) {
-      const needle = q.toLowerCase();
-      list = list.filter((j) => j.title?.toLowerCase().includes(needle) || j.company?.toLowerCase().includes(needle));
-    }
-    return list;
-  }, [jobs, q, tab]);
+export default async function JobsPage() {
+  const [jobs, fetchedAt] = await Promise.all([getAllJobs(), getFetchedAt()]);
+  const startupCount = jobs.filter((j) => j.category === "startup").length;
+  const breadcrumbs = [{ name: "Home", href: "/" }, { name: "Jobs" }];
+  const jsonLd = [breadcrumbJsonLd(breadcrumbs), itemListJsonLd(jobs)];
 
   return (
     <div className="page-with-nav">
+      {jsonLd.map((data) => (
+        <script
+          key={data["@type"]}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+        />
+      ))}
       <SiteNav active="jobs" />
       <div className="feed-page">
-      <div className="feed-head">
-        <h1>Hyderabad tech jobs</h1>
-        <p className="form-sub">
-          Real open roles pulled straight from startups' own career pages, mixed with the broader
-          Hyderabad IT market via Adzuna (a licensed job aggregator — not scraped from LinkedIn/Naukri,
-          which their terms don't allow).
-          {fetchedAt && ` Adzuna last updated ${timeAgo(fetchedAt)}.`}
-        </p>
-        {note && !jobs.length && <p className="form-sub">{note}</p>}
-      </div>
+        <JobsBreadcrumbs items={breadcrumbs} />
 
-      {jobs.length > 0 && (
-        <>
-          <div className="jobs-tabs">
-            {TABS.map((t) => (
-              <button
-                key={t.key}
-                className={tab === t.key ? "on" : ""}
-                onClick={() => setTab(t.key)}
-              >
-                {t.label} <span className="jobs-tab-count">{counts[t.key] || 0}</span>
-              </button>
-            ))}
+        <div className="feed-head">
+          <h1>Startup Jobs in Hyderabad</h1>
+          <p className="jobs-intro">
+            Browse <strong>{jobs.length} open roles</strong> across Hyderabad&apos;s startup ecosystem —{" "}
+            <strong>{startupCount} pulled directly from startup career pages</strong> (Greenhouse, Lever,
+            Ashby, and more), plus licensed listings from the broader Hyderabad IT market. From early-stage
+            SaaS in <strong>Gachibowli</strong> and <strong>Madhapur</strong> to Series B+ fintech in{" "}
+            <strong>HITEC City</strong> and deeptech near <strong>Financial District</strong>, filter by
+            company, sector, or funding stage on our{" "}
+            <Link href="/">interactive startup map</Link>. See our{" "}
+            <Link href="/stories/hyderabad-startup-hiring-report-2026">Hyderabad startup hiring report</Link>{" "}
+            for who&apos;s hiring now.
+          </p>
+        </div>
+
+        <JobsClient initialJobs={jobs} fetchedAt={fetchedAt} />
+
+        <section className="jobs-landing-links" aria-labelledby="jobs-browse-heading">
+          <h2 id="jobs-browse-heading">Browse jobs by sector, area, or role</h2>
+          <div className="jobs-landing-grid">
+            <div>
+              <h3>By sector</h3>
+              <ul>
+                {JOB_SECTOR_LANDINGS.map((s) => (
+                  <li key={s.slug}>
+                    <Link href={`/jobs/sector/${s.slug}`}>{s.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3>By area</h3>
+              <ul>
+                {JOB_AREA_LANDINGS.map((a) => (
+                  <li key={a.slug}>
+                    <Link href={`/jobs/in/${a.slug}`}>{a.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3>By role</h3>
+              <ul>
+                {JOB_ROLE_LANDINGS.map((r) => (
+                  <li key={r.slug}>
+                    <Link href={`/jobs/role/${r.slug}`}>{r.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <input
-            className="jobs-search"
-            placeholder="Filter by title or company…"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-          />
-        </>
-      )}
-
-      {loading && <LoadingScreen label="Fetching today's openings…" />}
-      {!loading && jobs.length > 0 && filtered.length === 0 && (
-        <p className="form-sub">No jobs match this filter.</p>
-      )}
-
-      <div className="feed-list">
-        {filtered.map((j) => (
-          <div key={j.id} className={`feed-row${j.sponsored ? " feed-row-sponsored" : ""}`}>
-            <a className="feed-row-body" href={j.url} target="_blank" rel="noreferrer">
-              <div className="feed-row-name">
-                {j.title}
-                {j.sponsored && <span className="sponsored-badge">Sponsored</span>}
-              </div>
-              <div className="feed-row-sub">{j.company} · {j.location} · {timeAgo(j.postedAt)}</div>
-            </a>
-            <button
-              type="button"
-              className="job-share-btn"
-              onClick={() => shareJob(j)}
-              aria-label={`Share ${j.title} at ${j.company}`}
-              title="Share this job"
-            >
-              {sharedId === j.id ? (
-                <>
-                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="m5 12 5 5L20 6" />
-                  </svg>
-                  Copied
-                </>
-              ) : (
-                <>
-                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="18" cy="5" r="3" />
-                    <circle cx="6" cy="12" r="3" />
-                    <circle cx="18" cy="19" r="3" />
-                    <path d="m8.6 13.5 6.8 4M15.4 6.5 8.6 10.5" />
-                  </svg>
-                  Share
-                </>
-              )}
-            </button>
-          </div>
-        ))}
-      </div>
+        </section>
       </div>
     </div>
   );

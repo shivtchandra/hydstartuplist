@@ -3,9 +3,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../lib/firebase.js";
-import { normalizeArea, domainOf, hostnameOf, logoSrcs, colorFor, prettyName, careersUrl } from "../lib/startupUi.js";
-import MobileTabBar from "./components/MobileTabBar.jsx";
+import { db } from "../../lib/firebase.js";
+import { normalizeArea, domainOf, hostnameOf, logoSrcs, colorFor, prettyName, careersUrl } from "../../lib/startupUi.js";
+import { startupSlug } from "../../lib/slug.js";
+import MobileTabBar from "../components/MobileTabBar.jsx";
 
 const HYDERABAD_CENTER = { lat: 17.42, lng: 78.44 };
 
@@ -44,10 +45,10 @@ function useLeafletMap(containerRef) {
         center: [HYDERABAD_CENTER.lat, HYDERABAD_CENTER.lng],
         zoom: 12,
         zoomControl: false,
-        zoomSnap: 0,              // fully continuous zoom — no snap-back at the end of a gesture
-        zoomDelta: 0.5,           // +/- buttons and dblclick step half a level
-        wheelPxPerZoomLevel: 120, // trackpad sensitivity — lower is faster
-        wheelDebounceTime: 15,    // short debounce keeps the wheel feeling live
+        zoomSnap: 1,              // integer tile levels — crisp on desktop (fractional scaling blurs raster tiles)
+        zoomDelta: 1,             // +/- buttons step one full level
+        wheelPxPerZoomLevel: 140, // mouse wheel — less aggressive than trackpad-tuned 120
+        wheelDebounceTime: 40,    // batch rapid wheel ticks from discrete mouse notches
         zoomAnimation: true,
         zoomAnimationThreshold: 8,
         bounceAtZoomLimits: false,
@@ -321,8 +322,11 @@ function DetailModal({ startup, onClose }) {
           <span>{detail ? (detail.address || detail.area) : startup.area}</span>
         </div>
         <div className="modal-actions">
+          <Link className="btn" href={`/startups/${startup.slug || startupSlug(startup)}`}>
+            Full profile
+          </Link>
           {site ? (
-            <a className="btn" href={site} target="_blank" rel="noreferrer">
+            <a className="btn btn-ghost" href={site} target="_blank" rel="noreferrer">
               Visit website ↗
             </a>
           ) : (
@@ -404,7 +408,13 @@ function StartupCard({ startup, onClick, active }) {
         <LogoBadge startup={startup} size={44} />
         <div className="s-card-id">
           <div className="s-card-name">
-            {prettyName(startup.name)}
+            <Link
+              href={`/startups/${startup.slug || startupSlug(startup)}`}
+              onClick={(e) => e.stopPropagation()}
+              className="s-card-name-link"
+            >
+              {prettyName(startup.name)}
+            </Link>
             {startup.sponsored && <span className="sponsored-badge">Sponsored</span>}
           </div>
           <div className="s-card-sub">{startup.sector} · {startup.area}</div>
@@ -911,7 +921,7 @@ export default function Page() {
                 {filtered.length > CAP && (
                   <div className="sb-more">Showing {CAP} of {filtered.length.toLocaleString()} — search or filter to narrow.</div>
                 )}
-                {filtered.length === 0 && <div className="sb-empty">No startups match your filters.</div>}
+                {startupsFetched && filtered.length === 0 && <div className="sb-empty">No startups match your filters.</div>}
               </div>
             ) : (
               <div className="sb-list">
@@ -934,7 +944,7 @@ export default function Page() {
                     </div>
                   </button>
                 ))}
-                {areaGroups.length === 0 && <div className="sb-empty">No areas match your filters.</div>}
+                {startupsFetched && areaGroups.length === 0 && <div className="sb-empty">No areas match your filters.</div>}
               </div>
             )}
           </div>

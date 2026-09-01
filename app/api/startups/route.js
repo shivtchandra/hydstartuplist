@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { filterStartups, visibleHiring } from "../../../lib/store.js";
 import { featuredPinIdSetAsync } from "../../../lib/placements.js";
+import { startupSlug } from "../../../lib/slug.js";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,7 @@ export async function GET(req) {
     const hiring = visibleHiring(s);
     return {
       id: s.id,
+      slug: startupSlug(s),
       name: s.name,
       lat: s.lat,
       lng: s.lng,

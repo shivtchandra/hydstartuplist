@@ -1,15 +1,9 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 
-// Resolve the public origin so OG/Twitter image URLs are absolute in production.
-// Prefer an explicit env; otherwise use Vercel's built-in production-domain var
-// (set automatically on every Vercel deploy) so share cards work with no config.
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : null) ||
-  "http://localhost:3000";
+import { getSiteUrl } from "../lib/site-url.js";
+
+const SITE_URL = getSiteUrl();
 const OG_TITLE = "Hyderabad Startup Map – 1,000+ Startups, Jobs & Funding";
 const OG_DESC =
   "Explore 1,000+ startups in Hyderabad on an interactive map. Filter by sector, funding stage, and area. Browse open jobs, startup news, and funding rounds.";
@@ -59,7 +53,6 @@ export const metadata = {
     "Hyderabad funding rounds",
     "GCCs Hyderabad",
   ],
-  alternates: { canonical: SITE_URL },
   openGraph: {
     title: OG_TITLE,
     description: OG_DESC,

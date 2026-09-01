@@ -1,3 +1,4 @@
+import { getSiteHostname } from "../lib/site-url.js";
 import { ImageResponse } from "next/og";
 
 export const alt = "Hyderabad Startup Map — 1,000+ startups across Hyderabad";
@@ -151,7 +152,7 @@ export default async function OpengraphImage() {
             display: "flex",
           }}
         >
-          hydstartuplist.vercel.app
+          {getSiteHostname()}
         </div>
       </div>
     ),

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getSiteUrl } from "../../../lib/site-url.js";
 import SiteNav from "../../components/SiteNav.jsx";
 
 const TITLE =
@@ -7,6 +8,7 @@ const DESCRIPTION =
   "Bengaluru still leads on unicorns and absolute funding, but Hyderabad was India’s fastest-growing major hub in H1 2026 (~45% YoY). A clear-eyed look at Bangalore vs Hyderabad unicorns, GCCs, deeptech, and T-Hub — plus the Hyderabad startup map.";
 
 export const metadata = {
+  alternates: { canonical: `${getSiteUrl()}/stories/bengaluru-vs-hyderabad-startup-limelight` },
   title: `${TITLE} | Hyderabad Startup Map`,
   description: DESCRIPTION,
   openGraph: {
