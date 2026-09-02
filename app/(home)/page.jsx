@@ -628,6 +628,7 @@ export default function Page() {
   const [featuredInv, setFeaturedInv] = useState(null); // from /api/placements
   const [newsletterHidden, setNewsletterHidden] = useState(false);
   const [featuredPartnerHidden, setFeaturedPartnerHidden] = useState(false);
+  const [jobCount, setJobCount] = useState(null);
   const openedFromUrlRef = useRef(null);
 
   // Use the inventory response as the source of truth for paid pins too. The
@@ -769,6 +770,13 @@ export default function Page() {
     fitToMarkers(filtered);
   }, [ready, sector, fundingStage, area, hiringOnly, newOnly]);
 
+  useEffect(() => {
+    fetch("/api/jobs")
+      .then((r) => r.json())
+      .then((d) => setJobCount(d.jobs?.length ?? null))
+      .catch(() => {});
+  }, []);
+
   function openStartup(s) {
     setSelected(s);
     flyTo(s.lat, s.lng);
@@ -873,6 +881,21 @@ export default function Page() {
           )}
         </div>
       </header>
+
+      <div className="jobs-stat-strip">
+        <div className="jobs-stat-chips">
+          <span className="jobs-stat-chip">
+            <span className="jobs-stat-dot" />
+            <strong>{hiringInView}</strong> startups hiring
+          </span>
+          {jobCount !== null && (
+            <span className="jobs-stat-chip">
+              <strong>{jobCount}+</strong> open roles
+            </span>
+          )}
+        </div>
+        <a href="/jobs" className="jobs-stat-cta">Browse jobs →</a>
+      </div>
 
       <div className={`app-body${sidebarOpen ? "" : " sidebar-closed"}`}>
         <aside className="sidebar">
