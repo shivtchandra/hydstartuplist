@@ -70,7 +70,9 @@ export default async function JobDetailPage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(posting) }} />
       <SiteNav active="jobs" />
       <div className="feed-page job-detail">
-        <JobsBreadcrumbs items={breadcrumbs} />
+        <div className="job-detail-back-row">
+          <Link href="/jobs" className="job-detail-back">← All jobs</Link>
+        </div>
 
         <header className="feed-head">
           <h1>{job.title}</h1>
@@ -93,9 +95,6 @@ export default async function JobDetailPage({ params }) {
           <a className="btn cmd-submit job-apply-btn" href={job.url} target="_blank" rel="noreferrer">
             Apply on company site →
           </a>
-          <Link className="btn btn-ghost" href="/jobs">
-            ← All jobs
-          </Link>
         </div>
 
         {startup && (

@@ -3871,6 +3871,21 @@ a:hover:not(.btn) {
   color: inherit;
 }
 
+.job-detail-back-row {
+  margin-bottom: 16px;
+}
+.job-detail-back {
+  font-size: 0.85rem;
+  color: var(--text-muted, #64748b);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color var(--transition-fast);
+}
+.job-detail-back:hover {
+  color: var(--accent-primary, #ff5722);
+}
 .job-detail-actions {
   display: flex;
   flex-wrap: wrap;
@@ -3913,8 +3928,8 @@ a:hover:not(.btn) {
   align-items: center;
   justify-content: space-between;
   padding: 7px 16px;
-  background: var(--bg-secondary, #0d1117);
-  border-bottom: 1px solid var(--border, rgba(255,255,255,0.07));
+  background: var(--surface-glass-solid, #ffffff);
+  border-bottom: 1px solid var(--border-subtle, rgba(203,213,225,0.5));
   font-size: 13px;
   gap: 12px;
   flex-shrink: 0;
@@ -3926,25 +3941,25 @@ a:hover:not(.btn) {
   flex-wrap: wrap;
 }
 .jobs-stat-chip {
-  color: var(--text-secondary, #8b949e);
+  color: var(--text-muted, #64748b);
   display: flex;
   align-items: center;
   gap: 5px;
 }
 .jobs-stat-chip strong {
-  color: var(--text-primary, #e6edf3);
+  color: var(--text-main, #0f172a);
   font-weight: 600;
 }
 .jobs-stat-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #3fb950;
+  background: var(--badge-hiring-dot, #10b981);
   display: inline-block;
   flex-shrink: 0;
 }
 .jobs-stat-cta {
-  color: var(--accent, #58a6ff);
+  color: var(--accent-primary, #ff5722);
   font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
