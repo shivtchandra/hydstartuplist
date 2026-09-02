@@ -10,6 +10,7 @@ const STATIC_ROUTES = [
   { path: "/feed",    priority: 0.9, changeFrequency: "hourly"  },
   { path: "/jobs",    priority: 0.9, changeFrequency: "hourly"  },
   { path: "/news",    priority: 0.8, changeFrequency: "daily"   },
+  { path: "/product-companies", priority: 0.85, changeFrequency: "weekly" },
   { path: "/gccs",    priority: 0.7, changeFrequency: "weekly"  },
   { path: "/insights",priority: 0.7, changeFrequency: "weekly"  },
   { path: "/stories", priority: 0.7, changeFrequency: "weekly"  },

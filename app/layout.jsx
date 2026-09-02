@@ -4,9 +4,9 @@ import { Analytics } from "@vercel/analytics/next";
 import { getSiteUrl } from "../lib/site-url.js";
 
 const SITE_URL = getSiteUrl();
-const OG_TITLE = "Hyderabad Startup Map – 1,000+ Startups, Jobs & Funding";
+const OG_TITLE = "Hyderabad Startup & Product Companies Map – 1,000+ Tech Companies, Jobs & Funding";
 const OG_DESC =
-  "Explore 1,000+ startups in Hyderabad on an interactive map. Filter by sector, funding stage, and area. Browse open jobs, startup news, and funding rounds.";
+  "Explore 1,000+ startups and product companies in Hyderabad on an interactive map. Filter by sector, funding stage, and area. Browse open jobs, startup news, and funding rounds.";
 const OG_IMAGE = "/opengraph-image";
 
 const JSONLD = {
@@ -44,14 +44,14 @@ export const metadata = {
   },
   description: OG_DESC,
   keywords: [
-    "Hyderabad startups",
+    "product companies Hyderabad",
+    "startups in Hyderabad",
+    "Hyderabad tech companies",
     "Hyderabad startup map",
     "startup jobs Hyderabad",
-    "Hyderabad tech companies",
-    "Hyderabad startup ecosystem",
-    "startups in Hyderabad",
-    "Hyderabad funding rounds",
+    "software companies Hyderabad",
     "GCCs Hyderabad",
+    "Hyderabad startup funding",
   ],
   openGraph: {
     title: OG_TITLE,
