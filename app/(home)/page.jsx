@@ -23,7 +23,11 @@ function pinCircleHtml(s, small = false) {
   const onerror = fallback
     ? `this.src='${fallback}';this.onerror=function(){this.style.display='none'}`
     : `this.style.display='none'`;
-  const img = primary ? `<img class="s-pin-logo" src="${primary}" alt="" onerror="${onerror}"/>` : "";
+  // Google returns a real favicon at 64px but its "no favicon" globe at 16px —
+  // so a s2/favicons image that loads <=16px is the placeholder, not a logo.
+  // Hide it and the coloured initial behind it shows through.
+  const onload = `if(this.naturalWidth&&this.naturalWidth<=16&&this.src.indexOf('google.com/s2')>-1)this.style.display='none'`;
+  const img = primary ? `<img class="s-pin-logo" src="${primary}" alt="" onload="${onload}" onerror="${onerror}"/>` : "";
   const size = small ? " s-pin-sm" : "";
   const hiring = s.hiring ? " s-pin-hiring" : "";
   const dot = s.hiring ? `<span class="s-pin-dot"></span>` : "";
