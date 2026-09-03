@@ -4457,6 +4457,10 @@ a:hover:not(.btn) {
   z-index: 2;
 }
 .s-pin-circle.s-pin-sm .s-pin-dot { width: 8px; height: 8px; border-width: 1.5px; }
+
+@media (max-width: 480px) {
+  .startup-pin-label { max-width: 92px; font-size: 10px; }
+}
 /* Fills the whole circle so the sector colour never shows as a ring —
    the colour is only the fallback ground behind the initial. */
 .s-pin-logo {
@@ -4491,17 +4495,24 @@ a:hover:not(.btn) {
   pointer-events: none;
 }
 
+/* Quiet density texture, not markers. Uniform muted slate — no sector colour
+   (that read as confetti next to the logos) and no white ring. Says only
+   "a company is here, zoom in", so it must stay visually below every logo. */
 .startup-mini-dot {
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
+  margin: 4px; /* centres the 6px dot inside its 14px tap target */
   border-radius: 50%;
-  background: var(--c, #94a3b8);
-  opacity: 0.55;
-  border: 1.5px solid #fff;
+  background: #64748b;
+  opacity: 0.4;
   cursor: pointer;
   transition: transform 0.15s, opacity 0.15s;
 }
-.startup-mini-dot:hover { transform: scale(1.9); opacity: 1; }
+.startup-mini-dot:hover {
+  transform: scale(2.2);
+  opacity: 0.85;
+  background: var(--accent-primary, #ff5722);
+}
 
 /* ==========================================================================
    INTENT MODAL — first-visit routing (job seeker / founder / browsing)

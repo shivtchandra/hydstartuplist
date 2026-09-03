@@ -64,6 +64,10 @@ const CELL_PX_H = 96;
 // past a count threshold) is what keeps logo density readable at any zoom.
 const SMALL_PX_W = 74;
 const SMALL_PX_H = 58;
+// Half the label's max width, so an edge pin doesn't get clipped text; and the
+// bottom strip the mobile tab bar covers.
+const LABEL_GUTTER_X = 60;
+const LABEL_GUTTER_BOTTOM = 78;
 
 function buildStartupAreas(startups) {
   const groups = {};
@@ -213,7 +217,23 @@ function useLeafletMap(containerRef) {
     // Both tiers are viewport-bounded. Building them from allCoords mounted a
     // marker (and a favicon request) for every startup in the dataset, not just
     // the ones on screen — ~1100 DOM nodes for a view that shows a few dozen.
-    const heroIds = new Set([...cellWinners.values()].map((s) => s.id));
+    // A label is centred on its pin, so one within half a label-width of the
+    // left/right edge gets clipped, and anything in the bottom strip sits under
+    // the mobile tab bar. Those pins keep a logo but lose the text.
+    const vp = map.getSize();
+    const heroIds = new Set(
+      [...cellWinners.values()]
+        .filter((s) => {
+          const p = map.latLngToContainerPoint([s.lat, s.lng]);
+          return (
+            p.x >= LABEL_GUTTER_X &&
+            p.x <= vp.x - LABEL_GUTTER_X &&
+            p.y >= 0 &&
+            p.y <= vp.y - LABEL_GUTTER_BOTTOM
+          );
+        })
+        .map((s) => s.id)
+    );
     const wantHeroes = heroIds;
 
     // Fine grid over everyone who didn't win a label. Winners here keep their
@@ -279,8 +299,8 @@ function useLeafletMap(containerRef) {
       const isLogo = smallIds.has(s.id);
       const html = isLogo
         ? `<div class="startup-hero-pin leaf-marker">${pinCircleHtml(s, true)}</div>`
-        : `<div class="startup-mini-dot" style="--c:${SECTOR_COLOR[s.sector] || "#94a3b8"}"></div>`;
-      const box = isLogo ? 32 : 10;
+        : `<div class="startup-mini-dot"></div>`;
+      const box = isLogo ? 32 : 14; // dot hitbox stays tappable though the dot is 6px
       const m = L.marker([s.lat, s.lng], {
         icon: L.divIcon({ className: "", html, iconSize: [box, box], iconAnchor: [box / 2, box / 2] }),
         title: prettyName(s.name),
