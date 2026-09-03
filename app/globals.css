@@ -2094,7 +2094,6 @@ a:hover:not(.btn) {
   flex-shrink: 0;
   text-align: right;
 }
-.ins-sector-icon { font-size: 18px; flex-shrink: 0; line-height: 1; }
 .ins-sector-body { flex: 1; min-width: 0; }
 .ins-sector-top-row {
   display: flex;

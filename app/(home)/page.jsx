@@ -766,7 +766,10 @@ export default function Page() {
   }, [ready, filtered]);
 
   useEffect(() => {
-    const startupParam = new URLSearchParams(window.location.search).get("startup");
+    const params = new URLSearchParams(window.location.search);
+    const startupParam = params.get("startup");
+    const sectorParam = params.get("sector");
+    if (sectorParam) setSector(sectorParam);
     if (!ready || !startupParam || openedFromUrlRef.current === startupParam) return;
     const startup = displayedStartups.find((s) => s.id === startupParam);
     if (!startup) return;

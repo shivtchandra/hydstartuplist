@@ -13,24 +13,13 @@ function stepFor(count, max) {
   return Math.min(RAMP.length - 1, 1 + Math.floor(t * (RAMP.length - 2)));
 }
 
-const SECTOR_ICONS = {
-  "SaaS": "🚀", "FinTech": "💳", "HealthTech": "🏥", "EdTech": "📚",
-  "AI/ML": "🤖", "DeepTech": "🔬", "E-commerce": "🛒", "HRTech": "👥",
-  "PropTech": "🏠", "AgriTech": "🌾", "CleanTech": "♻️", "IoT": "📡",
-  "Gaming": "🎮", "LegalTech": "⚖️", "CyberSecurity": "🔒", "AR/VR": "🥽",
-  "Logistics Tech": "🚚", "B2B SaaS": "🏢", "Consumer Tech": "📱",
-  "Developer Tools": "🛠️", "MarTech": "📣", "InsurTech": "🛡️",
-};
-
 function SectorBar({ sector, count, hiringCount, total, rank, max }) {
   const pct = total ? ((count / total) * 100).toFixed(1) : 0;
   const barWidth = max ? (count / max) * 100 : 0;
-  const icon = SECTOR_ICONS[sector] || "📦";
 
   return (
     <Link href={`/?sector=${encodeURIComponent(sector)}`} className="ins-sector-row">
       <div className="ins-sector-rank">#{rank}</div>
-      <div className="ins-sector-icon">{icon}</div>
       <div className="ins-sector-body">
         <div className="ins-sector-top-row">
           <span className="ins-sector-name">{sector}</span>
