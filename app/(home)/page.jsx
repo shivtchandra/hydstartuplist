@@ -11,16 +11,19 @@ import MobileTabBar from "../components/MobileTabBar.jsx";
 
 const HYDERABAD_CENTER = { lat: 17.42, lng: 78.44 };
 
-// Circular logo marker via same-origin API route (embeds favicon server-side).
-function circleIcon(startup) {
-  const domain = hostnameOf(startup.website) || domainOf(startup.website);
-  const params = new URLSearchParams({
-    color: colorFor(startup.sector),
-    initial: startup.name.charAt(0) || "?",
-  });
-  if (domain) params.set("domain", domain);
-  if (startup.logoUrl) params.set("logoUrl", startup.logoUrl);
-  return `/api/marker?${params.toString()}`;
+// Client-side pin: colored circle + initial renders instantly, logo overlays async.
+// No server round-trip — eliminates the white-circle delay from /api/marker.
+function pinCircleHtml(s) {
+  const color = colorFor(s.sector);
+  const initial = escHtml((s.name.charAt(0) || "?").toUpperCase());
+  const domain = hostnameOf(s.website) || domainOf(s.website);
+  const primary = s.logoUrl || (domain ? `https://www.google.com/s2/favicons?sz=64&domain=${domain}` : null);
+  const fallback = (s.logoUrl && domain) ? `https://www.google.com/s2/favicons?sz=64&domain=${domain}` : null;
+  const onerror = fallback
+    ? `this.src='${fallback}';this.onerror=function(){this.style.display='none'}`
+    : `this.style.display='none'`;
+  const img = primary ? `<img class="s-pin-logo" src="${primary}" alt="" onerror="${onerror}"/>` : "";
+  return `<div class="s-pin-circle" style="background:${color}">${img}<span class="s-pin-initial">${initial}</span></div>`;
 }
 
 const SECTOR_COLOR = {
@@ -178,9 +181,10 @@ function useLeafletMap(containerRef) {
     for (const s of allCoords) {
       if (!wantHeroes.has(s.id) || heroMarkersRef.current.has(s.id)) continue;
       const featured = !!s.sponsored;
+      const circle = pinCircleHtml(s);
       const iconHtml = featured
-        ? `<div class="startup-hero-pin leaf-marker leaf-marker-sponsored"><div class="pin-sponsored-ring"><img src="${circleIcon(s)}" width="44" height="44" alt=""/><span class="pin-sponsored-label">Sponsored</span></div><div class="startup-pin-label">${escHtml(prettyName(s.name))}</div></div>`
-        : `<div class="startup-hero-pin leaf-marker"><img src="${circleIcon(s)}" width="44" height="44" alt=""/><div class="startup-pin-label">${escHtml(prettyName(s.name))}</div></div>`;
+        ? `<div class="startup-hero-pin leaf-marker leaf-marker-sponsored"><div class="pin-sponsored-ring">${circle}<span class="pin-sponsored-label">Sponsored</span></div><div class="startup-pin-label">${escHtml(prettyName(s.name))}</div></div>`
+        : `<div class="startup-hero-pin leaf-marker">${circle}<div class="startup-pin-label">${escHtml(prettyName(s.name))}</div></div>`;
       const m = L.marker([s.lat, s.lng], {
         icon: L.divIcon({ className: "", html: iconHtml, iconSize: [44, 72], iconAnchor: [22, 22] }),
         title: prettyName(s.name),

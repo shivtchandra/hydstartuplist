@@ -4411,12 +4411,41 @@ a:hover:not(.btn) {
   flex-direction: column;
   align-items: center;
 }
-.startup-hero-pin img {
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15), 0 0 0 2px #fff;
-  background: #fff;
-}
 .startup-hero-pin:hover { transform: scale(1.12); }
+
+/* Client-side pin circle — initial always visible, logo overlays async */
+.s-pin-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.s-pin-initial {
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  user-select: none;
+  position: relative;
+  z-index: 0;
+}
+.s-pin-logo {
+  position: absolute;
+  inset: 7px;
+  width: calc(100% - 14px);
+  height: calc(100% - 14px);
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+  z-index: 1;
+}
 
 .startup-pin-label {
   margin-top: 3px;
