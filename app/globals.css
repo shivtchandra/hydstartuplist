@@ -4377,28 +4377,29 @@ a:hover:not(.btn) {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: var(--accent-primary, #ff5722);
-  border: 2.5px solid #fff;
+  background: #fff;
+  border: 2px solid var(--accent-primary, #ff5722);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 18px rgba(255,87,34,0.35);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.16);
 }
 
 .startup-area-count {
   font-size: 18px;
   font-weight: 800;
   line-height: 1;
-  color: #fff;
+  color: var(--accent-primary, #ff5722);
+  font-variant-numeric: tabular-nums;
 }
 
 .startup-area-name {
-  font-size: 8.5px;
+  font-size: 9px;
   font-weight: 600;
-  color: rgba(255,255,255,0.88);
-  margin-top: 2px;
-  max-width: 88%;
+  color: var(--text-muted, #64748b);
+  margin-top: 3px;
+  max-width: 86%;
   text-align: center;
   line-height: 1.15;
   overflow: hidden;
@@ -4436,6 +4437,26 @@ a:hover:not(.btn) {
   position: relative;
   z-index: 0;
 }
+
+/* Second-tier pin: same logo, smaller, no label. */
+.s-pin-circle.s-pin-sm { width: 32px; height: 32px; border-width: 2px; }
+.s-pin-circle.s-pin-sm .s-pin-initial { font-size: 13px; }
+.s-pin-circle.s-pin-sm .s-pin-logo { padding: 3px; }
+
+/* Hiring is the signal worth carrying on the pin itself — green ring + dot. */
+.s-pin-circle.s-pin-hiring { border-color: var(--badge-hiring-dot, #10b981); }
+.s-pin-dot {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--badge-hiring-dot, #10b981);
+  border: 2px solid #fff;
+  z-index: 2;
+}
+.s-pin-circle.s-pin-sm .s-pin-dot { width: 8px; height: 8px; border-width: 1.5px; }
 /* Fills the whole circle so the sector colour never shows as a ring —
    the colour is only the fallback ground behind the initial. */
 .s-pin-logo {
@@ -4451,20 +4472,22 @@ a:hover:not(.btn) {
   z-index: 1;
 }
 
+/* Plain text, no pill. A box around every label is what turned a dense map
+   into a wall of white rectangles; a text-shadow keeps it legible over tiles. */
 .startup-pin-label {
   margin-top: 3px;
-  background: rgba(255,255,255,0.94);
-  border: 1px solid rgba(255,87,34,0.2);
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 10.5px;
+  font-weight: 700;
   color: var(--text-main, #0f172a);
   white-space: nowrap;
-  max-width: 110px;
+  max-width: 112px;
   overflow: hidden;
   text-overflow: ellipsis;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  letter-spacing: -0.01em;
+  text-shadow:
+    0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff,
+    0 1px 2px rgba(255, 255, 255, 0.9);
   pointer-events: none;
 }
 

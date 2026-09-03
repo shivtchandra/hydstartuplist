@@ -14,7 +14,7 @@ const HYDERABAD_CENTER = { lat: 17.42, lng: 78.44 };
 
 // Client-side pin: colored circle + initial renders instantly, logo overlays async.
 // No server round-trip — eliminates the white-circle delay from /api/marker.
-function pinCircleHtml(s) {
+function pinCircleHtml(s, small = false) {
   const color = colorFor(s.sector);
   const initial = escHtml((s.name.charAt(0) || "?").toUpperCase());
   const domain = hostnameOf(s.website) || domainOf(s.website);
@@ -24,7 +24,10 @@ function pinCircleHtml(s) {
     ? `this.src='${fallback}';this.onerror=function(){this.style.display='none'}`
     : `this.style.display='none'`;
   const img = primary ? `<img class="s-pin-logo" src="${primary}" alt="" onerror="${onerror}"/>` : "";
-  return `<div class="s-pin-circle" style="background:${color}">${img}<span class="s-pin-initial">${initial}</span></div>`;
+  const size = small ? " s-pin-sm" : "";
+  const hiring = s.hiring ? " s-pin-hiring" : "";
+  const dot = s.hiring ? `<span class="s-pin-dot"></span>` : "";
+  return `<div class="s-pin-circle${size}${hiring}" style="background:${color}">${img}<span class="s-pin-initial">${initial}</span>${dot}</div>`;
 }
 
 const SECTOR_COLOR = {
@@ -43,8 +46,24 @@ function escHtml(s) {
   );
 }
 
+// Area values arrive as "Gachibowli, Hyderabad" — the city half is redundant
+// on a Hyderabad map and eats the label width, so drop it before rendering.
+function shortAreaName(area) {
+  return String(area || "")
+    .replace(/,\s*(Hyderabad|Telangana|India)\b.*$/i, "")
+    .trim();
+}
+
 const AREA_ZOOM = 12;
-const HERO_CAP = 120;
+// Hero pin footprint in px: 44px circle plus a label up to ~110px wide sitting
+// under it. One hero per cell of this size, so labels can never overlap.
+const CELL_PX_W = 155;
+const CELL_PX_H = 96;
+// Second grid for unlabelled logos — roughly the 32px pin footprint plus air.
+// Distributing this tier spatially (rather than flipping the whole map to dots
+// past a count threshold) is what keeps logo density readable at any zoom.
+const SMALL_PX_W = 74;
+const SMALL_PX_H = 58;
 
 function buildStartupAreas(startups) {
   const groups = {};
@@ -87,8 +106,10 @@ function useLeafletMap(containerRef) {
         center: [17.448, 78.374], // HITEC City core — densest startup cluster
         zoom: 14,
         zoomControl: false,
-        zoomSnap: 0.25,
-        zoomDelta: 0.5,
+        // Integer levels: Stadia serves raster tiles, so fractional zoom scales
+        // them in CSS and they render soft. One click = one level, crisp tiles.
+        zoomSnap: 1,
+        zoomDelta: 1,
         wheelPxPerZoomLevel: 140,
         wheelDebounceTime: 40,
         bounceAtZoomLimits: false,
@@ -132,14 +153,27 @@ function useLeafletMap(containerRef) {
       heroMarkersRef.current.clear();
       dotMarkersRef.current.clear();
       areaLayer.clearLayers();
-      const areas = buildStartupAreas(startups);
+      // Densest areas win. Hyderabad's western corridor (Gachibowli, Jubilee
+      // Hills, Banjara Hills, HITEC) sits close enough that drawing every blob
+      // stacks them into an unreadable pile — so place biggest-first and skip
+      // any whose circle would touch one already placed.
+      const areas = buildStartupAreas(startups).sort((x, y) => y.count - x.count);
+      const placed = [];
       for (const a of areas) {
-        const size = a.count < 15 ? 58 : a.count < 80 ? 70 : 86;
-        const html = `<div class="startup-area-blob" style="width:${size}px;height:${size}px"><div class="startup-area-inner"><div class="startup-area-count">${a.count}</div><div class="startup-area-name">${escHtml(a.area)}</div></div></div>`;
+        const size = a.count < 10 ? 50 : a.count < 30 ? 62 : a.count < 60 ? 74 : 88;
+        const p = map.latLngToContainerPoint([a.lat, a.lng]);
+        const clash = placed.some(
+          (q) => Math.hypot(q.x - p.x, q.y - p.y) < (q.size + size) / 2 + 10
+        );
+        if (clash) continue;
+        placed.push({ x: p.x, y: p.y, size });
+
+        const label = shortAreaName(a.area);
+        const html = `<div class="startup-area-blob" style="width:${size}px;height:${size}px"><div class="startup-area-inner"><div class="startup-area-count">${a.count}</div><div class="startup-area-name">${escHtml(label)}</div></div></div>`;
         const areaData = a;
         L.marker([a.lat, a.lng], {
           icon: L.divIcon({ className: "", html, iconSize: [size, size], iconAnchor: [size / 2, size / 2] }),
-          zIndexOffset: 500,
+          zIndexOffset: 500 + a.count,
         })
           .on("click", () => {
             const coords = areaData.spots.filter((s) => s.lat && s.lng).map((s) => [s.lat, s.lng]);
@@ -152,19 +186,50 @@ function useLeafletMap(containerRef) {
     }
 
     areaLayer.clearLayers();
-    const b = map.getBounds();
+    // Padded so pins exist just off-screen and pan in instead of popping.
+    const b = map.getBounds().pad(0.25);
     const allCoords = startups.filter((s) => s.lat && s.lng);
     const inView = allCoords.filter(
       (s) => s.lat >= b.getSouth() && s.lat <= b.getNorth() && s.lng >= b.getWest() && s.lng <= b.getEast()
     );
-    const ranked = [
-      ...inView.filter((s) => s.sponsored),
-      ...inView.filter((s) => !s.sponsored && s.hiring),
-      ...inView.filter((s) => !s.sponsored && !s.hiring),
-    ].slice(0, HERO_CAP);
-    const heroIds = new Set(ranked.map((s) => s.id));
-    const wantHeroes = new Set(allCoords.filter((s) => heroIds.has(s.id)).map((s) => s.id));
-    const wantDots = new Set(allCoords.filter((s) => !heroIds.has(s.id)).map((s) => s.id));
+    // Spatial grid, one hero per cell. A flat "top N in view" cap lets pins
+    // stack wherever the data is dense; sizing a cell to the pin+label
+    // footprint guarantees the winners can't collide. The grid is anchored to
+    // absolute lat/lng (not the viewport), so panning doesn't reshuffle which
+    // pin won its cell — that's what stops the labels flickering while dragging.
+    const center = map.getCenter();
+    const origin = map.latLngToContainerPoint(center);
+    const corner = map.containerPointToLatLng([origin.x + CELL_PX_W, origin.y + CELL_PX_H]);
+    const cellLng = Math.abs(corner.lng - center.lng) || 0.002;
+    const cellLat = Math.abs(corner.lat - center.lat) || 0.002;
+
+    const rankOf = (s) => (s.sponsored ? 2 : s.hiring ? 1 : 0);
+    const cellWinners = new Map();
+    for (const s of inView) {
+      const key = `${Math.floor(s.lat / cellLat)}:${Math.floor(s.lng / cellLng)}`;
+      const cur = cellWinners.get(key);
+      if (!cur || rankOf(s) > rankOf(cur)) cellWinners.set(key, s);
+    }
+    // Both tiers are viewport-bounded. Building them from allCoords mounted a
+    // marker (and a favicon request) for every startup in the dataset, not just
+    // the ones on screen — ~1100 DOM nodes for a view that shows a few dozen.
+    const heroIds = new Set([...cellWinners.values()].map((s) => s.id));
+    const wantHeroes = heroIds;
+
+    // Fine grid over everyone who didn't win a label. Winners here keep their
+    // logo; the remainder become dots. Both tiers stay viewport-bounded.
+    const smallCorner = map.containerPointToLatLng([origin.x + SMALL_PX_W, origin.y + SMALL_PX_H]);
+    const smLng = Math.abs(smallCorner.lng - center.lng) || 0.001;
+    const smLat = Math.abs(smallCorner.lat - center.lat) || 0.001;
+    const smallWinners = new Map();
+    for (const s of inView) {
+      if (heroIds.has(s.id)) continue;
+      const key = `${Math.floor(s.lat / smLat)}:${Math.floor(s.lng / smLng)}`;
+      const cur = smallWinners.get(key);
+      if (!cur || rankOf(s) > rankOf(cur)) smallWinners.set(key, s);
+    }
+    const smallIds = new Set([...smallWinners.values()].map((s) => s.id));
+    const wantDots = new Set(inView.filter((s) => !heroIds.has(s.id)).map((s) => s.id));
 
     for (const [id, m] of heroMarkersRef.current) {
       if (!wantHeroes.has(id)) { spotLayer.removeLayer(m); heroMarkersRef.current.delete(id); }
@@ -179,7 +244,7 @@ function useLeafletMap(containerRef) {
       }
     }
 
-    for (const s of allCoords) {
+    for (const s of inView) {
       if (!wantHeroes.has(s.id) || heroMarkersRef.current.has(s.id)) continue;
       const featured = !!s.sponsored;
       const circle = pinCircleHtml(s);
@@ -195,17 +260,33 @@ function useLeafletMap(containerRef) {
       spotLayer.addLayer(m);
     }
 
-    for (const s of allCoords) {
+    // Overlapping logos still read fine — it's stacked *labels* that turn the
+    // map to mush. So only coarse-grid winners get text, the fine grid keeps a
+    // spread of unlabelled logos, and the remainder are dots.
+    // A marker's tier can change as the view moves (logo <-> dot), and the
+    // reconciler leaves existing markers untouched — so drop any whose tier no
+    // longer matches, and let the add loop below rebuild it.
+    for (const [id, m] of dotMarkersRef.current) {
+      const wantsLogo = smallIds.has(id);
+      if (m.__isLogo !== wantsLogo) {
+        spotLayer.removeLayer(m);
+        dotMarkersRef.current.delete(id);
+      }
+    }
+
+    for (const s of inView) {
       if (!wantDots.has(s.id) || dotMarkersRef.current.has(s.id)) continue;
-      const color = SECTOR_COLOR[s.sector] || "#94a3b8";
+      const isLogo = smallIds.has(s.id);
+      const html = isLogo
+        ? `<div class="startup-hero-pin leaf-marker">${pinCircleHtml(s, true)}</div>`
+        : `<div class="startup-mini-dot" style="--c:${SECTOR_COLOR[s.sector] || "#94a3b8"}"></div>`;
+      const box = isLogo ? 32 : 10;
       const m = L.marker([s.lat, s.lng], {
-        icon: L.divIcon({
-          className: "",
-          html: `<div class="startup-mini-dot" style="--c:${color}"></div>`,
-          iconSize: [10, 10], iconAnchor: [5, 5],
-        }),
-        zIndexOffset: 50,
+        icon: L.divIcon({ className: "", html, iconSize: [box, box], iconAnchor: [box / 2, box / 2] }),
+        title: prettyName(s.name),
+        zIndexOffset: isLogo ? 100 : 50,
       }).on("click", () => onSelect?.(s));
+      m.__isLogo = isLogo;
       dotMarkersRef.current.set(s.id, m);
       spotLayer.addLayer(m);
     }
