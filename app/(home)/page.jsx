@@ -43,7 +43,7 @@ function escHtml(s) {
 }
 
 const AREA_ZOOM = 12;
-const HERO_CAP = 22;
+const HERO_CAP = 120;
 
 function buildStartupAreas(startups) {
   const groups = {};
@@ -83,8 +83,8 @@ function useLeafletMap(containerRef) {
       if (cancelled || !containerRef.current || mapRef.current) return;
       LRef.current = L;
       mapRef.current = L.map(containerRef.current, {
-        center: [17.44, 78.38], // Gachibowli/HITEC City — densest startup cluster
-        zoom: 13.5,
+        center: [17.448, 78.374], // HITEC City core — densest startup cluster
+        zoom: 14,
         zoomControl: false,
         zoomSnap: 0.25,
         zoomDelta: 0.5,
