@@ -525,18 +525,29 @@ function FeaturedPartnerStrip({ chrome, onDismiss }) {
  */
 function MapFeaturedChrome({ startups, available = 0, cta, onSelect, preferOpen = false }) {
   const open = Math.max(0, available);
-  const [expanded, setExpanded] = useState(preferOpen);
+  // Only auto-expand when real sponsors exist — empty expanded state wastes space
+  const [expanded, setExpanded] = useState(preferOpen && startups.length > 0);
+  const [activeIdx, setActiveIdx] = useState(0);
+
   useEffect(() => {
-    if (preferOpen) setExpanded(true);
-  }, [preferOpen]);
+    if (preferOpen && startups.length > 0) setExpanded(true);
+  }, [preferOpen, startups.length]);
+
+  // Auto-advance carousel
+  useEffect(() => {
+    if (!expanded || startups.length <= 1) return;
+    const t = setInterval(() => setActiveIdx((i) => (i + 1) % startups.length), 3500);
+    return () => clearInterval(t);
+  }, [expanded, startups.length]);
+
   if (!startups.length && open <= 0) return null;
 
   const href = cta?.ctaHref || "/feature";
   const label = cta?.ctaLabel || "Get featured";
   const filled = startups.length;
   const max = filled + open;
-  const shownOpen = Math.min(open, 2);
   const peek = startups.slice(0, 3);
+  const active = startups[activeIdx] ?? null;
 
   return (
     <div
@@ -569,41 +580,43 @@ function MapFeaturedChrome({ startups, available = 0, cta, onSelect, preferOpen 
 
       {expanded && (
         <div className="mfc-panel">
-          <div className="mfc-head">
-            <span className="mfc-sub">
-              Limited pins · {filled}/{max || "—"} filled
-              {open > 0 ? ` · ${open} open` : ""}
-            </span>
-            <Link className="mfc-cta" href={href}>
-              {label}
-            </Link>
-          </div>
-          <div className="mfc-row">
-            {startups.map((s) => (
+          {active ? (
+            <div className="mfc-carousel">
               <button
-                key={s.id}
                 type="button"
-                className="mfc-chip mfc-chip-live"
-                onClick={() => onSelect(s)}
-                title={prettyName(s.name)}
+                className="mfc-carousel-card"
+                onClick={() => onSelect(active)}
               >
-                <LogoBadge startup={s} size={28} />
-                <span className="mfc-chip-name">{prettyName(s.name)}</span>
+                <LogoBadge startup={active} size={36} />
+                <div className="mfc-carousel-info">
+                  <span className="mfc-carousel-name">{prettyName(active.name)}</span>
+                  <span className="mfc-carousel-sector">{active.sector}</span>
+                </div>
                 <span className="sponsored-badge">Sponsored</span>
               </button>
-            ))}
-            {Array.from({ length: shownOpen }, (_, i) => (
-              <Link
-                key={`mfc-avail-${i}`}
-                href={href}
-                className="mfc-chip mfc-chip-avail"
-                title="Featured pin available"
-              >
-                <span className="avail-slot-mark mfc-avail-mark" aria-hidden="true">+</span>
-                <span className="mfc-chip-name">Your startup here</span>
-              </Link>
-            ))}
-          </div>
+              {startups.length > 1 && (
+                <div className="mfc-dots">
+                  {startups.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      className={`mfc-dot${i === activeIdx ? " active" : ""}`}
+                      onClick={(e) => { e.stopPropagation(); setActiveIdx(i); }}
+                      aria-label={`Go to sponsor ${i + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
+              {open > 0 && (
+                <Link href={href} className="mfc-cta-inline">{label} · {open} open →</Link>
+              )}
+            </div>
+          ) : (
+            <div className="mfc-empty-line">
+              <span className="mfc-sub">{open} spot{open !== 1 ? "s" : ""} available</span>
+              <Link className="mfc-cta" href={href}>{label}</Link>
+            </div>
+          )}
           <p className="mfc-note">Listings stay free. Featured pins get a Sponsored ring on the map.</p>
         </div>
       )}

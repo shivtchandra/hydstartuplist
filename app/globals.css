@@ -3377,6 +3377,84 @@ a:hover:not(.btn) {
   line-height: 1.35;
   color: var(--text-muted);
 }
+.mfc-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mfc-carousel-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 87, 34, 0.28);
+  background: linear-gradient(90deg, rgba(255, 87, 34, 0.06), transparent 60%);
+  text-align: left;
+  font-family: var(--font-main);
+  color: inherit;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+.mfc-carousel-card:hover {
+  border-color: rgba(255, 87, 34, 0.5);
+  background: linear-gradient(90deg, rgba(255, 87, 34, 0.1), transparent 60%);
+}
+.mfc-carousel-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mfc-carousel-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mfc-carousel-sector {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.mfc-dots {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  padding: 2px 0;
+}
+.mfc-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border-glass);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+.mfc-dot.active {
+  background: var(--accent-primary);
+  transform: scale(1.3);
+}
+.mfc-cta-inline {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-primary);
+  text-decoration: none;
+  text-align: center;
+  display: block;
+}
+.mfc-cta-inline:hover { text-decoration: underline; }
+.mfc-empty-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
 
 .leaf-marker-sponsored .pin-sponsored-ring {
   animation: sponsoredPulse 2.8s ease-in-out infinite;
