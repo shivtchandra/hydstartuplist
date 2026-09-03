@@ -6,6 +6,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../lib/firebase.js";
 import { normalizeArea, domainOf, hostnameOf, logoSrcs, colorFor, prettyName, careersUrl } from "../../lib/startupUi.js";
 import { startupSlug } from "../../lib/slug.js";
+import { jobUrlId } from "../../lib/jobs-seo.js";
 import MobileTabBar from "../components/MobileTabBar.jsx";
 
 const HYDERABAD_CENTER = { lat: 17.42, lng: 78.44 };
@@ -628,7 +629,7 @@ export default function Page() {
   const [featuredInv, setFeaturedInv] = useState(null); // from /api/placements
   const [newsletterHidden, setNewsletterHidden] = useState(false);
   const [featuredPartnerHidden, setFeaturedPartnerHidden] = useState(false);
-  const [jobCount, setJobCount] = useState(null);
+  const [jobsList, setJobsList] = useState([]);
   const openedFromUrlRef = useRef(null);
 
   // Use the inventory response as the source of truth for paid pins too. The
@@ -773,7 +774,7 @@ export default function Page() {
   useEffect(() => {
     fetch("/api/jobs")
       .then((r) => r.json())
-      .then((d) => setJobCount(d.jobs?.length ?? null))
+      .then((d) => setJobsList(Array.isArray(d.jobs) ? d.jobs.slice(0, 12) : []))
       .catch(() => {});
   }, []);
 
@@ -882,20 +883,26 @@ export default function Page() {
         </div>
       </header>
 
-      <div className="jobs-stat-strip">
-        <div className="jobs-stat-chips">
-          <span className="jobs-stat-chip">
-            <span className="jobs-stat-dot" />
-            <strong>{hiringInView}</strong> startups hiring
-          </span>
-          {jobCount !== null && (
-            <span className="jobs-stat-chip">
-              <strong>{jobCount}+</strong> open roles
-            </span>
-          )}
+      {jobsList.length > 0 && (
+        <div className="jobs-ticker-strip">
+          <a href="/jobs" className="jobs-ticker-badge">
+            <span className="jobs-ticker-dot" />
+            <strong>{hiringInView}</strong> hiring
+          </a>
+          <div className="jobs-ticker-track">
+            <div className="jobs-ticker-inner">
+              {[...jobsList, ...jobsList].map((job, i) => (
+                <a key={i} href={`/jobs/${jobUrlId(job.id)}`} className="jobs-ticker-item">
+                  <span className="jobs-ticker-co">{job.company}</span>
+                  <span className="jobs-ticker-sep"> · </span>
+                  {job.title}
+                </a>
+              ))}
+            </div>
+          </div>
+          <a href="/jobs" className="jobs-ticker-cta">All jobs →</a>
         </div>
-        <a href="/jobs" className="jobs-stat-cta">Browse jobs →</a>
-      </div>
+      )}
 
       <div className={`app-body${sidebarOpen ? "" : " sidebar-closed"}`}>
         <aside className="sidebar">
