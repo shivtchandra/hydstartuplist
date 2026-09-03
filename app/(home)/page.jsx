@@ -83,8 +83,8 @@ function useLeafletMap(containerRef) {
       if (cancelled || !containerRef.current || mapRef.current) return;
       LRef.current = L;
       mapRef.current = L.map(containerRef.current, {
-        center: [HYDERABAD_CENTER.lat, HYDERABAD_CENTER.lng],
-        zoom: 11.5,
+        center: [17.44, 78.38], // Gachibowli/HITEC City — densest startup cluster
+        zoom: 13.5,
         zoomControl: false,
         zoomSnap: 0.25,
         zoomDelta: 0.5,
