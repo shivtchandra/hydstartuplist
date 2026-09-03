@@ -8,6 +8,7 @@ import { normalizeArea, domainOf, hostnameOf, logoSrcs, colorFor, prettyName, ca
 import { startupSlug } from "../../lib/slug.js";
 import { jobUrlId } from "../../lib/jobs-seo.js";
 import MobileTabBar from "../components/MobileTabBar.jsx";
+import IntentModal from "../components/IntentModal.jsx";
 
 const HYDERABAD_CENTER = { lat: 17.42, lng: 78.44 };
 
@@ -716,6 +717,7 @@ export default function Page() {
   const [newsletterHidden, setNewsletterHidden] = useState(false);
   const [featuredPartnerHidden, setFeaturedPartnerHidden] = useState(false);
   const [jobsList, setJobsList] = useState([]);
+  const [jobsTotal, setJobsTotal] = useState(0);
   const openedFromUrlRef = useRef(null);
 
   // Use the inventory response as the source of truth for paid pins too. The
@@ -863,7 +865,11 @@ export default function Page() {
   useEffect(() => {
     fetch("/api/jobs")
       .then((r) => r.json())
-      .then((d) => setJobsList(Array.isArray(d.jobs) ? d.jobs.slice(0, 12) : []))
+      .then((d) => {
+        const jobs = Array.isArray(d.jobs) ? d.jobs : [];
+        setJobsList(jobs.slice(0, 12));
+        setJobsTotal(jobs.length);
+      })
       .catch(() => {});
   }, []);
 
@@ -1095,6 +1101,8 @@ export default function Page() {
       />
 
       <DetailModal startup={selected} onClose={() => setSelected(null)} />
+
+      <IntentModal jobsTotal={jobsTotal} hiringCount={hiringInView} />
     </div>
   );
 }
