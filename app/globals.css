@@ -4436,11 +4436,15 @@ a:hover:not(.btn) {
   position: relative;
   z-index: 0;
 }
+/* Fills the whole circle so the sector colour never shows as a ring —
+   the colour is only the fallback ground behind the initial. */
 .s-pin-logo {
   position: absolute;
-  inset: 7px;
-  width: calc(100% - 14px);
-  height: calc(100% - 14px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 5px;
   object-fit: contain;
   border-radius: 50%;
   background: #fff;
