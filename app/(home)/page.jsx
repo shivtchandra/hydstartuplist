@@ -23,41 +23,74 @@ function circleIcon(startup) {
   return `/api/marker?${params.toString()}`;
 }
 
-// Free OSM tiles via Leaflet — no per-load Google charge for map opens.
-// Google is only used at seed time (geocoding), never in the browser.
+const SECTOR_COLOR = {
+  "SaaS": "#5B6EF5", "FinTech": "#2E8B6B", "HealthTech": "#E05D7A",
+  "EdTech": "#E27B3A", "AI/ML": "#9C5BF5", "DeepTech": "#3A8BE0",
+  "E-commerce": "#E2622A", "HRTech": "#DFA43A", "PropTech": "#6B8E4A",
+  "AgriTech": "#5B8E3A", "Gaming": "#C05D7A", "CyberSecurity": "#334155",
+  "B2B SaaS": "#4B5EF5", "Consumer Tech": "#E2622A", "IoT": "#3A8BE0",
+  "CleanTech": "#2E7A3A", "LegalTech": "#7A5B3A", "MarTech": "#E05D5D",
+  "InsurTech": "#5B8E6A",
+};
+
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
+  );
+}
+
+const AREA_ZOOM = 12;
+const HERO_CAP = 22;
+
+function buildStartupAreas(startups) {
+  const groups = {};
+  for (const s of startups) {
+    if (!s.area || !s.lat || !s.lng) continue;
+    if (!groups[s.area]) groups[s.area] = { area: s.area, spots: [] };
+    groups[s.area].spots.push(s);
+  }
+  return Object.values(groups).map((g) => {
+    const n = g.spots.length;
+    return {
+      ...g,
+      count: n,
+      lat: g.spots.reduce((acc, e) => acc + e.lat, 0) / n,
+      lng: g.spots.reduce((acc, e) => acc + e.lng, 0) / n,
+    };
+  });
+}
+
 function useLeafletMap(containerRef) {
   const mapRef = useRef(null);
-  const layerRef = useRef(null);
   const LRef = useRef(null);
-  const markerMapRef = useRef(new Map()); // id → L.marker, never rebuilt on stable pins
+  const areaLayerRef = useRef(null);
+  const spotLayerRef = useRef(null);
+  const heroMarkersRef = useRef(new Map());
+  const dotMarkersRef = useRef(new Map());
+  const startupsRef = useRef([]);
+  const onSelectRef = useRef(null);
   const [ready, setReady] = useState(false);
+  const [viewTick, setViewTick] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       const L = (await import("leaflet")).default;
       await import("leaflet/dist/leaflet.css");
-      await import("leaflet.markercluster");
-      await import("leaflet.markercluster/dist/MarkerCluster.css");
-      await import("leaflet.markercluster/dist/MarkerCluster.Default.css");
       if (cancelled || !containerRef.current || mapRef.current) return;
       LRef.current = L;
       mapRef.current = L.map(containerRef.current, {
         center: [HYDERABAD_CENTER.lat, HYDERABAD_CENTER.lng],
-        zoom: 12,
+        zoom: 11.5,
         zoomControl: false,
-        zoomSnap: 1,              // integer tile levels — crisp on desktop (fractional scaling blurs raster tiles)
-        zoomDelta: 1,             // +/- buttons step one full level
-        wheelPxPerZoomLevel: 140, // mouse wheel — less aggressive than trackpad-tuned 120
-        wheelDebounceTime: 40,    // batch rapid wheel ticks from discrete mouse notches
-        zoomAnimation: true,
-        zoomAnimationThreshold: 8,
+        zoomSnap: 0.25,
+        zoomDelta: 0.5,
+        wheelPxPerZoomLevel: 140,
+        wheelDebounceTime: 40,
         bounceAtZoomLimits: false,
         maxZoom: 19,
       });
       L.control.zoom({ position: "bottomright" }).addTo(mapRef.current);
-      // Stadia Alidade Smooth — clean light tiles, no POI clutter.
-      // Works on localhost without a key; set NEXT_PUBLIC_STADIA_KEY in prod.
       const stadiaKey = process.env.NEXT_PUBLIC_STADIA_KEY;
       const tileUrl = stadiaKey
         ? `https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=${stadiaKey}`
@@ -67,88 +100,124 @@ function useLeafletMap(containerRef) {
           '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 20,
       }).addTo(mapRef.current);
-      layerRef.current = L.markerClusterGroup({
-        maxClusterRadius: 46,
-        showCoverageOnHover: false,
-        spiderfyOnMaxZoom: true,
-        iconCreateFunction: (cluster) => {
-          const count = cluster.getChildCount();
-          return L.divIcon({
-            className: "cluster-bubble",
-            html: `<div><span>${count}</span></div>`,
-            iconSize: [40, 40],
-          });
-        },
-      }).addTo(mapRef.current);
+      areaLayerRef.current = L.layerGroup().addTo(mapRef.current);
+      spotLayerRef.current = L.layerGroup().addTo(mapRef.current);
+      mapRef.current.on("moveend zoomend", () => setViewTick((t) => t + 1));
       setReady(true);
     })();
     return () => {
       cancelled = true;
-      markerMapRef.current.clear();
+      heroMarkersRef.current.clear();
+      dotMarkersRef.current.clear();
     };
   }, [containerRef]);
 
-  function setMarkers(startups, onSelect) {
+  useEffect(() => {
     const L = LRef.current;
-    const layer = layerRef.current;
-    if (!L || !layer) return;
+    const map = mapRef.current;
+    const areaLayer = areaLayerRef.current;
+    const spotLayer = spotLayerRef.current;
+    if (!ready || !L || !map || !areaLayer || !spotLayer) return;
 
-    // Build lookup of the incoming set (lat/lng required).
-    const nextIds = new Map();
-    for (const s of startups) {
-      if (s.lat && s.lng) nextIds.set(s.id, s);
+    const startups = startupsRef.current;
+    const onSelect = onSelectRef.current;
+    const zoom = map.getZoom();
+
+    if (zoom < AREA_ZOOM) {
+      spotLayer.clearLayers();
+      heroMarkersRef.current.clear();
+      dotMarkersRef.current.clear();
+      areaLayer.clearLayers();
+      const areas = buildStartupAreas(startups);
+      for (const a of areas) {
+        const size = a.count < 15 ? 58 : a.count < 80 ? 70 : 86;
+        const html = `<div class="startup-area-blob" style="width:${size}px;height:${size}px"><div class="startup-area-inner"><div class="startup-area-count">${a.count}</div><div class="startup-area-name">${escHtml(a.area)}</div></div></div>`;
+        const areaData = a;
+        L.marker([a.lat, a.lng], {
+          icon: L.divIcon({ className: "", html, iconSize: [size, size], iconAnchor: [size / 2, size / 2] }),
+          zIndexOffset: 500,
+        })
+          .on("click", () => {
+            const coords = areaData.spots.filter((s) => s.lat && s.lng).map((s) => [s.lat, s.lng]);
+            if (coords.length === 1) map.flyTo(coords[0], 14, { duration: 0.5, easeLinearity: 0.22 });
+            else if (coords.length > 1) map.flyToBounds(L.latLngBounds(coords), { padding: [60, 60], maxZoom: 15, duration: 0.5 });
+          })
+          .addTo(areaLayer);
+      }
+      return;
     }
 
-    // Remove markers that fell out of the filtered set.
-    const toRemove = [];
-    for (const [id, marker] of markerMapRef.current) {
-      if (!nextIds.has(id)) {
-        toRemove.push(marker);
-        markerMapRef.current.delete(id);
+    areaLayer.clearLayers();
+    const b = map.getBounds();
+    const allCoords = startups.filter((s) => s.lat && s.lng);
+    const inView = allCoords.filter(
+      (s) => s.lat >= b.getSouth() && s.lat <= b.getNorth() && s.lng >= b.getWest() && s.lng <= b.getEast()
+    );
+    const ranked = [
+      ...inView.filter((s) => s.sponsored),
+      ...inView.filter((s) => !s.sponsored && s.hiring),
+      ...inView.filter((s) => !s.sponsored && !s.hiring),
+    ].slice(0, HERO_CAP);
+    const heroIds = new Set(ranked.map((s) => s.id));
+    const wantHeroes = new Set(allCoords.filter((s) => heroIds.has(s.id)).map((s) => s.id));
+    const wantDots = new Set(allCoords.filter((s) => !heroIds.has(s.id)).map((s) => s.id));
+
+    for (const [id, m] of heroMarkersRef.current) {
+      if (!wantHeroes.has(id)) { spotLayer.removeLayer(m); heroMarkersRef.current.delete(id); }
+    }
+    for (const [id, m] of dotMarkersRef.current) {
+      if (!wantDots.has(id)) { spotLayer.removeLayer(m); dotMarkersRef.current.delete(id); }
+    }
+    for (const id of wantHeroes) {
+      if (dotMarkersRef.current.has(id)) {
+        spotLayer.removeLayer(dotMarkersRef.current.get(id));
+        dotMarkersRef.current.delete(id);
       }
     }
-    if (toRemove.length) layer.removeLayers(toRemove);
 
-    // Add markers that are new — existing ones are left completely untouched
-    // (no icon rebuild, no DOM removal, no image re-request).
-    const toAdd = [];
-    // Sponsored pins sort first so they get higher z-index in the cluster.
-    const ordered = [...nextIds.values()].sort(
-      (a, b) => Number(!!b.sponsored) - Number(!!a.sponsored)
-    );
-    for (const s of ordered) {
-      if (markerMapRef.current.has(s.id)) continue;
+    for (const s of allCoords) {
+      if (!wantHeroes.has(s.id) || heroMarkersRef.current.has(s.id)) continue;
       const featured = !!s.sponsored;
-      const size = featured ? 52 : 44;
-      const icon = L.divIcon({
-        className: `leaf-marker${featured ? " leaf-marker-sponsored" : ""}`,
-        html: featured
-          ? `<div class="pin-sponsored-ring"><img src="${circleIcon(s)}" width="44" height="44" alt="" /><span class="pin-sponsored-label">Sponsored</span></div>`
-          : `<img src="${circleIcon(s)}" width="44" height="44" alt="" />`,
-        iconSize: [size, featured ? 64 : size],
-        iconAnchor: [size / 2, size / 2],
-      });
-      const marker = L.marker([s.lat, s.lng], {
-        icon,
+      const iconHtml = featured
+        ? `<div class="startup-hero-pin leaf-marker leaf-marker-sponsored"><div class="pin-sponsored-ring"><img src="${circleIcon(s)}" width="44" height="44" alt=""/><span class="pin-sponsored-label">Sponsored</span></div><div class="startup-pin-label">${escHtml(prettyName(s.name))}</div></div>`
+        : `<div class="startup-hero-pin leaf-marker"><img src="${circleIcon(s)}" width="44" height="44" alt=""/><div class="startup-pin-label">${escHtml(prettyName(s.name))}</div></div>`;
+      const m = L.marker([s.lat, s.lng], {
+        icon: L.divIcon({ className: "", html: iconHtml, iconSize: [44, 72], iconAnchor: [22, 22] }),
         title: prettyName(s.name),
-        zIndexOffset: featured ? 600 : 0,
-      }).on("click", () => onSelect(s));
-      markerMapRef.current.set(s.id, marker);
-      toAdd.push(marker);
+        zIndexOffset: featured ? 600 : 200,
+      }).on("click", () => onSelect?.(s));
+      heroMarkersRef.current.set(s.id, m);
+      spotLayer.addLayer(m);
     }
-    if (toAdd.length) layer.addLayers(toAdd);
+
+    for (const s of allCoords) {
+      if (!wantDots.has(s.id) || dotMarkersRef.current.has(s.id)) continue;
+      const color = SECTOR_COLOR[s.sector] || "#94a3b8";
+      const m = L.marker([s.lat, s.lng], {
+        icon: L.divIcon({
+          className: "",
+          html: `<div class="startup-mini-dot" style="--c:${color}"></div>`,
+          iconSize: [10, 10], iconAnchor: [5, 5],
+        }),
+        zIndexOffset: 50,
+      }).on("click", () => onSelect?.(s));
+      dotMarkersRef.current.set(s.id, m);
+      spotLayer.addLayer(m);
+    }
+  }, [ready, viewTick]);
+
+  function setMarkers(startups, onSelect) {
+    startupsRef.current = startups;
+    onSelectRef.current = onSelect;
+    setViewTick((t) => t + 1);
   }
 
   function flyTo(lat, lng) {
     if (mapRef.current && lat && lng) {
-      mapRef.current.flyTo([lat, lng], Math.max(mapRef.current.getZoom(), 15), { duration: 0.7 });
+      mapRef.current.flyTo([lat, lng], Math.max(mapRef.current.getZoom(), 15), { duration: 0.7, easeLinearity: 0.22 });
     }
   }
 
-  // Pan/zoom to fit the filtered results. Without this, narrowing a filter
-  // (e.g. picking one area) can leave the map showing whatever it was
-  // panned/zoomed to before — the correct marker renders, just off-screen,
-  // which looks like the filter returned nothing.
   function fitToMarkers(startups) {
     const L = LRef.current;
     if (!L || !mapRef.current) return;
