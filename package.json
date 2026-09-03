@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "seed": "node scripts/geocode-seed.mjs"
+    "seed": "node scripts/geocode-seed.mjs",
+    "enrich:profiles": "node scripts/enrich-profiles.mjs",
+    "enrich:merge": "node scripts/merge-enrichment.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

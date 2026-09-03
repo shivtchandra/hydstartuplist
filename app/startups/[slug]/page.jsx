@@ -2,10 +2,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
 import StartupLogo from "../../components/StartupLogo.jsx";
-import { getStartupBySlug, visibleHiring } from "../../../lib/store.js";
+import { getStartupBySlug, getApproved, visibleHiring } from "../../../lib/store.js";
 import { startupSlug } from "../../../lib/slug.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
-import { colorFor, prettyName, careersUrl, faviconUrl } from "../../../lib/startupUi.js";
+import {
+  colorFor,
+  prettyName,
+  careersUrl,
+  faviconUrl,
+  normalizeArea,
+  relatedStartups,
+} from "../../../lib/startupUi.js";
 import { featuredPinIdSetAsync } from "../../../lib/placements.js";
 
 export const dynamic = "force-dynamic";
@@ -17,6 +24,7 @@ export async function generateMetadata({ params }) {
   const name = prettyName(startup.name);
   const title = `${name} – ${startup.sector} Startup in ${startup.area || "Hyderabad"}`;
   const description =
+    startup.descriptionLong ||
     startup.description ||
     `${name} is a ${startup.fundingStage} ${startup.sector} startup based in ${startup.area || "Hyderabad"}.`;
   const url = `${getSiteUrl()}/startups/${params.slug}`;
@@ -60,7 +68,8 @@ function orgJsonLd(startup, slug, sponsored) {
     "@id": `${site}/startups/${slug}#organization`,
     name: prettyName(startup.name),
     url: startup.website || `${site}/startups/${slug}`,
-    description: startup.description,
+    description: startup.descriptionLong || startup.description,
+    keywords: startup.services?.length ? startup.services.join(", ") : undefined,
     foundingDate: startup.founded ? String(startup.founded) : undefined,
     address: startup.address
       ? {
@@ -84,6 +93,57 @@ function orgJsonLd(startup, slug, sponsored) {
   return data;
 }
 
+// Q&A built entirely from fields already on the entry — used both for the
+// visible FAQ block and the FAQPage structured data. Questions with no real
+// answer (e.g. unknown founding year) are dropped.
+function faqItems(startup) {
+  const name = prettyName(startup.name);
+  const place = startup.area || "Hyderabad";
+  const hiring = visibleHiring(startup);
+  const about = startup.descriptionLong || startup.description;
+  const items = [];
+
+  if (about) {
+    items.push({ q: `What does ${name} do?`, a: about });
+  }
+  items.push({
+    q: `Where is ${name} located?`,
+    a: startup.address
+      ? `${name} is based at ${startup.address}.`
+      : `${name} is based in ${place}.`,
+  });
+  if (startup.founded) {
+    items.push({ q: `When was ${name} founded?`, a: `${name} was founded in ${startup.founded}.` });
+  }
+  items.push({
+    q: `What sector is ${name} in?`,
+    a: `${name} operates in ${startup.sector}${
+      startup.fundingStage ? ` and is at the ${startup.fundingStage} stage` : ""
+    }.`,
+  });
+  items.push({
+    q: `Is ${name} hiring?`,
+    a: hiring?.roles?.length
+      ? `Yes — ${name} has ${hiring.count || hiring.roles.length} open role${
+          (hiring.count || hiring.roles.length) === 1 ? "" : "s"
+        } listed. See the current openings on this page.`
+      : `There are no open roles listed for ${name} right now. Check the careers page for the latest.`,
+  });
+  return items;
+}
+
+function faqJsonLd(startup) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems(startup).map((it) => ({
+      "@type": "Question",
+      name: it.q,
+      acceptedAnswer: { "@type": "Answer", text: it.a },
+    })),
+  };
+}
+
 export default async function StartupDetailPage({ params }) {
   const startup = await getStartupBySlug(params.slug);
   if (!startup) notFound();
@@ -94,12 +154,22 @@ export default async function StartupDetailPage({ params }) {
   const maps = directionsUrl(startup.address, startup.lat, startup.lng);
   const slug = startupSlug(startup);
   const jsonLd = orgJsonLd(startup, slug, sponsored);
+  const faqLd = faqJsonLd(startup);
+  const faqs = faqItems(startup);
+  const about = startup.descriptionLong || startup.description;
+  const services = Array.isArray(startup.services) ? startup.services.slice(0, 6) : [];
+
+  const related = relatedStartups(startup, await getApproved(), 6);
 
   return (
     <div className="page-with-nav">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
       <SiteNav />
       <div className="feed-page startup-detail">
@@ -124,6 +194,9 @@ export default async function StartupDetailPage({ params }) {
               {sponsored && <span className="sponsored-badge">Sponsored</span>}
             </h1>
             <p className="startup-detail-sub">{startup.area}</p>
+            {startup.oneLiner && (
+              <p className="startup-detail-oneliner">{startup.oneLiner}</p>
+            )}
             <div className="tags">
               <span className="tag" style={{ background: "#eef2ff", color: colorFor(startup.sector) }}>
                 {startup.sector}
@@ -136,13 +209,20 @@ export default async function StartupDetailPage({ params }) {
                 </span>
               )}
             </div>
+            {services.length > 0 && (
+              <div className="tags startup-services">
+                {services.map((s) => (
+                  <span key={s} className="tag tag-service">{s}</span>
+                ))}
+              </div>
+            )}
           </div>
         </header>
 
-        {startup.description && (
+        {about && (
           <section className="startup-section">
             <h2>About</h2>
-            <p className="startup-desc">{startup.description}</p>
+            <p className="startup-desc">{about}</p>
           </section>
         )}
 
@@ -212,6 +292,38 @@ export default async function StartupDetailPage({ params }) {
                 Get directions ↗
               </a>
             )}
+          </section>
+        )}
+
+        {faqs.length > 0 && (
+          <section className="startup-section">
+            <h2>Frequently asked</h2>
+            <dl className="startup-faq">
+              {faqs.map((it) => (
+                <div key={it.q} className="startup-faq-item">
+                  <dt>{it.q}</dt>
+                  <dd>{it.a}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+
+        {related.length > 0 && (
+          <section className="startup-section">
+            <h2>Related startups in Hyderabad</h2>
+            <div className="feed-list">
+              {related.map((r) => (
+                <Link key={r.id} className="feed-row" href={`/startups/${startupSlug(r)}`}>
+                  <div className="feed-row-body">
+                    <div className="feed-row-name">{prettyName(r.name)}</div>
+                    <div className="feed-row-sub">
+                      {r.sector} · {normalizeArea(r.area)}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </section>
         )}
 
