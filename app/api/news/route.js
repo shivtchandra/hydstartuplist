@@ -1,24 +1,11 @@
 import { NextResponse } from "next/server";
-import { getApproved } from "../../../lib/store.js";
+import { getNewsFeed } from "../../../lib/news.js";
 
 // Small, targeted payload — only the companies that have news items, with
 // just the fields the /news feed needs (not the full enriched record).
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const all = await getApproved();
-  const items = all
-    .filter((s) => s.active !== false)
-    .filter((s) => Array.isArray(s.news) && s.news.length)
-    .flatMap((s) =>
-      s.news.map((n) => ({
-        ...n,
-        companyId: s.id,
-        companyName: s.name,
-        website: s.website,
-        sector: s.sector,
-      }))
-    )
-    .sort((a, b) => new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0));
+  const items = await getNewsFeed();
   return NextResponse.json(items);
 }
