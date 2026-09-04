@@ -1,9 +1,21 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { jobUrlId } from "../../lib/jobs-seo.js";
+import {
+  AREA_OPTIONS,
+  EXPERIENCE_OPTIONS,
+  ROLE_OPTIONS,
+  SECTOR_OPTIONS,
+  areaLabel,
+  experienceLabel,
+  inferArea,
+  inferExperienceLevel,
+  roleFacetKey,
+  sectorFacetKey,
+} from "../../lib/job-facets.js";
 
 function timeAgo(iso) {
   if (!iso) return "";
@@ -15,21 +27,6 @@ function timeAgo(iso) {
   if (days < 30) return `${days}d ago`;
   return `${Math.floor(days / 30)}mo ago`;
 }
-
-function inferRoleType(title) {
-  const t = (title || "").toLowerCase();
-  if (/engineer|developer|\bdev\b|software|backend|frontend|full.?stack|sre\b|devops|infra/.test(t)) return "Engineering";
-  if (/product manager|product owner|\bpm\b|product lead|product head/.test(t)) return "Product";
-  if (/design|\bux\b|\bui\b|creative/.test(t)) return "Design";
-  if (/\bdata\b|analyst|scientist|\bml\b|machine learning|analytics|bi\b/.test(t)) return "Data";
-  if (/sales|business dev|account exec|\bacc exec\b|\bbd\b|account manager|revenue/.test(t)) return "Sales";
-  if (/market|growth|\bseo\b|content|brand|social media/.test(t)) return "Marketing";
-  if (/finance|accounting|\bca\b|\bcfo\b|controller|audit|payroll/.test(t)) return "Finance";
-  if (/\bhr\b|people|talent|recrui|ops\b|operations|admin|support/.test(t)) return "Operations";
-  return null; // don't force a bucket
-}
-
-const ROLE_CHIPS = ["Engineering", "Product", "Design", "Data", "Sales", "Marketing", "Finance", "Operations"];
 
 const TABS = [
   { key: "all", label: "All" },
@@ -45,28 +42,94 @@ const RECENCY_OPTIONS = [
   { key: "month", label: "This month", ms: 30 * 86_400_000 },
 ];
 
+function paramOrEmpty(params, key) {
+  const v = params.get(key);
+  return v && v.trim() ? v.trim() : "";
+}
+
 export default function JobsClient({ initialJobs = [], fetchedAt = null, note = null, initialQuery = "" }) {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const [jobs] = useState(initialJobs);
-  const [q, setQ] = useState(initialQuery);
+
+  const [q, setQ] = useState(() => paramOrEmpty(searchParams, "q") || initialQuery || "");
   const [tab, setTab] = useState("all");
-  const [roleType, setRoleType] = useState("");
-  const [recency, setRecency] = useState("all");
+  const [roleType, setRoleType] = useState(() => paramOrEmpty(searchParams, "role"));
+  const [level, setLevel] = useState(() => paramOrEmpty(searchParams, "level"));
+  const [area, setArea] = useState(() => paramOrEmpty(searchParams, "area"));
+  const [sector, setSector] = useState(() => paramOrEmpty(searchParams, "sector"));
+  const [recency, setRecency] = useState(() => paramOrEmpty(searchParams, "when") || "all");
   const [sortBy, setSortBy] = useState("newest");
   const [dedup, setDedup] = useState(true);
   const [sharedId, setSharedId] = useState(null);
 
+  // Seed search from ?company= (legacy) once
   useEffect(() => {
     const company = searchParams.get("company");
-    if (company) setQ(company.replace(/-/g, " "));
-  }, [searchParams]);
+    if (company && !searchParams.get("q")) {
+      setQ(company.replace(/-/g, " "));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const syncUrl = useCallback(
+    (next) => {
+      const params = new URLSearchParams();
+      // Preserve company banner param if present
+      const company = searchParams.get("company");
+      if (company) params.set("company", company);
+
+      if (next.q?.trim()) params.set("q", next.q.trim());
+      if (next.roleType) params.set("role", next.roleType);
+      if (next.level) params.set("level", next.level);
+      if (next.area) params.set("area", next.area);
+      if (next.sector) params.set("sector", next.sector);
+      if (next.recency && next.recency !== "all") params.set("when", next.recency);
+
+      const qs = params.toString();
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
+
+  function updateFilters(patch) {
+    const next = {
+      q,
+      roleType,
+      level,
+      area,
+      sector,
+      recency,
+      ...patch,
+    };
+    if ("q" in patch) setQ(patch.q);
+    if ("roleType" in patch) setRoleType(patch.roleType);
+    if ("level" in patch) setLevel(patch.level);
+    if ("area" in patch) setArea(patch.area);
+    if ("sector" in patch) setSector(patch.sector);
+    if ("recency" in patch) setRecency(patch.recency);
+    // Debounce search query in URL; other facets sync immediately
+    if ("q" in patch && Object.keys(patch).length === 1) return;
+    syncUrl(next);
+  }
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      syncUrl({ q, roleType, level, area, sector, recency });
+    }, 250);
+    return () => clearTimeout(t);
+  }, [q]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function shareJob(j) {
     const site = `${window.location.origin}/jobs/${jobUrlId(j.id)}`;
     const text = `${j.title} at ${j.company} — ${j.location}\n${site}\nApply: ${j.url}`;
     const data = { title: `${j.title} at ${j.company}`, text, url: site };
     try {
-      if (navigator.share) { await navigator.share(data); return; }
+      if (navigator.share) {
+        await navigator.share(data);
+        return;
+      }
     } catch (e) {
       if (e && e.name === "AbortError") return;
     }
@@ -79,7 +142,6 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
     }
   }
 
-  // Deduplicate by title+company (catches syndication spam)
   const dedupedJobs = useMemo(() => {
     if (!dedup) return jobs;
     const seen = new Set();
@@ -91,17 +153,48 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
     });
   }, [jobs, dedup]);
 
-  const counts = useMemo(() => {
-    const c = { all: dedupedJobs.length, startup: 0, gcc: 0, other: 0 };
-    for (const j of dedupedJobs) c[j.category] = (c[j.category] || 0) + 1;
-    return c;
+  const enriched = useMemo(() => {
+    return dedupedJobs.map((j) => ({
+      ...j,
+      _role: roleFacetKey(j.title),
+      _level: inferExperienceLevel(j.title, j.description),
+      _area: inferArea(j.location),
+      _sector: sectorFacetKey(j.sector),
+    }));
   }, [dedupedJobs]);
+
+  const counts = useMemo(() => {
+    const c = { all: enriched.length, startup: 0, gcc: 0, other: 0 };
+    for (const j of enriched) c[j.category] = (c[j.category] || 0) + 1;
+    return c;
+  }, [enriched]);
+
+  const facetPool = useMemo(() => {
+    return tab === "all" ? enriched : enriched.filter((j) => j.category === tab);
+  }, [enriched, tab]);
+
+  const facetCounts = useMemo(() => {
+    const roles = Object.fromEntries(ROLE_OPTIONS.map((r) => [r, 0]));
+    const levels = Object.fromEntries(EXPERIENCE_OPTIONS.map((o) => [o.key, 0]));
+    const areas = Object.fromEntries(AREA_OPTIONS.map((o) => [o.key, 0]));
+    const sectors = Object.fromEntries(SECTOR_OPTIONS.map((o) => [o.key, 0]));
+    for (const j of facetPool) {
+      roles[j._role] = (roles[j._role] || 0) + 1;
+      if (j._level) levels[j._level] = (levels[j._level] || 0) + 1;
+      areas[j._area] = (areas[j._area] || 0) + 1;
+      sectors[j._sector] = (sectors[j._sector] || 0) + 1;
+    }
+    return { roles, levels, areas, sectors };
+  }, [facetPool]);
 
   const filtered = useMemo(() => {
     const now = Date.now();
-    let list = tab === "all" ? dedupedJobs : dedupedJobs.filter((j) => j.category === tab);
+    let list = facetPool;
 
-    if (roleType) list = list.filter((j) => inferRoleType(j.title) === roleType);
+    if (roleType) list = list.filter((j) => j._role === roleType);
+    if (level) list = list.filter((j) => j._level === level);
+    if (area) list = list.filter((j) => j._area === area);
+    if (sector) list = list.filter((j) => j._sector === sector);
 
     if (recency !== "all") {
       const ms = RECENCY_OPTIONS.find((r) => r.key === recency)?.ms ?? Infinity;
@@ -116,20 +209,36 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
     }
 
     if (sortBy === "az") list = [...list].sort((a, b) => (a.title || "").localeCompare(b.title || ""));
-    else if (sortBy === "company") list = [...list].sort((a, b) => (a.company || "").localeCompare(b.company || ""));
-    // default "newest": server already returns newest-first
+    else if (sortBy === "company") {
+      list = [...list].sort((a, b) => (a.company || "").localeCompare(b.company || ""));
+    }
 
     return list;
-  }, [dedupedJobs, tab, roleType, recency, q, sortBy]);
+  }, [facetPool, roleType, level, area, sector, recency, q, sortBy]);
 
-  const activeFilters = [roleType, recency !== "all" ? recency : ""].filter(Boolean).length;
+  const activeFilterParts = [];
+  if (roleType) activeFilterParts.push(`Role: ${roleType}`);
+  if (level) activeFilterParts.push(`Level: ${experienceLabel(level) || level}`);
+  if (area) activeFilterParts.push(`Area: ${areaLabel(area) || area}`);
+  if (sector) {
+    const lab = SECTOR_OPTIONS.find((s) => s.key === sector)?.label || sector;
+    activeFilterParts.push(`Sector: ${lab}`);
+  }
+  if (recency !== "all") {
+    activeFilterParts.push(RECENCY_OPTIONS.find((r) => r.key === recency)?.label || recency);
+  }
+  if (q.trim()) activeFilterParts.push(`Search: ${q.trim()}`);
 
   function clearAll() {
     setRoleType("");
+    setLevel("");
+    setArea("");
+    setSector("");
     setRecency("all");
     setSortBy("newest");
     setQ("");
     setTab("all");
+    syncUrl({ q: "", roleType: "", level: "", area: "", sector: "", recency: "all" });
   }
 
   return (
@@ -145,7 +254,6 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
 
       {jobs.length > 0 && (
         <>
-          {/* Category tabs */}
           <div className="jobs-tabs">
             {TABS.map((t) => (
               <button
@@ -159,37 +267,76 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
             ))}
           </div>
 
-          {/* Role type chips */}
-          <div className="jobs-role-chips">
-            {ROLE_CHIPS.map((r) => (
-              <button
-                key={r}
-                type="button"
-                className={`jobs-role-chip${roleType === r ? " active" : ""}`}
-                onClick={() => setRoleType((v) => (v === r ? "" : r))}
-              >
-                {r}
-              </button>
-            ))}
-          </div>
-
-          {/* Search + sort + recency row */}
           <div className="jobs-filter-row">
             <input
               className="jobs-search"
               placeholder="Title or company…"
               value={q}
-              onChange={(e) => setQ(e.target.value)}
+              onChange={(e) => updateFilters({ q: e.target.value })}
               aria-label="Filter jobs"
             />
             <select
               className="jobs-select"
+              value={roleType}
+              onChange={(e) => updateFilters({ roleType: e.target.value })}
+              aria-label="Filter by role"
+            >
+              <option value="">All roles</option>
+              {ROLE_OPTIONS.map((r) => (
+                <option key={r} value={r}>
+                  {r} ({facetCounts.roles[r] || 0})
+                </option>
+              ))}
+            </select>
+            <select
+              className="jobs-select"
+              value={level}
+              onChange={(e) => updateFilters({ level: e.target.value })}
+              aria-label="Filter by experience"
+            >
+              <option value="">All levels</option>
+              {EXPERIENCE_OPTIONS.map((o) => (
+                <option key={o.key} value={o.key}>
+                  {o.label} ({facetCounts.levels[o.key] || 0})
+                </option>
+              ))}
+            </select>
+            <select
+              className="jobs-select"
+              value={area}
+              onChange={(e) => updateFilters({ area: e.target.value })}
+              aria-label="Filter by area"
+            >
+              <option value="">All areas</option>
+              {AREA_OPTIONS.map((o) => (
+                <option key={o.key} value={o.key}>
+                  {o.label} ({facetCounts.areas[o.key] || 0})
+                </option>
+              ))}
+            </select>
+            <select
+              className="jobs-select"
+              value={sector}
+              onChange={(e) => updateFilters({ sector: e.target.value })}
+              aria-label="Filter by sector"
+            >
+              <option value="">All sectors</option>
+              {SECTOR_OPTIONS.map((o) => (
+                <option key={o.key} value={o.key}>
+                  {o.label} ({facetCounts.sectors[o.key] || 0})
+                </option>
+              ))}
+            </select>
+            <select
+              className="jobs-select"
               value={recency}
-              onChange={(e) => setRecency(e.target.value)}
+              onChange={(e) => updateFilters({ recency: e.target.value })}
               aria-label="Filter by recency"
             >
               {RECENCY_OPTIONS.map((r) => (
-                <option key={r.key} value={r.key}>{r.label}</option>
+                <option key={r.key} value={r.key}>
+                  {r.label}
+                </option>
               ))}
             </select>
             <select
@@ -204,18 +351,20 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
             </select>
           </div>
 
-          {/* Meta row: results count + dedup toggle + clear */}
           <div className="jobs-meta-row">
-            <span className="jobs-result-count">{filtered.length} role{filtered.length !== 1 ? "s" : ""}</span>
+            <span className="jobs-result-count">
+              {filtered.length} role{filtered.length !== 1 ? "s" : ""}
+            </span>
+            {activeFilterParts.length > 0 && (
+              <span className="jobs-active-filters" title={activeFilterParts.join(" · ")}>
+                {activeFilterParts.join(" · ")}
+              </span>
+            )}
             <label className="jobs-dedup-toggle">
-              <input
-                type="checkbox"
-                checked={dedup}
-                onChange={(e) => setDedup(e.target.checked)}
-              />
+              <input type="checkbox" checked={dedup} onChange={(e) => setDedup(e.target.checked)} />
               Hide duplicates
             </label>
-            {activeFilters > 0 && (
+            {activeFilterParts.length > 0 && (
               <button type="button" className="jobs-clear-btn" onClick={clearAll}>
                 Clear filters
               </button>
@@ -227,49 +376,87 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
       {note && !jobs.length && <p className="form-sub">{note}</p>}
       {!jobs.length && !note && <p className="form-sub">No open roles right now — check back soon.</p>}
       {jobs.length > 0 && filtered.length === 0 && (
-        <p className="form-sub">No jobs match — <button type="button" className="link-btn" onClick={clearAll}>clear filters</button></p>
+        <p className="form-sub">
+          No jobs match —{" "}
+          <button type="button" className="link-btn" onClick={clearAll}>
+            clear filters
+          </button>
+        </p>
       )}
 
       <div className="feed-list">
-        {filtered.map((j) => (
-          <div key={j.id} className={`feed-row${j.sponsored ? " feed-row-sponsored" : ""}`}>
-            <Link className="feed-row-body" href={`/jobs/${jobUrlId(j.id)}`}>
-              <div className="feed-row-name">
-                {j.title}
-                {j.sponsored && <span className="sponsored-badge">Sponsored</span>}
-              </div>
-              <div className="feed-row-sub">
-                {j.company} · {j.location} · {timeAgo(j.postedAt)}
-              </div>
-            </Link>
-            <button
-              type="button"
-              className="job-share-btn"
-              onClick={() => shareJob(j)}
-              aria-label={`Share ${j.title} at ${j.company}`}
-              title="Share this job"
-            >
-              {sharedId === j.id ? (
-                <>
-                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="m5 12 5 5L20 6" />
-                  </svg>
-                  Copied
-                </>
-              ) : (
-                <>
-                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="18" cy="5" r="3" />
-                    <circle cx="6" cy="12" r="3" />
-                    <circle cx="18" cy="19" r="3" />
-                    <path d="m8.6 13.5 6.8 4M15.4 6.5 8.6 10.5" />
-                  </svg>
-                  Share
-                </>
-              )}
-            </button>
-          </div>
-        ))}
+        {filtered.map((j) => {
+          const levelLab = experienceLabel(j._level);
+          const sectorLab =
+            j._sector && j._sector !== "other"
+              ? SECTOR_OPTIONS.find((s) => s.key === j._sector)?.label
+              : j.sector && sectorFacetKey(j.sector) !== "other"
+                ? j.sector
+                : null;
+          return (
+            <div key={j.id} className={`feed-row${j.sponsored ? " feed-row-sponsored" : ""}`}>
+              <Link className="feed-row-body" href={`/jobs/${jobUrlId(j.id)}`}>
+                <div className="feed-row-name">
+                  {j.title}
+                  {j.sponsored && <span className="sponsored-badge">Sponsored</span>}
+                </div>
+                <div className="feed-row-sub">
+                  {j.company} · {j.location} · {timeAgo(j.postedAt)}
+                  {(levelLab || sectorLab) && (
+                    <span className="jobs-row-badges">
+                      {levelLab && <span className="jobs-facet-badge">{levelLab}</span>}
+                      {sectorLab && <span className="jobs-facet-badge">{sectorLab}</span>}
+                    </span>
+                  )}
+                </div>
+              </Link>
+              <button
+                type="button"
+                className="job-share-btn"
+                onClick={() => shareJob(j)}
+                aria-label={`Share ${j.title} at ${j.company}`}
+                title="Share this job"
+              >
+                {sharedId === j.id ? (
+                  <>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="15"
+                      height="15"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m5 12 5 5L20 6" />
+                    </svg>
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="15"
+                      height="15"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="18" cy="5" r="3" />
+                      <circle cx="6" cy="12" r="3" />
+                      <circle cx="18" cy="19" r="3" />
+                      <path d="m8.6 13.5 6.8 4M15.4 6.5 8.6 10.5" />
+                    </svg>
+                    Share
+                  </>
+                )}
+              </button>
+            </div>
+          );
+        })}
       </div>
 
       {fetchedAt && jobs.length > 0 && (

@@ -1,14 +1,5 @@
 [
   {
-    "id": "greenhouse:coherehealth",
-    "name": "Cohere support services",
-    "atsProvider": "greenhouse",
-    "atsSlug": "coherehealth",
-    "boardUrl": "https://boards.greenhouse.io/coherehealth",
-    "startupId": "115e8003-db26-437d-9656-129cdcb4c6f6",
-    "active": true
-  },
-  {
     "id": "greenhouse:doordashindia",
     "name": "DoorDash India",
     "atsProvider": "greenhouse",
@@ -30,7 +21,7 @@
     "active": true,
     "hydJobs": 22,
     "totalJobs": 45,
-    "verifiedAt": "2026-09-04T16:28:25.286Z"
+    "verifiedAt": "2026-09-04T18:12:22.117Z"
   },
   {
     "id": "greenhouse:accordionindia",
@@ -118,7 +109,7 @@
   },
   {
     "id": "greenhouse:schrdinger",
-    "name": "Schrödinger",
+    "name": "Schr\u00f6dinger",
     "atsProvider": "greenhouse",
     "atsSlug": "schrdinger",
     "boardUrl": "https://boards.greenhouse.io/schrdinger",
@@ -237,12 +228,21 @@
     "verifiedAt": "2026-09-04T16:28:28.890Z"
   },
   {
-    "id": "smartrecruiters:nowfloats",
-    "name": "NOWFLOATS TECHNOLOGIES PRIVATE LIMITED",
+    "id": "smartrecruiters:cincyrtech",
+    "name": "CINCYR TECH PRIVATE LIMITED ",
     "atsProvider": "smartrecruiters",
-    "atsSlug": "nowfloats",
-    "boardUrl": "https://jobs.smartrecruiters.com/nowfloats",
-    "startupId": "be523135-78a8-424f-a998-292c65e9aa0a",
+    "atsSlug": "cincyrtech",
+    "boardUrl": "https://jobs.smartrecruiters.com/cincyrtech",
+    "startupId": "6967c62a-0c77-41b7-969e-ad4452e67f58",
+    "active": true
+  },
+  {
+    "id": "greenhouse:coherehealth",
+    "name": "Cohere support services",
+    "atsProvider": "greenhouse",
+    "atsSlug": "coherehealth",
+    "boardUrl": "https://boards.greenhouse.io/coherehealth",
+    "startupId": "115e8003-db26-437d-9656-129cdcb4c6f6",
     "active": true
   },
   {
@@ -255,21 +255,30 @@
     "active": true
   },
   {
+    "id": "smartrecruiters:nowfloats",
+    "name": "NOWFLOATS TECHNOLOGIES PRIVATE LIMITED",
+    "atsProvider": "smartrecruiters",
+    "atsSlug": "nowfloats",
+    "boardUrl": "https://jobs.smartrecruiters.com/nowfloats",
+    "startupId": "be523135-78a8-424f-a998-292c65e9aa0a",
+    "active": true
+  },
+  {
+    "id": "lever:paytm",
+    "name": "Paytm",
+    "atsProvider": "lever",
+    "atsSlug": "paytm",
+    "boardUrl": "https://jobs.lever.co/paytm",
+    "startupId": "6165678d-5c78-442b-8db7-301747ccc00e",
+    "active": true
+  },
+  {
     "id": "smartrecruiters:sanaari",
     "name": "SANAARI Software Solutions Pvt. Ltd",
     "atsProvider": "smartrecruiters",
     "atsSlug": "sanaari",
     "boardUrl": "https://jobs.smartrecruiters.com/sanaari",
     "startupId": "521efcb3-c00d-4723-bd5a-ea07c3b9504e",
-    "active": true
-  },
-  {
-    "id": "smartrecruiters:cincyrtech",
-    "name": "CINCYR TECH PRIVATE LIMITED ",
-    "atsProvider": "smartrecruiters",
-    "atsSlug": "cincyrtech",
-    "boardUrl": "https://jobs.smartrecruiters.com/cincyrtech",
-    "startupId": "6967c62a-0c77-41b7-969e-ad4452e67f58",
     "active": true
   },
   {
@@ -282,12 +291,406 @@
     "active": true
   },
   {
-    "id": "lever:paytm",
-    "name": "Paytm",
+    "id": "lever:dozee",
+    "name": "Dozee",
     "atsProvider": "lever",
-    "atsSlug": "paytm",
-    "boardUrl": "https://jobs.lever.co/paytm",
-    "startupId": "6165678d-5c78-442b-8db7-301747ccc00e",
+    "atsSlug": "dozee",
+    "boardUrl": "https://jobs.lever.co/dozee",
+    "startupId": "6aa868ad-a35d-43c8-b6fa-07b5490d82c2",
     "active": true
+  },
+  {
+    "id": "lever:vogo",
+    "name": "Vogo",
+    "atsProvider": "lever",
+    "atsSlug": "vogo",
+    "boardUrl": "https://jobs.lever.co/vogo",
+    "startupId": "ea5fcf18-69d2-41fe-b991-9a07953fda35",
+    "active": true
+  },
+  {
+    "id": "lever:oneimpression",
+    "name": "OneImpression",
+    "atsProvider": "lever",
+    "atsSlug": "oneimpression",
+    "boardUrl": "https://jobs.lever.co/oneimpression",
+    "startupId": "d2283dd8-b2aa-4dab-b3a1-c7486462c90e",
+    "active": true
+  },
+  {
+    "id": "smartrecruiters:joulestowatts",
+    "name": "JoulestoWatts",
+    "atsProvider": "smartrecruiters",
+    "atsSlug": "joulestowatts",
+    "boardUrl": "https://jobs.smartrecruiters.com/joulestowatts",
+    "startupId": "f4a68ed8-ea0f-4cb4-a40c-c0ddb578e132",
+    "active": true
+  },
+  {
+    "id": "greenhouse:highradius",
+    "name": "HighRadius",
+    "atsProvider": "greenhouse",
+    "atsSlug": "highradius",
+    "boardUrl": "https://boards.greenhouse.io/highradius",
+    "careersUrl": "https://www.highradius.com/about/career/",
+    "startupId": null,
+    "active": true,
+    "mapPin": false,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "phenom:amd",
+    "name": "AMD",
+    "atsProvider": "phenom",
+    "atsSlug": "amd",
+    "boardUrl": "https://careers.amd.com/careers-home/jobs?location=Hyderabad,%20Telangana,%20India&woe=7&regionCode=IN&stretchUnit=MILES&stretch=10&page=1",
+    "startupId": null,
+    "active": true,
+    "mapPin": false,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "eightfold:qualcomm",
+    "name": "Qualcomm",
+    "atsProvider": "eightfold",
+    "atsSlug": "qualcomm",
+    "boardUrl": "https://careers.qualcomm.com/careers?location=Hyderabad%2C++TS%2C++India&sort_by=distance&filter_distance=80",
+    "startupId": null,
+    "active": true,
+    "mapPin": false,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "radancy:synchrony",
+    "name": "Synchrony",
+    "atsProvider": "radancy",
+    "atsSlug": "synchrony",
+    "boardUrl": "https://www.synchronycareers.com/search-jobs",
+    "startupId": null,
+    "active": true,
+    "mapPin": false,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "workday:centific",
+    "name": "Centific",
+    "atsProvider": "workday",
+    "atsSlug": "centific",
+    "boardUrl": "https://centific.wd1.myworkdayjobs.com/Centific_Global?Country=c4f78be1a8f14da0ab49ce1162348a5e",
+    "startupId": null,
+    "active": true,
+    "mapPin": false,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "workday:ncr",
+    "name": "NCR Voyix",
+    "atsProvider": "workday",
+    "atsSlug": "ncr",
+    "boardUrl": "https://ncr.wd1.myworkdayjobs.com/ext_apac?Location_Country=c4f78be1a8f14da0ab49ce1162348a5e&Location_Region_State_Province=3cfc61cd0cf4100004b86c8483b80007",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "greenhouse:arcesiumllc",
+    "name": "Arcesium",
+    "atsProvider": "greenhouse",
+    "atsSlug": "arcesiumllc",
+    "boardUrl": "https://job-boards.greenhouse.io/arcesiumllc",
+    "careersUrl": "https://www.arcesium.com/careers#open-positions",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "eightfold:worley",
+    "name": "Worley",
+    "atsProvider": "eightfold",
+    "atsSlug": "worley",
+    "boardUrl": "https://jobs.worley.com/careers?location=Hyderabad%2C++Telangana%2C++India&sort_by=distance&filter_distance=160",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "eightfold:bms",
+    "name": "Bristol Myers Squibb",
+    "atsProvider": "eightfold",
+    "atsSlug": "bms",
+    "boardUrl": "https://jobs.bms.com/careers?location=Hyderabad%2C++TS%2C++India&sort_by=distance&filter_distance=80",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "workday:kantar",
+    "name": "Kantar",
+    "atsProvider": "workday",
+    "atsSlug": "kantar",
+    "boardUrl": "https://careers.kantar.com/job-search?City=Hyderabad",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "oraclecloud:dieboldnixdorf",
+    "name": "Diebold Nixdorf",
+    "atsProvider": "oraclecloud",
+    "atsSlug": "dieboldnixdorf",
+    "boardUrl": "https://eeug.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/jobs?location=Hyderabad%2C+Telangana%2C+India&locationId=300000148073556&locationLevel=city&mode=location",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "workday:tjx",
+    "name": "TJX Companies",
+    "atsProvider": "workday",
+    "atsSlug": "tjx",
+    "boardUrl": "https://jobs.tjx.com/global/en/india-jobs",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "gr8people:teradata",
+    "name": "Teradata",
+    "atsProvider": "gr8people",
+    "atsSlug": "teradata",
+    "boardUrl": "https://careers.teradata.com/jobs?location=Hyderabad%2C+TS",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "htmlcareers:leomarcom",
+    "name": "Leo MarCom",
+    "atsProvider": "htmlcareers",
+    "atsSlug": "leomarcom",
+    "boardUrl": "https://www.leomarcom.com/careers/",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "phenom:viasat",
+    "name": "Viasat",
+    "atsProvider": "phenom",
+    "atsSlug": "viasat",
+    "boardUrl": "https://careers.viasat.com/jobs?location=Hyderabad,%20Telangana,%20India&woe=7&regionCode=IN",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "linkedin:sentient",
+    "name": "SENTIENT - An Ascend Company",
+    "atsProvider": "linkedin",
+    "atsSlug": "sentient",
+    "boardUrl": "https://www.linkedin.com/jobs/search-results/?geoId=102713980&f_C=74974362",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 LinkedIn guest API; brittle"
+  },
+  {
+    "id": "workday:blueyonder",
+    "name": "Blue Yonder",
+    "atsProvider": "workday",
+    "atsSlug": "blueyonder",
+    "boardUrl": "https://careers.blueyonder.com/us/en/search-results",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "zoho:indiumsoft",
+    "name": "Indium Software",
+    "atsProvider": "zoho",
+    "atsSlug": "indiumsoft",
+    "boardUrl": "https://indiumsoft.zohorecruit.com/jobs/Careers",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "htmlcareers:wise",
+    "name": "Wise",
+    "atsProvider": "htmlcareers",
+    "atsSlug": "wise",
+    "boardUrl": "https://wise.jobs/jobs?options=364",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "htmlcareers:brillio",
+    "name": "Brillio",
+    "atsProvider": "htmlcareers",
+    "atsSlug": "brillio",
+    "boardUrl": "https://careers.brillio.com/job-listing/",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "htmlcareers:loreal",
+    "name": "L'Or\u00e9al",
+    "atsProvider": "htmlcareers",
+    "atsSlug": "loreal",
+    "boardUrl": "https://careers.loreal.com/en_US/jobs/SearchJobs?3_110_3=18031&3_284_3=62924186",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "successfactors:fujitsu",
+    "name": "Fujitsu",
+    "atsProvider": "successfactors",
+    "atsSlug": "fujitsu",
+    "boardUrl": "https://www.jobs.global.fujitsu.com/search/?q=&locationsearch=hyderabad&searchResultView=LIST",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "lever:cyara",
+    "name": "Cyara",
+    "atsProvider": "lever",
+    "atsSlug": "cyara",
+    "boardUrl": "https://jobs.lever.co/cyara",
+    "careersUrl": "https://cyara.com/careers/#open-positions",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "linkedin:gbit",
+    "name": "GBIT (Global Bridge InfoTech Inc)",
+    "atsProvider": "linkedin",
+    "atsSlug": "gbit",
+    "boardUrl": "https://www.linkedin.com/jobs/search-results/?geoId=102713980&f_C=3113804",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 LinkedIn guest API; site careers 403 / unavailable"
+  },
+  {
+    "id": "linkedin:talentformula",
+    "name": "Talent Formula",
+    "atsProvider": "linkedin",
+    "atsSlug": "talentformula",
+    "boardUrl": "https://www.linkedin.com/jobs/search-results/?geoId=102713980&f_C=27401244",
+    "careersUrl": "https://www.talentformula.co/careers/",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 LinkedIn guest API; talentformula.co careers returns 403"
+  },
+  {
+    "id": "accufy:accufy",
+    "name": "Accufy",
+    "atsProvider": "accufy",
+    "atsSlug": "accufy",
+    "boardUrl": "https://accufy.in/careerPage",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "workday:wbd",
+    "name": "Warner Bros. Discovery",
+    "atsProvider": "workday",
+    "atsSlug": "wbd",
+    "boardUrl": "https://careers.wbd.com/global/en/hyderabad-jobs",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "keka:ideyalabs",
+    "name": "ideyaLabs",
+    "atsProvider": "keka",
+    "atsSlug": "ideyalabs",
+    "boardUrl": "https://www.ideyalabs.com/careers/",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "htmlcareers:tetrasoft",
+    "name": "Tetrasoft",
+    "atsProvider": "htmlcareers",
+    "atsSlug": "tetrasoft",
+    "boardUrl": "https://www.tetrasoft.us/careers.html",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "workday:elevancehealth",
+    "name": "Elevance Health (Carelon Global India)",
+    "atsProvider": "workday",
+    "atsSlug": "elevancehealth",
+    "boardUrl": "https://elevancehealth.wd1.myworkdayjobs.com/en-US/carelonglobal_in?locations=3ad9dca462c50101e6901d9d26fb0000",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "oraclecloud:honeywell",
+    "name": "Honeywell",
+    "atsProvider": "oraclecloud",
+    "atsSlug": "honeywell",
+    "boardUrl": "https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/jobs?location=Hyderabad%2C+Telangana%2C+India&locationId=100000013406729&locationLevel=city&mode=location",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "htmlcareers:keystoneeducation",
+    "name": "Keystone International School",
+    "atsProvider": "htmlcareers",
+    "atsSlug": "keystoneeducation",
+    "boardUrl": "https://www.keystoneeducation.in/careers",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+  },
+  {
+    "id": "htmlcareers:thegaudium",
+    "name": "The Gaudium",
+    "atsProvider": "htmlcareers",
+    "atsSlug": "thegaudium",
+    "boardUrl": "https://www.thegaudium.com/at-the-gaudium/careers/",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs"
   }
 ]
