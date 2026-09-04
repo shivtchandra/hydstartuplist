@@ -1,0 +1,11 @@
+[
+  {
+    "id": "greenhouse:zenoti",
+    "name": "Zenoti",
+    "atsProvider": "greenhouse",
+    "atsSlug": "zenoti",
+    "boardUrl": "https://boards.greenhouse.io/zenoti",
+    "startupId": "ce8748f6-8eb8-487f-9a95-b49e928853cd",
+    "active": true
+  }
+]

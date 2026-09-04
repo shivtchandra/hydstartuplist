@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getApproved } from "../../../../lib/store.js";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { normalizeSalary, sanitizeJobHtml } from "../../../../lib/job-content.js";
+import { HYD_TG_LOC_RE } from "../../../../lib/ats/geo.js";
 import { notifyJobUrls } from "../../../../lib/google-indexing.js";
 import { jobUrlId } from "../../../../lib/jobs-seo.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
@@ -168,7 +169,7 @@ async function discoverAtsFromHtml(entry) {
           const d = await getJson(probe.url);
           const jobs = extractJobs(source, d);
           if (Array.isArray(jobs) && jobs.length > 0) {
-            const locRegex = /hyderabad|secunderabad|telangana|\bindia\b|remote\s*\(?india\)?/i;
+            const locRegex = HYD_TG_LOC_RE;
             const matched = jobs.filter((j) => locRegex.test(locOf(source, j)));
             if (matched.length > 0) {
               const roles = matched.slice(0, 5).map((j) => roleOf(source, j, probe.boardUrl));
@@ -274,7 +275,7 @@ async function checkOne(entry) {
           const d = await getJson(probe.url);
           const jobs = extractJobs(probe.source, d);
           if (!Array.isArray(jobs) || jobs.length === 0) return null;
-          const locRegex = /hyderabad|secunderabad|telangana|\bindia\b|remote\s*\(?india\)?/i;
+          const locRegex = HYD_TG_LOC_RE;
           const matched = jobs.filter((j) => locRegex.test(locOf(probe.source, j)));
           if (matched.length === 0) return null;
           const roles = matched.slice(0, 5).map((j) => roleOf(probe.source, j, probe.boardUrl));

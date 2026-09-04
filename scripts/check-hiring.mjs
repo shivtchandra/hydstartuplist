@@ -137,7 +137,7 @@ async function discoverAtsFromHtml(entry) {
           const d = await getJson(probe.url);
           const jobs = extractJobs(source, d);
           if (Array.isArray(jobs) && jobs.length > 0) {
-            const locRegex = /hyderabad|secunderabad|telangana|\bindia\b|remote\s*\(?india\)?/i;
+            const locRegex = /hyderabad|secunderabad|telangana|hitec|hitech\s*city|gachibowli|madhapur|financial\s*district|kondapur|kukatpally|raidurg|nanakramguda|remote.{0,40}(hyderabad|telangana)/i;
             const matched = jobs.filter((j) => locRegex.test(locOf(source, j)));
             if (matched.length > 0) {
               const roles = matched.slice(0, 5).map((j) => roleOf(source, j, probe.boardUrl));
@@ -233,7 +233,7 @@ async function checkOne(entry) {
           const d = await getJson(probe.url);
           const jobs = extractJobs(probe.source, d);
           if (!Array.isArray(jobs) || jobs.length === 0) return null;
-          const locRegex = /hyderabad|secunderabad|telangana|\bindia\b|remote\s*\(?india\)?/i;
+          const locRegex = /hyderabad|secunderabad|telangana|hitec|hitech\s*city|gachibowli|madhapur|financial\s*district|kondapur|kukatpally|raidurg|nanakramguda|remote.{0,40}(hyderabad|telangana)/i;
           const matched = jobs.filter((j) => locRegex.test(locOf(probe.source, j)));
           if (matched.length === 0) return null;
           const roles = matched.slice(0, 5).map((j) => roleOf(probe.source, j, probe.boardUrl));

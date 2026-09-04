@@ -58,7 +58,11 @@
       ],
       "checkedAt": "2026-08-22T19:59:29.884Z"
     },
-    "spotlight": true
+    "spotlight": true,
+    "atsProvider": "greenhouse",
+    "atsSlug": "zenoti",
+    "atsBoardUrl": "https://boards.greenhouse.io/zenoti",
+    "atsClassifiedAt": "2026-09-04T14:30:10.775Z"
   },
   {
     "id": "b141da39-e987-47f5-9d7f-d8a4a475b09d",
@@ -89,7 +93,11 @@
         "publishedAt": "2026-05-14T07:00:00.000Z"
       }
     ],
-    "spotlight": true
+    "spotlight": true,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:07.710Z"
   },
   {
     "id": "ffc3538d-a9cc-4652-bf4f-de337bc141d0",
@@ -119,7 +127,11 @@
         "source": "ProjectsMonitor",
         "publishedAt": "2021-11-23T08:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:07.190Z"
   },
   {
     "id": "f36e2087-ad53-4bfc-93eb-5baf6203711b",
@@ -149,7 +161,11 @@
         "source": "BusinessLine",
         "publishedAt": "2026-05-08T07:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:09.917Z"
   },
   {
     "id": "496c8550-86e8-43ae-ac47-7d7d2d0ea63f",
@@ -179,7 +195,11 @@
         "publishedAt": "2026-01-24T08:00:00.000Z"
       }
     ],
-    "spotlight": true
+    "spotlight": true,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:07.691Z"
   },
   {
     "id": "69202061-81b2-4f20-8e6b-00d43ed8f311",
@@ -238,7 +258,11 @@
       ],
       "checkedAt": "2026-08-22T19:59:54.981Z"
     },
-    "spotlight": true
+    "spotlight": true,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:17.111Z"
   },
   {
     "id": "7566fb7b-eb4c-4cad-8886-bd7a46210f8f",
@@ -268,7 +292,11 @@
         "source": "BusinessLine",
         "publishedAt": "2023-09-20T07:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:17.702Z"
   },
   {
     "id": "8c0b7076-0d16-4c5e-a840-db1d29a26ab0",
@@ -298,7 +326,11 @@
         "source": "Media4Growth",
         "publishedAt": "2020-08-04T07:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:18.719Z"
   },
   {
     "id": "70c37fe3-ec0b-421b-8f48-947ff860f014",
@@ -328,7 +360,11 @@
         "source": "The New Indian Express",
         "publishedAt": "2026-04-18T07:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:18.683Z"
   },
   {
     "id": "47a34793-9c94-4000-9be3-a452bfa09965",
@@ -358,7 +394,11 @@
         "source": "YourStory.com",
         "publishedAt": "2026-05-12T07:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:18.671Z"
   },
   {
     "id": "7372f646-6774-40d5-bd4a-32b3d714ec2a",
@@ -387,7 +427,11 @@
         "source": "The Times of India",
         "publishedAt": "2025-11-11T08:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:26.235Z"
   },
   {
     "id": "466b7f02-c96a-4ece-8d01-bc457d918ec9",
@@ -416,7 +460,11 @@
         "source": "VCCircle",
         "publishedAt": "2024-01-24T08:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:26.398Z"
   },
   {
     "id": "1da9dde3-d931-44e9-a1a9-8e52dc175ac9",
@@ -445,7 +493,11 @@
         "source": "VCCircle",
         "publishedAt": "2023-04-27T07:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:29.502Z"
   },
   {
     "id": "6a49a27c-5a1b-4d8e-b26a-3a605fefba75",
@@ -474,7 +526,11 @@
         "source": "ET Entrepreneur",
         "publishedAt": "2026-07-28T07:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:26.680Z"
   },
   {
     "id": "d5b1a04c-b871-4baa-8133-1d702f0fdc2e",
@@ -503,7 +559,11 @@
         "source": "IndiaMedToday",
         "publishedAt": "2026-03-09T07:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:28.838Z"
   },
   {
     "id": "a38502c4-d394-43b5-96c9-b1ddfc5cc3b3",
@@ -532,7 +592,11 @@
         "source": "The Times of India",
         "publishedAt": "2017-09-18T07:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:36.284Z"
   },
   {
     "id": "6b025a05-9db3-4730-9584-9f1b7a06179a",
@@ -561,7 +625,11 @@
         "source": "Entrackr",
         "publishedAt": "2026-07-20T07:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:40.405Z"
   },
   {
     "id": "a8706fe3-226c-4daf-ad94-dc8d0f80f163",
@@ -584,7 +652,11 @@
         "source": "financialexpress.com",
         "publishedAt": "2026-06-05T07:00:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:40.686Z"
   },
   {
     "id": "b08fd626-8198-4b65-859e-7f2e10376de7",
@@ -634,7 +706,11 @@
         }
       ],
       "checkedAt": "2026-08-22T20:01:20.281Z"
-    }
+    },
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:41.874Z"
   },
   {
     "id": "eb360dec-cdd0-475d-b9a2-356e243a8c87",
@@ -663,7 +739,11 @@
         "source": "w.media",
         "publishedAt": "2026-08-20T12:12:00.000Z"
       }
-    ]
+    ],
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-04T14:30:41.268Z"
   },
   {
     "id": "9d051ab6-67fd-4c4c-a31e-ec952ca7d636",
