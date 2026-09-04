@@ -137,7 +137,7 @@ export default async function JobDetailPage({ params }) {
               dangerouslySetInnerHTML={{ __html: descriptionHtml }}
             />
           ) : (
-            <p className="job-detail-description-body">{descriptionHtml}</p>
+            <p className="job-detail-description-body" style={{ whiteSpace: "pre-wrap" }}>{descriptionHtml}</p>
           )}
         </section>
 

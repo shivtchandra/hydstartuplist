@@ -17,6 +17,12 @@ export const metadata = {
 
 const STORIES = [
   {
+    href: "/stories/space-startups-hyderabad",
+    title: "Space startups in Hyderabad: launch, satellites, and the city’s aerospace map",
+    blurb:
+      "Skyroot, Dhruva Space, Cosmoserve, JEH, Raghu Vamsi, Apollo Micro Systems — plus drone and counter-UAS names on the same deeptech map.",
+  },
+  {
     href: "/stories/hyderabad-startup-hiring-report-2026",
     title: "Hyderabad startup hiring report — who's hiring in 2026",
     blurb:

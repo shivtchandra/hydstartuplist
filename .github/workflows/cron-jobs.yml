@@ -8,17 +8,19 @@ name: Scheduled data refresh
 #   CRON_SECRET  — same value as the CRON_SECRET env var set in Vercel
 on:
   schedule:
-    - cron: "0 1 * * *"   # sync-ats-jobs, 1am UTC
-    - cron: "0 2 * * *"   # check-hiring fallback, 2am UTC
-    - cron: "0 4 * * *"   # fetch-news, 4am UTC
-    - cron: "0 5 * * *"   # adzuna-jobs, 5am UTC
-    - cron: "30 3 * * 0"  # newsletter, Sundays 3:30am UTC
+    - cron: "30 2 * * *"   # sync-ats-jobs morning (~8:00 IST)
+    - cron: "30 14 * * *"  # sync-ats-jobs evening (~8:00 IST)
+    - cron: "0 3 * * *"    # check-hiring morning (~8:30 IST)
+    - cron: "0 15 * * *"   # check-hiring evening (~8:30 IST)
+    - cron: "0 4 * * *"    # fetch-news, 4am UTC
+    - cron: "0 */2 * * *"  # adzuna-jobs every 2h (no Adzuna webhooks; poll for new)
+    - cron: "30 3 * * 0"   # newsletter, Sundays 3:30am UTC
   workflow_dispatch: {}    # manual "Run workflow" button for one-off triggers
 
 jobs:
 
   sync-ats-jobs:
-    if: github.event.schedule == '0 1 * * *' || github.event_name == 'workflow_dispatch'
+    if: github.event.schedule == '30 2 * * *' || github.event.schedule == '30 14 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Call sync-ats-jobs
@@ -30,13 +32,13 @@ jobs:
             echo "SITE_URL secret not set — skipping. Set it once the site is deployed."
             exit 0
           fi
-          # Daily ATS API sync (Hyd/TG). Partial runs advance a cursor.
+          # ATS API sync (Hyd/TG), twice daily. Partial runs advance a cursor.
           curl -s --max-time 65 -X GET "$SITE_URL/api/cron/sync-ats-jobs" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -w "\nHTTP %{http_code}" || true
 
   check-hiring:
-    if: github.event.schedule == '0 2 * * *' || github.event_name == 'workflow_dispatch'
+    if: github.event.schedule == '0 3 * * *' || github.event.schedule == '0 15 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Call check-hiring
@@ -48,9 +50,8 @@ jobs:
             echo "SITE_URL secret not set — skipping. Set it once the site is deployed."
             exit 0
           fi
-          # limit=30: careers/ATS inventory matters more than Adzuna for Google
-          # for Jobs. Cursor + 45s time budget still advance on partial runs if
-          # the 60s serverless cap is hit. 60 was too aggressive; 25 was too slow.
+          # limit=30 twice daily (morning + evening IST). Cursor + 45s budget
+          # advance leftovers to the next pass — more reliable than one limit=60.
           # || true: a 504 means Vercel timed out but may have processed partial
           # data — don't fail the workflow run over a partial cron.
           curl -s --max-time 65 -X GET "$SITE_URL/api/cron/check-hiring?limit=30" \
@@ -74,7 +75,7 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET"
 
   adzuna-jobs:
-    if: github.event.schedule == '0 5 * * *' || github.event_name == 'workflow_dispatch'
+    if: github.event.schedule == '0 */2 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Call adzuna-jobs
@@ -86,8 +87,11 @@ jobs:
             echo "SITE_URL secret not set — skipping. Set it once the site is deployed."
             exit 0
           fi
-          curl -sf -X GET "$SITE_URL/api/cron/adzuna-jobs" \
-            -H "Authorization: Bearer $CRON_SECRET"
+          # Incremental poll every 2h: merges new Hyd IT jobs into adzuna_latest
+          # (Adzuna has no webhooks).
+          curl -s --max-time 65 -X GET "$SITE_URL/api/cron/adzuna-jobs" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -w "\nHTTP %{http_code}" || true
 
   newsletter:
     if: github.event.schedule == '30 3 * * 0' || github.event_name == 'workflow_dispatch'

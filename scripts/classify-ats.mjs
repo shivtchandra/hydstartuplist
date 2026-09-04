@@ -62,6 +62,7 @@ console.log(`Classifying ${slice.length} / ${targets.length} needing work (of ${
 let next = 0;
 let hits = 0;
 let misses = 0;
+let completed = 0;
 
 async function worker() {
   while (true) {
@@ -100,11 +101,12 @@ async function worker() {
       entry.atsSlug = entry.atsSlug ?? null;
     }
 
-    // Periodic save so long runs aren't lost
-    if ((i + 1) % 25 === 0) {
+    completed++;
+    // Periodic save so long runs aren't lost (shared counter; every 10)
+    if (completed % 10 === 0) {
       writeJson(STARTUPS_FILE, startups);
       writeJson(BOARDS_FILE, [...boardsById.values()]);
-      console.log(`  … checkpoint ${i + 1}/${slice.length}`);
+      console.log(`  … checkpoint ${completed}/${slice.length} (hits=${hits})`);
     }
   }
 }

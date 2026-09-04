@@ -104,12 +104,12 @@ export async function GET(req) {
               source: board.atsProvider,
               slug: board.atsSlug,
               url: board.boardUrl || result.boardUrl,
-              roles: publicJobs.slice(0, 20).map((j) => ({
-                title: j.title,
-                url: j.url,
-                description: j.description || undefined,
-                salary: j.salary || undefined,
-              })),
+              roles: publicJobs.slice(0, 20).map((j) => {
+                const role = { title: j.title, url: j.url };
+                if (j.description) role.description = j.description;
+                if (j.salary) role.salary = j.salary;
+                return role;
+              }),
               checkedAt: fetchedAt,
             };
             await db
@@ -144,11 +144,29 @@ export async function GET(req) {
     jobs.push(j);
   }
 
+  // Firestore docs max out at 1MB — trim descriptions if the payload is fat
+  const MAX_DOC = 900_000;
+  let payloadJobs = jobs;
+  let jsonSize = Buffer.byteLength(JSON.stringify({ jobs: payloadJobs, fetchedAt }), "utf8");
+  if (jsonSize > MAX_DOC) {
+    payloadJobs = jobs.map((j) => {
+      if (!j.description || j.description.length <= 2000) return j;
+      return { ...j, description: j.description.slice(0, 2000) };
+    });
+    jsonSize = Buffer.byteLength(JSON.stringify({ jobs: payloadJobs, fetchedAt }), "utf8");
+  }
+  if (jsonSize > MAX_DOC) {
+    payloadJobs = payloadJobs.map(({ description, ...rest }) => ({
+      ...rest,
+      description: description ? description.slice(0, 800) : null,
+    }));
+  }
+
   await db.collection("job_board").doc("ats_latest").set({
-    jobs,
+    jobs: payloadJobs,
     fetchedAt,
     boardCount: allBoards.length,
-    jobCount: jobs.length,
+    jobCount: payloadJobs.length,
     lastBatchSize: batch.length,
   });
 

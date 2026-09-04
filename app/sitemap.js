@@ -21,6 +21,7 @@ const STATIC_ROUTES = [
 const STORY_SLUGS = [
   "bengaluru-vs-hyderabad-startup-limelight",
   "hyderabad-startup-hiring-report-2026",
+  "space-startups-hyderabad",
 ];
 
 export default async function sitemap() {

@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Cohere Health",
+    "atsProvider": "greenhouse",
+    "atsSlug": "coherehealth"
+  },
+  {
+    "name": "DoorDash India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "doordashindia"
+  },
+  {
+    "name": "Zenoti",
+    "atsProvider": "greenhouse",
+    "atsSlug": "zenoti"
+  },
+  {
+    "name": "Accordion India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "accordionindia"
+  },
+  {
+    "name": "GHX",
+    "atsProvider": "greenhouse",
+    "atsSlug": "globalhealthcareexchangeinc"
+  },
+  {
+    "name": "Truveta",
+    "atsProvider": "greenhouse",
+    "atsSlug": "truveta"
+  },
+  {
+    "name": "Capco",
+    "atsProvider": "greenhouse",
+    "atsSlug": "capco"
+  },
+  {
+    "name": "Crunchyroll",
+    "atsProvider": "greenhouse",
+    "atsSlug": "crunchyroll"
+  },
+  {
+    "name": "Coupang Internal",
+    "atsProvider": "greenhouse",
+    "atsSlug": "coupanginternal"
+  },
+  {
+    "name": "Fresh Prints",
+    "atsProvider": "greenhouse",
+    "atsSlug": "freshprints"
+  },
+  {
+    "name": "Schr\u00f6dinger",
+    "atsProvider": "greenhouse",
+    "atsSlug": "schrdinger"
+  },
+  {
+    "name": "Zscaler",
+    "atsProvider": "greenhouse",
+    "atsSlug": "zscaler"
+  },
+  {
+    "name": "CRED",
+    "atsProvider": "lever",
+    "atsSlug": "cred"
+  },
+  {
+    "name": "Coinbase",
+    "atsProvider": "greenhouse",
+    "atsSlug": "coinbase"
+  },
+  {
+    "name": "Khan Academy",
+    "atsProvider": "greenhouse",
+    "atsSlug": "khanacademy"
+  },
+  {
+    "name": "AlphaGrep Securities",
+    "atsProvider": "greenhouse",
+    "atsSlug": "alphagrepsecurities"
+  },
+  {
+    "name": "Anaplan",
+    "atsProvider": "greenhouse",
+    "atsSlug": "anaplan"
+  },
+  {
+    "name": "Inovalon",
+    "atsProvider": "greenhouse",
+    "atsSlug": "inovalon"
+  },
+  {
+    "name": "New Relic",
+    "atsProvider": "greenhouse",
+    "atsSlug": "newrelic"
+  },
+  {
+    "name": "Telnyx",
+    "atsProvider": "greenhouse",
+    "atsSlug": "telnyx54"
+  }
+]
