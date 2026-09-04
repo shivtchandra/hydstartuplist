@@ -2,6 +2,7 @@ import { getSiteUrl } from "../lib/site-url.js";
 import { getAllStartupSlugs } from "../lib/store.js";
 import { getAllJobs, getCompaniesWithJobs } from "../lib/jobs.js";
 import { jobUrlId, JOB_SECTOR_LANDINGS, JOB_AREA_LANDINGS, JOB_ROLE_LANDINGS } from "../lib/jobs-seo.js";
+import { INDUSTRY_LANDINGS } from "../lib/industries.js";
 
 const SITE_URL = getSiteUrl();
 
@@ -12,6 +13,7 @@ const STATIC_ROUTES = [
   { path: "/news",    priority: 0.8, changeFrequency: "daily"   },
   { path: "/product-companies", priority: 0.85, changeFrequency: "weekly" },
   { path: "/gccs",    priority: 0.7, changeFrequency: "weekly"  },
+  { path: "/industries", priority: 0.85, changeFrequency: "daily" },
   { path: "/insights",priority: 0.7, changeFrequency: "weekly"  },
   { path: "/stories", priority: 0.7, changeFrequency: "weekly"  },
   { path: "/newsletter", priority: 0.6, changeFrequency: "monthly" },
@@ -64,6 +66,13 @@ export default async function sitemap() {
     priority: 0.75,
   }));
 
+  const industryEntries = INDUSTRY_LANDINGS.map((s) => ({
+    url: `${SITE_URL}/industries/${s.slug}`,
+    lastModified: now,
+    changeFrequency: "daily",
+    priority: 0.8,
+  }));
+
   const sectorEntries = JOB_SECTOR_LANDINGS.map((s) => ({
     url: `${SITE_URL}/jobs/sector/${s.slug}`,
     lastModified: now,
@@ -86,5 +95,5 @@ export default async function sitemap() {
     priority: 0.8,
   }));
 
-  return [...staticEntries, ...startupEntries, ...storyEntries, ...sectorEntries, ...areaEntries, ...roleEntries, ...companyJobEntries, ...jobEntries];
+  return [...staticEntries, ...startupEntries, ...storyEntries, ...industryEntries, ...sectorEntries, ...areaEntries, ...roleEntries, ...companyJobEntries, ...jobEntries];
 }

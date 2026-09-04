@@ -11,6 +11,7 @@ import Link from "next/link";
 import { getApproved } from "../../lib/store.js";
 import { startupSlug } from "../../lib/slug.js";
 import { prettyName } from "../../lib/startupUi.js";
+import { industrySlugForSector } from "../../lib/industries.js";
 
 const PER_SECTOR = 6;
 const MAX_SECTORS = 10;
@@ -80,6 +81,7 @@ export default async function HomeSeoIndex() {
             <Link href="/jobs">Startup Jobs</Link>
             <Link href="/gccs">GCCs</Link>
             <Link href="/product-companies">Product Companies</Link>
+            <Link href="/industries">Industries</Link>
             <Link href="/insights">Ecosystem Insights</Link>
             <Link href="/feed">Startup Feed</Link>
             <Link href="/news">News</Link>
@@ -91,7 +93,9 @@ export default async function HomeSeoIndex() {
           {bySector.map(({ sector, count, picks }) => (
             <div className="home-seo-col" key={sector}>
               <h3>
-                {sector} <span className="home-seo-count">{count}</span>
+                <Link href={`/industries/${industrySlugForSector(sector)}`}>
+                  {sector} <span className="home-seo-count">{count}</span>
+                </Link>
               </h3>
               <ul>
                 {picks.map((s) => (
