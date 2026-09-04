@@ -16,7 +16,7 @@ const JSONLD = {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       url: SITE_URL,
-      name: "HydMap",
+      name: "Mapping HYD",
       description: OG_DESC,
       inLanguage: "en-IN",
       potentialAction: {
@@ -28,7 +28,7 @@ const JSONLD = {
     {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,
-      name: "HydMap",
+      name: "Mapping HYD",
       url: SITE_URL,
       logo: { "@type": "ImageObject", url: `${SITE_URL}/icon.svg` },
       sameAs: [],
@@ -39,8 +39,8 @@ const JSONLD = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Hyderabad Startup Map | 1,000+ Startups, Jobs & Funding | HydMap",
-    template: "%s | HydMap",
+    default: "Hyderabad Startup Map — Startup Companies in Hyderabad, Jobs & Funding | Mapping HYD",
+    template: "%s | Mapping HYD",
   },
   description: OG_DESC,
   keywords: [
@@ -56,7 +56,7 @@ export const metadata = {
   openGraph: {
     title: OG_TITLE,
     description: OG_DESC,
-    siteName: "HydMap",
+    siteName: "Mapping HYD",
     url: SITE_URL,
     type: "website",
     locale: "en_IN",

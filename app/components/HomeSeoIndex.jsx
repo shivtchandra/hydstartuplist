@@ -71,10 +71,10 @@ export default async function HomeSeoIndex() {
         <header className="home-seo-head">
           <h2>Explore the Hyderabad startup ecosystem</h2>
           <p>
-            A live map of <strong>{total.toLocaleString()}+ startups in Hyderabad</strong> — from Gachibowli
-            and HITEC City to Jubilee Hills and Banjara Hills. Browse companies by sector, see who&apos;s
-            hiring ({hiringCount} startups with open roles right now), and explore funding stages across the
-            city&apos;s tech scene, updated for {year}.
+            A live map of <strong>{total.toLocaleString()}+ startup companies in Hyderabad</strong> — from
+            Gachibowli and HITEC City to Jubilee Hills and Banjara Hills. Browse companies by sector, see
+            who&apos;s hiring ({hiringCount} startups with open roles right now), and explore funding stages
+            across the city&apos;s tech scene, updated for {year}.
           </p>
           <nav className="home-seo-sections" aria-label="Sections">
             <Link href="/jobs">Startup Jobs</Link>

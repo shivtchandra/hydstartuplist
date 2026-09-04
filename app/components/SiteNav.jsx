@@ -28,8 +28,8 @@ export default function SiteNav({ active }) {
             </svg>
           </span>
           <span className="tn-title">
-            <span className="tn-title-full">Hyderabad<b>StartupMap</b></span>
-            <span className="tn-title-short">Hyd<b>Map</b></span>
+            <span className="tn-title-full">Mapping<b> HYD</b></span>
+            <span className="tn-title-short">Mapping<b> HYD</b></span>
           </span>
         </Link>
 
