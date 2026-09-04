@@ -4461,6 +4461,113 @@ a:hover:not(.btn) {
 @media (max-width: 480px) {
   .startup-pin-label { max-width: 92px; font-size: 10px; }
 }
+
+/* ==========================================================================
+   HOMEPAGE SEO INDEX — server-rendered content below the map
+   ========================================================================== */
+
+/* The map shell locks html/body to 100vh. On the home route only, let the
+   document grow so the window scrolls past the map to reveal this section. */
+html:has(.home-seo),
+body:has(.home-seo) {
+  height: auto;
+  min-height: 100%;
+}
+
+.home-seo {
+  background: var(--surface-glass-solid, #fff);
+  border-top: 1px solid var(--border-subtle, rgba(203, 213, 225, 0.6));
+  padding: 40px 24px 56px;
+  color: var(--text-main, #0f172a);
+}
+.home-seo-inner { max-width: 1080px; margin: 0 auto; }
+
+.home-seo-head h2 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  margin: 0 0 10px;
+}
+.home-seo-head > p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted, #64748b);
+  max-width: 68ch;
+  margin: 0 0 16px;
+}
+.home-seo-head strong { color: var(--text-main, #0f172a); font-weight: 700; }
+
+.home-seo-sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin-bottom: 32px;
+}
+.home-seo-sections a {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent-primary, #ff5722);
+  padding: 6px 12px;
+  border: 1px solid var(--border-subtle, rgba(203, 213, 225, 0.7));
+  border-radius: 999px;
+}
+.home-seo-sections a:hover {
+  background: rgba(255, 87, 34, 0.06);
+  border-color: var(--accent-primary, #ff5722);
+}
+
+.home-seo-sectors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 22px 28px;
+  margin-bottom: 32px;
+}
+.home-seo-col h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.home-seo-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted, #94a3b8);
+  font-variant-numeric: tabular-nums;
+}
+.home-seo-col ul,
+.home-seo-areas ul { list-style: none; margin: 0; padding: 0; }
+.home-seo-col li { margin-bottom: 5px; }
+.home-seo-col a {
+  font-size: 13px;
+  color: var(--text-main, #0f172a);
+  line-height: 1.4;
+}
+.home-seo-col a:hover { color: var(--accent-primary, #ff5722); }
+.home-seo-hiring {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--badge-hiring-dot, #10b981);
+}
+
+.home-seo-areas { margin-bottom: 28px; }
+.home-seo-areas h3 { font-size: 13px; font-weight: 700; margin: 0 0 10px; }
+.home-seo-areas ul { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.home-seo-areas li {
+  font-size: 13px;
+  color: var(--text-muted, #64748b);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.home-seo-foot { font-size: 13.5px; font-weight: 600; margin: 0; }
+
+@media (max-width: 768px) {
+  .home-seo { padding: 32px 18px 96px; } /* extra bottom clears the fixed tab bar */
+  .home-seo-head h2 { font-size: 19px; }
+}
 /* Fills the whole circle so the sector colour never shows as a ring —
    the colour is only the fallback ground behind the initial. */
 .s-pin-logo {
