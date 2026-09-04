@@ -32,8 +32,25 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
+    keywords: [
+      `${job.title} ${job.company}`,
+      `${job.title} jobs Hyderabad`,
+      `${job.company} careers Hyderabad`,
+      "startup jobs Hyderabad",
+    ],
     alternates: { canonical: url },
-    openGraph: { title, description, url, type: "website" },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "article",
+      siteName: "Mapping HYD",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 
