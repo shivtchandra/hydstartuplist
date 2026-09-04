@@ -7,6 +7,11 @@ import { getStartupBySlug } from "../../../lib/store.js";
 import { startupSlug, slugify } from "../../../lib/slug.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import {
+  jobDescriptionForPage,
+  jobDescriptionIsHtml,
+  formatSalaryInr,
+} from "../../../lib/job-content.js";
+import {
   breadcrumbJsonLd,
   companyJobsPath,
   jobIdFromUrl,
@@ -50,6 +55,10 @@ export default async function JobDetailPage({ params }) {
   const startup = await getStartupBySlug(companySlug);
   const companyPath = startup ? `/jobs/company/${startupSlug(startup)}` : companyJobsPath(companySlug);
 
+  const descriptionHtml = jobDescriptionForPage(job);
+  const descriptionIsHtml = jobDescriptionIsHtml(descriptionHtml);
+  const salaryLabel = formatSalaryInr(job.salary);
+
   const breadcrumbs = [
     { name: "Home", href: "/" },
     { name: "Jobs", href: "/jobs" },
@@ -61,7 +70,7 @@ export default async function JobDetailPage({ params }) {
   const posting = jobPostingJsonLd(job, {
     pageUrl,
     companyUrl: startup?.website,
-    description: `${job.title} at ${job.company} in ${job.location || "Hyderabad"}. Apply via the official listing.`,
+    description: descriptionHtml,
   });
 
   return (
@@ -82,6 +91,12 @@ export default async function JobDetailPage({ params }) {
             {job.location || "Hyderabad"}
             {" · "}
             {timeAgo(job.postedAt)}
+            {salaryLabel && (
+              <>
+                {" · "}
+                <span className="job-detail-salary">{salaryLabel}</span>
+              </>
+            )}
             {job.category === "startup" && (
               <>
                 {" · "}
@@ -96,6 +111,18 @@ export default async function JobDetailPage({ params }) {
             Apply on company site →
           </a>
         </div>
+
+        <section className="job-detail-description">
+          <h2>Job description</h2>
+          {descriptionIsHtml ? (
+            <div
+              className="job-detail-description-body"
+              dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+            />
+          ) : (
+            <p className="job-detail-description-body">{descriptionHtml}</p>
+          )}
+        </section>
 
         {startup && (
           <section className="job-detail-company">

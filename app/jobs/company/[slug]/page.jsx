@@ -8,6 +8,7 @@ import { getSiteUrl } from "../../../../lib/site-url.js";
 import { prettyName } from "../../../../lib/startupUi.js";
 import { startupSlug } from "../../../../lib/slug.js";
 import { breadcrumbJsonLd, itemListJsonLd, jobPostingJsonLd, jobUrlId } from "../../../../lib/jobs-seo.js";
+import { jobDescriptionForPage } from "../../../../lib/job-content.js";
 
 export const dynamic = "force-dynamic";
 
@@ -70,7 +71,7 @@ export default async function CompanyJobsPage({ params }) {
       jobPostingJsonLd(j, {
         pageUrl: `${getSiteUrl()}/jobs/${jobUrlId(j.id)}`,
         companyUrl: startup.website,
-        description: `${j.title} at ${name} in ${j.location || startup.area || "Hyderabad"}.`,
+        description: jobDescriptionForPage(j),
       })
     ),
   ];

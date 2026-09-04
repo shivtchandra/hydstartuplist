@@ -4266,7 +4266,32 @@ a:hover:not(.btn) {
   margin: 0 0 8px;
 }
 
+.job-detail-description {
+  margin: 8px 0 28px;
+}
+.job-detail-description h2 {
+  font-size: 1rem;
+  margin: 0 0 10px;
+}
+.job-detail-description-body {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-main, #0f172a);
+}
+.job-detail-description-body ul,
+.job-detail-description-body ol {
+  margin: 0.6em 0;
+  padding-left: 1.25em;
+}
+.job-detail-description-body p {
+  margin: 0.6em 0;
+}
+.job-detail-salary {
+  font-weight: 600;
+  color: var(--text-main, #0f172a);
+}
 .job-detail-badge {
+
   font-size: 0.8rem;
   padding: 2px 8px;
   border-radius: 999px;

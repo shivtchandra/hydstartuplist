@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { getApproved } from "../../../../lib/store.js";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
+import { normalizeSalary, sanitizeJobHtml } from "../../../../lib/job-content.js";
+import { notifyJobUrls } from "../../../../lib/google-indexing.js";
+import { jobUrlId } from "../../../../lib/jobs-seo.js";
+import { getSiteUrl } from "../../../../lib/site-url.js";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60; // Max allowed serverless duration on Vercel Pro
@@ -55,7 +59,7 @@ function slugCandidates(entry) {
 
 function atsProbes(slug) {
   return [
-    { source: "greenhouse", url: `https://boards-api.greenhouse.io/v1/boards/${slug}/jobs`, boardUrl: `https://boards.greenhouse.io/${slug}` },
+    { source: "greenhouse", url: `https://boards-api.greenhouse.io/v1/boards/${slug}/jobs?content=true`, boardUrl: `https://boards.greenhouse.io/${slug}` },
     { source: "lever", url: `https://api.lever.co/v0/postings/${slug}?mode=json`, boardUrl: `https://jobs.lever.co/${slug}` },
     { source: "ashby", url: `https://api.ashbyhq.com/posting-api/job-board/${slug}`, boardUrl: `https://jobs.ashbyhq.com/${slug}` },
     { source: "recruitee", url: `https://${slug}.recruitee.com/api/offers/`, boardUrl: `https://${slug}.recruitee.com/` },
@@ -88,10 +92,44 @@ function locOf(source, j) {
   return "";
 }
 
+function roleDescription(source, j) {
+  let raw = null;
+  if (source === "greenhouse") raw = j.content || null;
+  else if (source === "lever") raw = j.descriptionPlain || j.description || null;
+  else if (source === "ashby") raw = j.descriptionPlain || j.descriptionHtml || j.description || null;
+  else if (source === "recruitee") raw = j.description || j.requirements || null;
+  else if (source === "workable") raw = j.description || j.full_description || null;
+  else if (source === "breezy") raw = j.description || null;
+  else if (source === "smartrecruiters") raw = j.jobAd?.sections?.jobDescription?.text || null;
+  if (!raw) return null;
+  const sanitized = sanitizeJobHtml(typeof raw === "string" ? raw : String(raw));
+  // Cap stored size so Firestore docs stay lean
+  if (!sanitized) return null;
+  return sanitized.length > 12000 ? sanitized.slice(0, 12000) : sanitized;
+}
+
+function roleSalary(source, j) {
+  if (source === "lever" && j.salaryRange) {
+    return normalizeSalary(j.salaryRange.min, j.salaryRange.max);
+  }
+  if (source === "ashby" && j.compensation?.summary) {
+    return null; // free-text only — skip structured salary
+  }
+  if (j.salary_min || j.salary_max || j.salaryMin || j.salaryMax) {
+    return normalizeSalary(j.salary_min ?? j.salaryMin, j.salary_max ?? j.salaryMax);
+  }
+  return null;
+}
+
 function roleOf(source, j, boardUrl) {
   const title = j.title || j.text || j.name || "Open Role";
   const url = j.absolute_url || j.hostedUrl || j.applyUrl || j.jobUrl || j.url || j.ref || boardUrl;
-  return { title, url };
+  const description = roleDescription(source, j);
+  const salary = roleSalary(source, j);
+  const role = { title, url };
+  if (description) role.description = description;
+  if (salary) role.salary = salary;
+  return role;
 }
 
 async function discoverAtsFromHtml(entry) {
@@ -160,7 +198,20 @@ async function schemaOrgJobs(entry) {
   const matches = [...html.matchAll(/"@type"\s*:\s*"JobPosting"[\s\S]{0,300}?"title"\s*:\s*"([^"]+)"/gi)];
   const allMatches = [...html.matchAll(/"@type"\s*:\s*"JobPosting"/gi)];
   if (allMatches.length === 0) return null;
-  const roles = matches.slice(0, 5).map((m) => ({ title: m[1], url: entry.careers }));
+  const roles = matches.slice(0, 5).map((m) => {
+    const chunk = m[0] || "";
+    const descMatch = chunk.match(/"description"\s*:\s*"((?:\\.|[^"\\])*)"/i);
+    let description = null;
+    if (descMatch) {
+      try {
+        description = sanitizeJobHtml(JSON.parse(`"${descMatch[1]}"`));
+      } catch {
+        description = sanitizeJobHtml(descMatch[1]);
+      }
+      if (description && description.length > 12000) description = description.slice(0, 12000);
+    }
+    return description ? { title: m[1], url: entry.careers, description } : { title: m[1], url: entry.careers };
+  });
   return {
     active: true,
     count: allMatches.length,
@@ -268,7 +319,7 @@ export async function GET(req) {
 
   const all = await getApproved();
   const { searchParams } = new URL(req.url);
-  const limit = parseInt(searchParams.get("limit") || "40", 10);
+  const limit = parseInt(searchParams.get("limit") || "50", 10);
   const db = await getAdminDb();
 
   // Rotating cursor: each run picks up where the last one left off and
@@ -319,10 +370,42 @@ export async function GET(req) {
         results.push({ id: entry.id, name: entry.name, hiring: h });
         if (db) {
           try {
+            const prevRoles = entry.hiring?.roles || [];
             await db.collection("startups_dynamic").doc(entry.id).set({ hiring: h, updatedAt: new Date().toISOString() }, { merge: true });
+            const site = getSiteUrl();
+            const prevUrls = new Set(prevRoles.map((r) => r.url));
+            const nextUrls = new Set((h.roles || []).map((r) => r.url));
+            const updated = [...nextUrls]
+              .filter((u) => !prevUrls.has(u))
+              .map((u) => `${site}/jobs/${jobUrlId(`careers-${entry.id}-${u}`)}`);
+            const deleted = [...prevUrls]
+              .filter((u) => !nextUrls.has(u))
+              .map((u) => `${site}/jobs/${jobUrlId(`careers-${entry.id}-${u}`)}`);
+            if (updated.length || deleted.length) {
+              await notifyJobUrls({ updated, deleted });
+            }
           } catch (err) {
             console.error(`Firestore write error for ${entry.name}:`, err);
           }
+        }
+      } else if (db && entry.hiring && entry.hiring.source !== "manual") {
+        // Role disappeared from source — clear so we stop serving expired listings.
+        try {
+          const prevRoles = entry.hiring.roles || [];
+          await db.collection("startups_dynamic").doc(entry.id).set(
+            { hiring: null, updatedAt: new Date().toISOString() },
+            { merge: true }
+          );
+          results.push({ id: entry.id, name: entry.name, hiring: null, cleared: true });
+          if (prevRoles.length) {
+            const site = getSiteUrl();
+            const deleted = prevRoles.map(
+              (r) => `${site}/jobs/${jobUrlId(`careers-${entry.id}-${r.url}`)}`
+            );
+            await notifyJobUrls({ deleted });
+          }
+        } catch (err) {
+          console.error(`Firestore clear error for ${entry.name}:`, err);
         }
       }
     }

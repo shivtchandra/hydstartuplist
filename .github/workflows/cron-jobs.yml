@@ -28,10 +28,12 @@ jobs:
             echo "SITE_URL secret not set — skipping. Set it once the site is deployed."
             exit 0
           fi
-          # limit=25: Vercel serverless cap is 60s; 60 startups was too many.
+          # limit=50: careers/ATS inventory matters more than Adzuna for Google
+          # for Jobs. Cursor + 45s time budget still advance on partial runs if
+          # the 60s serverless cap is hit. 60 was too aggressive; 25 was too slow.
           # || true: a 504 means Vercel timed out but may have processed partial
           # data — don't fail the workflow run over a partial cron.
-          curl -s --max-time 65 -X GET "$SITE_URL/api/cron/check-hiring?limit=25" \
+          curl -s --max-time 65 -X GET "$SITE_URL/api/cron/check-hiring?limit=50" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -w "\nHTTP %{http_code}" || true
 

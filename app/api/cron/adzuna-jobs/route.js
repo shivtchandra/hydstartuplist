@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
+import { normalizeSalary, sanitizeJobHtml } from "../../../../lib/job-content.js";
+import { notifyJobUrls } from "../../../../lib/google-indexing.js";
+import { jobUrlId } from "../../../../lib/jobs-seo.js";
+import { getSiteUrl } from "../../../../lib/site-url.js";
 
 // Daily Hyderabad tech-jobs pull via Adzuna — a legitimate, licensed job
 // aggregator (not a scrape of LinkedIn/Naukri/Indeed, which is ToS-off-limits
@@ -48,6 +52,7 @@ export async function GET(req) {
     return NextResponse.json({ error: "Adzuna request failed" }, { status: 502 });
   }
 
+  const fetchedAt = new Date().toISOString();
   const seen = new Set();
   const jobs = [];
   for (const data of pages) {
@@ -55,6 +60,7 @@ export async function GET(req) {
       const id = String(r.id);
       if (seen.has(id)) continue;
       seen.add(id);
+      const description = r.description ? sanitizeJobHtml(r.description) : null;
       jobs.push({
         id,
         title: r.title?.replace(/<[^>]+>/g, "").trim(),
@@ -62,20 +68,37 @@ export async function GET(req) {
         location: r.location?.display_name || "Hyderabad",
         url: r.redirect_url,
         postedAt: r.created,
-        salary: r.salary_min && r.salary_max ? { min: r.salary_min, max: r.salary_max } : null,
+        fetchedAt,
+        description: description || null,
+        salary: normalizeSalary(r.salary_min, r.salary_max),
         source: "adzuna",
       });
     }
   }
 
   const db = await getAdminDb();
+  let indexing = null;
   if (db) {
     try {
+      const prevSnap = await db.collection("job_board").doc("adzuna_latest").get();
+      const prevJobs = prevSnap.exists ? prevSnap.data().jobs || [] : [];
+      const prevIds = new Set(prevJobs.map((j) => String(j.id)));
+      const nextIds = new Set(jobs.map((j) => String(j.id)));
+
       await db.collection("job_board").doc("adzuna_latest").set({
         jobs,
-        fetchedAt: new Date().toISOString(),
+        fetchedAt,
         totalAvailable: firstOk.count ?? null,
       });
+
+      const site = getSiteUrl();
+      const updated = [...nextIds]
+        .filter((id) => !prevIds.has(id))
+        .map((id) => `${site}/jobs/${jobUrlId(id)}`);
+      const deleted = [...prevIds]
+        .filter((id) => !nextIds.has(id))
+        .map((id) => `${site}/jobs/${jobUrlId(id)}`);
+      indexing = await notifyJobUrls({ updated, deleted });
     } catch (err) {
       console.error("adzuna Firestore write error:", err);
     }
@@ -84,8 +107,11 @@ export async function GET(req) {
   return NextResponse.json({
     success: true,
     fetched: jobs.length,
+    withDescription: jobs.filter((j) => j.description).length,
+    withSalary: jobs.filter((j) => j.salary).length,
     totalAvailable: firstOk.count ?? null,
     persisted: !!db,
-    timestamp: new Date().toISOString(),
+    indexing,
+    timestamp: fetchedAt,
   });
 }
