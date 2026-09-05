@@ -1,8 +1,11 @@
 import { getSiteUrl } from "../lib/site-url.js";
 import { getAllStartupSlugs } from "../lib/store.js";
-import { getAllJobs, getCompaniesWithJobs } from "../lib/jobs.js";
-import { jobUrlId, JOB_SECTOR_LANDINGS, JOB_AREA_LANDINGS, JOB_ROLE_LANDINGS } from "../lib/jobs-seo.js";
+import { getCompaniesWithJobs } from "../lib/jobs.js";
+import { JOB_SECTOR_LANDINGS, JOB_AREA_LANDINGS, JOB_ROLE_LANDINGS } from "../lib/jobs-seo.js";
 import { INDUSTRY_LANDINGS } from "../lib/industries.js";
+
+// Request-time sitemap — avoid build-time Firestore (was timing out Hobby SSG).
+export const dynamic = "force-dynamic";
 
 const SITE_URL = getSiteUrl();
 
@@ -35,35 +38,11 @@ export default async function sitemap() {
     priority,
   }));
 
-  const slugs = await getAllStartupSlugs();
-  const startupEntries = slugs.map((slug) => ({
-    url: `${SITE_URL}/startups/${slug}`,
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  }));
-
   const storyEntries = STORY_SLUGS.map((slug) => ({
     url: `${SITE_URL}/stories/${slug}`,
     lastModified: now,
     changeFrequency: "monthly",
     priority: 0.6,
-  }));
-
-  const jobs = await getAllJobs();
-  const jobEntries = jobs.map((job) => ({
-    url: `${SITE_URL}/jobs/${jobUrlId(job.id)}`,
-    lastModified: job.postedAt ? new Date(job.postedAt) : now,
-    changeFrequency: "daily",
-    priority: 0.7,
-  }));
-
-  const companies = await getCompaniesWithJobs();
-  const companyJobEntries = companies.map((c) => ({
-    url: `${SITE_URL}/jobs/company/${c.slug}`,
-    lastModified: now,
-    changeFrequency: "daily",
-    priority: 0.75,
   }));
 
   const industryEntries = INDUSTRY_LANDINGS.map((s) => ({
@@ -80,7 +59,6 @@ export default async function sitemap() {
     priority: 0.8,
   }));
 
-
   const roleEntries = JOB_ROLE_LANDINGS.map((r) => ({
     url: `${SITE_URL}/jobs/role/${r.slug}`,
     lastModified: now,
@@ -95,5 +73,39 @@ export default async function sitemap() {
     priority: 0.8,
   }));
 
-  return [...staticEntries, ...startupEntries, ...storyEntries, ...industryEntries, ...sectorEntries, ...areaEntries, ...roleEntries, ...companyJobEntries, ...jobEntries];
+  // Live data: startups + company job hubs only (skip per-job URLs — they churn
+  // hourly and were doubling Firestore work via getAllJobs + getCompaniesWithJobs).
+  let startupEntries = [];
+  let companyJobEntries = [];
+  try {
+    const [slugs, companies] = await Promise.all([
+      getAllStartupSlugs(),
+      getCompaniesWithJobs(),
+    ]);
+    startupEntries = slugs.map((slug) => ({
+      url: `${SITE_URL}/startups/${slug}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    }));
+    companyJobEntries = companies.map((c) => ({
+      url: `${SITE_URL}/jobs/company/${c.slug}`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.75,
+    }));
+  } catch (err) {
+    console.error("sitemap live entries failed:", err);
+  }
+
+  return [
+    ...staticEntries,
+    ...startupEntries,
+    ...storyEntries,
+    ...industryEntries,
+    ...sectorEntries,
+    ...areaEntries,
+    ...roleEntries,
+    ...companyJobEntries,
+  ];
 }

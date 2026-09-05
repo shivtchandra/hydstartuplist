@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Hobby builds were SIGTERM'd at the default 60s while /sitemap and heavy
+  // routes competed for workers; keep a higher ceiling as a safety net.
+  staticPageGenerationTimeout: 180,
   async headers() {
     return [
       {
