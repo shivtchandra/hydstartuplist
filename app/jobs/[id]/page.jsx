@@ -133,7 +133,7 @@ export default async function JobDetailPage({ params }) {
 
         <div className="job-detail-actions">
           <a className="btn cmd-submit job-apply-btn" href={job.url} target="_blank" rel="noreferrer">
-            "Apply" →
+            Apply →
           </a>
         </div>
 
