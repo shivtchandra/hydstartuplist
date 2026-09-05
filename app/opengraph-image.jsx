@@ -6,9 +6,8 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OpengraphImage() {
-  // The branded fallback renders locally; metadata must never wait for a tile server.
-  const mapSrc = null;
-
+  // Solid dark canvas — never depend on a remote map tile for contrast.
+  // (mapSrc was always null, so white text sat on cream and vanished in previews.)
   return new ImageResponse(
     (
       <div
@@ -19,26 +18,30 @@ export default async function OpengraphImage() {
           display: "flex",
           overflow: "hidden",
           fontFamily: "Arial, sans-serif",
-          background: "#f5f3ef",
+          background: "#0f172a",
         }}
       >
-        {/* Real map background */}
-        {mapSrc && (
-          <img
-            src={mapSrc}
-            width={1200}
-            height={630}
-            style={{ position: "absolute", inset: 0, objectFit: "cover" }}
-          />
-        )}
-
-        {/* Left gradient so text is legible over map */}
+        {/* Soft accent glow (right) — atmosphere without killing contrast */}
         <div
           style={{
             position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(100deg, rgba(10,14,30,0.92) 0%, rgba(10,14,30,0.82) 42%, rgba(10,14,30,0.4) 68%, rgba(10,14,30,0.05) 100%)",
+            right: -80,
+            top: -120,
+            width: 520,
+            height: 520,
+            borderRadius: 999,
+            background: "rgba(255,87,34,0.22)",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            right: 120,
+            bottom: -160,
+            width: 420,
+            height: 420,
+            borderRadius: 999,
+            background: "rgba(37,99,235,0.16)",
           }}
         />
 
@@ -49,7 +52,7 @@ export default async function OpengraphImage() {
             left: 68,
             top: 0,
             bottom: 0,
-            width: 640,
+            width: 760,
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -74,7 +77,7 @@ export default async function OpengraphImage() {
             >
               H
             </div>
-            <div style={{ fontSize: 28, fontWeight: 800, color: "#fff", display: "flex" }}>
+            <div style={{ fontSize: 28, fontWeight: 800, color: "#f8fafc", display: "flex" }}>
               Hyderabad<span style={{ color: "#ff5722" }}>StartupMap</span>
             </div>
           </div>
@@ -98,7 +101,7 @@ export default async function OpengraphImage() {
           <div
             style={{
               fontSize: 24,
-              color: "rgba(255,255,255,0.78)",
+              color: "#cbd5e1",
               lineHeight: 1.35,
               fontWeight: 500,
               marginBottom: 32,
@@ -116,9 +119,9 @@ export default async function OpengraphImage() {
                 style={{
                   padding: "8px 16px",
                   borderRadius: 999,
-                  background: "rgba(255,255,255,0.12)",
-                  border: "1px solid rgba(255,255,255,0.22)",
-                  color: "rgba(255,255,255,0.9)",
+                  background: "rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.28)",
+                  color: "#f1f5f9",
                   fontSize: 17,
                   fontWeight: 700,
                   display: "flex",
@@ -136,7 +139,7 @@ export default async function OpengraphImage() {
             position: "absolute",
             right: 40,
             bottom: 30,
-            color: "rgba(255,255,255,0.55)",
+            color: "#94a3b8",
             fontSize: 15,
             display: "flex",
           }}
