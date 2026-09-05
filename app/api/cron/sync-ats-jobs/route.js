@@ -84,6 +84,9 @@ export async function GET(req) {
             startupId: board.startupId || null,
             company: board.name,
             fetchedAt,
+            employerType: board.employerType || (board.startupId ? "startup" : "other"),
+            website: board.website || null,
+            boardUrl: board.boardUrl || null,
           })
         );
         newJobs.push(...publicJobs);

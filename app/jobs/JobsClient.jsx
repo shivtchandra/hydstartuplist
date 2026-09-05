@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import StartupLogo from "../components/StartupLogo.jsx";
 import { jobUrlId } from "../../lib/jobs-seo.js";
 import {
   AREA_OPTIONS,
@@ -32,8 +33,27 @@ const TABS = [
   { key: "all", label: "All" },
   { key: "startup", label: "Startups" },
   { key: "gcc", label: "GCCs" },
-  { key: "other", label: "Other Hyderabad jobs" },
+  { key: "other", label: "Enterprise & other" },
 ];
+
+function tabMatches(category, tab) {
+  if (tab === "all") return true;
+  if (tab === "other") return category === "other" || category === "enterprise";
+  return category === tab;
+}
+
+function categoryLabel(category) {
+  switch (category) {
+    case "startup":
+      return "Startup";
+    case "gcc":
+      return "GCC";
+    case "enterprise":
+      return "Enterprise";
+    default:
+      return "Other";
+  }
+}
 
 const RECENCY_OPTIONS = [
   { key: "all", label: "Any time" },
@@ -158,19 +178,23 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
       ...j,
       _role: roleFacetKey(j.title),
       _level: inferExperienceLevel(j.title, j.description),
-      _area: inferArea(j.location),
+      _area: inferArea(j.area || j.location),
       _sector: sectorFacetKey(j.sector),
     }));
   }, [dedupedJobs]);
 
   const counts = useMemo(() => {
     const c = { all: enriched.length, startup: 0, gcc: 0, other: 0 };
-    for (const j of enriched) c[j.category] = (c[j.category] || 0) + 1;
+    for (const j of enriched) {
+      if (j.category === "startup") c.startup += 1;
+      else if (j.category === "gcc") c.gcc += 1;
+      else c.other += 1; // enterprise + other
+    }
     return c;
   }, [enriched]);
 
   const facetPool = useMemo(() => {
-    return tab === "all" ? enriched : enriched.filter((j) => j.category === tab);
+    return enriched.filter((j) => tabMatches(j.category, tab));
   }, [enriched, tab]);
 
   const facetCounts = useMemo(() => {
@@ -384,74 +408,88 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
         </p>
       )}
 
-      <div className="feed-list">
+      <div className="feed-list jobs-feed">
         {filtered.map((j) => {
           const levelLab = experienceLabel(j._level);
+          const roleLab = j._role && j._role !== "Other" ? j._role : null;
           const sectorLab =
             j._sector && j._sector !== "other"
               ? SECTOR_OPTIONS.find((s) => s.key === j._sector)?.label
               : j.sector && sectorFacetKey(j.sector) !== "other"
                 ? j.sector
                 : null;
+          const place = j.area || (j._area && j._area !== "hyderabad" ? areaLabel(j._area) : null) || j.location;
+          const typeLab = categoryLabel(j.category);
+          const logoWebsite = j.website || j.boardUrl || null;
           return (
-            <div key={j.id} className={`feed-row${j.sponsored ? " feed-row-sponsored" : ""}`}>
+            <div key={j.id} className={`feed-row jobs-feed-row${j.sponsored ? " feed-row-sponsored" : ""}`}>
+              <StartupLogo
+                name={j.company || "?"}
+                website={logoWebsite}
+                logoUrl={j.logoUrl}
+                sector={j.sector}
+                size={40}
+              />
               <Link className="feed-row-body" href={`/jobs/${jobUrlId(j.id)}`}>
                 <div className="feed-row-name">
                   {j.title}
                   {j.sponsored && <span className="sponsored-badge">Sponsored</span>}
                 </div>
                 <div className="feed-row-sub">
-                  {j.company} · {j.location} · {timeAgo(j.postedAt)}
-                  {(levelLab || sectorLab) && (
+                  <span className="jobs-co-line">
+                    {j.company}
+                    <span className={`jobs-type-badge jobs-type-${j.category || "other"}`}>{typeLab}</span>
+                  </span>
+                  {place ? <> · {place}</> : null}
+                  {j.postedAt ? <> · {timeAgo(j.postedAt)}</> : null}
+                  {(roleLab || levelLab || sectorLab || j.fundingStage) && (
                     <span className="jobs-row-badges">
+                      {roleLab && <span className="jobs-facet-badge">{roleLab}</span>}
                       {levelLab && <span className="jobs-facet-badge">{levelLab}</span>}
                       {sectorLab && <span className="jobs-facet-badge">{sectorLab}</span>}
+                      {j.fundingStage && <span className="jobs-facet-badge">{j.fundingStage}</span>}
                     </span>
                   )}
                 </div>
               </Link>
               <button
                 type="button"
-                className="job-share-btn"
+                className="job-share-btn job-share-btn-quiet"
                 onClick={() => shareJob(j)}
                 aria-label={`Share ${j.title} at ${j.company}`}
-                title="Share this job"
+                title={sharedId === j.id ? "Copied" : "Share"}
               >
                 {sharedId === j.id ? (
-                  <>
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="15"
-                      height="15"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="m5 12 5 5L20 6" />
-                    </svg>
-                    Copied
-                  </>
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="15"
+                    height="15"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="m5 12 5 5L20 6" />
+                  </svg>
                 ) : (
-                  <>
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="15"
-                      height="15"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="18" cy="5" r="3" />
-                      <circle cx="6" cy="12" r="3" />
-                      <circle cx="18" cy="19" r="3" />
-                      <path d="m8.6 13.5 6.8 4M15.4 6.5 8.6 10.5" />
-                    </svg>
-                    Share
-                  </>
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="15"
+                    height="15"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="18" cy="5" r="3" />
+                    <circle cx="6" cy="12" r="3" />
+                    <circle cx="18" cy="19" r="3" />
+                    <path d="m8.6 13.5 6.8 4M15.4 6.5 8.6 10.5" />
+                  </svg>
                 )}
               </button>
             </div>

@@ -75,13 +75,14 @@ export default async function JobsPage() {
         <div className="feed-head">
           <h1>Startup Jobs in Hyderabad</h1>
           <p className="jobs-intro">
-            Browse <strong>{jobs.length} open roles</strong> across Hyderabad&apos;s startup ecosystem —{" "}
-            <strong>{startupCount} pulled directly from startup career pages</strong> (Greenhouse, Lever,
-            Ashby, and more), plus licensed listings from the broader Hyderabad IT market. From early-stage
-            SaaS in <strong>Gachibowli</strong> and <strong>Madhapur</strong> to Series B+ fintech in{" "}
-            <strong>HITEC City</strong> and deeptech near <strong>Financial District</strong>, filter by
-            company, sector, or funding stage on our{" "}
-            <Link href="/">interactive startup map</Link>. See our{" "}
+            <strong>{jobs.length} open roles</strong>
+            {startupCount > 0 ? (
+              <>
+                {" "}
+                · <strong>{startupCount}</strong> from mapped startups
+              </>
+            ) : null}
+            . See the{" "}
             <Link href="/stories/hyderabad-startup-hiring-report-2026">Hyderabad startup hiring report</Link>{" "}
             for who&apos;s hiring now.
           </p>

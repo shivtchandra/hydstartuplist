@@ -85,7 +85,9 @@ async function worker() {
           atsProvider: result.atsProvider,
           atsSlug: result.atsSlug,
           boardUrl: result.atsBoardUrl,
+          website: entry.website || null,
           startupId: entry.id,
+          employerType: "startup",
           active: true,
         });
         console.log(`  ✓ ${entry.name} → ${result.atsProvider}/${result.atsSlug}`);

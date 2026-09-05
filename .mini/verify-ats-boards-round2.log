@@ -1,0 +1,314 @@
+(node:79546) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/shivat/Documents/place%20finder/hyderabad-startup-map/lib/ats/providers.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/shivat/Documents/place finder/hyderabad-startup-map/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Verifying 303 priority ATS boards, concurrency=10
+  · DoorDash Dashforce (greenhouse/doordash) → no board/empty
+  · Deliveroo (greenhouse/deliveroo) → no board/empty
+  · ThoughtSpot (greenhouse/thoughtspot) → no board/empty
+  · Udemy → 12 jobs, 0 Hyd/TG
+  · Duolingo → 90 jobs, 0 Hyd/TG
+  · Sprinklr (greenhouse/sprinklr) → no board/empty
+  · Icertis (greenhouse/icertis) → no board/empty
+  · Coursera → 23 jobs, 0 Hyd/TG
+  · Deliveroo India (greenhouse/deliverooindia) → no board/empty
+  · Grammarly (greenhouse/grammarly) → no board/empty
+  · Twilio Segment (greenhouse/segment) → no board/empty
+  · HashiCorp (greenhouse/hashicorp) → no board/empty
+  · Cockroach Labs → 26 jobs, 0 Hyd/TG
+  · Redis (greenhouse/redislabs) → no board/empty
+  · Zapier (greenhouse/zapier) → no board/empty
+  · Notion (greenhouse/notion) → no board/empty
+  · Airtable → 16 jobs, 0 Hyd/TG
+  · Elastic → 363 jobs, 0 Hyd/TG
+  · dbt Labs (greenhouse/dbtlabs) → no board/empty
+  · Looker (greenhouse/looker) → no board/empty
+  · Fivetran → 223 jobs, 0 Hyd/TG
+  · UiPath (greenhouse/uipath) → no board/empty
+  · MongoDB → 412 jobs, 0 Hyd/TG
+  · Tableau (greenhouse/tableau) → no board/empty
+  · Snowflake (greenhouse/snowflake) → no board/empty
+  · Databricks → 868 jobs, 0 Hyd/TG
+  · Automation Anywhere (greenhouse/automationanywhere) → no board/empty
+  · Appian → 156 jobs, 0 Hyd/TG
+  · Pega (greenhouse/pega) → no board/empty
+  · ServiceNow Jobs (greenhouse/servicenow) → no board/empty
+  · Workday (greenhouse/workday) → no board/empty
+  · Okta → 314 jobs, 0 Hyd/TG
+  · Celonis → 273 jobs, 0 Hyd/TG
+  · Auth0 (greenhouse/auth0) → no board/empty
+  · SailPoint (greenhouse/sailpoint) → no board/empty
+  · Icertis Lever (lever/icertis) → no board/empty
+  · CyberArk (greenhouse/cyberark) → no board/empty
+  · Snyk (greenhouse/snyk) → no board/empty
+  · Lacework (greenhouse/lacework) → no board/empty
+  · Tenable (greenhouse/tenable) → no board/empty
+  · Rapid7 (greenhouse/rapid7) → no board/empty
+  · SentinelOne (greenhouse/sentinelone) → no board/empty
+  · Wiz (ashby/wiz) → no board/empty
+  · Akamai (greenhouse/akamai) → no board/empty
+  · Cloudflare → 330 jobs, 0 Hyd/TG
+  · MessageBird (greenhouse/messagebird) → no board/empty
+  · Fastly → 49 jobs, 0 Hyd/TG
+  · Vonage → 27 jobs, 0 Hyd/TG
+  · RingCentral (greenhouse/ringcentral) → no board/empty
+  · Zoom (greenhouse/zoom) → no board/empty
+  · Webex (greenhouse/webex) → no board/empty
+  · Dropbox → 42 jobs, 0 Hyd/TG
+  · Box → 147 jobs, 0 Hyd/TG
+  · Adobe Sign (greenhouse/adobesign) → no board/empty
+  · HubSpot (greenhouse/hubspot) → no board/empty
+  · DocuSign (greenhouse/docusign) → no board/empty
+  · Marketo (greenhouse/marketo) → no board/empty
+  · Braze → 284 jobs, 0 Hyd/TG
+  · Iterable → 19 jobs, 0 Hyd/TG
+  · Zendesk (greenhouse/zendesk) → no board/empty
+  · Freshdesk GH (greenhouse/freshdesk) → no board/empty
+  · Intercom → 129 jobs, 0 Hyd/TG
+  · Gainsight (greenhouse/gainsight) → no board/empty
+  · Pendo → 21 jobs, 0 Hyd/TG
+  · Amplitude → 37 jobs, 0 Hyd/TG
+  · Mixpanel → 84 jobs, 0 Hyd/TG
+  · FullStory (greenhouse/fullstory) → no board/empty
+  · Heap (greenhouse/heap) → no board/empty
+  · JFrog → 54 jobs, 0 Hyd/TG
+  · Twilio → 147 jobs, 0 Hyd/TG
+  · GitHub (greenhouse/github) → no board/empty
+  · SonarSource (greenhouse/sonarsource) → no board/empty
+  · Ping Identity → 77 jobs, 0 Hyd/TG
+  · GitLab → 228 jobs, 0 Hyd/TG
+  · Atlassian (greenhouse/atlassian) → no board/empty
+  · Klaviyo → 139 jobs, 0 Hyd/TG
+  · Asana → 113 jobs, 0 Hyd/TG
+  · Monday (greenhouse/monday) → no board/empty
+  · CircleCI → 7 jobs, 0 Hyd/TG
+  · Miro (greenhouse/miro) → no board/empty
+  · Smartsheet → 91 jobs, 0 Hyd/TG
+  · LaunchDarkly → 49 jobs, 0 Hyd/TG
+  · Figma → 157 jobs, 0 Hyd/TG
+  · Canva (greenhouse/canva) → no board/empty
+  · Webflow → 30 jobs, 0 Hyd/TG
+  · Sanity → 27 jobs, 0 Hyd/TG
+  · Contentful (greenhouse/contentful) → no board/empty
+  · Harness (greenhouse/harness) → no board/empty
+  · Block → 201 jobs, 0 Hyd/TG
+  · Checkout.com (greenhouse/checkoutcom) → no board/empty
+  · Adyen → 232 jobs, 0 Hyd/TG
+  · Stripe → 612 jobs, 0 Hyd/TG
+  · Wise (greenhouse/transferwise) → no board/empty
+  · Square (greenhouse/square) → no board/empty
+  · Nubank (greenhouse/nubank) → no board/empty
+  · Revolut (greenhouse/revolut) → no board/empty
+  · Chime → 65 jobs, 0 Hyd/TG
+  · Kraken (greenhouse/kraken) → no board/empty
+  · Robinhood → 131 jobs, 0 Hyd/TG
+  · SoFi → 60 jobs, 0 Hyd/TG
+  · PayPal (greenhouse/paypal) → no board/empty
+  · Gemini → 38 jobs, 0 Hyd/TG
+  · Rippling (greenhouse/rippling) → no board/empty
+  · Deel (ashby/deel) → no board/empty
+  · Ramp (greenhouse/ramp) → no board/empty
+  · Bill.com → 51 jobs, 0 Hyd/TG
+  · Expensify (greenhouse/expensify) → no board/empty
+  · Intuit QuickBooks (greenhouse/intuit) → no board/empty
+  · Remote.com (ashby/remote) → no board/empty
+  · Xero (greenhouse/xero) → no board/empty
+  · FreshBooks (greenhouse/freshbooks) → no board/empty
+  · Brex → 275 jobs, 0 Hyd/TG
+  · Oyster → 25 jobs, 0 Hyd/TG
+  · Coupa (greenhouse/coupa) → no board/empty
+  · Ariba (greenhouse/ariba) → no board/empty
+  · Gusto → 90 jobs, 0 Hyd/TG
+  · NetSuite (greenhouse/netsuite) → no board/empty
+  · Procore (greenhouse/procore) → no board/empty
+  · Autodesk (greenhouse/autodesk) → no board/empty
+  · Trimble (greenhouse/trimble) → no board/empty
+  · Siemens Digital (greenhouse/siemens) → no board/empty
+  · Dassault (greenhouse/dassaultsystemes) → no board/empty
+  · Cadence (greenhouse/cadence) → no board/empty
+  · Synopsys (greenhouse/synopsys) → no board/empty
+  · SAP Concur (greenhouse/concur) → no board/empty
+  · Arm (greenhouse/arm) → no board/empty
+  · Infineon (greenhouse/infineon) → no board/empty
+  · STMicro (greenhouse/st) → no board/empty
+  · NXP (greenhouse/nxp) → no board/empty
+  · Bentley (greenhouse/bentley) → no board/empty
+  · Analog Devices (greenhouse/analogdevices) → no board/empty
+  · Micron (greenhouse/micron) → no board/empty
+  · Texas Instruments (greenhouse/ti) → no board/empty
+  · Lam Research (greenhouse/lamresearch) → no board/empty
+  · Samsung Semi (greenhouse/samsung) → no board/empty
+  · ASML (greenhouse/asml) → no board/empty
+  · GlobalFoundries (greenhouse/globalfoundries) → no board/empty
+  · Intel (greenhouse/intel) → no board/empty
+  · AMD (greenhouse/amd) → no board/empty
+  · KLA (greenhouse/kla) → no board/empty
+  · ANSYS (greenhouse/ansys) → no board/empty
+  · TSMC (greenhouse/tsmc) → no board/empty
+  · Applied Materials (greenhouse/appliedmaterials) → no board/empty
+  · Qualcomm (greenhouse/qualcomm) → no board/empty
+  · Broadcom (greenhouse/broadcom) → no board/empty
+  · MediaTek (greenhouse/mediatek) → no board/empty
+  · Western Digital (greenhouse/westerndigital) → no board/empty
+  · Seagate (greenhouse/seagate) → no board/empty
+  · NVIDIA (greenhouse/nvidia) → no board/empty
+  · NetApp (greenhouse/netapp) → no board/empty
+  · SanDisk (greenhouse/sandisk) → no board/empty
+  · HPE (greenhouse/hpe) → no board/empty
+  · Dell EMC (greenhouse/dellemc) → no board/empty
+  · Lenovo (greenhouse/lenovo) → no board/empty
+  · Juniper (greenhouse/juniper) → no board/empty
+  · Pure Storage → 320 jobs, 0 Hyd/TG
+  · Nokia (greenhouse/nokia) → no board/empty
+  · Ericsson (greenhouse/ericsson) → no board/empty
+  · Marvell (greenhouse/marvell) → no board/empty
+  · SUSE (greenhouse/suse) → no board/empty
+  · VMware (greenhouse/vmware) → no board/empty
+  · Red Hat (greenhouse/redhat) → no board/empty
+  · Docker (greenhouse/docker) → no board/empty
+  · Cisco (greenhouse/cisco) → no board/empty
+  · Arista (greenhouse/arista) → no board/empty
+  · Canonical → 302 jobs, 0 Hyd/TG
+  · Kubernetes (greenhouse/kubernetes) → no board/empty
+  · CNCF (greenhouse/cncf) → no board/empty
+  · Terraform (greenhouse/terraform) → no board/empty
+  · Chef (greenhouse/chef) → no board/empty
+  · Pulumi (ashby/pulumi) → no board/empty
+  · Ansible (greenhouse/ansible) → no board/empty
+  · PagerDuty → 43 jobs, 0 Hyd/TG
+  · Opsgenie (greenhouse/opsgenie) → no board/empty
+  · Dynatrace (greenhouse/dynatrace) → no board/empty
+  · Splunk (greenhouse/splunk) → no board/empty
+  · Sumo Logic → 15 jobs, 0 Hyd/TG
+  · Papertrail (greenhouse/papertrail) → no board/empty
+  · Sentry (greenhouse/sentry) → no board/empty
+  · Puppet (greenhouse/puppet) → no board/empty
+  · Bugsnag (greenhouse/bugsnag) → no board/empty
+  · Elastic NV (greenhouse/elasticnv) → no board/empty
+  · Rollbar (greenhouse/rollbar) → no board/empty
+  · Airbrake (greenhouse/airbrake) → no board/empty
+  · Loggly (greenhouse/loggly) → no board/empty
+  · Outreach (greenhouse/outreach) → no board/empty
+  · Salesloft → 35 jobs, 0 Hyd/TG
+  · Chorus (greenhouse/chorusai) → no board/empty
+  · Gong → 94 jobs, 0 Hyd/TG
+  · Clari (greenhouse/clari) → no board/empty
+  · 6sense → 28 jobs, 0 Hyd/TG
+  · Demandbase (greenhouse/demandbase) → no board/empty
+  · ZoomInfo → 108 jobs, 0 Hyd/TG
+  · Clearbit (greenhouse/clearbit) → no board/empty
+  · Apollo.io (ashby/apolloio) → no board/empty
+  · Treasure Data (greenhouse/treasuredata) → no board/empty
+  · Amperity → 20 jobs, 0 Hyd/TG
+  · ActionIQ (greenhouse/actioniq) → no board/empty
+  · Simon Data (greenhouse/simondata) → no board/empty
+  · Hightouch → 1 jobs, 0 Hyd/TG
+  · mParticle (greenhouse/mparticle) → no board/empty
+  · Census (ashby/census) → no board/empty
+  · Lytics (greenhouse/lytics) → no board/empty
+  · Airbyte → 13 jobs, 0 Hyd/TG
+  · Talend (greenhouse/talend) → no board/empty
+  · Informatica (greenhouse/informatica) → no board/empty
+  · Alation (greenhouse/alation) → no board/empty
+  · Collibra → 41 jobs, 0 Hyd/TG
+  · Monte Carlo (ashby/montecarlo) → no board/empty
+  · Highspot (lever/highspot) → no board/empty
+  · Bigeye (ashby/bigeye) → no board/empty
+  · Anomalo → 1 jobs, 0 Hyd/TG
+  · dbt (greenhouse/dbt) → no board/empty
+  · Stitch (greenhouse/stitchdata) → no board/empty
+  · Great Expectations (ashby/greatexpectations) → no board/empty
+  · Dagster (ashby/dagster) → no board/empty
+  · Mage (ashby/mage) → no board/empty
+  · Mode Analytics (greenhouse/modeanalytics) → no board/empty
+  ✓ Astronomer → 1 Hyd/TG / 21 total
+  · Prefect → 7 jobs, 0 Hyd/TG
+  · Datadog → 444 jobs, 0 Hyd/TG
+  · Hex (ashby/hextechnologies) → no board/empty
+  · Observable (ashby/observable) → no board/empty
+  · Observable HQ (ashby/observablehq) → no board/empty
+  · Scale (greenhouse/scale) → no board/empty
+  · Weights Biases (greenhouse/wandb) → no board/empty
+  · Labelbox → 10 jobs, 0 Hyd/TG
+  · Deepnote → 3 jobs, 0 Hyd/TG
+  · Snorkel → 37 jobs, 0 Hyd/TG
+  · Noteable (ashby/noteable) → no board/empty
+  · Hugging Face (ashby/huggingface) → no board/empty
+  · Anthropic (ashby/anthropic) → no board/empty
+  · Mistral (ashby/mistral) → no board/empty
+  · Anyscale (greenhouse/anyscale) → no board/empty
+  · Together (ashby/togetherai) → no board/empty
+  · Cohere → 143 jobs, 0 Hyd/TG
+  · Fireworks (ashby/fireworksai) → no board/empty
+  · Determined AI (greenhouse/determinedai) → no board/empty
+  · PostHog → 9 jobs, 0 Hyd/TG
+  · Plane Software → 31 jobs, 0 Hyd/TG
+  · Cal.com (ashby/cal) → no board/empty
+  · Height (ashby/height) → no board/empty
+  · Linear → 28 jobs, 0 Hyd/TG
+  · Clubhouse (greenhouse/clubhouse) → no board/empty
+  · Shortcut (greenhouse/shortcutsoftware) → no board/empty
+  · Basecamp (greenhouse/basecamp) → no board/empty
+  · Notion Labs (greenhouse/notionlabs) → no board/empty
+  · ClickUp (greenhouse/clickup) → no board/empty
+  · Coda (greenhouse/coda) → no board/empty
+  · Airtable Inc (greenhouse/airtableinc) → no board/empty
+  · Retool (ashby/retool) → no board/empty
+  · Appsmith (ashby/appsmith) → no board/empty
+  · Supabase → 60 jobs, 0 Hyd/TG
+  · Budibase (ashby/budibase) → no board/empty
+  · PlanetScale (ashby/planetscale) → no board/empty
+  · Tooljet (ashby/tooljet) → no board/empty
+  · Neon → 6 jobs, 0 Hyd/TG
+  · Render → 35 jobs, 0 Hyd/TG
+  · Fly (ashby/fly) → no board/empty
+  · Railway → 8 jobs, 0 Hyd/TG
+  · Netlify → 1 jobs, 0 Hyd/TG
+  · LambdaTest (lever/lambdatest) → no board/empty
+  · Vercel (ashby/vercel) → no board/empty
+  · Sauce Labs → 10 jobs, 0 Hyd/TG
+  · Perfecto (greenhouse/perfecto) → no board/empty
+  · Applitools (greenhouse/applitools) → no board/empty
+  · Testim (greenhouse/testim) → no board/empty
+  · Mabl → 3 jobs, 0 Hyd/TG
+  · Playwright (greenhouse/playwright) → no board/empty
+  · HackerEarth (lever/hackerearth) → no board/empty
+  · OpenAI → 769 jobs, 0 Hyd/TG
+  · HackerRank → 28 jobs, 0 Hyd/TG
+  · BlueConic → 3 jobs, 0 Hyd/TG
+  · upGrad (lever/upgrad) → no board/empty
+  · Tealium (greenhouse/tealium) → no board/empty
+  · Cypress → 1 jobs, 0 Hyd/TG
+  · Eruditus (lever/eruditus) → no board/empty
+  · BrowserStack (lever/browserstack) → no board/empty
+  · Naukri (lever/naukri) → no board/empty
+  · InterviewBit (lever/interviewbit) → no board/empty
+  · LeetCode (lever/leetcode) → no board/empty
+  · Shine (lever/shine) → no board/empty
+  · Scaler (lever/scaler) → no board/empty
+  · Unacademy (lever/unacademy) → no board/empty
+  · TimesJobs (lever/timesjobs) → no board/empty
+  · Monster India (lever/monsterindia) → no board/empty
+  · BYJU (lever/byjus) → no board/empty
+  · Vedantu (lever/vedantu) → no board/empty
+  · Indeed (greenhouse/indeed) → no board/empty
+  · Glassdoor (greenhouse/glassdoor) → no board/empty
+  · AngelList (greenhouse/angellist) → no board/empty
+  · Physics Wallah (lever/physicswallah) → no board/empty
+  · LinkedIn → 53 jobs, 0 Hyd/TG
+  · Simplilearn (lever/simplilearn) → no board/empty
+  · Y Combinator → 7 jobs, 0 Hyd/TG
+  · Sequoia → 13 jobs, 0 Hyd/TG
+  · a16z (ashby/a16z) → no board/empty
+  · Accel (ashby/accel) → no board/empty
+  · Wellfound (greenhouse/wellfound) → no board/empty
+  · Great Learning (lever/greatlearning) → no board/empty
+  · Peak XV (ashby/peakxv) → no board/empty
+  · Lightspeed → 4 jobs, 0 Hyd/TG
+  · Tiger Global (ashby/tigerglobal) → no board/empty
+{
+  "hits": 1,
+  "misses": 302,
+  "errors": 0,
+  "boardsFile": 21
+}

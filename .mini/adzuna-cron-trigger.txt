@@ -1,0 +1,1 @@
+{"success":true,"fetched":100,"withDescription":100,"withSalary":0,"totalAvailable":1303,"persisted":true,"indexing":{"skipped":false,"updated":0,"deleted":0,"queued":100,"truncated":true,"errors":100},"timestamp":"2026-09-04T12:42:50.843Z"}

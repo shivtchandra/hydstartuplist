@@ -48,19 +48,23 @@ async function worker() {
         continue;
       }
       const id = boardRegistryId(b.atsProvider, b.atsSlug);
+      const prev = byId.get(id) || {};
       const row = {
         id,
         name: b.name,
         atsProvider: b.atsProvider,
         atsSlug: b.atsSlug,
         boardUrl: meta.boardUrl,
-        startupId: byId.get(id)?.startupId || null,
+        website: prev.website || b.website || null,
+        startupId: prev.startupId || null,
+        // Priority list hits are unverified inventory — never default to startup.
+        employerType: prev.employerType || b.employerType || (prev.startupId ? "startup" : "other"),
         active: true,
         hydJobs: r.jobs.length,
         totalJobs: r.totalRaw,
         verifiedAt: new Date().toISOString(),
       };
-      byId.set(id, { ...byId.get(id), ...row });
+      byId.set(id, { ...prev, ...row });
       results.hits.push(row);
       console.log(`  ✓ ${b.name} → ${r.jobs.length} Hyd/TG / ${r.totalRaw} total`);
     } catch (err) {

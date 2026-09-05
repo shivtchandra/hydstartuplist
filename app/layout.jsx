@@ -1,7 +1,22 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 
 import { getSiteUrl } from "../lib/site-url.js";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-heading-face",
+  display: "swap",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-main-face",
+  display: "swap",
+});
 
 const SITE_URL = getSiteUrl();
 const OG_TITLE = "Hyderabad Startup & Product Companies Map – 1,000+ Tech Companies, Jobs & Funding";
@@ -73,15 +88,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="light">
+    <html lang="en" data-theme="light" className={`${outfit.variable} ${jakarta.variable}`}>
       <head>
         <link rel="preconnect" href="https://tiles.stadiamaps.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSONLD) }}

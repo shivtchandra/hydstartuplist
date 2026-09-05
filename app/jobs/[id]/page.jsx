@@ -114,10 +114,18 @@ export default async function JobDetailPage({ params }) {
                 <span className="job-detail-salary">{salaryLabel}</span>
               </>
             )}
-            {job.category === "startup" && (
+            {job.category && (
               <>
                 {" · "}
-                <span className="job-detail-badge">Startup role</span>
+                <span className={`job-detail-badge jobs-type-badge jobs-type-${job.category}`}>
+                  {job.category === "startup"
+                    ? "Startup"
+                    : job.category === "gcc"
+                      ? "GCC"
+                      : job.category === "enterprise"
+                        ? "Enterprise"
+                        : "Other"}
+                </span>
               </>
             )}
           </p>

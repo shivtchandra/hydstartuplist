@@ -1,0 +1,1240 @@
+(node:76607) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/shivat/Documents/place%20finder/hyderabad-startup-map/lib/ats/index.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/shivat/Documents/place finder/hyderabad-startup-map/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Classifying 1070 / 1070 needing work (of 1095 startups), concurrency=4
+  · Enmovil → none
+  · Imimobile → none
+  · Rainbow Hospitals → none
+  · Questbook → none
+  · Reclaim Protocol → none
+  · Digi-Prex → none
+  · Isthara → none
+  · KFin Technologies → none
+  · Pure EV → none
+  · RED.Health → none
+  … checkpoint 10/1070 (hits=0)
+  · MARUT Drones → none
+  · Fourth Partner Energy → none
+  · Gradious Technologies → none
+  · Hala Mobility → none
+  · Aragen Life Sciences → none
+  · Credright → none
+  · Indrajaal → none
+  · JEH Aerospace → none
+  · Way2News → none
+  · Bhanzu → none
+  … checkpoint 20/1070 (hits=0)
+  · Spicenet → none
+  · Wehouse → none
+  · Neeman's → none
+  · Infinity Learn → none
+  · Yapan Bio → none
+  · Oliva Skin & Hair Clinic → none
+  · Omni Hospitals → none
+  · Botanic Healthcare → none
+  · Makers Hive → none
+  · Tech Cloud ERP → none
+  … checkpoint 30/1070 (hits=0)
+  · Indian Eagle → none
+  · Freyr Energy → none
+  · Olectra Greentech → none
+  · UrbanKisaan → none
+  · Banyan Nation → none
+  · Quantum Energy → none
+  · Tenet Diagnostics → none
+  · Pixelvide → none
+  · DiabetOmics → none
+  · uBlood → none
+  … checkpoint 40/1070 (hits=0)
+  · Kisanwala → none
+  · Apollo Micro Systems → none
+  · Kraionyx AI → none
+  · Nexoraa AI → none
+  · STAG INNOVATIONS PRIVATE LIMITED → none
+  · WEB ERA TECHNOLOGY PRIVATE LIMITED → none
+  · TVISHA SYSTEMS PRIVATE LIMITED → none
+  · UNOCAREER SERVICES PRIVATE LIMITED → none
+  · HATCHINGAPPS IT SOLUTIONS PRIVATE LIMITED → none
+  · TechnoHouse IT Solutions → none
+  … checkpoint 50/1070 (hits=0)
+  · NEEMII TECHNOLOGY PRIVATE LIMITED → none
+  · GEOSILICON TECHNOLOGIES (OPC) PRIVATE LIMITED → none
+  · HEALTHSIGNZ TECHNOLOGIES PRIVATE LIMITED → none
+  · SIND TECHNOLOGIES PRIVATE LIMITED → none
+  · ZYPE DIGITAL PRIVATE LIMITED → none
+  · MONTAIGNE SMART BUSINESS SOLUTIONS PRIVATE LIMITED → none
+  · GREENLANTERN IT SOLUTIONS PRIVATE LIMITED (OPC) → none
+  · ASPIREAL TECHNOLOGIES PRIVATE LIMITED → none
+  · Crux IT Consulting Services → none
+  · SHRESHTA INFO GLOBAL SERVICES PRIVATE LIMITED → none
+  … checkpoint 60/1070 (hits=0)
+  · INKPROG TECHNOLOGIES PRIVATE LIMITED → none
+  · COX QUALITY TECHNOLOGY SOLUTIONS PRIVATE LIMITED → none
+  · Antariksh Technology Ventures (OPC) Pvt Ltd → none
+  · EZTax.in → none
+  · WebileApps Technology Services → none
+  · ENORMOUS IT SERVICES PRIVATE LIMITED → none
+  · P&S INFOSOFT TECHNOLOGIES LLP → none
+  · Coral Innovations → none
+  · Surya Technology Solutions LLP → none
+  · DiLytics technologies Private Limited → none
+  … checkpoint 70/1070 (hits=0)
+  · Silicon Business Solutions Pvt Ltd → none
+  · O2LABS SOLUTIONS PRIVATE LIMITED → none
+  · Srinivas → none
+  · Software development → none
+  · NEXTGEN MULTITOUCH PRIVATE LIMITED → none
+  · ARUN GROUP → none
+  · ARTERAS ENGINEERING SERVICES PRIVATE LIMITED → none
+  · MAXBRIGHT IT SOLUTIONS → none
+  · GAZO DOCUMENT SOLUTIONS PRIVATE LIMITED → none
+  · RITE DESK SYSTEMS → none
+  … checkpoint 80/1070 (hits=0)
+  · ILENSYS TECHNOLOGIES PRIVATE LIMITED → none
+  · TEKVANTIS CLOUD SOLUTIONS PRIVATE LIMITED → none
+  · Arbeit Consultancy Services → none
+  · UCS → none
+  · VCOURTS → none
+  · CORESONANT SYSTEMS PRIVATE LIMITED → none
+  · CONCENT SOLUTIONS PRIVATE LIMITED → none
+  · Sigitek Software Services → none
+  · SYSCONIC TECHNOLOGIES PRIVATE LIMITED → none
+  · TECH SOLUTIONS → none
+  … checkpoint 90/1070 (hits=0)
+  · VOLTUSWAVE TECHNOLOGIES INDIA PRIVATE LIMITED → none
+  · XOOT ACCESS TECH PRIVATE LIMITED → none
+  · AVISHKAR SOFT LABS PRIVATE LIMITED (OPC) → none
+  · CAVALRY INFO PRIVATE LIMITED → none
+  · KAGOOL DATA PRIVATE LIMITED → none
+  · WEBDIZER SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · iSpatial Techno Solutions → none
+  · KENEXOFT TECHNOLOGIES PRIVATE LIMITED → none
+  · Avyarth Digital Solutions Private Limited → none
+  · CALICO INFOSYSTEMS PVT. LTD → none
+  … checkpoint 100/1070 (hits=0)
+  · Montaigne Smart Business Solutions → none
+  · glouniTech → none
+  · PIPRA SOLUTIONS PRIVATE LIMITED → none
+  · Vencertec → none
+  · MOBILUTION IT SYSTEMS PRIVATE LIMITED → none
+  · PENCAP TECHNOLOGIES PRIVATE LIMITED → none
+  · INTELLOBOTS TECHNOLOGIES PRIVATE LIMITED → none
+  · PYTHUS INFO PRIVATE LIMITED → none
+  · SanBrains Era Technologies → none
+  · SIYANDA TECHLOGICS PRIVATE LIMITED → none
+  … checkpoint 110/1070 (hits=0)
+  · ASMAN SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · Metapointer Labs Private Limited → none
+  · ADRIOT CADENATECH PRIVATE LIMITED → none
+  · ENAAYAH SOFTWARE DEVELOPMENT AND SERVICES PRIVATE LIMITED → none
+  · KDR SOFT SOLUTIONS PRIVATE LIMITED → none
+  · Hierarch Soft Technologies Pvt Ltd → none
+  · ENTERSOFT INFORMATION SYSTEMS PRIVATE LIMITED → none
+  · RED MATTER SOFTWARE TECHNOLOGY PRIVATE LIMITED → none
+  · NAVIKARANA IT SOLUTIONS → none
+  · Sreeal Technologies Pvt Ltd  → none
+  … checkpoint 120/1070 (hits=0)
+  · ICONWAVE TECHNOLOGIES PVT LTD → none
+  · BARELOGIC SOLUTIONS PRIVATE LIMITED → none
+  · KoderTroop → none
+  · GeoVista Technologies Private Limited → none
+  · WebileApps (India) Private Limited → none
+  · XTREME ICT PRIVATE LIMITED → none
+  · Evolgence Telecom Systems Pvt Ltd → none
+  · UNIC SOL INDIA PRIVATE LIMITED → none
+  · BSIT Software Services Private Limited → none
+  · RECHLINKS PRIVATE LIMITED → none
+  … checkpoint 130/1070 (hits=0)
+  · SPARGON TECHNOLOGIES PRIVATE LIMITED → none
+  · NEIGHBIUM TECHNOLOGIES PRIVATE LIMITED → none
+  · NETWORK OBJECTS TECHNOLOGIES PRIVATE LIMITED → none
+  · SHRI SHAKTI OPSTECH PRIVATE LIMITED → none
+  · CARPEDIEM TECHNOLOGY SYSTEMS PRIVATE LIMITED → none
+  · BeyondTech IT Solutions → none
+  · Theama Technologies LLP → none
+  · SUCCESS METRIC PRIVATE LIMITED → none
+  · INVILOGIC SOFTWARE PVT LTD → none
+  · PCS TEKSERVE → none
+  … checkpoint 140/1070 (hits=0)
+  · AIENTASAR SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · NECUN INNOVATIONS PRIVATE LIMITED → none
+  · ERASMUS TRAINING SERVICES PRIVATE LIMITED → none
+  · LETSMOBILITY SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+(node:79910) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/shivat/Documents/place%20finder/hyderabad-startup-map/lib/ats/index.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/shivat/Documents/place finder/hyderabad-startup-map/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Classifying 930 / 930 needing work (of 1095 startups), concurrency=4
+  · CLOUDSOLV SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · REAL VARIABLE DIGITAL ASSETSERVICES PRIVATE LIMITED → none
+  · AMTECH → none
+  · CHRP-INDIA Pvt. Ltd. → none
+  · SQUARE SOFTWARE LABS → none
+  · NECUN INNOVATIONS PRIVATE LIMITED → none
+  · LETSMOBILITY SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · TEKOPT → none
+  … checkpoint 150/1070 (hits=0)
+  · AIENTASAR SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · ERASMUS TRAINING SERVICES PRIVATE LIMITED → none
+  · CHRP-INDIA Pvt. Ltd. → none
+  · PRODUCERS ONLINE (INDIA) PRIVATE LIMITED → none
+  · Indian Speakers Bureau → none
+  · Coresonant Systems Pvt Ltd. → none
+  · REAL VARIABLE DIGITAL ASSETSERVICES PRIVATE LIMITED → none
+  · SQUARE SOFTWARE LABS → none
+  · AMTECH → none
+  · PVK SOFT SOLUTIONS PVT LTD → none
+  · CLOUDSOLV SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · Neobric → none
+  · PRODUCERS ONLINE (INDIA) PRIVATE LIMITED → none
+  … checkpoint 10/930 (hits=0)
+  · EVENTEX TECHNOLOGIES PRIVATE LIMITED → none
+  · AVANTECH WEB GRID PRIVATE LIMITED → none
+  · Keka HR → none
+  · Indian Speakers Bureau → none
+  · TEKOPT → none
+  · Coresonant Systems Pvt Ltd. → none
+  ✓ NowFloats → smartrecruiters/nowfloats
+  · TurboHire → none
+  … checkpoint 160/1070 (hits=1)
+  · PVK SOFT SOLUTIONS PVT LTD → none
+  · EVENTEX TECHNOLOGIES PRIVATE LIMITED → none
+  · AVANTECH WEB GRID PRIVATE LIMITED → none
+  · Neobric → none
+  · Dodla Dairy → none
+  ✓ NowFloats → smartrecruiters/nowfloats
+  · Keka HR → none
+  · Greenko Group → none
+  · TurboHire → none
+  … checkpoint 20/930 (hits=1)
+  · Qualizeal → none
+  · Qualizeal → none
+  · Dodla Dairy → none
+  · Adya → none
+  · VASISTA ENTERPRISE SOLUTIONS PVT LTD → none
+  · Greenko Group → none
+  · VASISTA ENTERPRISE SOLUTIONS PVT LTD → none
+  · Adya → none
+  · KLEE TECHNOLOGIES PRIVATE LIMITED → none
+  · My Apps Development → none
+  · My Apps Development → none
+  · SyngyMAXIM Solutions Pvt Ltd → none
+  · KLEE TECHNOLOGIES PRIVATE LIMITED → none
+  · SB SECURE DATA CENTERS INDIA PRIVATE LIMITED → none
+  · SyngyMAXIM Solutions Pvt Ltd → none
+  · SB SECURE DATA CENTERS INDIA PRIVATE LIMITED → none
+  ✓ NOWFLOATS TECHNOLOGIES PRIVATE LIMITED → smartrecruiters/nowfloats
+  … checkpoint 170/1070 (hits=2)
+  · Zebi Data India Pvt Ltd → none
+  · VISICUBE TECHNOLOGIES PRIVATE LIMITED → none
+  · Zebi Data India Pvt Ltd → none
+  … checkpoint 30/930 (hits=1)
+  · SRIJAY TECHINSIGHTS PRIVATE LIMITED → none
+  ✓ NOWFLOATS TECHNOLOGIES PRIVATE LIMITED → smartrecruiters/nowfloats
+  · VISICUBE TECHNOLOGIES PRIVATE LIMITED → none
+  · SRIJAY TECHINSIGHTS PRIVATE LIMITED → none
+  · Corpus Insights → none
+  · Corpus Insights → none
+  · VUPADHI TECHNO SERVICES PRIVATE LIMITED → none
+  · VUPADHI TECHNO SERVICES PRIVATE LIMITED → none
+  · S INFINITY SOLUTIONS  → none
+  · S INFINITY SOLUTIONS  → none
+  · VixSpace India Pvt Ltd → none
+  · VixSpace India Pvt Ltd → none
+  · TECHBHP SOLUTIONS AND SERVICES LLP → none
+  · TECHBHP SOLUTIONS AND SERVICES LLP → none
+  · PONAGANTI TECH SOLUTIONS PRIVATE LIMITED → none
+  · PONAGANTI TECH SOLUTIONS PRIVATE LIMITED → none
+  · QUBE ENTERPRISES SERVICES → none
+  … checkpoint 40/930 (hits=2)
+  · QUBE ENTERPRISES SERVICES → none
+  … checkpoint 180/1070 (hits=2)
+  · Vectorform Software Private Limited → none
+  · Vectorform Software Private Limited → none
+  · Ramesh → none
+  · PERENNIAL CODE IT CONSULTANTS PRIVATE LIMITED → none
+  · Ramesh → none
+  · Gummalla Technologies → none
+  ✓ JOBIAK SOFTWARE PRIVATE LIMITED → smartrecruiters/jobiak
+  · TRIZULA DIGITAL SOLUTIONS PRIVATE LIMITED → none
+  · VARMA TECH SERVICES PRIVATE LIMITED → none
+  · AAJUBAAJU ECLASSIFIEDS PRIVATE LIMITED → none
+  · OPENSPACE INNOVATES LLP → none
+  · IVAR INFOSYSTEMS PRIVATE LIMITED → none
+  … checkpoint 50/930 (hits=3)
+  · CLOUDTARU INFOTECH PRIVATE LIMITED → none
+  · Kiran Kumar Yellampalli → none
+  · DIGITOZE CONSULTING SERVICES LLP → none
+  ✓ SANAARI Software Solutions Pvt. Ltd → smartrecruiters/sanaari
+  · Intromax Business Solutions → none
+  · Wisdom IT Services → none
+  · Rainier Softech Solutions Private Limited → none
+  · Matrix Engineering and Technologies → none
+  · TECH DEBUG TECHNOLOGIES PRIVATE LIMITED  → none
+  · Cloud Front Factory → none
+  … checkpoint 60/930 (hits=4)
+  · Antler Technologies → none
+  · Scale Business Services Private Limited → none
+  · VASKA TECHNOLOGIES → none
+  ✓ CINCYR TECH PRIVATE LIMITED  → smartrecruiters/cincyrtech
+  · LSATECH Private Limited → none
+  · SVS TECHNOLOGIES → none
+  · APRICOR TECHNOLOGIES PRIVATE LIMITED → none
+  · COMPLINOVA ASSOCIATES PRIVATE LIMITED → none
+  · QEEL SUPPORT LLP → none
+  · TCP WAVE PRIVATE LIMITED → none
+  … checkpoint 70/930 (hits=5)
+  · Opencube Technologies Pvt Ltd → none
+  · RATIONAL KNOWLEDGE SERVICES PRIVATE LIMITED → none
+  · SMARTIFY SOFTWARE SOLUTIONS LLP → none
+  · meraki solutions → none
+  · eMoboMo Soft Pvt Ltd → none
+  · Sarja Technologies Private Limited → none
+  · K2B Online Pvt Ltd → none
+  · CLOUD FIRST COMPUTING PRIVATE LIMITED → none
+  · SNOWGEEK SOLUTIONS LLP → none
+  · KAUTECH SERVICES PRIVATE LIMITED → none
+  … checkpoint 80/930 (hits=5)
+  · STA SOLUTIONS PRIVATE LIMITED → none
+  · Qmics Solutions Pvt. Ltd. → none
+  · DOMIMART → none
+  · UpRising Technologies → none
+  · DIGITALRAIZ CREATIVE SOLUTIONS PRIVATE LIMITED → none
+  · SPOORTHY CONSULTANCY AND IT SOLUTIONS PVT LTD → none
+  · INFINITY IDENTITY TECHNOLOGIES PRIVATE LIMITED → none
+  · ARCR TECHNOLOGIES PRIVATE LIMITED → none
+  · Notuno Infotech Private Limited → none
+  · MAHAVEER SOFT SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 90/930 (hits=5)
+  · AKSHAYA CONCEPTS → none
+  · RELIGENT SYSTEMS PRIVATE LIMITED → none
+  · JCG INFORMATION TECHNOLOGY SOLUTIONS → none
+  · MED EXPRESS PRIVATE LIMITED → none
+  · IDEYALABS TECH PRIVATE LIMITED → none
+  · Rivach LLP → none
+  · Anwi Systems Private Limited → none
+  · OPTIMWORKS TECHNOLOGIES PRIVATE LIMITED → none
+  · Mkay Labs Private Limited → none
+  · Betalectic IT Projects Pvt Ltd → none
+  … checkpoint 100/930 (hits=5)
+  · CogniX → none
+  · ZETTAMINE LABS PRIVATE LIMITED → none
+  · DIGITAL BEVY PRIVATE LIMITED → none
+  · TAB Solutions → none
+  · Feast → none
+  · SHARKTEZ PRIVATE LIMITED → none
+  · Mechispike Solutions Private Limited → none
+  · Krash Consulting Private Limited → none
+  · Infinity Square Digital Marketing Services → none
+  · Golive Communications Private Limited → none
+  … checkpoint 110/930 (hits=5)
+  · MAK ARENA SOLUTIONS PRIVATE LIMITED → none
+  · MSNWTECH Private Limited → none
+  · TUCSON TECHNOLOGY (INDIA) PRIVATE LIMITED → none
+  · Devopod Private Limited → none
+  · chatbot → none
+  · Agri Marg Private Limited → none
+  · Sioniq Tech Private Limited → none
+  · JollyBuoy Technology Services private limited → none
+  · NYDIA TECH PRIVATE LIMITED → none
+  · HOSTING SERVER SOLUTIONS → none
+  … checkpoint 120/930 (hits=5)
+  · Carriazetech Deliver Private Limited → none
+  · BHARATH TECHNOLOGIES → none
+  · SRS SOLUTIONS → none
+  · Qualinsys Technologies Private Limited → none
+  · AXP Technologies Private Limited → none
+  · Usedstore → none
+  · DATADAPT IT SERVICES LLP → none
+  · INCRA SOFT PRIVATE LIMITED → none
+  · CTRLALTFIX SOLUTIONS PRIVATE LIMITED → none
+  · ARCHANA INFO SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 130/930 (hits=5)
+  · Figgia Private Limited → none
+  · MONAMIT TECHNOLOGY SOLUTIONS PVT LTD → none
+  · Puja Karomi → none
+  · DO LITTLE TECHNOLOGIES PRIVATE LIMITED → none
+  · Ssdt Technologies Llp → none
+  · Cyberekta Security Solutions Private Limited → none
+  · Novelski It Solutions Private Limited → none
+  · COGNEFI INFO SOLUTIONS PRIVATE LIMITED → none
+  · Vilindha Technologies Private Limited → none
+  · SPY D TECHNOLOGY PRIVATE LIMITED → none
+  … checkpoint 140/930 (hits=5)
+  · SOURATRON IT SOLUTIONS PVT LTD → none
+  · Monopoly IT Solutions Pvt Ltd → none
+  · HOPNET COMMUNICATIONS LLP → none
+  · IVAR ANALYTICS PRIVATE LIMITED → none
+  · PRECISLY IT MANAGEMENT SERVICES PRIVATE LIMITED → none
+  · ESK TECHNOLOGIES PRIVATE LIMITED → none
+  · PROVATE TECHNOLOGIES PRIVATE LIMITED → none
+  · Clinovo India LLP → none
+  · APPORG TECHNOLOGY SOLUTIONS AND SERVICES LLP → none
+  · HAMDAN LABS SYSTEMS PRIVATE LIMITED → none
+  … checkpoint 150/930 (hits=5)
+  · ICONWAVE CLOUD SERVICES PRIVATE LIMITED → none
+  · CultNerds IT Solutions Pvt Ltd → none
+  · QR CABS → none
+  · TALENT21 CONSULTING PRIVATE LIMITED → none
+  · TECHZERT SOFTWARE PRIVATE LIMITED → none
+  · B I E T LEARNING SYSTEMS PRIVATE LIMITED → none
+  · Novulis Global Solutions Private Limited → none
+  · CLOUDALIV CONSULTING SERVICES PRIVATE LIMITED → none
+  · JAPP TECH PRIVATE LIMITED → none
+  · SOURATRON IT SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 160/930 (hits=5)
+  · MOBEDO CONSULTING PRIVATE LIMITED → none
+  · RAMKI TECHNOLOGIES PRIVATE LIMITED → none
+  · STHIRAM SERVICES LLP → none
+  · Websonics Technology Solutions  → none
+  · WELKIN DIGITAL PRIVATE LIMITED → none
+  · ACINTYO TECH INNOVATIONS PRIVATE LIMITED  → none
+  · AMEYA INTELLIGENT MACHINE LABS LLP → none
+  · REALTECHPAGE PRIVATE LIMITED → none
+  · NANDURI TECHNOLOGY LLP → none
+  · RESOFTWA TECHNOLOGIES & SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 170/930 (hits=5)
+  · VigorousPro IT Solutions → none
+  · TeamMinds Software Private Limited → none
+  · DESIGNTECH SEMICONDUCTORS PRIVATE LIMITED → none
+  · SACHDESK TECHNOLOGY SERVICES PRIVATE LIMITED → none
+  · Pradiota IT Solutions Pvt Ltd → none
+  · Om Sai Solutions → none
+  · TECHVERSYS IT SERVICES PRIVATE LIMITED → none
+  · KVK TECHNOID PRIVATE LIMITED → none
+  · Qpact Solutions → none
+  · ARTECH UNLIMITED PRIVATE LIMITED → none
+  … checkpoint 180/930 (hits=5)
+  · Finesse Customized Solutions → none
+  · Digital Associates India Private Limited → none
+  · Tilli Software India Private Limited → none
+  · Inspire Tk Private Limited → none
+  · Vaics Consulting Private Limited → none
+  · NEXTBEWE CONSULTING SERVICES PRIVATE LIMITED → none
+  · Henotic It Solutions Private Limited → none
+  · ENJOYFRESH SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · Hydizo Global Solutions Private Limited → none
+  · APPNETWISE PRIVATE LIMITED → none
+  … checkpoint 190/930 (hits=5)
+  · Marven Data Systems → none
+  · Jeena → none
+  · ASL Information Services Private Limited → none
+  · SAAWM SOLUTION (OPC) PRIVATE LIMITED → none
+  · RUBIA SERVICES (OPC) PRIVATE LIMITED → none
+  · DIGITAL MAPOUT SOLUTIONS INDIA PRIVATE LIMITED → none
+  · SYNTRINO PRIVATE LIMITED → none
+  · SWANA TECHNO IT CONSULTING SERVICES PRIVATE LIMITED → none
+  · In Focus Software Solutions → none
+  · GTK Software Solutions LLP → none
+  … checkpoint 200/930 (hits=5)
+  · UNIQON CONSULTING PRIVATE LIMITED → none
+  · Diligencify → none
+  · Dbook Event Management → none
+  · SAYUKTH TECHNOLOGIES PRIVATE LIMITED → none
+  · SNR Innovations → none
+  · CRESOL INFOSERV PRIVATE LIMITED → none
+  · VIBA PURSUITS PRIVATE LIMITED → none
+  · Skillcentre Technologies Private Limited → none
+  · Talent Waves Solutions Pvt Ltd → none
+  · ISAPI INFOTECH PRIVATE LIMITED → none
+  … checkpoint 210/930 (hits=5)
+  · MAINSTREAMTEK PRIVATE LIMITED → none
+  · Wielabs Tech Products and Services → none
+  · BEAN BAG LABS PRIVATE LIMITED → none
+  · kanerika software private limited → none
+  · Lutetium International Marketing Pvt Ltd → none
+  · M3Y MOBILE SOLUTIONS PRIVATE LIMITED → none
+  · Ponaganti Tech Solutions → none
+  · Nayana Group → none
+  · INDRIZE TECHNOLOGIES PRIVATE LIMITED → none
+  · AMREDHYA TECHNOLOGY SERVICES LLP → none
+  … checkpoint 220/930 (hits=5)
+  · VNB TECHNOLOGIES PRIVATE LIMITED → none
+  · AFFI DIGITAL TECHNOLOGIES PRIVATE LIMITED → none
+  · DIGITAL EDZE BUSINESS SOLUTIONS LLP → none
+  · PEDESIS PRIVATE LIMITED → none
+  · OLIVE IDEAS LAB PRIVATE LIMITED → none
+  · FACTSERVICES PRIVATE LIMITED → none
+  · XLR KONNECT PRIVATE LIMITED → none
+  · BRIGHT DATA SOLUTIONS PRIVATE LIMITED → none
+  · VKOLLAB TECHNOLOGIES PRIVATE LIMITED → none
+  · TSAROLABS PRIVATE LIMITED → none
+  … checkpoint 230/930 (hits=5)
+  · INCREEKS PRIVATE LIMITED → none
+  · POTAMI SOFTWARE LLP → none
+  · Infospoke Technologies → none
+  · MSD PUBLICATIONS INDIA PRIVATE LIMITED → none
+  · Notion51 Digital Technologies pvt ltd → none
+  · kNOCk → none
+  · Mempage Technologies Private Limited → none
+  · INFOCHORD TECHNOLOGIES PRIVATE LIMITED → none
+  · Data Infinity Intelligence Private Limited → none
+  · GKNYAK IT PRIVATE LIMITED → none
+  … checkpoint 240/930 (hits=5)
+  · SANDV CAPITALS PRIVATE LIMITED → none
+  · PropYaar → none
+  · TVISHA COMMUNICATIONS PRIVATE LIMITED → none
+  · SMART PHARMA SOFT SOLUTIONS PRIVATE LIMITED → none
+  · FNCYBER SECURITY CONSULTING SERVICES PRIVATE LIMITED → none
+  · DIGITAL CLOUD CONSULTING SERVICES PRIVATE LIMITED → none
+  · UNOTEAM SOFTWARE PRIVATE LIMITED → none
+  · JVR Consulting → none
+  · Souratron IT Solutions → none
+  · CAMBAY CONSULTING INDIA PRIVATE LIMITED → none
+  … checkpoint 250/930 (hits=5)
+  · PR Tech Consultancy → none
+  · VIBA TECH SOLUTIONS PRIVATE LIMITED → none
+  · BITBOTS TECHNOLOGIES PRIVATE LIMITED → none
+  · KINICH IT LABS PRIVATE LIMITED → none
+  · Verch Consulting LLP → none
+  · Techineur Solutions Private Limited → none
+  · WINZARD SOLUTIONS PRIVATE LIMITED → none
+  · R3H TECHNOLOGY SERVICES → none
+  · FEBA TECHNOLOGIES PRIVATE LIMITED → none
+  ✓ TECHSTAR IT SERVICES PRIVATE LIMITED → smartrecruiters/techstargroup
+  … checkpoint 260/930 (hits=6)
+  · Richer → none
+  · MAYIL TECHNOLOGIES PRIVATE LIMITED → none
+  · Core IT Systems and Services → none
+  · DHANUSH SOFTECH PRIVATE LIMITED → none
+  · Technosys International → none
+  · CITIUS SOLUTIONS PRIVATE LIMITED → none
+  · EMPHORA SOFT PRIVATE LIMITED → none
+  · SPEARSOFT TECHNO SOLUTIONS PRIVATE LIMITED → none
+  · DATA SIMPLE TECHNOLOGIES PRIVATE LIMITED → none
+  · AppDeviser → none
+  … checkpoint 270/930 (hits=6)
+  · Smart Search Solutions → none
+  · GHSL TECHNOLOGIES PRIVATE LIMITED → none
+  · WIELABS TECH PRODUCTS AND SERVICES PRIVATE LIMITED → none
+  · S&M Scholarly Solutions  → none
+  · SEERA SOFT SOLUTIONS PRIVATE LIMITED → none
+  · Sria Infotech → none
+  · KASU CONSULTING SERVICES INDIA PRIVATE LIMITED → none
+  · PAKKUN TECHNOLOGIES PRIVATE LIMITED → none
+  · ELORCE TECHNOLOGIES PRIVATE LIMITED → none
+  · Sintech Solutions Private Limited → none
+  … checkpoint 280/930 (hits=6)
+  · INNOVENT TECHNOLOGIES PRIVATE LIMITED → none
+  · Kushal Technologies → none
+  · DAXV TECHNOLOGIES PRIVATE LIMITED → none
+  · DigitoWork → none
+  · ISCS Technologies Pvt. Ltd → none
+  · Adhaata Computing Systems Pvt Ltd. → none
+  · TRIGITAL TECHNOLOGIES PRIVATE LIMITED → none
+  · KANVITECH SOLUTIONS PRIVATE LIMITED → none
+  · Sytech Labs Private Limited → none
+  · Eventbay Technologies Private Limited → none
+  … checkpoint 290/930 (hits=6)
+  · AOCINC → none
+  · Aptiway Technologies Private Limited → none
+  · DEEP TRACE CYBERNETICS PRIVATE LIMITED → none
+  · GLAUBEN INDUSTRIES PRIVATE LIMITED → none
+  · MRT INFO TECHNOLOGIES PRIVATE LIMITED → none
+  · WEBLABS IT SOLUTIONS  → none
+  ✓ Paytm → lever/paytm
+  · SheJobs → none
+  · Sf Web Solutions Private Limited → none
+  · Digital Raiz Creative Solutions → none
+  … checkpoint 300/930 (hits=7)
+  · DRIVEIT TECHNOLOGIES PRIVATE LIMITED → none
+  · HELLO AMC - Known for IT Support & More → none
+  · ARASMO Technologies Private Limited → none
+  · Callippus Solutions Private Limited → none
+  · Aria Apps Digital  → none
+  · GUSTASI INFORMATICS PRIVATE LIMITED → none
+  · INNOWORKS SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · CARAMEL IT SERVICES PRIVATE LIMITED → none
+  · CLINZTECH → none
+  · CVR IDREAM TECH PRIVATE LIMITED → none
+  … checkpoint 310/930 (hits=7)
+  · WILDBLUE DIGITAL LLP → none
+  · Peppty → none
+  · ELORCE INDUSTRIES PRIVATE LIMITED → none
+  · PAGO ANALYTICS INDIA PRIVATE LIMITED → none
+  · BWJ Tech Solutions  → none
+  · O7LAB INFOTECH PRIVATE LIMITED → none
+  · SIERA IT SERVICES PRIVATE LIMITED → none
+  · GoitDEV Technlogies OPC Pvt ltd → none
+  · CODEKINDLE SOLUTIONS PRIVATE LIMITED → none
+  · INFINITY SPARK INDIA PRIVATE LIMITED → none
+  … checkpoint 320/930 (hits=7)
+  · SMAC IT → none
+  · Avishkar Consulting Services → none
+  · TeamBlue IT Services Pvt Ltd → none
+  · ZOBAZE TECHNOLOGIES PRIVATE LIMITED → none
+  · RJ GLOBAL SOLUTIONS → none
+  · Doelsoft IT Services Private Limited → none
+  · Thincovate Software Solutions → none
+  · PSR IT SERVICES PRIVATE LIMITED → none
+  · Meet at your home! → none
+  · M/s TECHNOCRAT INTEGRATORS → none
+  … checkpoint 330/930 (hits=7)
+  · BR Group → none
+  · Zensark Technologies Private Limited → none
+  · FINTRA SOFTWARE PRIVATE LIMITED → none
+  · Entirety Technologies → none
+  · DIYOS INFOTECH PRIVATE LIMITED → none
+  · TAGCOR INDIA ONLINE SERVICES PRIVATE LIMITED → none
+  · Storlane → none
+  · VISHIST BUSINESS SOLUTIONS PRIVATE LIMITED → none
+  · TEKROI PRIVATE LIMITED → none
+  · AIOT TECHNOLOGIES PRIVATE LIMITED → none
+  … checkpoint 340/930 (hits=7)
+  · Aurora E Labs Private Limited → none
+  · Prabodh technologies LLP → none
+  · Esdy Information System Private Limited → none
+  · IT DIGITAL HUB → none
+  · innoGen Research → none
+  · GLENN STAR TECHNOLOGIES PRIVATE LIMITED → none
+  · CIPHERTEXT TECHNOLOGIES PRIVATE LIMITED → none
+  · Vibhuaya Technologies Private Limited → none
+  · SCUBOID SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · WEBSTOK INNOVATIONS PRIVATE LIMITED → none
+  … checkpoint 350/930 (hits=7)
+  · SHRADDHA GEO TECHNOLOGIES LLP → none
+  · RWAVE SOFTWARE TECHNOLOGIES PRIVATE LIMITED → none
+  · Flizar Infotech → none
+  · Swiftcarry Pvt Ltd → none
+  · HARMONY PLATFORMS PRIVATE LIMITED → none
+  · TAKSHA X ONLIN PRIVATE LIMITED → none
+  · FANTI CLOUD PRIVATE LIMITED  → none
+  · Logiclink Labs → none
+  · BLOCKFORTRUST SOLUTIONS PRIVATE LIMITED → none
+  · MANO NIRMAN INNOVATIONS PRIVATE LIMITED → none
+  … checkpoint 360/930 (hits=7)
+  · NEXIVO CONSULTING PRIVATE LIMITED → none
+  · SETUSERV INFORMATICS PRIVATE LIMITED → none
+  · KOVID ANALYTICS SOLUTIONS INDIA PRIVATE LIMITED → none
+  · GOOGOL TECHKNOWLOGIES PRIVATE LIMITED → none
+  · MOR INNOVATIVE TECHNOLOGIES PRIVATE LIMITED → none
+  · Cloud4.io → none
+  · Shivani Sharma → none
+  · RYVER TECHNOLOGIES PRIVATE LIMITED → none
+  · SDA Innovative IT Solutions PVT LTD → none
+  · GUNJUTE TECHNOLOGIES (OPC) PRIVATE LIMITED → none
+  … checkpoint 370/930 (hits=7)
+  · METANOVA AI PRIVATE LIMITED → none
+  · Raps Confab Private Limited → none
+  · Dezen Technology Solutions Private Limited → none
+  · GANDIVA IT SERVICES PRIVATE LIMITED → none
+  · APEXMERCE SOLUTIONS PRIVATE LIMITED → none
+  · DYNAMICO IT SOLUTIONS PRIVATE LIMITED → none
+  · TEK NINJAS PRIVATE LIMITED → none
+  · Zenbyt Private Limited → none
+  · EPITOMEHUB TECHNOLOGIES PRIVATE LIMITED → none
+  · BAM FORCE PRIVATE LIMITED → none
+  … checkpoint 380/930 (hits=7)
+  · GYAAN LABS INDIA PRIVATE LIMITED → none
+  · SEVEN83 SYSTEMS PRIVATE LIMITED → none
+  · NAPLES TECHSOL PRIVATE LIMITED → none
+  · VERSATILE COMMERCE LLP → none
+  · Bharat One Way → none
+  · AvenirDigital Solutions Pvt. Ltd. → none
+  · GAC DIGITAL PRIVATE LIMITED → none
+  · WINGSTEK INNOVATIONS PRIVATE LIMITED → none
+  · VIDROSYS TECHNOLOGIES (OPC) PRIVATE LIMITED → none
+  · DATASPEAKS SERVICES PRIVATE LIMITED → none
+  … checkpoint 390/930 (hits=7)
+  · Atriyo Technologies → none
+  · ALTICE LABS INDIA PRIVATE LIMITED → none
+  · Bilwaa Technologies Private Limited. → none
+  · ADDATTO SOFTWARE SERVICES PRIVATE LIMITED → none
+  · FIXITY TECHNOLOGIES PRIVATE LIMITED → none
+  · 2080 TECHNOLOGIES PRIVATE LIMITED → none
+  · MIRAI GEN PRIVATE LIMITED → none
+  · Sign Panel → none
+  · BRANIC TECH SOLUTIONS PRIVATE LIMITED → none
+  · THVR QUANTUMTECH IT SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 400/930 (hits=7)
+  · SOFTPATH TECH SOLUTIONS PRIVATE LIMITED → none
+  · Ametecs India Private Limited → none
+  · Xyronics → none
+  · EAGLEMOUNT SOFTWARE PRIVATE LIMITED → none
+  · Adamantine Digital Pvt Ltd → none
+  · Expeed Software Private Limited → none
+  · MACHINT SOLUTIONS PRIVATE LIMITED → none
+  · Cipherhub Solutions Pvt Ltd → none
+  · PRIMIC IT SOLUTIONS PRIVATE LIMITED → none
+  · SACHA TECHNOLOGIES → none
+  … checkpoint 410/930 (hits=7)
+  · NFR INFOTECH (OPC) PRIVATE LIMITED → none
+  · BabyCornSoft LLP → none
+  · Jupiter Meta → none
+  · HASHTAG DIAL PRIVATE LIMITED → none
+  · Slyko Technologies Private Limited → none
+  · CIYASH TECHNOLOGIES PVT LTD → none
+  · RENOTE AI PRIVATE LIMITED → none
+  · ZERODOT PLUS PRIVATE LIMITED → none
+  · LETITBEX AI TECH SOLUTIONS PRIVATE LIMITED → none
+  · TRISHOKA DIGITAL SERVICES → none
+  … checkpoint 420/930 (hits=7)
+  · CEEWELL TECHNOLOGIES PVT LTD → none
+  · PIXELSTAT E-SOLUTIONS DEVELOPMENT PRIVATE LIMITED → none
+  · VAB INFORMATICS PRIVATE LIMITED → none
+  · INSIGHTBLEND ANALYTICS LLP → none
+  · AIMNXT TECHNOLOGIES LLP → none
+  · Spack Solutions Pvt Ltd → none
+  · CODEHIVE LABS PRIVATE LIMITED → none
+  · INFOREPOS TECHNOLOGIES PRIVATE LIMITED → none
+  · Clintask Solutions Private Limited → none
+  · Shinehigh Xperts Private Limited → none
+  … checkpoint 430/930 (hits=7)
+  · HYENA INFORMATION TECHNOLOGIES PRIVATE LIMITED → none
+  · Dream Satisfy Digital Agency → none
+  · Omniworks Private Limited → none
+  · CLOUD 9 SECURE TALENT PRIVATE LIMITED → none
+  · Synchroni Global  → none
+  · VELOVOX INFOTECH PRIVATE LIMITED → none
+  · Kaizen Platforms → none
+  · DATA ERPSYSTEMS INDIA PRIVATE LIMITED → none
+  · CYNORSENSE SOLUTIONS PRIVATE LIMITED → none
+  · ATPS GLOBAL PRIVATE LIMITED → none
+  … checkpoint 440/930 (hits=7)
+  · FIXEL MEDIA PRIVATE LIMITED → none
+  · CPD → none
+  · wexdi software services → none
+  · UXINTERFACELY IT SOLUTIONS LLP → none
+  · VIDURA INFOTECH LLP → none
+  · SMALL FARE SERVICES PRIVATE LIMITED → none
+  · SAPPHIRUS SYSTEMS PRIVATE LIMITED → none
+  · SUN SPACE CLOUD TECHNOLOGIES PRIVATE LIMITED → none
+  · COLLABTECHNIQS CONSULTING PRIVATE LIMITED → none
+  · LESINIO PRIVATE LIMITED → none
+  … checkpoint 450/930 (hits=7)
+  · EARBOR LLP → none
+  · AJUSERV IT SOLUTIONS PRIVATE LIMITED → none
+  · KREDAS IT AND ITES INDIA PRIVATE LIMITED → none
+  · XYENTA SOLUTIONS INDIA PRIVATE LIMITED → none
+  · T-Connect Consultancy and Service Private Limited → none
+  · TEKNOVATE ENTERPRISE SOLUTIONS PRIVATE LIMITED → none
+  · ViralPe Sales and Services Private Limited → none
+  · SNAD Developers India Private Limited  → none
+  · BRIGHT PATH INNOVATORS PRIVATE LIMITED → none
+  · SOFT ELECTRONIC SOLUTIONS → none
+  … checkpoint 460/930 (hits=7)
+  · PROTECCIO DATA SOLUTIONS PRIVATE LIMITED → none
+  · CENTPERCENT TECHNOLOGIES PRIVATE LIMITED → none
+  · VIDER BUSINESS SOLUTIONS PRIVATE LIMITED → none
+  · ASPIRE TEKHUB SOLUTIONS PRIVATE LIMITED → none
+  · HSB INFORMATION TECHNOLOGIES PRIVATE LIMITED → none
+  · AZNOX IT SOLUTIONS PRIVATE LIMITED → none
+  · SUNE SOLUTIONS PRIVATE LIMITED → none
+  · SUBETEMAHO SOLUTIONS PRIVATE LIMITED → none
+  · Krishnas Digital Technologies and Softlabs Private Limited → none
+  · GVR INFOSYSTEMS PRIVATE LIMITED → none
+  … checkpoint 470/930 (hits=7)
+  · DCODEXP IT SOLUTIONS PRIVATE LIMITED → none
+  · SREEVIA AI TECHNOLOGIES PRIVATE LIMITED → none
+  · TWINFINITY DIGITECH SOLUTIONS PRIVATE LIMITED → none
+  · YUDI INFOTECH → none
+  · CROSKAL TECHNOLOGIES PRIVATE LIMITED → none
+  · PROSYS BUSINESS SOLUTIONS PRIVATE LIMITED → none
+  · LEVER & FULCRUM SOLUTIONS PRIVATE LIMITED → none
+  · SRIVEN DIGITAL INDIA PRIVATE LIMITED → none
+  · Raisonminds solutions private limited → none
+  · QUINNTECH SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 480/930 (hits=7)
+  · ASETONS IT SERVICES → none
+  · RAMIGANI TECH SOLUTIONS PRIVATE LIMITED → none
+  · ELV8PRO CONSULTS PRIVATE LIMITED → none
+  · PRT SOFTWARE SOLUTIONS LLP → none
+  · RJAY Technologies Private Limited → none
+  · SRI YANTRA VIDYA INTELLIGENT SYSTEMS PRIVATE LIMITED → none
+  · BIOECOSAT DIGITAL PRIVATE LIMITED → none
+  · ISCS Technologies Private Limited → none
+  · KBK BUSINESS SOLUTIONS PRIVATE LIMITED → none
+  · NEXUSEPM CONSULTING PRIVATE LIMITED → none
+  … checkpoint 490/930 (hits=7)
+  · FUTURE STERN SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · PGSN SOFT TECH PRIVATE LIMITED → none
+  · ZYNLOGIC TECHNOLOGIES PRIVATE LIMITED → none
+  · EONN UNIVERSE PRIVATE LIMITED → none
+  · FLEETRONIX SYSTEMS PRIVATE LIMITED → none
+  · CONVEY TECH LABS INDIA PRIVATE LIMITED → none
+  · NITI9 Services → none
+  · APPSPIRE SOLUTIONS (OPC) PRIVATE LIMITED → none
+  · Leon Hosting services  → none
+  · SRR FUTURE TECH SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 500/930 (hits=7)
+  · INFOSOLIC TECHNOLOGIES PRIVATE LIMITED → none
+  · SRIJAY SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · SADHU TECHNOLOGIES PRIVATE LIMITED → none
+  · YGR GOBAL IT SERVICES PRIVATE LIMITED → none
+  · STACK AID TECHNOLOGIES (OPC) PRIVATE LIMITED → none
+  · ALBUM PRIVATE LIMITED → none
+  · APEX ENVISION SPATIAL PRIVATE LIMITED → none
+  · LAXM (OPC) PRIVATE LIMITED → none
+  · FLY EXPLORE TRAVELTECH PRIVATE LIMITED → none
+  · SWAT WEB INDIA PRIVATE LIMITED → none
+  … checkpoint 510/930 (hits=7)
+  · TIVOXY CORPORATION PRIVATE LIMITED → none
+  · NTNL IT SOLUTIONS PRIVATE LIMITED → none
+  · BUSINESSPORT INDIA LLP → none
+  · BILL BOX TECHNOLOGIES PRIVATE LIMITED → none
+  · SAVYASACHEE AI TECHNOLOGIES PRIVATE LIMITED → none
+  · SWAKRITHI INNOVATIONS PRIVATE LIMITED → none
+  · AJS INNOVATIONS PRIVATE LIMITED → none
+  · BAZOOKA TECHNOLOGIES PRIVATE LIMITED → none
+  · LANCORP TECHNOLOGIES PRIVATE LIMITED → none
+  · PROPENU SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 520/930 (hits=7)
+  · Vatsa Procons, LLP. → none
+  · SIARHO GLOBAL SOLUTIONS PRIVATE LIMITED → none
+  · SAMYAK ECO SOLUTIONS LLP → none
+  · Prowess Bridge Tech Pvt Ltd → none
+  · BOSS GLOBAL PRIVATE LIMITED → none
+  · DREAM LEVEL SOLUTIONS PRIVATE  LIMITED → none
+  · BIZIONIC TECHNOLOGIES PRIVATE LIMITED → none
+  · REDIHIRE GLOBAL SERVICES PRIVATE LIMITED → none
+  · DEBITE SOLUTIONS PRIVATE LIMITED → none
+  · LEAF CRAFT PRIVATE LIMITED → none
+  … checkpoint 530/930 (hits=7)
+  · CLOUDSTEPIN TECHNOLOGIES PRIVATE LIMITED → none
+  · SKYWEB IT SOLUTIONS PRIVATE LIMITED → none
+  · SHAVIGROW PRIVATE LIMITED → none
+  · HYPERGRID TECHNOLOGY SOLUTIONS PRIVATE LIMITED → none
+  · TEKTONICS SERVICES (OPC) PRIVATE LIMITED → none
+  · AGRIBRIDGE INDIA LLP → none
+  · VANCOR GLOBAL SERVICES PRIVATE LIMITED → none
+  · EPTPRAVAHAA EDU TECH SOLUTIONS PRIVATE LIMITED → none
+  · SPLITBIT INNOVATIVE SOLUTIONS LLP → none
+  · NFORCE ONE PRIVATE LIMITED → none
+  … checkpoint 540/930 (hits=7)
+  · LANCESOFT HPO SERVICES PRIVATE LIMITED → none
+  · CLOUDEVOLVE INTERNET SERVICES PRIVATE LIMITED → none
+  · WEBORA SOLUTIONS LLP → none
+  · SFON TECHNOLOGIES LLP → none
+  ·  ZENNX TECHNOLOGIES PRIVATE LIMITED → none
+  · SARTHAKEDGE IT SOLUTIONS PRIVATE LIMITED → none
+  · MOXIEIT DIGITAL PVT LTD → none
+  · MONEY MITRA GROUP INDIA LLP → none
+  · GIFTY APP SOLUTIONS → none
+  · DIGO IT SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 550/930 (hits=7)
+  · CASPIAN SOLUTIONS LLP → none
+  · Lunovian Technologies → none
+  · Zaltix soft solutions Private Limited → none
+  · PROCESS GRIT PRIVATE LIMITED → none
+  · MEDHATECHVERSE PRIVATE LIMITED → none
+  · I4D PARISHKAAR TECHNOLOGIES PRIVATE LIMITED → none
+  · TEKNR IT SOLUTIONS PRIVATE LIMITED → none
+  · VISTAWAYSTECH LLP → none
+  · RKS BRAINSTORM PRIVATE LIMITED → none
+  · Srivin Tech Private Limited → none
+  … checkpoint 560/930 (hits=7)
+  · sutantra software → none
+  · SPESHWAY SOLUTIONS PRIVATE LIMITED → none
+  · DIGITOWORK SOLUTIONS LLP → none
+  · TATTVA TECH SOLUTIONS PRIVATE LIMITED → none
+  · SNEPATH IT TECHNOLOGIES PRIVATE LIMITED → none
+  · REVONEER CONSULTANCY SERVICES PRIVATE LIMITED → none
+  · Bremermann Digital Consulting Pvt ltd → none
+  · TREZO PRIVATE LIMITED → none
+  · INGWA LABS IT SERVICES PRIVATE LIMITED → none
+  · VOLKSSKATT INFOTECH PRIVATE LIMITED → none
+  … checkpoint 570/930 (hits=7)
+  · CREATIVE GROUND TECHNOLOGIES PRIVATE LIMITED → none
+  · VASDOL TECHNOLOGIES PRIVATE LIMITED → none
+  · RAYNASYS TECHNOLOGIES PRIVATE LIMITED → none
+  · DestinPQ → none
+  · STARMEDA SOLUTIONS PRIVATE LIMITED → none
+  · IMPULSEIQ CONSULTING PRIVATE LIMITED → none
+  · LINUS PLATFORMS PRIVATE LIMITED → none
+  · BLUE WHEEL INNOVATIONS PRIVATE LIMITED → none
+  · ALTZEN TECHNOLOGIES PRIVATE LIMITED → none
+  · KANZOO GLOBAL PRIVATE LIMITED → none
+  … checkpoint 580/930 (hits=7)
+  · SNC&IT Services Private Limited → none
+  · VINCERE TECH SOLUTIONS PRIVATE LIMITED → none
+  · OMNIEBEE GLOBAL SOLUTIONS PRIVATE LIMITED → none
+  · AURAON TECHNOLOGIES AND SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · SASTECH INNOVISION PRIVATE LIMITED → none
+  · SRI DIVYA SANKALPSHAKTHI PRIVATE LIMITED → none
+  · JBN INNO TECH PRIVATE LIMITED → none
+  · PRAKMAS GLOBAL INNOVATIONS PRIVATE LIMITED → none
+  · XPLORE NEW → none
+  · AYNTECHLAB SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 590/930 (hits=7)
+  · MIRRORWEBS PRIVATE LIMITED → none
+  · BHAMI SOFTWARE TECHNOLOGIES PRIVATE LIMITED → none
+  · RV VERTEX TECHNOLOGIES PRIVATE LIMITED → none
+  · UNIQODE TECH SOLUTIONS PRIVATE LIMITED → none
+  · CYLONOAK TECHNOLOGY PRIVATE LIMITED → none
+  · ZYNGRAM IT SERVICES PRIVATE LIMITED → none
+  · REMOTEBUDDEE IT SERVICES PRIVATE LIMITED → none
+  · KITSAC IT & SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · LOGIKWERK PRIVATE LIMITED → none
+  · MINEMATICS SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 600/930 (hits=7)
+  · VISHMUKA TECHWORKS PRIVATE LIMITED → none
+  · VRIKODA TECHNOLOGIES PRIVATE LIMITED → none
+  · CONFIDEO IT SERVICES LLP → none
+  · MIO SYNERGY LLP → none
+  · TECH DHISHANA PRIVATE LIMITED → none
+  · AKVIP Technologies → none
+  · FUTURE INVO SOLUTIONS → none
+  · PYRAMIDFUSION TECH INDIA LLP → none
+  · PRINCO SOLUTIONS PRIVATE LIMITED → none
+  · AAJ CODERS HUB PRIVATE LIMITED → none
+  … checkpoint 610/930 (hits=7)
+  · Noventis It Private limited → none
+  · GROWTHX AI PARTNERS LLP → none
+  · MAGNIFIQ IT SOLUTIONS PRIVATE LIMITED → none
+  · GALACTIX SOLUTIONS PRIVATE LIMITED → none
+  · COINEARTH TECHNOLOGIES PRIVATE LIMITED → none
+  · ANALOGUE TECHNOSOL PRIVATE LIMITED → none
+  · IDEA VAULT TECH LLP → none
+  · SYK TECHNOLOGIES PRIVATE LIMITED → none
+  · DEXAMINDS SOFTWARE PRIVATE LIMITED → none
+  · EZERV SOLUTIONS INDIA PRIVATE LIMITED → none
+  … checkpoint 620/930 (hits=7)
+  · THINKSMITHS SOFTWARE SERVICES PRIVATE LIMITED → none
+  · HARIDRA IT PRIVATE LIMITED → none
+  · ORBITNEXA TECHNOLOGIES (OPC) PRIVATE LIMITED → none
+  · KASTECH SOFTWARE SOLUTIONS (INDIA) PRIVATELIMITED → none
+  · PANACEA IT SERVICES PRIVATE LIMITED → none
+  · NOVETUM PRIVATE LIMITED → none
+  · TECHNEX CLOUD NETWORKS PRIVATE LIMITED → none
+  · MAINFRAME CONSULTING LLP → none
+  · AMARA INFO TECH LLP → none
+  · AADHYA INNOVATIONS GROUP (OPC) PRIVATE LIMITED → none
+  … checkpoint 630/930 (hits=7)
+  · ZYPHERCODE PRIVATE LIMITED → none
+  · CGK TTS IT SOLUTIONS PRIVATE LIMITED → none
+  · INTOTHEPRO TECHSCAPES → none
+  · PATTERNS INFOTECH PRIVATE LIMITED → none
+  · Vijay Software Solutions Private Limited  → none
+  · ZEN PY TECHNOLOGIES (OPC) PRIVATE LIMITED → none
+  · HASHKRAFT TECHNOLOGIES PRIVATE LIMITED → none
+  · WORLDTEK INNOVATIONS PRIVATE LIMITED → none
+  · YELLOW SLATE EDUCATION LLP → none
+  · ELYOT IT SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 640/930 (hits=7)
+  · INNOVIENT TECH SOLUTIONS PRIVATE LIMITED → none
+  · Gamic Solutions → none
+  · HAMMU SOLUTIONS LLP → none
+  · ALEHSA SOFTECH PRIVATE LIMITED → none
+  · AURINKO IT SOLUTIONS PRIVATE LIMITED → none
+  · KRYSTAA INFOSYSTEMS PRIVATE LIMITED → none
+  · SYNCPEDIA TECHNOLOGIES PRIVATE LIMITED → none
+  · GRAFTLY PRIVATE LIMITED → none
+  · ENSPIRIT TECHNOLOGY SERVICES PRIVATE LIMITED → none
+  · KYNEXUS GLOBAL TECHNOLOGIES PRIVATE LIMITED → none
+  … checkpoint 650/930 (hits=7)
+  · MITRA VERIFY → none
+  · INFINI TECH SOFT LLP → none
+  · NAMYA IT SOLUTIONS LLP → none
+  · QUANTOVA LLP → none
+  · TEKISHO INFOTECH PRIVATE LIMITED → none
+  · MARTINET TECHNOLOGIES PRIVATE LIMITED → none
+  · VAYUBLUE PRIVATE LIMITED → none
+  · ORBITNEXA TECHNOLOGIES PRIVATE LIMITED → none
+  · WEBIDEAL SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · LAPIS LAZULI SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 660/930 (hits=7)
+  · RakshaQ Pvt Ltd → none
+  · PROFICIENTNOW RECRUITMENT PRIVATE LIMITED → none
+  · KIran → none
+  · Activation Functions (P) Limited → none
+  ✓ Cohere support services → greenhouse/coherehealth
+  · VILS AIT → none
+  · STELLAR SOFTWARE TECHNOLOGIES PRIVATE LIMITED → none
+  · AMI Technologies  → none
+  · SAI Solutions Pvt Ltd → none
+  · Frontier Labs → none
+  … checkpoint 670/930 (hits=8)
+  · Vikas Choudhary → none
+  · TRESM LABS PRIVATE LIMITED → none
+  · GENY MEDIUM LABS PRIVATE LIMITED → none
+  · DEEPFORGE AI PRIVATE LIMITED → none
+  · NUACEM AI PRIVATE LIMITED → none
+  · PlugXR Reality Private Limited → none
+  · SESAT SOLUTIONS PRIVATE LIMITED → none
+  · AIML  → none
+  · Focus Labs → none
+  · Feednet Artificial Intelligence → none
+  … checkpoint 680/930 (hits=8)
+  · Origin Cloud Technologies → none
+  · HIREX.AI PRIVATE LIMITED → none
+  · ATAI LABS PRIVATE LIMITED → none
+  · SYBERZEN INFOSEC PRIVATE LIMITED → none
+  · PROFIT BLOOM PRIVATE LIMITED → none
+  · SOCIAL TEK AI&ML BUSINESS SOLUTIONS PRIVATE LIMITED → none
+  · Awone → none
+  · Awone Datasciences Private Limited → none
+  · Neural Labs Private Limited → none
+  · Infinity  → none
+  … checkpoint 690/930 (hits=8)
+  · HITECHWAYS CONSULTING SERVICES PRIVATE LIMITED → none
+  · Mindmap Digital Private Limited → none
+  · DeployH.ai Technologies Private Limited → none
+  · REDSECOPS CYBER INDIA PRIVATE LIMITED → none
+  · HUTAH TECHNOLOGIES PRIVATE LIMITED → none
+  · Tars.Ai → none
+  · Grad Commerce Ai Services Private Limited → none
+  · Ai Hawks Software Solutions Private Limited → none
+  · PHOEBUS AI SOLUTIONS PRIVATE LIMITED → none
+  · MUSQUARE TECHNOLOGIES PRIVATE LIMITED → none
+  … checkpoint 700/930 (hits=8)
+  · Planck → none
+  · ALGOHIRE TECHNOLOGIES PRIVATE LIMITED → none
+  · Smart Parking → none
+  · ZIGNA AI PRIVATE LIMITED → none
+  · KwikML → none
+  · AITOBI TECHNOLOGIES PRIVATE LIMITED → none
+  · ENIXTA INNOVATIONS PRIVATE LIMITED → none
+  · NEXTBILLION. AI INDIA PRIVATE LIMITED → none
+  · Particle → none
+  · Nexara → none
+  … checkpoint 710/930 (hits=8)
+  · MIGHTYMONK TECHNOLOGIES PRIVATE LIMITED → none
+  · IPHIPI TECHNOLOGIES PRIVATE LIMITED → none
+  · SLASHNSAP TECHNOLOGIES PRIVATE LIMITED → none
+  · LITETHINK AI LLP → none
+  · Techsharthi Consultancy Services India LLP → none
+  · QUICK AI PRIVATE LIMITED → none
+  · NEXUSIQ SOLUTIONS LLP → none
+  · TGVC TECHNOLOGIES LLP → none
+  · Zigna AI Pvt Ltd → none
+  · KALYAN SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 720/930 (hits=8)
+  · HOMEYHUTS PRIVATE LIMITED → none
+  · TensorGo Software Private Limited → none
+  · VAI → none
+  · DOTBOTICS PRIVATE LIMITED → none
+  · STARK.AI → none
+  · PHOQTEK LABS PRIVATE LIMITED → none
+  · SYNCHRONI GLOBAL IT SOLUTIONS PRIVATE LIMITED → none
+  · APEX AI TECHNOLOGIES LLP → none
+  · GO SMART FINTOOLS PRIVATE LIMITED → none
+  · CONEIO PRIVATE LIMITED → none
+  … checkpoint 730/930 (hits=8)
+  · DATAEKO.AI TECHNOLOGIES PRIVATE LIMITED → none
+  · JIVICA AI PRIVATE LIMITED → none
+  · KONAX TECHNOLOGIES PRIVATE LIMITED → none
+  · Devorks Solutions Pvt Ltd  → none
+  · ACHARYA.AI LLP → none
+  · IBEE SOLUTIONS PRIVATE LIMITED → none
+  · YAKSHANEXUS PRIVATE LIMITED → none
+  · MARSMATE BUSINESS INTELLIGENCE PRIVATE LIMITED → none
+  · HYTOMA AUTOMATION LLP → none
+  · QUANTANA PRIVATE LIMITED → none
+  … checkpoint 740/930 (hits=8)
+  · ALQON INNOVATIONS PRIVATE LIMITED → none
+  · Xpert Inc → none
+  · AISCIPRO INDIA PRIVATE LIMITED → none
+  · INSIGTEYE AI TECHNOLOGIES PRIVATE LIMITED → none
+  · GEOSRI INNOVATIONS PRIVATE LIMITED → none
+  · ZYSEC AI PRIVATE LIMITED → none
+  · Rta Forge → none
+  · Sodhana AI Private Limited → none
+  · RUPEE BOTS TECH SERVICES PRIVATE LIMITED → none
+  · FUSIONEVALX PRIVATE LIMITED → none
+  … checkpoint 750/930 (hits=8)
+  · DIGIEDZE SOFT SOLUTIONS PRIVATE LIMITED → none
+  · CONVEY LABS LLP → none
+  · DHEYO AI PRIVATE LIMITED → none
+  · REPSOFT TECHNOLOGIES PRIVATE LIMITED → none
+  · LITX BIZ SOLUTIONS PRIVATE LIMITED → none
+  · STEPUPMARK MARKETING INNOVATIONS PRIVATE LIMITED → none
+  · SNESTRON SYSTEMS PRIVATE LIMITED → none
+  · CEREVYN SOLUTIONS PRIVATE LIMITED → none
+  · Mirror  → none
+  · VINDAGO INNOVATIONS LLP → none
+  … checkpoint 760/930 (hits=8)
+  · INNODATATICS SOLUTIONS PRIVATE LIMITED → none
+  · ENVISAGE INTEGRATED SOLUTIONS PRIVATE LIMITED → none
+  · VYVA IT SOLUTIONS PRIVATE LIMITED → none
+  · Solvi Tecno LLP → none
+  · ESOLUTIONSFIRST SERVICES PRIVATE LIMITED → none
+  · TARSLAB TECHNOLOGIES PRIVATE LIMITED → none
+  · SYSTEMAOPS TECHNOLOGIES PRIVATE LIMITED → none
+  · ZENERATIVE MINDS PRIVATE LIMITED → none
+  · SHIFTSPHERE TECHNOLOGIES PRIVATE LIMITED → none
+  · DHRUVAAI TECHNOLOGIES PRIVATE LIMITED → none
+  … checkpoint 770/930 (hits=8)
+  · NIRVISTA ARTIFICIAL INTELLIGENCE PRIVATE LIMITED → none
+  · ANUSHA BAZAAR TECHNOLOGIES PRIVATE LIMITED → none
+  · MIND MERGE SOFT TECH PRIVATE LIMITED → none
+  · ARION DIGITAL SOLUTIONS PRIVATE LIMITED → none
+  · DIGIKNOTS CLOUD X SERVICES PRIVATE LIMITED → none
+  · JARVIS.AI → none
+  · Logic & Litera Consulting LLP → none
+  · DIRMACS PRIVATE LIMITED → none
+  · LAKKSHIONS IT PRIVATE LIMITED → none
+  · BRIGHTCOM DEFENCE PRIVATE LIMITED → none
+  … checkpoint 780/930 (hits=8)
+  · ARQ AI LABS PRIVATE LIMITED → none
+  · WEBPIPL SOLUTIONS PRIVATE LIMITED → none
+  · DATALINK ANALYTICS PRIVATE LIMITED → none
+  · VILS AIT PRIVATE LIMITED → none
+  · TECHOPTIMA PRIVATE LIMITED → none
+  · HIRINGEYE SOLUTIONS PRIVATE LIMITED → none
+  · VIHAANG AI GLOBAL SERVICES PRIVATE LIMITED → none
+  · XAIOS SOLUTIONS (OPC) PRIVATE LIMITED → none
+  · Berenike & Bion Technologies Pvt Ltd → none
+  · HYPR4 CLOUD TECH PRIVATE LIMITED → none
+  … checkpoint 790/930 (hits=8)
+  · ACCELERIZE INDIA (AI) PRIVATE LIMITED → none
+  · SmartLogix Ai → none
+  · COMEXIM SYNERGY LLP → none
+  · VARDAAN DATA SCIENCES PRIVATE LIMITED → none
+  · BYCINC TECHNOLOGIES PRIVATE LIMITED → none
+  · INCRIVELSOFT PRIVATE LIMITED → none
+  · RESHAPP SOFTWARE SOLUTIONS PRIVATE LIMITED → none
+  · INNOIRA CONSULTING SERVICES PRIVATE LIMITED → none
+  · NARADA STUDIOS PRIVATE LIMITED → none
+  · ACINTYO GARUDA ROBOTICS PRIVATE LIMITED → none
+  … checkpoint 800/930 (hits=8)
+  · Gnosis → none
+  · ORCALEX TECHNOLOGIES LLP → none
+  · GOEDEL MACHINES PRIVATE LIMITED → none
+  · DATA VISION AI → none
+  · GRAND FXNES BUSINESS SERVICES PRIVATE LIMITED → none
+  · AIDEN AI PRIVATE LIMITED → none
+  · STAR POWERZ DIGITAL TECHNOLOGIES PRIVATELIMITED → none
+  · ZAGG Protocol → none
+  · Credex Finsol Pvt Ltd → none
+  · HEXADOTS TECHNOLOGIES PRIVATE LIMITED → none
+  … checkpoint 810/930 (hits=8)
+  · CreditVidya → none
+  · PENNANT FIN SERVICES PRIVATE LIMITED → none
+  · SAFE ANALYTICS PRIVATE LIMITED → none
+  · IBG ECHITS INDIA PRIVATE LIMITED → none
+  · Finoramic → none
+  · FINTECH PRODUCTS AND SOLUTIONS (INDIA) PRIVATE LIMITED → none
+  · TENSOR FIELDS CONSULTANCY SERVICES PRIVATE LIMITED → none
+  · Zobaze iLedger → none
+  · Vivifi India Finance Pvt Ltd → none
+  · USRPAY → none
+  … checkpoint 820/930 (hits=8)
+  · ETHIKA INSURANCE BROKING PRIVATE LIMITED → none
+  · Flush Door → none
+  · FINCSQUARE FINTECH PRIVATE LIMITED → none
+  · Paisa → none
+  · MAKSPAY FINTECH SOLUTIONS PRIVATE LIMITED → none
+  · lastmin advisors private limited → none
+  · SoHo Ventures → none
+  · murali venkat → none
+  · ZikZuk Technologies Pvt. Ltd. → none
+  · BEYOND REFUND LLP → none
+  … checkpoint 830/930 (hits=8)
+  · FINTECH FILINGS PRIVATE LIMITED → none
+  · FINTORE INDIA LLP → none
+  · RUPID TECHNOLOGY LABS PRIVATE LIMITED → none
+  · ZYENAC SOLUTIONS PRIVATE LIMITED → none
+  · Supernal Infotech Private Limited → none
+  · WORLDTEK  → none
+  · Legitimate kpo services LLP → none
+  · AGARWAL WEALTH E-MANAGEMENT PRIVATE LIMITED → none
+  · Purpleplum Digital Solutions → none
+  · MSPR INFRASTRUCTURE INDIA PRIVATE LIMITED → none
+  … checkpoint 840/930 (hits=8)
+  · Payinstacard Private Limited → none
+  · PROKIZEN GLOBAL LLP → none
+  · EESHAAN FINTECH SERVICES PRIVATE LIMITED → none
+  · AMAZE INSURANCE BROKERS PRIVATE LIMITED → none
+  · POLLUX TECH INNOVATIONS PRIVATE LIMITED → none
+  · The Bower Company  → none
+  · FINANCE BOX PRIVATE LIMITED → none
+  · FINAKON TECHNOLOGIES PRIVATE LIMITED → none
+  · BLC ERP CONSULTANCY LLP → none
+  · TROVITY INSURETECH INSURANCE BROKING SERVICES PRIVATE LIMITED → none
+  … checkpoint 850/930 (hits=8)
+  · TYRO FINANCIAL SOLUTIONS → none
+  · PAYAID PAYMENTS PRIVATE LIMITED → none
+  · WeMakeScholars → none
+  · GTM AND SONS ADVISORY PRIVATE LIMITED → none
+  · SARVA → none
+  · HASMAN HOLDINGS PRIVATE LIMITED → none
+  · Jocata Financial Advisory and Technology Services Private Limited → none
+  · PayG → none
+  · Ecofin Services India Pvt Ltd → none
+  · UNI-CHROME SOLUTIONS PRIVATE LIMITED → none
+  … checkpoint 860/930 (hits=8)
+  · LS RIGHT AGENT SERVICES (OPC) PRIVATE LIMITED → none
+  · Chartered One Softec Private Limited → none
+  · GOLDNOON FINTECH PRIVATE LIMITED → none
+  · ADVIZIN PRIVATE LIMITED → none
+  · Finsol Connect Private Limited → none
+  · Boost → none
+  · VIRTUALCA SERVICES PRIVATE LIMITED → none
+  · 2 PLUS FORTUNE ALLIANCES PRIVATE LIMITED → none
+  · PAYMAN FINTECH SOLUTIONS PRIVATE LIMITED → none
+  · Gayatri → none
+  … checkpoint 870/930 (hits=8)
+  · RUPEE QUICKER TECHNOLOGIES PRIVATE LIMITED → none
+  · VIYONA FINTECH INDIA PRIVATE LIMITED → none
+  · SVK FINTAX SOLUTIONS LLP → none
+  · ANSE Bharath Broking Private Limited → none
+  · AUDITEDGE TECHNOLOGIES PRIVATE LIMITED → none
+  · VG EXPERT TAX ADVISORS LLP → none
+  · RITZZPAY SERVICES LLP → none
+  · SHARIAH SECURITIES PRIVATE LIMITED → none
+  · INCEPTION HUB PRIVATE LIMITED → none
+  · Apna Policy Insurance Brokers Pvt Ltd → none
+  … checkpoint 880/930 (hits=8)
+  · Astra Varaahi Consulting Private Limited → none
+  · Loop Fintech → none
+  · AXIOS LEARNING AND CONSULTANCY SERVICES LLP → none
+  · DHANVITA FINTECH PRIVATE LIMITED → none
+  · TRUEMARK ACADEMY & ADVISORY SERVICES LLP → none
+  · REVIVE CORPORATE ADVISORS LLP → none
+  · VR ASSOCIATES LLP → none
+  · TOP OF THE WORLD PRIVATE LIMITED → none
+  · 7 HILLS FINTECH PRIVATE LIMITED → none
+  · SAMAVEDA CAPITAL → none
+  … checkpoint 890/930 (hits=8)
+  · ONGOLEBULLS INVEST PRIVATE LIMITED → none
+  · PAISA AGENT TECHNOLOGIES PRIVATE LIMITED → none
+  · VERTOFI PRIVATE LIMITED → none
+  · Upsure ( Jiva Business Ventures Private Limited) → none
+  · DECCAN PEAKS PRIVATE LIMITED → none
+  · Smot → none
+  · T-Works → none
+  · SP FIN SERVICES PRIVATE LIMITED → none
+  · Getto India → none
+  · Smartron → none
+  … checkpoint 900/930 (hits=8)
+  · Liquidnitro Games → none
+  · Cosmoserve Space → none
+  · Flashoot → none
+  · Bluecopa → none
+  · Donatekart → none
+  · Helex → none
+  · Hitwicket → none
+  · Kalpi → none
+  · Froogal → none
+  · Earthful → none
+  … checkpoint 910/930 (hits=8)
+  · Anvi Robotics → none
+  · FlyingCaps Technologies → none
+  · Cyrrup → none
+  · NaPanta → none
+  · FarmRobo → none
+  · ChitMonks → none
+  · Broken Atom → none
+  · Aasaan Will → none
+  · Movilti → none
+  · Parking Mantra → none
+  … checkpoint 920/930 (hits=8)
+  · Gravton Motors → none
+  · Smart ChargEV → none
+  · CarbonMint → none
+  · CricClubs → none
+  · Neuconomi → none
+  · Book My Chef → none
+  · QtPi Robotics → none
+  · Kheyti → none
+  · Faceintel → none
+  · Docturnal → none
+  … checkpoint 930/930 (hits=8)
+{
+  "done": true,
+  "classified": 930,
+  "hits": 8,
+  "misses": 922,
+  "boards": 26
+}

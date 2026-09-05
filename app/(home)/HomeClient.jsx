@@ -2,8 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../lib/firebase.js";
 import { normalizeArea, domainOf, hostnameOf, logoSrcs, colorFor, prettyName, careersUrl } from "../../lib/startupUi.js";
 import { startupSlug } from "../../lib/slug.js";
 import { jobUrlId } from "../../lib/jobs-seo.js";
@@ -18,8 +16,9 @@ function pinCircleHtml(s, small = false) {
   const color = colorFor(s.sector);
   const initial = escHtml((s.name.charAt(0) || "?").toUpperCase());
   const domain = hostnameOf(s.website) || domainOf(s.website);
-  const primary = s.logoUrl || (domain ? `https://www.google.com/s2/favicons?sz=64&domain=${domain}` : null);
-  const fallback = (s.logoUrl && domain) ? `https://www.google.com/s2/favicons?sz=64&domain=${domain}` : null;
+  const submitted = s.logoUrl ? String(s.logoUrl).replace(/^http:\/\//i, "https://") : null;
+  const primary = submitted || (domain ? `https://www.google.com/s2/favicons?sz=64&domain=${domain}` : null);
+  const fallback = (submitted && domain) ? `https://www.google.com/s2/favicons?sz=64&domain=${domain}` : null;
   const onerror = fallback
     ? `this.src='${fallback}';this.onerror=function(){this.style.display='none'}`
     : `this.style.display='none'`;
@@ -27,7 +26,7 @@ function pinCircleHtml(s, small = false) {
   // so a s2/favicons image that loads <=16px is the placeholder, not a logo.
   // Hide it and the coloured initial behind it shows through.
   const onload = `if(this.naturalWidth&&this.naturalWidth<=16&&this.src.indexOf('google.com/s2')>-1)this.style.display='none'`;
-  const img = primary ? `<img class="s-pin-logo" src="${primary}" alt="" onload="${onload}" onerror="${onerror}"/>` : "";
+  const img = primary ? `<img class="s-pin-logo" src="${primary}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onload="${onload}" onerror="${onerror}"/>` : "";
   const size = small ? " s-pin-sm" : "";
   const hiring = s.hiring ? " s-pin-hiring" : "";
   const dot = s.hiring ? `<span class="s-pin-dot"></span>` : "";
@@ -126,12 +125,14 @@ function useLeafletMap(containerRef) {
       L.control.zoom({ position: "bottomright" }).addTo(mapRef.current);
       const stadiaKey = process.env.NEXT_PUBLIC_STADIA_KEY;
       const tileUrl = stadiaKey
-        ? `https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=${stadiaKey}`
-        : "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png";
+        ? `https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png?api_key=${stadiaKey}`
+        : "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png";
       L.tileLayer(tileUrl, {
         attribution:
           '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 20,
+        updateWhenIdle: true,
+        keepBuffer: 1,
       }).addTo(mapRef.current);
       areaLayerRef.current = L.layerGroup().addTo(mapRef.current);
       spotLayerRef.current = L.layerGroup().addTo(mapRef.current);
@@ -405,6 +406,9 @@ function LogoBadge({ startup, size = 34 }) {
         alt=""
         width={size}
         height={size}
+        loading="lazy"
+        decoding="async"
+        referrerPolicy="no-referrer"
         style={{ width: size, height: size }}
         onLoad={(e) => {
           if (e.currentTarget.naturalWidth <= 16 && e.currentTarget.naturalHeight <= 16) {
@@ -536,6 +540,10 @@ function NewsletterBar({ onDismiss }) {
     if (!email.trim()) return;
     setStatus("saving");
     try {
+      const [{ collection, addDoc, serverTimestamp }, { db }] = await Promise.all([
+        import("firebase/firestore"),
+        import("../../lib/firebase.js"),
+      ]);
       await addDoc(collection(db, "subscribers"), {
         email: email.trim(),
         wantsJobAlerts,
@@ -817,6 +825,7 @@ export default function HomeClient({ initialStartups = [] }) {
   const [hiringOnly, setHiringOnly] = useState(false);
   const [newOnly, setNewOnly] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [listOpen, setListOpen] = useState(false);
   const [sidebarView, setSidebarView] = useState("list"); // "list" | "areas" — what the sidebar shows
   const [featuredInv, setFeaturedInv] = useState(null); // from /api/placements
   const [newsletterHidden, setNewsletterHidden] = useState(false);
@@ -860,10 +869,18 @@ export default function HomeClient({ initialStartups = [] }) {
   }, [initialStartups]);
 
   useEffect(() => {
-    fetch("/api/placements")
-      .then((r) => r.json())
-      .then(setFeaturedInv)
-      .catch(() => {});
+    const run = () => {
+      fetch("/api/placements")
+        .then((r) => r.json())
+        .then(setFeaturedInv)
+        .catch(() => {});
+    };
+    if (typeof requestIdleCallback === "function") {
+      const id = requestIdleCallback(run, { timeout: 2500 });
+      return () => cancelIdleCallback(id);
+    }
+    const t = setTimeout(run, 1200);
+    return () => clearTimeout(t);
   }, []);
 
   const sectors = useMemo(() => [...new Set(displayedStartups.map((s) => s.sector))].sort(), [displayedStartups]);
@@ -961,6 +978,7 @@ export default function HomeClient({ initialStartups = [] }) {
     openedFromUrlRef.current = startupParam;
     setSelected(startup);
     setSidebarOpen(false);
+    setListOpen(false);
     flyTo(startup.lat, startup.lng);
     setTimeout(invalidateSize, 260);
   }, [ready, displayedStartups, flyTo, invalidateSize]);
@@ -973,14 +991,22 @@ export default function HomeClient({ initialStartups = [] }) {
   }, [ready, sector, fundingStage, area, hiringOnly, newOnly]);
 
   useEffect(() => {
-    fetch("/api/jobs")
-      .then((r) => r.json())
-      .then((d) => {
-        const jobs = Array.isArray(d.jobs) ? d.jobs : [];
-        setJobsList(jobs.slice(0, 12));
-        setJobsTotal(jobs.length);
-      })
-      .catch(() => {});
+    const run = () => {
+      fetch("/api/jobs")
+        .then((r) => r.json())
+        .then((d) => {
+          const jobs = Array.isArray(d.jobs) ? d.jobs : [];
+          setJobsList(jobs.slice(0, 12));
+          setJobsTotal(jobs.length);
+        })
+        .catch(() => {});
+    };
+    if (typeof requestIdleCallback === "function") {
+      const id = requestIdleCallback(run, { timeout: 2500 });
+      return () => cancelIdleCallback(id);
+    }
+    const t = setTimeout(run, 1200);
+    return () => clearTimeout(t);
   }, []);
 
   function openStartup(s) {
@@ -989,7 +1015,9 @@ export default function HomeClient({ initialStartups = [] }) {
   }
 
   function toggleSidebar() {
-    setSidebarOpen((v) => !v);
+    const next = !sidebarOpen;
+    setSidebarOpen(next);
+    if (typeof window !== "undefined" && window.innerWidth <= 768) setListOpen(next);
     setTimeout(invalidateSize, 260);
   }
 
@@ -1109,7 +1137,7 @@ export default function HomeClient({ initialStartups = [] }) {
         </div>
       )}
 
-      <div className={`app-body${sidebarOpen ? "" : " sidebar-closed"}`}>
+      <div className={`app-body${sidebarOpen ? "" : " sidebar-closed"}${listOpen ? " list-open" : ""}`}>
         <aside className="sidebar">
           <div className="sb-inner">
             <div className="sb-head">
@@ -1206,6 +1234,7 @@ export default function HomeClient({ initialStartups = [] }) {
       <MobileTabBar
         onMapTab={() => {
           setSidebarOpen(false);
+          setListOpen(false);
           setTimeout(invalidateSize, 260);
         }}
       />

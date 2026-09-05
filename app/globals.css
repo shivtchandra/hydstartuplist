@@ -1770,6 +1770,85 @@ a:hover:not(.btn) {
   letter-spacing: 0.01em;
 }
 
+/* Jobs feed: denser single-column listing */
+.jobs-feed.feed-list {
+  grid-template-columns: 1fr;
+  max-width: 840px;
+  gap: 8px;
+}
+.jobs-feed-row.feed-row {
+  padding: 10px 12px;
+  align-items: center;
+  gap: 12px;
+}
+.jobs-feed-row .startup-detail-logo,
+.jobs-feed-row .card-logo,
+.jobs-feed-row .card-logo-fallback {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: contain;
+}
+.jobs-feed-row .feed-row-name {
+  font-size: 14.5px;
+}
+.jobs-feed-row .feed-row-sub {
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+.jobs-co-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.jobs-type-badge {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.45;
+  border: 1px solid transparent;
+}
+.jobs-type-startup {
+  color: var(--accent-primary, #ff5722);
+  background: var(--accent-soft, rgba(255, 87, 34, 0.12));
+  border-color: rgba(255, 87, 34, 0.28);
+}
+.jobs-type-gcc {
+  color: #0f766e;
+  background: rgba(15, 118, 110, 0.1);
+  border-color: rgba(15, 118, 110, 0.22);
+}
+.jobs-type-enterprise {
+  color: #334155;
+  background: rgba(51, 65, 85, 0.08);
+  border-color: rgba(51, 65, 85, 0.18);
+}
+.jobs-type-other {
+  color: var(--text-muted, #64748b);
+  background: rgba(100, 116, 139, 0.08);
+  border-color: var(--border-glass, #e2e8f0);
+}
+.job-share-btn-quiet.job-share-btn {
+  height: 32px;
+  width: 32px;
+  padding: 0;
+  justify-content: center;
+  opacity: 0.55;
+}
+.job-share-btn-quiet.job-share-btn:hover {
+  opacity: 1;
+}
+.jobs-intro {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  max-width: 40rem;
+}
+
 @media (max-width: 720px) {
   .jobs-filter-row .jobs-search {
     flex: 1 1 100%;
@@ -4163,10 +4242,10 @@ a:hover:not(.btn) {
 }
 
 .jobs-intro {
-  font-size: 1rem;
-  line-height: 1.65;
+  font-size: 0.95rem;
+  line-height: 1.55;
   color: var(--text-main);
-  max-width: 52rem;
+  max-width: 40rem;
 }
 
 .jobs-landing-links {

@@ -1,0 +1,1112 @@
+[
+  {
+    "name": "Zenoti",
+    "atsProvider": "greenhouse",
+    "atsSlug": "zenoti"
+  },
+  {
+    "name": "DoorDash India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "doordashindia"
+  },
+  {
+    "name": "GHX",
+    "atsProvider": "greenhouse",
+    "atsSlug": "globalhealthcareexchangeinc"
+  },
+  {
+    "name": "Cohere Health",
+    "atsProvider": "greenhouse",
+    "atsSlug": "coherehealth"
+  },
+  {
+    "name": "Accordion India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "accordionindia"
+  },
+  {
+    "name": "Truveta",
+    "atsProvider": "greenhouse",
+    "atsSlug": "truveta"
+  },
+  {
+    "name": "Capco",
+    "atsProvider": "greenhouse",
+    "atsSlug": "capco"
+  },
+  {
+    "name": "Crunchyroll",
+    "atsProvider": "greenhouse",
+    "atsSlug": "crunchyroll"
+  },
+  {
+    "name": "Schr\u00f6dinger",
+    "atsProvider": "greenhouse",
+    "atsSlug": "schrdinger"
+  },
+  {
+    "name": "Khan Academy",
+    "atsProvider": "greenhouse",
+    "atsSlug": "khanacademy"
+  },
+  {
+    "name": "AlphaGrep Securities",
+    "atsProvider": "greenhouse",
+    "atsSlug": "alphagrepsecurities"
+  },
+  {
+    "name": "Berkadia India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "berkadiaindia"
+  },
+  {
+    "name": "Berkadia",
+    "atsProvider": "greenhouse",
+    "atsSlug": "berkadia"
+  },
+  {
+    "name": "Whatfix",
+    "atsProvider": "greenhouse",
+    "atsSlug": "whatfix"
+  },
+  {
+    "name": "HackerRank",
+    "atsProvider": "greenhouse",
+    "atsSlug": "hackerrank"
+  },
+  {
+    "name": "CommerceIQ",
+    "atsProvider": "greenhouse",
+    "atsSlug": "commerceiq"
+  },
+  {
+    "name": "Coupang Internal",
+    "atsProvider": "greenhouse",
+    "atsSlug": "coupanginternal"
+  },
+  {
+    "name": "Fresh Prints",
+    "atsProvider": "greenhouse",
+    "atsSlug": "freshprints"
+  },
+  {
+    "name": "Inovalon",
+    "atsProvider": "greenhouse",
+    "atsSlug": "inovalon"
+  },
+  {
+    "name": "BeyondTrust",
+    "atsProvider": "greenhouse",
+    "atsSlug": "beyondtrust"
+  },
+  {
+    "name": "Canonical",
+    "atsProvider": "greenhouse",
+    "atsSlug": "canonical"
+  },
+  {
+    "name": "Dashlane",
+    "atsProvider": "greenhouse",
+    "atsSlug": "dashlane"
+  },
+  {
+    "name": "Dataiku",
+    "atsProvider": "greenhouse",
+    "atsSlug": "dataiku"
+  },
+  {
+    "name": "Anaplan",
+    "atsProvider": "greenhouse",
+    "atsSlug": "anaplan"
+  },
+  {
+    "name": "Axon",
+    "atsProvider": "greenhouse",
+    "atsSlug": "axon"
+  },
+  {
+    "name": "Affirm",
+    "atsProvider": "greenhouse",
+    "atsSlug": "affirm"
+  },
+  {
+    "name": "Flexport",
+    "atsProvider": "greenhouse",
+    "atsSlug": "flexport"
+  },
+  {
+    "name": "Graphcore",
+    "atsProvider": "greenhouse",
+    "atsSlug": "graphcore"
+  },
+  {
+    "name": "iCapital",
+    "atsProvider": "greenhouse",
+    "atsSlug": "icapitalnetwork"
+  },
+  {
+    "name": "Next Insurance",
+    "atsProvider": "greenhouse",
+    "atsSlug": "nextinsurance66"
+  },
+  {
+    "name": "Telnyx",
+    "atsProvider": "greenhouse",
+    "atsSlug": "telnyx54"
+  },
+  {
+    "name": "Tripadvisor",
+    "atsProvider": "greenhouse",
+    "atsSlug": "tripadvisor"
+  },
+  {
+    "name": "Simplify",
+    "atsProvider": "greenhouse",
+    "atsSlug": "simplifynext"
+  },
+  {
+    "name": "Shift Technology",
+    "atsProvider": "greenhouse",
+    "atsSlug": "shifttechnology"
+  },
+  {
+    "name": "ABBYY",
+    "atsProvider": "greenhouse",
+    "atsSlug": "abbyy"
+  },
+  {
+    "name": "Neoris",
+    "atsProvider": "greenhouse",
+    "atsSlug": "neoris"
+  },
+  {
+    "name": "Fever",
+    "atsProvider": "greenhouse",
+    "atsSlug": "feverup"
+  },
+  {
+    "name": "Cambridge Consultants",
+    "atsProvider": "greenhouse",
+    "atsSlug": "cambridgeconsultantslimited"
+  },
+  {
+    "name": "Highspot",
+    "atsProvider": "lever",
+    "atsSlug": "highspot"
+  },
+  {
+    "name": "Brillio",
+    "atsProvider": "lever",
+    "atsSlug": "brillio"
+  },
+  {
+    "name": "Brillio 2",
+    "atsProvider": "lever",
+    "atsSlug": "brillio-2"
+  },
+  {
+    "name": "Paytm Payments",
+    "atsProvider": "lever",
+    "atsSlug": "paytmpayments"
+  },
+  {
+    "name": "Weekday",
+    "atsProvider": "lever",
+    "atsSlug": "weekdayworks"
+  },
+  {
+    "name": "Plane",
+    "atsProvider": "ashby",
+    "atsSlug": "plane"
+  },
+  {
+    "name": "Atlassian",
+    "atsProvider": "greenhouse",
+    "atsSlug": "atlassian"
+  },
+  {
+    "name": "Stripe",
+    "atsProvider": "greenhouse",
+    "atsSlug": "stripe"
+  },
+  {
+    "name": "Databricks",
+    "atsProvider": "greenhouse",
+    "atsSlug": "databricks"
+  },
+  {
+    "name": "Cloudflare",
+    "atsProvider": "greenhouse",
+    "atsSlug": "cloudflare"
+  },
+  {
+    "name": "MongoDB",
+    "atsProvider": "greenhouse",
+    "atsSlug": "mongodb"
+  },
+  {
+    "name": "Elastic",
+    "atsProvider": "greenhouse",
+    "atsSlug": "elastic"
+  },
+  {
+    "name": "Snowflake",
+    "atsProvider": "greenhouse",
+    "atsSlug": "snowflake"
+  },
+  {
+    "name": "Twilio",
+    "atsProvider": "greenhouse",
+    "atsSlug": "twilio"
+  },
+  {
+    "name": "Okta",
+    "atsProvider": "greenhouse",
+    "atsSlug": "okta"
+  },
+  {
+    "name": "HubSpot",
+    "atsProvider": "greenhouse",
+    "atsSlug": "hubspot"
+  },
+  {
+    "name": "Dropbox",
+    "atsProvider": "greenhouse",
+    "atsSlug": "dropbox"
+  },
+  {
+    "name": "Block",
+    "atsProvider": "greenhouse",
+    "atsSlug": "block"
+  },
+  {
+    "name": "Coinbase",
+    "atsProvider": "greenhouse",
+    "atsSlug": "coinbase"
+  },
+  {
+    "name": "Airbnb",
+    "atsProvider": "greenhouse",
+    "atsSlug": "airbnb"
+  },
+  {
+    "name": "Pinterest",
+    "atsProvider": "greenhouse",
+    "atsSlug": "pinterest"
+  },
+  {
+    "name": "Reddit",
+    "atsProvider": "greenhouse",
+    "atsSlug": "reddit"
+  },
+  {
+    "name": "Discord",
+    "atsProvider": "greenhouse",
+    "atsSlug": "discord"
+  },
+  {
+    "name": "Figma",
+    "atsProvider": "greenhouse",
+    "atsSlug": "figma"
+  },
+  {
+    "name": "Notion",
+    "atsProvider": "greenhouse",
+    "atsSlug": "notion"
+  },
+  {
+    "name": "Asana",
+    "atsProvider": "greenhouse",
+    "atsSlug": "asana"
+  },
+  {
+    "name": "Canva",
+    "atsProvider": "greenhouse",
+    "atsSlug": "canva"
+  },
+  {
+    "name": "Grammarly",
+    "atsProvider": "greenhouse",
+    "atsSlug": "grammarly"
+  },
+  {
+    "name": "Rippling",
+    "atsProvider": "greenhouse",
+    "atsSlug": "rippling"
+  },
+  {
+    "name": "Brex",
+    "atsProvider": "greenhouse",
+    "atsSlug": "brex"
+  },
+  {
+    "name": "Ramp",
+    "atsProvider": "greenhouse",
+    "atsSlug": "ramp"
+  },
+  {
+    "name": "Plaid",
+    "atsProvider": "greenhouse",
+    "atsSlug": "plaid"
+  },
+  {
+    "name": "Robinhood",
+    "atsProvider": "greenhouse",
+    "atsSlug": "robinhood"
+  },
+  {
+    "name": "Uber",
+    "atsProvider": "greenhouse",
+    "atsSlug": "uber"
+  },
+  {
+    "name": "Lyft",
+    "atsProvider": "greenhouse",
+    "atsSlug": "lyft"
+  },
+  {
+    "name": "Spotify",
+    "atsProvider": "greenhouse",
+    "atsSlug": "spotify"
+  },
+  {
+    "name": "NVIDIA",
+    "atsProvider": "greenhouse",
+    "atsSlug": "nvidia"
+  },
+  {
+    "name": "ServiceNow",
+    "atsProvider": "greenhouse",
+    "atsSlug": "servicenow"
+  },
+  {
+    "name": "Salesforce",
+    "atsProvider": "greenhouse",
+    "atsSlug": "salesforce"
+  },
+  {
+    "name": "Adobe",
+    "atsProvider": "greenhouse",
+    "atsSlug": "adobe"
+  },
+  {
+    "name": "Datadog",
+    "atsProvider": "greenhouse",
+    "atsSlug": "datadog"
+  },
+  {
+    "name": "New Relic",
+    "atsProvider": "greenhouse",
+    "atsSlug": "newrelic"
+  },
+  {
+    "name": "Palantir",
+    "atsProvider": "greenhouse",
+    "atsSlug": "palantir"
+  },
+  {
+    "name": "Scale AI",
+    "atsProvider": "greenhouse",
+    "atsSlug": "scaleai"
+  },
+  {
+    "name": "Checkr",
+    "atsProvider": "greenhouse",
+    "atsSlug": "checkr"
+  },
+  {
+    "name": "Gusto",
+    "atsProvider": "greenhouse",
+    "atsSlug": "gusto"
+  },
+  {
+    "name": "Toast",
+    "atsProvider": "greenhouse",
+    "atsSlug": "toast"
+  },
+  {
+    "name": "Samsara",
+    "atsProvider": "greenhouse",
+    "atsSlug": "samsara"
+  },
+  {
+    "name": "Anduril",
+    "atsProvider": "greenhouse",
+    "atsSlug": "anduril"
+  },
+  {
+    "name": "Rivian",
+    "atsProvider": "greenhouse",
+    "atsSlug": "rivian"
+  },
+  {
+    "name": "ByteDance",
+    "atsProvider": "greenhouse",
+    "atsSlug": "bytedance"
+  },
+  {
+    "name": "TikTok",
+    "atsProvider": "greenhouse",
+    "atsSlug": "tiktok"
+  },
+  {
+    "name": "Grab",
+    "atsProvider": "greenhouse",
+    "atsSlug": "grab"
+  },
+  {
+    "name": "Wise",
+    "atsProvider": "greenhouse",
+    "atsSlug": "wise"
+  },
+  {
+    "name": "Revolut",
+    "atsProvider": "greenhouse",
+    "atsSlug": "revolut"
+  },
+  {
+    "name": "Klarna",
+    "atsProvider": "greenhouse",
+    "atsSlug": "klarna"
+  },
+  {
+    "name": "Checkout",
+    "atsProvider": "greenhouse",
+    "atsSlug": "checkout"
+  },
+  {
+    "name": "Adyen",
+    "atsProvider": "greenhouse",
+    "atsSlug": "adyen"
+  },
+  {
+    "name": "LinkedIn",
+    "atsProvider": "greenhouse",
+    "atsSlug": "linkedin"
+  },
+  {
+    "name": "Intuit",
+    "atsProvider": "greenhouse",
+    "atsSlug": "intuit"
+  },
+  {
+    "name": "Zscaler",
+    "atsProvider": "greenhouse",
+    "atsSlug": "zscaler"
+  },
+  {
+    "name": "CrowdStrike",
+    "atsProvider": "greenhouse",
+    "atsSlug": "crowdstrike"
+  },
+  {
+    "name": "Palo Alto Networks",
+    "atsProvider": "greenhouse",
+    "atsSlug": "paloaltonetworks"
+  },
+  {
+    "name": "Confluent",
+    "atsProvider": "greenhouse",
+    "atsSlug": "confluent"
+  },
+  {
+    "name": "DigitalOcean",
+    "atsProvider": "greenhouse",
+    "atsSlug": "digitalocean"
+  },
+  {
+    "name": "UiPath",
+    "atsProvider": "greenhouse",
+    "atsSlug": "uipath"
+  },
+  {
+    "name": "Sprinklr",
+    "atsProvider": "greenhouse",
+    "atsSlug": "sprinklr"
+  },
+  {
+    "name": "Zendesk",
+    "atsProvider": "greenhouse",
+    "atsSlug": "zendesk"
+  },
+  {
+    "name": "Amplitude",
+    "atsProvider": "greenhouse",
+    "atsSlug": "amplitude"
+  },
+  {
+    "name": "Mixpanel",
+    "atsProvider": "greenhouse",
+    "atsSlug": "mixpanel"
+  },
+  {
+    "name": "Harness",
+    "atsProvider": "greenhouse",
+    "atsSlug": "harness"
+  },
+  {
+    "name": "GitHub",
+    "atsProvider": "greenhouse",
+    "atsSlug": "github"
+  },
+  {
+    "name": "GitLab",
+    "atsProvider": "greenhouse",
+    "atsSlug": "gitlab"
+  },
+  {
+    "name": "ThoughtSpot",
+    "atsProvider": "greenhouse",
+    "atsSlug": "thoughtspot"
+  },
+  {
+    "name": "Informatica",
+    "atsProvider": "greenhouse",
+    "atsSlug": "informatica"
+  },
+  {
+    "name": "Optum",
+    "atsProvider": "greenhouse",
+    "atsSlug": "optum"
+  },
+  {
+    "name": "Red Hat",
+    "atsProvider": "greenhouse",
+    "atsSlug": "redhat"
+  },
+  {
+    "name": "Broadcom",
+    "atsProvider": "greenhouse",
+    "atsSlug": "broadcom"
+  },
+  {
+    "name": "Walmart",
+    "atsProvider": "greenhouse",
+    "atsSlug": "walmart"
+  },
+  {
+    "name": "Micron",
+    "atsProvider": "greenhouse",
+    "atsSlug": "micron"
+  },
+  {
+    "name": "Synopsys",
+    "atsProvider": "greenhouse",
+    "atsSlug": "synopsys"
+  },
+  {
+    "name": "Cadence",
+    "atsProvider": "greenhouse",
+    "atsSlug": "cadence"
+  },
+  {
+    "name": "Arm",
+    "atsProvider": "greenhouse",
+    "atsSlug": "arm"
+  },
+  {
+    "name": "FactSet",
+    "atsProvider": "greenhouse",
+    "atsSlug": "factset"
+  },
+  {
+    "name": "S&P Global",
+    "atsProvider": "greenhouse",
+    "atsSlug": "spglobal"
+  },
+  {
+    "name": "Invesco",
+    "atsProvider": "greenhouse",
+    "atsSlug": "invesco"
+  },
+  {
+    "name": "DE Shaw",
+    "atsProvider": "greenhouse",
+    "atsSlug": "deshaw"
+  },
+  {
+    "name": "WorldQuant",
+    "atsProvider": "greenhouse",
+    "atsSlug": "worldquant"
+  },
+  {
+    "name": "Jane Street",
+    "atsProvider": "greenhouse",
+    "atsSlug": "janestreet"
+  },
+  {
+    "name": "OpenAI",
+    "atsProvider": "ashby",
+    "atsSlug": "openai"
+  },
+  {
+    "name": "Anthropic",
+    "atsProvider": "ashby",
+    "atsSlug": "anthropic"
+  },
+  {
+    "name": "Vercel",
+    "atsProvider": "ashby",
+    "atsSlug": "vercel"
+  },
+  {
+    "name": "Linear",
+    "atsProvider": "ashby",
+    "atsSlug": "linear"
+  },
+  {
+    "name": "Retool",
+    "atsProvider": "ashby",
+    "atsSlug": "retool"
+  },
+  {
+    "name": "Sourcegraph",
+    "atsProvider": "ashby",
+    "atsSlug": "sourcegraph"
+  },
+  {
+    "name": "Perplexity",
+    "atsProvider": "ashby",
+    "atsSlug": "perplexity"
+  },
+  {
+    "name": "Razorpay",
+    "atsProvider": "lever",
+    "atsSlug": "razorpay"
+  },
+  {
+    "name": "Postman",
+    "atsProvider": "lever",
+    "atsSlug": "postman"
+  },
+  {
+    "name": "BrowserStack",
+    "atsProvider": "lever",
+    "atsSlug": "browserstack"
+  },
+  {
+    "name": "Freshworks",
+    "atsProvider": "lever",
+    "atsSlug": "freshworks"
+  },
+  {
+    "name": "Chargebee",
+    "atsProvider": "lever",
+    "atsSlug": "chargebee"
+  },
+  {
+    "name": "Hasura",
+    "atsProvider": "lever",
+    "atsSlug": "hasura"
+  },
+  {
+    "name": "Druva",
+    "atsProvider": "lever",
+    "atsSlug": "druva"
+  },
+  {
+    "name": "Thoughtworks",
+    "atsProvider": "lever",
+    "atsSlug": "thoughtworks"
+  },
+  {
+    "name": "Flipkart",
+    "atsProvider": "lever",
+    "atsSlug": "flipkart"
+  },
+  {
+    "name": "Swiggy",
+    "atsProvider": "lever",
+    "atsSlug": "swiggy"
+  },
+  {
+    "name": "Zomato",
+    "atsProvider": "lever",
+    "atsSlug": "zomato"
+  },
+  {
+    "name": "PhonePe",
+    "atsProvider": "lever",
+    "atsSlug": "phonepe"
+  },
+  {
+    "name": "CRED",
+    "atsProvider": "lever",
+    "atsSlug": "cred"
+  },
+  {
+    "name": "Meesho",
+    "atsProvider": "lever",
+    "atsSlug": "meesho"
+  },
+  {
+    "name": "Groww",
+    "atsProvider": "lever",
+    "atsSlug": "groww"
+  },
+  {
+    "name": "Juspay",
+    "atsProvider": "lever",
+    "atsSlug": "juspay"
+  },
+  {
+    "name": "Cashfree",
+    "atsProvider": "lever",
+    "atsSlug": "cashfree"
+  },
+  {
+    "name": "Yellow.ai",
+    "atsProvider": "lever",
+    "atsSlug": "yellowai"
+  },
+  {
+    "name": "Sprinto",
+    "atsProvider": "lever",
+    "atsSlug": "sprinto"
+  },
+  {
+    "name": "Cleartax",
+    "atsProvider": "lever",
+    "atsSlug": "cleartax"
+  },
+  {
+    "name": "Gupshup",
+    "atsProvider": "lever",
+    "atsSlug": "gupshup"
+  },
+  {
+    "name": "Cyient",
+    "atsProvider": "lever",
+    "atsSlug": "cyient"
+  },
+  {
+    "name": "Fractal",
+    "atsProvider": "lever",
+    "atsSlug": "fractal"
+  },
+  {
+    "name": "Persistent",
+    "atsProvider": "lever",
+    "atsSlug": "persistent"
+  },
+  {
+    "name": "Nagarro",
+    "atsProvider": "lever",
+    "atsSlug": "nagarro"
+  },
+  {
+    "name": "Delhivery",
+    "atsProvider": "lever",
+    "atsSlug": "delhivery"
+  },
+  {
+    "name": "Zepto",
+    "atsProvider": "lever",
+    "atsSlug": "zepto"
+  },
+  {
+    "name": "Urban Company",
+    "atsProvider": "lever",
+    "atsSlug": "urbancompany"
+  },
+  {
+    "name": "Practo",
+    "atsProvider": "lever",
+    "atsSlug": "practo"
+  },
+  {
+    "name": "Innovaccer",
+    "atsProvider": "lever",
+    "atsSlug": "innovaccer"
+  },
+  {
+    "name": "Pine Labs",
+    "atsProvider": "lever",
+    "atsSlug": "pinelabs"
+  },
+  {
+    "name": "BharatPe",
+    "atsProvider": "lever",
+    "atsSlug": "bharatpe"
+  },
+  {
+    "name": "Paytm",
+    "atsProvider": "lever",
+    "atsSlug": "paytm"
+  },
+  {
+    "name": "Ola",
+    "atsProvider": "lever",
+    "atsSlug": "ola"
+  },
+  {
+    "name": "Lenskart",
+    "atsProvider": "lever",
+    "atsSlug": "lenskart"
+  },
+  {
+    "name": "Dream11",
+    "atsProvider": "lever",
+    "atsSlug": "dream11"
+  },
+  {
+    "name": "InMobi",
+    "atsProvider": "lever",
+    "atsSlug": "inmobi"
+  },
+  {
+    "name": "Hotstar",
+    "atsProvider": "lever",
+    "atsSlug": "hotstar"
+  },
+  {
+    "name": "DoorDash",
+    "atsProvider": "greenhouse",
+    "atsSlug": "doordash"
+  },
+  {
+    "name": "Uber India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "uberindia"
+  },
+  {
+    "name": "Stripe India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "stripeindia"
+  },
+  {
+    "name": "Google India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "googleindia"
+  },
+  {
+    "name": "Microsoft India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "microsoftindia"
+  },
+  {
+    "name": "Amazon India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "amazonindia"
+  },
+  {
+    "name": "Meta India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "metaindia"
+  },
+  {
+    "name": "Apple India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "appleindia"
+  },
+  {
+    "name": "Oracle India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "oracleindia"
+  },
+  {
+    "name": "SAP India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "sapindia"
+  },
+  {
+    "name": "IBM India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "ibmindia"
+  },
+  {
+    "name": "Accenture India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "accentureindia"
+  },
+  {
+    "name": "Deloitte India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "deloitteindia"
+  },
+  {
+    "name": "JPMorgan India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "jpmorganindia"
+  },
+  {
+    "name": "Goldman Sachs India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "goldmansachsindia"
+  },
+  {
+    "name": "Morgan Stanley India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "morganstanleyindia"
+  },
+  {
+    "name": "Barclays India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "barclaysindia"
+  },
+  {
+    "name": "HSBC India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "hsbcindia"
+  },
+  {
+    "name": "Citi India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "citiindia"
+  },
+  {
+    "name": "Wells Fargo India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "wellsfargoindia"
+  },
+  {
+    "name": "Bank of America India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "bankofamericaindia"
+  },
+  {
+    "name": "Optum India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "optumindia"
+  },
+  {
+    "name": "UnitedHealth India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "unitedhealthindia"
+  },
+  {
+    "name": "Cigna India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "cignaindia"
+  },
+  {
+    "name": "Micron India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "micronindia"
+  },
+  {
+    "name": "AMD India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "amdindia"
+  },
+  {
+    "name": "Intel India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "intelindia"
+  },
+  {
+    "name": "Qualcomm India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "qualcomminidia"
+  },
+  {
+    "name": "Nvidia India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "nvidiaindia"
+  },
+  {
+    "name": "ServiceNow India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "servicenowindia"
+  },
+  {
+    "name": "Salesforce India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "salesforceindia"
+  },
+  {
+    "name": "Adobe India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "adobeindia"
+  },
+  {
+    "name": "Autodesk India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "autodeskindia"
+  },
+  {
+    "name": "Workday India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "workdayindia"
+  },
+  {
+    "name": "Palo Alto India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "paloaltoindia"
+  },
+  {
+    "name": "Zscaler India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "zscalerindia"
+  },
+  {
+    "name": "CrowdStrike India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "crowdstrikeindia"
+  },
+  {
+    "name": "FactSet India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "factsetindia"
+  },
+  {
+    "name": "S&P India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "spglobalindia"
+  },
+  {
+    "name": "Moody India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "moodysindia"
+  },
+  {
+    "name": "Bloomberg India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "bloombergindia"
+  },
+  {
+    "name": "Invesco India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "invescoindia"
+  },
+  {
+    "name": "BlackRock India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "blackrockindia"
+  },
+  {
+    "name": "Fidelity India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "fidelityindia"
+  },
+  {
+    "name": "State Street India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "statestreetindia"
+  },
+  {
+    "name": "Northern Trust India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "northerntrustindia"
+  },
+  {
+    "name": "BNY Mellon India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "bnymellonindia"
+  },
+  {
+    "name": "Franklin Templeton India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "franklintempletonindia"
+  },
+  {
+    "name": "Vanguard India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "vanguardindia"
+  },
+  {
+    "name": "Charles Schwab India",
+    "atsProvider": "greenhouse",
+    "atsSlug": "charlesschwabindia"
+  }
+]

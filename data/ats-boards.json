@@ -9,7 +9,9 @@
     "active": true,
     "hydJobs": 22,
     "totalJobs": 23,
-    "verifiedAt": "2026-09-04T16:28:25.329Z"
+    "verifiedAt": "2026-09-04T16:28:25.329Z",
+    "employerType": "enterprise",
+    "website": "https://www.doordash.com"
   },
   {
     "id": "greenhouse:zenoti",
@@ -21,7 +23,9 @@
     "active": true,
     "hydJobs": 22,
     "totalJobs": 45,
-    "verifiedAt": "2026-09-04T18:12:22.117Z"
+    "verifiedAt": "2026-09-04T18:12:22.117Z",
+    "employerType": "startup",
+    "website": "https://www.zenoti.com"
   },
   {
     "id": "greenhouse:accordionindia",
@@ -33,7 +37,9 @@
     "active": true,
     "hydJobs": 21,
     "totalJobs": 21,
-    "verifiedAt": "2026-09-04T16:28:28.257Z"
+    "verifiedAt": "2026-09-04T16:28:28.257Z",
+    "employerType": "enterprise",
+    "website": "https://www.accordion.com"
   },
   {
     "id": "greenhouse:globalhealthcareexchangeinc",
@@ -45,7 +51,9 @@
     "active": true,
     "hydJobs": 18,
     "totalJobs": 39,
-    "verifiedAt": "2026-09-04T16:28:25.289Z"
+    "verifiedAt": "2026-09-04T16:28:25.289Z",
+    "employerType": "enterprise",
+    "website": "https://www.ghx.com"
   },
   {
     "id": "greenhouse:truveta",
@@ -57,7 +65,9 @@
     "active": true,
     "hydJobs": 17,
     "totalJobs": 40,
-    "verifiedAt": "2026-09-04T16:28:25.275Z"
+    "verifiedAt": "2026-09-04T16:28:25.275Z",
+    "employerType": "enterprise",
+    "website": "https://www.truveta.com"
   },
   {
     "id": "greenhouse:capco",
@@ -69,7 +79,9 @@
     "active": true,
     "hydJobs": 12,
     "totalJobs": 728,
-    "verifiedAt": "2026-09-04T16:28:28.633Z"
+    "verifiedAt": "2026-09-04T16:28:28.633Z",
+    "employerType": "enterprise",
+    "website": "https://www.capco.com"
   },
   {
     "id": "greenhouse:crunchyroll",
@@ -81,7 +93,9 @@
     "active": true,
     "hydJobs": 8,
     "totalJobs": 63,
-    "verifiedAt": "2026-09-04T16:28:25.332Z"
+    "verifiedAt": "2026-09-04T16:28:25.332Z",
+    "employerType": "enterprise",
+    "website": "https://www.crunchyroll.com"
   },
   {
     "id": "greenhouse:coupanginternal",
@@ -93,7 +107,9 @@
     "active": true,
     "hydJobs": 5,
     "totalJobs": 447,
-    "verifiedAt": "2026-09-04T16:28:27.233Z"
+    "verifiedAt": "2026-09-04T16:28:27.233Z",
+    "employerType": "enterprise",
+    "website": "https://www.coupang.com"
   },
   {
     "id": "greenhouse:freshprints",
@@ -105,7 +121,9 @@
     "active": true,
     "hydJobs": 5,
     "totalJobs": 36,
-    "verifiedAt": "2026-09-04T16:28:27.463Z"
+    "verifiedAt": "2026-09-04T16:28:27.463Z",
+    "employerType": "other",
+    "website": "https://www.freshprints.com"
   },
   {
     "id": "greenhouse:schrdinger",
@@ -117,7 +135,9 @@
     "active": true,
     "hydJobs": 4,
     "totalJobs": 19,
-    "verifiedAt": "2026-09-04T16:28:26.196Z"
+    "verifiedAt": "2026-09-04T16:28:26.196Z",
+    "employerType": "enterprise",
+    "website": "https://www.schrodinger.com"
   },
   {
     "id": "greenhouse:zscaler",
@@ -129,7 +149,9 @@
     "active": true,
     "hydJobs": 4,
     "totalJobs": 363,
-    "verifiedAt": "2026-09-04T16:28:36.731Z"
+    "verifiedAt": "2026-09-04T16:28:36.731Z",
+    "employerType": "enterprise",
+    "website": "https://www.zscaler.com"
   },
   {
     "id": "greenhouse:coinbase",
@@ -141,7 +163,9 @@
     "active": true,
     "hydJobs": 3,
     "totalJobs": 188,
-    "verifiedAt": "2026-09-04T16:28:32.233Z"
+    "verifiedAt": "2026-09-04T16:28:32.233Z",
+    "employerType": "enterprise",
+    "website": "https://www.coinbase.com"
   },
   {
     "id": "lever:cred",
@@ -153,7 +177,9 @@
     "active": true,
     "hydJobs": 3,
     "totalJobs": 14,
-    "verifiedAt": "2026-09-04T16:28:44.112Z"
+    "verifiedAt": "2026-09-04T16:28:44.112Z",
+    "employerType": "other",
+    "website": "https://www.cred.club"
   },
   {
     "id": "greenhouse:khanacademy",
@@ -165,7 +191,9 @@
     "active": true,
     "hydJobs": 2,
     "totalJobs": 24,
-    "verifiedAt": "2026-09-04T16:28:25.301Z"
+    "verifiedAt": "2026-09-04T16:28:25.301Z",
+    "employerType": "enterprise",
+    "website": "https://www.khanacademy.org"
   },
   {
     "id": "greenhouse:alphagrepsecurities",
@@ -177,7 +205,9 @@
     "active": true,
     "hydJobs": 1,
     "totalJobs": 14,
-    "verifiedAt": "2026-09-04T16:28:26.893Z"
+    "verifiedAt": "2026-09-04T16:28:26.893Z",
+    "employerType": "other",
+    "website": "https://www.alphagrep.com"
   },
   {
     "id": "greenhouse:anaplan",
@@ -189,7 +219,9 @@
     "active": true,
     "hydJobs": 1,
     "totalJobs": 138,
-    "verifiedAt": "2026-09-04T16:28:28.388Z"
+    "verifiedAt": "2026-09-04T16:28:28.388Z",
+    "employerType": "enterprise",
+    "website": "https://www.anaplan.com"
   },
   {
     "id": "greenhouse:inovalon",
@@ -201,7 +233,9 @@
     "active": true,
     "hydJobs": 1,
     "totalJobs": 88,
-    "verifiedAt": "2026-09-04T16:28:30.687Z"
+    "verifiedAt": "2026-09-04T16:28:30.687Z",
+    "employerType": "enterprise",
+    "website": "https://www.inovalon.com"
   },
   {
     "id": "greenhouse:newrelic",
@@ -213,7 +247,9 @@
     "active": true,
     "hydJobs": 1,
     "totalJobs": 49,
-    "verifiedAt": "2026-09-04T16:28:34.857Z"
+    "verifiedAt": "2026-09-04T16:28:34.857Z",
+    "employerType": "enterprise",
+    "website": "https://newrelic.com"
   },
   {
     "id": "greenhouse:telnyx54",
@@ -225,7 +261,9 @@
     "active": true,
     "hydJobs": 1,
     "totalJobs": 24,
-    "verifiedAt": "2026-09-04T16:28:28.890Z"
+    "verifiedAt": "2026-09-04T16:28:28.890Z",
+    "employerType": "enterprise",
+    "website": "https://telnyx.com"
   },
   {
     "id": "smartrecruiters:cincyrtech",
@@ -234,7 +272,8 @@
     "atsSlug": "cincyrtech",
     "boardUrl": "https://jobs.smartrecruiters.com/cincyrtech",
     "startupId": "6967c62a-0c77-41b7-969e-ad4452e67f58",
-    "active": true
+    "active": true,
+    "employerType": "startup"
   },
   {
     "id": "greenhouse:coherehealth",
@@ -243,7 +282,8 @@
     "atsSlug": "coherehealth",
     "boardUrl": "https://boards.greenhouse.io/coherehealth",
     "startupId": "115e8003-db26-437d-9656-129cdcb4c6f6",
-    "active": true
+    "active": true,
+    "employerType": "startup"
   },
   {
     "id": "smartrecruiters:jobiak",
@@ -252,7 +292,8 @@
     "atsSlug": "jobiak",
     "boardUrl": "https://jobs.smartrecruiters.com/jobiak",
     "startupId": "940f6082-f46d-4329-8ebd-114abaca2d5d",
-    "active": true
+    "active": true,
+    "employerType": "startup"
   },
   {
     "id": "smartrecruiters:nowfloats",
@@ -261,7 +302,8 @@
     "atsSlug": "nowfloats",
     "boardUrl": "https://jobs.smartrecruiters.com/nowfloats",
     "startupId": "be523135-78a8-424f-a998-292c65e9aa0a",
-    "active": true
+    "active": true,
+    "employerType": "startup"
   },
   {
     "id": "lever:paytm",
@@ -270,7 +312,9 @@
     "atsSlug": "paytm",
     "boardUrl": "https://jobs.lever.co/paytm",
     "startupId": "6165678d-5c78-442b-8db7-301747ccc00e",
-    "active": true
+    "active": true,
+    "employerType": "startup",
+    "website": "https://paytm.com"
   },
   {
     "id": "smartrecruiters:sanaari",
@@ -279,7 +323,8 @@
     "atsSlug": "sanaari",
     "boardUrl": "https://jobs.smartrecruiters.com/sanaari",
     "startupId": "521efcb3-c00d-4723-bd5a-ea07c3b9504e",
-    "active": true
+    "active": true,
+    "employerType": "startup"
   },
   {
     "id": "smartrecruiters:techstargroup",
@@ -288,7 +333,8 @@
     "atsSlug": "techstargroup",
     "boardUrl": "https://jobs.smartrecruiters.com/techstargroup",
     "startupId": "42a95392-66ce-424d-869e-b3fc27f1eb48",
-    "active": true
+    "active": true,
+    "employerType": "startup"
   },
   {
     "id": "lever:dozee",
@@ -297,7 +343,9 @@
     "atsSlug": "dozee",
     "boardUrl": "https://jobs.lever.co/dozee",
     "startupId": "6aa868ad-a35d-43c8-b6fa-07b5490d82c2",
-    "active": true
+    "active": true,
+    "employerType": "startup",
+    "website": "https://www.dozee.health"
   },
   {
     "id": "lever:vogo",
@@ -306,7 +354,9 @@
     "atsSlug": "vogo",
     "boardUrl": "https://jobs.lever.co/vogo",
     "startupId": "ea5fcf18-69d2-41fe-b991-9a07953fda35",
-    "active": true
+    "active": true,
+    "employerType": "startup",
+    "website": "https://www.vogo.in"
   },
   {
     "id": "lever:oneimpression",
@@ -315,7 +365,9 @@
     "atsSlug": "oneimpression",
     "boardUrl": "https://jobs.lever.co/oneimpression",
     "startupId": "d2283dd8-b2aa-4dab-b3a1-c7486462c90e",
-    "active": true
+    "active": true,
+    "employerType": "startup",
+    "website": "https://www.oneimpression.io"
   },
   {
     "id": "smartrecruiters:joulestowatts",
@@ -324,7 +376,8 @@
     "atsSlug": "joulestowatts",
     "boardUrl": "https://jobs.smartrecruiters.com/joulestowatts",
     "startupId": "f4a68ed8-ea0f-4cb4-a40c-c0ddb578e132",
-    "active": true
+    "active": true,
+    "employerType": "startup"
   },
   {
     "id": "greenhouse:highradius",
@@ -336,7 +389,9 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "other",
+    "website": "https://www.highradius.com"
   },
   {
     "id": "phenom:amd",
@@ -347,7 +402,9 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.amd.com"
   },
   {
     "id": "eightfold:qualcomm",
@@ -358,7 +415,9 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "gcc",
+    "website": "https://www.qualcomm.com"
   },
   {
     "id": "radancy:synchrony",
@@ -369,7 +428,9 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.synchrony.com"
   },
   {
     "id": "workday:centific",
@@ -380,7 +441,9 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.centific.com"
   },
   {
     "id": "workday:ncr",
@@ -391,7 +454,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.ncrvoyix.com"
   },
   {
     "id": "greenhouse:arcesiumllc",
@@ -403,7 +468,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "other",
+    "website": "https://www.arcesium.com"
   },
   {
     "id": "eightfold:worley",
@@ -414,7 +481,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.worley.com"
   },
   {
     "id": "eightfold:bms",
@@ -425,7 +494,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "gcc",
+    "website": "https://www.bms.com"
   },
   {
     "id": "workday:kantar",
@@ -436,7 +507,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.kantar.com"
   },
   {
     "id": "oraclecloud:dieboldnixdorf",
@@ -447,7 +520,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.dieboldnixdorf.com"
   },
   {
     "id": "workday:tjx",
@@ -458,7 +533,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.tjx.com"
   },
   {
     "id": "gr8people:teradata",
@@ -469,7 +546,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.teradata.com"
   },
   {
     "id": "htmlcareers:leomarcom",
@@ -480,7 +559,8 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "other"
   },
   {
     "id": "phenom:viasat",
@@ -491,7 +571,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.viasat.com"
   },
   {
     "id": "linkedin:sentient",
@@ -502,7 +584,8 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 LinkedIn guest API; brittle"
+    "note": "jobs-only \u2014 LinkedIn guest API; brittle",
+    "employerType": "other"
   },
   {
     "id": "workday:blueyonder",
@@ -513,7 +596,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://blueyonder.com"
   },
   {
     "id": "zoho:indiumsoft",
@@ -524,7 +609,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.indiumsoftware.com"
   },
   {
     "id": "htmlcareers:wise",
@@ -535,7 +622,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "other",
+    "website": "https://wise.com"
   },
   {
     "id": "htmlcareers:brillio",
@@ -546,7 +635,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.brillio.com"
   },
   {
     "id": "htmlcareers:loreal",
@@ -557,7 +648,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.loreal.com"
   },
   {
     "id": "successfactors:fujitsu",
@@ -568,7 +661,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.fujitsu.com"
   },
   {
     "id": "lever:cyara",
@@ -580,7 +675,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "other",
+    "website": "https://www.cyara.com"
   },
   {
     "id": "linkedin:gbit",
@@ -591,7 +688,8 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 LinkedIn guest API; site careers 403 / unavailable"
+    "note": "jobs-only \u2014 LinkedIn guest API; site careers 403 / unavailable",
+    "employerType": "other"
   },
   {
     "id": "linkedin:talentformula",
@@ -603,7 +701,8 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 LinkedIn guest API; talentformula.co careers returns 403"
+    "note": "jobs-only \u2014 LinkedIn guest API; talentformula.co careers returns 403",
+    "employerType": "other"
   },
   {
     "id": "accufy:accufy",
@@ -614,7 +713,8 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "other"
   },
   {
     "id": "workday:wbd",
@@ -625,7 +725,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.wbd.com"
   },
   {
     "id": "keka:ideyalabs",
@@ -636,7 +738,8 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "other"
   },
   {
     "id": "htmlcareers:tetrasoft",
@@ -647,7 +750,8 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "other"
   },
   {
     "id": "workday:elevancehealth",
@@ -658,7 +762,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.elevancehealth.com"
   },
   {
     "id": "oraclecloud:honeywell",
@@ -669,7 +775,9 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.honeywell.com"
   },
   {
     "id": "htmlcareers:keystoneeducation",
@@ -680,7 +788,8 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "other"
   },
   {
     "id": "htmlcareers:thegaudium",
@@ -691,6 +800,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only \u2014 daily via sync-ats-jobs"
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "other"
   }
 ]
