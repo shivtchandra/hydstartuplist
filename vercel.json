@@ -1,11 +1,1 @@
-{
-  "crons": [
-    { "path": "/api/cron/sync-ats-jobs", "schedule": "30 2 * * *" },
-    { "path": "/api/cron/sync-ats-jobs", "schedule": "30 14 * * *" },
-    { "path": "/api/cron/check-hiring?limit=30", "schedule": "0 3 * * *" },
-    { "path": "/api/cron/check-hiring?limit=30", "schedule": "0 15 * * *" },
-    { "path": "/api/cron/fetch-news?limit=50", "schedule": "0 4 * * *" },
-    { "path": "/api/cron/adzuna-jobs", "schedule": "0 */2 * * *" },
-    { "path": "/api/cron/newsletter", "schedule": "30 3 * * 0" }
-  ]
-}
+{}
