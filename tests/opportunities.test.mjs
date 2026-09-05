@@ -5,3 +5,18 @@ test('skill aliases share the same results',()=>assert.equal(filterJobs(jobs,{q:
 test('map and results use identical matching membership',()=>assert.equal(mapGroups(filterJobs(jobs,{})).reduce((n,c)=>n+c.count,0),filterJobs(jobs,{}).length));
 test('unknown work arrangement remains explicitly searchable',()=>assert.equal(filterJobs(jobs,{work:'unknown'}).length,1));
 test('unknown location stays in map-area result lists',()=>assert.equal(filterJobs(jobs,{bounds:'17,18,78,79'}).length,1));
+
+test('ATS jobs keep postedAt when sourcePostedAt is missing', () => {
+  const [job] = prepareJobs([{
+    id: 'ats-workday-ncr-1',
+    title: 'Quality Engineer',
+    company: 'NCR Voyix',
+    source: 'ats',
+    postedAt: '2026-09-04T19:10:22.383Z',
+    url: 'https://example.com/j',
+    location: 'Hyderabad',
+    status: 'active',
+  }]);
+  assert.equal(job.sourcePostedAt, '2026-09-04T19:10:22.383Z');
+  assert.equal(filterJobs([job, ...jobs], {}).some(j => j.id === 'ats-workday-ncr-1'), true);
+});
