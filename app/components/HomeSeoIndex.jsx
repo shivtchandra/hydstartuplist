@@ -7,11 +7,18 @@
 // /startups/[slug] pages, grouped by sector and area. It sits below the map
 // (the .app pane is 100vh; the body scrolls), so it's genuine reachable
 // content, not a hidden stuffing block.
+import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { getApproved } from "../../lib/store.js";
 import { startupSlug } from "../../lib/slug.js";
 import { prettyName } from "../../lib/startupUi.js";
 import { industrySlugForSector } from "../../lib/industries.js";
+
+const getApprovedCached = unstable_cache(
+  async () => getApproved(),
+  ["home-seo-approved"],
+  { revalidate: 300 }
+);
 
 const PER_SECTOR = 6;
 const MAX_SECTORS = 10;
@@ -35,7 +42,7 @@ function shortArea(area) {
 export default async function HomeSeoIndex() {
   let all = [];
   try {
-    all = await getApproved();
+    all = await getApprovedCached();
   } catch {
     return null; // never let an SEO block break the page
   }

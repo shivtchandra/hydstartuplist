@@ -18,6 +18,9 @@ function NewsLogoBadge({ companyName, website, logoUrl, sector, size = 38 }) {
         alt=""
         width={size}
         height={size}
+        loading="lazy"
+        decoding="async"
+        referrerPolicy="no-referrer"
         style={{ width: size, height: size }}
         onLoad={(e) => {
           if (e.currentTarget.naturalWidth <= 16 && e.currentTarget.naturalHeight <= 16) {
