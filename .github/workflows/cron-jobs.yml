@@ -9,20 +9,27 @@ name: Scheduled data refresh
 #   FIRECRAWL_ENABLED=0 / PRIORITY_FIRECRAWL=0 — optional opt-outs
 on:
   schedule:
-    - cron: "30 2 * * *"   # sync-ats-jobs morning (~8:00 IST)
-    - cron: "30 14 * * *"  # sync-ats-jobs evening (~8:00 IST)
-    - cron: "0 3 * * *"    # check-hiring morning (~8:30 IST)
-    - cron: "0 15 * * *"   # check-hiring evening (~8:30 IST)
+    # ATS boards — morning / mid-day / evening IST
+    - cron: "30 2 * * *"   # sync-ats-jobs ~8:00 IST
+    - cron: "0 8 * * *"    # sync-ats-jobs ~1:30 IST
+    - cron: "30 14 * * *"  # sync-ats-jobs ~8:00 IST evening
+    # Map careers HTML — morning / mid-day / evening IST
+    - cron: "0 3 * * *"    # check-hiring ~8:30 IST
+    - cron: "30 8 * * *"   # check-hiring ~2:00 IST
+    - cron: "0 15 * * *"   # check-hiring ~8:30 IST evening
     - cron: "0 4 * * *"    # fetch-news, 4am UTC
-    - cron: "15 4 * * *"   # sync-priority-careers daily (~9:45 IST)
-    - cron: "0 */2 * * *"  # adzuna-jobs every 2h (no Adzuna webhooks; poll for new)
+    # Priority gap careers — morning / mid-day / evening so feed isn't Adzuna-only
+    - cron: "15 4 * * *"   # sync-priority-careers ~9:45 IST
+    - cron: "15 8 * * *"   # sync-priority-careers ~1:45 IST
+    - cron: "15 13 * * *"  # sync-priority-careers ~6:45 IST
+    - cron: "0 */2 * * *"  # adzuna-jobs every 2h
     - cron: "30 3 * * 0"   # newsletter, Sundays 3:30am UTC
-  workflow_dispatch: {}    # manual "Run workflow" button for one-off triggers
+  workflow_dispatch: {}
 
 jobs:
 
   sync-ats-jobs:
-    if: github.event.schedule == '30 2 * * *' || github.event.schedule == '30 14 * * *' || github.event_name == 'workflow_dispatch'
+    if: github.event.schedule == '30 2 * * *' || github.event.schedule == '0 8 * * *' || github.event.schedule == '30 14 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Call sync-ats-jobs
@@ -34,13 +41,13 @@ jobs:
             echo "SITE_URL secret not set — skipping. Set it once the site is deployed."
             exit 0
           fi
-          # ATS API sync (Hyd/TG), twice daily. Partial runs advance a cursor.
+          # ATS API sync (Hyd/TG), 3× daily. Partial runs advance a cursor.
           curl -s --max-time 65 -X GET "$SITE_URL/api/cron/sync-ats-jobs" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -w "\nHTTP %{http_code}" || true
 
   check-hiring:
-    if: github.event.schedule == '0 3 * * *' || github.event.schedule == '0 15 * * *' || github.event_name == 'workflow_dispatch'
+    if: github.event.schedule == '0 3 * * *' || github.event.schedule == '30 8 * * *' || github.event.schedule == '0 15 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Call check-hiring
@@ -52,10 +59,7 @@ jobs:
             echo "SITE_URL secret not set — skipping. Set it once the site is deployed."
             exit 0
           fi
-          # limit=30 twice daily (morning + evening IST). Cursor + 45s budget
-          # advance leftovers to the next pass — more reliable than one limit=60.
-          # || true: a 504 means Vercel timed out but may have processed partial
-          # data — don't fail the workflow run over a partial cron.
+          # limit=30, 3× daily. Cursor + 45s budget advance leftovers.
           curl -s --max-time 65 -X GET "$SITE_URL/api/cron/check-hiring?limit=30" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -w "\nHTTP %{http_code}" || true
@@ -89,14 +93,12 @@ jobs:
             echo "SITE_URL secret not set — skipping. Set it once the site is deployed."
             exit 0
           fi
-          # Incremental poll every 2h: merges new Hyd IT jobs into adzuna_latest
-          # (Adzuna has no webhooks).
           curl -s --max-time 65 -X GET "$SITE_URL/api/cron/adzuna-jobs" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -w "\nHTTP %{http_code}" || true
 
   sync-priority-careers:
-    if: github.event.schedule == '15 4 * * *' || github.event_name == 'workflow_dispatch'
+    if: github.event.schedule == '15 4 * * *' || github.event.schedule == '15 8 * * *' || github.event.schedule == '15 13 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Call sync-priority-careers
@@ -108,12 +110,11 @@ jobs:
             echo "SITE_URL secret not set — skipping. Set it once the site is deployed."
             exit 0
           fi
-          # Curated HTML/gap career pages (excludes boards already on sync-ats-jobs).
+          # Gap HTML careers 3× daily (morning / mid-day / evening IST).
           # Uses Vercel FIRECRAWL_API_KEY as fallback for JS-only career sites.
           curl -s --max-time 65 -X GET "$SITE_URL/api/cron/sync-priority-careers" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -w "\nHTTP %{http_code}" || true
-
 
   newsletter:
     if: github.event.schedule == '30 3 * * 0' || github.event_name == 'workflow_dispatch'
