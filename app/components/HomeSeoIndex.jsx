@@ -9,11 +9,11 @@
 // content, not a hidden stuffing block.
 import { unstable_cache } from "next/cache";
 import Link from "next/link";
-import { getApproved } from "../../lib/store.js";
-import { getAllJobs } from "../../lib/jobs.js";
+import { getApproved, visibleHiring } from "../../lib/store.js";
 import { startupSlug } from "../../lib/slug.js";
 import { prettyName, colorFor } from "../../lib/startupUi.js";
 import { industrySlugForSector } from "../../lib/industries.js";
+import HomeSeoReveal from "./HomeSeoReveal.jsx";
 
 const getApprovedCached = unstable_cache(
   async () => getApproved(),
@@ -21,9 +21,9 @@ const getApprovedCached = unstable_cache(
   { revalidate: 300 }
 );
 
-const PER_SECTOR = 6;
+const PER_SECTOR = 3;
 const MAX_SECTORS = 10;
-const MAX_AREAS = 16;
+const MAX_AREAS = 8;
 
 function normalizeSector(sec) {
   if (!sec) return "Other";
@@ -48,8 +48,7 @@ function normalizeSector(sec) {
 function cleanAreaName(area) {
   if (!area) return "";
   let a = String(area).trim();
-  a = a.replace(/,\s*(Hyderabad|Telangana|India|Andhra Pradesh).*$/gi, "").trim();
-  a = a.replace(/,\s*(Hyderabad|Telangana|India).*$/gi, "").trim();
+  a = a.replace(/,\s*(Hyderabad|Telangana|India|Andhra Pradesh)\b.*$/gi, "").trim();
   if (a.toLowerCase() === "hyderabad" || a.toLowerCase() === "telangana") return "";
   return a;
 }
@@ -59,13 +58,12 @@ export default async function HomeSeoIndex() {
   try {
     all = await getApprovedCached();
   } catch {
-    return null; // never let an SEO block break the page
+    return null;
   }
   if (!all.length) return null;
 
   const total = all.length;
 
-  // Sectors by startup count
   const sectorMap = new Map();
   for (const s of all) {
     const sec = normalizeSector(s.sector);
@@ -81,11 +79,10 @@ export default async function HomeSeoIndex() {
       color: colorFor(sector),
       count: list.length,
       picks: [...list]
-        .sort((a, b) => Number(!!b.hiring) - Number(!!a.hiring))
+        .sort((a, b) => Number(!!visibleHiring(b)) - Number(!!visibleHiring(a)))
         .slice(0, PER_SECTOR),
     }));
 
-  // Areas by startup count
   const areaMap = new Map();
   for (const s of all) {
     const a = cleanAreaName(s.area);
@@ -99,150 +96,101 @@ export default async function HomeSeoIndex() {
     .sort((a, b) => b.count - a.count)
     .slice(0, MAX_AREAS);
 
-  const jobs = await getAllJobs();
-  const hiringNames = new Set(jobs.filter(j => j.category === "startup").map(j => j.company));
-  const hiringCount = hiringNames.size;
+  const hiringCount = all.filter((s) => visibleHiring(s)).length;
   const year = new Date().getFullYear();
 
   return (
     <section className="home-seo" aria-label="Hyderabad Startup Directory">
-      {/* Visual pull dock header indicator */}
-      <div className="home-seo-dock-header">
-        <span className="home-seo-dock-pill">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-          Explore Hyderabad Startup Directory &amp; Ecosystem
+      <div className="home-seo-bridge" aria-hidden="true">
+        <span className="home-seo-bridge-label">
+          Browse the directory
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </span>
       </div>
 
-      <div className="home-seo-inner">
-        {/* Intro hero header */}
-        <header className="home-seo-head">
-          <div className="home-seo-title-row">
-            <div>
-              <h2>Hyderabad Startup Ecosystem &amp; Directory</h2>
-              <p className="home-seo-sub">
-                A verified directory of <strong>{total.toLocaleString()}+ startups</strong> across HITEC City, Gachibowli, Madhapur, Jubilee Hills, and beyond. Explore sectors, track funding stages, and connect with companies actively hiring in {year}.
-              </p>
-            </div>
-          </div>
+      <HomeSeoReveal>
+        <div className="home-seo-inner">
+          <header className="home-seo-head home-seo-step">
+            <h2>Hyderabad Startup Ecosystem &amp; Directory</h2>
+            <p className="home-seo-sub">
+              A verified directory of startups across HITEC City, Gachibowli, Madhapur, and beyond — updated for {year}.
+            </p>
+            <p className="home-seo-stats-line">
+              <strong>{total.toLocaleString()}+</strong> startups
+              <span aria-hidden="true"> · </span>
+              <strong>{hiringCount || "60+"}</strong> hiring
+              <span aria-hidden="true"> · </span>
+              <strong>{sectorMap.size}</strong> sectors
+            </p>
+            <nav className="home-seo-actions" aria-label="Explore">
+              <Link href="/jobs">Startup Jobs</Link>
+              <Link href="/industries">Industries</Link>
+              <Link href="/insights">Insights</Link>
+              <Link href="/submit">Add your startup</Link>
+            </nav>
+          </header>
 
-          {/* Quick Ecosystem Stats Bar */}
-          <div className="home-seo-stats-strip">
-            <div className="home-seo-stat-card">
-              <span className="stat-num">{total.toLocaleString()}+</span>
-              <span className="stat-label">Mapped Startups</span>
+          <div className="home-seo-sectors-section home-seo-step">
+            <div className="home-seo-section-title-wrap">
+              <h3 className="home-seo-section-title">Explore by sector</h3>
+              <Link href="/industries" className="home-seo-view-all">View all industries →</Link>
             </div>
-            <div className="home-seo-stat-card">
-              <span className="stat-num stat-hiring">
-                <span className="stat-pulse-dot" />
-                {hiringCount || "60+"}
-              </span>
-              <span className="stat-label">Hiring Startups</span>
-            </div>
-            <div className="home-seo-stat-card">
-              <span className="stat-num">{sectorMap.size}</span>
-              <span className="stat-label">Industry Sectors</span>
-            </div>
-            <div className="home-seo-stat-card">
-              <span className="stat-num">{byArea.length}+</span>
-              <span className="stat-label">Local Hubs</span>
-            </div>
-          </div>
 
-          {/* Ecosystem navigation links */}
-          <nav className="home-seo-sections" aria-label="Ecosystem Hubs">
-            <Link href="/jobs" className="seo-nav-chip">
-              <span aria-hidden="true">💼</span> Startup Jobs
-            </Link>
-            <Link href="/gccs" className="seo-nav-chip">
-              <span aria-hidden="true">🏢</span> GCCs
-            </Link>
-            <Link href="/product-companies" className="seo-nav-chip">
-              <span aria-hidden="true">🚀</span> Product Companies
-            </Link>
-            <Link href="/industries" className="seo-nav-chip">
-              <span aria-hidden="true">🏷️</span> Industries
-            </Link>
-            <Link href="/insights" className="seo-nav-chip">
-              <span aria-hidden="true">📊</span> Ecosystem Insights
-            </Link>
-            <Link href="/feed" className="seo-nav-chip">
-              <span aria-hidden="true">⚡</span> Live Feed
-            </Link>
-            <Link href="/news" className="seo-nav-chip">
-              <span aria-hidden="true">📰</span> News
-            </Link>
-            <Link href="/stories" className="seo-nav-chip">
-              <span aria-hidden="true">✨</span> Stories
-            </Link>
-          </nav>
-        </header>
-
-        {/* Sector cards grid */}
-        <div className="home-seo-sectors-section">
-          <div className="home-seo-section-title-wrap">
-            <h3 className="home-seo-section-title">Explore by Sector</h3>
-            <Link href="/industries" className="home-seo-view-all">View all industries →</Link>
-          </div>
-
-          <div className="home-seo-sectors">
-            {bySector.map(({ sector, color, count, picks }) => (
-              <div className="home-seo-card" key={sector} style={{ "--sector-accent": color }}>
-                <div className="home-seo-card-head">
-                  <div className="home-seo-sector-badge" style={{ backgroundColor: color }}></div>
-                  <Link href={`/industries/${industrySlugForSector(sector)}`} className="home-seo-sector-title">
-                    {sector}
-                  </Link>
-                  <span className="home-seo-count">{count}</span>
-                </div>
-                <ul className="home-seo-startup-list">
-                  {picks.map((s) => (
-                    <li key={s.id} className="home-seo-startup-item">
-                      <Link href={`/startups/${startupSlug(s)}`} className="home-seo-startup-link">
-                        <span className="home-seo-startup-name">{prettyName(s.name)}</span>
-                        {s.hiring && <span className="home-seo-hiring-badge">Hiring</span>}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <div className="home-seo-card-footer">
-                  <Link href={`/industries/${industrySlugForSector(sector)}`} className="home-seo-more-link">
-                    All {count} {sector} startups →
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Area chips section */}
-        {byArea.length > 0 && (
-          <div className="home-seo-areas-section">
-            <h3 className="home-seo-section-title">Startups by Hyderabad Tech Clusters</h3>
-            <div className="home-seo-areas-grid">
-              {byArea.map((a) => (
-                <div key={a.area} className="home-seo-area-chip">
-                  <span className="home-seo-area-name">{a.area}</span>
-                  <span className="home-seo-area-count">{a.count}</span>
+            <div className="home-seo-sectors">
+              {bySector.map(({ sector, color, count, picks }) => (
+                <div
+                  key={sector}
+                  className="home-seo-card"
+                  style={{ "--sector-accent": color }}
+                >
+                  <div className="home-seo-card-head">
+                    <span className="home-seo-sector-badge" style={{ backgroundColor: color }} />
+                    <Link href={`/industries/${industrySlugForSector(sector)}`} className="home-seo-sector-title">
+                      {sector}
+                    </Link>
+                    <span className="home-seo-count">{count}</span>
+                  </div>
+                  <ul className="home-seo-startup-list">
+                    {picks.map((s) => (
+                      <li key={s.id} className="home-seo-startup-item">
+                        <Link href={`/startups/${startupSlug(s)}`} className="home-seo-startup-link">
+                          <span className="home-seo-startup-name">{prettyName(s.name)}</span>
+                          {visibleHiring(s) && <span className="home-seo-hiring-badge">Hiring</span>}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ))}
             </div>
           </div>
-        )}
 
-        {/* Bottom invitation card */}
-        <div className="home-seo-cta-banner">
-          <div className="home-seo-cta-content">
-            <h4>Building or hiring at a tech startup in Hyderabad?</h4>
-            <p>Get featured on the interactive ecosystem map, showcase open jobs, and reach talent across India.</p>
-          </div>
-          <div className="home-seo-cta-actions">
-            <Link href="/submit" className="btn home-seo-cta-btn">
-              Add your startup for free →
-            </Link>
+          {byArea.length > 0 && (
+            <div className="home-seo-areas-section home-seo-step">
+              <h3 className="home-seo-section-title">Tech clusters</h3>
+              <div className="home-seo-areas-grid">
+                {byArea.map((a) => (
+                  <Link
+                    key={a.area}
+                    href={`/?view=companies&area=${encodeURIComponent(a.area)}`}
+                    className="home-seo-area-chip"
+                  >
+                    <span className="home-seo-area-name">{a.area}</span>
+                    <span className="home-seo-area-count">{a.count}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="home-seo-cta home-seo-step">
+            <p>
+              Building in Hyderabad?{" "}
+              <Link href="/submit">Add your startup to the map →</Link>
+            </p>
           </div>
         </div>
-      </div>
+      </HomeSeoReveal>
     </section>
   );
 }

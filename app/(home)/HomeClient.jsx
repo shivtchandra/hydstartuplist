@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback, startTransition } from "react";
 import Link from "next/link";
 import ExploreModes from "../components/ExploreModes.jsx";
 import { normalizeArea, domainOf, hostnameOf, logoSrcs, colorFor, prettyName, careersUrl } from "../../lib/startupUi.js";
@@ -8,6 +8,7 @@ import { startupSlug } from "../../lib/slug.js";
 import { jobUrlId } from "../../lib/jobs-seo.js";
 import MobileTabBar from "../components/MobileTabBar.jsx";
 import { trackEvent } from "../../lib/engagement-client.js";
+import { AREA_ZOOM_MAX, AREA_ENTER_ZOOM, spotlight, scoreOf } from "../../lib/startup-map-spotlight.js";
 
 const HYDERABAD_CENTER = { lat: 17.42, lng: 78.44 };
 
@@ -58,19 +59,10 @@ function shortAreaName(area) {
     .trim();
 }
 
-const AREA_ZOOM = 12;
-// Hero pin footprint in px: 44px circle plus a label up to ~110px wide sitting
-// under it. One hero per cell of this size, so labels can never overlap.
-const CELL_PX_W = 155;
-const CELL_PX_H = 96;
-// Second grid for unlabelled logos — roughly the 32px pin footprint plus air.
-// Distributing this tier spatially (rather than flipping the whole map to dots
-// past a count threshold) is what keeps logo density readable at any zoom.
-const SMALL_PX_W = 74;
-const SMALL_PX_H = 58;
-// Half the label's max width, so an edge pin doesn't get clipped text; and the
-// bottom strip the mobile tab bar covers.
-const LABEL_GUTTER_X = 60;
+// Eateries-map zoom contract (hyderabad-eateries-map):
+// - zoomed out → area blobs
+// - area click → flyTo(centroid, AREA_ENTER_ZOOM) past the blob threshold
+// - zoomed in → monotonic spotlight heroes + dots (zoom only adds heroes)
 const LABEL_GUTTER_BOTTOM = 78;
 
 function buildStartupAreas(startups) {
@@ -100,6 +92,10 @@ function useLeafletMap(containerRef) {
   const dotMarkersRef = useRef(new Map());
   const startupsRef = useRef([]);
   const onSelectRef = useRef(null);
+  const suppressTickRef = useRef(false);
+  // Area blobs: only rebuild when the company set changes, not on every pan.
+  // Rebuilding + CSS enter animation was the city-overview flicker.
+  const areaModeKeyRef = useRef("");
   const [ready, setReady] = useState(false);
   const [mapError,setMapError]=useState(false),[retry,setRetry]=useState(0);
   const [viewTick, setViewTick] = useState(0);
@@ -113,17 +109,16 @@ function useLeafletMap(containerRef) {
       if (cancelled || !containerRef.current || mapRef.current) return;
       LRef.current = L;
       mapRef.current = L.map(containerRef.current, {
-        center: [17.448, 78.374], // HITEC City core — densest startup cluster
-        zoom: 14,
+        center: [17.42, 78.44],
+        zoom: 11.6, // city overview like eateries — area blobs first
         zoomControl: false,
-        // Integer levels: Stadia serves raster tiles, so fractional zoom scales
-        // them in CSS and they render soft. One click = one level, crisp tiles.
-        zoomSnap: 1,
-        zoomDelta: 1,
+        zoomSnap: 0.25,
+        zoomDelta: 0.5,
         wheelPxPerZoomLevel: 140,
         wheelDebounceTime: 40,
         bounceAtZoomLimits: false,
-        maxZoom: 19,
+        minZoom: 10.5,
+        maxZoom: 18,
       });
       L.control.zoom({ position: "bottomright" }).addTo(mapRef.current);
       const stadiaKey = process.env.NEXT_PUBLIC_STADIA_KEY;
@@ -140,7 +135,17 @@ function useLeafletMap(containerRef) {
       }).on("tileerror",()=>{if(!cancelled&&++tileErrors>=3)setMapError(true);}).addTo(mapRef.current);
       areaLayerRef.current = L.layerGroup().addTo(mapRef.current);
       spotLayerRef.current = L.layerGroup().addTo(mapRef.current);
-      mapRef.current.on("moveend zoomend", () => setViewTick((t) => t + 1));
+      let tickRaf = 0;
+      mapRef.current.on("moveend zoomend", () => {
+        // Skip rebuilds while flyTo/fitBounds is animating — double passes made
+        // Hiring / filter / card clicks feel laggy.
+        if (suppressTickRef.current) return;
+        if (tickRaf) cancelAnimationFrame(tickRaf);
+        tickRaf = requestAnimationFrame(() => {
+          tickRaf = 0;
+          setViewTick((n) => n + 1);
+        });
+      });
       clearTimeout(timer);setReady(true);
     })().catch(()=>{if(!cancelled)setMapError(true);});
     return () => {
@@ -162,161 +167,203 @@ function useLeafletMap(containerRef) {
     const onSelect = onSelectRef.current;
     const zoom = map.getZoom();
 
-    if (zoom < AREA_ZOOM) {
-      spotLayer.clearLayers();
-      heroMarkersRef.current.clear();
-      dotMarkersRef.current.clear();
+    // ---------- Neighbourhood view (eateries MapCanvas pattern) ----------
+    if (zoom <= AREA_ZOOM_MAX) {
+      if (heroMarkersRef.current.size || dotMarkersRef.current.size) {
+        spotLayer.clearLayers();
+        heroMarkersRef.current.clear();
+        dotMarkersRef.current.clear();
+      }
+
+      // Stable key for the filtered company set — pan/zoom inside area mode
+      // must NOT recreate blobs (that replayed the enter animation = flicker).
+      const areaKey = `areas:${startups.length}:${startups[0]?.id ?? ""}:${startups[startups.length - 1]?.id ?? ""}`;
+      if (areaModeKeyRef.current === areaKey && areaLayer.getLayers().length) {
+        return;
+      }
+      const firstAreaPaint = !areaModeKeyRef.current;
+      areaModeKeyRef.current = areaKey;
       areaLayer.clearLayers();
-      // Densest areas win. Hyderabad's western corridor (Gachibowli, Jubilee
-      // Hills, Banjara Hills, HITEC) sits close enough that drawing every blob
-      // stacks them into an unreadable pile — so place biggest-first and skip
-      // any whose circle would touch one already placed.
+
       const areas = buildStartupAreas(startups).sort((x, y) => y.count - x.count);
+      // Place at geographic centroids (eateries). Screen-space nudge on every
+      // rebuild made blobs jump; skipping rebuilds above is the main fix.
+      // Drop only true screen overlaps at *build* time so labels stay readable.
       const placed = [];
       for (const a of areas) {
-        const size = a.count < 10 ? 50 : a.count < 30 ? 62 : a.count < 60 ? 74 : 88;
-        const p = map.latLngToContainerPoint([a.lat, a.lng]);
-        const clash = placed.some(
-          (q) => Math.hypot(q.x - p.x, q.y - p.y) < (q.size + size) / 2 + 10
-        );
-        if (clash) continue;
-        placed.push({ x: p.x, y: p.y, size });
-
+        const size = a.count < 15 ? 52 : a.count < 60 ? 66 : a.count < 120 ? 76 : 86;
+        const origin = map.latLngToContainerPoint([a.lat, a.lng]);
+        let spot = { x: origin.x, y: origin.y };
+        let lat = a.lat;
+        let lng = a.lng;
+        for (let attempt = 0; attempt < 10; attempt++) {
+          const clash = placed.some(
+            (q) => Math.hypot(q.x - spot.x, q.y - spot.y) < (q.size + size) / 2 + 6
+          );
+          if (!clash) break;
+          const angle = attempt * 2.513;
+          const dist = 10 + attempt * 12;
+          spot = { x: origin.x + Math.cos(angle) * dist, y: origin.y + Math.sin(angle) * dist };
+          const ll = map.containerPointToLatLng([spot.x, spot.y]);
+          lat = ll.lat;
+          lng = ll.lng;
+        }
+        placed.push({ x: spot.x, y: spot.y, size });
         const label = shortAreaName(a.area);
-        const html = `<div class="startup-area-blob" style="width:${size}px;height:${size}px"><div class="startup-area-inner"><div class="startup-area-count">${a.count}</div><div class="startup-area-name">${escHtml(label)}</div></div></div>`;
+        const enter = firstAreaPaint ? " startup-area-blob--enter" : "";
+        const html = `<div class="startup-area-blob${enter}" style="width:${size}px;height:${size}px"><div class="startup-area-inner"><div class="startup-area-count">${a.count}</div><div class="startup-area-name">${escHtml(label)}</div></div></div>`;
         const areaData = a;
-        L.marker([a.lat, a.lng], {
+        L.marker([lat, lng], {
           icon: L.divIcon({ className: "", html, iconSize: [size, size], iconAnchor: [size / 2, size / 2] }),
           zIndexOffset: 500 + a.count,
         })
           .on("click", () => {
-            const coords = areaData.spots.filter((s) => s.lat && s.lng).map((s) => [s.lat, s.lng]);
-            if (coords.length === 1) map.flyTo(coords[0], 14, { duration: 0.5, easeLinearity: 0.22 });
-            else if (coords.length > 1) map.flyToBounds(L.latLngBounds(coords), { padding: [60, 60], maxZoom: 15, duration: 0.5 });
+            // Exact eateries behaviour: fly to area centre past blob threshold.
+            suppressTickRef.current = true;
+            areaModeKeyRef.current = ""; // force fresh pins after fly
+            map.flyTo([areaData.lat, areaData.lng], AREA_ENTER_ZOOM, {
+              duration: 0.45,
+              easeLinearity: 0.22,
+            });
+            window.setTimeout(() => {
+              suppressTickRef.current = false;
+              setViewTick((n) => n + 1);
+            }, 500);
           })
           .addTo(areaLayer);
       }
       return;
     }
 
+    // ---------- Spot view: monotonic heroes + dots (eateries spotlight) ----------
+    areaModeKeyRef.current = "";
     areaLayer.clearLayers();
-    // Padded so pins exist just off-screen and pan in instead of popping.
-    const b = map.getBounds().pad(0.25);
-    const allCoords = startups.filter((s) => s.lat && s.lng);
-    const inView = allCoords.filter(
-      (s) => s.lat >= b.getSouth() && s.lat <= b.getNorth() && s.lng >= b.getWest() && s.lng <= b.getEast()
-    );
-    // Spatial grid, one hero per cell. A flat "top N in view" cap lets pins
-    // stack wherever the data is dense; sizing a cell to the pin+label
-    // footprint guarantees the winners can't collide. The grid is anchored to
-    // absolute lat/lng (not the viewport), so panning doesn't reshuffle which
-    // pin won its cell — that's what stops the labels flickering while dragging.
-    const center = map.getCenter();
-    const origin = map.latLngToContainerPoint(center);
-    const corner = map.containerPointToLatLng([origin.x + CELL_PX_W, origin.y + CELL_PX_H]);
-    const cellLng = Math.abs(corner.lng - center.lng) || 0.002;
-    const cellLat = Math.abs(corner.lat - center.lat) || 0.002;
+    const b = map.getBounds();
+    const southLimit = map.containerPointToLatLng([0, map.getSize().y - LABEL_GUTTER_BOTTOM]).lat;
+    const bounds = {
+      north: b.getNorth(),
+      south: Math.max(b.getSouth(), southLimit),
+      east: b.getEast(),
+      west: b.getWest(),
+    };
 
-    const rankOf = (s) => (s.sponsored ? 2 : s.hiring ? 1 : 0);
-    const cellWinners = new Map();
-    for (const s of inView) {
-      const key = `${Math.floor(s.lat / cellLat)}:${Math.floor(s.lng / cellLng)}`;
-      const cur = cellWinners.get(key);
-      if (!cur || rankOf(s) > rankOf(cur)) cellWinners.set(key, s);
-    }
-    // Both tiers are viewport-bounded. Building them from allCoords mounted a
-    // marker (and a favicon request) for every startup in the dataset, not just
-    // the ones on screen — ~1100 DOM nodes for a view that shows a few dozen.
-    // A label is centred on its pin, so one within half a label-width of the
-    // left/right edge gets clipped, and anything in the bottom strip sits under
-    // the mobile tab bar. Those pins keep a logo but lose the text.
-    const vp = map.getSize();
-    const heroIds = new Set(
-      [...cellWinners.values()]
-        .filter((s) => {
-          const p = map.latLngToContainerPoint([s.lat, s.lng]);
-          return (
-            p.x >= LABEL_GUTTER_X &&
-            p.x <= vp.x - LABEL_GUTTER_X &&
-            p.y >= 0 &&
-            p.y <= vp.y - LABEL_GUTTER_BOTTOM
-          );
-        })
-        .map((s) => s.id)
-    );
-    const wantHeroes = heroIds;
+    const viewport = map.getSize();
+    const usableH = Math.max(viewport.y - LABEL_GUTTER_BOTTOM, 200);
+    const target = Math.max(12, Math.min(zoom > 15.5 ? 34 : 26,
+      Math.round((viewport.x * usableH) / 42000)));
+    const cellArea = (viewport.x * usableH) / target;
+    const cellW = Math.max(124, Math.sqrt(cellArea * 1.5));
+    const cellH = Math.max(94, cellArea / cellW);
+    const c = map.getCenter();
+    const origin = map.latLngToContainerPoint(c);
+    const corner = map.containerPointToLatLng([origin.x + cellW, origin.y + cellH]);
+    const cellLng = Math.abs(corner.lng - c.lng) || 0.002;
+    const cellLat = Math.abs(corner.lat - c.lat) || 0.002;
 
-    // Fine grid over everyone who didn't win a label. Winners here keep their
-    // logo; the remainder become dots. Both tiers stay viewport-bounded.
-    const smallCorner = map.containerPointToLatLng([origin.x + SMALL_PX_W, origin.y + SMALL_PX_H]);
-    const smLng = Math.abs(smallCorner.lng - center.lng) || 0.001;
-    const smLat = Math.abs(smallCorner.lat - center.lat) || 0.001;
-    const smallWinners = new Map();
-    for (const s of inView) {
-      if (heroIds.has(s.id)) continue;
-      const key = `${Math.floor(s.lat / smLat)}:${Math.floor(s.lng / smLng)}`;
-      const cur = smallWinners.get(key);
-      if (!cur || rankOf(s) > rankOf(cur)) smallWinners.set(key, s);
-    }
-    const smallIds = new Set([...smallWinners.values()].map((s) => s.id));
-    const wantDots = new Set(inView.filter((s) => !heroIds.has(s.id)).map((s) => s.id));
+    const located = startups.filter((s) => Number.isFinite(s.lat) && Number.isFinite(s.lng));
+    const inBounds = (s) =>
+      s.lat >= bounds.south && s.lat <= bounds.north &&
+      s.lng >= bounds.west && s.lng <= bounds.east;
+    const visible = located.filter(inBounds).sort((a, b) => scoreOf(b) - scoreOf(a));
 
-    for (const [id, m] of heroMarkersRef.current) {
-      if (!wantHeroes.has(id)) { spotLayer.removeLayer(m); heroMarkersRef.current.delete(id); }
-    }
-    for (const [id, m] of dotMarkersRef.current) {
-      if (!wantDots.has(id)) { spotLayer.removeLayer(m); dotMarkersRef.current.delete(id); }
-    }
-    for (const id of wantHeroes) {
-      if (dotMarkersRef.current.has(id)) {
-        spotLayer.removeLayer(dotMarkersRef.current.get(id));
-        dotMarkersRef.current.delete(id);
+    let { heroes, rest } = spotlight(located, bounds, {
+      cellLat,
+      cellLng,
+      filterKey: `${located.length}:${located[0]?.id ?? ""}`,
+    });
+
+    // Directory map (not a ranked food map): once you zoom into a neighbourhood,
+    // every company in view should pop as a real pin — not stay a grey dot forever.
+    // Eateries does the same when a filter set is small enough to show in full.
+    const SHOW_ALL_ZOOM = 14.4;
+    const SHOW_ALL_CAP = 140;
+    if (zoom >= SHOW_ALL_ZOOM || visible.length <= SHOW_ALL_CAP) {
+      if (visible.length && visible.length <= 220) {
+        heroes = visible;
+        rest = [];
       }
     }
 
-    for (const s of inView) {
-      if (!wantHeroes.has(s.id) || heroMarkersRef.current.has(s.id)) continue;
-      const featured = !!s.sponsored;
-      const circle = pinCircleHtml(s);
-      const iconHtml = featured
-        ? `<div class="startup-hero-pin leaf-marker leaf-marker-sponsored"><div class="pin-sponsored-ring">${circle}<span class="pin-sponsored-label">Sponsored</span></div><div class="startup-pin-label">${escHtml(prettyName(s.name))}</div></div>`
-        : `<div class="startup-hero-pin leaf-marker">${circle}<div class="startup-pin-label">${escHtml(prettyName(s.name))}</div></div>`;
-      const m = L.marker([s.lat, s.lng], {
-        icon: L.divIcon({ className: "", html: iconHtml, iconSize: [44, 72], iconAnchor: [22, 22] }),
-        title: prettyName(s.name),
-        zIndexOffset: featured ? 600 : 200,
-      }).on("click", () => onSelect?.(s));
-      heroMarkersRef.current.set(s.id, m);
-      spotLayer.addLayer(m);
+    // Fixed places: sponsored / spotlight always stay among heroes when in view.
+    const fixed = visible.filter((s) => s.sponsored || s.spotlight);
+    if (fixed.length) {
+      const heroIds = new Set(heroes.map((s) => s.id));
+      for (const s of fixed) {
+        if (heroIds.has(s.id)) continue;
+        heroes = [s, ...heroes];
+        heroIds.add(s.id);
+      }
+      rest = rest.filter((s) => !heroIds.has(s.id));
     }
 
-    // Overlapping logos still read fine — it's stacked *labels* that turn the
-    // map to mush. So only coarse-grid winners get text, the fine grid keeps a
-    // spread of unlabelled logos, and the remainder are dots.
-    // A marker's tier can change as the view moves (logo <-> dot), and the
-    // reconciler leaves existing markers untouched — so drop any whose tier no
-    // longer matches, and let the add loop below rebuild it.
+    const wantHeroes = new Set(heroes.map((s) => s.id));
+    const wantDots = new Set(rest.map((s) => s.id));
+
+    // Remove only pins that left the hero/dot sets. Never rebuild an existing
+    // hero on zoom — that flicker is what eateries avoids with
+    // `if (liveHeroes.has(id)) continue`.
+    for (const [id, m] of heroMarkersRef.current) {
+      if (!wantHeroes.has(id)) {
+        spotLayer.removeLayer(m);
+        heroMarkersRef.current.delete(id);
+      }
+    }
     for (const [id, m] of dotMarkersRef.current) {
-      const wantsLogo = smallIds.has(id);
-      if (m.__isLogo !== wantsLogo) {
+      if (!wantDots.has(id)) {
         spotLayer.removeLayer(m);
         dotMarkersRef.current.delete(id);
       }
     }
 
-    for (const s of inView) {
-      if (!wantDots.has(s.id) || dotMarkersRef.current.has(s.id)) continue;
-      const isLogo = smallIds.has(s.id);
-      const html = isLogo
-        ? `<div class="startup-hero-pin leaf-marker">${pinCircleHtml(s, true)}</div>`
-        : `<div class="startup-mini-dot"></div>`;
-      const box = isLogo ? 32 : 14; // dot hitbox stays tappable though the dot is 6px
+    // When many companies are promoted, keep every logo visible but only label
+    // the strongest few so names don't stack into mush.
+    const labelBudget = heroes.length > 60 ? 18 : heroes.length > 35 ? 28 : heroes.length;
+    const labelIds = new Set(
+      [...heroes]
+        .sort((a, b) => scoreOf(b) - scoreOf(a))
+        .slice(0, labelBudget)
+        .map((s) => s.id)
+    );
+    for (const s of fixed) labelIds.add(s.id);
+
+    for (const s of heroes) {
+      if (heroMarkersRef.current.has(s.id)) continue; // already on screen — leave alone
+      if (dotMarkersRef.current.has(s.id)) {
+        spotLayer.removeLayer(dotMarkersRef.current.get(s.id));
+        dotMarkersRef.current.delete(s.id);
+      }
+      const featured = !!s.sponsored;
+      const labelled = labelIds.has(s.id);
+      const circle = pinCircleHtml(s, !labelled);
+      const iconHtml = labelled
+        ? (featured
+          ? `<div class="startup-hero-pin leaf-marker leaf-marker-sponsored"><div class="pin-sponsored-ring">${circle}<span class="pin-sponsored-label">Sponsored</span></div><div class="startup-pin-label">${escHtml(prettyName(s.name))}</div></div>`
+          : `<div class="startup-hero-pin leaf-marker">${circle}<div class="startup-pin-label">${escHtml(prettyName(s.name))}</div></div>`)
+        : `<div class="startup-hero-pin leaf-marker">${circle}</div>`;
+      const iconSize = labelled ? [44, 72] : [32, 32];
+      const iconAnchor = labelled ? [22, 22] : [16, 16];
       const m = L.marker([s.lat, s.lng], {
-        icon: L.divIcon({ className: "", html, iconSize: [box, box], iconAnchor: [box / 2, box / 2] }),
+        icon: L.divIcon({ className: "", html: iconHtml, iconSize, iconAnchor }),
         title: prettyName(s.name),
-        zIndexOffset: isLogo ? 100 : 50,
+        zIndexOffset: featured ? 600 : labelled ? 220 : 120 + Math.min(scoreOf(s), 80),
       }).on("click", () => onSelect?.(s));
-      m.__isLogo = isLogo;
+      heroMarkersRef.current.set(s.id, m);
+      spotLayer.addLayer(m);
+    }
+
+    for (const s of rest) {
+      if (dotMarkersRef.current.has(s.id)) continue; // leave existing dots alone
+      if (heroMarkersRef.current.has(s.id)) continue;
+      const m = L.marker([s.lat, s.lng], {
+        icon: L.divIcon({
+          className: "",
+          html: `<div class="startup-mini-dot" title="${escHtml(prettyName(s.name))}"></div>`,
+          iconSize: [12, 12],
+          iconAnchor: [6, 6],
+        }),
+        title: prettyName(s.name),
+        zIndexOffset: 50,
+      }).on("click", () => onSelect?.(s));
       dotMarkersRef.current.set(s.id, m);
       spotLayer.addLayer(m);
     }
@@ -325,12 +372,28 @@ function useLeafletMap(containerRef) {
   function setMarkers(startups, onSelect) {
     startupsRef.current = startups;
     onSelectRef.current = onSelect;
-    setViewTick((t) => t + 1);
+    // Defer heavy marker reconcile so filter/toggle buttons paint immediately.
+    requestAnimationFrame(() => setViewTick((n) => n + 1));
+  }
+
+  function withSuppressedTicks(run) {
+    suppressTickRef.current = true;
+    run();
+    // One rebuild after the animation settles
+    window.setTimeout(() => {
+      suppressTickRef.current = false;
+      setViewTick((n) => n + 1);
+    }, 520);
   }
 
   function flyTo(lat, lng) {
     if (mapRef.current && lat && lng) {
-      mapRef.current.flyTo([lat, lng], Math.max(mapRef.current.getZoom(), 15), { duration: 0.7, easeLinearity: 0.22 });
+      withSuppressedTicks(() => {
+        mapRef.current.flyTo([lat, lng], Math.max(mapRef.current.getZoom(), AREA_ENTER_ZOOM + 1.2), {
+          duration: 0.45,
+          easeLinearity: 0.22,
+        });
+      });
     }
   }
 
@@ -339,11 +402,13 @@ function useLeafletMap(containerRef) {
     if (!L || !mapRef.current) return;
     const coords = startups.filter((s) => s.lat && s.lng).map((s) => [s.lat, s.lng]);
     if (coords.length === 0) return;
-    if (coords.length === 1) {
-      mapRef.current.flyTo(coords[0], Math.max(mapRef.current.getZoom(), 14), { duration: 0.5 });
-      return;
-    }
-    mapRef.current.flyToBounds(L.latLngBounds(coords), { padding: [60, 60], maxZoom: 15, duration: 0.5 });
+    withSuppressedTicks(() => {
+      if (coords.length === 1) {
+        mapRef.current.flyTo(coords[0], Math.max(mapRef.current.getZoom(), 14), { duration: 0.45 });
+        return;
+      }
+      mapRef.current.flyToBounds(L.latLngBounds(coords), { padding: [60, 60], maxZoom: 15, duration: 0.45 });
+    });
   }
 
   function invalidateSize() {
@@ -968,15 +1033,28 @@ export default function HomeClient({ initialStartups = [] }) {
   );
   const hiringInView = useMemo(() => filtered.filter((s) => s.hiring).length, [filtered]);
 
+  const openStartup = useCallback((s) => {
+    trackEvent("company", "control");
+    // Paint modal/selection first; defer map fly so the click feels instant.
+    startTransition(() => setSelected(s));
+    requestAnimationFrame(() => {
+      if (s?.lat && s?.lng) flyTo(s.lat, s.lng);
+    });
+  }, [flyTo]);
+
   useEffect(() => {
-    if (ready) setMarkers(filtered, openStartup);
-  }, [ready, filtered]);
+    if (!ready) return;
+    const id = window.setTimeout(() => setMarkers(filtered, openStartup), 80);
+    return () => clearTimeout(id);
+  }, [ready, filtered, openStartup]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const startupParam = params.get("startup");
     const sectorParam = params.get("sector");
+    const areaParam = params.get("area");
     if (sectorParam) setSector(sectorParam);
+    if (areaParam) setArea(areaParam);
     if (!ready || !startupParam || openedFromUrlRef.current === startupParam) return;
     const startup = displayedStartups.find((s) => s.id === startupParam);
     if (!startup) return;
@@ -992,7 +1070,9 @@ export default function HomeClient({ initialStartups = [] }) {
   useEffect(() => {
     if (!ready) return;
     if (firstFilterRun.current) { firstFilterRun.current = false; return; }
-    fitToMarkers(filtered);
+    // Debounce fit — rapid filter taps were stacking flyToBounds animations.
+    const id = window.setTimeout(() => fitToMarkers(filtered), 180);
+    return () => clearTimeout(id);
   }, [ready, sector, fundingStage, area, hiringOnly, newOnly]);
 
   useEffect(() => {
@@ -1013,12 +1093,6 @@ export default function HomeClient({ initialStartups = [] }) {
     const t = setTimeout(run, 1200);
     return () => clearTimeout(t);
   }, []);
-
-  function openStartup(s) {
-    trackEvent("company", "control");
-    setSelected(s);
-    flyTo(s.lat, s.lng);
-  }
 
   function toggleSidebar() {
     const next = !sidebarOpen;
@@ -1083,12 +1157,12 @@ export default function HomeClient({ initialStartups = [] }) {
             </svg>
             <span>{sidebarOpen ? "Hide list" : "Show list"}</span>
           </button>
-          <Dropdown value={sector} onChange={setSector} options={sectors} placeholder="All sectors" counts={sectorCounts} />
-          <Dropdown value={fundingStage} onChange={setFundingStage} options={stages} placeholder="All stages" counts={stageCounts} />
-          <Dropdown value={area} onChange={setArea} options={areas} placeholder="All areas" counts={areaCounts} />
+          <Dropdown value={sector} onChange={(v) => startTransition(() => setSector(v))} options={sectors} placeholder="All sectors" counts={sectorCounts} />
+          <Dropdown value={fundingStage} onChange={(v) => startTransition(() => setFundingStage(v))} options={stages} placeholder="All stages" counts={stageCounts} />
+          <Dropdown value={area} onChange={(v) => startTransition(() => setArea(v))} options={areas} placeholder="All areas" counts={areaCounts} />
           <button
             className={`hiring-toggle${hiringOnly ? " on" : ""}`}
-            onClick={() => setHiringOnly((v) => !v)}
+            onClick={() => startTransition(() => setHiringOnly((v) => !v))}
             title="Detected via public job boards (Greenhouse, Lever, Ashby, Recruitee, Workable) or self-reported."
           >
             <span className="hiring-dot" />
@@ -1096,7 +1170,7 @@ export default function HomeClient({ initialStartups = [] }) {
           </button>
           <button
             className={`hiring-toggle${newOnly ? " on" : ""}`}
-            onClick={() => setNewOnly((v) => !v)}
+            onClick={() => startTransition(() => setNewOnly((v) => !v))}
             title="Founded in the last 2 years."
           >
             New
@@ -1106,12 +1180,14 @@ export default function HomeClient({ initialStartups = [] }) {
               className="hiring-toggle"
               style={{ color: "#ef4444", borderColor: "rgba(239, 68, 68, 0.3)" }}
               onClick={() => {
-                setSector("");
-                setFundingStage("");
-                setArea("");
-                setHiringOnly(false);
-                setNewOnly(false);
-                setQ("");
+                startTransition(() => {
+                  setSector("");
+                  setFundingStage("");
+                  setArea("");
+                  setHiringOnly(false);
+                  setNewOnly(false);
+                  setQ("");
+                });
               }}
             >
               Reset filters

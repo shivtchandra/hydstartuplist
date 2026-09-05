@@ -176,226 +176,192 @@ export default async function StartupDetailPage({ params }) {
       />
       <SiteNav />
 
-      <main className="startup-sheet-container" id="main-content">
-        <div className="startup-sheet">
-          {/* Top navigation row */}
-          <nav className="startup-sheet-nav" aria-label="Breadcrumbs">
-            <Link href="/" className="startup-nav-link startup-back-link">
-              <span aria-hidden="true">←</span> Back to map
-            </Link>
-            <div className="startup-nav-actions">
-              <Link href={`/jobs/company/${slug}`} className="startup-nav-link startup-roles-link">
-                {openRolesCount > 0 ? (
-                  <span className="startup-open-pill">
-                    <span className="startup-pulse-dot" />
-                    {openRolesCount} open role{openRolesCount === 1 ? "" : "s"}
-                  </span>
-                ) : (
-                  <span>Browse jobs →</span>
-                )}
-              </Link>
-            </div>
-          </nav>
-
-          {/* Hero header block */}
-          <header className="startup-hero-card">
-            <div className="startup-hero-top">
-              <div className="startup-hero-logo-frame">
-                <StartupLogo
-                  name={startup.name}
-                  website={startup.website}
-                  logoUrl={startup.logoUrl}
-                  sector={startup.sector}
-                  size={68}
-                />
-              </div>
-
-              <div className="startup-hero-main">
-                <div className="startup-hero-title-row">
-                  <h1 className="startup-hero-title">
-                    {prettyName(startup.name)}
-                  </h1>
-                  {sponsored && <span className="sponsored-badge">Sponsored</span>}
-                </div>
-
-                <div className="startup-hero-meta-strip">
-                  <span className="startup-sector-badge" style={{ borderColor: sectorColor, color: sectorColor }}>
-                    {startup.sector}
-                  </span>
-                  {startup.area && (
-                    <span className="startup-area-pill">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                      {startup.area}
-                    </span>
-                  )}
-                  {stage && stage !== "Not disclosed" && (
-                    <span className="startup-stage-pill">{stage}</span>
-                  )}
-                  {hiring && (
-                    <span className="startup-hiring-badge">
-                      <span className="hiring-dot" />
-                      Hiring now
-                    </span>
-                  )}
-                </div>
-
-                {startup.oneLiner && (
-                  <p className="startup-hero-oneliner">{startup.oneLiner}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Hero Quick Action Bar */}
-            <div className="startup-hero-ctas">
-              {startup.website && (
-                <a className="btn startup-cta-btn" href={startup.website} target="_blank" rel="noopener noreferrer">
-                  Visit website <span aria-hidden="true">↗</span>
-                </a>
-              )}
-              {careers && (
-                <a className="btn btn-ghost startup-ghost-btn" href={careers} target="_blank" rel="noopener noreferrer">
-                  Careers page <span aria-hidden="true">↗</span>
-                </a>
-              )}
-              {maps && (
-                <a className="btn btn-ghost startup-ghost-btn" href={maps} target="_blank" rel="noopener noreferrer">
-                  Get directions <span aria-hidden="true">↗</span>
-                </a>
-              )}
-              <Link className="startup-claim-link" href={`/submit?claim=${startup.id}&name=${encodeURIComponent(startup.name)}`}>
-                Claim listing
-              </Link>
-            </div>
-          </header>
-
-          {/* Key Facts Metric Row */}
-          <section className="startup-facts-row" aria-label="Company Overview">
-            <div className="startup-fact-card">
-              <span className="fact-label">Funding Stage</span>
-              <strong className="fact-value">{stage || "Not disclosed"}</strong>
-            </div>
-            <div className="startup-fact-card">
-              <span className="fact-label">Sector</span>
-              <strong className="fact-value" style={{ color: sectorColor }}>{startup.sector}</strong>
-            </div>
-            <div className="startup-fact-card">
-              <span className="fact-label">Location</span>
-              <strong className="fact-value">{startup.area || "Hyderabad"}</strong>
-            </div>
-            {startup.founded && (
-              <div className="startup-fact-card">
-                <span className="fact-label">Founded</span>
-                <strong className="fact-value">{startup.founded}</strong>
-              </div>
+      <main className="startup-profile" id="main-content">
+        <nav className="startup-crumb" aria-label="Breadcrumbs">
+          <Link href="/" className="startup-nav-link">
+            <span aria-hidden="true">←</span> Back to map
+          </Link>
+          <Link href={`/jobs/company/${slug}`} className="startup-nav-link">
+            {openRolesCount > 0 ? (
+              <span className="startup-open-pill">
+                <span className="startup-pulse-dot" />
+                {openRolesCount} open role{openRolesCount === 1 ? "" : "s"}
+              </span>
+            ) : (
+              <span>Browse jobs →</span>
             )}
-          </section>
+          </Link>
+        </nav>
 
-          {/* About Section */}
-          {about && (
-            <section className="startup-card-section">
-              <h2 className="startup-card-title">About {prettyName(startup.name)}</h2>
-              <p className="startup-card-desc">{about}</p>
-              {services.length > 0 && (
-                <div className="startup-tags-cloud">
-                  {services.map((s) => (
-                    <span key={s} className="startup-chip">{s}</span>
+        <header className="startup-hero">
+          <div className="startup-hero-identity">
+            <StartupLogo
+              name={startup.name}
+              website={startup.website}
+              logoUrl={startup.logoUrl}
+              sector={startup.sector}
+              size={72}
+            />
+            <div className="startup-hero-copy">
+              <div className="startup-hero-title-row">
+                <h1 className="startup-hero-title">{prettyName(startup.name)}</h1>
+                {sponsored && <span className="sponsored-badge">Sponsored</span>}
+              </div>
+              {startup.oneLiner && (
+                <p className="startup-hero-oneliner">{startup.oneLiner}</p>
+              )}
+              <p className="startup-hero-meta">
+                <span>{startup.sector}</span>
+                {startup.area && <><span className="startup-meta-sep" aria-hidden="true">·</span><span>{startup.area}</span></>}
+                {stage && stage !== "Not disclosed" && <><span className="startup-meta-sep" aria-hidden="true">·</span><span>{stage}</span></>}
+                {startup.founded && <><span className="startup-meta-sep" aria-hidden="true">·</span><span>Founded {startup.founded}</span></>}
+                {hiring && <><span className="startup-meta-sep" aria-hidden="true">·</span><span className="startup-meta-hiring">Hiring</span></>}
+              </p>
+            </div>
+          </div>
+
+          <div className="startup-hero-actions">
+            {startup.website && (
+              <a className="btn startup-cta-btn" href={startup.website} target="_blank" rel="noopener noreferrer">
+                Visit website <span aria-hidden="true">↗</span>
+              </a>
+            )}
+            {careers && (
+              <a className="btn btn-ghost startup-ghost-btn" href={careers} target="_blank" rel="noopener noreferrer">
+                Careers <span aria-hidden="true">↗</span>
+              </a>
+            )}
+            {maps && (
+              <a className="btn btn-ghost startup-ghost-btn" href={maps} target="_blank" rel="noopener noreferrer">
+                Directions <span aria-hidden="true">↗</span>
+              </a>
+            )}
+            <Link className="startup-claim-link" href={`/submit?claim=${startup.id}&name=${encodeURIComponent(startup.name)}`}>
+              Claim listing
+            </Link>
+          </div>
+        </header>
+
+        <div className="startup-layout">
+          <div className="startup-main">
+            {about && (
+              <section className="startup-section">
+                <h2 className="startup-section-title">About</h2>
+                <p className="startup-section-body">{about}</p>
+                {services.length > 0 && (
+                  <ul className="startup-service-list">
+                    {services.map((s) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+            )}
+
+            {hiring?.roles?.length > 0 && (
+              <section className="startup-section">
+                <div className="startup-section-head">
+                  <h2 className="startup-section-title">Open roles</h2>
+                  <Link className="startup-view-all-link" href={`/jobs/company/${slug}`}>
+                    All company jobs →
+                  </Link>
+                </div>
+                <ul className="startup-role-list">
+                  {hiring.roles.map((r, i) => (
+                    <li key={r.url || i}>
+                      <a
+                        className="startup-role-item"
+                        href={r.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span className="startup-role-name">{r.title}</span>
+                        <span className="startup-role-sub">{startup.area || "Hyderabad"}</span>
+                        <span className="startup-role-apply">Apply ↗</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {(startup.address || startup.area) && (
+              <section className="startup-section">
+                <h2 className="startup-section-title">Office</h2>
+                <p className="startup-section-body startup-address-text">{startup.address || startup.area}</p>
+                {maps && (
+                  <a className="startup-text-link" href={maps} target="_blank" rel="noopener noreferrer">
+                    Open in Maps ↗
+                  </a>
+                )}
+              </section>
+            )}
+
+            {startup.news?.[0] && (
+              <section className="startup-section">
+                <h2 className="startup-section-title">Latest news</h2>
+                <a className="startup-news-link" href={startup.news[0].url} target="_blank" rel="noopener noreferrer">
+                  {startup.news[0].title}
+                </a>
+              </section>
+            )}
+
+            {faqs.length > 0 && (
+              <section className="startup-section">
+                <h2 className="startup-section-title">FAQ</h2>
+                <div className="startup-faq-list">
+                  {faqs.map((it) => (
+                    <details key={it.q} className="startup-faq-accordion" open={it.q.startsWith("What does")}>
+                      <summary className="startup-faq-summary">
+                        <span>{it.q}</span>
+                        <svg className="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                      </summary>
+                      <p className="startup-faq-answer">{it.a}</p>
+                    </details>
                   ))}
                 </div>
-              )}
-            </section>
-          )}
+              </section>
+            )}
+          </div>
 
-          {/* Open Roles Section */}
-          {hiring?.roles?.length > 0 && (
-            <section className="startup-card-section">
-              <div className="startup-section-header-flex">
-                <h2 className="startup-card-title">Open roles ({hiring.roles.length})</h2>
-                <Link className="startup-view-all-link" href={`/jobs/company/${slug}`}>
-                  View company jobs →
-                </Link>
+          <aside className="startup-aside" aria-label="Company details">
+            <dl className="startup-aside-facts">
+              <div>
+                <dt>Sector</dt>
+                <dd>{startup.sector}</dd>
               </div>
-              <div className="startup-roles-grid">
-                {hiring.roles.map((r, i) => (
-                  <a
-                    key={r.url || i}
-                    className="startup-role-item"
-                    href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div className="startup-role-info">
-                      <span className="startup-role-name">{r.title}</span>
-                      <span className="startup-role-sub">{startup.area || "Hyderabad"}</span>
-                    </div>
-                    <span className="startup-role-apply">Apply ↗</span>
-                  </a>
-                ))}
+              <div>
+                <dt>Stage</dt>
+                <dd>{stage || "Not disclosed"}</dd>
               </div>
-            </section>
-          )}
-
-          {/* Office Address & Directions */}
-          {(startup.address || startup.area) && (
-            <section className="startup-card-section startup-office-section">
-              <div className="startup-office-body">
+              <div>
+                <dt>Location</dt>
+                <dd>{startup.area || "Hyderabad"}</dd>
+              </div>
+              {startup.founded && (
                 <div>
-                  <h2 className="startup-card-title">Office & Location</h2>
-                  <p className="startup-address-text">{startup.address || startup.area}</p>
+                  <dt>Founded</dt>
+                  <dd>{startup.founded}</dd>
                 </div>
-                {maps && (
-                  <a className="btn btn-ghost startup-directions-btn" href={maps} target="_blank" rel="noopener noreferrer">
-                    Get directions ↗
-                  </a>
-                )}
-              </div>
-            </section>
-          )}
+              )}
+            </dl>
 
-          {/* Latest news if available */}
-          {startup.news?.[0] && (
-            <section className="startup-card-section">
-              <h2 className="startup-card-title">Latest news</h2>
-              <a className="modal-news" href={startup.news[0].url} target="_blank" rel="noopener noreferrer">
-                <span aria-hidden="true">📰</span> {startup.news[0].title}
-              </a>
-            </section>
-          )}
-
-          {/* Frequently Asked Questions */}
-          {faqs.length > 0 && (
-            <section className="startup-card-section">
-              <h2 className="startup-card-title">Frequently asked questions</h2>
-              <div className="startup-faq-list">
-                {faqs.map((it) => (
-                  <details key={it.q} className="startup-faq-accordion" open={it.q.startsWith("What does")}>
-                    <summary className="startup-faq-summary">
-                      <span>{it.q}</span>
-                      <svg className="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-                    </summary>
-                    <p className="startup-faq-answer">{it.a}</p>
-                  </details>
-                ))}
+            {related.length > 0 && (
+              <div className="startup-aside-related">
+                <h2 className="startup-aside-title">Similar nearby</h2>
+                <ul>
+                  {related.map((r) => (
+                    <li key={r.id}>
+                      <Link href={`/startups/${startupSlug(r)}`}>
+                        <span className="startup-related-name">{prettyName(r.name)}</span>
+                        <span className="startup-related-sub">{r.sector} · {normalizeArea(r.area)}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </section>
-          )}
-
-          {/* Related startups chips */}
-          {related.length > 0 && (
-            <section className="startup-card-section">
-              <h2 className="startup-card-title">Similar startups in Hyderabad</h2>
-              <div className="startup-related-grid">
-                {related.map((r) => (
-                  <Link key={r.id} className="startup-related-card" href={`/startups/${startupSlug(r)}`}>
-                    <div className="startup-related-name">{prettyName(r.name)}</div>
-                    <div className="startup-related-sub">
-                      <span className="startup-related-dot" style={{ background: colorFor(r.sector) }} />
-                      {r.sector} · {normalizeArea(r.area)}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          )}
+            )}
+          </aside>
         </div>
       </main>
     </div>
