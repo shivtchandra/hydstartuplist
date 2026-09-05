@@ -12,7 +12,7 @@ import Link from "next/link";
 import { getApproved } from "../../lib/store.js";
 import { getAllJobs } from "../../lib/jobs.js";
 import { startupSlug } from "../../lib/slug.js";
-import { prettyName } from "../../lib/startupUi.js";
+import { prettyName, colorFor } from "../../lib/startupUi.js";
 import { industrySlugForSector } from "../../lib/industries.js";
 
 const getApprovedCached = unstable_cache(
@@ -23,21 +23,35 @@ const getApprovedCached = unstable_cache(
 
 const PER_SECTOR = 6;
 const MAX_SECTORS = 10;
-const MAX_AREAS = 14;
+const MAX_AREAS = 16;
 
-function groupCount(list, key) {
-  const m = new Map();
-  for (const s of list) {
-    const v = s[key];
-    if (!v) continue;
-    if (!m.has(v)) m.set(v, []);
-    m.get(v).push(s);
-  }
-  return m;
+function normalizeSector(sec) {
+  if (!sec) return "Other";
+  const s = String(sec).trim();
+  const lower = s.toLowerCase();
+  if (lower === "healthtech") return "Healthtech";
+  if (lower === "deeptech") return "Deeptech";
+  if (lower === "fintech") return "Fintech";
+  if (lower === "edtech") return "Edtech";
+  if (lower === "cleantech") return "Cleantech";
+  if (lower === "proptech") return "Proptech";
+  if (lower === "hrtech") return "HRtech";
+  if (lower === "agritech") return "Agritech";
+  if (lower === "biotech") return "Biotech";
+  if (lower === "adtech") return "Adtech";
+  if (lower === "martech") return "Martech";
+  if (lower === "legaltech") return "Legaltech";
+  if (lower === "insurtech") return "Insurtech";
+  return s;
 }
 
-function shortArea(area) {
-  return String(area || "").replace(/,\s*(Hyderabad|Telangana|India)\b.*$/i, "").trim();
+function cleanAreaName(area) {
+  if (!area) return "";
+  let a = String(area).trim();
+  a = a.replace(/,\s*(Hyderabad|Telangana|India|Andhra Pradesh).*$/gi, "").trim();
+  a = a.replace(/,\s*(Hyderabad|Telangana|India).*$/gi, "").trim();
+  if (a.toLowerCase() === "hyderabad" || a.toLowerCase() === "telangana") return "";
+  return a;
 }
 
 export default async function HomeSeoIndex() {
@@ -49,25 +63,39 @@ export default async function HomeSeoIndex() {
   }
   if (!all.length) return null;
 
-  const withSite = all.filter((s) => s.website);
   const total = all.length;
 
-  // Sectors by startup count; within each, hiring first so the links lead with
-  // the most useful pages.
-  const bySector = [...groupCount(all, "sector").entries()]
+  // Sectors by startup count
+  const sectorMap = new Map();
+  for (const s of all) {
+    const sec = normalizeSector(s.sector);
+    if (!sectorMap.has(sec)) sectorMap.set(sec, []);
+    sectorMap.get(sec).push(s);
+  }
+
+  const bySector = [...sectorMap.entries()]
     .sort((a, b) => b[1].length - a[1].length)
     .slice(0, MAX_SECTORS)
     .map(([sector, list]) => ({
       sector,
+      color: colorFor(sector),
       count: list.length,
       picks: [...list]
         .sort((a, b) => Number(!!b.hiring) - Number(!!a.hiring))
         .slice(0, PER_SECTOR),
     }));
 
-  const byArea = [...groupCount(all, "area").entries()]
-    .map(([area, list]) => ({ area: shortArea(area), count: list.length }))
-    .filter((a) => a.area)
+  // Areas by startup count
+  const areaMap = new Map();
+  for (const s of all) {
+    const a = cleanAreaName(s.area);
+    if (!a) continue;
+    if (!areaMap.has(a)) areaMap.set(a, []);
+    areaMap.get(a).push(s);
+  }
+
+  const byArea = [...areaMap.entries()]
+    .map(([area, list]) => ({ area, count: list.length }))
     .sort((a, b) => b.count - a.count)
     .slice(0, MAX_AREAS);
 
@@ -77,66 +105,143 @@ export default async function HomeSeoIndex() {
   const year = new Date().getFullYear();
 
   return (
-    <section className="home-seo" aria-label="Explore Hyderabad startups">
+    <section className="home-seo" aria-label="Hyderabad Startup Directory">
+      {/* Visual pull dock header indicator */}
+      <div className="home-seo-dock-header">
+        <span className="home-seo-dock-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          Explore Hyderabad Startup Directory &amp; Ecosystem
+        </span>
+      </div>
+
       <div className="home-seo-inner">
+        {/* Intro hero header */}
         <header className="home-seo-head">
-          <h2>Explore the Hyderabad startup ecosystem</h2>
-          <p>
-            A live map of <strong>{total.toLocaleString()}+ startup companies in Hyderabad</strong> — from
-            Gachibowli and HITEC City to Jubilee Hills and Banjara Hills. Browse companies by sector, see
-            who&apos;s hiring ({hiringCount} startups with open roles right now), and explore funding stages
-            across the city&apos;s tech scene, updated for {year}.
-          </p>
-          <nav className="home-seo-sections" aria-label="Sections">
-            <Link href="/jobs">Startup Jobs</Link>
-            <Link href="/gccs">GCCs</Link>
-            <Link href="/product-companies">Product Companies</Link>
-            <Link href="/industries">Industries</Link>
-            <Link href="/insights">Ecosystem Insights</Link>
-            <Link href="/feed">Startup Feed</Link>
-            <Link href="/news">News</Link>
-            <Link href="/stories">Stories</Link>
+          <div className="home-seo-title-row">
+            <div>
+              <h2>Hyderabad Startup Ecosystem &amp; Directory</h2>
+              <p className="home-seo-sub">
+                A verified directory of <strong>{total.toLocaleString()}+ startups</strong> across HITEC City, Gachibowli, Madhapur, Jubilee Hills, and beyond. Explore sectors, track funding stages, and connect with companies actively hiring in {year}.
+              </p>
+            </div>
+          </div>
+
+          {/* Quick Ecosystem Stats Bar */}
+          <div className="home-seo-stats-strip">
+            <div className="home-seo-stat-card">
+              <span className="stat-num">{total.toLocaleString()}+</span>
+              <span className="stat-label">Mapped Startups</span>
+            </div>
+            <div className="home-seo-stat-card">
+              <span className="stat-num stat-hiring">
+                <span className="stat-pulse-dot" />
+                {hiringCount || "60+"}
+              </span>
+              <span className="stat-label">Hiring Startups</span>
+            </div>
+            <div className="home-seo-stat-card">
+              <span className="stat-num">{sectorMap.size}</span>
+              <span className="stat-label">Industry Sectors</span>
+            </div>
+            <div className="home-seo-stat-card">
+              <span className="stat-num">{byArea.length}+</span>
+              <span className="stat-label">Local Hubs</span>
+            </div>
+          </div>
+
+          {/* Ecosystem navigation links */}
+          <nav className="home-seo-sections" aria-label="Ecosystem Hubs">
+            <Link href="/jobs" className="seo-nav-chip">
+              <span aria-hidden="true">💼</span> Startup Jobs
+            </Link>
+            <Link href="/gccs" className="seo-nav-chip">
+              <span aria-hidden="true">🏢</span> GCCs
+            </Link>
+            <Link href="/product-companies" className="seo-nav-chip">
+              <span aria-hidden="true">🚀</span> Product Companies
+            </Link>
+            <Link href="/industries" className="seo-nav-chip">
+              <span aria-hidden="true">🏷️</span> Industries
+            </Link>
+            <Link href="/insights" className="seo-nav-chip">
+              <span aria-hidden="true">📊</span> Ecosystem Insights
+            </Link>
+            <Link href="/feed" className="seo-nav-chip">
+              <span aria-hidden="true">⚡</span> Live Feed
+            </Link>
+            <Link href="/news" className="seo-nav-chip">
+              <span aria-hidden="true">📰</span> News
+            </Link>
+            <Link href="/stories" className="seo-nav-chip">
+              <span aria-hidden="true">✨</span> Stories
+            </Link>
           </nav>
         </header>
 
-        <div className="home-seo-sectors">
-          {bySector.map(({ sector, count, picks }) => (
-            <div className="home-seo-col" key={sector}>
-              <h3>
-                <Link href={`/industries/${industrySlugForSector(sector)}`}>
-                  {sector} <span className="home-seo-count">{count}</span>
-                </Link>
-              </h3>
-              <ul>
-                {picks.map((s) => (
-                  <li key={s.id}>
-                    <Link href={`/startups/${startupSlug(s)}`}>
-                      {prettyName(s.name)}
-                      {s.hiring ? <span className="home-seo-hiring"> · hiring</span> : null}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        {/* Sector cards grid */}
+        <div className="home-seo-sectors-section">
+          <div className="home-seo-section-title-wrap">
+            <h3 className="home-seo-section-title">Explore by Sector</h3>
+            <Link href="/industries" className="home-seo-view-all">View all industries →</Link>
+          </div>
+
+          <div className="home-seo-sectors">
+            {bySector.map(({ sector, color, count, picks }) => (
+              <div className="home-seo-card" key={sector} style={{ "--sector-accent": color }}>
+                <div className="home-seo-card-head">
+                  <div className="home-seo-sector-badge" style={{ backgroundColor: color }}></div>
+                  <Link href={`/industries/${industrySlugForSector(sector)}`} className="home-seo-sector-title">
+                    {sector}
+                  </Link>
+                  <span className="home-seo-count">{count}</span>
+                </div>
+                <ul className="home-seo-startup-list">
+                  {picks.map((s) => (
+                    <li key={s.id} className="home-seo-startup-item">
+                      <Link href={`/startups/${startupSlug(s)}`} className="home-seo-startup-link">
+                        <span className="home-seo-startup-name">{prettyName(s.name)}</span>
+                        {s.hiring && <span className="home-seo-hiring-badge">Hiring</span>}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <div className="home-seo-card-footer">
+                  <Link href={`/industries/${industrySlugForSector(sector)}`} className="home-seo-more-link">
+                    All {count} {sector} startups →
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
+        {/* Area chips section */}
         {byArea.length > 0 && (
-          <div className="home-seo-areas">
-            <h3>Startups by area</h3>
-            <ul>
+          <div className="home-seo-areas-section">
+            <h3 className="home-seo-section-title">Startups by Hyderabad Tech Clusters</h3>
+            <div className="home-seo-areas-grid">
               {byArea.map((a) => (
-                <li key={a.area}>
-                  {a.area} <span className="home-seo-count">{a.count}</span>
-                </li>
+                <div key={a.area} className="home-seo-area-chip">
+                  <span className="home-seo-area-name">{a.area}</span>
+                  <span className="home-seo-area-count">{a.count}</span>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
 
-        <p className="home-seo-foot">
-          Building in Hyderabad? <Link href="/submit">Add your startup to the map →</Link>
-        </p>
+        {/* Bottom invitation card */}
+        <div className="home-seo-cta-banner">
+          <div className="home-seo-cta-content">
+            <h4>Building or hiring at a tech startup in Hyderabad?</h4>
+            <p>Get featured on the interactive ecosystem map, showcase open jobs, and reach talent across India.</p>
+          </div>
+          <div className="home-seo-cta-actions">
+            <Link href="/submit" className="btn home-seo-cta-btn">
+              Add your startup for free →
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );

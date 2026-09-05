@@ -75,7 +75,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
       if(changed)persist(stored);
     });return()=>{cancelled=true;};
   },[storageReady]);
-  useEffect(()=>{if(detail)detailRef.current?.focus();},[detail?.id]);
+  useEffect(()=>{if(!detail)return;setView('list');detailRef.current?.focus();},[detail?.id]);
   function persist(next){if(writeShortlist(next)){setShortlist(next);setNotice('');}else setNotice('This browser could not save locally. Allow site storage and try again.');}
   function save(job,status='saved'){persist({...shortlist,jobs:{...shortlist.jobs,[job.id]:{job,status,at:new Date().toISOString()}}});if(status==='saved')trackEvent('save',variant);}
   function follow(company){
@@ -85,7 +85,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
       fetch('/api/follows',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device,company,follow:following})}).catch(()=>{});
     }catch{}
   }
-  function openJob(job){const p=new URLSearchParams(params.toString());p.set('job',job.id);router.push(`${pathname}?${p}`,{scroll:false});}
+  function openJob(job){setView('list');const p=new URLSearchParams(params.toString());p.set('job',job.id);router.push(`${pathname}?${p}`,{scroll:false});}
   function closeJob(){const p=new URLSearchParams(params.toString());p.delete('job');router.replace(`${pathname}?${p}`,{scroll:false});}
   async function loadMore(){if(!data.nextCursor)return;setBusy(true);try{const r=await fetch(`/api/v2/jobs?${filterQuery}&cursor=${encodeURIComponent(data.nextCursor)}`);if(!r.ok)throw Error();const d=await r.json();if(d.reset){setNewAvailable(true);return;}setData(prev=>({...d,jobs:[...prev.jobs,...d.jobs]}));}catch{setError('Could not load more roles. Try again.');}finally{setBusy(false);}}
   function saveSearch(){const entry={name:filters.q||filters.role||'Hyderabad roles',filters:{...filters},at:new Date().toISOString()};persist({...shortlist,searches:[entry,...shortlist.searches.filter(s=>JSON.stringify(s.filters)!==JSON.stringify(entry.filters))].slice(0,20)});setSavedSearch(entry);setEmailOpen(true);}
