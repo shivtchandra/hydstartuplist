@@ -1,11 +1,12 @@
 name: Scheduled data refresh
 
-# Triggers the same cron API routes Vercel Cron calls (see vercel.json) —
-# GitHub Actions has no cap on scheduled-workflow count and no cost on a
-# public repo, so this runs alongside (or instead of) Vercel Cron if the
-# Vercel plan's cron limit is a problem. Needs two repo secrets:
-#   SITE_URL     — the deployed site's origin, e.g. https://yourdomain.com
-#   CRON_SECRET  — same value as the CRON_SECRET env var set in Vercel
+# Triggers the same cron API routes on the deployed Vercel app.
+# GitHub Actions secrets:
+#   SITE_URL     — deployed origin, e.g. https://startups.mapmyhyd.com
+#   CRON_SECRET  — same value as CRON_SECRET on Vercel
+# Vercel env (used by the API routes themselves):
+#   FIRECRAWL_API_KEY — enables Firecrawl fallback for priority-careers + check-hiring
+#   FIRECRAWL_ENABLED=0 / PRIORITY_FIRECRAWL=0 — optional opt-outs
 on:
   schedule:
     - cron: "30 2 * * *"   # sync-ats-jobs morning (~8:00 IST)
@@ -108,6 +109,7 @@ jobs:
             exit 0
           fi
           # Curated HTML/gap career pages (excludes boards already on sync-ats-jobs).
+          # Uses Vercel FIRECRAWL_API_KEY as fallback for JS-only career sites.
           curl -s --max-time 65 -X GET "$SITE_URL/api/cron/sync-priority-careers" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -w "\nHTTP %{http_code}" || true

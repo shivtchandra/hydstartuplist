@@ -10,11 +10,10 @@ import { getSiteUrl } from "../../../../lib/site-url.js";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60; // Max allowed serverless duration on Vercel Pro
 
-// Firecrawl is a paid credit-metered fallback. It only runs when explicitly
-// switched on with FIRECRAWL_ENABLED=1 — otherwise the cron sticks to the
-// free ATS-API / HTML-discovery / schema.org paths and never spends credits.
+// Firecrawl is a paid credit-metered fallback for JS-rendered careers pages.
+// Runs whenever FIRECRAWL_API_KEY is set on Vercel. Set FIRECRAWL_ENABLED=0 to disable.
 const FIRECRAWL_KEY = process.env.FIRECRAWL_API_KEY;
-const FIRECRAWL_ENABLED = process.env.FIRECRAWL_ENABLED === "1";
+const FIRECRAWL_ENABLED = !!FIRECRAWL_KEY && process.env.FIRECRAWL_ENABLED !== "0";
 const UA = {
   "User-Agent":
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
