@@ -22,7 +22,7 @@ const SITE_URL = getSiteUrl();
 const OG_TITLE = "Hyderabad Startup & Product Companies Map – 1,000+ Tech Companies, Jobs & Funding";
 const OG_DESC =
   "Explore 1,000+ startups and product companies in Hyderabad on an interactive map. Filter by sector, funding stage, and area. Browse open jobs, startup news, and funding rounds.";
-const OG_IMAGE = "/opengraph-image?v=2"; // bump when OG art changes (WhatsApp caches hard)
+const OG_IMAGE = "/brand/og-card-v3.png"; // new path — WhatsApp ignores query-string cache busts
 
 const JSONLD = {
   "@context": "https://schema.org",

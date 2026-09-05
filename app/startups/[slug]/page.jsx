@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
     cleanDesc ||
     `${name} is a ${stage} ${startup.sector} startup based in ${startup.area || "Hyderabad"}.`;
   const url = `${getSiteUrl()}/startups/${params.slug}`;
-  const image = faviconUrl(startup.website) || `${getSiteUrl()}/opengraph-image`;
+  const image = faviconUrl(startup.website) || `${getSiteUrl()}/brand/og-card-v3.png`;
 
   return {
     title,
