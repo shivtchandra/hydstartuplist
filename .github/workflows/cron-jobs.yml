@@ -13,6 +13,7 @@ on:
     - cron: "0 3 * * *"    # check-hiring morning (~8:30 IST)
     - cron: "0 15 * * *"   # check-hiring evening (~8:30 IST)
     - cron: "0 4 * * *"    # fetch-news, 4am UTC
+    - cron: "15 4 * * *"   # sync-priority-careers daily (~9:45 IST)
     - cron: "0 */2 * * *"  # adzuna-jobs every 2h (no Adzuna webhooks; poll for new)
     - cron: "30 3 * * 0"   # newsletter, Sundays 3:30am UTC
   workflow_dispatch: {}    # manual "Run workflow" button for one-off triggers
@@ -92,6 +93,25 @@ jobs:
           curl -s --max-time 65 -X GET "$SITE_URL/api/cron/adzuna-jobs" \
             -H "Authorization: Bearer $CRON_SECRET" \
             -w "\nHTTP %{http_code}" || true
+
+  sync-priority-careers:
+    if: github.event.schedule == '15 4 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call sync-priority-careers
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$SITE_URL" ]; then
+            echo "SITE_URL secret not set — skipping. Set it once the site is deployed."
+            exit 0
+          fi
+          # Curated HTML/gap career pages (excludes boards already on sync-ats-jobs).
+          curl -s --max-time 65 -X GET "$SITE_URL/api/cron/sync-priority-careers" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -w "\nHTTP %{http_code}" || true
+
 
   newsletter:
     if: github.event.schedule == '30 3 * * 0' || github.event_name == 'workflow_dispatch'

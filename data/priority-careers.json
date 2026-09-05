@@ -1,0 +1,74 @@
+[
+  {
+    "id": "darwinbox",
+    "name": "Darwinbox",
+    "url": "https://darwinbox.com/careers",
+    "startupId": "b141da39-e987-47f5-9d7f-d8a4a475b09d",
+    "employerType": "startup"
+  },
+  {
+    "id": "mapmygenome",
+    "name": "MapmyGenome",
+    "url": "https://careers.mapmygenome.in/view-jobs",
+    "startupId": "161c329a-3c74-4b52-8e8b-d340fe68b712",
+    "employerType": "startup"
+  },
+  {
+    "id": "skyroot",
+    "name": "Skyroot Aerospace",
+    "url": "https://www.skyroot.in/careers",
+    "startupId": "69202061-81b2-4f20-8e6b-00d43ed8f311",
+    "employerType": "startup"
+  },
+  {
+    "id": "keka",
+    "name": "Keka HR",
+    "url": "https://www.keka.com/careers",
+    "startupId": "e482154d-3340-4422-9154-cbef089ab82a",
+    "employerType": "startup"
+  },
+  {
+    "id": "coforge",
+    "name": "Coforge",
+    "url": "https://careers.coforge.com/coforge/",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "trianz",
+    "name": "Trianz",
+    "url": "https://recruit.trianz.com/trianz/jobslist",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "ust",
+    "name": "UST",
+    "url": "https://www.ust.com/en/jobsearch",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "mathworks",
+    "name": "MathWorks",
+    "url": "https://in.mathworks.com/company/jobs/opportunities/search?location%5B%5D=430",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "persistent",
+    "name": "Persistent",
+    "url": "https://careers.persistent.com/explore-opportunities",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "prodapt",
+    "name": "Prodapt",
+    "url": "https://careers.prodapt.com/jobs?location=Telangana,%20India",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "keyloop",
+    "name": "Keyloop",
+    "url": "https://jobs.lever.co/keyloop?location=India%20%28Hyderabad%29",
+    "atsProvider": "lever",
+    "atsSlug": "keyloop",
+    "employerType": "other"
+  }
+]
