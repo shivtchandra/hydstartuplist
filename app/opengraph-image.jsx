@@ -6,19 +6,8 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OpengraphImage() {
-  const key = process.env.NEXT_PUBLIC_STADIA_KEY || "";
-  const mapUrl =
-    `https://tiles.stadiamaps.com/static/alidade_smooth.png` +
-    `?center=78.44,17.42&zoom=11&size=1200x630${key ? `&api_key=${key}` : ""}`;
-
-  // Fetch the real Stadia map tile so next/og can embed it.
-  const mapData = await fetch(mapUrl)
-    .then((r) => (r.ok ? r.arrayBuffer() : null))
-    .catch(() => null);
-
-  const mapSrc = mapData
-    ? `data:image/png;base64,${Buffer.from(mapData).toString("base64")}`
-    : null;
+  // The branded fallback renders locally; metadata must never wait for a tile server.
+  const mapSrc = null;
 
   return new ImageResponse(
     (

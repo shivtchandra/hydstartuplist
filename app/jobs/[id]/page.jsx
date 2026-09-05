@@ -55,8 +55,8 @@ export async function generateMetadata({ params }) {
 }
 
 function timeAgo(iso) {
-  if (!iso) return "Recently posted";
-  const diff = Date.now() - new Date(iso).getTime();
+  if (!iso || !Number.isFinite(Date.parse(iso)) || Date.parse(iso) > Date.now()) return "Posting date unavailable";
+  const diff = Math.max(0, Date.now() - new Date(iso).getTime());
   const hrs = Math.floor(diff / 3_600_000);
   if (hrs < 24) return `Posted ${hrs}h ago`;
   return `Posted ${Math.floor(hrs / 24)}d ago`;
@@ -133,7 +133,7 @@ export default async function JobDetailPage({ params }) {
 
         <div className="job-detail-actions">
           <a className="btn cmd-submit job-apply-btn" href={job.url} target="_blank" rel="noreferrer">
-            Apply on company site →
+            {job.source === "adzuna" ? "View listing on Adzuna" : "Apply on employer site"} →
           </a>
         </div>
 

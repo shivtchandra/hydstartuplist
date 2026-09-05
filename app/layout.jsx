@@ -1,19 +1,19 @@
 import "./globals.css";
+import "./opportunities.css";
+import InteractionMetrics from "./components/InteractionMetrics.jsx";
 import { Analytics } from "@vercel/analytics/next";
-import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 
 import { getSiteUrl } from "../lib/site-url.js";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const outfit = localFont({
+  src: "./fonts/Outfit.ttf",
   variable: "--font-heading-face",
   display: "swap",
 });
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const jakarta = localFont({
+  src: "./fonts/PlusJakartaSans.ttf",
   variable: "--font-main-face",
   display: "swap",
 });
@@ -99,6 +99,7 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <Analytics />
+        <InteractionMetrics />
       </body>
     </html>
   );

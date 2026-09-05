@@ -5,6 +5,8 @@ import { fetchBoardJobs, toPublicJob } from "../../../../lib/ats/index.js";
 import { notifyJobUrls } from "../../../../lib/google-indexing.js";
 import { jobUrlId } from "../../../../lib/jobs-seo.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
+import { reconcileBoard } from "../../../../lib/job-lifecycle.js";
+import { acquireBoard } from "../../../../lib/board-store.js";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -14,6 +16,7 @@ const TIME_BUDGET_MS = 48_000;
 
 export async function GET(req) {
   const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret) return NextResponse.json({ error: "Cron not configured" }, { status: 503 });
   if (cronSecret) {
     const authHeader = req.headers.get("authorization");
     if (authHeader !== `Bearer ${cronSecret}`) {
@@ -26,6 +29,8 @@ export async function GET(req) {
     return NextResponse.json({ error: "Firebase not configured" }, { status: 500 });
   }
 
+  const lease = await acquireBoard(db, "legacy-sync");
+  if (!lease) return NextResponse.json({ error: "Sync already running" }, { status: 409 });
   const { searchParams } = new URL(req.url);
   const limit = parseInt(searchParams.get("limit") || "0", 10) || 0;
   const offset = parseInt(searchParams.get("offset") || "0", 10) || 0;
@@ -56,10 +61,7 @@ export async function GET(req) {
   const prevDoc = prevSnap.exists ? prevSnap.data() : { jobs: [] };
   const prevJobs = prevDoc.jobs || [];
   // Keep jobs from boards not in this batch so partial runs don't wipe the feed
-  const batchBoardKeys = new Set(batch.map((b) => `${b.atsProvider}:${b.atsSlug}`));
-  const retained = prevJobs.filter(
-    (j) => !batchBoardKeys.has(`${j.atsProvider}:${j.atsSlug}`)
-  );
+  const successfulBoards = new Set();
 
   const startedAt = Date.now();
   let nextIdx = 0;
@@ -79,6 +81,7 @@ export async function GET(req) {
           companyName: board.name,
           geoFilter: true,
         });
+        if (!result.ok || !result.complete) throw new Error("Incomplete board scan; retaining previous jobs");
         const publicJobs = result.jobs.map((n) =>
           toPublicJob(n, {
             startupId: board.startupId || null,
@@ -89,7 +92,10 @@ export async function GET(req) {
             boardUrl: board.boardUrl || null,
           })
         );
-        newJobs.push(...publicJobs);
+        const key = `${board.atsProvider}:${board.atsSlug}`;
+        const reconciled = reconcileBoard(prevJobs.filter(j => `${j.atsProvider}:${j.atsSlug}` === key), publicJobs, { complete: true, checkedAt: fetchedAt, baseline: !prevDoc.lifecycleVersion });
+        newJobs.push(...reconciled.jobs);
+        successfulBoards.add(key);
         boardResults.push({
           id: board.id,
           name: board.name,
@@ -137,6 +143,7 @@ export async function GET(req) {
     Array.from({ length: Math.min(CONCURRENCY, batch.length || 1) }, () => worker())
   );
 
+  const retained = prevJobs.filter(j => !successfulBoards.has(`${j.atsProvider}:${j.atsSlug}`));
   const mergedJobs = [...retained, ...newJobs];
   // Dedupe by id
   const seen = new Set();
@@ -165,16 +172,22 @@ export async function GET(req) {
     }));
   }
 
-  await db.collection("job_board").doc("ats_latest").set({
+  await db.runTransaction(async tx => {
+    const lock = (await tx.get(lease.ref)).data();
+    if (lock?.leaseToken !== lease.token || lock.leaseUntil < Date.now()) throw new Error("Stale sync rejected");
+    tx.set(db.collection("job_board").doc("ats_latest"), {
     jobs: payloadJobs,
+    lifecycleVersion: 1,
     fetchedAt,
     boardCount: allBoards.length,
     jobCount: payloadJobs.length,
     lastBatchSize: batch.length,
+    });
+    tx.set(lease.ref, { leaseUntil: 0, lastSuccessAt: Date.now() }, { merge: true });
   });
 
   const prevIds = new Set(prevJobs.map((j) => String(j.id)));
-  const nextIds = new Set(jobs.map((j) => String(j.id)));
+  const nextIds = new Set(jobs.filter(j => j.status !== "closed").map((j) => String(j.id)));
   const site = getSiteUrl();
   const updated = [...nextIds]
     .filter((id) => !prevIds.has(id))

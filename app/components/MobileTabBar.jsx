@@ -44,11 +44,10 @@ const ICONS = {
 };
 
 const TABS = [
-  { href: "/", label: "Map", icon: ICONS.map },
-  { href: "/feed", label: "Feed", icon: ICONS.feed },
+  { href: "/", label: "Explore", icon: ICONS.map },
   { href: "/jobs", label: "Jobs", icon: ICONS.jobs },
-  { href: "/news", label: "News", icon: ICONS.news },
-  { href: "/insights", label: "Insights", icon: ICONS.insights },
+  { href: "/saved", label: "Saved", icon: ICONS.feed },
+  { href: "/more", label: "More", icon: ICONS.insights },
 ];
 
 export default function MobileTabBar({ onMapTab }) {

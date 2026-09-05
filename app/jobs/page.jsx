@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { Suspense } from "react";
+import OpportunityExplorer from "../components/OpportunityExplorer.jsx";
+import { searchOpportunities } from "../../lib/opportunity-store.js";
 import SiteNav from "../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../components/JobsBreadcrumbs.jsx";
 import JobsClient from "./JobsClient.jsx";
@@ -53,7 +56,11 @@ async function getFetchedAt() {
   }
 }
 
-export default async function JobsPage() {
+export default async function JobsPage({ searchParams = {} }) {
+  if (process.env.LANDING_V2 !== "0") {
+    const initial = await searchOpportunities(searchParams).catch(() => ({ jobs: [], total: 0, stale: true }));
+    return <Suspense fallback={<p>Loading opportunities…</p>}><OpportunityExplorer initial={initial} /></Suspense>;
+  }
   const [jobs, fetchedAt] = await Promise.all([getAllJobs(), getFetchedAt()]);
   const startupCount = jobs.filter((j) => j.category === "startup").length;
   const breadcrumbs = [{ name: "Home", href: "/" }, { name: "Jobs" }];

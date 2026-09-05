@@ -2,11 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import ExploreModes from "../components/ExploreModes.jsx";
 import { normalizeArea, domainOf, hostnameOf, logoSrcs, colorFor, prettyName, careersUrl } from "../../lib/startupUi.js";
 import { startupSlug } from "../../lib/slug.js";
 import { jobUrlId } from "../../lib/jobs-seo.js";
 import MobileTabBar from "../components/MobileTabBar.jsx";
-import IntentModal from "../components/IntentModal.jsx";
+import { trackEvent } from "../../lib/engagement-client.js";
 
 const HYDERABAD_CENTER = { lat: 17.42, lng: 78.44 };
 
@@ -100,10 +101,12 @@ function useLeafletMap(containerRef) {
   const startupsRef = useRef([]);
   const onSelectRef = useRef(null);
   const [ready, setReady] = useState(false);
+  const [mapError,setMapError]=useState(false),[retry,setRetry]=useState(0);
   const [viewTick, setViewTick] = useState(0);
 
   useEffect(() => {
-    let cancelled = false;
+    let cancelled = false;setMapError(false);setReady(false);
+    const timer=setTimeout(()=>{if(!cancelled&&!mapRef.current)setMapError(true);},8000);
     (async () => {
       const L = (await import("leaflet")).default;
       await import("leaflet/dist/leaflet.css");
@@ -127,24 +130,26 @@ function useLeafletMap(containerRef) {
       const tileUrl = stadiaKey
         ? `https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png?api_key=${stadiaKey}`
         : "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png";
+      let tileErrors=0;
       L.tileLayer(tileUrl, {
         attribution:
           '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 20,
         updateWhenIdle: true,
         keepBuffer: 1,
-      }).addTo(mapRef.current);
+      }).on("tileerror",()=>{if(!cancelled&&++tileErrors>=3)setMapError(true);}).addTo(mapRef.current);
       areaLayerRef.current = L.layerGroup().addTo(mapRef.current);
       spotLayerRef.current = L.layerGroup().addTo(mapRef.current);
       mapRef.current.on("moveend zoomend", () => setViewTick((t) => t + 1));
-      setReady(true);
-    })();
+      clearTimeout(timer);setReady(true);
+    })().catch(()=>{if(!cancelled)setMapError(true);});
     return () => {
-      cancelled = true;
+      cancelled = true;clearTimeout(timer);
+      mapRef.current?.remove();mapRef.current=null;
       heroMarkersRef.current.clear();
       dotMarkersRef.current.clear();
     };
-  }, [containerRef]);
+  }, [containerRef,retry]);
 
   useEffect(() => {
     const L = LRef.current;
@@ -345,7 +350,7 @@ function useLeafletMap(containerRef) {
     mapRef.current?.invalidateSize({ animate: true });
   }
 
-  return { ready, setMarkers, flyTo, fitToMarkers, invalidateSize };
+  return { ready, mapError, retryMap:()=>setRetry(n=>n+1), setMarkers, flyTo, fitToMarkers, invalidateSize };
 }
 
 // Custom dropdown (replaces the native <select>).
@@ -813,7 +818,7 @@ function MapFeaturedChrome({ startups, available = 0, cta, onSelect, preferOpen 
 
 export default function HomeClient({ initialStartups = [] }) {
   const mapContainerRef = useRef(null);
-  const { ready, setMarkers, flyTo, fitToMarkers, invalidateSize } = useLeafletMap(mapContainerRef);
+  const { ready, mapError, retryMap, setMarkers, flyTo, fitToMarkers, invalidateSize } = useLeafletMap(mapContainerRef);
 
   const [all, setAll] = useState(initialStartups);
   const [startupsFetched, setStartupsFetched] = useState(initialStartups.length > 0);
@@ -828,7 +833,7 @@ export default function HomeClient({ initialStartups = [] }) {
   const [listOpen, setListOpen] = useState(false);
   const [sidebarView, setSidebarView] = useState("list"); // "list" | "areas" — what the sidebar shows
   const [featuredInv, setFeaturedInv] = useState(null); // from /api/placements
-  const [newsletterHidden, setNewsletterHidden] = useState(false);
+  const [newsletterHidden, setNewsletterHidden] = useState(true);
   const [featuredPartnerHidden, setFeaturedPartnerHidden] = useState(false);
   const [jobsList, setJobsList] = useState([]);
   const [jobsTotal, setJobsTotal] = useState(0);
@@ -1010,6 +1015,7 @@ export default function HomeClient({ initialStartups = [] }) {
   }, []);
 
   function openStartup(s) {
+    trackEvent("company", "control");
     setSelected(s);
     flyTo(s.lat, s.lng);
   }
@@ -1027,7 +1033,7 @@ export default function HomeClient({ initialStartups = [] }) {
   const visible = listOrder.slice(0, CAP);
 
   return (
-    <div className="app">
+    <div className="app startup-workspace">
       <header className="topnav">
         <div className="topnav-row">
           <Link href="/" className="tn-brand">
@@ -1045,6 +1051,7 @@ export default function HomeClient({ initialStartups = [] }) {
             </span>
           </Link>
 
+          <ExploreModes active="companies" />
           <div className="tn-search">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
               <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
@@ -1054,12 +1061,9 @@ export default function HomeClient({ initialStartups = [] }) {
           </div>
 
           <nav className="tn-links">
-            <Link href="/feed">Feed</Link>
-            <Link href="/jobs">Jobs</Link>
+            <Link href="/saved">Saved</Link>
             <Link href="/gccs">GCCs</Link>
-            <Link href="/news">News</Link>
-            <Link href="/insights">Insights</Link>
-            <Link href="/newsletter">Newsletter</Link>
+            <Link href="/more">More</Link>
           </nav>
 
           <Link className="btn cmd-submit tn-cta" href="/submit" aria-label="Submit a startup">Submit a startup</Link>
@@ -1116,7 +1120,7 @@ export default function HomeClient({ initialStartups = [] }) {
         </div>
       </header>
 
-      {jobsList.length > 0 && (
+      {false && jobsList.length > 0 && (
         <div className="jobs-ticker-strip">
           <a href="/jobs" className="jobs-ticker-badge">
             <span className="jobs-ticker-dot" />
@@ -1161,7 +1165,7 @@ export default function HomeClient({ initialStartups = [] }) {
                 <span className="sb-results-count">{startupsFetched ? `${filtered.length.toLocaleString()} RESULTS` : "…"}</span>
               </div>
             )}
-            {sidebarView === "list" && (
+            {false && sidebarView === "list" && (
               <SponsoredShelf
                 startups={sponsoredPins}
                 available={
@@ -1215,7 +1219,9 @@ export default function HomeClient({ initialStartups = [] }) {
         </aside>
 
         <main className="map-area">
-          <div ref={mapContainerRef} className={`map-full${ready ? "" : " map-loading"}`} />
+          <div ref={mapContainerRef} className="map-full" aria-label="Hyderabad startup map" />
+          {!ready&&!mapError&&<p className="startup-map-loading" role="status">Loading startup map…</p>}
+          {mapError&&<div className="startup-map-loading" role="status"><p>The map is unavailable. Startup results still work.</p><button onClick={retryMap}>Retry map</button><button onClick={()=>{setSidebarOpen(true);setListOpen(true);}}>Browse startups</button></div>}
           {!sidebarOpen && (
             <MapFeaturedChrome
               startups={sponsoredPins}
@@ -1241,7 +1247,7 @@ export default function HomeClient({ initialStartups = [] }) {
 
       <DetailModal startup={selected} onClose={() => setSelected(null)} />
 
-      <IntentModal jobsTotal={jobsTotal} hiringCount={hiringInView} />
+
     </div>
   );
 }

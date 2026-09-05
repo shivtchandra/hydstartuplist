@@ -10,6 +10,7 @@
 import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { getApproved } from "../../lib/store.js";
+import { getAllJobs } from "../../lib/jobs.js";
 import { startupSlug } from "../../lib/slug.js";
 import { prettyName } from "../../lib/startupUi.js";
 import { industrySlugForSector } from "../../lib/industries.js";
@@ -70,7 +71,9 @@ export default async function HomeSeoIndex() {
     .sort((a, b) => b.count - a.count)
     .slice(0, MAX_AREAS);
 
-  const hiringCount = all.filter((s) => s.hiring).length;
+  const jobs = await getAllJobs();
+  const hiringNames = new Set(jobs.filter(j => j.category === "startup").map(j => j.company));
+  const hiringCount = hiringNames.size;
   const year = new Date().getFullYear();
 
   return (

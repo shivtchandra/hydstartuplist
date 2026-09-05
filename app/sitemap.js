@@ -1,11 +1,13 @@
+import fs from "fs";
+import path from "path";
 import { getSiteUrl } from "../lib/site-url.js";
-import { getAllStartupSlugs } from "../lib/store.js";
-import { getCompaniesWithJobs } from "../lib/jobs.js";
+import { startupSlug } from "../lib/slug.js";
 import { JOB_SECTOR_LANDINGS, JOB_AREA_LANDINGS, JOB_ROLE_LANDINGS } from "../lib/jobs-seo.js";
 import { INDUSTRY_LANDINGS } from "../lib/industries.js";
 
-// Request-time sitemap — avoid build-time Firestore (was timing out Hobby SSG).
-export const dynamic = "force-dynamic";
+// Static sitemap — no Firestore. Live job URLs churn hourly and were timing out
+// Hobby SSG workers; startups come from the committed JSON seed.
+export const revalidate = 86400;
 
 const SITE_URL = getSiteUrl();
 
@@ -29,13 +31,30 @@ const STORY_SLUGS = [
   "space-startups-hyderabad",
 ];
 
-export default async function sitemap() {
+function readStartupSlugs() {
+  try {
+    const file = path.join(process.cwd(), "data", "startups.json");
+    const all = JSON.parse(fs.readFileSync(file, "utf-8"));
+    return all.filter((s) => s.active !== false).map(startupSlug);
+  } catch {
+    return [];
+  }
+}
+
+export default function sitemap() {
   const now = new Date();
-  const staticEntries = STATIC_ROUTES.map(({ path, priority, changeFrequency }) => ({
-    url: `${SITE_URL}${path}`,
+  const staticEntries = STATIC_ROUTES.map(({ path: p, priority, changeFrequency }) => ({
+    url: `${SITE_URL}${p}`,
     lastModified: now,
     changeFrequency,
     priority,
+  }));
+
+  const startupEntries = readStartupSlugs().map((slug) => ({
+    url: `${SITE_URL}/startups/${slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.8,
   }));
 
   const storyEntries = STORY_SLUGS.map((slug) => ({
@@ -73,31 +92,6 @@ export default async function sitemap() {
     priority: 0.8,
   }));
 
-  // Live data: startups + company job hubs only (skip per-job URLs — they churn
-  // hourly and were doubling Firestore work via getAllJobs + getCompaniesWithJobs).
-  let startupEntries = [];
-  let companyJobEntries = [];
-  try {
-    const [slugs, companies] = await Promise.all([
-      getAllStartupSlugs(),
-      getCompaniesWithJobs(),
-    ]);
-    startupEntries = slugs.map((slug) => ({
-      url: `${SITE_URL}/startups/${slug}`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    }));
-    companyJobEntries = companies.map((c) => ({
-      url: `${SITE_URL}/jobs/company/${c.slug}`,
-      lastModified: now,
-      changeFrequency: "daily",
-      priority: 0.75,
-    }));
-  } catch (err) {
-    console.error("sitemap live entries failed:", err);
-  }
-
   return [
     ...staticEntries,
     ...startupEntries,
@@ -106,6 +100,5 @@ export default async function sitemap() {
     ...sectorEntries,
     ...areaEntries,
     ...roleEntries,
-    ...companyJobEntries,
   ];
 }

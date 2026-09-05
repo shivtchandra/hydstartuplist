@@ -4,13 +4,11 @@ import Link from "next/link";
 import MobileTabBar from "./MobileTabBar.jsx";
 
 const LINKS = [
-  { href: "/feed", label: "Feed" },
+  { href: "/", label: "Explore" },
   { href: "/jobs", label: "Jobs" },
-  { href: "/gccs", label: "GCCs" },
-  { href: "/news", label: "News" },
-  { href: "/stories", label: "Stories" },
-  { href: "/insights", label: "Insights" },
-  { href: "/newsletter", label: "Newsletter" },
+  { href: "/saved", label: "Saved" },
+  { href: "/?view=companies", label: "Companies" },
+  { href: "/more", label: "More" },
 ];
 
 export default function SiteNav({ active }) {
