@@ -1,11 +1,13 @@
 import { unstable_cache } from "next/cache";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import OpportunityExplorer from "../components/OpportunityExplorer.jsx";
 import LandingExposure from "../components/LandingExposure.jsx";
 import { searchOpportunities } from "../../lib/opportunity-store.js";
 import HomeClient from "./HomeClient.jsx";
 import { getPublicStartups } from "../../lib/startups-public.js";
+import { jobUrlId } from "../../lib/jobs-seo.js";
 
 export const dynamic = "force-dynamic";
 
@@ -16,8 +18,12 @@ const getCachedStartups = unstable_cache(
 );
 
 export default async function HomePage({ searchParams = {} }) {
+  // Crawlable job URLs are /jobs/[id] — never serve unique ?job= shells on the homepage.
+  if (searchParams.job) {
+    redirect(`/jobs/${jobUrlId(String(searchParams.job))}`);
+  }
   const control = process.env.LANDING_EXPERIMENT === "1" && headers().get("x-hyd-landing") === "control";
-  if (searchParams.startup || (!searchParams.job && searchParams.view !== "jobs") || process.env.LANDING_V2 === "0" || (control && !searchParams.view && !searchParams.job)) {
+  if (searchParams.startup || searchParams.view !== "jobs" || process.env.LANDING_V2 === "0" || (control && !searchParams.view)) {
     const startups = await getCachedStartups();
     return <><LandingExposure variant="control" /><HomeClient initialStartups={startups} /></>;
   }

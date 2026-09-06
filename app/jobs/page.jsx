@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import OpportunityExplorer from "../components/OpportunityExplorer.jsx";
 import { searchOpportunities } from "../../lib/opportunity-store.js";
@@ -14,6 +15,7 @@ import {
   JOB_AREA_LANDINGS,
   JOB_SECTOR_LANDINGS,
   JOB_ROLE_LANDINGS,
+  jobUrlId,
 } from "../../lib/jobs-seo.js";
 
 export const dynamic = "force-dynamic";
@@ -57,6 +59,9 @@ async function getFetchedAt() {
 }
 
 export default async function JobsPage({ searchParams = {} }) {
+  if (searchParams.job) {
+    redirect(`/jobs/${jobUrlId(String(searchParams.job))}`);
+  }
   if (process.env.LANDING_V2 !== "0") {
     const initial = await searchOpportunities(searchParams).catch(() => ({ jobs: [], total: 0, stale: true }));
     return <Suspense fallback={<p>Loading opportunities…</p>}><OpportunityExplorer initial={initial} /></Suspense>;

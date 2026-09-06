@@ -4,6 +4,7 @@ import SiteNav from "../../components/SiteNav.jsx";
 import SiteFooter from "../../components/SiteFooter.jsx";
 import StartupLogo from "../../components/StartupLogo.jsx";
 import { getStartupBySlug, getApproved, visibleHiring } from "../../../lib/store.js";
+import { getJobsForStartupSlug } from "../../../lib/jobs.js";
 import { startupSlug } from "../../../lib/slug.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import {
@@ -16,6 +17,14 @@ import {
 } from "../../../lib/startupUi.js";
 import { featuredPinIdSetAsync } from "../../../lib/placements.js";
 import { cleanCompanyDescription, fundingLabel } from "../../../lib/company-quality.js";
+import {
+  breadcrumbJsonLd,
+  jobPostingJsonLd,
+  jobUrlId,
+  JOB_SECTOR_LANDINGS,
+  JOB_AREA_LANDINGS,
+} from "../../../lib/jobs-seo.js";
+import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 
 export const revalidate = 86400;
 
@@ -86,12 +95,6 @@ function orgJsonLd(startup, slug, sponsored) {
       : undefined,
     areaServed: startup.area || "Hyderabad",
     sameAs: startup.website ? [startup.website] : undefined,
-    jobPosting: hiring?.roles?.slice(0, 5).map((r) => ({
-      "@type": "JobPosting",
-      title: r.title,
-      url: r.url,
-      hiringOrganization: { "@type": "Organization", name: prettyName(startup.name) },
-    })),
   };
   if (sponsored) data.additionalProperty = { "@type": "PropertyValue", name: "featured", value: true };
   return data;
@@ -163,7 +166,34 @@ export default async function StartupDetailPage({ params }) {
   const stage = fundingLabel(startup.fundingStage);
   const sectorColor = colorFor(startup.sector);
   const openRolesCount = hiring?.count || hiring?.roles?.length || 0;
-  const related = relatedStartups(startup, await getApproved(), 6);
+  const allStartups = await getApproved();
+  const related = relatedStartups(startup, allStartups, 6);
+  const { jobs: companyJobs } = await getJobsForStartupSlug(slug);
+
+  const sectorLanding = JOB_SECTOR_LANDINGS.find(
+    (s) => s.sector.toLowerCase() === String(startup.sector || "").toLowerCase()
+  );
+  const areaNorm = normalizeArea(startup.area);
+  const areaLanding = JOB_AREA_LANDINGS.find(
+    (a) =>
+      areaNorm.toLowerCase().includes(a.area.toLowerCase()) ||
+      String(startup.area || "").toLowerCase().includes(a.area.toLowerCase())
+  );
+
+  const crumbs = [
+    { name: "Home", href: "/" },
+    { name: "Startups", href: "/?view=companies" },
+    ...(sectorLanding ? [{ name: sectorLanding.sector, href: `/jobs/sector/${sectorLanding.slug}` }] : []),
+    ...(areaLanding ? [{ name: areaLanding.area, href: `/jobs/in/${areaLanding.slug}` }] : []),
+    { name: prettyName(startup.name) },
+  ];
+  const crumbLd = breadcrumbJsonLd(crumbs);
+  const postingLd = companyJobs.slice(0, 25).map((j) =>
+    jobPostingJsonLd(j, {
+      pageUrl: `${getSiteUrl()}/jobs/${jobUrlId(j.id)}`,
+      companyUrl: startup.website,
+    })
+  );
 
   return (
     <div className="page-with-nav" style={{ "--sector-color": sectorColor }}>
@@ -175,25 +205,34 @@ export default async function StartupDetailPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbLd) }}
+      />
+      {postingLd.map((data) => (
+        <script
+          key={data["@id"]}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+        />
+      ))}
       <SiteNav />
 
       <div className="startup-page-wrap">
       <main className="startup-profile" id="main-content">
-        <nav className="startup-crumb" aria-label="Breadcrumbs">
-          <Link href="/" className="startup-nav-link">
-            <span aria-hidden="true">←</span> Back to map
-          </Link>
+        <div className="startup-crumb-row">
+          <JobsBreadcrumbs items={crumbs} />
           <Link href={`/jobs/company/${slug}`} className="startup-nav-link">
-            {openRolesCount > 0 ? (
+            {openRolesCount > 0 || companyJobs.length > 0 ? (
               <span className="startup-open-pill">
                 <span className="startup-pulse-dot" />
-                {openRolesCount} open role{openRolesCount === 1 ? "" : "s"}
+                {Math.max(openRolesCount, companyJobs.length)} open role{(Math.max(openRolesCount, companyJobs.length) === 1) ? "" : "s"}
               </span>
             ) : (
               <span>Browse jobs →</span>
             )}
           </Link>
-        </nav>
+        </div>
 
         <header className="startup-hero">
           <div className="startup-hero-identity">
@@ -260,7 +299,7 @@ export default async function StartupDetailPage({ params }) {
               </section>
             )}
 
-            {hiring?.roles?.length > 0 && (
+            {(companyJobs.length > 0 || hiring?.roles?.length > 0) && (
               <section className="startup-section">
                 <div className="startup-section-head">
                   <h2 className="startup-section-title">Open roles</h2>
@@ -269,18 +308,36 @@ export default async function StartupDetailPage({ params }) {
                   </Link>
                 </div>
                 <ul className="startup-role-list">
-                  {hiring.roles.map((r, i) => (
-                    <li key={r.url || i}>
-                      <a
-                        className="startup-role-item"
-                        href={r.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <span className="startup-role-name">{r.title}</span>
-                        <span className="startup-role-sub">{startup.area || "Hyderabad"}</span>
-                        <span className="startup-role-apply">Apply ↗</span>
-                      </a>
+                  {(companyJobs.length
+                    ? companyJobs.slice(0, 20).map((j) => ({
+                        key: j.id,
+                        href: `/jobs/${jobUrlId(j.id)}`,
+                        title: j.title,
+                        sub: j.location || startup.area || "Hyderabad",
+                        external: false,
+                      }))
+                    : hiring.roles.map((r, i) => ({
+                        key: r.url || i,
+                        href: r.url,
+                        title: r.title,
+                        sub: startup.area || "Hyderabad",
+                        external: true,
+                      }))
+                  ).map((r) => (
+                    <li key={r.key}>
+                      {r.external ? (
+                        <a className="startup-role-item" href={r.href} target="_blank" rel="noopener noreferrer">
+                          <span className="startup-role-name">{r.title}</span>
+                          <span className="startup-role-sub">{r.sub}</span>
+                          <span className="startup-role-apply">Apply ↗</span>
+                        </a>
+                      ) : (
+                        <Link className="startup-role-item" href={r.href}>
+                          <span className="startup-role-name">{r.title}</span>
+                          <span className="startup-role-sub">{r.sub}</span>
+                          <span className="startup-role-apply">View role →</span>
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -305,6 +362,33 @@ export default async function StartupDetailPage({ params }) {
                 <a className="startup-news-link" href={startup.news[0].url} target="_blank" rel="noopener noreferrer">
                   {startup.news[0].title}
                 </a>
+              </section>
+            )}
+
+            {(sectorLanding || areaLanding) && (
+              <section className="startup-section">
+                <h2 className="startup-section-title">Explore nearby</h2>
+                <p className="startup-section-body">
+                  More Hyderabad startups and roles in the same cluster.
+                </p>
+                <ul className="startup-hub-links">
+                  {sectorLanding && (
+                    <li>
+                      <Link href={`/jobs/sector/${sectorLanding.slug}`}>{sectorLanding.title} →</Link>
+                    </li>
+                  )}
+                  {areaLanding && (
+                    <li>
+                      <Link href={`/jobs/in/${areaLanding.slug}`}>{areaLanding.title} →</Link>
+                    </li>
+                  )}
+                  <li>
+                    <Link href={`/jobs/company/${slug}`}>{prettyName(startup.name)} jobs →</Link>
+                  </li>
+                  <li>
+                    <Link href="/">Back to the map →</Link>
+                  </li>
+                </ul>
               </section>
             )}
 

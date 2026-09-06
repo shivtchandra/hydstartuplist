@@ -7,7 +7,7 @@ export default function SiteFooter() {
       <div className="site-footer-inner">
         <nav className="site-footer-nav" aria-label="Footer">
           <Link href="/">Map</Link>
-          <Link href="/?view=jobs">Jobs</Link>
+          <Link href="/jobs">Jobs</Link>
           <Link href="/gccs">GCCs</Link>
           <Link href="/feed">Feed</Link>
           <Link href="/stories">Stories</Link>

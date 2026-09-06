@@ -6,7 +6,7 @@ import { getJobsByArea } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 import { areaLanding, breadcrumbJsonLd, itemListJsonLd, jobUrlId } from "../../../../lib/jobs-seo.js";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export function generateStaticParams() {
   return [
@@ -65,6 +65,7 @@ export default async function AreaJobsPage({ params }) {
         <div className="feed-head">
           <h1>{landing.title}</h1>
           <p className="jobs-intro">{landing.description}</p>
+          {landing.body && <p className="jobs-intro jobs-intro-body">{landing.body}</p>}
           <p className="form-sub">
             {jobs.length} opening{jobs.length === 1 ? "" : "s"} in or near {landing.area}.{" "}
             <Link href="/jobs">View all jobs →</Link>

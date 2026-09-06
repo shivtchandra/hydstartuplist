@@ -98,6 +98,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   const filters=useMemo(()=>readFilters(params),[params]);
   const [query,setQuery]=useState(filters.q),[data,setData]=useState(initial),[busy,setBusy]=useState(false),[error,setError]=useState('');
   const [view,setView]=useState('list'),[sheet,setSheet]=useState(false),[groups,setGroups]=useState([]),[mapVersion,setMapVersion]=useState('');
+  const [selectedJobId,setSelectedJobId]=useState(null);
   const [detail,setDetail]=useState(null),[detailError,setDetailError]=useState(''),[newAvailable,setNewAvailable]=useState(false);
   const [shortlist,setShortlist]=useState({jobs:{},companies:[],searches:[]}),[storageReady,setStorageReady]=useState(false),[notice,setNotice]=useState('');
   const [compare,setCompare]=useState(false),[areaA,setAreaA]=useState(''),[areaB,setAreaB]=useState(''),[comparison,setComparison]=useState(null);
@@ -144,13 +145,20 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     const c=new AbortController();const t=setInterval(()=>{if(document.visibilityState!=='visible')return;fetch(`/api/v2/jobs?${filterQuery}`,{signal:c.signal}).then(r=>r.ok?r.json():null).then(d=>{if(d?.version&&d.version!==data?.version)setNewAvailable(true);}).catch(()=>{});},60000);
     return()=>{clearInterval(t);c.abort();};
   },[filterQuery,data?.version]);
+  // Legacy ?job= links → permanent SSR page (Google must not index query shells).
   useEffect(()=>{
-    const id=params.get('job');if(!id){setDetail(null);return;}
+    const legacy=params.get('job');
+    if(!legacy) return;
+    router.replace('/jobs/'+jobUrlId(legacy));
+  },[params.get('job')]);
+
+  useEffect(()=>{
+    const id=selectedJobId;if(!id){setDetail(null);return;}
     abortDetail.current?.abort();const c=new AbortController();abortDetail.current=c;setDetailError('');
     setDetail(data?.jobs?.find(j=>j.id===id)||shortlist.jobs[id]?.job||{id,title:'Loading role…'});
     fetch('/api/v2/jobs/detail?id='+encodeURIComponent(id),{signal:c.signal}).then(r=>r.ok?r.json():Promise.reject()).then(d=>setDetail(d.job)).catch(e=>{if(e?.name!=='AbortError')setDetailError('This role could not be loaded. Try its original listing or return to results.');});
     trackEvent('detail',variant);return()=>c.abort();
-  },[params.get('job')]);
+  },[selectedJobId]);
   useEffect(()=>{if(sheet)sheetRef.current?.showModal();else sheetRef.current?.close();},[sheet]);
   useEffect(()=>{if(emailOpen)emailRef.current?.showModal();else emailRef.current?.close();},[emailOpen]);
   useEffect(()=>{
@@ -194,8 +202,8 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
       fetch('/api/follows',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device,company,follow:following})}).catch(()=>{});
     }catch{}
   }
-  function openJob(job){setView('list');const p=new URLSearchParams(params.toString());p.set('job',job.id);router.push(`${pathname}?${p}`,{scroll:false});}
-  function closeJob(){const p=new URLSearchParams(params.toString());p.delete('job');router.replace(`${pathname}?${p}`,{scroll:false});}
+  function openJob(job){setView('list');setSelectedJobId(job.id);}
+  function closeJob(){setSelectedJobId(null);setDetail(null);}
   async function loadMore(){if(!data.nextCursor)return;setBusy(true);try{const r=await fetch(`/api/v2/jobs?${filterQuery}&cursor=${encodeURIComponent(data.nextCursor)}`);if(!r.ok)throw Error();const d=await r.json();if(d.reset){setNewAvailable(true);return;}setData(prev=>({...d,jobs:[...prev.jobs,...d.jobs]}));}catch{setError('Could not load more roles. Try again.');}finally{setBusy(false);}}
   function saveSearch(){const entry={name:filters.q||filters.role||'Hyderabad roles',filters:{...filters},at:new Date().toISOString()};persist({...shortlist,searches:[entry,...shortlist.searches.filter(s=>JSON.stringify(s.filters)!==JSON.stringify(entry.filters))].slice(0,20)});setSavedSearch(entry);setEmailOpen(true);}
   async function subscribe(e){e.preventDefault();setEmailState('Sending confirmation…');try{const r=await fetch('/api/alerts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,filters:savedSearch?.filters||filters,frequency:'daily'})});const d=await r.json();setEmailState(d.message||d.error||'Check your email.');}catch{setEmailState('Could not subscribe. Your search is still saved on this device.');}}
