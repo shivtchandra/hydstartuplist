@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
+import SiteFooter from "../components/SiteFooter.jsx";
 import LoadingScreen from "../components/LoadingScreen.jsx";
 import { logoSrcs } from "../../lib/startupUi.js";
 
@@ -102,6 +103,7 @@ export default function GccsPage() {
         ))}
       </div>
       </div>
+      <SiteFooter />
     </div>
   );
 }

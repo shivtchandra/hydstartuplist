@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
+import SiteFooter from "../../components/SiteFooter.jsx";
 import StartupLogo from "../../components/StartupLogo.jsx";
 import { getStartupBySlug, getApproved, visibleHiring } from "../../../lib/store.js";
 import { startupSlug } from "../../../lib/slug.js";
@@ -16,7 +17,7 @@ import {
 import { featuredPinIdSetAsync } from "../../../lib/placements.js";
 import { cleanCompanyDescription, fundingLabel } from "../../../lib/company-quality.js";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 export async function generateMetadata({ params }) {
   const startup = await getStartupBySlug(params.slug);
@@ -165,7 +166,7 @@ export default async function StartupDetailPage({ params }) {
   const related = relatedStartups(startup, await getApproved(), 6);
 
   return (
-    <div className="page-with-nav startup-page-wrap" style={{ "--sector-color": sectorColor }}>
+    <div className="page-with-nav" style={{ "--sector-color": sectorColor }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -176,6 +177,7 @@ export default async function StartupDetailPage({ params }) {
       />
       <SiteNav />
 
+      <div className="startup-page-wrap">
       <main className="startup-profile" id="main-content">
         <nav className="startup-crumb" aria-label="Breadcrumbs">
           <Link href="/" className="startup-nav-link">
@@ -311,7 +313,7 @@ export default async function StartupDetailPage({ params }) {
                 <h2 className="startup-section-title">FAQ</h2>
                 <div className="startup-faq-list">
                   {faqs.map((it) => (
-                    <details key={it.q} className="startup-faq-accordion" open={it.q.startsWith("What does")}>
+                    <details key={it.q} className="startup-faq-accordion" >
                       <summary className="startup-faq-summary">
                         <span>{it.q}</span>
                         <svg className="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
@@ -364,6 +366,8 @@ export default async function StartupDetailPage({ params }) {
           </aside>
         </div>
       </main>
+      <SiteFooter />
+      </div>
     </div>
   );
 }
