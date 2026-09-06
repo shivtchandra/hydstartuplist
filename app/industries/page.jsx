@@ -3,7 +3,7 @@ import SiteNav from "../components/SiteNav.jsx";
 import { getIndustriesIndex } from "../../lib/industries.js";
 import { getSiteUrl } from "../../lib/site-url.js";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 export const metadata = {
   title: "Industries | Hyderabad Startup Map",

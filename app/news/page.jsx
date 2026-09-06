@@ -1,7 +1,7 @@
 import NewsClient from "./NewsClient.jsx";
 import { getNewsFeed } from "../../lib/news.js";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export default async function NewsPage() {
   const items = await getNewsFeed();

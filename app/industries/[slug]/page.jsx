@@ -11,7 +11,7 @@ import { getSiteUrl } from "../../../lib/site-url.js";
 import { prettyName } from "../../../lib/startupUi.js";
 import { jobUrlId } from "../../../lib/jobs-seo.js";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 export function generateStaticParams() {
   return INDUSTRY_LANDINGS.map((i) => ({ slug: i.slug }));

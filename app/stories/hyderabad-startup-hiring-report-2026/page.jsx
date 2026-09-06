@@ -9,7 +9,7 @@ import {
 } from "../../../lib/jobs-seo.js";
 import SiteNav from "../../components/SiteNav.jsx";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 const SLUG = "hyderabad-startup-hiring-report-2026";
 const TITLE = "Hyderabad startup hiring report — who's hiring in 2026";
