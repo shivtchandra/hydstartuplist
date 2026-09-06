@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { getApproved, invalidateDynamicOverlay, visibleHiring } from "../../../../lib/store.js";
+import { checkAdminPasscode } from "../../../../lib/admin-auth.js";
 
 export const dynamic = "force-dynamic";
 
 function checkPasscode(req) {
   const passcode = req.headers.get("x-admin-passcode");
-  return !!process.env.NEXT_PUBLIC_ADMIN_PASSCODE && passcode === process.env.NEXT_PUBLIC_ADMIN_PASSCODE;
+  return checkAdminPasscode(req);
 }
 
 export async function GET(req) {

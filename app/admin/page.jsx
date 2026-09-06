@@ -7,8 +7,6 @@ import {
 } from "firebase/firestore";
 import { db } from "../../lib/firebase.js";
 
-const PASSCODE = process.env.NEXT_PUBLIC_ADMIN_PASSCODE || "";
-
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [code, setCode] = useState("");
@@ -42,7 +40,7 @@ export default function AdminPage() {
     try {
       const res = await fetch(
         `/api/admin/site-preview?url=${encodeURIComponent(item.website || "")}&name=${encodeURIComponent(item.name || "")}`,
-        { headers: { "x-admin-passcode": PASSCODE } }
+        { headers: { "x-admin-passcode": code } }
       ).then((r) => r.json());
       setSiteInfo((s) => ({ ...s, [item.id]: { ...res, loading: false } }));
     } catch (e) {
@@ -97,7 +95,7 @@ export default function AdminPage() {
 
       const res = await fetch("/api/admin/placements", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-admin-passcode": PASSCODE },
+        headers: { "Content-Type": "application/json", "x-admin-passcode": code },
         body: JSON.stringify(payload),
       }).then((r) => r.json());
 
@@ -124,7 +122,7 @@ export default function AdminPage() {
 
   async function loadFeatured() {
     try {
-      const res = await fetch("/api/admin/featured", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      const res = await fetch("/api/admin/featured", { headers: { "x-admin-passcode": code } }).then((r) => r.json());
       const reqs = res.requests || [];
       setFeaturedReqs(reqs);
       // Fetch each site's details up front so the admin sees who they are
@@ -137,7 +135,7 @@ export default function AdminPage() {
 
   async function loadApprovedStartups() {
     try {
-      const res = await fetch("/api/admin/startups", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      const res = await fetch("/api/admin/startups", { headers: { "x-admin-passcode": code } }).then((r) => r.json());
       setApprovedStartups(res.startups || []);
     } catch (e) {
       setNote((n) => n || "Approved listings load failed: " + e.message);
@@ -151,7 +149,7 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/admin/startups", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-admin-passcode": PASSCODE },
+        headers: { "Content-Type": "application/json", "x-admin-passcode": code },
         body: JSON.stringify({ id: item.id, active: nextActive }),
       }).then((r) => r.json());
       if (!res.ok) {
@@ -173,7 +171,7 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/admin/featured", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-admin-passcode": PASSCODE },
+        headers: { "Content-Type": "application/json", "x-admin-passcode": code },
         body: JSON.stringify({ id: item.id, status }),
       }).then((r) => r.json());
       if (!res.ok) {
@@ -212,7 +210,7 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/admin/placements", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-admin-passcode": PASSCODE },
+        headers: { "Content-Type": "application/json", "x-admin-passcode": code },
         body: JSON.stringify({
           action: nextVisible ? "show" : "deactivate",
           id: item.placedSlotId,
@@ -239,7 +237,7 @@ export default function AdminPage() {
 
   async function loadHiring() {
     try {
-      const res = await fetch("/api/admin/hiring", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      const res = await fetch("/api/admin/hiring", { headers: { "x-admin-passcode": code } }).then((r) => r.json());
       setHiring(res.results || []);
     } catch (e) {
       setNote((n) => n || "Hiring results load failed: " + e.message);
@@ -251,7 +249,7 @@ export default function AdminPage() {
     try {
       await fetch("/api/admin/hiring", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-admin-passcode": PASSCODE },
+        headers: { "Content-Type": "application/json", "x-admin-passcode": code },
         body: JSON.stringify({ id: item.id, hidden: !item.hiringHidden }),
       });
       setHiring((h) => h.map((x) => (x.id === item.id ? { ...x, hiringHidden: !x.hiringHidden } : x)));
@@ -264,7 +262,7 @@ export default function AdminPage() {
 
   async function loadNewsletterPreview() {
     try {
-      const res = await fetch("/api/admin/newsletter", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      const res = await fetch("/api/admin/newsletter", { headers: { "x-admin-passcode": code } }).then((r) => r.json());
       setNlPreview(res);
     } catch (e) {
       setNlPreview({ note: "Preview failed: " + e.message });
@@ -276,7 +274,7 @@ export default function AdminPage() {
     setNlBusy(true);
     setNlResult(null);
     try {
-      const res = await fetch("/api/admin/newsletter", { method: "POST", headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      const res = await fetch("/api/admin/newsletter", { method: "POST", headers: { "x-admin-passcode": code } }).then((r) => r.json());
       setNlResult(res);
     } catch (e) {
       setNlResult({ ok: false, note: "Send failed: " + e.message });
@@ -305,7 +303,7 @@ export default function AdminPage() {
       setNote("Load failed: " + e.message);
     }
     try {
-      const subRes = await fetch("/api/admin/subscribers", { headers: { "x-admin-passcode": PASSCODE } }).then((r) => r.json());
+      const subRes = await fetch("/api/admin/subscribers", { headers: { "x-admin-passcode": code } }).then((r) => r.json());
       setSubscribers(subRes.subscribers || []);
     } catch (e) {
       setNote((n) => n || "Subscribers load failed: " + e.message);
@@ -396,10 +394,19 @@ export default function AdminPage() {
           <h1 className="form-title">Admin</h1>
           <p className="form-sub">Enter the passcode to review submissions.</p>
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              if (code === PASSCODE && PASSCODE) { setAuthed(true); setNote(""); }
-              else setNote("Wrong passcode.");
+              setNote("Checking…");
+              try {
+                const r = await fetch("/api/admin/startups", {
+                  headers: { "x-admin-passcode": code },
+                });
+                if (!r.ok) throw new Error("unauthorized");
+                setAuthed(true);
+                setNote("");
+              } catch {
+                setNote("Wrong passcode.");
+              }
             }}
             className="form-grid"
           >

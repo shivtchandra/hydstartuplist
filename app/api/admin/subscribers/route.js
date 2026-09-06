@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
+import { checkAdminPasscode } from "../../../../lib/admin-auth.js";
 
 export const dynamic = "force-dynamic";
 
@@ -8,8 +9,7 @@ export const dynamic = "force-dynamic";
 // admin panel reads it here via the admin SDK instead, gated by the same
 // passcode the panel's login screen already checks client-side.
 export async function GET(req) {
-  const passcode = req.headers.get("x-admin-passcode");
-  if (!process.env.NEXT_PUBLIC_ADMIN_PASSCODE || passcode !== process.env.NEXT_PUBLIC_ADMIN_PASSCODE) {
+  if (!checkAdminPasscode(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

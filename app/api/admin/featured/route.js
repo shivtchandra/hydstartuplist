@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
+import { checkAdminPasscode } from "../../../../lib/admin-auth.js";
 
 export const dynamic = "force-dynamic";
 
-function checkPasscode(req) {
-  const passcode = req.headers.get("x-admin-passcode");
-  return !!process.env.NEXT_PUBLIC_ADMIN_PASSCODE && passcode === process.env.NEXT_PUBLIC_ADMIN_PASSCODE;
-}
+const checkPasscode = checkAdminPasscode;
 
 // List featured-pin payment requests (manual UPI flow). Admin verifies each
 // against the bank/UPI statement using the submitted transaction id, then

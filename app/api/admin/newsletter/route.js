@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { buildDigest, getSubscribers, sendDigestEmail } from "../../../../lib/newsletter.js";
+import { checkAdminPasscode } from "../../../../lib/admin-auth.js";
 
 export const dynamic = "force-dynamic";
 
 function checkPasscode(req) {
   const passcode = req.headers.get("x-admin-passcode");
-  return !!process.env.NEXT_PUBLIC_ADMIN_PASSCODE && passcode === process.env.NEXT_PUBLIC_ADMIN_PASSCODE;
+  return checkAdminPasscode(req);
 }
 
 // GET = preview only (what would be sent, to how many people) — never sends.
