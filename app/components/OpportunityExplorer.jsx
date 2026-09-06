@@ -165,6 +165,28 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   useEffect(()=>{if(!detail)return;setView('list');detailRef.current?.focus();},[detail?.id]);
   function persist(next){if(writeShortlist(next)){startTransition(()=>{setShortlist(next);setNotice('');});}else setNotice('This browser could not save locally. Allow site storage and try again.');}
   function save(job,status='saved'){persist({...shortlist,jobs:{...shortlist.jobs,[job.id]:{job,status,at:new Date().toISOString()}}});if(status==='saved')trackEvent('save',variant);}
+  async function shareJob(job){
+    if(!job?.id) return;
+    const url = `${typeof window!=='undefined'?window.location.origin:''}/jobs/${jobUrlId(job.id)}`;
+    const title = `${job.title} at ${job.company}`;
+    const text = `${title} — Hyderabad role on Mapping HYD`;
+    try {
+      if (typeof navigator!=='undefined' && navigator.share) {
+        await navigator.share({ title, text, url });
+        trackEvent('share', variant);
+        return;
+      }
+    } catch (err) {
+      if (err?.name === 'AbortError') return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setNotice('Link copied — share it anywhere.');
+      trackEvent('share', variant);
+    } catch {
+      setNotice('Copy this link: '+url);
+    }
+  }
   function follow(company){
     const following=!shortlist.companies.includes(company);
     persist({...shortlist,companies:following?[...shortlist.companies,company]:shortlist.companies.filter(c=>c!==company)});
@@ -326,7 +348,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
         <p className="op-pay">{money(job.salary)}</p><div className="op-job-bottom"><span>{job.status==='closed'?'Closed':freshnessLabel(job)}</span>{savedOnly?<select aria-label={`Status for ${job.title}`} value={shortlist.jobs[job.id]?.status||'saved'} onChange={e=>save(job,e.target.value)}><option value="saved">Saved</option><option value="applied">Applied</option><option value="hidden">Hidden</option></select>:<button onClick={()=>save(job,'hidden')}>Hide</button>}</div>
       </article>)}{!visible.length&&<div className="op-empty"><h2>{savedOnly?'Start your shortlist':'No matching roles right now'}</h2><p>{savedOnly?'Save a role while exploring. Find it here when you are ready.':'Try fewer filters, or save this search for later.'}</p><Link href="/jobs">Browse roles ↗</Link>{!savedOnly&&<button onClick={saveSearch}>Save this search</button>}</div>}
       {!savedOnly&&data?.nextCursor&&<button className="op-load" disabled={busy} onClick={loadMore}>Load more roles</button>}</section>
-      <aside className="op-context">{detail?<section className="op-detail" ref={detailRef} tabIndex={-1} aria-label="Selected role"><button onClick={closeJob}>← Back to results</button><p className="op-eyebrow">{detail.company}</p><h2>{detail.title}</h2><p>{detail.area||detail.location} · {freshnessLabel(detail)}</p><p>{money(detail.salary)}</p>{detailError&&<p role="status">{detailError}</p>}<div className="op-detail-actions">{detail.applyUrl&&detail.status!=='closed'&&<a className="op-primary" href={detail.applyUrl} target="_blank" rel="noopener noreferrer" onClick={()=>trackEvent('apply',variant)}>Apply ↗</a>}<button onClick={()=>save(detail)}>Save role</button><button onClick={()=>follow(detail.company)}>{shortlist.companies.includes(detail.company)?'Unfollow company':'Follow company'}</button></div>{detail.status==='closed'&&<p>This role has closed. <Link href={'/jobs?q='+encodeURIComponent(detail.role||detail.title)}>Find similar active roles</Link></p>}<h3>About the role</h3><p className="op-description">{String(detail.description||'Read the complete requirements on the original listing.').replace(/<[^>]*>/g,' ')}</p><Link href={'/jobs/'+jobUrlId(detail.id)}>Open permanent job page ↗</Link></section>:view==='map'?<Map companies={mapVersion===data?.version?groups:[]} onSelect={c=>{change(c.isArea?{area:c.area,company:''}:{company:c.name});trackEvent(c.isArea?'results':'company',variant);setView('list');}} onBounds={b=>{change({bounds:[b.south,b.north,b.west,b.east].join(',')});setNotice('Searching this map area. Roles without a verified location remain included.');setView('list');}}/>:null}</aside>
+      <aside className="op-context">{detail?<section className="op-detail" ref={detailRef} tabIndex={-1} aria-label="Selected role"><button onClick={closeJob}>← Back to results</button><p className="op-eyebrow">{detail.company}</p><h2>{detail.title}</h2><p>{detail.area||detail.location} · {freshnessLabel(detail)}</p><p>{money(detail.salary)}</p>{detailError&&<p role="status">{detailError}</p>}<div className="op-detail-actions">{detail.applyUrl&&detail.status!=='closed'&&<a className="op-primary" href={detail.applyUrl} target="_blank" rel="noopener noreferrer" onClick={()=>trackEvent('apply',variant)}>Apply ↗</a>}<button onClick={()=>save(detail)}>Save role</button><button type="button" onClick={()=>shareJob(detail)}>Share</button><button onClick={()=>follow(detail.company)}>{shortlist.companies.includes(detail.company)?'Unfollow company':'Follow company'}</button></div>{detail.status==='closed'&&<p>This role has closed. <Link href={'/jobs?q='+encodeURIComponent(detail.role||detail.title)}>Find similar active roles</Link></p>}<h3>About the role</h3><p className="op-description">{String(detail.description||'Read the complete requirements on the original listing.').replace(/<[^>]*>/g,' ')}</p><Link href={'/jobs/'+jobUrlId(detail.id)}>Open permanent job page ↗</Link></section>:view==='map'?<Map companies={mapVersion===data?.version?groups:[]} onSelect={c=>{change(c.isArea?{area:c.area,company:''}:{company:c.name});trackEvent(c.isArea?'results':'company',variant);setView('list');}} onBounds={b=>{change({bounds:[b.south,b.north,b.west,b.east].join(',')});setNotice('Searching this map area. Roles without a verified location remain included.');setView('list');}}/>:null}</aside>
     </div>
     <dialog className="op-dialog op-filters-dialog" ref={sheetRef} onCancel={()=>setSheet(false)} onClick={e=>{if(e.target===sheetRef.current)setSheet(false);}}><header><h2>Find your fit</h2><button autoFocus onClick={()=>setSheet(false)} aria-label="Close filters">×</button></header>{filterFields}<p>Unknown experience and work arrangements are available as explicit filter options.</p><button className="op-primary" onClick={()=>setSheet(false)}>Show {data?.total??''} roles</button></dialog>
     <dialog ref={emailRef} className="op-dialog op-alert-box" onCancel={()=>setEmailOpen(false)} aria-label="Saved search alerts"><button className="op-dismiss" onClick={()=>setEmailOpen(false)} aria-label="Close email signup">×</button><h2>Search saved on this device.</h2><p>Get a daily email for: <strong>{Object.values(savedSearch?.filters||filters).filter(Boolean).join(' · ')||'all Hyderabad roles'}</strong>. Confirm your address to start. No email is sent when there are no new matches.</p><form onSubmit={subscribe}><input type="email" aria-label="Email address" placeholder="you@example.com" required value={email} onChange={e=>setEmail(e.target.value)}/><button className="op-primary">Send confirmation</button></form><p role="status">{emailState}</p></dialog>
