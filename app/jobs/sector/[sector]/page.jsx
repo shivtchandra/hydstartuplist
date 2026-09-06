@@ -4,7 +4,7 @@ import SiteNav from "../../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../../components/JobsBreadcrumbs.jsx";
 import { getJobsBySector } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
-import { breadcrumbJsonLd, itemListJsonLd, jobUrlId, sectorLanding } from "../../../../lib/jobs-seo.js";
+import { breadcrumbJsonLd, itemListJsonLd, jobUrlId, sectorLanding, thinListingRobots } from "../../../../lib/jobs-seo.js";
 
 export const revalidate = 1800;
 
@@ -28,6 +28,7 @@ export async function generateMetadata({ params }) {
     title,
     description: landing.description,
     alternates: { canonical: url },
+    robots: thinListingRobots(jobs.length),
     openGraph: { title, description: landing.description, url, type: "website" },
   };
 }

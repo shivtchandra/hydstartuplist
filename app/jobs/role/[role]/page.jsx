@@ -4,9 +4,9 @@ import SiteNav from "../../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../../components/JobsBreadcrumbs.jsx";
 import { getJobsByRole } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
-import { breadcrumbJsonLd, itemListJsonLd, jobUrlId, roleLanding } from "../../../../lib/jobs-seo.js";
+import {breadcrumbJsonLd, itemListJsonLd, jobUrlId, roleLanding, thinListingRobots } from "../../../../lib/jobs-seo.js";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export function generateStaticParams() {
   return [
@@ -33,6 +33,7 @@ export async function generateMetadata({ params }) {
     title,
     description: landing.description,
     alternates: { canonical: url },
+    robots: thinListingRobots(jobs.length),
     openGraph: { title, description: landing.description, url, type: "website" },
   };
 }

@@ -2,8 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
-import { getJobById } from "../../../lib/jobs.js";
-import { getStartupBySlug } from "../../../lib/store.js";
+import ShareJobButton from "../../components/ShareJobButton.jsx";
+import { getJobById, getJobsByArea, getJobsForCompany } from "../../../lib/jobs.js";
+import { getStartupBySlug, getApproved } from "../../../lib/store.js";
 import { startupSlug, slugify } from "../../../lib/slug.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import {
@@ -16,9 +17,18 @@ import {
   companyJobsPath,
   jobIdFromUrl,
   jobPostingJsonLd,
+  jobUrlId,
+  localContextForArea,
 } from "../../../lib/jobs-seo.js";
+import {
+  relatedStartups,
+  normalizeArea,
+  faviconUrl,
+  prettyName,
+} from "../../../lib/startupUi.js";
+import { fundingLabel } from "../../../lib/company-quality.js";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export async function generateMetadata({ params }) {
   const id = jobIdFromUrl(params.id);
@@ -62,6 +72,13 @@ function timeAgo(iso) {
   return `Posted ${Math.floor(hrs / 24)}d ago`;
 }
 
+function titleTokens(title) {
+  return String(title || "")
+    .toLowerCase()
+    .split(/[^a-z0-9+#.]+/)
+    .filter((w) => w.length > 2 && !["the", "and", "for", "with", "senior", "junior", "lead"].includes(w));
+}
+
 export default async function JobDetailPage({ params }) {
   const id = jobIdFromUrl(params.id);
   const job = await getJobById(id);
@@ -75,6 +92,24 @@ export default async function JobDetailPage({ params }) {
   const descriptionHtml = jobDescriptionForPage(job);
   const descriptionIsHtml = jobDescriptionIsHtml(descriptionHtml);
   const salaryLabel = formatSalaryInr(job.salary);
+  const stage = startup ? fundingLabel(startup.fundingStage) : "";
+  const areaLabel = startup?.area || job.location || "Hyderabad";
+  const local = localContextForArea(areaLabel);
+
+  const allStartups = startup ? await getApproved() : [];
+  const nearby = startup ? relatedStartups(startup, allStartups, 4) : [];
+
+  const areaJobs = await getJobsByArea(normalizeArea(areaLabel) || areaLabel).catch(() => []);
+  const tokens = titleTokens(job.title);
+  const similarNearby = areaJobs
+    .filter((j) => j.id !== job.id)
+    .filter((j) => {
+      const hay = String(j.title || "").toLowerCase();
+      return tokens.some((t) => hay.includes(t));
+    })
+    .slice(0, 3);
+
+  const companyJobs = await getJobsForCompany(job.company).catch(() => []);
 
   const breadcrumbs = [
     { name: "Home", href: "/" },
@@ -88,6 +123,11 @@ export default async function JobDetailPage({ params }) {
     pageUrl,
     companyUrl: startup?.website,
     description: descriptionHtml,
+    lat: startup?.lat,
+    lng: startup?.lng,
+    streetAddress: startup?.address,
+    addressLocality: normalizeArea(startup?.area) || job.location || "Hyderabad",
+    logoUrl: faviconUrl(startup?.website) || undefined,
   });
 
   return (
@@ -96,6 +136,7 @@ export default async function JobDetailPage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(posting) }} />
       <SiteNav active="jobs" />
       <div className="feed-page job-detail">
+        <JobsBreadcrumbs items={breadcrumbs} />
         <div className="job-detail-back-row">
           <Link href="/jobs" className="job-detail-back">← All jobs</Link>
         </div>
@@ -132,9 +173,18 @@ export default async function JobDetailPage({ params }) {
         </header>
 
         <div className="job-detail-actions">
-          <a className="btn cmd-submit job-apply-btn" href={job.url} target="_blank" rel="noreferrer">
+          <a
+            className="btn cmd-submit job-apply-btn"
+            href={job.url}
+            target="_blank"
+            rel="noreferrer"
+          >
             Apply →
           </a>
+          <ShareJobButton url={pageUrl} title={`${job.title} at ${job.company}`} />
+          <Link className="btn btn-ghost" href={companyPath}>
+            Company jobs
+          </Link>
         </div>
 
         <section className="job-detail-description">
@@ -148,6 +198,62 @@ export default async function JobDetailPage({ params }) {
             <p className="job-detail-description-body" style={{ whiteSpace: "pre-wrap" }}>{descriptionHtml}</p>
           )}
         </section>
+
+        {(startup || local || similarNearby.length > 0) && (
+          <section className="job-detail-context">
+            <h2>Mapping HYD context</h2>
+            <ul className="job-context-list">
+              {startup && (
+                <li>
+                  <strong>{prettyName(startup.name)}</strong>
+                  {startup.sector ? ` is a ${startup.sector} company` : ""}
+                  {stage && stage !== "Not disclosed" ? ` at ${stage}` : ""}
+                  {startup.area ? ` in ${startup.area}` : " in Hyderabad"}
+                  {startup.founded ? `, founded ${startup.founded}` : ""}.
+                  {" "}
+                  <Link href={`/startups/${startupSlug(startup)}`}>View on the map →</Link>
+                </li>
+              )}
+              {local && (
+                <li>
+                  Neighbourhood: near {local.landmarks}. Transit: {local.transit}.
+                </li>
+              )}
+              {nearby.length > 0 && (
+                <li>
+                  Other mapped startups nearby:{" "}
+                  {nearby.map((s, i) => (
+                    <span key={s.id}>
+                      {i > 0 ? ", " : ""}
+                      <Link href={`/startups/${startupSlug(s)}`}>{prettyName(s.name)}</Link>
+                    </span>
+                  ))}
+                  .
+                </li>
+              )}
+              {similarNearby.length > 0 && (
+                <li>
+                  Similar roles nearby:{" "}
+                  {similarNearby.map((j, i) => (
+                    <span key={j.id}>
+                      {i > 0 ? " · " : ""}
+                      <Link href={`/jobs/${jobUrlId(j.id)}`}>{j.title}</Link>
+                      {" at "}
+                      {j.company}
+                    </span>
+                  ))}
+                  .
+                </li>
+              )}
+              {companyJobs.length > 1 && (
+                <li>
+                  {companyJobs.length} open roles listed for {job.company} on Mapping HYD.{" "}
+                  <Link href={companyPath}>See all →</Link>
+                </li>
+              )}
+            </ul>
+          </section>
+        )}
 
         {startup && (
           <section className="job-detail-company">

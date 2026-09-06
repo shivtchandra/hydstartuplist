@@ -7,10 +7,10 @@ import { getJobsForStartupSlug } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 import { prettyName } from "../../../../lib/startupUi.js";
 import { startupSlug } from "../../../../lib/slug.js";
-import { breadcrumbJsonLd, itemListJsonLd, jobPostingJsonLd, jobUrlId } from "../../../../lib/jobs-seo.js";
+import { breadcrumbJsonLd, itemListJsonLd, jobPostingJsonLd, jobUrlId, thinListingRobots } from "../../../../lib/jobs-seo.js";
 import { jobDescriptionForPage } from "../../../../lib/job-content.js";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export async function generateMetadata({ params }) {
   const { startup, jobs, companyName } = await getJobsForStartupSlug(params.slug);
@@ -30,6 +30,7 @@ export async function generateMetadata({ params }) {
     title,
     description,
     alternates: { canonical: url },
+    robots: thinListingRobots(count, { min: 1 }),
     openGraph: {
       title,
       description,

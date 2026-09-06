@@ -5847,3 +5847,29 @@ body:has(.startup-page-wrap) {
   line-height: 44px !important;
   font-size: 18px !important;
 }
+
+
+.job-detail-context {
+  margin: 28px 0;
+  padding: 20px 22px;
+  background: #eef1ee;
+  border: 1px solid #dce3de;
+  border-radius: 12px;
+}
+.job-detail-context h2 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+}
+.job-context-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #2a353b;
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+.job-share-btn {
+  min-height: 40px;
+}

@@ -1,6 +1,7 @@
 import "./globals.css";
 import "./opportunities.css";
 import InteractionMetrics from "./components/InteractionMetrics.jsx";
+import GoogleAnalytics from "./components/GoogleAnalytics.jsx";
 import { Analytics } from "@vercel/analytics/next";
 import localFont from "next/font/local";
 
@@ -98,6 +99,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         {children}
+        <GoogleAnalytics />
         <Analytics />
         <InteractionMetrics />
       </body>
