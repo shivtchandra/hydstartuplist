@@ -802,5 +802,18 @@
     "active": true,
     "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "other"
+  },
+  {
+    "id": "phenom:roche",
+    "name": "Roche",
+    "atsProvider": "phenom",
+    "atsSlug": "roche",
+    "boardUrl": "https://careers.roche.com/global/en/search-results?keywords=&location=Hyderabad,%20India",
+    "startupId": null,
+    "active": true,
+    "mapPin": false,
+    "note": "jobs-only \u2014 Phenom widgets Hyd city facet; daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.roche.com"
   }
 ]
