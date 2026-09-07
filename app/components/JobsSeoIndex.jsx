@@ -3,7 +3,6 @@ import {
   JOB_AREA_LANDINGS,
   JOB_SECTOR_LANDINGS,
   JOB_ROLE_LANDINGS,
-  FRESHER_JOBS_LANDING,
 } from "../../lib/jobs-seo.js";
 
 /** Crawlable jobs intro below the client explorer shell. */
@@ -17,7 +16,7 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
         name: "Where can I find jobs in Hyderabad?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: `Mapping HYD lists ${jobCount || "1,000+"} jobs in Hyderabad at mapped startups and tech companies — filter by area, role, and experience. Free, no signup.`,
+          text: `Mapping HYD lists ${jobCount || "1,000+"} startup and tech openings across the city — filter by area, role, and experience. Free, no signup.`,
         },
       },
       {
@@ -33,7 +32,7 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
         name: "Is the Hyderabad jobs board free?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. Browse jobs in Hyderabad on Mapping HYD without creating an account.",
+          text: "Yes. Browse the board on Mapping HYD without creating an account.",
         },
       },
     ],
@@ -51,12 +50,12 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
             {jobCount ? <> {jobCount.toLocaleString()}+ roles tracked right now.</> : null}
           </p>
           <p className="home-seo-sub">
-            Looking for entry-level work? See{" "}
-            <Link href="/jobs/fresher">fresher jobs in Hyderabad</Link>. Prefer the map view above to
-            filter live jobs in Hyderabad by commute area and role.
+            Looking for entry-level work? See the{" "}
+            <Link href="/jobs/fresher">fresher & early-career board</Link>. Use the map above to
+            filter live openings by commute area and role.
           </p>
           <nav className="home-seo-actions" aria-label="Job landings">
-            <Link href="/jobs/fresher">{FRESHER_JOBS_LANDING.title}</Link>
+            <Link href="/jobs/fresher">Fresher & early-career</Link>
             <Link href="/product-companies">Companies in Hyderabad</Link>
             <Link href="/gccs">GCC Hyderabad</Link>
             <Link href="/">Startup map</Link>
@@ -65,10 +64,13 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
 
         <div className="home-seo-sectors-section">
           <h2 className="home-seo-section-title">Jobs by sector</h2>
+          <p className="home-seo-sub">
+            Narrow jobs in Hyderabad by industry — SaaS, fintech, healthtech, and more.
+          </p>
           <div className="home-seo-areas-grid">
             {JOB_SECTOR_LANDINGS.map((s) => (
               <Link key={s.slug} href={`/jobs/sector/${s.slug}`} className="home-seo-area-chip">
-                <span className="home-seo-area-name">{s.title}</span>
+                <span className="home-seo-area-name">{s.sector || s.title.replace(/ Jobs in Hyderabad$/i, "")}</span>
               </Link>
             ))}
           </div>
@@ -104,11 +106,11 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
           </p>
           <p>
             <strong>Fresher roles?</strong>{" "}
-            <Link href="/jobs/fresher">Fresher jobs in Hyderabad</Link> lists intern and early-career
-            openings.
+            <Link href="/jobs/fresher">Entry-level and intern openings</Link> are listed on a
+            dedicated page.
           </p>
           <p>
-            <strong>Is it free?</strong> Yes — browse jobs in Hyderabad without signup.
+            <strong>Is it free?</strong> Yes — browse without signup.
           </p>
         </section>
       </div>
