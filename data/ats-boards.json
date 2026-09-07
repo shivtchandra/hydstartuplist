@@ -985,5 +985,18 @@
     "note": "jobs-only \u2014 Rippling board API; Hyd via workLocation geoFilter; daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.desri.com"
+  },
+  {
+    "id": "htmlcareers:deloittesa",
+    "name": "Deloitte South Asia",
+    "atsProvider": "htmlcareers",
+    "atsSlug": "deloittesa",
+    "boardUrl": "https://southasiacareers.deloitte.com/search/?q=&locationsearch=hyderabad",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Job2Web HTML Hyd locationsearch; daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.deloitte.com"
   }
 ]
