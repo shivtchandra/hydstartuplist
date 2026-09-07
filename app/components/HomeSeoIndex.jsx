@@ -13,6 +13,7 @@ import { getApproved, visibleHiring } from "../../lib/store.js";
 import { startupSlug } from "../../lib/slug.js";
 import { prettyName, colorFor } from "../../lib/startupUi.js";
 import { industrySlugForSector } from "../../lib/industries.js";
+import { areaSlugForName } from "../../lib/areas.js";
 import HomeSeoReveal from "./HomeSeoReveal.jsx";
 
 const getApprovedCached = unstable_cache(
@@ -169,16 +170,19 @@ export default async function HomeSeoIndex() {
             <div className="home-seo-areas-section home-seo-step">
               <h3 className="home-seo-section-title">Tech clusters</h3>
               <div className="home-seo-areas-grid">
-                {byArea.map((a) => (
+                {byArea.map((a) => {
+                  const hub = areaSlugForName(a.area);
+                  return (
                   <Link
                     key={a.area}
-                    href={`/?view=companies&area=${encodeURIComponent(a.area)}`}
+                    href={hub ? `/areas/${hub}` : `/?view=companies&area=${encodeURIComponent(a.area)}`}
                     className="home-seo-area-chip"
                   >
                     <span className="home-seo-area-name">{a.area}</span>
                     <span className="home-seo-area-count">{a.count}</span>
                   </Link>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}

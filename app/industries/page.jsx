@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteNav from "../components/SiteNav.jsx";
+import SiteFooter from "../components/SiteFooter.jsx";
 import { getIndustriesIndex } from "../../lib/industries.js";
 import { getSiteUrl } from "../../lib/site-url.js";
 
@@ -55,6 +56,7 @@ export default async function IndustriesIndexPage() {
           ))}
         </div>
       </div>
+      <SiteFooter />
     </div>
   );
 }

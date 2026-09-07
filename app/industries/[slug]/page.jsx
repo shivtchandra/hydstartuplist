@@ -10,6 +10,8 @@ import {
 import { getSiteUrl } from "../../../lib/site-url.js";
 import { prettyName } from "../../../lib/startupUi.js";
 import { jobUrlId } from "../../../lib/jobs-seo.js";
+import { areaSlugForName } from "../../../lib/areas.js";
+import SiteFooter from "../../components/SiteFooter.jsx";
 
 export const revalidate = 86400;
 
@@ -171,12 +173,15 @@ export default async function IndustryDetailPage({ params }) {
               <div>
                 <h2>Where they cluster</h2>
                 <ul className="industry-facet-list">
-                  {topAreas.map((a) => (
+                  {topAreas.map((a) => {
+                    const hub = areaSlugForName(a.area);
+                    return (
                     <li key={a.area}>
-                      <span>{a.area}</span>
+                      {hub ? <Link href={`/areas/${hub}`}>{a.area}</Link> : <span>{a.area}</span>}
                       <span className="industry-facet-count">{a.count}</span>
                     </li>
-                  ))}
+                    );
+                  })}
                 </ul>
               </div>
             )}
@@ -230,6 +235,7 @@ export default async function IndustryDetailPage({ params }) {
           </div>
         </section>
       </div>
+      <SiteFooter />
     </div>
   );
 }

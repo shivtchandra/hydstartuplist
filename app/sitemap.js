@@ -4,6 +4,7 @@ import { getSiteUrl } from "../lib/site-url.js";
 import { startupSlug } from "../lib/slug.js";
 import { JOB_SECTOR_LANDINGS, JOB_AREA_LANDINGS, JOB_ROLE_LANDINGS } from "../lib/jobs-seo.js";
 import { INDUSTRY_LANDINGS } from "../lib/industries.js";
+import { AREA_LANDINGS } from "../lib/areas.js";
 
 // Static sitemap — no Firestore. Live job URLs churn hourly and were timing out
 // Hobby SSG workers; startups come from the committed JSON seed.
@@ -19,6 +20,7 @@ const STATIC_ROUTES = [
   { path: "/product-companies", priority: 0.85, changeFrequency: "weekly" },
   { path: "/gccs",    priority: 0.7, changeFrequency: "weekly"  },
   { path: "/industries", priority: 0.85, changeFrequency: "daily" },
+  { path: "/areas", priority: 0.85, changeFrequency: "daily" },
   { path: "/insights",priority: 0.7, changeFrequency: "weekly"  },
   { path: "/stories", priority: 0.7, changeFrequency: "weekly"  },
   { path: "/newsletter", priority: 0.6, changeFrequency: "monthly" },
@@ -71,6 +73,13 @@ export default function sitemap() {
     priority: 0.8,
   }));
 
+  const techAreaEntries = AREA_LANDINGS.map((a) => ({
+    url: `${SITE_URL}/areas/${a.slug}`,
+    lastModified: now,
+    changeFrequency: "daily",
+    priority: 0.8,
+  }));
+
   const sectorEntries = JOB_SECTOR_LANDINGS.map((s) => ({
     url: `${SITE_URL}/jobs/sector/${s.slug}`,
     lastModified: now,
@@ -97,6 +106,7 @@ export default function sitemap() {
     ...startupEntries,
     ...storyEntries,
     ...industryEntries,
+    ...techAreaEntries,
     ...sectorEntries,
     ...areaEntries,
     ...roleEntries,
