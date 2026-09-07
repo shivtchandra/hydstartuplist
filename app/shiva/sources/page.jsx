@@ -215,6 +215,7 @@ export default function SourceHealthPage() {
               {[
                 ["startups", "Startups"],
                 ["eateries", "Eateries"],
+                ["hub", "Mapmyhyd"],
                 ["all", "All"],
               ].map(([id, label]) => (
                 <button
@@ -230,7 +231,9 @@ export default function SourceHealthPage() {
                   {label}
                   {id === "all" && data.byProduct ? (
                     <span className="src-tab-count">
-                      {(data.byProduct.startups?.landings || 0) + (data.byProduct.eateries?.landings || 0)}
+                      {(data.byProduct.startups?.landings || 0) +
+                        (data.byProduct.eateries?.landings || 0) +
+                        (data.byProduct.hub?.landings || 0)}
                     </span>
                   ) : data.byProduct?.[id] ? (
                     <span className="src-tab-count">{data.byProduct[id].landings}</span>
@@ -259,10 +262,22 @@ export default function SourceHealthPage() {
                 <span className="src-kpi-hint">{fmtPct(usefulRate)} of landings</span>
               </article>
               <article className="src-kpi">
-                <span className="src-kpi-label">{product === "eateries" ? "Directions / call" : "Apply exits"}</span>
+                <span className="src-kpi-label">{product === "eateries" ? "Directions / call" : product === "hub" ? "Layer / support" : "Apply exits"}</span>
                 <strong className="src-kpi-value">{totals.apply}</strong>
                 <span className="src-kpi-hint">{fmtPct(applyRate)} of landings</span>
               </article>
+            </section>
+          )}
+
+          {data.seriesSupport && (
+            <section className="src-insights" aria-label="Series support">
+              <h2>Series support</h2>
+              <ul>
+                <li>
+                  <strong>{Number(data.seriesSupport.count || 0).toLocaleString("en-IN")}</strong> people tapped
+                  “Support the series” on mapmyhyd.com
+                </li>
+              </ul>
             </section>
           )}
 
