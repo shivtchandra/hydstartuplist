@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function pct(n, d) {
   if (!d) return null;
@@ -26,8 +26,14 @@ function fmtWhen(ts) {
 }
 
 function parseKey(key) {
-  const [variant = "—", device = "—", source = "—"] = String(key).split("/");
-  return { variant, device, source };
+  const parts = String(key).split("/");
+  // new: product/variant/device/source · legacy: variant/device/source
+  if (parts.length >= 4) {
+    const [product = "—", variant = "—", device = "—", source = "—"] = parts;
+    return { product, variant, device, source };
+  }
+  const [variant = "—", device = "—", source = "—"] = parts;
+  return { product: "startups", variant, device, source };
 }
 
 function rollup(funnel, field) {
@@ -56,13 +62,14 @@ export default function SourceHealthPage() {
   const [data, setData] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [product, setProduct] = useState("startups"); // startups | eateries | all
 
   async function load(e) {
     e?.preventDefault?.();
     setError("");
     setBusy(true);
     try {
-      const r = await fetch("/api/admin/source-health", {
+      const r = await fetch(`/api/admin/source-health?product=${encodeURIComponent(product)}`, {
         headers: { "x-admin-passcode": pass },
       });
       if (!r.ok) throw Error();
@@ -74,7 +81,13 @@ export default function SourceHealthPage() {
     }
   }
 
-  const totals = useMemo(() => {
+  useEffect(() => {
+    if (!data) return;
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product]);
+
+    const totals = useMemo(() => {
     if (!data?.funnel) return null;
     return Object.values(data.funnel).reduce(
       (acc, f) => ({
@@ -124,11 +137,19 @@ export default function SourceHealthPage() {
       );
     }
     if (applyRate != null) {
-      out.push(
-        applyRate >= 8
-          ? `Apply exits at ${applyRate}% of landings — solid for a discovery map.`
-          : `Apply exits are ${applyRate}% of landings. Check job quality and apply CTA friction.`
-      );
+      if (product === "eateries") {
+        out.push(
+          applyRate >= 8
+            ? `Directions/call at ${applyRate}% of landings — people are acting on places.`
+            : `Directions/call are ${applyRate}% of landings. Tighten detail sheet CTAs.`
+        );
+      } else {
+        out.push(
+          applyRate >= 8
+            ? `Apply exits at ${applyRate}% of landings — solid for a discovery map.`
+            : `Apply exits are ${applyRate}% of landings. Check job quality and apply CTA friction.`
+        );
+      }
     }
     const phoneShare = byDevice.find((d) => d.name === "phone");
     if (phoneShare) {
@@ -147,7 +168,7 @@ export default function SourceHealthPage() {
       out.push(`${overdueBoards.length} career board(s) overdue or errored — job sync may be stale.`);
     }
     return out;
-  }, [totals, usefulRate, applyRate, byDevice, rows, overdueBoards.length]);
+  }, [totals, usefulRate, applyRate, byDevice, rows, overdueBoards.length, product]);
 
   return (
     <div className="admin-page src-page">
@@ -190,6 +211,33 @@ export default function SourceHealthPage() {
       {data && (
         <>
           <div className="src-toolbar">
+            <div className="src-product-tabs" role="tablist" aria-label="Product">
+              {[
+                ["startups", "Startups"],
+                ["eateries", "Eateries"],
+                ["all", "All"],
+              ].map(([id, label]) => (
+                <button
+                  key={id}
+                  type="button"
+                  role="tab"
+                  aria-selected={product === id}
+                  className={`src-product-tab${product === id ? " is-on" : ""}`}
+                  onClick={() => {
+                    setProduct(id);
+                  }}
+                >
+                  {label}
+                  {id === "all" && data.byProduct ? (
+                    <span className="src-tab-count">
+                      {(data.byProduct.startups?.landings || 0) + (data.byProduct.eateries?.landings || 0)}
+                    </span>
+                  ) : data.byProduct?.[id] ? (
+                    <span className="src-tab-count">{data.byProduct[id].landings}</span>
+                  ) : null}
+                </button>
+              ))}
+            </div>
             <button className="btn btn-ghost" type="button" onClick={load} disabled={busy}>
               {busy ? "Refreshing…" : "Refresh"}
             </button>
@@ -211,7 +259,7 @@ export default function SourceHealthPage() {
                 <span className="src-kpi-hint">{fmtPct(usefulRate)} of landings</span>
               </article>
               <article className="src-kpi">
-                <span className="src-kpi-label">Apply exits</span>
+                <span className="src-kpi-label">{product === "eateries" ? "Directions / call" : "Apply exits"}</span>
                 <strong className="src-kpi-value">{totals.apply}</strong>
                 <span className="src-kpi-hint">{fmtPct(applyRate)} of landings</span>
               </article>
@@ -276,17 +324,19 @@ export default function SourceHealthPage() {
               <table className="src-table">
                 <thead>
                   <tr>
+                    <th>Product</th>
                     <th>Variant</th>
                     <th>Device</th>
                     <th>Source</th>
                     <th>Landings</th>
                     <th>Useful</th>
-                    <th>Apply</th>
+                    <th>Convert</th>
                   </tr>
                 </thead>
                 <tbody>
                   {rows.map((r) => (
                     <tr key={r.key}>
+                      <td>{r.product}</td>
                       <td>{r.variant}</td>
                       <td>{r.device}</td>
                       <td>{r.source}</td>

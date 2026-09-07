@@ -17,6 +17,7 @@ async function persistEvent(event) {
       tx.set(ref, {
         started,
         expiresAt: new Date(started + 35 * 86400000),
+        product: old?.product || event.product || 'startups',
         variant: old?.variant || event.variant,
         device: old?.device || event.device,
         source: old?.source || event.source,
