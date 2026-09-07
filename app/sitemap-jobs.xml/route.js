@@ -2,14 +2,17 @@ import { getSiteUrl } from "../../lib/site-url.js";
 import { getAllJobs } from "../../lib/jobs.js";
 import { jobUrlId } from "../../lib/jobs-seo.js";
 
-// Live job URLs churn hourly and Firestore reads time out the static build,
-// so job detail pages are excluded from the main /sitemap.xml (see app/sitemap.js).
-// This dynamic sitemap runs at request-time (ISR) where getAllJobs() reads the
-// live Firestore feed, so the JobPosting pages still get discovered + indexed.
+/**
+ * Scoped jobs sitemap for crawl-budget triage.
+ * GSC: 1.3K+ URLs were "Discovered – currently not indexed" after we submitted
+ * the full live feed. Only recent openings belong in the submission feed;
+ * older job URLs stay crawlable via internal links / hubs.
+ */
 export const revalidate = 3600;
 export const dynamic = "force-dynamic";
 
-const MAX_URLS = 20000; // Google per-sitemap cap is 50k; stay well under.
+const MAX_URLS = 200;
+const MAX_AGE_DAYS = 14;
 
 function esc(s) {
   return String(s).replace(/[<>&'"]/g, (c) =>
@@ -17,22 +20,31 @@ function esc(s) {
   );
 }
 
+function postedMs(job) {
+  const raw = job?.postedAt || job?.sourcePostedAt || job?.fetchedAt;
+  const t = Date.parse(raw || "");
+  return Number.isFinite(t) ? t : 0;
+}
+
 export async function GET() {
   const site = getSiteUrl();
+  const cutoff = Date.now() - MAX_AGE_DAYS * 86_400_000;
   let entries = [];
   try {
     const jobs = await getAllJobs();
     entries = jobs
       .filter((j) => j && j.id && j.status !== "closed")
+      .filter((j) => postedMs(j) >= cutoff)
+      .sort((a, b) => postedMs(b) - postedMs(a))
       .slice(0, MAX_URLS)
       .map((j) => {
         const url = `${site}/jobs/${jobUrlId(j.id)}`;
-        const lastmod = j.postedAt
-          ? new Date(j.postedAt).toISOString().slice(0, 10)
+        const lastmod = postedMs(j)
+          ? new Date(postedMs(j)).toISOString().slice(0, 10)
           : null;
         return `  <url>\n    <loc>${esc(url)}</loc>${
           lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ""
-        }\n    <changefreq>daily</changefreq>\n    <priority>0.7</priority>\n  </url>`;
+        }\n    <changefreq>daily</changefreq>\n    <priority>0.5</priority>\n  </url>`;
       });
   } catch (err) {
     console.error("jobs sitemap error:", err);

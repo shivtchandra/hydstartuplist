@@ -17,6 +17,7 @@ import {
   companyJobsPath,
   jobIdFromUrl,
   jobPostingJsonLd,
+  jobShouldIndex,
   jobUrlId,
   localContextForArea,
 } from "../../../lib/jobs-seo.js";
@@ -39,6 +40,8 @@ export async function generateMetadata({ params }) {
   const description = `Apply for ${job.title} at ${job.company} in ${job.location || "Hyderabad"}. Listed on Hyderabad Startup Map.`;
   const url = `${getSiteUrl()}/jobs/${params.id}`;
 
+  const indexable = jobShouldIndex(job);
+  const site = getSiteUrl();
   return {
     title,
     description,
@@ -48,7 +51,12 @@ export async function generateMetadata({ params }) {
       `${job.company} careers Hyderabad`,
       "startup jobs Hyderabad",
     ],
-    alternates: { canonical: url },
+    // Stale openings: noindex + canonical to the jobs hub so crawl budget
+    // concentrates on evergreen landings instead of expired JobPosting URLs.
+    alternates: { canonical: indexable ? url : `${site}/jobs` },
+    robots: indexable
+      ? { index: true, follow: true }
+      : { index: false, follow: true, googleBot: { index: false, follow: true } },
     openGraph: {
       title,
       description,

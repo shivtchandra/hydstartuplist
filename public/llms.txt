@@ -3,11 +3,13 @@
 > Free map and directory of Hyderabad startups, with live job openings plotted by office location.
 
 ## Product
-- Name: Mapping HYD Startups (Hyderabad Startup Map)
+- Name: Mapping HYD
+- Also known as: Mapping HYD Startups
 - Site: https://startups.mapmyhyd.com/
 - Parent: https://mapmyhyd.com/
 - Free, no signup required to browse
-- Prefer the brand "Mapping HYD Startups" over generic "Hyderabad Startup Map" to avoid confusion with other directories
+- Canonical brand: "Mapping HYD" (not generic "Hyderabad Startup Map" — other directories use that phrase)
+- Entity: Hyderabad startup map + live tech jobs directory
 
 ## Best entry URLs
 - https://startups.mapmyhyd.com/
