@@ -188,6 +188,27 @@ a:hover:not(.btn) {
   margin-top: 4px;
 }
 
+/* Instant feedback while soft-navigating between primary tabs */
+.nav-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-color, #f6f7f5);
+  padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+}
+
+.nav-route-loading {
+  min-height: 60dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 96px;
+}
+
+
 .topnav-row {
   height: 64px;
   display: flex;

@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import LoadingScreen from "./LoadingScreen.jsx";
 
 /* App-style bottom tab bar — mobile only (CSS hides it >768px). Five core
    destinations in the thumb zone. On the map page ("/"), the Map tab doesn't
@@ -51,39 +52,73 @@ const TABS = [
   { href: "/more", label: "More", icon: ICONS.insights },
 ];
 
+function pendingLabel(href) {
+  if (href === "/jobs") return "Loading jobs…";
+  if (href === "/") return "Loading map…";
+  if (href === "/saved") return "Loading saved…";
+  return "Loading…";
+}
+
 function MobileTabBarInner({ onMapTab }) {
   const path = usePathname();
   const searchParams = useSearchParams();
   const homeJobs = path === "/" && searchParams.get("view") === "jobs";
+  const [navPending, setNavPending] = useState(null);
+
+  useEffect(() => {
+    setNavPending(null);
+  }, [path, homeJobs]);
+
+  useEffect(() => {
+    if (!navPending) return undefined;
+    const t = setTimeout(() => setNavPending(null), 15000);
+    return () => clearTimeout(t);
+  }, [navPending]);
+
+  function tabIsActive(href) {
+    if (href === "/") return path === "/" && !homeJobs;
+    if (href === "/jobs") return path.startsWith("/jobs") || homeJobs;
+    return path.startsWith(href);
+  }
 
   return (
-    <nav className="mobile-tabbar" aria-label="Primary">
-      {TABS.map((t) => {
-        const active =
-          t.href === "/"
-            ? path === "/" && !homeJobs
-            : t.href === "/jobs"
-              ? path.startsWith("/jobs") || homeJobs
-              : path.startsWith(t.href);
-        const cls = `mtb-tab${active ? " active" : ""}`;
+    <>
+      {navPending ? (
+        <div className="nav-loading-overlay" role="status" aria-live="polite">
+          <LoadingScreen label={pendingLabel(navPending)} />
+        </div>
+      ) : null}
+      <nav className="mobile-tabbar" aria-label="Primary">
+        {TABS.map((t) => {
+          const active = tabIsActive(t.href);
+          const cls = `mtb-tab${active ? " active" : ""}`;
 
-        if (t.href === "/" && onMapTab) {
+          if (t.href === "/" && onMapTab) {
+            return (
+              <button key={t.href} type="button" className={cls} onClick={onMapTab} aria-current={active ? "page" : undefined}>
+                {t.icon}
+                <span>{t.label}</span>
+              </button>
+            );
+          }
+
           return (
-            <button key={t.href} type="button" className={cls} onClick={onMapTab} aria-current={active ? "page" : undefined}>
+            <Link
+              key={t.href}
+              href={t.href}
+              className={cls}
+              aria-current={active ? "page" : undefined}
+              onClick={() => {
+                if (!active) setNavPending(t.href);
+              }}
+            >
               {t.icon}
               <span>{t.label}</span>
-            </button>
+            </Link>
           );
-        }
-
-        return (
-          <Link key={t.href} href={t.href} className={cls} aria-current={active ? "page" : undefined}>
-            {t.icon}
-            <span>{t.label}</span>
-          </Link>
-        );
-      })}
-    </nav>
+        })}
+      </nav>
+    </>
   );
 }
 
