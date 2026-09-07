@@ -920,5 +920,18 @@
     "note": "jobs-only \u2014 Workday Early Careers Hyd location facet; daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.kyndryl.com"
+  },
+  {
+    "id": "workday:flutter",
+    "name": "Flutter Entertainment",
+    "atsProvider": "workday",
+    "atsSlug": "flutter",
+    "boardUrl": "https://flutterbe.wd3.myworkdayjobs.com/en-US/group_external?q=Hyderabad",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Workday group_external Hyd searchText; daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.flutter.com"
   }
 ]
