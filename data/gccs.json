@@ -53,7 +53,7 @@
     "name": "Wells Fargo",
     "industry": "Finance",
     "website": "https://www.wellsfargo.com",
-    "careers": "https://www.wellsfargo.com/about/careers/"
+    "careers": "https://wf.wd1.myworkdayjobs.com/en-US/WellsFargoJobs?locations=bddaef21b52c01016acaf37b87fe0000"
   },
   {
     "id": "goldmansachs",
@@ -179,7 +179,7 @@
     "name": "McDonald's",
     "industry": "Consumer",
     "website": "https://www.mcdonalds.com",
-    "careers": "https://careers.mcdonalds.com"
+    "careers": "https://mcdonalds.dejobs.org/locations/hyderabad-ind/jobs/"
   },
   {
     "id": "marriott",
@@ -257,5 +257,89 @@
     "industry": "Finance",
     "website": "https://www.invesco.com",
     "careers": "https://careers.invesco.com"
+  },
+  {
+    "id": "hsbc",
+    "name": "HSBC",
+    "industry": "Finance",
+    "website": "https://www.hsbc.com",
+    "careers": "https://portal.careers.hsbc.com/careers?location=Hyderabad&domain=hsbc.com"
+  },
+  {
+    "id": "msd",
+    "name": "MSD",
+    "industry": "Pharma",
+    "website": "https://www.msd.com",
+    "careers": "https://jobs.msd.com/gb/en/search-results?keywords=&location=Hyderabad"
+  },
+  {
+    "id": "zoetis",
+    "name": "Zoetis",
+    "industry": "Pharma",
+    "website": "https://www.zoetis.com",
+    "careers": "https://zoetis.wd5.myworkdayjobs.com/en-US/broadbean_external?locations=7e068dcca6541000b7050500b4a80000"
+  },
+  {
+    "id": "hartford",
+    "name": "The Hartford",
+    "industry": "Finance",
+    "website": "https://www.thehartford.com",
+    "careers": "https://www.jointhehartford.com/jobs/in/"
+  },
+  {
+    "id": "desri",
+    "name": "DESRI",
+    "industry": "Energy",
+    "website": "https://www.desri.com",
+    "careers": "https://ats.rippling.com/en-GB/desri-careers/jobs?jobBoardSlug=desri-careers&country=IN"
+  },
+  {
+    "id": "statestreet",
+    "name": "State Street",
+    "industry": "Finance",
+    "website": "https://www.statestreet.com",
+    "careers": "https://careers.statestreet.com/global/en/search-results?keywords=&location=Hyderabad"
+  },
+  {
+    "id": "jadeglobal",
+    "name": "Jade Global",
+    "industry": "Tech",
+    "website": "https://www.jadeglobal.com",
+    "careers": "https://jadeglobal.wd1.myworkdayjobs.com"
+  },
+  {
+    "id": "flutter",
+    "name": "Flutter Entertainment",
+    "industry": "Consumer",
+    "website": "https://www.flutter.com",
+    "careers": "https://careers.flutter.com"
+  },
+  {
+    "id": "kyndryl",
+    "name": "Kyndryl",
+    "industry": "Tech",
+    "website": "https://www.kyndryl.com",
+    "careers": "https://kyndryl.wd5.myworkdayjobs.com"
+  },
+  {
+    "id": "deloitte-sa",
+    "name": "Deloitte South Asia",
+    "industry": "Consulting",
+    "website": "https://www.deloitte.com",
+    "careers": "https://southasiacareers.deloitte.com/search/?q=&locationsearch=hyderabad"
+  },
+  {
+    "id": "blueyonder",
+    "name": "Blue Yonder",
+    "industry": "Tech",
+    "website": "https://blueyonder.com",
+    "careers": "https://jda.wd5.myworkdayjobs.com/en-US/jda_careers?locations=6a96b8f1ac9e104419f0cb8219095194"
+  },
+  {
+    "id": "cognida",
+    "name": "Cognida.ai",
+    "industry": "Tech",
+    "website": "https://www.cognida.ai",
+    "careers": "https://www.cognida.ai/careers/"
   }
 ]
