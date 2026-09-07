@@ -972,5 +972,18 @@
     "note": "jobs-only \u2014 Keka embed; Hyd via geoFilter; daily via sync-ats-jobs",
     "employerType": "startup",
     "website": "https://www.cognida.ai"
+  },
+  {
+    "id": "rippling:desri",
+    "name": "DESRI",
+    "atsProvider": "rippling",
+    "atsSlug": "desri",
+    "boardUrl": "https://ats.rippling.com/en-GB/desri-careers/jobs?jobBoardSlug=desri-careers&country=IN",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Rippling board API; Hyd via workLocation geoFilter; daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.desri.com"
   }
 ]
