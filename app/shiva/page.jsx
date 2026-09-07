@@ -440,6 +440,7 @@ export default function AdminPage() {
           >
             {loading ? "Refreshing…" : "Refresh"}
           </button>
+          <Link className="btn btn-ghost" href="/shiva/sources">Funnel</Link>
           <Link className="btn btn-ghost" href="/">Map</Link>
         </div>
       </div>
