@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 /* App-style bottom tab bar — mobile only (CSS hides it >768px). Five core
@@ -50,7 +51,7 @@ const TABS = [
   { href: "/more", label: "More", icon: ICONS.insights },
 ];
 
-export default function MobileTabBar({ onMapTab }) {
+function MobileTabBarInner({ onMapTab }) {
   const path = usePathname();
   const searchParams = useSearchParams();
   const homeJobs = path === "/" && searchParams.get("view") === "jobs";
@@ -83,5 +84,13 @@ export default function MobileTabBar({ onMapTab }) {
         );
       })}
     </nav>
+  );
+}
+
+export default function MobileTabBar(props) {
+  return (
+    <Suspense fallback={<nav className="mobile-tabbar" aria-label="Primary" />}>
+      <MobileTabBarInner {...props} />
+    </Suspense>
   );
 }
