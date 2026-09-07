@@ -907,5 +907,18 @@
     "note": "jobs-only \u2014 Zoho Recruit Careers (Hyd junior/.NET); daily via sync-ats-jobs",
     "employerType": "startup",
     "website": "https://www.productspace.com"
+  },
+  {
+    "id": "workday:kyndrylearly",
+    "name": "Kyndryl Early Careers",
+    "atsProvider": "workday",
+    "atsSlug": "kyndrylearly",
+    "boardUrl": "https://kyndryl.wd5.myworkdayjobs.com/en-US/KyndrylEarlyCareers?locations=87f83995f87010001211ab0c2b4d0000",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Workday Early Careers Hyd location facet; daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.kyndryl.com"
   }
 ]
