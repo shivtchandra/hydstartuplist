@@ -154,48 +154,78 @@ export async function GET(req) {
     jobs.push(j);
   }
 
-  // Firestore docs max out at 1MB — trim descriptions if the payload is fat
+  // Firestore docs max out at 1MB — escalate description trim until under budget.
   const MAX_DOC = 900_000;
+  const docBytes = (list) =>
+    Buffer.byteLength(JSON.stringify({ jobs: list, fetchedAt, boardCount: allBoards.length }), "utf8");
   let payloadJobs = jobs;
-  let jsonSize = Buffer.byteLength(JSON.stringify({ jobs: payloadJobs, fetchedAt }), "utf8");
+  let jsonSize = docBytes(payloadJobs);
   if (jsonSize > MAX_DOC) {
-    payloadJobs = jobs.map((j) => {
-      if (!j.description || j.description.length <= 2000) return j;
-      return { ...j, description: j.description.slice(0, 2000) };
-    });
-    jsonSize = Buffer.byteLength(JSON.stringify({ jobs: payloadJobs, fetchedAt }), "utf8");
+    payloadJobs = payloadJobs.map((j) =>
+      j.description && j.description.length > 2000 ? { ...j, description: j.description.slice(0, 2000) } : j
+    );
+    jsonSize = docBytes(payloadJobs);
   }
   if (jsonSize > MAX_DOC) {
-    payloadJobs = payloadJobs.map(({ description, ...rest }) => ({
-      ...rest,
-      description: description ? description.slice(0, 800) : null,
-    }));
+    payloadJobs = payloadJobs.map((j) =>
+      j.description ? { ...j, description: j.description.slice(0, 800) } : j
+    );
+    jsonSize = docBytes(payloadJobs);
+  }
+  if (jsonSize > MAX_DOC) {
+    payloadJobs = payloadJobs.map(({ description, ...rest }) => ({ ...rest, description: null }));
+    jsonSize = docBytes(payloadJobs);
+  }
+  if (jsonSize > MAX_DOC) {
+    // Last resort: drop closed roles from the snapshot so the write can succeed.
+    payloadJobs = payloadJobs.filter((j) => j.status !== "closed");
+    jsonSize = docBytes(payloadJobs);
   }
 
-  await db.runTransaction(async tx => {
-    const lock = (await tx.get(lease.ref)).data();
-    if (lock?.leaseToken !== lease.token || lock.leaseUntil < Date.now()) throw new Error("Stale sync rejected");
-    tx.set(db.collection("job_board").doc("ats_latest"), {
-    jobs: payloadJobs,
-    lifecycleVersion: 1,
-    fetchedAt,
-    boardCount: allBoards.length,
-    jobCount: payloadJobs.length,
-    lastBatchSize: batch.length,
+  try {
+    await db.runTransaction(async (tx) => {
+      const lock = (await tx.get(lease.ref)).data();
+      if (lock?.leaseToken !== lease.token || lock.leaseUntil < Date.now()) {
+        throw new Error("Stale sync rejected");
+      }
+      tx.set(db.collection("job_board").doc("ats_latest"), {
+        jobs: payloadJobs,
+        lifecycleVersion: 1,
+        fetchedAt,
+        boardCount: allBoards.length,
+        jobCount: payloadJobs.length,
+        lastBatchSize: batch.length,
+        payloadBytes: jsonSize,
+      });
+      tx.set(lease.ref, { leaseUntil: 0, lastSuccessAt: Date.now() }, { merge: true });
     });
-    tx.set(lease.ref, { leaseUntil: 0, lastSuccessAt: Date.now() }, { merge: true });
-  });
+  } catch (err) {
+    try {
+      await lease.ref.set({ leaseUntil: 0, error: String(err.message || err) }, { merge: true });
+    } catch {}
+    return NextResponse.json(
+      { error: String(err.message || err), payloadBytes: jsonSize, feedSize: jobs.length },
+      { status: 500 }
+    );
+  }
 
-  const prevIds = new Set(prevJobs.map((j) => String(j.id)));
-  const nextIds = new Set(jobs.filter(j => j.status !== "closed").map((j) => String(j.id)));
-  const site = getSiteUrl();
-  const updated = [...nextIds]
-    .filter((id) => !prevIds.has(id))
-    .map((id) => `${site}/jobs/${jobUrlId(id)}`);
-  const deleted = [...prevIds]
-    .filter((id) => !nextIds.has(id))
-    .map((id) => `${site}/jobs/${jobUrlId(id)}`);
-  const indexing = await notifyJobUrls({ updated, deleted });
+  let indexing = null;
+  try {
+    const prevIds = new Set(prevJobs.map((j) => String(j.id)));
+    const nextIds = new Set(jobs.filter((j) => j.status !== "closed").map((j) => String(j.id)));
+    const site = getSiteUrl();
+    const updated = [...nextIds]
+      .filter((id) => !prevIds.has(id))
+      .slice(0, 200)
+      .map((id) => `${site}/jobs/${jobUrlId(id)}`);
+    const deleted = [...prevIds]
+      .filter((id) => !nextIds.has(id))
+      .slice(0, 200)
+      .map((id) => `${site}/jobs/${jobUrlId(id)}`);
+    indexing = await notifyJobUrls({ updated, deleted });
+  } catch (err) {
+    indexing = { error: String(err.message || err) };
+  }
 
   const firstUnattempted = attempted.findIndex((v) => !v);
   const advanced = firstUnattempted === -1 ? batch.length : firstUnattempted;
@@ -208,7 +238,8 @@ export async function GET(req) {
     boardsAttempted: attempted.filter(Boolean).length,
     hydJobsWritten: newJobs.length,
     feedSize: jobs.length,
-    withDescription: jobs.filter((j) => j.description).length,
+    payloadBytes: jsonSize,
+    withDescription: payloadJobs.filter((j) => j.description).length,
     offset: start,
     nextOffset,
     indexing,
