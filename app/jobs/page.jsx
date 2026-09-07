@@ -23,9 +23,9 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata() {
   const jobs = await getAllJobs();
   const count = jobs.length;
-  const title = `Startup Jobs in Hyderabad – ${count}+ Open Roles at Tech Companies`;
+  const title = `Jobs in Hyderabad – ${count}+ Startup & Tech Openings | Mapping HYD`;
   const description =
-    "Find startup jobs in Hyderabad at 1,000+ mapped companies. Browse open roles from SaaS, fintech, and deeptech startups in Gachibowli, Madhapur, and HITEC City — plus broader IT openings.";
+    "Jobs in Hyderabad at 1,000+ mapped startups and tech companies. Browse open roles across Gachibowli, Madhapur, and HITEC City — including fresher jobs in Hyderabad, SaaS, and fintech.";
   return {
     title,
     description,
@@ -37,12 +37,12 @@ export async function generateMetadata() {
       type: "website",
     },
     keywords: [
+      "jobs in Hyderabad",
       "startup jobs hyderabad",
-      "hyderabad startup jobs",
+      "fresher jobs in Hyderabad",
       "tech jobs hyderabad startups",
       "hyderabad startup careers",
       "saas jobs hyderabad",
-      "fintech jobs hyderabad",
     ],
   };
 }

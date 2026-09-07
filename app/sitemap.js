@@ -14,6 +14,7 @@ const SITE_URL = getSiteUrl();
 
 const STATIC_ROUTES = [
   { path: "",         priority: 1.0, changeFrequency: "hourly"  },
+  { path: "/jobs/fresher", priority: 0.9, changeFrequency: "daily" },
   { path: "/jobs",    priority: 0.95, changeFrequency: "hourly" },
   { path: "/feed",    priority: 0.9, changeFrequency: "hourly"  },
   { path: "/news",    priority: 0.8, changeFrequency: "daily"   },
@@ -31,6 +32,7 @@ const STORY_SLUGS = [
   "bengaluru-vs-hyderabad-startup-limelight",
   "hyderabad-startup-hiring-report-2026",
   "space-startups-hyderabad",
+  "t-hub-hyderabad",
 ];
 
 function readStartupSlugs() {

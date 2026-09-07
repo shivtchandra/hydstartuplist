@@ -46,12 +46,11 @@ export default function GccSeoIndex() {
     <section className="home-seo" aria-label="GCC companies in Hyderabad">
       <div className="home-seo-inner">
         <header className="home-seo-head">
-          <h2>GCC companies in Hyderabad</h2>
+          <h1>GCC Hyderabad — Global Capability Centres</h1>
           <p>
-            A directory of <strong>{total}+ Global Capability Centres (GCCs) in Hyderabad</strong> — the
-            engineering, product and operations arms that global companies run out of HITEC City, Gachibowli
-            and the Financial District. Browse GCC companies by industry and jump straight to their Hyderabad
-            careers pages.
+            A directory of <strong>{total}+ GCC companies in Hyderabad</strong> — Global Capability Centres
+            running engineering, product and operations out of HITEC City, Gachibowli and the Financial
+            District. Browse the GCC Hyderabad list by industry and jump to careers pages.
           </p>
           <nav className="home-seo-sections" aria-label="Sections">
             <Link href="/jobs">Startup &amp; GCC Jobs</Link>

@@ -100,8 +100,48 @@ export default async function HomeSeoIndex() {
   const hiringCount = all.filter((s) => visibleHiring(s)).length;
   const year = new Date().getFullYear();
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How many companies in Hyderabad are on this map?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `Mapping HYD lists ${total.toLocaleString()}+ companies in Hyderabad across tech areas, updated for ${year}.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How many startups are mapped in Hyderabad?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `Mapping HYD lists ${total.toLocaleString()}+ startups across Hyderabad tech areas, updated for ${year}.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Where can I find startup jobs in Hyderabad?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Open https://startups.mapmyhyd.com/jobs for jobs in Hyderabad, or https://startups.mapmyhyd.com/jobs/fresher for fresher and early-career roles. Free, no signup.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is Mapping HYD Startups free?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. Browse the map, company pages, and jobs without an account.",
+        },
+      },
+    ],
+  };
+
   return (
     <section className="home-seo" aria-label="Hyderabad Startup Directory">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <div className="home-seo-bridge" aria-hidden="true">
         <span className="home-seo-bridge-label">
           Browse the directory
@@ -112,9 +152,9 @@ export default async function HomeSeoIndex() {
       <HomeSeoReveal>
         <div className="home-seo-inner">
           <header className="home-seo-head home-seo-step">
-            <h2>Hyderabad Startup Ecosystem &amp; Directory</h2>
+            <h1>Companies in Hyderabad — Startup Directory</h1>
             <p className="home-seo-sub">
-              A verified directory of startups across HITEC City, Gachibowli, Madhapur, and beyond — updated for {year}.
+              A verified directory of companies in Hyderabad across HITEC City, Gachibowli, Madhapur, and beyond — updated for {year}.
             </p>
             <p className="home-seo-stats-line">
               <strong>{total.toLocaleString()}+</strong> startups
@@ -124,9 +164,10 @@ export default async function HomeSeoIndex() {
               <strong>{sectorMap.size}</strong> sectors
             </p>
             <nav className="home-seo-actions" aria-label="Explore">
-              <Link href="/jobs">Startup Jobs</Link>
+              <Link href="/jobs">Jobs in Hyderabad</Link>
+              <Link href="/jobs/fresher">Fresher jobs in Hyderabad</Link>
               <Link href="/industries">Industries</Link>
-              <Link href="/insights">Insights</Link>
+              <Link href="/product-companies">Product companies</Link>
               <Link href="/submit">Add your startup</Link>
             </nav>
           </header>
@@ -186,6 +227,25 @@ export default async function HomeSeoIndex() {
               </div>
             </div>
           )}
+
+          <section className="home-seo-faq home-seo-step" aria-label="FAQ">
+            <h2 className="home-seo-section-title">FAQ</h2>
+            <p>
+              <strong>How many startups are on Mapping HYD?</strong> This directory lists{" "}
+              <strong>{total.toLocaleString()}+</strong> Hyderabad startups across HITEC City,
+              Gachibowli, Madhapur, and more — updated for {year}.
+            </p>
+            <p>
+              <strong>Where can I find jobs in Hyderabad?</strong>{" "}
+              <Link href="/jobs">Browse live openings</Link> or jump to{" "}
+              <Link href="/jobs/fresher">fresher jobs in Hyderabad</Link> — free, no signup.
+            </p>
+            <p>
+              <strong>Is Mapping HYD Startups free?</strong> Yes. Browse the map, company pages, and
+              jobs without creating an account.{" "}
+              <Link href="/submit">Submit your company</Link> if you are missing.
+            </p>
+          </section>
 
           <div className="home-seo-cta home-seo-step">
             <p>

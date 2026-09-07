@@ -57,10 +57,33 @@ export default async function AreaDetailPage({ params }) {
       name: `${landing.area}, Hyderabad`,
     },
   };
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `How many startups are in ${landing.area}, Hyderabad?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `Mapping HYD lists ${count.toLocaleString()} startups in ${landing.area} (${sharePct}% of mapped Hyderabad startups). ${hiringCount} are hiring.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `Where can I find startup jobs in ${landing.area}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `Browse ${jobsCount.toLocaleString()} tracked roles near ${landing.area} on Mapping HYD Jobs.`,
+        },
+      },
+    ],
+  };
 
   return (
     <div className="page-with-nav">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <SiteNav active="insights" />
       <div className="feed-page industry-page">
         <nav className="industry-crumbs" aria-label="Breadcrumb">
@@ -161,6 +184,20 @@ export default async function AreaDetailPage({ params }) {
             </div>
           </section>
         )}
+
+        <section className="industry-section" aria-label="FAQ">
+          <h2>FAQ</h2>
+          <p className="industry-section-sub">
+            <strong>How many startups are in {landing.area}?</strong> {count.toLocaleString()} on
+            this map ({sharePct}% of Hyderabad), with {hiringCount.toLocaleString()} hiring now.
+          </p>
+          <p className="industry-section-sub">
+            <strong>Jobs nearby?</strong>{" "}
+            <Link href={`/jobs/in/${landing.slug}`}>
+              See startup jobs in {landing.area} →
+            </Link>
+          </p>
+        </section>
 
         <section className="industry-section">
           <h2>Other areas</h2>

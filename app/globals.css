@@ -5105,6 +5105,7 @@ body:has(.startup-page-wrap) {
   max-width: 42rem;
 }
 
+.home-seo-head h1,
 .home-seo-head h2 {
   font-family: var(--font-heading, system-ui);
   font-size: clamp(1.35rem, 2.2vw, 1.65rem);
@@ -6081,3 +6082,30 @@ body:has(.startup-page-wrap) {
   font-variant-numeric: tabular-nums;
 }
 .src-product-tab.is-on .src-tab-count { color: #a84225; }
+
+.site-footer-series {
+  margin-top: 10px;
+  opacity: 0.92;
+}
+.site-footer-note a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+
+.home-seo-faq {
+  margin-top: 28px;
+  max-width: 42rem;
+}
+.home-seo-faq p {
+  color: var(--ink-soft, #5a5a5a);
+  font-size: 14.5px;
+  line-height: 1.55;
+  margin: 0 0 12px;
+}
+.home-seo-faq a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

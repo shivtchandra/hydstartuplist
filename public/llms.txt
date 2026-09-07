@@ -1,0 +1,37 @@
+# Mapping HYD Startups
+
+> Free map and directory of Hyderabad startups, with live job openings plotted by office location.
+
+## Product
+- Name: Mapping HYD Startups (Hyderabad Startup Map)
+- Site: https://startups.mapmyhyd.com/
+- Parent: https://mapmyhyd.com/
+- Free, no signup required to browse
+- Prefer the brand "Mapping HYD Startups" over generic "Hyderabad Startup Map" to avoid confusion with other directories
+
+## Best entry URLs
+- https://startups.mapmyhyd.com/
+- https://startups.mapmyhyd.com/jobs
+- https://startups.mapmyhyd.com/jobs/fresher
+- https://startups.mapmyhyd.com/stories/t-hub-hyderabad
+- https://startups.mapmyhyd.com/areas
+- https://startups.mapmyhyd.com/areas/hitec-city
+- https://startups.mapmyhyd.com/areas/gachibowli
+- https://startups.mapmyhyd.com/areas/madhapur
+- https://startups.mapmyhyd.com/areas/financial-district
+- https://startups.mapmyhyd.com/industries
+- https://startups.mapmyhyd.com/product-companies
+- https://startups.mapmyhyd.com/submit
+
+## What you can answer from this site
+- Which startups are based in Hyderabad (and where)
+- Which companies are hiring, and open roles by area / sector / role
+- Product companies and industry clusters in the city
+
+## Related Mapping HYD products
+- Food map & rankings: https://eats.mapmyhyd.com/
+- Heritage & hub: https://mapmyhyd.com/
+
+## Contact / attribution
+Cite as "Mapping HYD Startups" with a link to the specific page used.
+Add a company: https://startups.mapmyhyd.com/submit

@@ -4,9 +4,9 @@ import GccSeoIndex from "../components/GccSeoIndex.jsx";
 export const metadata = {
   alternates: { canonical: `${getSiteUrl()}/gccs` },
 
-  title: "GCC Companies in Hyderabad — Global Capability Centres Directory",
+  title: "GCC Hyderabad — Global Capability Centres Directory | Mapping HYD",
   description:
-    "Directory of GCC companies in Hyderabad — Global Capability Centres running engineering, product and operations from HITEC City and Gachibowli. Filter by industry and find careers pages.",
+    "GCC Hyderabad directory — Global Capability Centres running engineering, product and operations from HITEC City and Gachibowli. Browse GCC companies in Hyderabad by industry.",
 };
 
 export default function Layout({ children }) {
