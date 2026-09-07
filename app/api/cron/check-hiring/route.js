@@ -121,14 +121,33 @@ function roleSalary(source, j) {
   return null;
 }
 
+function rolePostedAt(source, j) {
+  const raw =
+    source === "lever"
+      ? j.createdAt
+      : source === "greenhouse"
+        ? j.updated_at || j.first_published
+        : source === "ashby"
+          ? j.publishedAt || j.createdAt
+          : source === "smartrecruiters"
+            ? j.releasedDate || j.createdOn
+            : j.createdAt || j.publishedAt || j.updated_at || null;
+  if (raw == null || raw === "") return null;
+  const time = typeof raw === "number" ? raw : Date.parse(raw);
+  if (!Number.isFinite(time) || time > Date.now() + 60_000) return null;
+  return new Date(time).toISOString();
+}
+
 function roleOf(source, j, boardUrl) {
   const title = j.title || j.text || j.name || "Open Role";
   const url = j.absolute_url || j.hostedUrl || j.applyUrl || j.jobUrl || j.url || j.ref || boardUrl;
   const description = roleDescription(source, j);
   const salary = roleSalary(source, j);
+  const postedAt = rolePostedAt(source, j);
   const role = { title, url };
   if (description) role.description = description;
   if (salary) role.salary = salary;
+  if (postedAt) role.postedAt = postedAt;
   return role;
 }
 
@@ -371,7 +390,20 @@ export async function GET(req) {
         if (db) {
           try {
             const prevRoles = entry.hiring?.roles || [];
-            await db.collection("startups_dynamic").doc(entry.id).set({ hiring: h, updatedAt: new Date().toISOString() }, { merge: true });
+            const prevByUrl = new Map(prevRoles.map((r) => [r.url, r]));
+            const checkedAt = h.checkedAt || new Date().toISOString();
+            const hiringWithSeen = {
+              ...h,
+              roles: (h.roles || []).map((role) => {
+                const prev = prevByUrl.get(role.url);
+                return {
+                  ...role,
+                  firstSeenAt: prev?.firstSeenAt || checkedAt,
+                  postedAt: role.postedAt || prev?.postedAt || null,
+                };
+              }),
+            };
+            await db.collection("startups_dynamic").doc(entry.id).set({ hiring: hiringWithSeen, updatedAt: checkedAt }, { merge: true });
             const site = getSiteUrl();
             const prevUrls = new Set(prevRoles.map((r) => r.url));
             const nextUrls = new Set((h.roles || []).map((r) => r.url));

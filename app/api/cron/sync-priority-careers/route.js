@@ -4,6 +4,7 @@ import {
   loadPriorityCareers,
   scrapePriorityEmployer,
   hiringToPublicJobs,
+  mergePriorityJobs,
 } from "../../../../lib/priority-careers.js";
 import { notifyJobUrls } from "../../../../lib/google-indexing.js";
 import { jobUrlId } from "../../../../lib/jobs-seo.js";
@@ -57,8 +58,20 @@ export async function GET(req) {
         try {
           const prevSnap = await db.collection("startups_dynamic").doc(entry.startupId).get();
           const prevRoles = prevSnap.exists ? prevSnap.data()?.hiring?.roles || [] : [];
+          const prevByUrl = new Map(prevRoles.map((r) => [r.url, r]));
+          const hiringWithSeen = {
+            ...hiring,
+            roles: (hiring.roles || []).map((role) => {
+              const prev = prevByUrl.get(role.url);
+              return {
+                ...role,
+                firstSeenAt: prev?.firstSeenAt || hiring.checkedAt || fetchedAt,
+                postedAt: role.postedAt || prev?.postedAt || null,
+              };
+            }),
+          };
           await db.collection("startups_dynamic").doc(entry.startupId).set(
-            { hiring, updatedAt: fetchedAt },
+            { hiring: hiringWithSeen, updatedAt: fetchedAt },
             { merge: true }
           );
           const site = getSiteUrl();
@@ -80,9 +93,15 @@ export async function GET(req) {
 
   await Promise.all(Array.from({ length: Math.min(CONCURRENCY, entries.length) }, worker));
 
+  const prevSnap = await db.collection("job_board").doc("priority_careers_latest").get();
+  const prevJobs = prevSnap.exists ? prevSnap.data()?.jobs || [] : [];
+  const scrapedEmployerIds = results.filter((r) => r.ok).map((r) => r.id);
+  const merged = mergePriorityJobs(prevJobs, jobs, { checkedAt: fetchedAt, scrapedEmployerIds });
+
   await db.collection("job_board").doc("priority_careers_latest").set({
-    jobs,
+    jobs: merged,
     fetchedAt,
+    lifecycleVersion: 1,
     employers: results.filter((r) => r.ok).length,
     results,
   });
@@ -91,7 +110,8 @@ export async function GET(req) {
     success: true,
     employers: entries.length,
     hit: results.filter((r) => r.ok).length,
-    jobs: jobs.length,
+    jobs: merged.length,
+    scraped: jobs.length,
     fetchedAt,
     results,
   });
