@@ -894,5 +894,18 @@
     "note": "jobs-only \u2014 DirectEmployers jobsyn Solr (X-Origin ibm.dejobs.org); daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.ibm.com"
+  },
+  {
+    "id": "zoho:productspace",
+    "name": "ProductSpace Software",
+    "atsProvider": "zoho",
+    "atsSlug": "productspace",
+    "boardUrl": "https://productspace.zohorecruit.in/jobs/Careers",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Zoho Recruit Careers (Hyd junior/.NET); daily via sync-ats-jobs",
+    "employerType": "startup",
+    "website": "https://www.productspace.com"
   }
 ]
