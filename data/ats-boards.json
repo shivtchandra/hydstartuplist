@@ -933,5 +933,18 @@
     "note": "jobs-only \u2014 Workday group_external Hyd searchText; daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.flutter.com"
+  },
+  {
+    "id": "workday:jadeglobal",
+    "name": "Jade Global",
+    "atsProvider": "workday",
+    "atsSlug": "jadeglobal",
+    "boardUrl": "https://jadeglobal.wd5.myworkdayjobs.com/en-US/jade_careers?locations=8bedb2882e801001b6c65e6fcc630000",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Workday jade_careers Hyd location facets; daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.jadeglobal.com"
   }
 ]
