@@ -998,5 +998,70 @@
     "note": "jobs-only \u2014 Job2Web HTML Hyd locationsearch; daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.deloitte.com"
+  },
+  {
+    "id": "workday:zoetis",
+    "name": "Zoetis",
+    "atsProvider": "workday",
+    "atsSlug": "zoetis",
+    "boardUrl": "https://zoetis.wd5.myworkdayjobs.com/en-US/broadbean_external?locations=7e068dcca6541000b7050500b4a80000",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Workday Hyd location facet; daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.zoetis.com"
+  },
+  {
+    "id": "phenom:msd",
+    "name": "MSD",
+    "atsProvider": "phenom",
+    "atsSlug": "msd",
+    "boardUrl": "https://jobs.msd.com/gb/en/search-results?keywords=&location=Hyderabad",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Phenom widgets Hyd city (not myGwork); daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.msd.com"
+  },
+  {
+    "id": "eightfold:hsbc",
+    "name": "HSBC",
+    "atsProvider": "eightfold",
+    "atsSlug": "hsbc",
+    "boardUrl": "https://portal.careers.hsbc.com/careers?location=Hyderabad&domain=hsbc.com&sort_by=relevance",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Eightfold apply API Hyd location; daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.hsbc.com"
+  },
+  {
+    "id": "jobsyn:mcdonalds",
+    "name": "McDonald's",
+    "atsProvider": "jobsyn",
+    "atsSlug": "mcdonalds",
+    "boardUrl": "https://mcdonalds.dejobs.org/locations/hyderabad-ind/jobs/",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 DirectEmployers jobsyn Solr Hyd; daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.mcdonalds.com"
+  },
+  {
+    "id": "workday:hartford",
+    "name": "The Hartford",
+    "atsProvider": "workday",
+    "atsSlug": "hartford",
+    "boardUrl": "https://www.jointhehartford.com/jobs/in/",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Workday Hyd GCC (Puppalaguda); daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.thehartford.com"
   }
 ]
