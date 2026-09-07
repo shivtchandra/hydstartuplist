@@ -946,5 +946,18 @@
     "note": "jobs-only \u2014 Workday jade_careers Hyd location facets; daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.jadeglobal.com"
+  },
+  {
+    "id": "phenom:statestreet",
+    "name": "State Street",
+    "atsProvider": "phenom",
+    "atsSlug": "statestreet",
+    "boardUrl": "https://careers.statestreet.com/global/en/search-results?keywords=&location=Hyderabad",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Phenom widgets Hyd city facet; apply via Workday; daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.statestreet.com"
   }
 ]
