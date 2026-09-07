@@ -959,5 +959,18 @@
     "note": "jobs-only \u2014 Phenom widgets Hyd city facet; apply via Workday; daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.statestreet.com"
+  },
+  {
+    "id": "keka:cognida",
+    "name": "Cognida.ai",
+    "atsProvider": "keka",
+    "atsSlug": "cognida",
+    "boardUrl": "https://www.cognida.ai/careers/",
+    "mapPin": false,
+    "startupId": null,
+    "active": true,
+    "note": "jobs-only \u2014 Keka embed; Hyd via geoFilter; daily via sync-ats-jobs",
+    "employerType": "startup",
+    "website": "https://www.cognida.ai"
   }
 ]
