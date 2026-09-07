@@ -17,6 +17,7 @@ import {
   JOB_ROLE_LANDINGS,
   jobUrlId,
 } from "../../lib/jobs-seo.js";
+import JobsSeoIndex from "../components/JobsSeoIndex.jsx";
 
 export const dynamic = "force-dynamic";
 
@@ -64,7 +65,15 @@ export default async function JobsPage({ searchParams = {} }) {
   }
   if (process.env.LANDING_V2 !== "0") {
     const initial = await searchOpportunities(searchParams).catch(() => ({ jobs: [], total: 0, stale: true }));
-    return <Suspense fallback={<p>Loading opportunities…</p>}><OpportunityExplorer initial={initial} /></Suspense>;
+    const allJobs = await getAllJobs().catch(() => []);
+    return (
+      <>
+        <Suspense fallback={<p>Loading opportunities…</p>}>
+          <OpportunityExplorer initial={initial} />
+        </Suspense>
+        <JobsSeoIndex jobCount={allJobs.length || initial.total || 0} />
+      </>
+    );
   }
   const [jobs, fetchedAt] = await Promise.all([getAllJobs(), getFetchedAt()]);
   const startupCount = jobs.filter((j) => j.category === "startup").length;
@@ -85,7 +94,7 @@ export default async function JobsPage({ searchParams = {} }) {
         <JobsBreadcrumbs items={breadcrumbs} />
 
         <div className="feed-head">
-          <h1>Startup Jobs in Hyderabad</h1>
+          <h1>Jobs in Hyderabad</h1>
           <p className="jobs-intro">
             <strong>{jobs.length} open roles</strong>
             {startupCount > 0 ? (
