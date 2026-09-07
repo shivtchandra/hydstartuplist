@@ -38,7 +38,19 @@
  .op-map-home .op-workspace{display:flex;flex-direction:column}
  .op-map-home .op-view-map .op-context{display:block;order:-1;width:100%;height:260px}
  .op-map-home .op-view-map .op-results{display:block;width:100%;height:auto;min-height:0;overflow:visible}
- .op-map-home .op-view-list .op-results{height:auto;min-height:0}
+ /* List view: let the document scroll. overflow:auto + overscroll-behavior:contain
+    on a height:auto panel traps touch gestures on iOS even when nothing overflows. */
+ .op-map-home .op-workspace.op-view-list:not(.op-has-detail){
+   overflow:visible;
+   height:auto;
+ }
+ .op-map-home .op-view-list .op-results{
+   height:auto;
+   min-height:0;
+   max-height:none;
+   overflow:visible;
+   overscroll-behavior:auto;
+ }
  .op-map-home .op-map-wrap{height:260px;min-height:0;border:0}
  .op-map-home .op-has-detail .op-results{display:none}
  .op-map-home .op-has-detail .op-context{height:auto}
@@ -438,18 +450,23 @@ body:has(.op-shell) .home-seo{
   contain-intrinsic-size:1000px;
 }
 /* list-only: unlock page scroll — don't trap in overflow:hidden panel */
+.op-map-home .op-workspace.op-view-list:not(.op-has-detail){
+  overflow:visible;
+  height:auto;
+}
+.op-map-home .op-workspace.op-view-list:not(.op-has-detail) .op-results{
+  height:auto;
+  min-height:0;
+  max-height:none;
+  overflow:visible;
+  overscroll-behavior:auto;
+}
 @media (min-width:1024px){
   .op-map-home .op-workspace.op-view-list:not(.op-has-detail){
-    overflow:visible;
-    height:auto;
     border:0;
     background:transparent;
   }
   .op-map-home .op-workspace.op-view-list:not(.op-has-detail) .op-results{
-    height:auto;
-    min-height:0;
-    max-height:none;
-    overflow:visible;
     padding:0 4px;
   }
 }

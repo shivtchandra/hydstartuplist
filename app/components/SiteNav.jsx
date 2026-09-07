@@ -42,10 +42,17 @@ export default function SiteNav({ active = "", mode }) {
   function onSearch(e) {
     e.preventDefault();
     const query = q.trim();
-    const view = exploreMode === "jobs" ? "jobs" : "companies";
-    const params = new URLSearchParams({ view });
+    if (exploreMode === "jobs") {
+      const params = new URLSearchParams();
+      if (query) params.set("q", query);
+      const qs = params.toString();
+      router.push(qs ? `/jobs?${qs}` : "/jobs");
+      return;
+    }
+    const params = new URLSearchParams();
     if (query) params.set("q", query);
-    router.push(`/?${params.toString()}`);
+    const qs = params.toString();
+    router.push(qs ? `/?${qs}` : "/");
   }
 
   return (

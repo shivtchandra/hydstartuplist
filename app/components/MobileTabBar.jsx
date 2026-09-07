@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 /* App-style bottom tab bar — mobile only (CSS hides it >768px). Five core
    destinations in the thumb zone. On the map page ("/"), the Map tab doesn't
@@ -52,11 +52,18 @@ const TABS = [
 
 export default function MobileTabBar({ onMapTab }) {
   const path = usePathname();
+  const searchParams = useSearchParams();
+  const homeJobs = path === "/" && searchParams.get("view") === "jobs";
 
   return (
     <nav className="mobile-tabbar" aria-label="Primary">
       {TABS.map((t) => {
-        const active = t.href === "/" ? path === "/" : path.startsWith(t.href);
+        const active =
+          t.href === "/"
+            ? path === "/" && !homeJobs
+            : t.href === "/jobs"
+              ? path.startsWith("/jobs") || homeJobs
+              : path.startsWith(t.href);
         const cls = `mtb-tab${active ? " active" : ""}`;
 
         if (t.href === "/" && onMapTab) {

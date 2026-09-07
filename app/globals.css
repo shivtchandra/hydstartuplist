@@ -2447,6 +2447,11 @@ a:hover:not(.btn) {
     display: none;
   }
 
+  /* Startups/Jobs toggle duplicates Explore/Jobs in the bottom tab bar. */
+  .explore-modes {
+    display: none !important;
+  }
+
   .tn-cta {
     height: 34px;
     padding: 0 12px;
