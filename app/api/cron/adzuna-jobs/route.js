@@ -34,6 +34,8 @@ function normalizeAdzunaResult(r, fetchedAt) {
     location: r.location?.display_name || "Hyderabad",
     url: r.redirect_url,
     postedAt: r.created,
+    sourcePostedAt: r.created,
+    firstSeenAt: r.created,
     fetchedAt,
     description: description
       ? description.length > DESC_MAX
@@ -71,7 +73,7 @@ export async function GET(req) {
       app_key: appKey,
       where: "Hyderabad",
       category: "it-jobs",
-      max_days_old: "2",
+      max_days_old: "3",
       results_per_page: "50",
       sort_by: "date",
       "content-type": "application/json",
