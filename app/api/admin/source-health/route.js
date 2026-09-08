@@ -32,28 +32,31 @@ export async function GET(req) {
     const s = doc.data();
     if (s.events?.landing === undefined) continue;
     const product = s.product === 'eateries' ? 'eateries' : s.product === 'hub' ? 'hub' : 'startups';
-    if (productFilter && productFilter !== 'all' && productFilter !== product) continue;
 
     const usefulKeys = USEFUL[product] || USEFUL.startups;
-    const key = [product, s.variant, s.device, s.source].join('/');
-    const f = funnel[key] || { landings: 0, useful: 0, apply: 0, product };
-    f.landings++;
     const isUseful = usefulKeys.some((e) => s.events[e] !== undefined);
-    if (isUseful) f.useful++;
     // apply for startups; directions/call as "exit" intent for eateries shown in apply column as convert
     const convert = product === 'eateries'
       ? (s.events.directions !== undefined || s.events.call !== undefined)
       : product === 'hub'
         ? (s.events.layer_click !== undefined || s.events.series_support !== undefined)
         : s.events.apply !== undefined;
-    if (convert) f.apply++;
-    funnel[key] = f;
 
+    // Tab badges always show the full series — filter must not zero other products.
     const bp = byProduct[product];
     bp.sessions++;
     bp.landings++;
     if (isUseful) bp.useful++;
     if (convert) bp.apply++;
+
+    if (productFilter && productFilter !== 'all' && productFilter !== product) continue;
+
+    const key = [product, s.variant, s.device, s.source].join('/');
+    const f = funnel[key] || { landings: 0, useful: 0, apply: 0, product };
+    f.landings++;
+    if (isUseful) f.useful++;
+    if (convert) f.apply++;
+    funnel[key] = f;
   }
 
   return NextResponse.json({
