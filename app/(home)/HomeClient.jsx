@@ -513,15 +513,39 @@ function DetailModal({ startup, onClose }) {
     return () => { cancelled = true; };
   }, [startup]);
 
+  useEffect(() => {
+    if (!startup) return undefined;
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [startup, onClose]);
+
   if (!startup) return null;
   const site = detail?.website ?? startup.website;
   const careers = detail?.careers || careersUrl(site);
+  // Dedupe noisy career-page scrapes (same title listed twice).
+  const roles = [];
+  const seenRole = new Set();
+  for (const r of detail?.hiring?.roles || []) {
+    const key = (r.title || "").trim().toLowerCase();
+    if (!key || seenRole.has(key)) continue;
+    seenRole.add(key);
+    roles.push(r);
+  }
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} aria-label="Close">
+    <div className="modal-overlay" onClick={onClose} role="presentation">
+      <div
+        className="modal"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={prettyName(startup.name)}
+      >
+        <button type="button" className="modal-close" onClick={onClose} aria-label="Close">
           ×
         </button>
+        <div className="modal-scroll">
         <div className="modal-head">
           <LogoBadge startup={startup} size={56} />
           <div>
@@ -540,7 +564,7 @@ function DetailModal({ startup, onClose }) {
           </div>
         </div>
         {detail?.hiring?.active && (
-          <>
+          <div className="hiring-block">
             <a
               className="hiring-badge"
               href={detail.hiring.url || careers || "#"}
@@ -550,16 +574,19 @@ function DetailModal({ startup, onClose }) {
               <span className="hiring-dot" />
               Hiring now{detail.hiring.count ? ` · ${detail.hiring.count} open role${detail.hiring.count === 1 ? "" : "s"}` : ""} ↗
             </a>
-            {detail.hiring.roles?.length > 0 && (
-              <ul className="roles-list">
-                {detail.hiring.roles.map((r, i) => (
-                  <li key={i}>
-                    <a href={r.url} target="_blank" rel="noreferrer">{r.title} ↗</a>
+            {roles.length > 0 && (
+              <ul className="roles-list" aria-label="Open roles">
+                {roles.map((r, i) => (
+                  <li key={`${r.title}-${i}`}>
+                    <a href={r.url} target="_blank" rel="noreferrer">
+                      <span className="roles-list-title">{r.title}</span>
+                      <span className="roles-list-ext" aria-hidden="true">↗</span>
+                    </a>
                   </li>
                 ))}
               </ul>
             )}
-          </>
+          </div>
         )}
         <p className="modal-desc">{detail ? detail.description : "…"}</p>
         {detail?.news?.[0] && (
@@ -595,6 +622,7 @@ function DetailModal({ startup, onClose }) {
         <Link className="modal-claim" href={`/submit?claim=${startup.id}&name=${encodeURIComponent(startup.name)}`}>
           Is this you? Claim this listing
         </Link>
+        </div>
       </div>
     </div>
   );

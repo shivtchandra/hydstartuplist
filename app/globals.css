@@ -1198,13 +1198,24 @@ a:hover:not(.btn) {
   border-radius: var(--radius-lg);
   width: 100%;
   max-width: 520px;
-  padding: 28px;
+  max-height: min(88vh, 720px);
+  padding: 0;
   position: relative;
   box-shadow: var(--modal-shadow);
   animation: modalSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-scroll {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
+  padding: 28px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 @keyframes modalSlide {
@@ -1214,20 +1225,23 @@ a:hover:not(.btn) {
 
 .modal-close {
   position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 32px;
-  height: 32px;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 1px solid var(--border-glass);
-  background: var(--bg-color);
+  background: var(--surface-glass-solid);
   color: var(--text-muted);
-  font-size: 18px;
+  font-size: 20px;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all var(--transition-fast);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
 }
 
 .modal-close:hover {
@@ -1239,6 +1253,7 @@ a:hover:not(.btn) {
   display: flex;
   align-items: flex-start;
   gap: 16px;
+  padding-right: 36px; /* room for sticky close */
 }
 
 .modal-title {
@@ -1281,21 +1296,62 @@ a:hover:not(.btn) {
   font-size: 13px;
 }
 
+.hiring-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
 .roles-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 10px;
+  gap: 2px;
+  margin: 0;
+  padding: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   background: var(--bg-color);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-glass);
 }
 
+.roles-list li {
+  margin: 0;
+}
+
 .roles-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
   font-size: 13px;
   font-weight: 600;
   color: var(--text-main);
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.roles-list a:hover {
+  background: var(--accent-soft);
+}
+
+.roles-list-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roles-list-ext {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .modal-desc {
@@ -2665,10 +2721,18 @@ a:hover:not(.btn) {
   .modal {
     max-width: 100%;
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    padding: 22px 18px;
+    padding: 0;
     max-height: 85vh;
-    overflow-y: auto;
+    overflow: hidden;
     animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .modal-scroll {
+    padding: 22px 18px;
+  }
+
+  .roles-list {
+    max-height: 160px;
   }
 
   @keyframes slideUp {
