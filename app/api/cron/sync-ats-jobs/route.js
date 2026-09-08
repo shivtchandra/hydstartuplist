@@ -256,7 +256,7 @@ export async function GET(req) {
         lastBatchSize: batch.length,
         payloadBytes: jsonSize,
       });
-      tx.set(lease.ref, { leaseUntil: 0, lastSuccessAt: Date.now() }, { merge: true });
+      tx.set(lease.ref, { leaseUntil: 0, lastSuccessAt: Date.now(), failures: 0, error: null }, { merge: true });
     });
   } catch (err) {
     try {
