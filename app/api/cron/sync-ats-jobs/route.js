@@ -115,7 +115,6 @@ export async function GET(req) {
               url: board.boardUrl || result.boardUrl,
               roles: publicJobs.slice(0, 20).map((j) => {
                 const role = { title: j.title, url: j.url };
-                if (j.description) role.description = j.description;
                 if (j.salary) role.salary = j.salary;
                 return role;
               }),
@@ -154,33 +153,93 @@ export async function GET(req) {
     jobs.push(j);
   }
 
-  // Firestore docs max out at 1MB — escalate description trim until under budget.
-  const MAX_DOC = 900_000;
+  // Firestore hard-caps docs at 1,048,576 bytes. JSON UTF-8 understates that
+  // (field names, nulls, wire encoding), so pack lean and keep a fat margin.
+  // Symptom we hit: 1,233,706 byte writes failing legacy-sync.
+  const MAX_JSON = 720_000;
   const docBytes = (list) =>
-    Buffer.byteLength(JSON.stringify({ jobs: list, fetchedAt, boardCount: allBoards.length }), "utf8");
-  let payloadJobs = jobs;
-  let jsonSize = docBytes(payloadJobs);
-  if (jsonSize > MAX_DOC) {
-    payloadJobs = payloadJobs.map((j) =>
-      j.description && j.description.length > 2000 ? { ...j, description: j.description.slice(0, 2000) } : j
+    Buffer.byteLength(
+      JSON.stringify({
+        jobs: list,
+        lifecycleVersion: 1,
+        fetchedAt,
+        boardCount: allBoards.length,
+        jobCount: list.length,
+        lastBatchSize: batch.length,
+      }),
+      "utf8"
     );
-    jsonSize = docBytes(payloadJobs);
+
+  function leanJob(j, descMax) {
+    const out = {
+      id: j.id,
+      title: j.title,
+      company: j.company,
+      location: j.location || null,
+      url: j.url,
+      postedAt: j.postedAt || j.sourcePostedAt || null,
+      status: j.status || "active",
+      source: j.source || "ats",
+      atsProvider: j.atsProvider || null,
+      atsSlug: j.atsSlug || null,
+      startupId: j.startupId || null,
+      salary: j.salary || null,
+      fetchedAt: j.fetchedAt || fetchedAt,
+      lastSeenAt: j.lastSeenAt || j.fetchedAt || fetchedAt,
+    };
+    if (descMax > 0 && j.description) {
+      const d = String(j.description);
+      out.description = d.length > descMax ? d.slice(0, descMax) : d;
+    }
+    return out;
   }
-  if (jsonSize > MAX_DOC) {
-    payloadJobs = payloadJobs.map((j) =>
-      j.description ? { ...j, description: j.description.slice(0, 800) } : j
-    );
-    jsonSize = docBytes(payloadJobs);
+
+  function pack(list, descMax) {
+    // Prefer live roles; closed ones are lifecycle noise in the mega-doc.
+    const live = list.filter((j) => j.status !== "closed");
+    const closed = list.filter((j) => j.status === "closed");
+    const ordered = [...live, ...closed];
+    let packed = ordered.map((j) => leanJob(j, descMax));
+    let size = docBytes(packed);
+    if (size <= MAX_JSON) return { jobs: packed, bytes: size, descMax, truncated: false };
+
+    // Drop closed entirely, then newest-first until under budget.
+    packed = live
+      .slice()
+      .sort((a, b) => String(b.postedAt || b.fetchedAt || "").localeCompare(String(a.postedAt || a.fetchedAt || "")))
+      .map((j) => leanJob(j, descMax));
+    size = docBytes(packed);
+    while (packed.length > 200 && size > MAX_JSON) {
+      packed = packed.slice(0, Math.max(200, Math.floor(packed.length * 0.85)));
+      size = docBytes(packed);
+    }
+    // Binary trim if still fat (very large boards).
+    if (size > MAX_JSON) {
+      let lo = 50;
+      let hi = packed.length;
+      let best = packed.slice(0, 50);
+      while (lo <= hi) {
+        const mid = (lo + hi) >> 1;
+        const trial = packed.slice(0, mid);
+        const trialSize = docBytes(trial);
+        if (trialSize <= MAX_JSON) {
+          best = trial;
+          lo = mid + 1;
+        } else {
+          hi = mid - 1;
+        }
+      }
+      packed = best;
+      size = docBytes(packed);
+    }
+    return { jobs: packed, bytes: size, descMax, truncated: packed.length < list.length };
   }
-  if (jsonSize > MAX_DOC) {
-    payloadJobs = payloadJobs.map(({ description, ...rest }) => ({ ...rest, description: null }));
-    jsonSize = docBytes(payloadJobs);
-  }
-  if (jsonSize > MAX_DOC) {
-    // Last resort: drop closed roles from the snapshot so the write can succeed.
-    payloadJobs = payloadJobs.filter((j) => j.status !== "closed");
-    jsonSize = docBytes(payloadJobs);
-  }
+
+  let packed = pack(jobs, 400);
+  if (packed.bytes > MAX_JSON) packed = pack(jobs, 160);
+  if (packed.bytes > MAX_JSON) packed = pack(jobs, 0);
+  const payloadJobs = packed.jobs;
+  const jsonSize = packed.bytes;
 
   try {
     await db.runTransaction(async (tx) => {
@@ -240,6 +299,8 @@ export async function GET(req) {
     feedSize: jobs.length,
     payloadBytes: jsonSize,
     withDescription: payloadJobs.filter((j) => j.description).length,
+    truncated: packed.truncated,
+    descMax: packed.descMax,
     offset: start,
     nextOffset,
     indexing,
