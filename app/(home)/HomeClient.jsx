@@ -520,6 +520,21 @@ function DetailModal({ startup, onClose }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [startup, onClose]);
 
+  const profileHref = startup
+    ? `/startups/${startup.slug || startupSlug(startup)}`
+    : null;
+
+  // Prefetch the profile document so "Full profile" isn't waiting on the map's JS thread.
+  useEffect(() => {
+    if (!profileHref || typeof document === "undefined") return undefined;
+    const link = document.createElement("link");
+    link.rel = "prefetch";
+    link.href = profileHref;
+    link.as = "document";
+    document.head.appendChild(link);
+    return () => { link.remove(); };
+  }, [profileHref]);
+
   if (!startup) return null;
   const site = detail?.website ?? startup.website;
   const careers = detail?.careers || careersUrl(site);
@@ -603,25 +618,42 @@ function DetailModal({ startup, onClose }) {
           <span>{detail ? (detail.address || detail.area) : startup.area}</span>
         </div>
         <div className="modal-actions">
-          <Link className="btn" href={`/startups/${startup.slug || startupSlug(startup)}`}>
+          {/* Plain <a>: full navigation unloads the map — Next <Link> soft-nav felt laggy here. */}
+          <a className="btn" href={profileHref} onClick={onClose}>
             Full profile
-          </Link>
+          </a>
           {site ? (
-            <a className="btn btn-ghost" href={site} target="_blank" rel="noreferrer">
+            <a
+              className="btn btn-ghost"
+              href={site}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={onClose}
+            >
               Visit website ↗
             </a>
           ) : (
             <span className="btn btn-disabled">Website N/A</span>
           )}
           {careers && (
-            <a className="btn btn-ghost" href={careers} target="_blank" rel="noreferrer">
+            <a
+              className="btn btn-ghost"
+              href={careers}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={onClose}
+            >
               Careers ↗
             </a>
           )}
         </div>
-        <Link className="modal-claim" href={`/submit?claim=${startup.id}&name=${encodeURIComponent(startup.name)}`}>
+        <a
+          className="modal-claim"
+          href={`/submit?claim=${startup.id}&name=${encodeURIComponent(startup.name)}`}
+          onClick={onClose}
+        >
           Is this you? Claim this listing
-        </Link>
+        </a>
         </div>
       </div>
     </div>
