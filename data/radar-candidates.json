@@ -100,7 +100,7 @@
       ]
     },
     "inc42-top30-hyd-named": {
-      "label": "Inc42 Top 30 Hyd 2026 \u2014 named beyond paywall cutoff + article mentions",
+      "label": "Inc42 Top 30 Hyd 2026 — named beyond paywall cutoff + article mentions",
       "url": "https://inc42.com/lists/top-30-funded-startups-in-hyderabad-2026/",
       "candidates": [
         {
@@ -325,7 +325,7 @@
       ]
     },
     "incubator-hyd": {
-      "label": "T-Hub / CIE-IIIT / ISB D-Labs / WE Hub \u2014 seed names to expand",
+      "label": "T-Hub / CIE-IIIT / ISB D-Labs / WE Hub — seed names to expand",
       "candidates": [
         {
           "name": "Kenyt Technologies",
@@ -512,7 +512,7 @@
       ]
     },
     "inc42-healthtech-hyd-2026": {
-      "label": "Inc42 Top 30 Funded Healthtech Hyderabad 2026 \u2014 article + visible ranks",
+      "label": "Inc42 Top 30 Funded Healthtech Hyderabad 2026 — article + visible ranks",
       "url": "https://inc42.com/lists/top-30-funded-healthtech-startups-in-hyderabad-2026/",
       "candidates": [
         {
@@ -525,7 +525,7 @@
           "suggestedMissReasons": [
             "funding-list"
           ],
-          "note": "Rebranded to RED.Health \u2014 likely already on map"
+          "note": "Rebranded to RED.Health — likely already on map"
         },
         {
           "name": "Portl",
@@ -612,7 +612,7 @@
             "us-hq-hyd-office",
             "funding-list"
           ],
-          "note": "May be SF HQ \u2014 verify Hyd office"
+          "note": "May be SF HQ — verify Hyd office"
         },
         {
           "name": "Supervity",
@@ -690,7 +690,7 @@
       ]
     },
     "skipped-unverified": {
-      "label": "User could not verify Hyd office \u2014 do not pin",
+      "label": "User could not verify Hyd office — do not pin",
       "updatedAt": "2026-09-09",
       "candidates": [
         {
@@ -744,6 +744,468 @@
           ],
           "status": "skip",
           "note": " | user could not verify Hyd address (2026-09-09)"
+        }
+      ]
+    },
+    "hiring-not-on-radar": {
+      "label": "On map + live jobs, not yet on Radar — promote/enrich candidates",
+      "generatedBy": "scripts/radar-job-reconcile.mjs",
+      "generatedAt": "2026-09-09",
+      "candidates": [
+        {
+          "name": "APPNETWISE PRIVATE LIMITED",
+          "startupId": "b25e40dc-e3f4-44b3-b22d-69e5c2594fc9",
+          "website": "http://appnetwise.com",
+          "careers": null,
+          "sector": "SaaS",
+          "address": "Cabin: 853, Alt.f, Appnetwise Private Limited, MEENAKSHI TECH PARK, Bamboos, Phase 2, Gachibowli, Hyderabad, Telangana 500081, India",
+          "jobCount": 46,
+          "sources": [
+            "ats",
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "Keka HR",
+          "startupId": "e482154d-3340-4422-9154-cbef089ab82a",
+          "website": "https://www.keka.com",
+          "careers": "https://hr.keka.com/careers",
+          "sector": "SaaS",
+          "address": "12th & 14th Floor, Vasavi Sky City, Telecom Nagar, Gachibowli, Hyderabad, Telangana 500032, India",
+          "jobCount": 13,
+          "sources": [
+            "adzuna",
+            "careers"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "MapmyGenome",
+          "startupId": "161c329a-3c74-4b52-8e8b-d340fe68b712",
+          "website": "https://mapmygenome.in",
+          "careers": "https://careers.mapmygenome.in/view-jobs",
+          "sector": "HealthTech",
+          "address": "Madhapur, Hyderabad, Telangana, India",
+          "jobCount": 7,
+          "sources": [
+            "careers"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "ZETTAMINE LABS PRIVATE LIMITED",
+          "startupId": "5d7264a6-0656-4af4-9779-cfcc0ed858e7",
+          "website": "https://www.zettamine.com",
+          "careers": null,
+          "sector": "SaaS",
+          "address": "Plot 85, Kundanbagh Colony, Begumpet, Hyderabad, Telangana 500016, India",
+          "jobCount": 4,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "Qualizeal",
+          "startupId": "c042f5d6-f283-4fa5-a98a-43f117462db3",
+          "website": "https://www.qualizeal.com",
+          "careers": "https://www.linkedin.com/jobs/search/?keywords=Qualizeal",
+          "sector": "SaaS",
+          "address": "iLabs Centre, Silpa Gram Craft Village, Madhapur, Hyderabad, Telangana 500081, India",
+          "jobCount": 4,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "CINCYR TECH PRIVATE LIMITED ",
+          "startupId": "6967c62a-0c77-41b7-969e-ad4452e67f58",
+          "website": "http://cincyrtech.com",
+          "careers": "http://cincyrtech.com/careers",
+          "sector": "SaaS",
+          "address": "Plot no 46, 4th floor, 1-10, 68/8, Chikoti Gardens, Old Patigadda, Prakash Nagar, Begumpet, Hyderabad, Telangana 500016, India",
+          "jobCount": 2,
+          "sources": [
+            "ats"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "SAI Solutions Pvt Ltd",
+          "startupId": "31aafc18-5a76-4e27-86fa-69d16dda3cb2",
+          "website": "http://www.srisaiitsolutions.com",
+          "careers": null,
+          "sector": "AI",
+          "address": "Manjeera Trinity Corporate, 13th Floor, Manjeera Trinity Coporate, Elite Business Center, Kukatpally Housing Board Colony, K P H B Phase 1, Kukatpally, Hyderabad, Telangana 500072",
+          "jobCount": 2,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "INFOREPOS TECHNOLOGIES PRIVATE LIMITED",
+          "startupId": "253d9406-cae5-44b8-b9f3-78bcabbee815",
+          "website": "http://www.inforepos.com",
+          "careers": "http://www.inforepos.com/careers",
+          "sector": "SaaS",
+          "address": "4th Floor, Padarthi Towers, 500085, Addagutta Society - Jal Vayu Vihar Raod, Addagutta, Samatha Nagar, Kukatpally, Hyderabad, Telangana 500085",
+          "jobCount": 2,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "NOWFLOATS TECHNOLOGIES PRIVATE LIMITED",
+          "startupId": "be523135-78a8-424f-a998-292c65e9aa0a",
+          "website": "https://www.nowfloats.com",
+          "careers": null,
+          "sector": "SaaS",
+          "address": "1246, Level 1, Vamsirams Jubilee Casa, Rd Number 62, near The Future Kid's Playgroup, Jubilee Hills, Hyderabad, Telangana 500033, India",
+          "jobCount": 1,
+          "sources": [
+            "ats"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "SANAARI Software Solutions Pvt. Ltd",
+          "startupId": "521efcb3-c00d-4723-bd5a-ea07c3b9504e",
+          "website": "https://www.sanaari.net",
+          "careers": null,
+          "sector": "SaaS",
+          "address": "3rd Floor, Jain Sadguru Image’s, Capital Park, Unit No. 308, Capital Pk Rd, VIP Hills, Silicon Valley, Madhapur, Hyderabad, Telangana 500081, India",
+          "jobCount": 1,
+          "sources": [
+            "ats"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "Cohere support services",
+          "startupId": "115e8003-db26-437d-9656-129cdcb4c6f6",
+          "website": "https://www.coherehealth.com",
+          "careers": "https://www.coherehealth.com/careers",
+          "sector": "AI",
+          "address": "22nd Floor, Orbit, Plot No 30/C, Sy No 83/1, Hyderabad Knowledge City Raidurg, Panmaktha, Serilingampalle (M), Hyderabad, Telangana 500032",
+          "jobCount": 1,
+          "sources": [
+            "ats"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "UNIQON CONSULTING PRIVATE LIMITED",
+          "startupId": "91bbd7c0-c13f-4291-b263-a98e4955545d",
+          "website": "http://uniqon.co.uk",
+          "careers": "http://uniqon.co.uk/careers",
+          "sector": "SaaS",
+          "address": "C9PJ+JP8, Inorbit Mall Rd, HITEC City, Hyderabad, Telangana 500081, India",
+          "jobCount": 1,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "Cognida.ai",
+          "startupId": "2e60659b-80fb-46ec-bddd-ad7cda61df73",
+          "website": "https://www.cognida.ai",
+          "careers": "https://www.cognida.ai/careers/",
+          "sector": "AI",
+          "address": "Gachibowli, Hyderabad, Telangana, India",
+          "jobCount": 1,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "SRS SOLUTIONS",
+          "startupId": "45f1ad69-5425-45c8-83cb-7ac1c818a961",
+          "website": "http://srsconsultinginc.com",
+          "careers": "http://srsconsultinginc.com/careers",
+          "sector": "SaaS",
+          "address": "4TH FLOOR, KRISHE BLOCK, KRISHE SAPPHIRE, Madhapur Rd, Vittal Rao Nagar, Madhapur, Hyderabad, Telangana 500081, India",
+          "jobCount": 1,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "AMI Technologies ",
+          "startupId": "a1a862d5-683c-4bee-8f5c-bd62ef892479",
+          "website": "http://www.amitekh.com",
+          "careers": null,
+          "sector": "AI",
+          "address": "Plot No-652,653, Hitech City Main Road, Techno pearl, Phase 2, HUDA Techno Enclave, HITEC City, Hyderabad, Telangana 500081",
+          "jobCount": 1,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "STA SOLUTIONS PRIVATE LIMITED",
+          "startupId": "3ebd895c-e0b6-42b8-97ed-2720f1ac2e14",
+          "website": "https://www.socialtalentagency.com",
+          "careers": null,
+          "sector": "SaaS",
+          "address": "1-11-251, Imroze, Shoppers Stop, Begumpet, Hyderabad, Telangana 500016, India",
+          "jobCount": 1,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "Focus Labs",
+          "startupId": "b98fb6cd-b037-4752-8bc7-73b72df6291c",
+          "website": "http://www.focusdiagnostics.in",
+          "careers": "http://www.focusdiagnostics.in/careers",
+          "sector": "AI",
+          "address": "Jaya Enclave, 6-3-347/12/A/10/1/8, Sai Baba Temple Rd, Dwarakapuri, Punjagutta, Hyderabad, Telangana 500082",
+          "jobCount": 1,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "CITIUS SOLUTIONS PRIVATE LIMITED",
+          "startupId": "83a27689-621e-4768-b6de-3da477fe22d4",
+          "website": "https://www.citiuskbe.com",
+          "careers": "https://www.citiuskbe.com/careers",
+          "sector": "SaaS",
+          "address": "IV Floor, Gardenia Mabuhay, Plot No. 21, JayaBheri Pine Valley, Telecom Nagar, Gachibowli, Hyderabad, Telangana 500032, India",
+          "jobCount": 1,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        },
+        {
+          "name": "Rainier Softech Solutions Private Limited",
+          "startupId": "997321f1-2a3d-4a2d-91b9-665e6521f75b",
+          "website": "http://rainiersoft.com",
+          "careers": "http://rainiersoft.com/careers",
+          "sector": "SaaS",
+          "address": "29, Srinagar Colony Main Rd, Venkateshwara Colony, Venkateshwara Hills, Banjara Hills, Hyderabad, Telangana 500073, India",
+          "jobCount": 1,
+          "sources": [
+            "adzuna"
+          ],
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Already pinned — candidate for Radar depth if hard-to-find + real problem",
+          "status": "enrich-radar"
+        }
+      ]
+    },
+    "job-feed-orphans": {
+      "label": "Hiring in Hyd feeds but not matched to startups.json (enterprise filtered)",
+      "generatedBy": "scripts/radar-job-reconcile.mjs",
+      "generatedAt": "2026-09-09",
+      "candidates": [
+        {
+          "name": "GBB",
+          "careers": "https://www.gbb.co.in/jobs/assistant-manager-accounts/",
+          "atsProvider": "htmlcareers",
+          "atsClass": "htmlcareers",
+          "jobCount": 27,
+          "sources": [
+            "ats"
+          ],
+          "employerType": null,
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Verify Hyd office + problem class before Radar/map",
+          "status": "verify-address"
+        },
+        {
+          "name": "Keyloop",
+          "careers": "https://jobs.lever.co/keyloop/c8d5b8ee-4da3-4c4c-a608-0fbbd60a7282",
+          "atsProvider": null,
+          "atsClass": "lever",
+          "jobCount": 15,
+          "sources": [
+            "careers"
+          ],
+          "employerType": "other",
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Verify Hyd office + problem class before Radar/map",
+          "status": "verify-address"
+        },
+        {
+          "name": "ProductSpace Software",
+          "careers": "https://hiring.productspace.com/jobs/Careers/43691000003172001/Junior-Software-Developer-NET-Core-C?source=CareerSite",
+          "atsProvider": "zoho",
+          "atsClass": "zoho",
+          "jobCount": 5,
+          "sources": [
+            "ats"
+          ],
+          "employerType": null,
+          "suggestedMissReasons": [
+            "zoho"
+          ],
+          "note": "Verify Hyd office + problem class before Radar/map",
+          "status": "verify-address"
+        },
+        {
+          "name": "Accufy",
+          "careers": "https://accufy.in/career/frontend-engineer",
+          "atsProvider": "accufy",
+          "atsClass": "accufy",
+          "jobCount": 3,
+          "sources": [
+            "ats"
+          ],
+          "employerType": null,
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Verify Hyd office + problem class before Radar/map",
+          "status": "verify-address"
+        },
+        {
+          "name": "Tetrasoft",
+          "careers": "https://www.tetrasoft.us/careers.html#tech-lead-machine-learning-with-python",
+          "atsProvider": "htmlcareers",
+          "atsClass": "htmlcareers",
+          "jobCount": 3,
+          "sources": [
+            "ats"
+          ],
+          "employerType": null,
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Verify Hyd office + problem class before Radar/map",
+          "status": "verify-address"
+        },
+        {
+          "name": "Algonox Technologies",
+          "careers": "https://in.linkedin.com/jobs/view/inside-sales-executive-fresher-at-algonox-technologies-4460218853",
+          "atsProvider": "linkedin",
+          "atsClass": "linkedin",
+          "jobCount": 2,
+          "sources": [
+            "ats"
+          ],
+          "employerType": null,
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ],
+          "note": "Verify Hyd office + problem class before Radar/map",
+          "status": "verify-address"
+        }
+      ]
+    },
+    "ats-startup-boards-unpinned": {
+      "label": "ats-boards.json employerType=startup without startupId/mapPin",
+      "generatedBy": "scripts/radar-job-reconcile.mjs",
+      "generatedAt": "2026-09-09",
+      "candidates": [
+        {
+          "name": "Algonox Technologies",
+          "careers": "https://www.linkedin.com/jobs/search-results/?geoId=102713980&f_C=13292742",
+          "website": "https://www.algonox.com",
+          "atsProvider": "linkedin",
+          "suggestedMissReasons": [
+            "linkedin"
+          ],
+          "status": "verify-address"
+        },
+        {
+          "name": "ProductSpace Software",
+          "careers": "https://productspace.zohorecruit.in/jobs/Careers",
+          "website": "https://www.productspace.com",
+          "atsProvider": "zoho",
+          "suggestedMissReasons": [
+            "zoho"
+          ],
+          "status": "verify-address"
         }
       ]
     }

@@ -11,7 +11,9 @@
     "enrich:merge": "node scripts/merge-enrichment.mjs",
     "radar:gap": "node scripts/radar-gap-sweep.mjs",
     "radar:gap:miss": "node scripts/radar-gap-sweep.mjs --miss-only",
-    "radar:gap:csv": "node scripts/radar-gap-sweep.mjs --csv"
+    "radar:gap:csv": "node scripts/radar-gap-sweep.mjs --csv",
+    "radar:reconcile": "node scripts/radar-job-reconcile.mjs",
+    "radar:reconcile:dry": "node scripts/radar-job-reconcile.mjs --dry-run"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

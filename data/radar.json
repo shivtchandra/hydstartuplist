@@ -73,7 +73,8 @@
         "Rajashekar Vasantha"
       ],
       "exclusiveTier": "watch",
-      "tierNote": "Flagship Gem signal but Codex disputes Hyd substance \u2014 verify founders/eng Hyd link before Core."
+      "tierNote": "Flagship Gem signal but Codex disputes Hyd substance \u2014 verify founders/eng Hyd link before Core.",
+      "verifyStatus": "published"
     },
     {
       "startupId": "a8668de6-a2bd-4570-b982-b5391190d434",
@@ -121,7 +122,8 @@
       "founderNames": [
         "Siddharth Reddy"
       ],
-      "exclusiveTier": "core"
+      "exclusiveTier": "core",
+      "verifyStatus": "published"
     },
     {
       "startupId": "faa9cdc5-08a9-43e9-8d60-d86cb4f5a448",
@@ -179,7 +181,8 @@
         "Raviteja Chivukula",
         "Jagga Raju N."
       ],
-      "exclusiveTier": "core"
+      "exclusiveTier": "core",
+      "verifyStatus": "published"
     },
     {
       "startupId": "5a23c455-c758-4974-a026-078da93b1d06",
@@ -240,7 +243,8 @@
         "Rahul Arepaka",
         "George Mathew"
       ],
-      "exclusiveTier": "core"
+      "exclusiveTier": "core",
+      "verifyStatus": "published"
     },
     {
       "startupId": "86f8f9ed-f68d-41cb-92e6-8c747d0152ea",
@@ -289,7 +293,8 @@
         "Kamal Jain"
       ],
       "exclusiveTier": "core",
-      "tierNote": "Keep if Hyd eng mandate documented; else demote."
+      "tierNote": "Keep if Hyd eng mandate documented; else demote.",
+      "verifyStatus": "published"
     },
     {
       "startupId": "e819b8ec-db34-4dec-9489-e40280ff97b5",
@@ -338,7 +343,8 @@
       "founderNames": [
         "Ronak Kumar Samantray"
       ],
-      "exclusiveTier": "core"
+      "exclusiveTier": "core",
+      "verifyStatus": "published"
     },
     {
       "startupId": "fb3ea0ee-85d3-4d5d-9834-246aa8b19bd0",
@@ -402,7 +408,8 @@
         "Nishant Khurana",
         "Piyush Agarwal"
       ],
-      "exclusiveTier": "core"
+      "exclusiveTier": "core",
+      "verifyStatus": "published"
     },
     {
       "startupId": "d807de4e-2fca-44fd-a9f9-f0c481536284",
@@ -473,7 +480,8 @@
         "Sonu Mishra",
         "Varshith Rao"
       ],
-      "exclusiveTier": "core"
+      "exclusiveTier": "core",
+      "verifyStatus": "published"
     },
     {
       "startupId": "7732f415-af6b-48fa-832e-71f782c94d03",
@@ -527,7 +535,8 @@
         "Manoj Kumar",
         "Sanjay Kumar"
       ],
-      "exclusiveTier": "core"
+      "exclusiveTier": "core",
+      "verifyStatus": "published"
     },
     {
       "startupId": "44c3636f-8f33-4540-b6f8-a9b4b7856be5",
@@ -584,7 +593,8 @@
         "Dhruv Bansal",
         "Ashwik Reddy"
       ],
-      "exclusiveTier": "watch"
+      "exclusiveTier": "watch",
+      "verifyStatus": "published"
     },
     {
       "startupId": "42f0a99e-a66b-471f-be72-2a69fc05ecaf",
@@ -599,7 +609,8 @@
       "missReasons": [
         "marketing-careers"
       ],
-      "exclusiveTier": "demote"
+      "exclusiveTier": "demote",
+      "verifyStatus": "stale"
     },
     {
       "startupId": "b17083a7-54a2-4e8f-a591-d97a64a53786",
@@ -647,7 +658,8 @@
       "founderNames": [
         "Priyanjit Ghosh"
       ],
-      "exclusiveTier": "core"
+      "exclusiveTier": "core",
+      "verifyStatus": "published"
     },
     {
       "startupId": "b20a4113-4958-42cf-af1e-c90bc28d288e",
@@ -664,7 +676,8 @@
         "incubator",
         "funding-list"
       ],
-      "exclusiveTier": "cut"
+      "exclusiveTier": "cut",
+      "verifyStatus": "stale"
     },
     {
       "startupId": "3bc81153-50c5-4051-85b3-aa2bbcb3aab9",
@@ -722,7 +735,8 @@
         "Vamsi Kurama",
         "Vihar Kurama"
       ],
-      "exclusiveTier": "demote"
+      "exclusiveTier": "demote",
+      "verifyStatus": "published"
     },
     {
       "startupId": "d44906d9-9385-49b0-838e-71295dadfc5d",
@@ -769,7 +783,8 @@
       "founderNames": [
         "Mayank Kale"
       ],
-      "exclusiveTier": "demote"
+      "exclusiveTier": "demote",
+      "verifyStatus": "published"
     },
     {
       "name": "PromptQL",
@@ -1127,7 +1142,8 @@
         "Chandramani Tiwary"
       ],
       "exclusiveTier": "watch",
-      "tierNote": "Scarce SaaS slot only; cut if SaaS quota exceeded."
+      "tierNote": "Scarce SaaS slot only; cut if SaaS quota exceeded.",
+      "verifyStatus": "published"
     },
     {
       "startupId": "ed41befb-e88f-4f2f-90a3-e343af10d1a3",
@@ -1175,7 +1191,8 @@
       "founderNames": [
         "Indraneel Gupta"
       ],
-      "exclusiveTier": "watch"
+      "exclusiveTier": "watch",
+      "verifyStatus": "published"
     },
     {
       "startupId": "9fb75fd6-6530-4061-a5be-e6d4be2447e2",
@@ -1224,7 +1241,8 @@
       "founderNames": [
         "Suresh Susurla"
       ],
-      "exclusiveTier": "core"
+      "exclusiveTier": "core",
+      "verifyStatus": "published"
     },
     {
       "startupId": "1afc2766-d3ab-40f0-95d9-c13887618b4c",
@@ -1279,7 +1297,8 @@
         "Abhiram Kolli",
         "Akhila Ganti"
       ],
-      "exclusiveTier": "cut"
+      "exclusiveTier": "cut",
+      "verifyStatus": "published"
     },
     {
       "startupId": "aacd83e5-506f-4abe-bf76-7abb41cc99f2",
@@ -1335,7 +1354,8 @@
         "Anup Mehta"
       ],
       "exclusiveTier": "watch",
-      "tierNote": "Restore Core only after Hyd engineering node proven."
+      "tierNote": "Restore Core only after Hyd engineering node proven.",
+      "verifyStatus": "published"
     },
     {
       "startupId": "7195815f-a345-4f81-8591-89f3910f4192",
@@ -1351,7 +1371,8 @@
         "marketing-careers",
         "funding-list"
       ],
-      "exclusiveTier": "cut"
+      "exclusiveTier": "cut",
+      "verifyStatus": "stale"
     },
     {
       "startupId": "19b2005d-498f-4336-b25e-a3301ad3a530",
@@ -1367,7 +1388,8 @@
         "funding-list",
         "marketing-careers"
       ],
-      "exclusiveTier": "cut"
+      "exclusiveTier": "cut",
+      "verifyStatus": "stale"
     },
     {
       "startupId": "57a282bf-08a4-4a06-84e4-fc9218cdea22",
@@ -1384,7 +1406,8 @@
         "marketing-careers"
       ],
       "exclusiveTier": "watch",
-      "tierNote": "Core-worthy vertical; needs depth block within 30 days."
+      "tierNote": "Core-worthy vertical; needs depth block within 30 days.",
+      "verifyStatus": "evidence-attached"
     },
     {
       "startupId": "3f9c82a0-882a-4f61-b734-616c96c774fd",
@@ -1399,7 +1422,8 @@
         "marketing-careers",
         "funding-list"
       ],
-      "exclusiveTier": "cut"
+      "exclusiveTier": "cut",
+      "verifyStatus": "stale"
     },
     {
       "startupId": "9b173e6d-a5d4-4f94-bcbb-2d81982ecca2",
@@ -1446,7 +1470,8 @@
       "founderNames": [
         "Vijay Navaluri"
       ],
-      "exclusiveTier": "watch"
+      "exclusiveTier": "watch",
+      "verifyStatus": "published"
     },
     {
       "startupId": "6ebe2fa7-1f2b-4b02-bda3-45f8b563ba1d",
@@ -1464,7 +1489,8 @@
         "marketing-careers"
       ],
       "exclusiveTier": "watch",
-      "tierNote": "Deep Roots research anchor; needs depth pass."
+      "tierNote": "Deep Roots research anchor; needs depth pass.",
+      "verifyStatus": "evidence-attached"
     },
     {
       "startupId": "24f93f05-3143-45f5-904d-af5ae447bedd",
@@ -1487,7 +1513,8 @@
         "EYVA by BlueSemi"
       ],
       "exclusiveTier": "watch",
-      "tierNote": "High novelty; needs founders + clinical-positioning clarity."
+      "tierNote": "High novelty; needs founders + clinical-positioning clarity.",
+      "verifyStatus": "evidence-attached"
     },
     {
       "startupId": "30acf087-ee61-420a-a371-e3c8dc08584b",
@@ -1505,7 +1532,8 @@
         "marketing-careers",
         "funding-list"
       ],
-      "exclusiveTier": "cut"
+      "exclusiveTier": "cut",
+      "verifyStatus": "stale"
     },
     {
       "startupId": "a906df8a-c45f-4130-aa4f-516cdfb79922",
@@ -1521,7 +1549,8 @@
         "marketing-careers",
         "funding-list"
       ],
-      "exclusiveTier": "cut"
+      "exclusiveTier": "cut",
+      "verifyStatus": "stale"
     }
   ],
   "missReasons": {
@@ -1576,6 +1605,32 @@
       "type": "string",
       "url": "url",
       "note": "string?"
+    },
+    "verification": {
+      "states": [
+        "candidate",
+        "evidence-attached",
+        "human-verified",
+        "published",
+        "stale"
+      ],
+      "fieldProvenance": "Each depth claim should carry source URL when possible",
+      "reVerifySLA": {
+        "addressDays": 180,
+        "careersUrlDays": 30,
+        "founderLinkedInDays": 180,
+        "hiringActiveDays": 7
+      },
+      "note": "Data-first: run npm run radar:reconcile weekly before product gates"
+    },
+    "dataPipeline": {
+      "reconcile": "npm run radar:reconcile",
+      "gapSweep": "npm run radar:gap:miss",
+      "feeds": [
+        "ats_latest",
+        "adzuna_latest",
+        "priority_careers_latest"
+      ]
     }
   },
   "curationBar": {
@@ -1627,6 +1682,40 @@
     ]
   },
   "discoveryQueue": [
+    {
+      "name": "ProductSpace Software",
+      "status": "verify-address",
+      "missReasons": [
+        "zoho"
+      ],
+      "whyHardToFind": "Zoho Recruit board \u2014 job-feed orphan",
+      "careers": "https://productspace.zohorecruit.in/jobs/Careers"
+    },
+    {
+      "name": "MapmyGenome",
+      "status": "enrich-radar",
+      "missReasons": [
+        "marketing-careers"
+      ],
+      "whyHardToFind": "On map + careers hiring; not on Radar yet",
+      "note": "HealthTech \u2014 evaluate exclusive bar"
+    },
+    {
+      "name": "Accufy",
+      "status": "verify-address",
+      "missReasons": [
+        "marketing-careers"
+      ],
+      "whyHardToFind": "Own ATS careers surface; off-map orphan"
+    },
+    {
+      "name": "Keyloop",
+      "status": "verify-address",
+      "missReasons": [
+        "us-hq-hyd-office"
+      ],
+      "whyHardToFind": "Lever careers in Hyd feed \u2014 verify local office"
+    },
     {
       "name": "Equal AI / Equal Identity",
       "status": "verify-address",
