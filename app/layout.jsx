@@ -3,6 +3,7 @@ import "./opportunities.css";
 import InteractionMetrics from "./components/InteractionMetrics.jsx";
 import GoogleAnalytics from "./components/GoogleAnalytics.jsx";
 import GoogleOneTap from "./components/GoogleOneTap.jsx";
+import SiteFooter from "./components/SiteFooter.jsx";
 import { Analytics } from "@vercel/analytics/next";
 import localFont from "next/font/local";
 
@@ -110,6 +111,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         {children}
+        <SiteFooter />
         <GoogleAnalytics />
         <Analytics />
         <GoogleOneTap />

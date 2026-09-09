@@ -52,7 +52,7 @@ export default function GccSeoIndex() {
             running engineering, product and operations out of HITEC City, Gachibowli and the Financial
             District. Browse the GCC Hyderabad list by industry and jump to careers pages.
           </p>
-          <nav className="home-seo-sections" aria-label="Sections">
+          <nav className="home-seo-actions" aria-label="Sections">
             <Link href="/jobs">Startup &amp; GCC Jobs</Link>
             <Link href="/">Startup Map</Link>
             <Link href="/product-companies">Product Companies</Link>

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import { articleJsonLd } from "../../../lib/jobs-seo.js";
 import SiteNav from "../../components/SiteNav.jsx";
-import SiteFooter from "../../components/SiteFooter.jsx";
 
 const SLUG = "t-hub-hyderabad";
 const TITLE = "T-Hub Hyderabad — what it is and how startups use it";
@@ -121,7 +120,6 @@ export default function THubHyderabadStory() {
           </p>
         </section>
       </article>
-      <SiteFooter />
-    </div>
+</div>
   );
 }

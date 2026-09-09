@@ -1,37 +1,67 @@
 import Link from "next/link";
 import SiteNav from "../components/SiteNav.jsx";
-import SiteFooter from "../components/SiteFooter.jsx";
 
 export const metadata = { title: "Explore more of Hyderabad | Mapping HYD" };
 
+const GROUPS = [
+  {
+    title: "Directory",
+    links: [
+      ["/?view=companies", "All companies"],
+      ["/areas", "Tech areas"],
+      ["/industries", "Industries"],
+      ["/gccs", "Global capability centres"],
+      ["/product-companies", "Product companies"],
+    ],
+  },
+  {
+    title: "Hiring",
+    links: [
+      ["/jobs", "Jobs in Hyderabad"],
+      ["/jobs/fresher", "Fresher jobs"],
+      ["/saved", "Saved roles"],
+    ],
+  },
+  {
+    title: "Stories & signal",
+    links: [
+      ["/feed", "Company feed"],
+      ["/news", "News"],
+      ["/stories", "Stories"],
+      ["/insights", "Ecosystem insights"],
+      ["/newsletter", "Newsletter"],
+    ],
+  },
+  {
+    title: "Contribute",
+    links: [["/submit", "Submit a company"]],
+  },
+];
+
 export default function MorePage() {
-  const links = [
-    ["/?view=companies", "All companies"],
-    ["/areas", "Tech areas"],
-    ["/industries", "Industries"],
-    ["/gccs", "Global capability centres"],
-    ["/feed", "Company feed"],
-    ["/news", "News"],
-    ["/stories", "Stories"],
-    ["/insights", "Ecosystem insights"],
-    ["/newsletter", "Newsletter"],
-    ["/submit", "Submit a company"],
-  ];
   return (
     <>
-      <SiteNav />
-      <main className="op-shell">
-        <h1>More of Hyderabad.</h1>
-        <p>Explore the companies and stories behind the opportunities.</p>
-        <div className="op-saved-searches">
-          {links.map(([url, label]) => (
-            <p key={url}>
-              <Link href={url}>{label} ↗</Link>
-            </p>
+      <SiteNav active="more" />
+      <main className="more-page">
+        <header className="more-hero">
+          <h1>More of Hyderabad.</h1>
+          <p>Companies, hiring, and stories behind the map — one place to keep exploring.</p>
+        </header>
+        <div className="more-grid">
+          {GROUPS.map((g) => (
+            <section key={g.title} className="more-col">
+              <h2>{g.title}</h2>
+              <ul>
+                {g.links.map(([url, label]) => (
+                  <li key={url}>
+                    <Link href={url}>{label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
           ))}
         </div>
       </main>
-      <SiteFooter />
     </>
   );
 }

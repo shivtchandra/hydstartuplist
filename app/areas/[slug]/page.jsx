@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
-import SiteFooter from "../../components/SiteFooter.jsx";
 import StartupLogo from "../../components/StartupLogo.jsx";
 import { AREA_LANDINGS, areaLanding, getAreaPage } from "../../../lib/areas.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
@@ -211,7 +210,6 @@ export default async function AreaDetailPage({ params }) {
           </div>
         </section>
       </div>
-      <SiteFooter />
-    </div>
+</div>
   );
 }

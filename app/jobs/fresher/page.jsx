@@ -1,6 +1,5 @@
 import Link from "next/link";
 import SiteNav from "../../components/SiteNav.jsx";
-import SiteFooter from "../../components/SiteFooter.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 import { getJobsByExperience } from "../../../lib/jobs.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
@@ -140,7 +139,6 @@ export default async function FresherJobsPage() {
           </p>
         )}
       </div>
-      <SiteFooter />
-    </div>
+</div>
   );
 }

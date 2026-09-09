@@ -11,7 +11,6 @@ import { getSiteUrl } from "../../../lib/site-url.js";
 import { prettyName } from "../../../lib/startupUi.js";
 import { jobUrlId } from "../../../lib/jobs-seo.js";
 import { areaSlugForName } from "../../../lib/areas.js";
-import SiteFooter from "../../components/SiteFooter.jsx";
 
 export const revalidate = 86400;
 
@@ -235,7 +234,6 @@ export default async function IndustryDetailPage({ params }) {
           </div>
         </section>
       </div>
-      <SiteFooter />
-    </div>
+</div>
   );
 }

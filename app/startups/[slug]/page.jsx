@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
-import SiteFooter from "../../components/SiteFooter.jsx";
 import StartupLogo from "../../components/StartupLogo.jsx";
 import { getStartupBySlug, getApproved, visibleHiring } from "../../../lib/store.js";
 import { getJobsForStartupSlug } from "../../../lib/jobs.js";
@@ -453,8 +452,7 @@ export default async function StartupDetailPage({ params }) {
           </aside>
         </div>
       </main>
-      <SiteFooter />
-      </div>
+</div>
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import SiteNav from "../components/SiteNav.jsx";
-import SiteFooter from "../components/SiteFooter.jsx";
 import ProductCompaniesClient from "../components/ProductCompaniesClient.jsx";
 import { getApproved, visibleHiring } from "../../lib/store.js";
 import { startupSlug } from "../../lib/slug.js";
@@ -28,7 +27,6 @@ export default async function ProductCompaniesPage() {
       <div className="feed-page">
         <ProductCompaniesClient startups={startups} />
       </div>
-      <SiteFooter />
-    </div>
+</div>
   );
 }
