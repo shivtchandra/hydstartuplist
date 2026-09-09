@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import ExploreModes from "./ExploreModes.jsx";
 import MobileTabBar from "./MobileTabBar.jsx";
+import AuthButton from "./AuthButton.jsx";
 
 /**
  * Canonical site chrome — same structure as the map home topnav:
@@ -102,6 +103,7 @@ export default function SiteNav({ active = "", mode }) {
           </form>
 
           <nav className="tn-links" aria-label="Site">
+            <AuthButton />
             <Link href="/saved" className={linkActive("saved") ? "active" : undefined}>
               Saved
             </Link>

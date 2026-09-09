@@ -10,6 +10,9 @@ import { FILTER_KEYS,readFilters } from '../../lib/opportunities.js';
 import { freshnessLabel } from '../../lib/job-lifecycle.js';
 import { jobUrlId } from '../../lib/jobs-seo.js';
 import { readShortlist,writeShortlist } from '../../lib/shortlist.js';
+import SoftLoginBanner from './SoftLoginBanner.jsx';
+import GoogleOneTap from './GoogleOneTap.jsx';
+import { pushShortlistToCloud, useAuthUser } from '../../lib/auth-client.js';
 import { trackEvent } from '../../lib/engagement-client.js';
 const Map=dynamic(()=>import('./OpportunityMap.jsx'),{ssr:false,loading:()=> <div className="op-map-status">Loading map…</div>});
 
@@ -94,6 +97,7 @@ function OpFilterSelect({ label, value, onChange, options, emptyLabel = 'Any', a
 }
 
 export default function OpportunityExplorer({initial,variant='new',savedOnly=false}) {
+  const { user: authUser } = useAuthUser();
   const params=useSearchParams(),router=useRouter(),pathname=usePathname();
   const filters=useMemo(()=>readFilters(params),[params]);
   const [query,setQuery]=useState(filters.q),[data,setData]=useState(initial),[busy,setBusy]=useState(false),[error,setError]=useState('');
@@ -171,7 +175,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     });return()=>{cancelled=true;};
   },[storageReady]);
   useEffect(()=>{if(!detail)return;setView('list');detailRef.current?.focus();},[detail?.id]);
-  function persist(next){if(writeShortlist(next)){startTransition(()=>{setShortlist(next);setNotice('');});}else setNotice('This browser could not save locally. Allow site storage and try again.');}
+  function persist(next){if(writeShortlist(next)){startTransition(()=>{setShortlist(next);setNotice('');});if(authUser?.uid)pushShortlistToCloud(authUser.uid,next);}else setNotice('This browser could not save locally. Allow site storage and try again.');}
   function save(job,status='saved'){persist({...shortlist,jobs:{...shortlist.jobs,[job.id]:{job,status,at:new Date().toISOString()}}});if(status==='saved')trackEvent('save',variant);}
   async function shareJob(job){
     if(!job?.id) return;
@@ -360,6 +364,6 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     </div>
     <dialog className="op-dialog op-filters-dialog" ref={sheetRef} onCancel={()=>setSheet(false)} onClick={e=>{if(e.target===sheetRef.current)setSheet(false);}}><header><h2>Find your fit</h2><button autoFocus onClick={()=>setSheet(false)} aria-label="Close filters">×</button></header>{filterFields}<p>Unknown experience and work arrangements are available as explicit filter options.</p><button className="op-primary" onClick={()=>setSheet(false)}>Show {data?.total??''} roles</button></dialog>
     <dialog ref={emailRef} className="op-dialog op-alert-box" onCancel={()=>setEmailOpen(false)} aria-label="Saved search alerts"><button className="op-dismiss" onClick={()=>setEmailOpen(false)} aria-label="Close email signup">×</button><h2>Search saved on this device.</h2><p>Get a daily email for: <strong>{Object.values(savedSearch?.filters||filters).filter(Boolean).join(' · ')||'all Hyderabad roles'}</strong>. Confirm your address to start. No email is sent when there are no new matches.</p><form onSubmit={subscribe}><input type="email" aria-label="Email address" placeholder="you@example.com" required value={email} onChange={e=>setEmail(e.target.value)}/><button className="op-primary">Send confirmation</button></form><p role="status">{emailState}</p></dialog>
-    <footer className="op-footer">{mapHome ? <span>Scroll for the full Hyderabad startup directory.</span> : <>Explore Hyderabad <Link href="/?view=companies">Companies</Link><Link href="/gccs">GCCs</Link><Link href="/more">News, insights & more</Link><span>Source dates and coverage vary. Saved items stay on this device.</span></>}</footer>
+    {!savedOnly&&Object.keys(shortlist.jobs).length>=2&&<><GoogleOneTap force /><SoftLoginBanner/></>}<footer className="op-footer">{mapHome ? <span>Scroll for the full Hyderabad startup directory.</span> : <>Explore Hyderabad <Link href="/?view=companies">Companies</Link><Link href="/gccs">GCCs</Link><Link href="/more">News, insights & more</Link><span>Source dates and coverage vary. Saved items stay on this device.</span></>}</footer>
   </main></>;
 }

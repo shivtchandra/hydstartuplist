@@ -6173,3 +6173,40 @@ body:has(.startup-page-wrap) {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+
+/* Organic auth — quiet nav + post-save banner (never a browse wall) */
+.tn-auth-wrap{position:relative;display:inline-flex;align-items:center}
+.tn-auth{
+  border:1px solid #d5dbd6;background:#fff;color:#1a1f1c;
+  font:inherit;font-size:13px;font-weight:600;padding:6px 11px;border-radius:999px;
+  cursor:pointer;white-space:nowrap
+}
+.tn-auth:hover{border-color:#9aa59b;background:#f7f8f6}
+.tn-auth:disabled{opacity:.6;cursor:wait}
+.tn-auth-in{padding:4px 10px}
+.tn-auth-in img{border-radius:50%;display:block}
+.tn-auth-err{position:absolute;top:100%;right:0;margin-top:4px;font-size:11px;color:#b42318;white-space:nowrap}
+
+.soft-login{
+  margin:12px 16px 0;padding:14px 16px;border:1px solid #dce3dd;border-radius:14px;
+  background:linear-gradient(180deg,#f7faf7,#eef3ef);display:flex;flex-wrap:wrap;gap:12px 16px;
+  align-items:center;justify-content:space-between
+}
+.soft-login-copy{flex:1 1 220px;min-width:0}
+.soft-login-copy strong{display:block;font-size:15px;color:#14201a;margin-bottom:4px}
+.soft-login-copy p{margin:0;font-size:13px;line-height:1.45;color:#4a5a52}
+.soft-login-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.soft-login-primary{
+  border:0;background:#1b4332;color:#fff;font:inherit;font-size:13px;font-weight:650;
+  padding:9px 14px;border-radius:999px;cursor:pointer
+}
+.soft-login-primary:hover{background:#163828}
+.soft-login-primary:disabled{opacity:.65;cursor:wait}
+.soft-login-dismiss{border:0;background:transparent;color:#5c6b63;font:inherit;font-size:13px;cursor:pointer;padding:8px 10px}
+.soft-login-dismiss:hover{color:#14201a}
+.soft-login-err{flex:1 0 100%;margin:0;font-size:12px;color:#b42318}
+@media(max-width:767px){
+  .tn-auth{font-size:12px;padding:5px 9px}
+  .soft-login{margin:10px 12px 0}
+}

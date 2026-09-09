@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback, startTransition } from "react";
 import Link from "next/link";
 import ExploreModes from "../components/ExploreModes.jsx";
+import AuthButton from "../components/AuthButton.jsx";
 import { normalizeArea, domainOf, hostnameOf, logoSrcs, colorFor, prettyName, careersUrl } from "../../lib/startupUi.js";
 import { startupSlug } from "../../lib/slug.js";
 import { jobUrlId } from "../../lib/jobs-seo.js";
@@ -1195,7 +1196,7 @@ export default function HomeClient({ initialStartups = [] }) {
           </div>
 
           <nav className="tn-links">
-            <Link href="/saved">Saved</Link>
+            <AuthButton /><Link href="/saved">Saved</Link>
             <Link href="/gccs">GCCs</Link>
             <Link href="/more">More</Link>
           </nav>
