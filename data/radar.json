@@ -1433,6 +1433,59 @@
         "funding-list",
         "marketing-careers"
       ]
+    },
+    {
+      "startupId": "24f93f05-3143-45f5-904d-af5ae447bedd",
+      "tags": [
+        "hard-to-find",
+        "healthtech",
+        "incubator"
+      ],
+      "why": "BlueSemi health wearable brand (eyva.io) at T-Hub Catalyst / IIIT-H \u2014 easy to confuse with eyva.ai and miss on ATS aggregators.",
+      "careers": "https://eyva.io/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "marketing-careers",
+        "funding-list"
+      ],
+      "aliases": [
+        "BlueSemi",
+        "EYVA by BlueSemi"
+      ]
+    },
+    {
+      "startupId": "30acf087-ee61-420a-a371-e3c8dc08584b",
+      "tags": [
+        "hard-to-find",
+        "ai",
+        "t-hub"
+      ],
+      "why": "T-Hub 2.0 AI team \u2014 easy to miss vs NicheAI name collisions and Greenhouse-heavy lists.",
+      "careers": "https://nichebrains.ai/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "marketing-careers",
+        "funding-list"
+      ]
+    },
+    {
+      "startupId": "a906df8a-c45f-4130-aa4f-516cdfb79922",
+      "tags": [
+        "hard-to-find",
+        "edtech"
+      ],
+      "why": "Quiet edtech careers page at Sandhya Techno 1 \u2014 sat in discovery queue until address confirmed.",
+      "careers": "https://www.edubuk.io/careers",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list"
+      ]
     }
   ],
   "missReasons": {
@@ -1535,23 +1588,6 @@
     {
       "name": "Sokksha",
       "whyHardToFind": "Inc42 AI Hyd named list but not on map \u2014 likely marketing careers / quiet ATS",
-      "missReasons": [
-        "funding-list",
-        "marketing-careers"
-      ],
-      "status": "verify-address"
-    },
-    {
-      "name": "NicheAI",
-      "whyHardToFind": "Inc42 AI Hyd \u2014 name collision risk; verify careers host + office",
-      "missReasons": [
-        "funding-list"
-      ],
-      "status": "verify-address"
-    },
-    {
-      "name": "Edubuk",
-      "whyHardToFind": "Manual verify queue \u2014 education deeptech, not aggregator-friendly",
       "missReasons": [
         "funding-list",
         "marketing-careers"
