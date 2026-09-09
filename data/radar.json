@@ -1451,7 +1451,8 @@
     "flow": "gap-sweep MISS \u2192 human verify \u2192 radar.json geo:hyd \u2192 address confirm \u2192 startups.json pin + optional ats-boards",
     "script": "scripts/radar-gap-sweep.mjs",
     "candidates": "data/radar-candidates.json",
-    "autoPin": false
+    "autoPin": false,
+    "skipNote": "User could not verify Hyd office (2026-09-09): Lemurian Labs, Utopia Therapeutics, HiWi, RACEnergy, NemoCare, Nebulaa \u2014 keep out of discoveryQueue until new evidence."
   },
   "schema": {
     "version": 2,
@@ -1514,40 +1515,6 @@
       "status": "verify-address"
     },
     {
-      "name": "NemoCare",
-      "whyHardToFind": "CfHE/IIT-H incubator medtech wearable; quiet vs HITEC SaaS lists; marketing site careers",
-      "missReasons": [
-        "incubator",
-        "funding-list",
-        "marketing-careers"
-      ],
-      "website": "https://nemocare.in",
-      "status": "verify-address"
-    },
-    {
-      "name": "RACEnergy / RACE Energy",
-      "whyHardToFind": "EV battery-swap infra \u2014 ops/hardware hiring; not a Greenhouse SaaS board; Hyd stations + team",
-      "missReasons": [
-        "funding-list",
-        "marketing-careers",
-        "outskirts"
-      ],
-      "website": null,
-      "status": "verify-address",
-      "note": "Confirm office pin vs swap-station addresses"
-    },
-    {
-      "name": "Utopia Therapeutics",
-      "whyHardToFind": "Ideana-CDFD incubator biotech; founders Gopi Kadiyala & Sreedhara Rao Voleti; below Inc42 Top-N",
-      "missReasons": [
-        "incubator",
-        "funding-list"
-      ],
-      "website": "https://utopiathx.com",
-      "status": "needs-address",
-      "note": "Previously skipped unverified address \u2014 re-verify before pin"
-    },
-    {
       "name": "Equal AI / Equal Identity",
       "whyHardToFind": "FundedIQ recent Hyd; aka Equal Identity rebrand/alias trap for scrapers",
       "missReasons": [
@@ -1588,14 +1555,6 @@
       "missReasons": [
         "funding-list",
         "marketing-careers"
-      ],
-      "status": "verify-address"
-    },
-    {
-      "name": "Nebulaa",
-      "whyHardToFind": "Tracxn AI deeptech Hyd \u2014 long-tail name, not Greenhouse-famous",
-      "missReasons": [
-        "funding-list"
       ],
       "status": "verify-address"
     }
