@@ -523,6 +523,172 @@
       "missReasons": [
         "gem"
       ]
+    },
+    {
+      "startupId": "003fa9e4-ee53-44e7-b486-11cded258f29",
+      "tags": [
+        "hard-to-find",
+        "saas"
+      ],
+      "why": "US-HQ GTM SaaS with a real CIE/IIIT-H Hyd office and careers#openroles \u2014 easy to miss as Durham-only.",
+      "careers": "https://gtmbuddy.ai/careers#openroles",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "us-hq-hyd-office",
+        "funding-list",
+        "marketing-careers"
+      ]
+    },
+    {
+      "startupId": "ed41befb-e88f-4f2f-90a3-e343af10d1a3",
+      "tags": [
+        "hard-to-find",
+        "healthtech"
+      ],
+      "why": "Inc42 healthtech Hyd list; Banjara Hills office with careers on the marketing site.",
+      "careers": "https://portl.co/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "funding-list",
+        "marketing-careers"
+      ]
+    },
+    {
+      "startupId": "9fb75fd6-6530-4061-a5be-e6d4be2447e2",
+      "tags": [
+        "hard-to-find",
+        "healthtech"
+      ],
+      "why": "Inc42 healthtech Hyd; Begumpet office with careers.php openings outside major ATS.",
+      "careers": "https://startoonlabs.com/careers.php#point11",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "funding-list",
+        "marketing-careers"
+      ]
+    },
+    {
+      "startupId": "1afc2766-d3ab-40f0-95d9-c13887618b4c",
+      "tags": [
+        "hard-to-find",
+        "ai"
+      ],
+      "why": "Inc42 AI Hyd name; Aparna Sarovar pin outside the usual HITEC corridor sweep.",
+      "careers": "https://biva.ai/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "funding-list",
+        "outskirts"
+      ]
+    },
+    {
+      "startupId": "aacd83e5-506f-4abe-bf76-7abb41cc99f2",
+      "tags": [
+        "hard-to-find",
+        "ai"
+      ],
+      "why": "HITEC edge-AI team with a marketing careers surface, not a Greenhouse/Ashby board.",
+      "careers": "https://www.deepedge.ai/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list"
+      ]
+    },
+    {
+      "startupId": "7195815f-a345-4f81-8591-89f3910f4192",
+      "tags": [
+        "hard-to-find",
+        "saas"
+      ],
+      "why": "Hyd HR SaaS in HITEC \u2014 easy to confuse with other Pulse brands; not on major ATS feeds.",
+      "careers": "https://www.pulsehrm.com/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list"
+      ]
+    },
+    {
+      "startupId": "19b2005d-498f-4336-b25e-a3301ad3a530",
+      "tags": [
+        "hard-to-find",
+        "ai"
+      ],
+      "why": "Mindspace AI team from funding lists; careers buried on the marketing site.",
+      "careers": "https://starbuzz.ai/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "funding-list",
+        "marketing-careers"
+      ]
+    },
+    {
+      "startupId": "57a282bf-08a4-4a06-84e4-fc9218cdea22",
+      "tags": [
+        "hard-to-find",
+        "iot"
+      ],
+      "why": "Madhapur IoT employer with /company/careers outside Greenhouse/Ashby aggregators.",
+      "careers": "https://www.zestiot.com/company/careers/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "funding-list",
+        "marketing-careers"
+      ]
+    },
+    {
+      "startupId": "3f9c82a0-882a-4f61-b734-616c96c774fd",
+      "tags": [
+        "hard-to-find"
+      ],
+      "why": "Kavuri Hills /career page \u2014 easy to miss vs similarly named healthtech brands.",
+      "careers": "https://nemosoftltd.net/career",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list"
+      ]
+    },
+    {
+      "startupId": "9b173e6d-a5d4-4f94-bcbb-2d81982ecca2",
+      "tags": [
+        "hard-to-find",
+        "ai"
+      ],
+      "why": "Tracxn AI deeptech Hyd; Madhapur office not on Greenhouse/Ashby aggregators.",
+      "careers": "https://www.supervity.ai/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "funding-list",
+        "marketing-careers"
+      ]
+    },
+    {
+      "startupId": "6ebe2fa7-1f2b-4b02-bda3-45f8b563ba1d",
+      "tags": [
+        "hard-to-find",
+        "pharma"
+      ],
+      "why": "Inc42 healthtech leftover; ALEAP/Gajularamaram site outside HITEC corridor bias.",
+      "careers": "https://www.orbicular.co.in/careers/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "outskirts",
+        "funding-list",
+        "marketing-careers"
+      ]
     }
   ],
   "missReasons": {
