@@ -28,6 +28,12 @@ const FEATURED = [
     title: "Stories",
     blurb: "Longer pieces on the ecosystem, hiring, and places.",
   },
+  {
+    href: "/radar",
+    kicker: "Members",
+    title: "Radar",
+    blurb: "Hard-to-find employers with founder LinkedIns — sign in to unlock.",
+  },
 ];
 
 const STRIPS = [

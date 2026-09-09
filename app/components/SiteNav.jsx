@@ -34,7 +34,8 @@ export default function SiteNav({ active = "", mode }) {
         pathname.startsWith("/stories") ||
         pathname.startsWith("/insights") ||
         pathname.startsWith("/newsletter") ||
-        pathname.startsWith("/feed")
+        pathname.startsWith("/feed") ||
+        pathname.startsWith("/radar")
       );
     }
     return active === key;

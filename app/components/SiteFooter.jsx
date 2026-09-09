@@ -36,6 +36,7 @@ export default function SiteFooter() {
             <Link href="/product-companies">Companies</Link>
             <Link href="/gccs">GCCs</Link>
             <Link href="/more">More</Link>
+            <Link href="/radar">Radar</Link>
             <Link href="/submit">Submit a startup</Link>
           </nav>
 
