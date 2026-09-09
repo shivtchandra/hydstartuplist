@@ -1,0 +1,121 @@
+{
+  "updatedAt": "2026-09-09",
+  "headline": "Radar",
+  "blurb": "Hand-picked companies that are easy to miss in a normal sweep — quiet Gem boards, Zoho careers pages, incubator pins, Remote India roles. The public map and job feed stay free; Radar is the editorial layer on top.",
+  "entries": [
+    {
+      "startupId": "07b8d5ac-b8be-4809-bcbe-14e34ca6d344",
+      "tags": ["remote-india", "gem", "hard-to-find"],
+      "why": "YC life-sciences voice AI. Careers live on Gem with Remote India eng roles — easy to miss if you only scrape Greenhouse/Ashby.",
+      "careers": "https://jobs.gem.com/synthio-labs",
+      "jobMode": "remote-india"
+    },
+    {
+      "startupId": "a8668de6-a2bd-4570-b982-b5391190d434",
+      "tags": ["hard-to-find", "pharma"],
+      "why": "Pharma track-and-trace SaaS in Kondapur. On-site Hyd hiring; not on big ATS aggregators.",
+      "careers": "https://altiushub.com/careers",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "faa9cdc5-08a9-43e9-8d60-d86cb4f5a448",
+      "tags": ["hard-to-find", "robotics"],
+      "why": "Funded robotics / AI team in Kondapur — careers page is easy to overlook.",
+      "careers": "https://www.perceptyne.com/career",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "5a23c455-c758-4974-a026-078da93b1d06",
+      "tags": ["hard-to-find", "zoho", "agritech"],
+      "why": "Agritech robotics; hiring via Zoho Recruit, not Greenhouse/Lever.",
+      "careers": "https://harvestedlabs.zohorecruit.in/jobs/Careers",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "86f8f9ed-f68d-41cb-92e6-8c747d0152ea",
+      "tags": ["hard-to-find", "hardware"],
+      "why": "Edge AI silicon with a real Gachibowli office (DLF Cyber City) — often listed as US-only.",
+      "careers": "https://www.blaize.com/careers/",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "e819b8ec-db34-4dec-9489-e40280ff97b5",
+      "tags": ["hard-to-find", "space"],
+      "why": "IIIT / CIE Vindhya space startup — small board, easy to miss in funding lists.",
+      "careers": "https://www.tm2.space/about-tm2s",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "fb3ea0ee-85d3-4d5d-9834-246aa8b19bd0",
+      "tags": ["hard-to-find", "aerospace"],
+      "why": "Aerospace manufacturing outside the usual HITEC corridor — easy to skip in city-center sweeps.",
+      "careers": "https://www.axirium.aero/",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "d807de4e-2fca-44fd-a9f9-f0c481536284",
+      "tags": ["hard-to-find", "cleantech"],
+      "why": "EV / BMS hardware at Narsingi coworking — not on mainstream ATS feeds.",
+      "careers": "https://xbattery.energy/",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "7732f415-af6b-48fa-832e-71f782c94d03",
+      "tags": ["hard-to-find", "space"],
+      "why": "Optical payloads for drones/space; Peeramcheru base.",
+      "careers": "https://www.eonspacelabs.com/",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "44c3636f-8f33-4540-b6f8-a9b4b7856be5",
+      "tags": ["hard-to-find"],
+      "why": "Smart-home hardware HQ in Banjara Hills — careers buried on the marketing site.",
+      "careers": "https://www.keus.in/",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "42f0a99e-a66b-471f-be72-2a69fc05ecaf",
+      "tags": ["hard-to-find", "edtech"],
+      "why": "Education-loan marketplace at Sanali Spazio — solid Hyd team, quiet careers surface.",
+      "careers": "https://gradright.com/",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "b17083a7-54a2-4e8f-a591-d97a64a53786",
+      "tags": ["hard-to-find", "ai"],
+      "why": "Early AI healthtech at D-Labs / ISB — tiny funding, easy to skip.",
+      "careers": "https://logy.ai/",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "b20a4113-4958-42cf-af1e-c90bc28d288e",
+      "tags": ["hard-to-find", "ai", "t-hub"],
+      "why": "AI team at T-Hub 2.0 — incubator address, easy to miss outside T-Hub lists.",
+      "careers": "https://www.kenyt.ai/",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "3bc81153-50c5-4051-85b3-aa2bbcb3aab9",
+      "tags": ["hard-to-find"],
+      "why": "Open-source project management; Hyd + SF hiring — often filed under Bangalore/remote only.",
+      "careers": "https://plane.so/careers",
+      "jobMode": "hyd-office"
+    },
+    {
+      "startupId": "d44906d9-9385-49b0-838e-71295dadfc5d",
+      "tags": ["hard-to-find", "healthtech"],
+      "why": "Health assurance platform with a real Madhapur office.",
+      "careers": "https://www.loophealth.com/careers",
+      "jobMode": "hyd-office"
+    },
+    {
+      "name": "PromptQL",
+      "website": "https://promptql.com",
+      "careers": "https://jobs.gem.com/expedition-technology",
+      "tags": ["remote-india", "gem", "bangalore"],
+      "why": "Gem board with Bangalore office + Remote India FDE roles. No Hyd pin yet — kept on Radar for India remote seekers.",
+      "jobMode": "remote-india",
+      "onMap": false
+    }
+  ]
+}
