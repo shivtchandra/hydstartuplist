@@ -5,7 +5,7 @@ import { signInWithGoogle, signOutUser, useAuthUser } from "../../lib/auth-clien
 
 /**
  * Quiet nav auth — never blocks browsing.
- * Organic conversion happens via SoftLoginBanner after the user already saved something.
+ * Organic conversion also happens via SoftLoginBanner / Google One Tap site-wide.
  */
 export default function AuthButton({ compact = false }) {
   const { user, ready } = useAuthUser();

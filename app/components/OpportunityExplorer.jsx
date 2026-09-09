@@ -10,8 +10,6 @@ import { FILTER_KEYS,readFilters } from '../../lib/opportunities.js';
 import { freshnessLabel } from '../../lib/job-lifecycle.js';
 import { jobUrlId } from '../../lib/jobs-seo.js';
 import { readShortlist,writeShortlist } from '../../lib/shortlist.js';
-import SoftLoginBanner from './SoftLoginBanner.jsx';
-import GoogleOneTap from './GoogleOneTap.jsx';
 import { pushShortlistToCloud, useAuthUser } from '../../lib/auth-client.js';
 import { trackEvent } from '../../lib/engagement-client.js';
 const Map=dynamic(()=>import('./OpportunityMap.jsx'),{ssr:false,loading:()=> <div className="op-map-status">Loading map…</div>});
@@ -364,6 +362,6 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     </div>
     <dialog className="op-dialog op-filters-dialog" ref={sheetRef} onCancel={()=>setSheet(false)} onClick={e=>{if(e.target===sheetRef.current)setSheet(false);}}><header><h2>Find your fit</h2><button autoFocus onClick={()=>setSheet(false)} aria-label="Close filters">×</button></header>{filterFields}<p>Unknown experience and work arrangements are available as explicit filter options.</p><button className="op-primary" onClick={()=>setSheet(false)}>Show {data?.total??''} roles</button></dialog>
     <dialog ref={emailRef} className="op-dialog op-alert-box" onCancel={()=>setEmailOpen(false)} aria-label="Saved search alerts"><button className="op-dismiss" onClick={()=>setEmailOpen(false)} aria-label="Close email signup">×</button><h2>Search saved on this device.</h2><p>Get a daily email for: <strong>{Object.values(savedSearch?.filters||filters).filter(Boolean).join(' · ')||'all Hyderabad roles'}</strong>. Confirm your address to start. No email is sent when there are no new matches.</p><form onSubmit={subscribe}><input type="email" aria-label="Email address" placeholder="you@example.com" required value={email} onChange={e=>setEmail(e.target.value)}/><button className="op-primary">Send confirmation</button></form><p role="status">{emailState}</p></dialog>
-    {!savedOnly&&Object.keys(shortlist.jobs).length>=2&&<><GoogleOneTap force /><SoftLoginBanner/></>}<footer className="op-footer">{mapHome ? <span>Scroll for the full Hyderabad startup directory.</span> : <>Explore Hyderabad <Link href="/?view=companies">Companies</Link><Link href="/gccs">GCCs</Link><Link href="/more">News, insights & more</Link><span>Source dates and coverage vary. Saved items stay on this device.</span></>}</footer>
+    <footer className="op-footer">{mapHome ? <span>Scroll for the full Hyderabad startup directory.</span> : <>Explore Hyderabad <Link href="/?view=companies">Companies</Link><Link href="/gccs">GCCs</Link><Link href="/more">News, insights & more</Link><span>Source dates and coverage vary. Saved items stay on this device.</span></>}</footer>
   </main></>;
 }

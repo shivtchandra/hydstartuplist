@@ -1,50 +1,73 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { signInWithGoogle, useAuthUser } from "../../lib/auth-client.js";
-import { readShortlist } from "../../lib/shortlist.js";
-import { promptGoogleOneTapNow } from "./GoogleOneTap.jsx";
+import { isLikelyMobileUa, promptGoogleOneTapNow } from "./GoogleOneTap.jsx";
 
-const DISMISS_KEY = "hyd-soft-login-dismiss";
+const SNOOZE_KEY = "hyd-soft-login-snooze-until";
+/** "Not now" only pauses briefly — show again next visit / after cooldown. */
+const SNOOZE_MS = 60 * 60 * 1000;
+
+function isSnoozed() {
+  try {
+    const until = Number(sessionStorage.getItem(SNOOZE_KEY) || "0");
+    return until > Date.now();
+  } catch {
+    return false;
+  }
+}
 
 /**
- * Organic login — prefer Google One Tap (account chip, no Login click).
- * Fallback: Continue with Google popup. Never walls the map.
+ * Soft sign-in for logged-out visitors.
+ * Desktop: pairs with One Tap chip. Mobile: primary CTA (One Tap rarely appears).
+ * Shows every visit unless user snoozes briefly.
  */
 export default function SoftLoginBanner({ force = false }) {
   const { user, ready } = useAuthUser();
+  const pathname = usePathname();
   const [show, setShow] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    setMobile(isLikelyMobileUa());
+    try {
+      // Migrate off old session-forever dismiss keys
+      sessionStorage.removeItem("hyd-soft-login-dismiss");
+      sessionStorage.removeItem("hyd-one-tap-dismiss");
+    } catch {}
+  }, []);
 
   useEffect(() => {
     if (!ready || user) {
       setShow(false);
       return;
     }
-    try {
-      if (!force && sessionStorage.getItem(DISMISS_KEY) === "1") {
-        setShow(false);
-        return;
-      }
-    } catch {}
-    const sl = readShortlist();
-    const savedCount = Object.keys(sl.jobs || {}).length + (sl.searches || []).length;
-    setShow(force || savedCount >= 1);
-  }, [ready, user, force]);
+    // Always re-offer on member surfaces (saved / radar) even if snoozed.
+    const memberSurface =
+      force ||
+      pathname.startsWith("/saved") ||
+      pathname.startsWith("/radar");
+    if (!memberSurface && isSnoozed()) {
+      setShow(false);
+      return;
+    }
+    setShow(true);
+  }, [ready, user, force, pathname]);
 
-  // When banner becomes relevant, try One Tap automatically (no button click)
   useEffect(() => {
-    if (!show || user) return;
+    if (!show || user || mobile) return;
     let cancelled = false;
     (async () => {
-      const ok = await promptGoogleOneTapNow();
-      if (cancelled || ok) return;
+      await promptGoogleOneTapNow();
+      if (cancelled) return;
     })();
     return () => {
       cancelled = true;
     };
-  }, [show, user]);
+  }, [show, user, mobile, pathname]);
 
   if (!show || user) return null;
 
@@ -52,8 +75,14 @@ export default function SoftLoginBanner({ force = false }) {
     setBusy(true);
     setErr("");
     try {
-      const tapped = await promptGoogleOneTapNow();
-      if (!tapped) await signInWithGoogle();
+      if (!mobile) {
+        const tapped = await promptGoogleOneTapNow();
+        if (tapped) {
+          setBusy(false);
+          return;
+        }
+      }
+      await signInWithGoogle();
       setShow(false);
     } catch (e) {
       if (e?.code !== "auth/popup-closed-by-user") setErr("Could not sign in. Try again.");
@@ -64,18 +93,24 @@ export default function SoftLoginBanner({ force = false }) {
 
   function dismiss() {
     try {
-      sessionStorage.setItem(DISMISS_KEY, "1");
-      sessionStorage.setItem("hyd-one-tap-dismiss", "1");
+      sessionStorage.setItem(SNOOZE_KEY, String(Date.now() + SNOOZE_MS));
+      sessionStorage.removeItem("hyd-soft-login-dismiss");
+      sessionStorage.removeItem("hyd-one-tap-dismiss");
     } catch {}
     setShow(false);
   }
 
   return (
-    <aside className="soft-login" aria-label="Optional sign-in">
+    <aside
+      className={`soft-login${mobile ? " soft-login-mobile" : ""}`}
+      aria-label="Optional sign-in"
+    >
       <div className="soft-login-copy">
-        <strong>Keep your shortlist across devices</strong>
+        <strong>{mobile ? "Sign in with Google" : "Keep your shortlist across devices"}</strong>
         <p>
-          If Google shows your account in the corner, tap it — no Login button needed. Map and jobs stay free either way.
+          {mobile
+            ? "Tap below to sign in. Map and jobs stay free — sign-in syncs saves and unlocks Radar."
+            : "Google may show your account in the corner, or use the button. Map and jobs stay free."}
         </p>
       </div>
       <div className="soft-login-actions">
@@ -86,7 +121,11 @@ export default function SoftLoginBanner({ force = false }) {
           Not now
         </button>
       </div>
-      {err ? <p className="soft-login-err" role="status">{err}</p> : null}
+      {err ? (
+        <p className="soft-login-err" role="status">
+          {err}
+        </p>
+      ) : null}
     </aside>
   );
 }

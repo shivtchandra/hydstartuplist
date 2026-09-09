@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import {
   cancelGoogleOneTap,
   googleOneTapClientId,
@@ -8,8 +9,10 @@ import {
   useAuthUser,
 } from "../../lib/auth-client.js";
 
-const DISMISS_KEY = "hyd-one-tap-dismiss";
+const SNOOZE_KEY = "hyd-one-tap-snooze-until";
 const SCRIPT_ID = "google-gsi-client";
+/** Explicit dismiss only snoozes briefly — user asked for prompt every visit. */
+const SNOOZE_MS = 45 * 60 * 1000;
 
 function loadGsiScript() {
   return new Promise((resolve, reject) => {
@@ -32,23 +35,38 @@ function loadGsiScript() {
   });
 }
 
-function shouldOfferOneTap(force) {
+function isSnoozed() {
   try {
-    if (sessionStorage.getItem(DISMISS_KEY) === "1") return false;
+    const until = Number(sessionStorage.getItem(SNOOZE_KEY) || "0");
+    return until > Date.now();
+  } catch {
+    return false;
+  }
+}
+
+function snooze() {
+  try {
+    sessionStorage.setItem(SNOOZE_KEY, String(Date.now() + SNOOZE_MS));
   } catch {}
-  // Show on normal map/jobs screens too — not only after save.
-  // force=true still used on /saved; dismiss keeps it from nagging all session.
-  return true;
+}
+
+/** One Tap is unreliable on iOS Safari / many mobile WebViews. */
+export function isLikelyMobileUa() {
+  if (typeof navigator === "undefined") return false;
+  return /Android|iPhone|iPad|iPod|Mobile|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent || ""
+  );
 }
 
 /**
- * Google One Tap — account chip appears without clicking Sign in.
- * Does not block the map. Prompts on normal screens; session dismiss stops nagging.
+ * Google One Tap — desktop account chip (auto).
+ * Mobile browsers rarely show One Tap; SoftLoginBanner covers that.
+ * Re-prompts on each route while logged out (short snooze only if user closes chip).
  */
-
 export default function GoogleOneTap({ force = false }) {
   const { user, ready } = useAuthUser();
-  const prompted = useRef(false);
+  const pathname = usePathname();
+  const lastPromptPath = useRef("");
 
   useEffect(() => {
     if (!ready || user) {
@@ -57,8 +75,10 @@ export default function GoogleOneTap({ force = false }) {
     }
     const clientId = googleOneTapClientId();
     if (!clientId) return undefined;
-    if (!shouldOfferOneTap(force)) return undefined;
-    if (prompted.current) return undefined;
+    if (!force && isSnoozed()) return undefined;
+    // Skip One Tap on mobile — it almost never paints; banner handles CTA.
+    if (!force && isLikelyMobileUa()) return undefined;
+    if (lastPromptPath.current === pathname) return undefined;
 
     let cancelled = false;
 
@@ -79,22 +99,18 @@ export default function GoogleOneTap({ force = false }) {
           },
           auto_select: true,
           cancel_on_tap_outside: true,
-          context: "use",
+          context: "signin",
           itp_support: true,
-          use_fedcm_for_prompt: true,
+          // FedCM often returns isNotDisplayed on mobile / locked-down browsers.
+          use_fedcm_for_prompt: false,
         });
 
-        prompted.current = true;
+        lastPromptPath.current = pathname;
         accountsId.prompt((notification) => {
           if (!notification) return;
-          // Only suppress this session if the user explicitly dismissed the chip.
           if (notification.isDismissedMoment?.()) {
-            try {
-              const reason = notification.getDismissedReason?.();
-              if (reason && reason !== "credential_returned") {
-                sessionStorage.setItem(DISMISS_KEY, "1");
-              }
-            } catch {}
+            const reason = notification.getDismissedReason?.();
+            if (reason && reason !== "credential_returned") snooze();
           }
         });
       } catch (err) {
@@ -104,23 +120,40 @@ export default function GoogleOneTap({ force = false }) {
 
     return () => {
       cancelled = true;
-      cancelGoogleOneTap();
     };
-  }, [ready, user, force]);
+  }, [ready, user, force, pathname]);
 
   return null;
 }
 
-/** Call from banners to re-show One Tap if available; returns false if not configured. */
+/** Call from banners to re-show One Tap if available; returns false if not configured / mobile. */
 export async function promptGoogleOneTapNow() {
   const clientId = googleOneTapClientId();
   if (!clientId) return false;
+  if (isLikelyMobileUa()) return false;
   try {
-    sessionStorage.removeItem(DISMISS_KEY);
+    sessionStorage.removeItem(SNOOZE_KEY);
+    sessionStorage.removeItem("hyd-one-tap-dismiss");
   } catch {}
   try {
     const accountsId = await loadGsiScript();
     if (!accountsId) return false;
+    accountsId.initialize({
+      client_id: clientId,
+      callback: async (response) => {
+        try {
+          if (!response?.credential) return;
+          await signInWithGoogleIdToken(response.credential);
+        } catch (err) {
+          console.warn("One Tap sign-in failed", err?.code || err?.message || err);
+        }
+      },
+      auto_select: true,
+      cancel_on_tap_outside: true,
+      context: "signin",
+      itp_support: true,
+      use_fedcm_for_prompt: false,
+    });
     accountsId.prompt();
     return true;
   } catch {
