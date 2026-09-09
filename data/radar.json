@@ -71,7 +71,9 @@
         "Supreet Deshpande",
         "Sahitya Sridhar",
         "Rajashekar Vasantha"
-      ]
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "Flagship Gem signal but Codex disputes Hyd substance \u2014 verify founders/eng Hyd link before Core."
     },
     {
       "startupId": "a8668de6-a2bd-4570-b982-b5391190d434",
@@ -118,7 +120,8 @@
       },
       "founderNames": [
         "Siddharth Reddy"
-      ]
+      ],
+      "exclusiveTier": "core"
     },
     {
       "startupId": "faa9cdc5-08a9-43e9-8d60-d86cb4f5a448",
@@ -175,7 +178,8 @@
       "founderNames": [
         "Raviteja Chivukula",
         "Jagga Raju N."
-      ]
+      ],
+      "exclusiveTier": "core"
     },
     {
       "startupId": "5a23c455-c758-4974-a026-078da93b1d06",
@@ -235,7 +239,8 @@
       "founderNames": [
         "Rahul Arepaka",
         "George Mathew"
-      ]
+      ],
+      "exclusiveTier": "core"
     },
     {
       "startupId": "86f8f9ed-f68d-41cb-92e6-8c747d0152ea",
@@ -282,7 +287,9 @@
       },
       "founderNames": [
         "Kamal Jain"
-      ]
+      ],
+      "exclusiveTier": "core",
+      "tierNote": "Keep if Hyd eng mandate documented; else demote."
     },
     {
       "startupId": "e819b8ec-db34-4dec-9489-e40280ff97b5",
@@ -330,7 +337,8 @@
       },
       "founderNames": [
         "Ronak Kumar Samantray"
-      ]
+      ],
+      "exclusiveTier": "core"
     },
     {
       "startupId": "fb3ea0ee-85d3-4d5d-9834-246aa8b19bd0",
@@ -393,7 +401,8 @@
         "Neeraj Agarwal",
         "Nishant Khurana",
         "Piyush Agarwal"
-      ]
+      ],
+      "exclusiveTier": "core"
     },
     {
       "startupId": "d807de4e-2fca-44fd-a9f9-f0c481536284",
@@ -463,7 +472,8 @@
         "Satish Reddy",
         "Sonu Mishra",
         "Varshith Rao"
-      ]
+      ],
+      "exclusiveTier": "core"
     },
     {
       "startupId": "7732f415-af6b-48fa-832e-71f782c94d03",
@@ -516,7 +526,8 @@
       "founderNames": [
         "Manoj Kumar",
         "Sanjay Kumar"
-      ]
+      ],
+      "exclusiveTier": "core"
     },
     {
       "startupId": "44c3636f-8f33-4540-b6f8-a9b4b7856be5",
@@ -572,7 +583,8 @@
       "founderNames": [
         "Dhruv Bansal",
         "Ashwik Reddy"
-      ]
+      ],
+      "exclusiveTier": "watch"
     },
     {
       "startupId": "42f0a99e-a66b-471f-be72-2a69fc05ecaf",
@@ -586,7 +598,8 @@
       "geo": "hyd",
       "missReasons": [
         "marketing-careers"
-      ]
+      ],
+      "exclusiveTier": "demote"
     },
     {
       "startupId": "b17083a7-54a2-4e8f-a591-d97a64a53786",
@@ -633,7 +646,8 @@
       },
       "founderNames": [
         "Priyanjit Ghosh"
-      ]
+      ],
+      "exclusiveTier": "core"
     },
     {
       "startupId": "b20a4113-4958-42cf-af1e-c90bc28d288e",
@@ -649,7 +663,8 @@
       "missReasons": [
         "incubator",
         "funding-list"
-      ]
+      ],
+      "exclusiveTier": "cut"
     },
     {
       "startupId": "3bc81153-50c5-4051-85b3-aa2bbcb3aab9",
@@ -706,7 +721,8 @@
       "founderNames": [
         "Vamsi Kurama",
         "Vihar Kurama"
-      ]
+      ],
+      "exclusiveTier": "demote"
     },
     {
       "startupId": "d44906d9-9385-49b0-838e-71295dadfc5d",
@@ -752,7 +768,8 @@
       },
       "founderNames": [
         "Mayank Kale"
-      ]
+      ],
+      "exclusiveTier": "demote"
     },
     {
       "name": "PromptQL",
@@ -1108,7 +1125,9 @@
         "Sreedhar Peddineni",
         "Santa Thounaojam",
         "Chandramani Tiwary"
-      ]
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "Scarce SaaS slot only; cut if SaaS quota exceeded."
     },
     {
       "startupId": "ed41befb-e88f-4f2f-90a3-e343af10d1a3",
@@ -1155,7 +1174,8 @@
       },
       "founderNames": [
         "Indraneel Gupta"
-      ]
+      ],
+      "exclusiveTier": "watch"
     },
     {
       "startupId": "9fb75fd6-6530-4061-a5be-e6d4be2447e2",
@@ -1203,7 +1223,8 @@
       },
       "founderNames": [
         "Suresh Susurla"
-      ]
+      ],
+      "exclusiveTier": "core"
     },
     {
       "startupId": "1afc2766-d3ab-40f0-95d9-c13887618b4c",
@@ -1257,7 +1278,8 @@
       "founderNames": [
         "Abhiram Kolli",
         "Akhila Ganti"
-      ]
+      ],
+      "exclusiveTier": "cut"
     },
     {
       "startupId": "aacd83e5-506f-4abe-bf76-7abb41cc99f2",
@@ -1311,7 +1333,9 @@
       "founderNames": [
         "Ravindra Adapa",
         "Anup Mehta"
-      ]
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "Restore Core only after Hyd engineering node proven."
     },
     {
       "startupId": "7195815f-a345-4f81-8591-89f3910f4192",
@@ -1326,7 +1350,8 @@
       "missReasons": [
         "marketing-careers",
         "funding-list"
-      ]
+      ],
+      "exclusiveTier": "cut"
     },
     {
       "startupId": "19b2005d-498f-4336-b25e-a3301ad3a530",
@@ -1341,7 +1366,8 @@
       "missReasons": [
         "funding-list",
         "marketing-careers"
-      ]
+      ],
+      "exclusiveTier": "cut"
     },
     {
       "startupId": "57a282bf-08a4-4a06-84e4-fc9218cdea22",
@@ -1356,7 +1382,9 @@
       "missReasons": [
         "funding-list",
         "marketing-careers"
-      ]
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "Core-worthy vertical; needs depth block within 30 days."
     },
     {
       "startupId": "3f9c82a0-882a-4f61-b734-616c96c774fd",
@@ -1370,7 +1398,8 @@
       "missReasons": [
         "marketing-careers",
         "funding-list"
-      ]
+      ],
+      "exclusiveTier": "cut"
     },
     {
       "startupId": "9b173e6d-a5d4-4f94-bcbb-2d81982ecca2",
@@ -1416,7 +1445,8 @@
       },
       "founderNames": [
         "Vijay Navaluri"
-      ]
+      ],
+      "exclusiveTier": "watch"
     },
     {
       "startupId": "6ebe2fa7-1f2b-4b02-bda3-45f8b563ba1d",
@@ -1432,7 +1462,9 @@
         "outskirts",
         "funding-list",
         "marketing-careers"
-      ]
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "Deep Roots research anchor; needs depth pass."
     },
     {
       "startupId": "24f93f05-3143-45f5-904d-af5ae447bedd",
@@ -1453,7 +1485,9 @@
       "aliases": [
         "BlueSemi",
         "EYVA by BlueSemi"
-      ]
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "High novelty; needs founders + clinical-positioning clarity."
     },
     {
       "startupId": "30acf087-ee61-420a-a371-e3c8dc08584b",
@@ -1470,7 +1504,8 @@
         "incubator",
         "marketing-careers",
         "funding-list"
-      ]
+      ],
+      "exclusiveTier": "cut"
     },
     {
       "startupId": "a906df8a-c45f-4130-aa4f-516cdfb79922",
@@ -1485,7 +1520,8 @@
       "missReasons": [
         "marketing-careers",
         "funding-list"
-      ]
+      ],
+      "exclusiveTier": "cut"
     }
   ],
   "missReasons": {
@@ -1505,7 +1541,8 @@
     "script": "scripts/radar-gap-sweep.mjs",
     "candidates": "data/radar-candidates.json",
     "autoPin": false,
-    "skipNote": "User could not verify Hyd office (2026-09-09): Lemurian Labs, Utopia Therapeutics, HiWi, RACEnergy, NemoCare, Nebulaa \u2014 keep out of discoveryQueue until new evidence."
+    "skipNote": "User could not verify Hyd office (2026-09-09): Lemurian Labs, Utopia Therapeutics, HiWi, RACEnergy, NemoCare, Nebulaa \u2014 keep out of discoveryQueue until new evidence.",
+    "exclusiveCrossVerify": "2026-09-09 Claude + GPT/Codex \u2014 tiers proposed; cut/demote not removed until user confirms"
   },
   "schema": {
     "version": 2,
@@ -1542,57 +1579,218 @@
     }
   },
   "curationBar": {
+    "lockedAt": "2026-09-09",
+    "crossVerifiedBy": [
+      "claude-opus",
+      "gpt-codex-style"
+    ],
+    "listSize": {
+      "coreExclusive": "12-15",
+      "watch": "8-10",
+      "hardCap": 30,
+      "rationale": "Depth re-verify capacity beats ambition; weak names destroy trust more than missing names."
+    },
+    "gates": [
+      "Verified Hyderabad substance (HQ / local R&D / manufacturing \u2014 not Inc42 mention alone)",
+      "Hard discovery signal: gem|zoho|keka|rippling|remote-india|us-hq-hyd-office|incubator|outskirts|alias trap. funding-list and marketing-careers are SUPPORTING only \u2014 never qualify alone or as a pair",
+      "Problem class: physical / scientific / regulated / infrastructure \u2014 hard-reject HRM, payroll, generic CRM, IT staffing, agency, me-too chatbot",
+      "Depth obtainable: at least two of founder LinkedIns, office nuance, alias, non-obvious careers, incubator pin \u2014 else map pin only"
+    ],
+    "newAgeTests": [
+      "Constraint: physics/regulation/clinical/manufacturing/infra/proprietary data",
+      "Deletion: remove 'AI-powered' \u2014 still differentiated?",
+      "Substitution: Zoho/agency/LLM wrapper in six months?",
+      "Artifact: device/model/dataset/cert/patent/facility/named deployment",
+      "Hyderabad: would product change if Hyd team vanished?"
+    ],
     "acceptIf": [
-      "At least one missReason beyond generic funding-list alone OR funding-list + concrete hard-to-find detail",
-      "Hyd link is real (office, Remote India eng, or India entity) \u2014 not just an Inc42 mention",
-      "Careers surface is non-obvious (Gem/Zoho/Keka/Rippling/marketing/#hash) OR geography/incubator quirks",
-      "Depth: founders LinkedIn OR aliases/rebrands OR office nuance that scrapers miss"
+      "Clears all four gates",
+      "Core: strong Hyd substance + defensibility; Watch: strong but evidence gap",
+      "Deep Roots allowed for serious Genome Valley / industrial R&D anchors"
     ],
     "rejectIf": [
-      "Only appears on Greenhouse/Ashby with clear Hyd location already scraped by aggregators",
-      "Famous HITEC SaaS already on every Hyd startup list with no stealth angle",
-      "Cannot verify Hyd address / Remote India link",
-      "Invented or unverified founder LinkedIns"
+      "Commodity HRM/CRM/sales-enablement/influencer-marketing SaaS",
+      "funding-list + marketing-careers with no harder signal",
+      "Famous corridor names (fame is disqualifying for Radar)",
+      "Cannot verify Hyd substance",
+      "Invented founder LinkedIns",
+      "Identity ambiguous (e.g. Sokksha conflict)"
+    ],
+    "sectorPriority": [
+      "Space / aerospace / defense manufacturing",
+      "Life sciences / Genome Valley / med-device / pharma-tech",
+      "Robotics / industrial automation",
+      "Energy / climate / materials hardware",
+      "AI only when applied to regulated or physical domains",
+      "Silicon / deep infra (rare, high value)",
+      "B2B SaaS: max ~3 slots and only with Gem/Zoho/US-HQ quirk"
     ]
   },
   "discoveryQueue": [
     {
-      "name": "PromptQL / Expedition Technology",
-      "whyHardToFind": "Gem board (jobs.gem.com/expedition-technology); Remote India roles \u2014 fails Hyd city filters",
-      "missReasons": [
-        "gem",
-        "remote-india"
-      ],
-      "website": null,
-      "careers": "https://jobs.gem.com/expedition-technology",
-      "status": "verify-address"
-    },
-    {
       "name": "Equal AI / Equal Identity",
-      "whyHardToFind": "FundedIQ recent Hyd; aka Equal Identity rebrand/alias trap for scrapers",
-      "missReasons": [
-        "funding-list"
-      ],
-      "website": "https://equal.in",
-      "status": "verify-address"
-    },
-    {
-      "name": "Rekise Marine",
-      "whyHardToFind": "Marine/defense deeptech \u2014 not HITEC SaaS forums; FundedIQ Hyd recent",
+      "status": "verify-address",
       "missReasons": [
         "funding-list",
-        "outskirts"
+        "alias"
       ],
-      "status": "verify-address"
+      "whyHardToFind": "Alias/rebrand trap; financial-data consent infra"
     },
     {
-      "name": "Sokksha",
-      "whyHardToFind": "Inc42 AI Hyd named list but not on map \u2014 likely marketing careers / quiet ATS",
+      "name": "Helex",
+      "status": "verify-address",
       "missReasons": [
-        "funding-list",
+        "incubator"
+      ],
+      "whyHardToFind": "BioNEST UoH \u2014 university bio incubator scrapers miss"
+    },
+    {
+      "name": "Cosmoserve Space",
+      "status": "verify-address",
+      "missReasons": [
+        "incubator",
         "marketing-careers"
       ],
-      "status": "verify-address"
+      "whyHardToFind": "T-Hub space sustainability; #Careers marketing anchor"
+    },
+    {
+      "name": "Indrajaal",
+      "status": "verify-address",
+      "missReasons": [
+        "outskirts",
+        "funding-list"
+      ],
+      "whyHardToFind": "Defense counter-UAS; absent from startup forums"
+    },
+    {
+      "name": "Anvi Robotics",
+      "status": "verify-address",
+      "missReasons": [
+        "marketing-careers"
+      ],
+      "whyHardToFind": "No ATS; LinkedIn-only hiring surface"
+    },
+    {
+      "name": "Makers Hive",
+      "status": "verify-address",
+      "missReasons": [
+        "marketing-careers"
+      ],
+      "whyHardToFind": "Med robotics \u2014 Inc42 once then quiet"
+    },
+    {
+      "name": "Constelli",
+      "status": "verify-address",
+      "missReasons": [
+        "outskirts"
+      ],
+      "whyHardToFind": "EW/radar supplier registries, not startup lists"
+    },
+    {
+      "name": "Vyuhaa Med Data",
+      "status": "enrich-radar",
+      "missReasons": [
+        "marketing-careers"
+      ],
+      "whyHardToFind": "Already mapped; needs Radar depth + exclusive tier"
+    },
+    {
+      "name": "Abyom SpaceTech",
+      "status": "verify-address",
+      "missReasons": [
+        "incubator"
+      ],
+      "whyHardToFind": "BITS Pilani Hyd campus pin defeats corridor sweeps"
+    },
+    {
+      "name": "Docturnal",
+      "status": "verify-address",
+      "missReasons": [
+        "outskirts",
+        "marketing-careers"
+      ],
+      "whyHardToFind": "Sanath Nagar respiratory AI; verify product claims"
     }
-  ]
+  ],
+  "exclusiveList": {
+    "updatedAt": "2026-09-09",
+    "status": "proposed \u2014 awaiting user confirm before removing cut/demote from Radar",
+    "core": [
+      "AltiusHub",
+      "Axirium Aerospace",
+      "Blaize",
+      "Eon Space Labs",
+      "Harvested Robotics",
+      "Logy.AI",
+      "Perceptyne",
+      "Startoon Labs",
+      "TakeMe2Space",
+      "Xbattery Energy"
+    ],
+    "watch": [
+      "DeepEdge",
+      "Eyva",
+      "GTM Buddy",
+      "Keus",
+      "Orbicular Pharmaceutical Technologies",
+      "Portl",
+      "Supervity",
+      "Synthio Labs",
+      "ZestIOT"
+    ],
+    "demote": [
+      "GradRight",
+      "Loop Health",
+      "Plane"
+    ],
+    "cut": [
+      "Biva",
+      "Edubuk",
+      "Kenyt Technologies",
+      "NemoSoft",
+      "NicheBrains",
+      "Pulse HRM",
+      "Starbuzz"
+    ],
+    "promoteFromMap": [
+      {
+        "name": "Vyuhaa Med Data",
+        "why": "Both models: digital pathology hardware\u2013AI; map pin not yet Radar"
+      },
+      {
+        "name": "Helex",
+        "why": "BioNEST UoH gene therapy \u2014 top Claude discovery"
+      },
+      {
+        "name": "Cosmoserve Space",
+        "why": "Orbital debris / in-orbit servicing, T-Hub"
+      },
+      {
+        "name": "Indrajaal",
+        "why": "Counter-UAS defense, non-corridor"
+      },
+      {
+        "name": "Anvi Robotics",
+        "why": "Field robotics, no ATS"
+      },
+      {
+        "name": "Makers Hive",
+        "why": "Med robotics / prosthetics"
+      },
+      {
+        "name": "Constelli",
+        "why": "RF/EW test systems"
+      },
+      {
+        "name": "Equal AI",
+        "why": "Codex promote \u2014 financial data/identity infra"
+      }
+    ],
+    "queueActions": {
+      "Equal AI / Equal Identity": "promote-candidate",
+      "PromptQL / Expedition Technology": "drop \u2014 Bengaluru/SF evidence",
+      "Rekise Marine": "regional-watch \u2014 Bengaluru HQ, not Hyd pin",
+      "Sokksha": "drop \u2014 identity conflict"
+    }
+  }
 }
