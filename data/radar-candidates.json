@@ -633,14 +633,6 @@
       "label": "Priority MISS from gap-sweep + LinkedIn Hyd hiring signal",
       "candidates": [
         {
-          "name": "Lemurian Labs",
-          "website": "https://www.lemurianlabs.com",
-          "careers": "https://job-boards.greenhouse.io/lemurianlabs",
-          "suggestedMissReasons": [
-            "us-hq-hyd-office"
-          ]
-        },
-        {
           "name": "GTM Buddy",
           "website": "https://gtmbuddy.ai",
           "suggestedMissReasons": [
@@ -670,22 +662,8 @@
           ]
         },
         {
-          "name": "Utopia Therapeutics",
-          "website": "https://utopiathx.com",
-          "suggestedMissReasons": [
-            "funding-list"
-          ]
-        },
-        {
           "name": "Pulse",
           "website": "https://pulsegen.io",
-          "suggestedMissReasons": [
-            "funding-list"
-          ]
-        },
-        {
-          "name": "HiWi",
-          "website": "https://hiwipay.com",
           "suggestedMissReasons": [
             "funding-list"
           ]
@@ -698,19 +676,7 @@
           ]
         },
         {
-          "name": "RACEnergy",
-          "suggestedMissReasons": [
-            "funding-list"
-          ]
-        },
-        {
           "name": "ZestIOT",
-          "suggestedMissReasons": [
-            "funding-list"
-          ]
-        },
-        {
-          "name": "NemoCare",
           "suggestedMissReasons": [
             "funding-list"
           ]
@@ -720,12 +686,64 @@
           "suggestedMissReasons": [
             "funding-list"
           ]
+        }
+      ]
+    },
+    "skipped-unverified": {
+      "label": "User could not verify Hyd office \u2014 do not pin",
+      "updatedAt": "2026-09-09",
+      "candidates": [
+        {
+          "name": "Lemurian Labs",
+          "website": "https://www.lemurianlabs.com",
+          "careers": "https://job-boards.greenhouse.io/lemurianlabs",
+          "suggestedMissReasons": [
+            "us-hq-hyd-office"
+          ],
+          "status": "skip",
+          "note": " | user could not verify Hyd address (2026-09-09)"
+        },
+        {
+          "name": "Utopia Therapeutics",
+          "website": "https://utopiathx.com",
+          "suggestedMissReasons": [
+            "funding-list"
+          ],
+          "status": "skip",
+          "note": " | user could not verify Hyd address (2026-09-09)"
+        },
+        {
+          "name": "HiWi",
+          "website": "https://hiwipay.com",
+          "suggestedMissReasons": [
+            "funding-list"
+          ],
+          "status": "skip",
+          "note": " | user could not verify Hyd address (2026-09-09)"
+        },
+        {
+          "name": "RACEnergy",
+          "suggestedMissReasons": [
+            "funding-list"
+          ],
+          "status": "skip",
+          "note": " | user could not verify Hyd address (2026-09-09)"
+        },
+        {
+          "name": "NemoCare",
+          "suggestedMissReasons": [
+            "funding-list"
+          ],
+          "status": "skip",
+          "note": " | user could not verify Hyd address (2026-09-09)"
         },
         {
           "name": "Nebulaa",
           "suggestedMissReasons": [
             "funding-list"
-          ]
+          ],
+          "status": "skip",
+          "note": " | user could not verify Hyd address (2026-09-09)"
         }
       ]
     }
