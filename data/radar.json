@@ -1,10 +1,10 @@
 {
   "updatedAt": "2026-09-09",
   "headline": "Radar",
-  "blurb": "Hand-picked hard-to-find employers \u2014 not an Inc42/Greenhouse scrape. Depth (founders, aliases, miss rationale) is curated research. Split by geo: Hyderabad map, San Francisco seed, full-remote Gem boards. Public Hyd map/jobs stay free.",
+  "blurb": "Hand-picked hard-to-find employers — not an Inc42/Greenhouse scrape. Depth (founders, aliases, miss rationale) is curated research. Split by geo: Hyderabad map, San Francisco seed, full-remote Gem boards. Public Hyd map/jobs stay free.",
   "geos": {
-    "hyd": "Hyderabad \u2014 hard-to-find local / Remote India with Hyd link",
-    "sf": "San Francisco Bay \u2014 seed list for a Mapping SF variant",
+    "hyd": "Hyderabad — hard-to-find local / Remote India with Hyd link",
+    "sf": "San Francisco Bay — seed list for a Mapping SF variant",
     "remote": "Full remote (no city office pin)"
   },
   "entries": [
@@ -15,7 +15,7 @@
         "gem",
         "hard-to-find"
       ],
-      "why": "YC life-sciences voice AI. Careers live on Gem with Remote India eng roles \u2014 easy to miss if you only scrape Greenhouse/Ashby.",
+      "why": "YC life-sciences voice AI. Careers live on Gem with Remote India eng roles — easy to miss if you only scrape Greenhouse/Ashby.",
       "careers": "https://jobs.gem.com/synthio-labs",
       "jobMode": "remote-india",
       "geo": "hyd",
@@ -73,7 +73,7 @@
         "Rajashekar Vasantha"
       ],
       "exclusiveTier": "watch",
-      "tierNote": "Flagship Gem signal but Codex disputes Hyd substance \u2014 verify founders/eng Hyd link before Core.",
+      "tierNote": "Flagship Gem signal but Codex disputes Hyd substance — verify founders/eng Hyd link before Core.",
       "verifyStatus": "published"
     },
     {
@@ -102,7 +102,7 @@
           }
         ],
         "stealthSignals": [
-          "Pharma serialization SaaS \u2014 rarely on consumer startup forums",
+          "Pharma serialization SaaS — rarely on consumer startup forums",
           "Careers on marketing site, not Greenhouse/Ashby"
         ],
         "sources": [
@@ -131,7 +131,7 @@
         "hard-to-find",
         "robotics"
       ],
-      "why": "Funded robotics / AI team in Kondapur \u2014 careers page is easy to overlook.",
+      "why": "Funded robotics / AI team in Kondapur — careers page is easy to overlook.",
       "careers": "https://www.perceptyne.com/career",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -157,7 +157,7 @@
           }
         ],
         "stealthSignals": [
-          "Humanoid/industrial robotics \u2014 careers page easy to miss vs SaaS Greenhouse boards",
+          "Humanoid/industrial robotics — careers page easy to miss vs SaaS Greenhouse boards",
           "Company LinkedIn slug perceptyne-robots (not the product domain alone)"
         ],
         "sources": [
@@ -174,7 +174,7 @@
             "url": "https://www.perceptyne.com/career"
           }
         ],
-        "researchNotes": "Third co-founder Mrutyunjaya N. appears in company posts; LinkedIn slug not confidently verified \u2014 omitted.",
+        "researchNotes": "Third co-founder Mrutyunjaya N. appears in company posts; LinkedIn slug not confidently verified — omitted.",
         "lastVerified": "2026-09-09"
       },
       "founderNames": [
@@ -218,8 +218,8 @@
           }
         ],
         "stealthSignals": [
-          "Zoho Recruit board (harvestedlabs.zohorecruit.in) \u2014 invisible to Greenhouse scrapers",
-          "Gandi Maisamma outskirts pin \u2014 fails HITEC corridor sweeps",
+          "Zoho Recruit board (harvestedlabs.zohorecruit.in) — invisible to Greenhouse scrapers",
+          "Gandi Maisamma outskirts pin — fails HITEC corridor sweeps",
           "Domain harvestedlabs.com vs brand Harvested Robotics"
         ],
         "sources": [
@@ -236,7 +236,7 @@
             "url": "https://harvestedlabs.zohorecruit.in/jobs/Careers"
           }
         ],
-        "researchNotes": "Agritech laser weeder; Arali Ventures seed per Tracxn/F6S \u2014 quiet raise vs Inc42 Top-N.",
+        "researchNotes": "Agritech laser weeder; Arali Ventures seed per Tracxn/F6S — quiet raise vs Inc42 Top-N.",
         "lastVerified": "2026-09-09"
       },
       "founderNames": [
@@ -252,7 +252,7 @@
         "hard-to-find",
         "hardware"
       ],
-      "why": "Edge AI silicon with a real Gachibowli office (DLF Cyber City) \u2014 often listed as US-only.",
+      "why": "Edge AI silicon with a real Gachibowli office (DLF Cyber City) — often listed as US-only.",
       "careers": "https://www.blaize.com/careers/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -279,7 +279,7 @@
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/kkjain",
-            "note": "India leadership \u2014 not global co-founder"
+            "note": "India leadership — not global co-founder"
           },
           {
             "type": "company",
@@ -302,7 +302,7 @@
         "hard-to-find",
         "space"
       ],
-      "why": "IIIT / CIE Vindhya space startup \u2014 small board, easy to miss in funding lists.",
+      "why": "IIIT / CIE Vindhya space startup — small board, easy to miss in funding lists.",
       "careers": "https://www.tm2.space/about-tm2s",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -324,8 +324,8 @@
           }
         ],
         "stealthSignals": [
-          "CIE/IIIT Vindhya incubator pin \u2014 easy to miss outside cohort lists",
-          "Orbital compute / space \u2014 small board vs SaaS funding lists"
+          "CIE/IIIT Vindhya incubator pin — easy to miss outside cohort lists",
+          "Orbital compute / space — small board vs SaaS funding lists"
         ],
         "sources": [
           {
@@ -352,7 +352,7 @@
         "hard-to-find",
         "aerospace"
       ],
-      "why": "Aerospace manufacturing outside the usual HITEC corridor \u2014 easy to skip in city-center sweeps.",
+      "why": "Aerospace manufacturing outside the usual HITEC corridor — easy to skip in city-center sweeps.",
       "careers": "https://www.axirium.aero/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -382,8 +382,8 @@
           }
         ],
         "stealthSignals": [
-          "Aerospace manufacturing at Kongar Khurd \u2014 outside HITEC corridor",
-          "Very early (2025) \u2014 absent from Inc42 Top-N city lists",
+          "Aerospace manufacturing at Kongar Khurd — outside HITEC corridor",
+          "Very early (2025) — absent from Inc42 Top-N city lists",
           "Occasionally mistyped as Axilor in founder posts"
         ],
         "sources": [
@@ -417,7 +417,7 @@
         "hard-to-find",
         "cleantech"
       ],
-      "why": "EV / BMS hardware at Narsingi coworking \u2014 not on mainstream ATS feeds.",
+      "why": "EV / BMS hardware at Narsingi coworking — not on mainstream ATS feeds.",
       "careers": "https://xbattery.energy/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -450,8 +450,8 @@
           }
         ],
         "stealthSignals": [
-          "Narsingi coworking \u2014 outside HITEC corridor sweeps",
-          "Hardware BMS \u2014 careers not on major ATS aggregators"
+          "Narsingi coworking — outside HITEC corridor sweeps",
+          "Hardware BMS — careers not on major ATS aggregators"
         ],
         "sources": [
           {
@@ -515,8 +515,8 @@
           }
         ],
         "stealthSignals": [
-          "Peeramcheru base \u2014 outskirts of usual corridor",
-          "EO/IR payload deeptech \u2014 quiet vs consumer SaaS lists"
+          "Peeramcheru base — outskirts of usual corridor",
+          "EO/IR payload deeptech — quiet vs consumer SaaS lists"
         ],
         "sources": [
           {
@@ -528,7 +528,7 @@
             "url": "https://www.linkedin.com/in/sanjay-kumar-esl"
           }
         ],
-        "researchNotes": "Pre-Series A ~$1.2M (MGF Kavachh) mentioned in Deccan Founders posts \u2014 below Inc42 Top-N cutoff.",
+        "researchNotes": "Pre-Series A ~$1.2M (MGF Kavachh) mentioned in Deccan Founders posts — below Inc42 Top-N cutoff.",
         "lastVerified": "2026-09-09"
       },
       "founderNames": [
@@ -543,7 +543,7 @@
       "tags": [
         "hard-to-find"
       ],
-      "why": "Smart-home hardware HQ in Banjara Hills \u2014 careers buried on the marketing site.",
+      "why": "Smart-home hardware HQ in Banjara Hills — careers buried on the marketing site.",
       "careers": "https://www.keus.in/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -568,9 +568,9 @@
           }
         ],
         "stealthSignals": [
-          "Banjara Hills hardware HQ \u2014 not HITEC SaaS cluster",
+          "Banjara Hills hardware HQ — not HITEC SaaS cluster",
           "Careers buried on marketing site",
-          "Founders tied to Beam Telecom history \u2014 not obvious from brand alone"
+          "Founders tied to Beam Telecom history — not obvious from brand alone"
         ],
         "sources": [
           {
@@ -597,28 +597,12 @@
       "verifyStatus": "published"
     },
     {
-      "startupId": "42f0a99e-a66b-471f-be72-2a69fc05ecaf",
-      "tags": [
-        "hard-to-find",
-        "edtech"
-      ],
-      "why": "Education-loan marketplace at Sanali Spazio \u2014 solid Hyd team, quiet careers surface.",
-      "careers": "https://gradright.com/",
-      "jobMode": "hyd-office",
-      "geo": "hyd",
-      "missReasons": [
-        "marketing-careers"
-      ],
-      "exclusiveTier": "demote",
-      "verifyStatus": "stale"
-    },
-    {
       "startupId": "b17083a7-54a2-4e8f-a591-d97a64a53786",
       "tags": [
         "hard-to-find",
         "ai"
       ],
-      "why": "Early AI healthtech at D-Labs / ISB \u2014 tiny funding, easy to skip.",
+      "why": "Early AI healthtech at D-Labs / ISB — tiny funding, easy to skip.",
       "careers": "https://logy.ai/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -640,7 +624,7 @@
         ],
         "stealthSignals": [
           "D-Labs / ISB campus incubator pin",
-          "Early AI healthtech \u2014 tiny raise, easy to skip on funding lists"
+          "Early AI healthtech — tiny raise, easy to skip on funding lists"
         ],
         "sources": [
           {
@@ -662,131 +646,6 @@
       "verifyStatus": "published"
     },
     {
-      "startupId": "b20a4113-4958-42cf-af1e-c90bc28d288e",
-      "tags": [
-        "hard-to-find",
-        "ai",
-        "t-hub"
-      ],
-      "why": "AI team at T-Hub 2.0 \u2014 incubator address, easy to miss outside T-Hub lists.",
-      "careers": "https://www.kenyt.ai/",
-      "jobMode": "hyd-office",
-      "geo": "hyd",
-      "missReasons": [
-        "incubator",
-        "funding-list"
-      ],
-      "exclusiveTier": "cut",
-      "verifyStatus": "stale"
-    },
-    {
-      "startupId": "3bc81153-50c5-4051-85b3-aa2bbcb3aab9",
-      "tags": [
-        "hard-to-find"
-      ],
-      "why": "Open-source project management; Hyd + SF hiring \u2014 often filed under Bangalore/remote only.",
-      "careers": "https://plane.so/careers",
-      "jobMode": "hyd-office",
-      "geo": "hyd",
-      "missReasons": [
-        "us-hq-hyd-office",
-        "funding-list"
-      ],
-      "aliases": [
-        "Plane.so",
-        "MakePlane",
-        "planepowers"
-      ],
-      "depth": {
-        "founders": [
-          {
-            "name": "Vamsi Kurama",
-            "role": "Co-founder",
-            "linkedin": "https://www.linkedin.com/in/vamsi-kurama"
-          },
-          {
-            "name": "Vihar Kurama",
-            "role": "Co-founder",
-            "linkedin": "https://www.linkedin.com/in/vihar-kurama"
-          }
-        ],
-        "stealthSignals": [
-          "Open-source PM tool often tagged Bangalore/remote; Hyd + SF hiring is quieter",
-          "LinkedIn company slug planepowers (not plane)"
-        ],
-        "sources": [
-          {
-            "type": "linkedin",
-            "url": "https://www.linkedin.com/in/vamsi-kurama"
-          },
-          {
-            "type": "linkedin",
-            "url": "https://www.linkedin.com/in/vihar-kurama"
-          },
-          {
-            "type": "company",
-            "url": "https://plane.so/careers"
-          }
-        ],
-        "researchNotes": "HQ listed California and Hyderabad on LinkedIn company page \u2014 us-hq-hyd-office miss pattern.",
-        "lastVerified": "2026-09-09"
-      },
-      "founderNames": [
-        "Vamsi Kurama",
-        "Vihar Kurama"
-      ],
-      "exclusiveTier": "demote",
-      "verifyStatus": "published"
-    },
-    {
-      "startupId": "d44906d9-9385-49b0-838e-71295dadfc5d",
-      "tags": [
-        "hard-to-find",
-        "healthtech"
-      ],
-      "why": "Health assurance platform with a real Madhapur office.",
-      "careers": "https://www.loophealth.com/careers",
-      "jobMode": "hyd-office",
-      "geo": "hyd",
-      "missReasons": [
-        "marketing-careers"
-      ],
-      "aliases": [
-        "Loop",
-        "Loop Health Assurance"
-      ],
-      "depth": {
-        "founders": [
-          {
-            "name": "Mayank Kale",
-            "role": "CEO / Co-founder",
-            "linkedin": "https://www.linkedin.com/in/kalemayank"
-          }
-        ],
-        "stealthSignals": [
-          "National health-assurance brand; Madhapur office easy to miss if you assume Pune-only",
-          "Careers on marketing site vs niche Hyd employer lists"
-        ],
-        "sources": [
-          {
-            "type": "linkedin",
-            "url": "https://www.linkedin.com/in/kalemayank"
-          },
-          {
-            "type": "company",
-            "url": "https://www.loophealth.com/careers"
-          }
-        ],
-        "researchNotes": "Other co-founders (Ryan Singh, Amrit Singh, Shami Raj) cited in secondary posts; LinkedIns not verified this pass \u2014 omitted.",
-        "lastVerified": "2026-09-09"
-      },
-      "founderNames": [
-        "Mayank Kale"
-      ],
-      "exclusiveTier": "demote",
-      "verifyStatus": "published"
-    },
-    {
       "name": "PromptQL",
       "website": "https://promptql.com",
       "careers": "https://jobs.gem.com/expedition-technology",
@@ -795,7 +654,7 @@
         "gem",
         "bangalore"
       ],
-      "why": "Gem board with Bangalore office + Remote India FDE roles. No Hyd pin yet \u2014 kept on Radar for India remote seekers.",
+      "why": "Gem board with Bangalore office + Remote India FDE roles. No Hyd pin yet — kept on Radar for India remote seekers.",
       "jobMode": "remote-india",
       "onMap": false,
       "geo": "remote",
@@ -813,7 +672,7 @@
         "sf",
         "ai"
       ],
-      "why": "Gem board; US AI chip company \u2014 candidate for Mapping SF.",
+      "why": "Gem board; US AI chip company — candidate for Mapping SF.",
       "jobMode": "us",
       "geo": "sf",
       "onMap": false
@@ -826,7 +685,7 @@
         "gem",
         "sf"
       ],
-      "why": "Gem board with SF / NYC / Austin / London \u2014 SF-first for map.",
+      "why": "Gem board with SF / NYC / Austin / London — SF-first for map.",
       "jobMode": "us",
       "geo": "sf",
       "onMap": false
@@ -902,7 +761,7 @@
         "gem",
         "sf"
       ],
-      "why": "Gem board; US consumer \u2014 SF bucket pending address verify.",
+      "why": "Gem board; US consumer — SF bucket pending address verify.",
       "jobMode": "us",
       "geo": "sf",
       "onMap": false
@@ -915,7 +774,7 @@
         "gem",
         "sf"
       ],
-      "why": "Gem board; CA infrastructure \u2014 SF/LA bucket.",
+      "why": "Gem board; CA infrastructure — SF/LA bucket.",
       "jobMode": "us",
       "geo": "sf",
       "onMap": false
@@ -928,7 +787,7 @@
         "gem",
         "sf"
       ],
-      "why": "Gem board; US \u2014 verify HQ before pinning.",
+      "why": "Gem board; US — verify HQ before pinning.",
       "jobMode": "us",
       "geo": "sf",
       "onMap": false
@@ -965,7 +824,7 @@
         "gem",
         "sf"
       ],
-      "why": "Gem board; US HR tech \u2014 SF/US bucket.",
+      "why": "Gem board; US HR tech — SF/US bucket.",
       "jobMode": "us",
       "geo": "sf",
       "onMap": false
@@ -977,7 +836,7 @@
         "gem",
         "remote"
       ],
-      "why": "Gem board; US remote \u2014 parked under remote (not SF office).",
+      "why": "Gem board; US remote — parked under remote (not SF office).",
       "jobMode": "remote",
       "geo": "remote",
       "onMap": false,
@@ -993,7 +852,7 @@
         "gem",
         "remote"
       ],
-      "why": "Fully remote (PST overlap) \u2014 not an SF office pin.",
+      "why": "Fully remote (PST overlap) — not an SF office pin.",
       "jobMode": "remote",
       "geo": "remote",
       "onMap": false,
@@ -1009,7 +868,7 @@
         "gem",
         "sf"
       ],
-      "why": "Gem the ATS company \u2014 SF recruiting SaaS; useful for Mapping SF, not Hyd.",
+      "why": "Gem the ATS company — SF recruiting SaaS; useful for Mapping SF, not Hyd.",
       "jobMode": "us",
       "geo": "sf",
       "onMap": false
@@ -1054,7 +913,7 @@
         "remote",
         "full-remote"
       ],
-      "why": "Same Gem family as Fetch \u2014 full remote.",
+      "why": "Same Gem family as Fetch — full remote.",
       "jobMode": "remote",
       "geo": "remote",
       "onMap": false,
@@ -1063,14 +922,14 @@
       ]
     },
     {
-      "name": "F\u00e9lix",
+      "name": "Félix",
       "website": "https://www.felixpago.com",
       "careers": "https://jobs.gem.com/felix",
       "tags": [
         "gem",
         "remote"
       ],
-      "why": "LatAm fintech Gem board \u2014 not SF/Hyd; keep in remote/global for now.",
+      "why": "LatAm fintech Gem board — not SF/Hyd; keep in remote/global for now.",
       "jobMode": "remote",
       "geo": "remote",
       "onMap": false,
@@ -1084,7 +943,7 @@
         "hard-to-find",
         "saas"
       ],
-      "why": "US-HQ GTM SaaS with a real CIE/IIIT-H Hyd office and careers#openroles \u2014 easy to miss as Durham-only.",
+      "why": "US-HQ GTM SaaS with a real CIE/IIIT-H Hyd office and careers#openroles — easy to miss as Durham-only.",
       "careers": "https://gtmbuddy.ai/careers#openroles",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -1172,7 +1031,7 @@
           }
         ],
         "stealthSignals": [
-          "Connected fitness hardware \u2014 Inc42 healthtech list but marketing-site careers",
+          "Connected fitness hardware — Inc42 healthtech list but marketing-site careers",
           "Banjara Hills office vs HITEC SaaS defaults"
         ],
         "sources": [
@@ -1221,8 +1080,8 @@
           }
         ],
         "stealthSignals": [
-          "Med-device careers.php surface \u2014 not Greenhouse",
-          "Begumpet / Paigah Colony \u2014 outside HITEC corridor defaults",
+          "Med-device careers.php surface — not Greenhouse",
+          "Begumpet / Paigah Colony — outside HITEC corridor defaults",
           "Product alias Pheezee"
         ],
         "sources": [
@@ -1235,69 +1094,13 @@
             "url": "https://startoonlabs.com/careers.php#point11"
           }
         ],
-        "researchNotes": "Tracxn also lists Mythreyi Kondapi Susurla and Chandrakanth Reddy Kancharla \u2014 LinkedIns not verified this pass.",
+        "researchNotes": "Tracxn also lists Mythreyi Kondapi Susurla and Chandrakanth Reddy Kancharla — LinkedIns not verified this pass.",
         "lastVerified": "2026-09-09"
       },
       "founderNames": [
         "Suresh Susurla"
       ],
       "exclusiveTier": "core",
-      "verifyStatus": "published"
-    },
-    {
-      "startupId": "1afc2766-d3ab-40f0-95d9-c13887618b4c",
-      "tags": [
-        "hard-to-find",
-        "ai"
-      ],
-      "why": "Inc42 AI Hyd name; Aparna Sarovar pin outside the usual HITEC corridor sweep.",
-      "careers": "https://biva.ai/",
-      "jobMode": "hyd-office",
-      "geo": "hyd",
-      "missReasons": [
-        "funding-list",
-        "outskirts"
-      ],
-      "aliases": [
-        "BIVA",
-        "BIVA Analytics",
-        "Biva.ai"
-      ],
-      "depth": {
-        "founders": [
-          {
-            "name": "Abhiram Kolli",
-            "role": "Co-founder",
-            "linkedin": "https://www.linkedin.com/in/abhiramkolli"
-          },
-          {
-            "name": "Akhila Ganti",
-            "role": "Co-founder",
-            "linkedin": "https://www.linkedin.com/in/akhila-ganti-264b1116"
-          }
-        ],
-        "stealthSignals": [
-          "Aparna Sarovar / Nallagandla pin \u2014 outskirts of HITEC corridor",
-          "E-comm analytics \u2014 easy to confuse with other BIVA/Biva brands"
-        ],
-        "sources": [
-          {
-            "type": "linkedin",
-            "url": "https://www.linkedin.com/in/abhiramkolli"
-          },
-          {
-            "type": "linkedin",
-            "url": "https://www.linkedin.com/in/akhila-ganti-264b1116"
-          }
-        ],
-        "researchNotes": "T-Hub incubation breadcrumbs; Nallagandla location is the miss reason.",
-        "lastVerified": "2026-09-09"
-      },
-      "founderNames": [
-        "Abhiram Kolli",
-        "Akhila Ganti"
-      ],
-      "exclusiveTier": "cut",
       "verifyStatus": "published"
     },
     {
@@ -1327,13 +1130,13 @@
           },
           {
             "name": "Anup Mehta",
-            "role": "Co-founder (listed on company About)",
-            "linkedin": null
+            "role": "Co-founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/anupm6"
           }
         ],
         "stealthSignals": [
           "Pleasanton CA HQ narrative; Hyd HITEC engineering team easy to miss",
-          "Marketing careers surface \u2014 not Ashby/Greenhouse"
+          "Marketing careers surface — not Ashby/Greenhouse"
         ],
         "sources": [
           {
@@ -1344,9 +1147,14 @@
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/radapa"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/anupm6",
+            "note": "Co-Founder & CEO DeepEdge posts"
           }
         ],
-        "researchNotes": "Anup Mehta LinkedIn headline currently shows MetaFloor AI \u2014 LinkedIn omitted until DeepEdge affiliation re-verified. Ravindra LI lists DeepEdge.ai + Hyderabad.",
+        "researchNotes": "Anup Mehta LinkedIn headline currently shows MetaFloor AI — LinkedIn omitted until DeepEdge affiliation re-verified. Ravindra LI lists DeepEdge.ai + Hyderabad.",
         "lastVerified": "2026-09-09"
       },
       "founderNames": [
@@ -1356,40 +1164,6 @@
       "exclusiveTier": "watch",
       "tierNote": "Restore Core only after Hyd engineering node proven.",
       "verifyStatus": "published"
-    },
-    {
-      "startupId": "7195815f-a345-4f81-8591-89f3910f4192",
-      "tags": [
-        "hard-to-find",
-        "saas"
-      ],
-      "why": "Hyd HR SaaS in HITEC \u2014 easy to confuse with other Pulse brands; not on major ATS feeds.",
-      "careers": "https://www.pulsehrm.com/",
-      "jobMode": "hyd-office",
-      "geo": "hyd",
-      "missReasons": [
-        "marketing-careers",
-        "funding-list"
-      ],
-      "exclusiveTier": "cut",
-      "verifyStatus": "stale"
-    },
-    {
-      "startupId": "19b2005d-498f-4336-b25e-a3301ad3a530",
-      "tags": [
-        "hard-to-find",
-        "ai"
-      ],
-      "why": "Mindspace AI team from funding lists; careers buried on the marketing site.",
-      "careers": "https://starbuzz.ai/",
-      "jobMode": "hyd-office",
-      "geo": "hyd",
-      "missReasons": [
-        "funding-list",
-        "marketing-careers"
-      ],
-      "exclusiveTier": "cut",
-      "verifyStatus": "stale"
     },
     {
       "startupId": "57a282bf-08a4-4a06-84e4-fc9218cdea22",
@@ -1407,23 +1181,43 @@
       ],
       "exclusiveTier": "watch",
       "tierNote": "Core-worthy vertical; needs depth block within 30 days.",
-      "verifyStatus": "evidence-attached"
-    },
-    {
-      "startupId": "3f9c82a0-882a-4f61-b734-616c96c774fd",
-      "tags": [
-        "hard-to-find"
-      ],
-      "why": "Kavuri Hills /career page \u2014 easy to miss vs similarly named healthtech brands.",
-      "careers": "https://nemosoftltd.net/career",
-      "jobMode": "hyd-office",
-      "geo": "hyd",
-      "missReasons": [
-        "marketing-careers",
-        "funding-list"
-      ],
-      "exclusiveTier": "cut",
-      "verifyStatus": "stale"
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Amit Sukhija",
+            "role": "Founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/amit-sukhija-a7bb11b"
+          },
+          {
+            "name": "Chiranjeevi",
+            "role": "Director, Engineering",
+            "linkedin": null
+          }
+        ],
+        "stealthSignals": [
+          "Aviation IoT/AI — industry registries over startup aggregators",
+          "HITEC office; careers on marketing site"
+        ],
+        "sources": [
+          {
+            "type": "company",
+            "url": "https://www.zestiot.com/company/team-about-us/",
+            "note": "Team page lists AMIT as Founder & CEO"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/amit-sukhija-a7bb11b",
+            "note": "Posts as ZestIoT Founder & CEO"
+          }
+        ],
+        "researchNotes": "CEO full name from company LinkedIn post; LI slug verified via posts. Eng director name-only until LI verified.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Amit Sukhija",
+        "Chiranjeevi"
+      ]
     },
     {
       "startupId": "9b173e6d-a5d4-4f94-bcbb-2d81982ecca2",
@@ -1490,7 +1284,46 @@
       ],
       "exclusiveTier": "watch",
       "tierNote": "Deep Roots research anchor; needs depth pass.",
-      "verifyStatus": "evidence-attached"
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Dr. M.S. Mohan",
+            "role": "Founder & Managing Director",
+            "linkedin": "https://www.linkedin.com/in/dr-m-s-mohan-b898457"
+          },
+          {
+            "name": "Dr. Hiren Patel",
+            "role": "Co-founder & President",
+            "linkedin": "https://www.linkedin.com/in/hiren-patel-59017819"
+          }
+        ],
+        "stealthSignals": [
+          "Genome Valley / complex generics R&D — Deep Roots industrial, not HITEC SaaS lists",
+          "Team published on company site; careers on marketing site"
+        ],
+        "sources": [
+          {
+            "type": "company",
+            "url": "https://www.orbicular.co.in/our-team/",
+            "note": "Official leadership bios"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/dr-m-s-mohan-b898457"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/hiren-patel-59017819"
+          }
+        ],
+        "researchNotes": "Leadership from orbicular.co.in/our-team; LinkedIns matched via search + company titles.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Dr. M.S. Mohan",
+        "Dr. Hiren Patel"
+      ]
     },
     {
       "startupId": "24f93f05-3143-45f5-904d-af5ae447bedd",
@@ -1499,7 +1332,7 @@
         "healthtech",
         "incubator"
       ],
-      "why": "BlueSemi health wearable brand (eyva.io) at T-Hub Catalyst / IIIT-H \u2014 easy to confuse with eyva.ai and miss on ATS aggregators.",
+      "why": "BlueSemi health wearable brand (eyva.io) at T-Hub Catalyst / IIIT-H — easy to confuse with eyva.ai and miss on ATS aggregators.",
       "careers": "https://eyva.io/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -1514,64 +1347,712 @@
       ],
       "exclusiveTier": "watch",
       "tierNote": "High novelty; needs founders + clinical-positioning clarity.",
-      "verifyStatus": "evidence-attached"
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Sunil Maddikatla",
+            "role": "Founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/sunilmaddikatla"
+          }
+        ],
+        "stealthSignals": [
+          "CIE / IIIT-H incubator pin — easy to miss outside cohort lists",
+          "Wellness hardware + AI; marketing-site careers"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/sunilmaddikatla",
+            "note": "Founder & CEO, EYVA · IIIT Hyd"
+          },
+          {
+            "type": "company",
+            "url": "https://eyva.io"
+          },
+          {
+            "type": "tracxn",
+            "url": "https://tracxn.com/d/companies/eyva/__fdqkIkAGqcSYF5buP6b1S-BqoUl3V2wIAsoMn4312-s"
+          }
+        ],
+        "researchNotes": "Founder LinkedIn + Tracxn Hyd seed confirmation. Catalyst/incubator path.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Sunil Maddikatla"
+      ]
     },
     {
-      "startupId": "30acf087-ee61-420a-a371-e3c8dc08584b",
+      "startupId": "5fdc9256-cf92-47aa-944b-6de14eae3bd6",
       "tags": [
         "hard-to-find",
-        "ai",
-        "t-hub"
+        "incubator",
+        "biotech"
       ],
-      "why": "T-Hub 2.0 AI team \u2014 easy to miss vs NicheAI name collisions and Greenhouse-heavy lists.",
-      "careers": "https://nichebrains.ai/",
+      "why": "BioNEST UoH gene-therapy / kidney LNP — university incubator scrapers miss; not on Greenhouse Hyd lists.",
+      "careers": "https://www.linkedin.com/jobs/search/?keywords=Helex",
       "jobMode": "hyd-office",
       "geo": "hyd",
       "missReasons": [
         "incubator",
-        "marketing-careers",
-        "funding-list"
+        "marketing-careers"
       ],
-      "exclusiveTier": "cut",
-      "verifyStatus": "stale"
+      "aliases": [
+        "Helex Bio"
+      ],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Poulami Chaudhuri",
+            "role": "Co-founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/poulamichaudhuri/"
+          },
+          {
+            "name": "Rohini Kalvakuntla",
+            "role": "Co-founder & CBO",
+            "linkedin": "https://www.linkedin.com/in/rohinikalvakuntla/"
+          },
+          {
+            "name": "Anirudh Nishtala",
+            "role": "Co-founder & COO",
+            "linkedin": "https://www.linkedin.com/in/anirudhnishtala/"
+          }
+        ],
+        "stealthSignals": [
+          "BioNEST / UoH incubator",
+          "US–India genomic medicines; Hyd R&D node"
+        ],
+        "sources": [
+          {
+            "type": "company",
+            "url": "https://www.helex.bio/about",
+            "note": "Official about page with LinkedIn links"
+          }
+        ],
+        "researchNotes": "Founders + LinkedIns scraped from helex.bio/about.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Poulami Chaudhuri",
+        "Rohini Kalvakuntla",
+        "Anirudh Nishtala"
+      ]
     },
     {
-      "startupId": "a906df8a-c45f-4130-aa4f-516cdfb79922",
+      "startupId": "079b948f-ff87-41a7-89af-1295ede5820e",
       "tags": [
         "hard-to-find",
-        "edtech"
+        "defense"
       ],
-      "why": "Quiet edtech careers page at Sandhya Techno 1 \u2014 sat in discovery queue until address confirmed.",
-      "careers": "https://www.edubuk.io/careers",
+      "why": "Counter-UAS / airspace defense — absent from consumer startup forums; Hyd infrastructure story.",
+      "careers": "https://www.indrajaal.in/careers",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "outskirts",
+        "funding-list"
+      ],
+      "aliases": [],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Kiran Raju",
+            "role": "Founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/kiranpenumacha"
+          }
+        ],
+        "stealthSignals": [
+          "Defense counter-UAS; not Inc42 Top-N SaaS"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/kiranpenumacha"
+          },
+          {
+            "type": "company",
+            "url": "https://indrajaal.in/team/"
+          }
+        ],
+        "researchNotes": "CEO LinkedIn title matches company team page.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Kiran Raju"
+      ]
+    },
+    {
+      "startupId": "7a67e031-fb8b-4ad0-a5b9-13a2119fcd0b",
+      "tags": [
+        "hard-to-find",
+        "space",
+        "incubator"
+      ],
+      "why": "Orbital debris / in-orbit servicing — T-Hub space cohort; marketing #Careers anchor only.",
+      "careers": "https://cosmoserve.space/#Careers",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "Cosmoserve"
+      ],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Chiranjeevi Phanindra B",
+            "role": "Founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/chiran-chiranjeevi-phanindra-b-phd-47522320"
+          }
+        ],
+        "stealthSignals": [
+          "T-Hub space; active debris removal niche"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/chiran-chiranjeevi-phanindra-b-phd-47522320"
+          },
+          {
+            "type": "company",
+            "url": "https://cosmoserve.space/"
+          }
+        ],
+        "researchNotes": "Founder & CEO LinkedIn Hyd + former ISRO scientist signal.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Chiranjeevi Phanindra B"
+      ]
+    },
+    {
+      "startupId": "59fc7389-771e-4c36-a7fd-218a9d341f5b",
+      "tags": [
+        "hard-to-find",
+        "defense",
+        "hardware"
+      ],
+      "why": "RF/EW test & radar simulators — supplier registries, not startup listicles.",
+      "careers": "https://www.constelli.com/careers/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "outskirts",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "Constelli Signals"
+      ],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Satya Gopal",
+            "role": "Founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/satya-gopal"
+          },
+          {
+            "name": "Avinash Chenreddy",
+            "role": "Co-founder & CTO",
+            "linkedin": "https://www.linkedin.com/in/avinashchenreddy"
+          }
+        ],
+        "stealthSignals": [
+          "Defense RF/EW hardware; Hyd deeptech"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/satya-gopal"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/avinashchenreddy"
+          }
+        ],
+        "researchNotes": "CEO + CTO LinkedIns with Constelli titles.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Satya Gopal",
+        "Avinash Chenreddy"
+      ]
+    },
+    {
+      "startupId": "d4295037-d7cc-422d-b6c3-39ec9aa08b32",
+      "tags": [
+        "hard-to-find",
+        "robotics"
+      ],
+      "why": "Field / humanoid robotics — LinkedIn-only hiring surface; no public ATS.",
+      "careers": "https://www.linkedin.com/jobs/search/?keywords=Anvi%20Robotics",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers"
+      ],
+      "aliases": [],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Ramya Ramachandrula",
+            "role": "Leadership",
+            "linkedin": "https://www.linkedin.com/in/ramya1503"
+          }
+        ],
+        "stealthSignals": [
+          "No Greenhouse/Ashby; LinkedIn hiring"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/ramya1503",
+            "note": "Hyd · Anvi Robotics experience"
+          },
+          {
+            "type": "company",
+            "url": "https://www.anvirobotics.com/"
+          }
+        ],
+        "researchNotes": "Public founder title not confirmed on About — recorded as Leadership with verified LI; upgrade when company lists founders.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Ramya Ramachandrula"
+      ]
+    },
+    {
+      "startupId": "04802216-d0f6-40ab-83c3-508a5dd329a1",
+      "tags": [
+        "hard-to-find",
+        "healthtech",
+        "hardware"
+      ],
+      "why": "Med robotics / KalArm bionic hand — Inc42 once then quiet; manufacturing depth.",
+      "careers": "https://www.makershive.com/careers",
       "jobMode": "hyd-office",
       "geo": "hyd",
       "missReasons": [
         "marketing-careers",
         "funding-list"
       ],
-      "exclusiveTier": "cut",
-      "verifyStatus": "stale"
+      "aliases": [
+        "Maker's Hive",
+        "Makers Hive Innovations"
+      ],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Pranav Vempati",
+            "role": "CEO",
+            "linkedin": "https://www.linkedin.com/in/pranav-vempati-245176175"
+          }
+        ],
+        "stealthSignals": [
+          "Bionic hardware; not SaaS aggregators"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/pranav-vempati-245176175"
+          }
+        ],
+        "researchNotes": "CEO LinkedIn title CEO at Makers Hive.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Pranav Vempati"
+      ]
+    },
+    {
+      "startupId": "d25b6732-7014-4357-9248-c74ab47698cc",
+      "tags": [
+        "hard-to-find",
+        "healthtech",
+        "ai"
+      ],
+      "why": "Digital pathology hardware–AI — map pin existed without Radar depth.",
+      "careers": "https://vyuhaa.com",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers"
+      ],
+      "aliases": [
+        "Vyuhaa"
+      ],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Madhusudan CP",
+            "role": "Director / Leadership",
+            "linkedin": "https://www.linkedin.com/in/madhusudancp"
+          },
+          {
+            "name": "Dhritiman Mallick",
+            "role": "Leadership",
+            "linkedin": "https://www.linkedin.com/in/dhritimanmallick"
+          }
+        ],
+        "stealthSignals": [
+          "Pathology edge devices; quiet vs consumer healthtech lists"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/madhusudancp"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/dhritimanmallick"
+          }
+        ],
+        "researchNotes": "Leadership LinkedIns with Vyuhaa Med Data experience; exact founder titles soft.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Madhusudan CP",
+        "Dhritiman Mallick"
+      ]
+    },
+    {
+      "startupId": "70c37fe3-ec0b-421b-8f48-947ff860f014",
+      "tags": [
+        "hard-to-find",
+        "fintech",
+        "ai"
+      ],
+      "why": "Equal AI / Equal Identity alias trap — financial-data consent infra; easy to miss under either brand.",
+      "careers": "https://www.linkedin.com/jobs/search/?keywords=Equal%20Identity",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "funding-list",
+        "alias"
+      ],
+      "aliases": [
+        "Equal AI",
+        "myequal.ai",
+        "Equal"
+      ],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Keshav Reddy",
+            "role": "Founder",
+            "linkedin": "https://www.linkedin.com/in/keshavreddy"
+          },
+          {
+            "name": "Rajeev Ranjan",
+            "role": "Co-founder",
+            "linkedin": "https://www.linkedin.com/in/rajeevjranjan"
+          }
+        ],
+        "stealthSignals": [
+          "Alias/rebrand Equal AI ↔ Equal Identity"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/keshavreddy"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/rajeevjranjan"
+          }
+        ],
+        "researchNotes": "Founders from LinkedIn titles Equal AI / Equal Identity; map pin is Equal Identity.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Keshav Reddy",
+        "Rajeev Ranjan"
+      ]
+    },
+    {
+      "startupId": "01e662bd-2901-4c48-a77f-1c1211488298",
+      "tags": [
+        "hard-to-find",
+        "space",
+        "incubator"
+      ],
+      "why": "Reusable launch / rocket engines — BITS Pilani Hyd campus pin defeats corridor sweeps.",
+      "careers": "https://www.abyom.com/careers",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator"
+      ],
+      "aliases": [
+        "Abyom SpaceTech"
+      ],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Jainul Abedin",
+            "role": "Founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/jainulabedin"
+          }
+        ],
+        "stealthSignals": [
+          "Campus / incubator pin; defense-space niche"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/jainulabedin"
+          },
+          {
+            "type": "company",
+            "url": "https://www.abyom.com/"
+          }
+        ],
+        "researchNotes": "Founder & CEO LinkedIn + Forbes 30U30 Asia/India signal.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Jainul Abedin"
+      ]
+    },
+    {
+      "startupId": "3d1b62ce-1517-4bc9-a4ad-d5b4c903c88a",
+      "tags": [
+        "hard-to-find",
+        "healthtech"
+      ],
+      "why": "Sanath Nagar respiratory AI (TimBre) — outskirts + LinkedIn hiring.",
+      "careers": "https://www.linkedin.com/jobs/search/?keywords=Docturnal",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "outskirts",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "TimBre"
+      ],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Rahul Pathri",
+            "role": "Founder",
+            "linkedin": "https://www.linkedin.com/in/rpathri"
+          }
+        ],
+        "stealthSignals": [
+          "Non-corridor medtech; cough/breath AI"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/rpathri",
+            "note": "Founder at Docturnal (Hyderabad/Austin)"
+          }
+        ],
+        "researchNotes": "Founder LinkedIn self-describes Docturnal Hyd/Austin.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Rahul Pathri"
+      ]
+    },
+    {
+      "startupId": "464ad7bc-fa85-4e15-a430-ae439e3c9c20",
+      "tags": [
+        "hard-to-find",
+        "healthtech",
+        "hardware"
+      ],
+      "why": "Medical instrumentation / electrolytes analyzers — Genome Valley industrial Deep Roots.",
+      "careers": "https://www.sensacore.com/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "outskirts",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "SensaCore"
+      ],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Dr. Ravi Kumar Meruva",
+            "role": "Founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/ravimeruva"
+          }
+        ],
+        "stealthSignals": [
+          "Industrial med device; not SaaS lists"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/ravimeruva"
+          }
+        ],
+        "researchNotes": "Chairman/Founder/CEO LinkedIn title.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Dr. Ravi Kumar Meruva"
+      ]
+    },
+    {
+      "startupId": "8578b761-5f72-46a7-988c-2493d2c84648",
+      "tags": [
+        "hard-to-find",
+        "cleantech"
+      ],
+      "why": "Atmospheric water generators — industrial cleantech off corridor startup scrapes.",
+      "careers": "https://www.maithriaqua.com/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "outskirts",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "Maithri Aqua"
+      ],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Ramkrishna Mukkavilli",
+            "role": "Founder & MD",
+            "linkedin": "https://www.linkedin.com/in/ramkrishna-mukkavilli"
+          },
+          {
+            "name": "Naveen Mathur",
+            "role": "CEO",
+            "linkedin": "https://www.linkedin.com/in/naveen-mathur-2b029533"
+          }
+        ],
+        "stealthSignals": [
+          "Water-from-air hardware; industrial"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/ramkrishna-mukkavilli"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/naveen-mathur-2b029533"
+          }
+        ],
+        "researchNotes": "Founder MD + CEO LinkedIns.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Ramkrishna Mukkavilli",
+        "Naveen Mathur"
+      ]
+    },
+    {
+      "startupId": "161c329a-3c74-4b52-8e8b-d340fe68b712",
+      "tags": [
+        "hard-to-find",
+        "healthtech"
+      ],
+      "why": "Consumer genomics — on map + careers but never Radar-enriched; marketing careers site.",
+      "careers": "https://careers.mapmygenome.in/view-jobs",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers"
+      ],
+      "aliases": [
+        "Mapmygenome"
+      ],
+      "exclusiveTier": "watch",
+      "onMap": true,
+      "verifyStatus": "evidence-attached",
+      "depth": {
+        "founders": [
+          {
+            "name": "Anuradha Acharya",
+            "role": "CEO / Founder",
+            "linkedin": "https://www.linkedin.com/in/anuacharya"
+          }
+        ],
+        "stealthSignals": [
+          "Own careers subdomain; genomics depth"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/anuacharya"
+          },
+          {
+            "type": "careers",
+            "url": "https://careers.mapmygenome.in/view-jobs"
+          }
+        ],
+        "researchNotes": "CEO LinkedIn title Mapmygenome.",
+        "lastVerified": "2026-09-09"
+      },
+      "founderNames": [
+        "Anuradha Acharya"
+      ]
     }
   ],
   "missReasons": {
     "gem": "Careers on Gem (no public directory; not Greenhouse/Ashby)",
     "zoho": "Careers on Zoho Recruit (long-tail ATS)",
-    "remote-india": "Roles labeled Remote India / SF \u2014 fail Hyd city filters",
+    "remote-india": "Roles labeled Remote India / SF — fail Hyd city filters",
     "us-hq-hyd-office": "US/global brand; Hyd office under India entity name",
-    "incubator": "Incubator / CIE / T-Hub / D-Labs pin \u2014 easy to miss outside cohort lists",
+    "incubator": "Incubator / CIE / T-Hub / D-Labs pin — easy to miss outside cohort lists",
     "outskirts": "Office outside HITEC/Gachibowli corridor",
-    "funding-list": "Small/early raise \u2014 below Inc42 Top-N paywall cutoff",
+    "funding-list": "Small/early raise — below Inc42 Top-N paywall cutoff",
     "marketing-careers": "Careers buried on marketing site (no known ATS board)",
     "keka": "Careers on Keka",
     "rippling": "Careers on Rippling"
   },
   "intake": {
-    "flow": "gap-sweep MISS \u2192 human verify \u2192 radar.json geo:hyd \u2192 address confirm \u2192 startups.json pin + optional ats-boards",
+    "flow": "gap-sweep MISS → human verify → radar.json geo:hyd → address confirm → startups.json pin + optional ats-boards",
     "script": "scripts/radar-gap-sweep.mjs",
     "candidates": "data/radar-candidates.json",
     "autoPin": false,
-    "skipNote": "User could not verify Hyd office (2026-09-09): Lemurian Labs, Utopia Therapeutics, HiWi, RACEnergy, NemoCare, Nebulaa \u2014 keep out of discoveryQueue until new evidence.",
-    "exclusiveCrossVerify": "2026-09-09 Claude + GPT/Codex \u2014 tiers proposed; cut/demote not removed until user confirms"
+    "skipNote": "User could not verify Hyd office (2026-09-09): Lemurian Labs, Utopia Therapeutics, HiWi, RACEnergy, NemoCare, Nebulaa — keep out of discoveryQueue until new evidence.",
+    "exclusiveCrossVerify": "2026-09-09 — user confirmed apply cuts; founder LinkedIns enriched for Hyd exclusive + promotes"
   },
   "schema": {
     "version": 2,
@@ -1646,14 +2127,14 @@
       "rationale": "Depth re-verify capacity beats ambition; weak names destroy trust more than missing names."
     },
     "gates": [
-      "Verified Hyderabad substance (HQ / local R&D / manufacturing \u2014 not Inc42 mention alone)",
-      "Hard discovery signal: gem|zoho|keka|rippling|remote-india|us-hq-hyd-office|incubator|outskirts|alias trap. funding-list and marketing-careers are SUPPORTING only \u2014 never qualify alone or as a pair",
-      "Problem class: physical / scientific / regulated / infrastructure \u2014 hard-reject HRM, payroll, generic CRM, IT staffing, agency, me-too chatbot",
-      "Depth obtainable: at least two of founder LinkedIns, office nuance, alias, non-obvious careers, incubator pin \u2014 else map pin only"
+      "Verified Hyderabad substance (HQ / local R&D / manufacturing — not Inc42 mention alone)",
+      "Hard discovery signal: gem|zoho|keka|rippling|remote-india|us-hq-hyd-office|incubator|outskirts|alias trap. funding-list and marketing-careers are SUPPORTING only — never qualify alone or as a pair",
+      "Problem class: physical / scientific / regulated / infrastructure — hard-reject HRM, payroll, generic CRM, IT staffing, agency, me-too chatbot",
+      "Depth obtainable: at least two of founder LinkedIns, office nuance, alias, non-obvious careers, incubator pin — else map pin only"
     ],
     "newAgeTests": [
       "Constraint: physics/regulation/clinical/manufacturing/infra/proprietary data",
-      "Deletion: remove 'AI-powered' \u2014 still differentiated?",
+      "Deletion: remove 'AI-powered' — still differentiated?",
       "Substitution: Zoho/agency/LLM wrapper in six months?",
       "Artifact: device/model/dataset/cert/patent/facility/named deployment",
       "Hyderabad: would product change if Hyd team vanished?"
@@ -1688,17 +2169,8 @@
       "missReasons": [
         "zoho"
       ],
-      "whyHardToFind": "Zoho Recruit board \u2014 job-feed orphan",
+      "whyHardToFind": "Zoho Recruit board — job-feed orphan",
       "careers": "https://productspace.zohorecruit.in/jobs/Careers"
-    },
-    {
-      "name": "MapmyGenome",
-      "status": "enrich-radar",
-      "missReasons": [
-        "marketing-careers"
-      ],
-      "whyHardToFind": "On map + careers hiring; not on Radar yet",
-      "note": "HealthTech \u2014 evaluate exclusive bar"
     },
     {
       "name": "Accufy",
@@ -1714,96 +2186,12 @@
       "missReasons": [
         "us-hq-hyd-office"
       ],
-      "whyHardToFind": "Lever careers in Hyd feed \u2014 verify local office"
-    },
-    {
-      "name": "Equal AI / Equal Identity",
-      "status": "verify-address",
-      "missReasons": [
-        "funding-list",
-        "alias"
-      ],
-      "whyHardToFind": "Alias/rebrand trap; financial-data consent infra"
-    },
-    {
-      "name": "Helex",
-      "status": "verify-address",
-      "missReasons": [
-        "incubator"
-      ],
-      "whyHardToFind": "BioNEST UoH \u2014 university bio incubator scrapers miss"
-    },
-    {
-      "name": "Cosmoserve Space",
-      "status": "verify-address",
-      "missReasons": [
-        "incubator",
-        "marketing-careers"
-      ],
-      "whyHardToFind": "T-Hub space sustainability; #Careers marketing anchor"
-    },
-    {
-      "name": "Indrajaal",
-      "status": "verify-address",
-      "missReasons": [
-        "outskirts",
-        "funding-list"
-      ],
-      "whyHardToFind": "Defense counter-UAS; absent from startup forums"
-    },
-    {
-      "name": "Anvi Robotics",
-      "status": "verify-address",
-      "missReasons": [
-        "marketing-careers"
-      ],
-      "whyHardToFind": "No ATS; LinkedIn-only hiring surface"
-    },
-    {
-      "name": "Makers Hive",
-      "status": "verify-address",
-      "missReasons": [
-        "marketing-careers"
-      ],
-      "whyHardToFind": "Med robotics \u2014 Inc42 once then quiet"
-    },
-    {
-      "name": "Constelli",
-      "status": "verify-address",
-      "missReasons": [
-        "outskirts"
-      ],
-      "whyHardToFind": "EW/radar supplier registries, not startup lists"
-    },
-    {
-      "name": "Vyuhaa Med Data",
-      "status": "enrich-radar",
-      "missReasons": [
-        "marketing-careers"
-      ],
-      "whyHardToFind": "Already mapped; needs Radar depth + exclusive tier"
-    },
-    {
-      "name": "Abyom SpaceTech",
-      "status": "verify-address",
-      "missReasons": [
-        "incubator"
-      ],
-      "whyHardToFind": "BITS Pilani Hyd campus pin defeats corridor sweeps"
-    },
-    {
-      "name": "Docturnal",
-      "status": "verify-address",
-      "missReasons": [
-        "outskirts",
-        "marketing-careers"
-      ],
-      "whyHardToFind": "Sanath Nagar respiratory AI; verify product claims"
+      "whyHardToFind": "Lever careers in Hyd feed — verify local office"
     }
   ],
   "exclusiveList": {
     "updatedAt": "2026-09-09",
-    "status": "proposed \u2014 awaiting user confirm before removing cut/demote from Radar",
+    "status": "applied — cut/demote removed; promoteFromMap + discovery deeptech promoted with founder depth",
     "core": [
       "AltiusHub",
       "Axirium Aerospace",
@@ -1817,69 +2205,55 @@
       "Xbattery Energy"
     ],
     "watch": [
+      "Abyom",
+      "Anvi Robotics",
+      "Constelli",
+      "Cosmoserve Space",
       "DeepEdge",
+      "Docturnal",
+      "Equal Identity",
       "Eyva",
       "GTM Buddy",
+      "Helex",
+      "Indrajaal",
       "Keus",
+      "Maithri Aquatech",
+      "Makers Hive",
+      "MapmyGenome",
       "Orbicular Pharmaceutical Technologies",
       "Portl",
+      "Sensa Core",
       "Supervity",
       "Synthio Labs",
+      "Vyuhaa Med Data",
       "ZestIOT"
     ],
-    "demote": [
-      "GradRight",
-      "Loop Health",
-      "Plane"
-    ],
-    "cut": [
-      "Biva",
-      "Edubuk",
-      "Kenyt Technologies",
-      "NemoSoft",
-      "NicheBrains",
-      "Pulse HRM",
-      "Starbuzz"
-    ],
-    "promoteFromMap": [
-      {
-        "name": "Vyuhaa Med Data",
-        "why": "Both models: digital pathology hardware\u2013AI; map pin not yet Radar"
-      },
-      {
-        "name": "Helex",
-        "why": "BioNEST UoH gene therapy \u2014 top Claude discovery"
-      },
-      {
-        "name": "Cosmoserve Space",
-        "why": "Orbital debris / in-orbit servicing, T-Hub"
-      },
-      {
-        "name": "Indrajaal",
-        "why": "Counter-UAS defense, non-corridor"
-      },
-      {
-        "name": "Anvi Robotics",
-        "why": "Field robotics, no ATS"
-      },
-      {
-        "name": "Makers Hive",
-        "why": "Med robotics / prosthetics"
-      },
-      {
-        "name": "Constelli",
-        "why": "RF/EW test systems"
-      },
-      {
-        "name": "Equal AI",
-        "why": "Codex promote \u2014 financial data/identity infra"
-      }
-    ],
+    "demote": [],
+    "cut": [],
+    "promoteFromMap": [],
     "queueActions": {
       "Equal AI / Equal Identity": "promote-candidate",
-      "PromptQL / Expedition Technology": "drop \u2014 Bengaluru/SF evidence",
-      "Rekise Marine": "regional-watch \u2014 Bengaluru HQ, not Hyd pin",
-      "Sokksha": "drop \u2014 identity conflict"
+      "PromptQL / Expedition Technology": "drop — Bengaluru/SF evidence",
+      "Rekise Marine": "regional-watch — Bengaluru HQ, not Hyd pin",
+      "Sokksha": "drop — identity conflict"
+    },
+    "appliedAt": "2026-09-09",
+    "removedFromRadar": {
+      "demote": [
+        "GradRight",
+        "Loop Health",
+        "Plane"
+      ],
+      "cut": [
+        "Biva",
+        "Edubuk",
+        "Kenyt Technologies",
+        "NemoSoft",
+        "NicheBrains",
+        "Pulse HRM",
+        "Starbuzz"
+      ],
+      "note": "Still on public map/jobs; removed from curated Radar exclusive list only."
     }
   }
 }
