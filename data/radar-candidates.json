@@ -510,6 +510,224 @@
           ]
         }
       ]
+    },
+    "inc42-healthtech-hyd-2026": {
+      "label": "Inc42 Top 30 Funded Healthtech Hyderabad 2026 \u2014 article + visible ranks",
+      "url": "https://inc42.com/lists/top-30-funded-healthtech-startups-in-hyderabad-2026/",
+      "candidates": [
+        {
+          "name": "StanPlus",
+          "aka": [
+            "RED.Health",
+            "RED Health"
+          ],
+          "website": "https://www.red.health",
+          "suggestedMissReasons": [
+            "funding-list"
+          ],
+          "note": "Rebranded to RED.Health \u2014 likely already on map"
+        },
+        {
+          "name": "Portl",
+          "website": "https://portl.co",
+          "suggestedMissReasons": [
+            "funding-list",
+            "marketing-careers"
+          ]
+        },
+        {
+          "name": "Startoon Labs",
+          "website": "https://startoonlabs.com",
+          "suggestedMissReasons": [
+            "funding-list",
+            "marketing-careers"
+          ]
+        },
+        {
+          "name": "CallHealth",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Yapan Bio",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Makers Hive",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Orbicular Pharmaceutical Technologies",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        }
+      ]
+    },
+    "tracxn-ai-deeptech-hyd": {
+      "label": "Tracxn AI deeptech Hyderabad sample (Aug 2026)",
+      "url": "https://tracxn.com/d/artificial-intelligence/ai-startups-in-deep-tech-in-hyderabad-in-india/",
+      "candidates": [
+        {
+          "name": "Lemurian Labs",
+          "website": "https://www.lemurianlabs.com",
+          "careers": "https://job-boards.greenhouse.io/lemurianlabs",
+          "suggestedMissReasons": [
+            "us-hq-hyd-office",
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Perceptyne",
+          "website": "https://www.perceptyne.com",
+          "careers": "https://www.perceptyne.com/career",
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ]
+        },
+        {
+          "name": "Aganitha",
+          "aka": [
+            "Aganitha AI"
+          ],
+          "website": "https://www.aganitha.ai",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Nebulaa",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Beacon",
+          "suggestedMissReasons": [
+            "us-hq-hyd-office",
+            "funding-list"
+          ],
+          "note": "May be SF HQ \u2014 verify Hyd office"
+        },
+        {
+          "name": "Supervity",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Deccan AI",
+          "website": "https://deccan.ai",
+          "suggestedMissReasons": [
+            "us-hq-hyd-office"
+          ]
+        }
+      ]
+    },
+    "gap-miss-priority": {
+      "label": "Priority MISS from gap-sweep + LinkedIn Hyd hiring signal",
+      "candidates": [
+        {
+          "name": "Lemurian Labs",
+          "website": "https://www.lemurianlabs.com",
+          "careers": "https://job-boards.greenhouse.io/lemurianlabs",
+          "suggestedMissReasons": [
+            "us-hq-hyd-office"
+          ]
+        },
+        {
+          "name": "GTM Buddy",
+          "website": "https://gtmbuddy.ai",
+          "suggestedMissReasons": [
+            "funding-list"
+          ],
+          "note": "LinkedIn hiring in Hyderabad"
+        },
+        {
+          "name": "Portl",
+          "website": "https://portl.co",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Startoon Labs",
+          "website": "https://startoonlabs.com",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Biva",
+          "website": "https://biva.ai",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Utopia Therapeutics",
+          "website": "https://utopiathx.com",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Pulse",
+          "website": "https://pulsegen.io",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "HiWi",
+          "website": "https://hiwipay.com",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Starbuzz",
+          "website": "https://starbuzz.ai",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "RACEnergy",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "ZestIOT",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "NemoCare",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Supervity",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Nebulaa",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        }
+      ]
     }
   }
 }
