@@ -7,7 +7,6 @@ import {
   signInWithGoogleIdToken,
   useAuthUser,
 } from "../../lib/auth-client.js";
-import { readShortlist } from "../../lib/shortlist.js";
 
 const DISMISS_KEY = "hyd-one-tap-dismiss";
 const SCRIPT_ID = "google-gsi-client";
@@ -37,21 +36,16 @@ function shouldOfferOneTap(force) {
   try {
     if (sessionStorage.getItem(DISMISS_KEY) === "1") return false;
   } catch {}
-  if (force) return true;
-  try {
-    const sl = readShortlist();
-    const n = Object.keys(sl.jobs || {}).length + (sl.searches || []).length;
-    if (n >= 1) return true;
-  } catch {}
-  // Light organic offer for return visits on jobs/saved paths only (handled by force from parents)
-  return false;
+  // Show on normal map/jobs screens too — not only after save.
+  // force=true still used on /saved; dismiss keeps it from nagging all session.
+  return true;
 }
 
 /**
  * Google One Tap — account chip appears without clicking Sign in.
- * Does not block the map. Only prompts when user already has local saves,
- * or when a parent passes force (e.g. /saved).
+ * Does not block the map. Prompts on normal screens; session dismiss stops nagging.
  */
+
 export default function GoogleOneTap({ force = false }) {
   const { user, ready } = useAuthUser();
   const prompted = useRef(false);
@@ -93,15 +87,13 @@ export default function GoogleOneTap({ force = false }) {
         prompted.current = true;
         accountsId.prompt((notification) => {
           if (!notification) return;
-          // User closed / suppressed — don't nag this session
-          if (
-            notification.isNotDisplayed?.() ||
-            notification.isSkippedMoment?.() ||
-            notification.isDismissedMoment?.()
-          ) {
+          // Only suppress this session if the user explicitly dismissed the chip.
+          if (notification.isDismissedMoment?.()) {
             try {
-              if (notification.getDismissedReason?.() === "credential_returned") return;
-              sessionStorage.setItem(DISMISS_KEY, "1");
+              const reason = notification.getDismissedReason?.();
+              if (reason && reason !== "credential_returned") {
+                sessionStorage.setItem(DISMISS_KEY, "1");
+              }
             } catch {}
           }
         });
