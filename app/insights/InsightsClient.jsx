@@ -5,7 +5,10 @@ import { useEffect, useMemo, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
 import LoadingScreen from "../components/LoadingScreen.jsx";
 
-function sectorSlug(sector) {
+/** Only emit /industries/{slug} URLs that exist (see INDUSTRY_LANDINGS). */
+function sectorHref(sector) {
+  const raw = String(sector || "");
+  if (raw.startsWith("GCC")) return "/gccs";
   const map = {
     SaaS: "saas",
     AI: "ai",
@@ -20,8 +23,13 @@ function sectorSlug(sector) {
     D2C: "d2c",
     Logistics: "logistics",
     Other: "other",
+    // Fold niche labels into hubs that already exist
+    Aerospace: "deeptech",
+    Hardware: "deeptech",
+    Cleantech: "deeptech",
+    Agritech: "deeptech",
   };
-  return map[sector] || String(sector || "other").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  return `/industries/${map[raw] || "other"}`;
 }
 
 const RAMP = ["#fdf1ec", "#fbe0d3", "#f6c3ab", "#f0a17e", "#e97e54", "#e0562b", "#b8441f", "#8f3418"];
@@ -37,7 +45,7 @@ function SectorBar({ sector, count, hiringCount, total, rank, max }) {
   const barWidth = max ? (count / max) * 100 : 0;
 
   return (
-    <Link href={`/industries/${sectorSlug(sector)}`} className="ins-sector-row">
+    <Link href={sectorHref(sector)} className="ins-sector-row">
       <div className="ins-sector-rank">#{rank}</div>
       <div className="ins-sector-body">
         <div className="ins-sector-top-row">
