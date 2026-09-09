@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import {
   normalizeSalary,
@@ -157,6 +158,7 @@ export async function GET(req) {
         lastPollNew: newCount,
         lastPollIncoming: incoming.size,
       });
+      revalidateTag("public-jobs");
 
       const site = getSiteUrl();
       const updated = [...nextIds]

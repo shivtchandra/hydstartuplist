@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import {
   loadPriorityCareers,
@@ -105,6 +106,7 @@ export async function GET(req) {
     employers: results.filter((r) => r.ok).length,
     results,
   });
+  revalidateTag("public-jobs");
 
   return NextResponse.json({
     success: true,

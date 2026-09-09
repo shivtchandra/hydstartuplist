@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { loadActiveAtsBoards } from "../../../../lib/ats/boards.js";
 import { fetchBoardJobs, toPublicJob } from "../../../../lib/ats/index.js";
@@ -267,6 +268,8 @@ export async function GET(req) {
       { status: 500 }
     );
   }
+
+  revalidateTag("public-jobs");
 
   let indexing = null;
   try {
