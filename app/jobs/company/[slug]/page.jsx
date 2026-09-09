@@ -12,6 +12,9 @@ import { jobDescriptionForPage } from "../../../../lib/job-content.js";
 
 export const revalidate = 1800;
 
+// Generate on the first visit, then reuse HTML through ISR for new and existing URLs.
+export function generateStaticParams() { return []; }
+
 export async function generateMetadata({ params }) {
   const { startup, jobs, companyName } = await getJobsForStartupSlug(params.slug);
   if (!startup && !jobs.length) return { title: "Company jobs not found" };

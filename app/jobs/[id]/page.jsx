@@ -31,6 +31,9 @@ import { fundingLabel } from "../../../lib/company-quality.js";
 
 export const revalidate = 3600;
 
+// Generate on the first visit, then reuse HTML through ISR for new and existing URLs.
+export function generateStaticParams() { return []; }
+
 export async function generateMetadata({ params }) {
   const id = jobIdFromUrl(params.id);
   const job = await getJobById(id);

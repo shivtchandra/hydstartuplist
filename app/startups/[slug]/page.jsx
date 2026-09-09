@@ -28,6 +28,9 @@ import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 
 export const revalidate = 86400;
 
+// Generate on the first visit, then reuse HTML through ISR for new and existing URLs.
+export function generateStaticParams() { return []; }
+
 export async function generateMetadata({ params }) {
   const startup = await getStartupBySlug(params.slug);
   if (!startup) return { title: "Startup not found" };
