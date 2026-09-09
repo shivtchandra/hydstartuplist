@@ -1,0 +1,515 @@
+{
+  "updatedAt": "2026-09-09",
+  "notes": "Seed lists for scripts/radar-gap-sweep.mjs. Human verifies MISS rows before Radar intake. Never auto-pin.",
+  "sources": {
+    "inc42-ai-hyd-2026": {
+      "label": "Inc42 Top 10 Funded AI Startups In Hyderabad (2026) + intro names",
+      "url": "https://inc42.com/lists/top-10-funded-ai-startups-in-hyderabad-2026/",
+      "candidates": [
+        {
+          "name": "Lemurian Labs",
+          "website": "https://www.lemurianlabs.com",
+          "suggestedMissReasons": [
+            "funding-list",
+            "us-hq-hyd-office"
+          ]
+        },
+        {
+          "name": "Deccan AI",
+          "website": "https://deccan.ai",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Perceptyne",
+          "website": "https://www.perceptyne.com",
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ]
+        },
+        {
+          "name": "Pulse",
+          "website": "https://pulsegen.io",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Sokksha",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Biva",
+          "website": "https://biva.ai",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Kenyt Technologies",
+          "website": "https://www.kenyt.ai",
+          "suggestedMissReasons": [
+            "incubator"
+          ]
+        },
+        {
+          "name": "Vyuhaa Med Data",
+          "website": "https://vyuhaa.com",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Logy.AI",
+          "website": "https://logy.ai",
+          "suggestedMissReasons": [
+            "incubator"
+          ]
+        },
+        {
+          "name": "OSCOWL ai",
+          "website": "https://www.oscowl.in",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Ikonz",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "NicheAI",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Harvested Robotics",
+          "website": "https://www.harvestedlabs.com",
+          "careers": "https://harvestedlabs.zohorecruit.in/jobs/Careers",
+          "suggestedMissReasons": [
+            "zoho",
+            "outskirts"
+          ]
+        }
+      ]
+    },
+    "inc42-top30-hyd-named": {
+      "label": "Inc42 Top 30 Hyd 2026 \u2014 named beyond paywall cutoff + article mentions",
+      "url": "https://inc42.com/lists/top-30-funded-startups-in-hyderabad-2026/",
+      "candidates": [
+        {
+          "name": "Blaize",
+          "website": "https://www.blaize.com",
+          "careers": "https://www.blaize.com/careers/",
+          "suggestedMissReasons": [
+            "us-hq-hyd-office"
+          ]
+        },
+        {
+          "name": "UrbanKisaan",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Dhruva Space",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Recykal",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Liquidnitro Games",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "RED.Health",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Pure EV",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Donatekart",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        }
+      ]
+    },
+    "fundediq-hyd-recent": {
+      "label": "FundedIQ recently funded Hyderabad (tech-leaning sample)",
+      "url": "https://fundediq.co/funded-startups-hyderabad/",
+      "candidates": [
+        {
+          "name": "Equal AI",
+          "website": "https://equal.in",
+          "suggestedMissReasons": [
+            "funding-list"
+          ],
+          "aka": [
+            "Equal Identity"
+          ]
+        },
+        {
+          "name": "Rekise Marine",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "TakeMe2Space",
+          "website": "https://www.tm2.space",
+          "suggestedMissReasons": [
+            "incubator"
+          ]
+        },
+        {
+          "name": "Axirium Aerospace",
+          "website": "https://www.axirium.aero",
+          "suggestedMissReasons": [
+            "outskirts"
+          ]
+        },
+        {
+          "name": "Xbattery Energy",
+          "website": "https://xbattery.energy",
+          "suggestedMissReasons": [
+            "outskirts"
+          ]
+        },
+        {
+          "name": "Cosmoserve Space",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Eon Space Labs",
+          "website": "https://www.eonspacelabs.com",
+          "suggestedMissReasons": [
+            "outskirts"
+          ]
+        },
+        {
+          "name": "Enmovil",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "TurboHire",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Utopia Therapeutics",
+          "website": "https://utopiathx.com",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "AltiusHub",
+          "website": "https://altiushub.com",
+          "careers": "https://altiushub.com/careers",
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ]
+        },
+        {
+          "name": "GTM Buddy",
+          "website": "https://gtmbuddy.ai",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Keus",
+          "website": "https://www.keus.in",
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ]
+        },
+        {
+          "name": "GradRight",
+          "website": "https://gradright.com",
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ]
+        },
+        {
+          "name": "Maithri Aquatech",
+          "website": "https://www.maithriaqua.com",
+          "suggestedMissReasons": [
+            "outskirts"
+          ]
+        },
+        {
+          "name": "Sensa Core",
+          "website": "https://www.sensacore.com",
+          "suggestedMissReasons": [
+            "outskirts"
+          ]
+        },
+        {
+          "name": "Constelli",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "MARUT Drones",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Perceptyne",
+          "website": "https://www.perceptyne.com",
+          "careers": "https://www.perceptyne.com/career",
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ]
+        },
+        {
+          "name": "NemoCare",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Starbuzz",
+          "website": "https://starbuzz.ai",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "ZestIOT",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "RACEnergy",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "JEH Aerospace",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        }
+      ]
+    },
+    "incubator-hyd": {
+      "label": "T-Hub / CIE-IIIT / ISB D-Labs / WE Hub \u2014 seed names to expand",
+      "candidates": [
+        {
+          "name": "Kenyt Technologies",
+          "website": "https://www.kenyt.ai",
+          "suggestedMissReasons": [
+            "incubator"
+          ]
+        },
+        {
+          "name": "Logy.AI",
+          "website": "https://logy.ai",
+          "suggestedMissReasons": [
+            "incubator"
+          ]
+        },
+        {
+          "name": "TakeMe2Space",
+          "website": "https://www.tm2.space",
+          "suggestedMissReasons": [
+            "incubator"
+          ]
+        },
+        {
+          "name": "HYLENR",
+          "suggestedMissReasons": [
+            "incubator"
+          ]
+        },
+        {
+          "name": "Abyom",
+          "suggestedMissReasons": [
+            "incubator"
+          ]
+        },
+        {
+          "name": "Cosmoserve Space",
+          "suggestedMissReasons": [
+            "incubator"
+          ]
+        },
+        {
+          "name": "Eon Space Labs",
+          "website": "https://www.eonspacelabs.com",
+          "suggestedMissReasons": [
+            "incubator",
+            "outskirts"
+          ]
+        },
+        {
+          "name": "PropYaar",
+          "suggestedMissReasons": [
+            "incubator"
+          ]
+        }
+      ]
+    },
+    "gem-zoho-india": {
+      "label": "Gem / Zoho long-tail with India or Hyd signal",
+      "candidates": [
+        {
+          "name": "Synthio Labs",
+          "website": "https://synthiolabs.com",
+          "careers": "https://jobs.gem.com/synthio-labs",
+          "suggestedMissReasons": [
+            "gem",
+            "remote-india"
+          ]
+        },
+        {
+          "name": "PromptQL",
+          "careers": "https://jobs.gem.com/expedition-technology",
+          "suggestedMissReasons": [
+            "gem",
+            "remote-india"
+          ]
+        },
+        {
+          "name": "Harvested Robotics",
+          "website": "https://www.harvestedlabs.com",
+          "careers": "https://harvestedlabs.zohorecruit.in/jobs/Careers",
+          "suggestedMissReasons": [
+            "zoho",
+            "outskirts"
+          ]
+        },
+        {
+          "name": "Plane",
+          "website": "https://plane.so",
+          "careers": "https://plane.so/careers",
+          "suggestedMissReasons": [
+            "us-hq-hyd-office"
+          ]
+        },
+        {
+          "name": "Loop Health",
+          "website": "https://www.loophealth.com",
+          "careers": "https://www.loophealth.com/careers",
+          "suggestedMissReasons": [
+            "marketing-careers"
+          ]
+        }
+      ]
+    },
+    "manual-verify-queue": {
+      "label": "Prior verify leftovers still worth checking",
+      "candidates": [
+        {
+          "name": "Lemurian Labs",
+          "website": "https://www.lemurianlabs.com",
+          "suggestedMissReasons": [
+            "us-hq-hyd-office",
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Biva",
+          "website": "https://biva.ai",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Sokksha",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Ikonz",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "NicheAI",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Utopia Therapeutics",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "GTM Buddy",
+          "website": "https://gtmbuddy.ai",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Edubuk",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "HiWi",
+          "website": "https://hiwipay.com",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Landeed",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "Bluecopa",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        },
+        {
+          "name": "AdOnMo",
+          "suggestedMissReasons": [
+            "funding-list"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -18,7 +18,11 @@
       "why": "YC life-sciences voice AI. Careers live on Gem with Remote India eng roles \u2014 easy to miss if you only scrape Greenhouse/Ashby.",
       "careers": "https://jobs.gem.com/synthio-labs",
       "jobMode": "remote-india",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "gem",
+        "remote-india"
+      ]
     },
     {
       "startupId": "a8668de6-a2bd-4570-b982-b5391190d434",
@@ -29,7 +33,11 @@
       "why": "Pharma track-and-trace SaaS in Kondapur. On-site Hyd hiring; not on big ATS aggregators.",
       "careers": "https://altiushub.com/careers",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list"
+      ]
     },
     {
       "startupId": "faa9cdc5-08a9-43e9-8d60-d86cb4f5a448",
@@ -40,7 +48,11 @@
       "why": "Funded robotics / AI team in Kondapur \u2014 careers page is easy to overlook.",
       "careers": "https://www.perceptyne.com/career",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list"
+      ]
     },
     {
       "startupId": "5a23c455-c758-4974-a026-078da93b1d06",
@@ -52,7 +64,12 @@
       "why": "Agritech robotics; hiring via Zoho Recruit, not Greenhouse/Lever.",
       "careers": "https://harvestedlabs.zohorecruit.in/jobs/Careers",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "zoho",
+        "outskirts",
+        "funding-list"
+      ]
     },
     {
       "startupId": "86f8f9ed-f68d-41cb-92e6-8c747d0152ea",
@@ -63,7 +80,10 @@
       "why": "Edge AI silicon with a real Gachibowli office (DLF Cyber City) \u2014 often listed as US-only.",
       "careers": "https://www.blaize.com/careers/",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "us-hq-hyd-office"
+      ]
     },
     {
       "startupId": "e819b8ec-db34-4dec-9489-e40280ff97b5",
@@ -74,7 +94,11 @@
       "why": "IIIT / CIE Vindhya space startup \u2014 small board, easy to miss in funding lists.",
       "careers": "https://www.tm2.space/about-tm2s",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "funding-list"
+      ]
     },
     {
       "startupId": "fb3ea0ee-85d3-4d5d-9834-246aa8b19bd0",
@@ -85,7 +109,11 @@
       "why": "Aerospace manufacturing outside the usual HITEC corridor \u2014 easy to skip in city-center sweeps.",
       "careers": "https://www.axirium.aero/",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "outskirts",
+        "funding-list"
+      ]
     },
     {
       "startupId": "d807de4e-2fca-44fd-a9f9-f0c481536284",
@@ -96,7 +124,12 @@
       "why": "EV / BMS hardware at Narsingi coworking \u2014 not on mainstream ATS feeds.",
       "careers": "https://xbattery.energy/",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "outskirts",
+        "marketing-careers",
+        "funding-list"
+      ]
     },
     {
       "startupId": "7732f415-af6b-48fa-832e-71f782c94d03",
@@ -107,7 +140,11 @@
       "why": "Optical payloads for drones/space; Peeramcheru base.",
       "careers": "https://www.eonspacelabs.com/",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "outskirts",
+        "funding-list"
+      ]
     },
     {
       "startupId": "44c3636f-8f33-4540-b6f8-a9b4b7856be5",
@@ -117,7 +154,10 @@
       "why": "Smart-home hardware HQ in Banjara Hills \u2014 careers buried on the marketing site.",
       "careers": "https://www.keus.in/",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers"
+      ]
     },
     {
       "startupId": "42f0a99e-a66b-471f-be72-2a69fc05ecaf",
@@ -128,7 +168,10 @@
       "why": "Education-loan marketplace at Sanali Spazio \u2014 solid Hyd team, quiet careers surface.",
       "careers": "https://gradright.com/",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers"
+      ]
     },
     {
       "startupId": "b17083a7-54a2-4e8f-a591-d97a64a53786",
@@ -139,7 +182,11 @@
       "why": "Early AI healthtech at D-Labs / ISB \u2014 tiny funding, easy to skip.",
       "careers": "https://logy.ai/",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "funding-list"
+      ]
     },
     {
       "startupId": "b20a4113-4958-42cf-af1e-c90bc28d288e",
@@ -151,7 +198,11 @@
       "why": "AI team at T-Hub 2.0 \u2014 incubator address, easy to miss outside T-Hub lists.",
       "careers": "https://www.kenyt.ai/",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "funding-list"
+      ]
     },
     {
       "startupId": "3bc81153-50c5-4051-85b3-aa2bbcb3aab9",
@@ -161,7 +212,11 @@
       "why": "Open-source project management; Hyd + SF hiring \u2014 often filed under Bangalore/remote only.",
       "careers": "https://plane.so/careers",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "us-hq-hyd-office",
+        "funding-list"
+      ]
     },
     {
       "startupId": "d44906d9-9385-49b0-838e-71295dadfc5d",
@@ -172,7 +227,10 @@
       "why": "Health assurance platform with a real Madhapur office.",
       "careers": "https://www.loophealth.com/careers",
       "jobMode": "hyd-office",
-      "geo": "hyd"
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers"
+      ]
     },
     {
       "name": "PromptQL",
@@ -186,7 +244,11 @@
       "why": "Gem board with Bangalore office + Remote India FDE roles. No Hyd pin yet \u2014 kept on Radar for India remote seekers.",
       "jobMode": "remote-india",
       "onMap": false,
-      "geo": "remote"
+      "geo": "remote",
+      "missReasons": [
+        "gem",
+        "remote-india"
+      ]
     },
     {
       "name": "Groq",
@@ -364,7 +426,10 @@
       "why": "Gem board; US remote \u2014 parked under remote (not SF office).",
       "jobMode": "remote",
       "geo": "remote",
-      "onMap": false
+      "onMap": false,
+      "missReasons": [
+        "gem"
+      ]
     },
     {
       "name": "Bluesky",
@@ -377,7 +442,10 @@
       "why": "Fully remote (PST overlap) \u2014 not an SF office pin.",
       "jobMode": "remote",
       "geo": "remote",
-      "onMap": false
+      "onMap": false,
+      "missReasons": [
+        "gem"
+      ]
     },
     {
       "name": "Gem",
@@ -403,7 +471,10 @@
       "why": "Full remote Gem board (multi-region). Not Hyd/SF office.",
       "jobMode": "remote",
       "geo": "remote",
-      "onMap": false
+      "onMap": false,
+      "missReasons": [
+        "gem"
+      ]
     },
     {
       "name": "Fetch",
@@ -416,7 +487,10 @@
       "why": "Full remote Gem board (Auger / supply-chain AI). Not Hyd/SF office.",
       "jobMode": "remote",
       "geo": "remote",
-      "onMap": false
+      "onMap": false,
+      "missReasons": [
+        "gem"
+      ]
     },
     {
       "name": "Auger",
@@ -429,7 +503,10 @@
       "why": "Same Gem family as Fetch \u2014 full remote.",
       "jobMode": "remote",
       "geo": "remote",
-      "onMap": false
+      "onMap": false,
+      "missReasons": [
+        "gem"
+      ]
     },
     {
       "name": "F\u00e9lix",
@@ -442,7 +519,28 @@
       "why": "LatAm fintech Gem board \u2014 not SF/Hyd; keep in remote/global for now.",
       "jobMode": "remote",
       "geo": "remote",
-      "onMap": false
+      "onMap": false,
+      "missReasons": [
+        "gem"
+      ]
     }
-  ]
+  ],
+  "missReasons": {
+    "gem": "Careers on Gem (no public directory; not Greenhouse/Ashby)",
+    "zoho": "Careers on Zoho Recruit (long-tail ATS)",
+    "remote-india": "Roles labeled Remote India / SF \u2014 fail Hyd city filters",
+    "us-hq-hyd-office": "US/global brand; Hyd office under India entity name",
+    "incubator": "Incubator / CIE / T-Hub / D-Labs pin \u2014 easy to miss outside cohort lists",
+    "outskirts": "Office outside HITEC/Gachibowli corridor",
+    "funding-list": "Small/early raise \u2014 below Inc42 Top-N paywall cutoff",
+    "marketing-careers": "Careers buried on marketing site (no known ATS board)",
+    "keka": "Careers on Keka",
+    "rippling": "Careers on Rippling"
+  },
+  "intake": {
+    "flow": "gap-sweep MISS \u2192 human verify \u2192 radar.json geo:hyd \u2192 address confirm \u2192 startups.json pin + optional ats-boards",
+    "script": "scripts/radar-gap-sweep.mjs",
+    "candidates": "data/radar-candidates.json",
+    "autoPin": false
+  }
 }

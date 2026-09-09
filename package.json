@@ -8,7 +8,10 @@
     "start": "next start",
     "seed": "node scripts/geocode-seed.mjs",
     "enrich:profiles": "node scripts/enrich-profiles.mjs",
-    "enrich:merge": "node scripts/merge-enrichment.mjs"
+    "enrich:merge": "node scripts/merge-enrichment.mjs",
+    "radar:gap": "node scripts/radar-gap-sweep.mjs",
+    "radar:gap:miss": "node scripts/radar-gap-sweep.mjs --miss-only",
+    "radar:gap:csv": "node scripts/radar-gap-sweep.mjs --csv"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
