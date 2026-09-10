@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getRadarEntries, radarMeta } from "../../../lib/radar.js";
-import { verifyBearerIdToken, getAdminAuth } from "../../../lib/firebaseAdmin.js";
+import { verifyBearerIdToken, getAdminAuth, firebaseAdminInitError } from "../../../lib/firebaseAdmin.js";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +31,7 @@ export async function GET(req) {
       hasBearer(req);
 
     if (!claims && !devUnlock) {
+      const adminErr = firebaseAdminInitError();
       return NextResponse.json({
         locked: true,
         authConfigured,
@@ -44,7 +45,9 @@ export async function GET(req) {
         },
         message: authConfigured
           ? "Sign in with Google to unlock Radar depth."
-          : "Sign-in is required. Set FIREBASE_SERVICE_ACCOUNT on the server to verify members (or RADAR_DEV_UNLOCK=1 in local dev).",
+          : adminErr
+            ? `Firebase Admin failed to start (${adminErr}). Re-paste FIREBASE_SERVICE_ACCOUNT as one-line JSON starting with { — no quotes around it.`
+            : "Sign-in is required. Set FIREBASE_SERVICE_ACCOUNT on Production and redeploy (or RADAR_DEV_UNLOCK=1 in local dev).",
       });
     }
 

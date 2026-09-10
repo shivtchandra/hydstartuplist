@@ -283,6 +283,30 @@ export default function RadarClient({ initialMeta }) {
         <section className="radar-gate">
           <h2>Still locked</h2>
           <p>{payload?.message || "Sign in required."}</p>
+          {payload?.authConfigured === false ? (
+            <p className="radar-gate-note">
+              Server cannot verify Google sign-in yet. In Vercel → Environment Variables, edit{" "}
+              <code>FIREBASE_SERVICE_ACCOUNT</code> for Production so the value starts with{" "}
+              <code>{"{"}</code> (no wrapping quotes), save, and redeploy. Then Retry.
+            </p>
+          ) : null}
+          <button
+            type="button"
+            className="radar-sign-in"
+            onClick={() => {
+              const auth = getClientAuth();
+              if (auth?.currentUser) {
+                setLoading(true);
+                setErr("");
+                fetchRadar(auth.currentUser)
+                  .then(setPayload)
+                  .catch((e) => setErr(e.message))
+                  .finally(() => setLoading(false));
+              }
+            }}
+          >
+            Retry
+          </button>
         </section>
       )}
     </main>
