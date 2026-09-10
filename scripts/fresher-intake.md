@@ -18,3 +18,12 @@ Seeds: `data/fresher-employer-seeds.json`
 4. Tagging: `lib/job-facets.js` → `inferExperienceLevel` (intern + junior feed `/jobs/fresher`)
 
 Do **not** ingest FresherOnly / Jooble / Way2Freshers as job sources — use listicles only to seed employer names.
+
+## Email alerts (retention)
+
+On `/jobs/fresher`: **Email me new fresher roles** → `POST /api/alerts` with `{ level: "early" }`.
+
+Confirm via `/alerts/manage`. Digests run from `/api/cron/job-alerts` (GitHub Actions hourly :30 UTC; daily subs fire ~08:00 IST).
+
+Requires Vercel `ALERTS_ENABLED=1`, Resend, `ALERT_TOKEN_SECRET` — see `docs/upgrade-rollout.md`.
+

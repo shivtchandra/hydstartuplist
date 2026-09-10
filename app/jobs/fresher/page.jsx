@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SiteNav from "../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
+import FresherAlertCta from "../../components/FresherAlertCta.jsx";
 import { getJobsByExperience } from "../../../lib/jobs.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import {
@@ -101,8 +102,9 @@ export default async function FresherJobsPage() {
           <p className="jobs-intro jobs-intro-body">{landing.body}</p>
           <p className="form-sub">
             {jobs.length} fresher / early-career role{jobs.length === 1 ? "" : "s"} right now.{" "}
-            <Link href="/jobs">View all jobs in Hyderabad →</Link>
+            <Link href="/jobs?level=early">Filter early career on the jobs board →</Link>
           </p>
+          <FresherAlertCta />
         </div>
 
         <section className="industry-section" aria-label="FAQ" style={{ marginBottom: 24 }}>
@@ -133,10 +135,14 @@ export default async function FresherJobsPage() {
           ))}
         </div>
         {!jobs.length && (
-          <p className="form-sub">
-            No fresher-tagged openings matched right now. Check{" "}
-            <Link href="/jobs">all jobs in Hyderabad</Link> or try again later.
-          </p>
+          <div className="fresher-empty">
+            <p className="form-sub">
+              No fresher-tagged openings matched right now. Check{" "}
+              <Link href="/jobs">all jobs in Hyderabad</Link> or get an email when new
+              ones land.
+            </p>
+            <FresherAlertCta compact />
+          </div>
         )}
       </div>
 </div>
