@@ -4492,8 +4492,93 @@ body:has(.radar-page) .tn-links a[href="/radar"].active {
   box-shadow: 0 0 0 3px rgba(241, 90, 41, 0.08);
 }
 
+.radar-featured {
+  margin: 0 0 40px;
+  max-width: 36rem;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--radar-line);
+}
+.radar-featured-kicker {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--radar-ink);
+}
+.radar-featured .radar-feed-lead {
+  margin-bottom: 18px;
+}
+.radar-on-label {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--radar-faint);
+}
+.radar-on-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+button.radar-on-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 10px 4px;
+  border: 0;
+  border-top: 1px solid var(--radar-line);
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+button.radar-on-item:first-of-type {
+  border-top: 1px solid var(--radar-line);
+}
+button.radar-on-item:hover {
+  background: var(--radar-orange-soft);
+}
+button.radar-on-item:hover .radar-on-item-arrow {
+  transform: translateX(3px);
+  color: var(--radar-orange-deep);
+}
+.radar-on-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.radar-on-item-name {
+  font-size: 14px;
+  font-weight: 750;
+  letter-spacing: -0.015em;
+  color: var(--radar-ink);
+  line-height: 1.25;
+}
+.radar-on-item-meta {
+  font-size: 12px;
+  color: var(--radar-muted);
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.radar-on-item-arrow {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--radar-orange);
+  transition: transform 0.16s ease, color 0.16s ease;
+}
+
 .radar-feed-lead {
-  margin: 0 0 32px;
+  margin: 0 0 0;
   max-width: 34rem;
   font-size: 0.9rem;
   line-height: 1.55;

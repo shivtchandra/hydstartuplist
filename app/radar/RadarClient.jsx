@@ -176,6 +176,24 @@ function ShowcaseCard({ row, onOpen }) {
   );
 }
 
+/** Compact featured strip — editorial, not a duplicate directory */
+function OnRadarItem({ row, onOpen }) {
+  const place = areaLine(row.area, row.geoLabel) || "Hyderabad";
+  const meta = [row.sector, place].filter(Boolean).join(" · ");
+  return (
+    <button type="button" className="radar-on-item" onClick={() => onOpen(row.id)}>
+      <StartupLogo name={row.name} website={row.website} sector={row.sector} size={32} />
+      <span className="radar-on-item-body">
+        <span className="radar-on-item-name">{row.name}</span>
+        {meta ? <span className="radar-on-item-meta">{meta}</span> : null}
+      </span>
+      <span className="radar-on-item-arrow" aria-hidden="true">
+        →
+      </span>
+    </button>
+  );
+}
+
 function CompanyDetail({ row, onBack, listUpdatedAt }) {
   const founders = row.depth?.founders || row.founders || [];
   const stealth = row.depth?.stealthSignals || [];
@@ -201,18 +219,18 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
 
       <div className="radar-brief-layout">
         <div className="radar-brief-main">
-      <header className="radar-brief-head">
-        {tier ? <p className="radar-brief-tier">{tier}</p> : null}
-        {placeUpper ? <p className="radar-brief-place">{placeUpper}</p> : null}
-        <h2>{row.name}</h2>
-        {lede ? <p className="radar-brief-lede">{lede}</p> : null}
-        <nav className="radar-out-row" aria-label="Company links">
-          {companyHref ? <OutLink href={companyHref}>View company</OutLink> : null}
-          {mapHref ? <OutLink href={mapHref}>Map</OutLink> : null}
-          {row.website ? <OutLink href={row.website}>Website</OutLink> : null}
-          {row.careers ? <OutLink href={row.careers}>Careers</OutLink> : null}
-        </nav>
-      </header>
+          <header className="radar-brief-head">
+            {tier ? <p className="radar-brief-tier">{tier}</p> : null}
+            {placeUpper ? <p className="radar-brief-place">{placeUpper}</p> : null}
+            <h2>{row.name}</h2>
+            {lede ? <p className="radar-brief-lede">{lede}</p> : null}
+            <nav className="radar-out-row" aria-label="Company links">
+              {companyHref ? <OutLink href={companyHref}>View company</OutLink> : null}
+              {mapHref ? <OutLink href={mapHref}>Map</OutLink> : null}
+              {row.website ? <OutLink href={row.website}>Website</OutLink> : null}
+              {row.careers ? <OutLink href={row.careers}>Careers</OutLink> : null}
+            </nav>
+          </header>
 
       {whatTheyDo ? (
         <section className="radar-section">
@@ -423,10 +441,25 @@ export default function RadarClient({ initialMeta }) {
                 />
               </label>
 
-              <p className="radar-feed-lead">
-                Open a company for the research brief — what they do, why they&apos;re hard to find, and
-                people worth knowing.
-              </p>
+              <section className="radar-featured" aria-label="Radar introduction">
+                <p className="radar-featured-kicker">Radar</p>
+                <p className="radar-feed-lead">
+                  Open a company for the research brief — what they do, why they&apos;re hard to find, and
+                  people worth knowing.
+                </p>
+                {(() => {
+                  const featured = [...coreFiltered, ...watchFiltered].slice(0, 6);
+                  if (!featured.length) return null;
+                  return (
+                    <div className="radar-on-list">
+                      <p className="radar-on-label">On the Radar</p>
+                      {featured.map((row) => (
+                        <OnRadarItem key={`on-${row.id}`} row={row} onOpen={setSelectedId} />
+                      ))}
+                    </div>
+                  );
+                })()}
+              </section>
 
               {coreFiltered.length ? (
                 <section className="radar-showcase-section" aria-label="Core">
