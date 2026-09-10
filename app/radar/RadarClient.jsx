@@ -67,7 +67,7 @@ function FounderProfile({ f, company }) {
   const blurb =
     f.bio ||
     f.about ||
-    `${role} at ${company || "this company"}. Open their LinkedIn for background, posts, and how to reach them.`;
+    `${role} at ${company || "this company"}. Use LinkedIn for their background, recent posts, and the best way to reach them about roles.`;
 
   return (
     <article className="radar-person">
@@ -259,7 +259,11 @@ export default function RadarClient({ initialMeta }) {
     setErr("");
     fetchRadar(user || null)
       .then((data) => {
-        if (!cancelled) setPayload(data);
+        if (cancelled) return;
+        setPayload(data);
+        if (!data?.locked && Array.isArray(data.entries) && data.entries.length) {
+          setSelectedId((prev) => prev || data.entries[0].id);
+        }
       })
       .catch((e) => {
         if (!cancelled) setErr(e.message || "Could not load Radar.");
