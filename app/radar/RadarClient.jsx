@@ -153,7 +153,6 @@ function FounderProfile({ f }) {
 
 function CompanyRow({ row, active, onSelect }) {
   const meta = sectorAreaLine(row) || row.geoLabel || "Hyderabad";
-  const mode = row.jobModeLabel || null;
   return (
     <button
       type="button"
@@ -164,50 +163,102 @@ function CompanyRow({ row, active, onSelect }) {
       <StartupLogo name={row.name} website={row.website} sector={row.sector} size={40} />
       <span className="radar-row-body">
         <span className="radar-row-name">{row.name}</span>
-        <span className="radar-row-meta">
-          {meta}
-          {mode ? ` · ${mode}` : ""}
-        </span>
+        <span className="radar-row-meta">{meta}</span>
+        {row.jobModeLabel ? <span className="radar-row-mode">{row.jobModeLabel}</span> : null}
       </span>
       <span className="radar-row-action">Open →</span>
     </button>
   );
 }
 
-function RadarIndex({ exclusive, total, updatedLabel }) {
+function pickFeatured(entries) {
+  if (!Array.isArray(entries) || !entries.length) return null;
+  const core = entries.filter((e) => e.exclusiveTier === "core");
   return (
-    <div className="radar-index">
-      <div className="radar-index-copy">
-        <p className="radar-index-kicker">Radar index</p>
-        <p className="radar-index-lede">
-          Open any company for the research brief — what they do, why they&apos;re hard to find, and
-          people worth knowing.
-        </p>
-        <dl className="radar-index-stats">
-          <div>
-            <dt>Core</dt>
-            <dd>{exclusive.coreCount || 0}</dd>
+    core.find((e) => /altiushub/i.test(e.name || "")) ||
+    core[0] ||
+    entries[0]
+  );
+}
+
+/** Default right panel — featured company discovery, not a second intro. */
+function FeaturedOnRadar({ row, onOpen }) {
+  if (!row) return null;
+  const place = areaLine(row.area, row.geoLabel);
+  const meta = [row.sector, place].filter(Boolean).join(" · ");
+  const whyHere = [
+    ...(row.missReasonLabels || []).slice(0, 2),
+    ...((row.depth?.stealthSignals || []).slice(0, 1)),
+  ].filter(Boolean).slice(0, 3);
+  const blurb = row.why || row.depth?.researchNotes || null;
+
+  return (
+    <div className="radar-featured">
+      <article className="radar-featured-card">
+        <p className="radar-featured-kicker">Featured on Radar</p>
+        <div className="radar-featured-top">
+          <StartupLogo name={row.name} website={row.website} sector={row.sector} size={56} />
+          <div className="radar-featured-id">
+            <h2>{row.name}</h2>
+            {meta ? <p className="radar-featured-meta">{meta}</p> : null}
           </div>
-          <div>
-            <dt>Watch</dt>
-            <dd>{exclusive.watchCount || 0}</dd>
-          </div>
-          <div>
-            <dt>Total</dt>
-            <dd>{total || "—"}</dd>
-          </div>
-        </dl>
-        {updatedLabel ? <p className="radar-index-updated">Updated {updatedLabel}</p> : null}
-      </div>
-      <figure className="radar-index-photo">
+        </div>
+        {blurb ? <p className="radar-featured-blurb">{blurb}</p> : null}
+
+        <div className="radar-featured-strip">
+          {place ? (
+            <div>
+              <strong>{place}</strong>
+              <span>Location</span>
+            </div>
+          ) : null}
+          {row.jobModeLabel ? (
+            <div>
+              <strong>{row.jobModeLabel}</strong>
+              <span>Hiring mode</span>
+            </div>
+          ) : null}
+          {row.exclusiveTier ? (
+            <div>
+              <strong>{row.exclusiveTier === "core" ? "Core" : "Watch"}</strong>
+              <span>Radar class</span>
+            </div>
+          ) : null}
+        </div>
+
+        <nav className="radar-featured-actions" aria-label="Featured company actions">
+          <button type="button" className="radar-featured-primary" onClick={() => onOpen(row.id)}>
+            View company →
+          </button>
+          {row.slug ? <OutLink href={`/?startup=${row.slug}`}>Map</OutLink> : null}
+          {row.careers ? <OutLink href={row.careers}>Careers</OutLink> : null}
+          {row.website ? <OutLink href={row.website}>Website</OutLink> : null}
+        </nav>
+
+        {whyHere.length ? (
+          <section className="radar-featured-why">
+            <h3>Why it&apos;s here</h3>
+            <ul>
+              {whyHere.map((s) => (
+                <li key={s}>{s}</li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+      </article>
+
+      <figure className="radar-featured-photo">
         <img
           src={CHARMINAR_SRC}
           alt="Charminar, Hyderabad"
-          width={280}
-          height={373}
+          width={640}
+          height={400}
           loading="lazy"
         />
-        <figcaption>Hyderabad</figcaption>
+        <figcaption>
+          Hyderabad
+          <span>Radar · 2026</span>
+        </figcaption>
       </figure>
     </div>
   );
@@ -440,7 +491,7 @@ export default function RadarClient({ initialMeta }) {
                     <h2>
                       Core <span>· {coreFiltered.length}</span>
                     </h2>
-                    <p>Strong Hyderabad signal.</p>
+                    <p>Companies we think are especially worth knowing.</p>
                   </header>
                   <div className="radar-dir-list" role="list">
                     {coreFiltered.map((row) => (
@@ -461,7 +512,7 @@ export default function RadarClient({ initialMeta }) {
                     <h2>
                       Watch <span>· {watchFiltered.length}</span>
                     </h2>
-                    <p>Worth keeping an eye on.</p>
+                    <p>Companies we&apos;re keeping an eye on.</p>
                   </header>
                   <div className="radar-dir-list" role="list">
                     {watchFiltered.map((row) => (
@@ -490,7 +541,10 @@ export default function RadarClient({ initialMeta }) {
                 listUpdatedAt={initialMeta?.updatedAt}
               />
             ) : (
-              <RadarIndex exclusive={exclusive} total={total} updatedLabel={updatedLabel} />
+              <FeaturedOnRadar
+                row={pickFeatured(payload.entries)}
+                onOpen={setSelectedId}
+              />
             )}
           </section>
         </div>
