@@ -1,16 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import Link from "next/link";
 import { signInWithGoogle, signOutUser, useAuthUser } from "../../lib/auth-client.js";
 
 /**
- * Quiet nav auth — never blocks browsing.
- * Signed-in: first name + explicit Log out (name alone was easy to miss).
+ * Quiet nav auth — name + editorial utility dropdown when signed in.
+ * Never blocks browsing.
  */
 export default function AuthButton({ compact = false }) {
   const { user, ready } = useAuthUser();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef(null);
+  const menuId = useId();
+
+  useEffect(() => {
+    if (!open) return undefined;
+    function onPointerDown(e) {
+      if (!wrapRef.current?.contains(e.target)) setOpen(false);
+    }
+    function onKeyDown(e) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("touchstart", onPointerDown, { passive: true });
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("touchstart", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [user?.uid]);
 
   if (!ready) return null;
 
@@ -28,6 +54,7 @@ export default function AuthButton({ compact = false }) {
 
   async function onSignOut() {
     setBusy(true);
+    setOpen(false);
     try {
       await signOutUser();
     } finally {
@@ -37,46 +64,67 @@ export default function AuthButton({ compact = false }) {
 
   if (user) {
     const label = user.displayName?.split(" ")[0] || "Account";
-    if (compact) {
-      return (
-        <span className="tn-auth-wrap tn-auth-signed">
-          <button
-            type="button"
-            className="tn-auth tn-auth-out"
-            onClick={onSignOut}
-            disabled={busy}
-            title={`${user.email || "Signed in"} — log out`}
-            aria-label="Log out"
-          >
-            {user.photoURL ? (
-              <img src={user.photoURL} alt="" width={22} height={22} />
-            ) : (
-              "Out"
-            )}
-          </button>
-        </span>
-      );
-    }
+
     return (
-      <span className="tn-auth-wrap tn-auth-signed">
-        <span className="tn-auth-name" title={user.email || "Signed in"}>
-          {label}
-        </span>
+      <span className={`tn-auth-wrap tn-auth-signed${open ? " is-open" : ""}`} ref={wrapRef}>
         <button
           type="button"
-          className="tn-auth tn-auth-out"
-          onClick={onSignOut}
-          disabled={busy}
-          aria-label="Log out"
+          className="tn-auth-trigger"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-haspopup="menu"
+          aria-controls={menuId}
+          title={user.email || "Signed in"}
         >
-          {busy ? "…" : "Log out"}
+          <span className="tn-auth-name">{label}</span>
+          <span className="tn-auth-caret" aria-hidden="true">
+            ▾
+          </span>
         </button>
+
+        <div
+          id={menuId}
+          className={`tn-auth-menu${open ? " is-open" : ""}`}
+          role="menu"
+          hidden={!open}
+        >
+          <div className="tn-auth-menu-head" role="presentation">
+            {label}
+          </div>
+          <div className="tn-auth-menu-rule" role="separator" />
+          <Link
+            href="/more"
+            className="tn-auth-menu-item"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+          >
+            Account
+          </Link>
+          <Link
+            href="/saved"
+            className="tn-auth-menu-item"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+          >
+            Saved
+          </Link>
+          <div className="tn-auth-menu-rule" role="separator" />
+          <button
+            type="button"
+            className="tn-auth-menu-item tn-auth-menu-logout"
+            role="menuitem"
+            onClick={onSignOut}
+            disabled={busy}
+          >
+            {busy ? "…" : "Log out"}
+          </button>
+        </div>
       </span>
     );
   }
 
   return (
-    <span className="tn-auth-wrap">
+    <span className="tn-auth-wrap" ref={wrapRef}>
       <button type="button" className="tn-auth" onClick={onSignIn} disabled={busy}>
         {busy ? "…" : compact ? "In" : "Sign in"}
       </button>

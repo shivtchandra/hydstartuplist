@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteNav from "../components/SiteNav.jsx";
+import AuthButton from "../components/AuthButton.jsx";
 
 export const metadata = { title: "Explore more of Hyderabad | Mapping HYD" };
 
@@ -62,6 +63,10 @@ export default function MorePage() {
     <>
       <SiteNav active="more" />
       <main className="more-page">
+        <div className="more-account">
+          <span className="more-account-label">Account</span>
+          <AuthButton />
+        </div>
         <header className="more-hero">
           <p className="more-kicker">Mapping HYD</p>
           <h1>More of Hyderabad.</h1>
