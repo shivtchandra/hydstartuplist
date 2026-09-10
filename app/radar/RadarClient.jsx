@@ -6,8 +6,6 @@ import { useAuthUser } from "../../lib/auth-client.js";
 import LoadingScreen from "../components/LoadingScreen.jsx";
 import StartupLogo from "../components/StartupLogo.jsx";
 
-const CHARMINAR_SRC = "/brand/charminar-radar.jpg";
-
 async function fetchRadar(user) {
   const headers = {};
   if (user) {
@@ -131,8 +129,8 @@ function FounderProfile({ f }) {
           className="radar-person-photo"
           src={photo}
           alt=""
-          width={44}
-          height={44}
+          width={40}
+          height={40}
           loading="lazy"
           referrerPolicy="no-referrer"
           onError={() => setImgFailed(true)}
@@ -157,7 +155,6 @@ function FounderProfile({ f }) {
   );
 }
 
-/** Elevated directory card — selected = lift, not orange fill. */
 function DirectoryCard({ row, active, onSelect }) {
   const meta = sectorAreaLine(row) || row.geoLabel || "Hyderabad";
   return (
@@ -167,101 +164,19 @@ function DirectoryCard({ row, active, onSelect }) {
       onClick={() => onSelect(row.id)}
       aria-pressed={active}
     >
-      <StartupLogo name={row.name} website={row.website} sector={row.sector} size={42} />
+      <StartupLogo name={row.name} website={row.website} sector={row.sector} size={38} />
       <span className="radar-card-body">
-        <span className="radar-card-name">{row.name}</span>
+        <span className="radar-card-name">
+          {active ? <span className="radar-card-dot" aria-hidden="true" /> : null}
+          {row.name}
+        </span>
         <span className="radar-card-meta">{meta}</span>
         <span className="radar-card-office">{officeLabel(row)}</span>
       </span>
-      <span className="radar-card-action">Open →</span>
+      <span className="radar-card-action" aria-hidden="true">
+        →
+      </span>
     </button>
-  );
-}
-
-function pickOnRadar(entries, limit = 6) {
-  if (!Array.isArray(entries) || !entries.length) return [];
-  const core = entries.filter((e) => e.exclusiveTier === "core");
-  const watch = entries.filter((e) => e.exclusiveTier === "watch");
-  const rest = entries.filter((e) => e.exclusiveTier !== "core" && e.exclusiveTier !== "watch");
-  return [...core, ...watch, ...rest].slice(0, limit);
-}
-
-/** Default right / mobile landing — companies as the visual focus. */
-function RadarOverview({ entries, coreCount, watchCount, total, blurb, onOpen }) {
-  const onRadar = pickOnRadar(entries, 6);
-  return (
-    <div className="radar-overview">
-      <header className="radar-overview-head">
-        <p className="radar-overview-kicker">Radar Index</p>
-        <h2>Companies worth knowing.</h2>
-        <p className="radar-overview-blurb">
-          {blurb ||
-            "A deliberately small list of Hyderabad employers that are easy to miss — researched and edited by Mapping HYD."}
-        </p>
-      </header>
-
-      <div className="radar-stat-strip" aria-label="Radar counts">
-        <div>
-          <strong>{coreCount}</strong>
-          <span>Core</span>
-        </div>
-        <div>
-          <strong>{watchCount}</strong>
-          <span>Watch</span>
-        </div>
-        <div>
-          <strong>{total}</strong>
-          <span>Total</span>
-        </div>
-      </div>
-
-      {onRadar.length ? (
-        <section className="radar-on" aria-label="On the Radar">
-          <header className="radar-on-head">
-            <h3>On the Radar</h3>
-            <p>A sample of the curated list — open any card for the full research note.</p>
-          </header>
-          <div className="radar-on-grid">
-            {onRadar.map((row) => {
-              const place = areaLine(row.area, row.geoLabel);
-              return (
-                <button
-                  key={row.id}
-                  type="button"
-                  className="radar-on-card"
-                  onClick={() => onOpen(row.id)}
-                >
-                  <StartupLogo name={row.name} website={row.website} sector={row.sector} size={40} />
-                  <span className="radar-on-card-body">
-                    <span className="radar-on-card-name">{row.name}</span>
-                    <span className="radar-on-card-meta">
-                      {[row.sector, place].filter(Boolean).join(" · ") || "Hyderabad"}
-                    </span>
-                  </span>
-                  <span className="radar-on-card-go" aria-hidden="true">
-                    →
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-      ) : null}
-
-      <figure className="radar-city-visual">
-        <img
-          src={CHARMINAR_SRC}
-          alt="Charminar, Hyderabad"
-          width={960}
-          height={560}
-          loading="lazy"
-        />
-        <figcaption>
-          <span>Hyderabad</span>
-          <span>Companies hidden in the wider city</span>
-        </figcaption>
-      </figure>
-    </div>
   );
 }
 
@@ -279,6 +194,8 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
   const placeUpper = [row.sector, place].filter(Boolean).join(" · ");
   const lede = row.why || null;
   const whatTheyDo = notes && notes !== lede ? notes : null;
+  const companyHref = row.slug ? `/startups/${row.slug}` : null;
+  const mapHref = row.slug ? `/?startup=${row.slug}` : null;
 
   return (
     <article className="radar-brief" data-tier={row.exclusiveTier || ""} key={row.id}>
@@ -292,7 +209,8 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
         <h2>{row.name}</h2>
         {lede ? <p className="radar-brief-lede">{lede}</p> : null}
         <nav className="radar-out-row" aria-label="Company links">
-          {row.slug ? <OutLink href={`/?startup=${row.slug}`}>Map</OutLink> : null}
+          {companyHref ? <OutLink href={companyHref}>View company</OutLink> : null}
+          {mapHref ? <OutLink href={mapHref}>Map</OutLink> : null}
           {row.website ? <OutLink href={row.website}>Website</OutLink> : null}
           {row.careers ? <OutLink href={row.careers}>Careers</OutLink> : null}
         </nav>
@@ -370,71 +288,6 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
   );
 }
 
-function DirectoryAside({ q, setQ, coreFiltered, watchFiltered, selectedId, setSelectedId }) {
-  return (
-    <aside className="radar-dir" aria-label="Curated company directory">
-      <p className="radar-dir-label">Curated list</p>
-      <label className="radar-dir-search">
-        <span className="visually-hidden">Search companies, sectors, aliases</span>
-        <input
-          type="search"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search companies, sectors, aliases…"
-        />
-      </label>
-
-      <div className="radar-dir-scroll">
-        {coreFiltered.length ? (
-          <section className="radar-dir-section" aria-label="Core">
-            <header className="radar-dir-head">
-              <h2>
-                Core <span>· {coreFiltered.length}</span>
-              </h2>
-              <p>Strong Hyderabad signal.</p>
-            </header>
-            <div className="radar-dir-list" role="list">
-              {coreFiltered.map((row) => (
-                <DirectoryCard
-                  key={row.id}
-                  row={row}
-                  active={selectedId === row.id}
-                  onSelect={setSelectedId}
-                />
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-        {watchFiltered.length ? (
-          <section className="radar-dir-section" aria-label="Watch">
-            <header className="radar-dir-head">
-              <h2>
-                Watch <span>· {watchFiltered.length}</span>
-              </h2>
-              <p>Worth keeping an eye on.</p>
-            </header>
-            <div className="radar-dir-list" role="list">
-              {watchFiltered.map((row) => (
-                <DirectoryCard
-                  key={row.id}
-                  row={row}
-                  active={selectedId === row.id}
-                  onSelect={setSelectedId}
-                />
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-        {!coreFiltered.length && !watchFiltered.length ? (
-          <p className="radar-dir-empty">No companies match that search.</p>
-        ) : null}
-      </div>
-    </aside>
-  );
-}
-
 export default function RadarClient({ initialMeta }) {
   const { user } = useAuthUser();
   const [loading, setLoading] = useState(true);
@@ -444,12 +297,7 @@ export default function RadarClient({ initialMeta }) {
   const [q, setQ] = useState("");
   const exclusive = initialMeta?.exclusiveList || {};
   const total = exclusive.total || (exclusive.coreCount || 0) + (exclusive.watchCount || 0);
-  const coreCount = exclusive.coreCount || 0;
-  const watchCount = exclusive.watchCount || 0;
   const updatedLabel = formatUpdated(initialMeta?.updatedAt);
-  const overviewBlurb =
-    initialMeta?.blurb ||
-    "A deliberately small list of Hyderabad employers that are easy to miss — researched and edited by Mapping HYD.";
 
   useEffect(() => {
     let cancelled = false;
@@ -457,7 +305,12 @@ export default function RadarClient({ initialMeta }) {
     setErr("");
     fetchRadar(user || null)
       .then((data) => {
-        if (!cancelled) setPayload(data);
+        if (cancelled) return;
+        setPayload(data);
+        if (!data?.locked && Array.isArray(data.entries) && data.entries.length) {
+          const firstCore = data.entries.find((e) => e.exclusiveTier === "core");
+          setSelectedId((prev) => prev || firstCore?.id || data.entries[0].id);
+        }
       })
       .catch((e) => {
         if (!cancelled) setErr(e.message || "Could not load Radar.");
@@ -499,14 +352,9 @@ export default function RadarClient({ initialMeta }) {
       ? payload.entries.find((e) => e.id === selectedId) || null
       : null;
 
-  const overviewProps = {
-    entries: unlocked ? payload.entries : [],
-    coreCount,
-    watchCount,
-    total: total || 0,
-    blurb: overviewBlurb,
-    onOpen: setSelectedId,
-  };
+  function clearSelection() {
+    setSelectedId(null);
+  }
 
   return (
     <main className="radar-page">
@@ -520,9 +368,9 @@ export default function RadarClient({ initialMeta }) {
         <p className="radar-stats">
           <strong>{total || "—"}</strong> companies
           {" · "}
-          {coreCount} core
+          {exclusive.coreCount || 0} core
           {" · "}
-          {watchCount} watch
+          {exclusive.watchCount || 0} watch
           {updatedLabel ? <> · Updated {updatedLabel}</> : null}
         </p>
         {payload?.temporaryPublic ? (
@@ -552,39 +400,80 @@ export default function RadarClient({ initialMeta }) {
           </button>
         </section>
       ) : unlocked ? (
-        <>
-          {!selected ? (
-            <div className="radar-mobile-pre">
-              <RadarOverview {...overviewProps} />
+        <div className={`radar-desk${selected ? " has-brief" : ""}`}>
+          <aside className="radar-dir" aria-label="Curated company directory">
+            <p className="radar-dir-label">Curated list</p>
+            <label className="radar-dir-search">
+              <span className="visually-hidden">Search companies, sectors, aliases</span>
+              <input
+                type="search"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Search companies, sectors, aliases…"
+              />
+            </label>
+
+            <div className="radar-dir-scroll">
+              {coreFiltered.length ? (
+                <section className="radar-dir-section" aria-label="Core">
+                  <header className="radar-dir-head">
+                    <h2>
+                      Core <span>· {coreFiltered.length}</span>
+                    </h2>
+                    <p>Strong Hyderabad signal.</p>
+                  </header>
+                  <div className="radar-dir-list" role="list">
+                    {coreFiltered.map((row) => (
+                      <DirectoryCard
+                        key={row.id}
+                        row={row}
+                        active={selectedId === row.id}
+                        onSelect={setSelectedId}
+                      />
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+
+              {watchFiltered.length ? (
+                <section className="radar-dir-section" aria-label="Watch">
+                  <header className="radar-dir-head">
+                    <h2>
+                      Watch <span>· {watchFiltered.length}</span>
+                    </h2>
+                    <p>Worth keeping an eye on.</p>
+                  </header>
+                  <div className="radar-dir-list" role="list">
+                    {watchFiltered.map((row) => (
+                      <DirectoryCard
+                        key={row.id}
+                        row={row}
+                        active={selectedId === row.id}
+                        onSelect={setSelectedId}
+                      />
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+
+              {!coreFiltered.length && !watchFiltered.length ? (
+                <p className="radar-dir-empty">No companies match that search.</p>
+              ) : null}
             </div>
-          ) : null}
+          </aside>
 
-          <div className={`radar-desk${selected ? " has-brief" : ""}`}>
-            <DirectoryAside
-              q={q}
-              setQ={setQ}
-              coreFiltered={coreFiltered}
-              watchFiltered={watchFiltered}
-              selectedId={selectedId}
-              setSelectedId={setSelectedId}
-            />
-
-            <section
-              className="radar-pane"
-              aria-label={selected ? "Company research note" : "Radar index"}
-            >
-              {selected ? (
-                <CompanyDetail
-                  row={selected}
-                  onBack={() => setSelectedId(null)}
-                  listUpdatedAt={initialMeta?.updatedAt}
-                />
-              ) : (
-                <RadarOverview {...overviewProps} />
-              )}
-            </section>
-          </div>
-        </>
+          <section className="radar-pane" aria-label="Company research note">
+            {selected ? (
+              <CompanyDetail
+                row={selected}
+                onBack={clearSelection}
+                listUpdatedAt={initialMeta?.updatedAt}
+              />
+            ) : (
+              <p className="radar-pane-empty">Select a company from the curated list.</p>
+            )}
+          </section>
+        </div>
       ) : (
         <section className="radar-gate">
           <h2>Members only</h2>
