@@ -4633,10 +4633,16 @@ button.radar-showcase-card .nls-more-link,
   width: 100%;
   padding: 4px 0 48px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .radar-brief-back {
   display: inline-flex;
-  margin: 0 0 16px;
+  align-self: stretch;
+  max-width: 920px;
+  width: 100%;
+  margin: 0 auto 16px;
   padding: 0;
   border: 0;
   background: none;
@@ -4651,13 +4657,16 @@ button.radar-showcase-card .nls-more-link,
 
 .radar-brief-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(220px, 0.55fr);
-  gap: clamp(28px, 4vw, 56px);
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 28px;
   align-items: start;
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
 }
 .radar-brief-main {
   min-width: 0;
-  max-width: 44rem;
+  max-width: none;
 }
 .radar-brief-head {
   margin: 0 0 4px;
@@ -4689,11 +4698,11 @@ button.radar-showcase-card .nls-more-link,
   color: var(--radar-ink);
 }
 .radar-brief-lede {
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   font-size: 1.02rem;
-  line-height: 1.6;
+  line-height: 1.55;
   color: #3a413c;
-  max-width: 40rem;
+  max-width: none;
 }
 .radar-out-row {
   display: flex;
@@ -4718,7 +4727,7 @@ button.radar-showcase-card .nls-more-link,
 
 .radar-section {
   margin: 0;
-  padding: 22px 0;
+  padding: 18px 0;
   border-bottom: 1px solid var(--radar-line);
 }
 .radar-section h3 {
@@ -4732,16 +4741,16 @@ button.radar-showcase-card .nls-more-link,
 .radar-body {
   margin: 0;
   font-size: 0.98rem;
-  line-height: 1.65;
+  line-height: 1.6;
   color: #2c332f;
-  max-width: 36rem;
+  max-width: none;
 }
 .radar-evidence,
 .radar-signals {
   margin: 0;
   padding: 0;
   list-style: none;
-  max-width: 36rem;
+  max-width: none;
 }
 .radar-evidence li,
 .radar-signals li {
@@ -4775,7 +4784,7 @@ button.radar-showcase-card .nls-more-link,
   opacity: 0.28;
 }
 
-.radar-people { display: flex; flex-direction: column; max-width: 36rem; }
+.radar-people { display: flex; flex-direction: column; max-width: none; }
 .radar-person {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -4867,8 +4876,8 @@ button.radar-showcase-card .nls-more-link,
   margin: 0;
   position: sticky;
   top: 80px;
-  justify-self: end;
-  width: min(100%, 340px);
+  justify-self: stretch;
+  width: 100%;
   pointer-events: none;
 }
 .radar-brief-art img {
@@ -4926,13 +4935,18 @@ body:has(.radar-page) .tn-auth-menu-item:hover {
 @media (max-width: 900px) {
   .radar-brief-layout {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 20px;
+    max-width: none;
   }
   .radar-brief-art {
     position: static;
     order: 2;
-    width: min(260px, 70vw);
-    justify-self: start;
+    width: min(240px, 70vw);
+    justify-self: center;
+    text-align: center;
+  }
+  .radar-brief-art figcaption {
+    text-align: center;
   }
   .radar-brief-main { order: 1; }
 }
@@ -6914,6 +6928,11 @@ body:has(.startup-page-wrap) {
   border-radius: 999px;
   font-size: 11px;
   font-weight: 650;
+}
+.src-path {
+  font-size: 12.5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #17242b;
 }
 .src-pill.is-ok { background: #ecfdf5; color: #047857; }
 .src-pill.is-bad { background: #fff1f0; color: #b42318; }
