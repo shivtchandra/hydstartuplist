@@ -86,7 +86,7 @@ export default function AuthButton({ compact = false }) {
           id={menuId}
           className={`tn-auth-menu${open ? " is-open" : ""}`}
           role="menu"
-          hidden={!open}
+          aria-hidden={!open}
         >
           <div className="tn-auth-menu-head" role="presentation">
             {label}

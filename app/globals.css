@@ -7134,17 +7134,17 @@ body:has(.startup-page-wrap) {
   background:#fbf8f2;
   box-shadow:0 8px 24px rgba(22,27,24,0.08);
   opacity:0;
+  visibility:hidden;
   transform:translateY(-4px);
   pointer-events:none;
-  transition:opacity 150ms ease, transform 150ms ease;
+  transition:opacity 150ms ease, transform 150ms ease, visibility 150ms ease;
 }
 .tn-auth-menu.is-open{
   opacity:1;
+  visibility:visible;
   transform:translateY(0);
   pointer-events:auto;
 }
-.tn-auth-menu[hidden]{display:none}
-.tn-auth-menu.is-open[hidden]{display:block}
 .tn-auth-menu-head{
   padding:6px 14px 8px;
   font-size:13px;
