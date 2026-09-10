@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useAuthUser } from "../../lib/auth-client.js";
+import LoadingScreen from "../components/LoadingScreen.jsx";
+import StartupLogo from "../components/StartupLogo.jsx";
 
 const CHARMINAR_SRC = "/brand/charminar-radar.jpg";
 
@@ -151,6 +153,7 @@ function FounderProfile({ f }) {
 
 function CompanyRow({ row, active, onSelect }) {
   const meta = sectorAreaLine(row) || row.geoLabel || "Hyderabad";
+  const mode = row.jobModeLabel || null;
   return (
     <button
       type="button"
@@ -158,19 +161,19 @@ function CompanyRow({ row, active, onSelect }) {
       onClick={() => onSelect(row.id)}
       aria-pressed={active}
     >
+      <StartupLogo name={row.name} website={row.website} sector={row.sector} size={40} />
       <span className="radar-row-body">
         <span className="radar-row-name">{row.name}</span>
-        <span className="radar-row-meta">{meta}</span>
-        {row.jobModeLabel ? <span className="radar-row-mode">{row.jobModeLabel}</span> : null}
+        <span className="radar-row-meta">
+          {meta}
+          {mode ? ` · ${mode}` : ""}
+        </span>
       </span>
-      <span className="radar-row-chev" aria-hidden="true">
-        →
-      </span>
+      <span className="radar-row-action">Open →</span>
     </button>
   );
 }
 
-/** Compact right-panel default — not a second hero / landing page. */
 function RadarIndex({ exclusive, total, updatedLabel }) {
   return (
     <div className="radar-index">
@@ -396,9 +399,7 @@ export default function RadarClient({ initialMeta }) {
       </header>
 
       {loading ? (
-        <div className="radar-gate radar-gate-loading" aria-busy="true">
-          Loading Radar…
-        </div>
+        <LoadingScreen label="Opening Radar…" />
       ) : err ? (
         <section className="radar-gate">
           <h2>Couldn&apos;t load</h2>
