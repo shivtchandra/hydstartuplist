@@ -24,14 +24,14 @@ export default function SiteFooter() {
             </span>
           </Link>
           <p>
-            Hyderabad startups, jobs, and GCCs on one map — free to browse, built for people who actually work here.
+            The Hyderabad Startup Map — startups, jobs, and GCCs on one map. Free to browse, built for people who work here.
           </p>
         </div>
 
         <div className="site-footer-grid">
           <nav className="site-footer-col" aria-label="Explore">
             <h2>Explore</h2>
-            <Link href="/">Startup map</Link>
+            <Link href="/">Hyderabad Startup Map</Link>
             <Link href="/jobs">Jobs</Link>
             <Link href="/product-companies">Companies</Link>
             <Link href="/gccs">GCCs</Link>

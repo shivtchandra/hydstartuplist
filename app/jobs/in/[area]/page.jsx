@@ -45,7 +45,7 @@ export default async function AreaJobsPage({ params }) {
 
   const jobs = await getJobsByArea(landing.area);
   const breadcrumbs = [
-    { name: "Home", href: "/" },
+    { name: "Hyderabad Startup Map", href: "/" },
     { name: "Jobs", href: "/jobs" },
     { name: landing.area },
   ];

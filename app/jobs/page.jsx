@@ -77,7 +77,7 @@ export default async function JobsPage({ searchParams = {} }) {
   }
   const [jobs, fetchedAt] = await Promise.all([getAllJobs(), getFetchedAt()]);
   const startupCount = jobs.filter((j) => j.category === "startup").length;
-  const breadcrumbs = [{ name: "Home", href: "/" }, { name: "Jobs" }];
+  const breadcrumbs = [{ name: "Hyderabad Startup Map", href: "/" }, { name: "Jobs" }];
   const jsonLd = [breadcrumbJsonLd(breadcrumbs), itemListJsonLd(jobs)];
 
   return (

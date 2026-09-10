@@ -50,7 +50,7 @@ export default async function RoleJobsPage({ params }) {
 
   const jobs = await getJobsByRole(landing);
   const breadcrumbs = [
-    { name: "Home", href: "/" },
+    { name: "Hyderabad Startup Map", href: "/" },
     { name: "Jobs", href: "/jobs" },
     { name: landing.role },
   ];

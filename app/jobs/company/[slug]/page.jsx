@@ -66,7 +66,7 @@ export default async function CompanyJobsPage({ params }) {
   const slug = startup ? startupSlug(startup) : params.slug;
   const pageUrl = `${getSiteUrl()}/jobs/company/${params.slug}`;
   const breadcrumbs = [
-    { name: "Home", href: "/" },
+    { name: "Hyderabad Startup Map", href: "/" },
     { name: "Jobs", href: "/jobs" },
     { name: name },
   ];

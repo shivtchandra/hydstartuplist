@@ -43,7 +43,7 @@ export default async function FresherJobsPage() {
   const landing = FRESHER_JOBS_LANDING;
   const jobs = await getJobsByExperience(landing.experienceLevels);
   const breadcrumbs = [
-    { name: "Home", href: "/" },
+    { name: "Hyderabad Startup Map", href: "/" },
     { name: "Jobs", href: "/jobs" },
     { name: "Fresher" },
   ];

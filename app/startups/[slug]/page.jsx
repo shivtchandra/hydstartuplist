@@ -183,7 +183,7 @@ export default async function StartupDetailPage({ params }) {
   );
 
   const crumbs = [
-    { name: "Home", href: "/" },
+    { name: "Hyderabad Startup Map", href: "/" },
     { name: "Startups", href: "/?view=companies" },
     ...(sectorLanding ? [{ name: sectorLanding.sector, href: `/jobs/sector/${sectorLanding.slug}` }] : []),
     ...(areaLanding ? [{ name: areaLanding.area, href: `/jobs/in/${areaLanding.slug}` }] : []),

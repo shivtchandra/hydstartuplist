@@ -144,7 +144,7 @@ export default async function HyderabadHiringReportStory() {
 
           <div className="story-callout">
             Numbers refresh as career pages and licensed listings sync. For the full interactive map
-            of Hyderabad startups, visit the <Link href="/">startup map home page</Link>.
+            of Hyderabad startups, visit the <Link href="/">Hyderabad Startup Map</Link>.
           </div>
         </div>
       </article>

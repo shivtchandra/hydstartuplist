@@ -123,7 +123,7 @@ export default async function JobDetailPage({ params }) {
   const companyJobs = await getJobsForCompany(job.company).catch(() => []);
 
   const breadcrumbs = [
-    { name: "Home", href: "/" },
+    { name: "Hyderabad Startup Map", href: "/" },
     { name: "Jobs", href: "/jobs" },
     { name: job.company, href: companyPath },
     { name: job.title },

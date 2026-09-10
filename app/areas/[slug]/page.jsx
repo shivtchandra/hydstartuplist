@@ -86,7 +86,7 @@ export default async function AreaDetailPage({ params }) {
       <SiteNav active="insights" />
       <div className="feed-page industry-page">
         <nav className="industry-crumbs" aria-label="Breadcrumb">
-          <Link href="/">Home</Link>
+          <Link href="/">Hyderabad Startup Map</Link>
           <span aria-hidden="true">/</span>
           <Link href="/areas">Areas</Link>
           <span aria-hidden="true">/</span>

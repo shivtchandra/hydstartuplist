@@ -153,6 +153,13 @@ export default async function HomeSeoIndex() {
         <div className="home-seo-inner">
           <header className="home-seo-head home-seo-step">
             <h1>Hyderabad Startup Map — companies, jobs &amp; funding</h1>
+            <p className="home-seo-updated">
+              Updated {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+              {" · "}
+              {total.toLocaleString()}+ startups
+              {" · "}
+              {hiringCount || "60+"} hiring now
+            </p>
             <p className="home-seo-sub">
               Interactive map of startups and product companies across HITEC City, Gachibowli, Madhapur, and beyond — plus open jobs and funding, updated for {year}.
             </p>

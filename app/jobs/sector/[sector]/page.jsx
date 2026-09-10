@@ -45,7 +45,7 @@ export default async function SectorJobsPage({ params }) {
 
   const jobs = await getJobsBySector(landing.sector);
   const breadcrumbs = [
-    { name: "Home", href: "/" },
+    { name: "Hyderabad Startup Map", href: "/" },
     { name: "Jobs", href: "/jobs" },
     { name: landing.sector },
   ];
