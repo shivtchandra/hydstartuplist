@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useAuthUser } from "../../lib/auth-client.js";
 
@@ -34,32 +34,102 @@ function sourceLabel(s) {
   return "Source";
 }
 
-function FounderBox({ f }) {
+function initials(name) {
+  const parts = String(name || "?")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  if (!parts.length) return "?";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function linkedInSlug(url) {
+  if (!url) return null;
+  try {
+    const path = new URL(url).pathname.replace(/\/+$/, "");
+    const m = path.match(/\/in\/([^/]+)/i);
+    return m ? decodeURIComponent(m[1]) : null;
+  } catch {
+    return null;
+  }
+}
+
+function FounderProfile({ f, company }) {
   const name = f.name || "Leadership";
-  const role = f.role || null;
+  const role = f.role || "Leadership";
+  const slug = linkedInSlug(f.linkedin);
+  const [imgFailed, setImgFailed] = useState(false);
+  const photo =
+    f.photo ||
+    f.image ||
+    (slug && !imgFailed ? `https://unavatar.io/linkedin/${encodeURIComponent(slug)}` : null);
+  const blurb =
+    f.bio ||
+    f.about ||
+    `${role} at ${company || "this company"}. Open their LinkedIn for background, posts, and how to reach them.`;
+
   return (
-    <div className="radar-founder-box">
-      <div className="radar-founder-box-text">
-        <p className="radar-founder-name">{name}</p>
-        {role ? <p className="radar-founder-role">{role}</p> : null}
+    <article className="radar-person">
+      <div className="radar-person-top">
+        {photo ? (
+          <img
+            className="radar-person-photo"
+            src={photo}
+            alt=""
+            width={56}
+            height={56}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            onError={() => setImgFailed(true)}
+          />
+        ) : (
+          <div className="radar-person-photo radar-person-photo--fallback" aria-hidden="true">
+            {initials(name)}
+          </div>
+        )}
+        <div className="radar-person-id">
+          <h4>{name}</h4>
+          <p>{role}</p>
+        </div>
       </div>
+      <p className="radar-person-bio">{blurb}</p>
       {f.linkedin ? (
-        <a
-          href={f.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="radar-founder-li"
-        >
-          LinkedIn
+        <a href={f.linkedin} target="_blank" rel="noopener noreferrer" className="radar-person-li">
+          View LinkedIn profile →
         </a>
       ) : (
-        <span className="radar-founder-li radar-founder-li--muted">No profile</span>
+        <span className="radar-person-li radar-person-li--muted">LinkedIn not confirmed yet</span>
       )}
-    </div>
+    </article>
   );
 }
 
-function RadarCard({ row }) {
+function CompanyRow({ row, active, onSelect }) {
+  return (
+    <button
+      type="button"
+      className={`radar-row${active ? " is-active" : ""}`}
+      onClick={() => onSelect(row.id)}
+      aria-pressed={active}
+    >
+      <span className="radar-row-mark" aria-hidden="true">
+        {initials(row.name).slice(0, 1)}
+      </span>
+      <span className="radar-row-body">
+        <span className="radar-row-name">{row.name}</span>
+        <span className="radar-row-meta">
+          {[row.sector, row.area].filter(Boolean).join(" · ") || "Hyderabad"}
+        </span>
+      </span>
+      <span className="radar-row-chev" aria-hidden="true">
+        →
+      </span>
+    </button>
+  );
+}
+
+function CompanyDetail({ row, onBack }) {
   const founders = row.depth?.founders || row.founders || [];
   const stealth = row.depth?.stealthSignals || [];
   const sources = row.depth?.sources || [];
@@ -67,12 +137,19 @@ function RadarCard({ row }) {
   const chips = [
     ...(row.missReasonLabels || []),
     ...stealth.filter((s) => !(row.missReasonLabels || []).includes(s)),
-  ].slice(0, 6);
+  ].slice(0, 8);
 
   return (
-    <article className="radar-card" data-tier={row.exclusiveTier || ""}>
-      <header className="radar-card-head">
+    <article className="radar-detail" data-tier={row.exclusiveTier || ""}>
+      <button type="button" className="radar-detail-back" onClick={onBack}>
+        ← All companies
+      </button>
+
+      <header className="radar-detail-head">
         <div>
+          <p className="radar-detail-tier">
+            {row.exclusiveTier === "core" ? "Core" : "Watch"}
+          </p>
           <h2>{row.name}</h2>
           <p className="radar-meta-line">
             {[row.sector, row.area, row.jobModeLabel].filter(Boolean).join(" · ")}
@@ -86,7 +163,7 @@ function RadarCard({ row }) {
           ) : null}
           {row.website ? (
             <a href={row.website} target="_blank" rel="noopener noreferrer" className="radar-link">
-              Site
+              Website
             </a>
           ) : null}
           {row.careers ? (
@@ -97,48 +174,56 @@ function RadarCard({ row }) {
         </div>
       </header>
 
-      {row.why ? (
-        <div className="radar-do">
-          <h3>What they do</h3>
-          <p>{row.why}</p>
-          {notes ? <p className="radar-insight">{notes}</p> : null}
-        </div>
-      ) : notes ? (
-        <div className="radar-do">
-          <h3>What they do</h3>
-          <p className="radar-insight">{notes}</p>
-        </div>
-      ) : null}
+      <section className="radar-detail-block">
+        <h3>What they do</h3>
+        <p className="radar-detail-lead">{row.why || notes || "Curated hard-to-find Hyderabad employer."}</p>
+        {row.why && notes ? <p className="radar-insight">{notes}</p> : null}
+      </section>
 
       {founders.length ? (
-        <div className="radar-block">
-          <h3>Founders / leadership</h3>
-          <div className="radar-founder-grid">
+        <section className="radar-detail-block">
+          <h3>People to know</h3>
+          <p className="radar-detail-sub">
+            Founders and leadership — open LinkedIn for their full background.
+          </p>
+          <div className="radar-person-grid">
             {founders.map((f) => (
-              <FounderBox key={`${f.name}-${f.role || ""}`} f={f} />
+              <FounderProfile key={`${f.name}-${f.role || ""}`} f={f} company={row.name} />
             ))}
           </div>
-        </div>
+        </section>
       ) : null}
 
       {chips.length ? (
-        <div className="radar-block">
+        <section className="radar-detail-block">
           <h3>Why it’s hard to find</h3>
           <ul className="radar-chips">
             {chips.map((label) => (
               <li key={label}>{label}</li>
             ))}
           </ul>
-        </div>
+        </section>
       ) : null}
 
       {row.aliases?.length ? (
         <p className="radar-aliases">Also known as: {row.aliases.join(", ")}</p>
       ) : null}
 
+      {row.liveJobs > 0 ? (
+        <p className="radar-jobs-hint">
+          {row.liveJobs} live role{row.liveJobs === 1 ? "" : "s"} currently matched on Mapping HYD
+          {row.slug ? (
+            <>
+              {" "}
+              · <Link href={`/jobs?company=${encodeURIComponent(row.name)}`}>Browse jobs</Link>
+            </>
+          ) : null}
+        </p>
+      ) : null}
+
       {sources.length ? (
         <details className="radar-sources-details">
-          <summary>Sources</summary>
+          <summary>Sources & research notes</summary>
           <ul className="radar-sources">
             {sources.map((s, i) => (
               <li key={`${sourceLabel(s)}-${s.url || i}`}>
@@ -163,6 +248,8 @@ export default function RadarClient({ initialMeta }) {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
   const [payload, setPayload] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
+  const [q, setQ] = useState("");
   const exclusive = initialMeta?.exclusiveList || {};
   const total = exclusive.total || (exclusive.coreCount || 0) + (exclusive.watchCount || 0);
 
@@ -186,8 +273,33 @@ export default function RadarClient({ initialMeta }) {
   }, [user]);
 
   const unlocked = payload && !payload.locked && Array.isArray(payload.entries);
-  const core = unlocked ? payload.entries.filter((e) => e.exclusiveTier === "core") : [];
-  const watch = unlocked ? payload.entries.filter((e) => e.exclusiveTier === "watch") : [];
+  const core = useMemo(
+    () => (unlocked ? payload.entries.filter((e) => e.exclusiveTier === "core") : []),
+    [unlocked, payload]
+  );
+  const watch = useMemo(
+    () => (unlocked ? payload.entries.filter((e) => e.exclusiveTier === "watch") : []),
+    [unlocked, payload]
+  );
+
+  const filterRows = (rows) => {
+    const needle = q.trim().toLowerCase();
+    if (!needle) return rows;
+    return rows.filter((r) => {
+      const hay = [r.name, r.sector, r.area, r.why, ...(r.aliases || [])]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(needle);
+    });
+  };
+
+  const coreFiltered = filterRows(core);
+  const watchFiltered = filterRows(watch);
+  const selected =
+    unlocked && selectedId
+      ? payload.entries.find((e) => e.id === selectedId) || null
+      : null;
 
   return (
     <main className="radar-page">
@@ -195,8 +307,8 @@ export default function RadarClient({ initialMeta }) {
         <p className="radar-kicker">Mapping HYD · Members</p>
         <h1>{initialMeta?.headline || "Radar"}</h1>
         <p className="radar-lede">
-          {initialMeta?.blurb ||
-            "Curated hard-to-find Hyderabad employers — founder LinkedIns, miss reasons, and careers quirks."}
+          Hard-to-find Hyderabad employers — pick a company for the brief, founders, and LinkedIn
+          paths. Map and jobs stay free.
         </p>
         <p className="radar-count">
           {total ? (
@@ -209,6 +321,9 @@ export default function RadarClient({ initialMeta }) {
           )}
           {initialMeta?.updatedAt ? <> · updated {initialMeta.updatedAt}</> : null}
         </p>
+        {payload?.temporaryPublic ? (
+          <p className="radar-unlocked">Temporarily open while member verify is fixed.</p>
+        ) : null}
       </header>
 
       {loading ? (
@@ -235,31 +350,69 @@ export default function RadarClient({ initialMeta }) {
           </button>
         </section>
       ) : unlocked ? (
-        <>
-          {payload?.temporaryPublic ? (
-            <p className="radar-unlocked">Temporarily open while member verify is fixed.</p>
-          ) : null}
-          {core.length ? (
-            <section className="radar-section" aria-label="Core exclusive">
-              <h2 className="radar-section-title">Core</h2>
-              <div className="radar-grid">
-                {core.map((row) => (
-                  <RadarCard key={row.id} row={row} />
-                ))}
+        <div className={`radar-shell${selected ? " has-detail" : ""}`}>
+          <div className="radar-list-pane">
+            <label className="radar-search">
+              <input
+                type="search"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Search companies, sectors, aliases…"
+                aria-label="Search Radar companies"
+              />
+            </label>
+
+            {coreFiltered.length ? (
+              <section className="radar-list-section" aria-label="Core exclusive">
+                <h2 className="radar-section-title">Core · {coreFiltered.length}</h2>
+                <div className="radar-list">
+                  {coreFiltered.map((row) => (
+                    <CompanyRow
+                      key={row.id}
+                      row={row}
+                      active={selectedId === row.id}
+                      onSelect={setSelectedId}
+                    />
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
+            {watchFiltered.length ? (
+              <section className="radar-list-section" aria-label="Watch list">
+                <h2 className="radar-section-title">Watch · {watchFiltered.length}</h2>
+                <div className="radar-list">
+                  {watchFiltered.map((row) => (
+                    <CompanyRow
+                      key={row.id}
+                      row={row}
+                      active={selectedId === row.id}
+                      onSelect={setSelectedId}
+                    />
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
+            {!coreFiltered.length && !watchFiltered.length ? (
+              <p className="radar-empty">No companies match that search.</p>
+            ) : null}
+          </div>
+
+          <div className="radar-detail-pane">
+            {selected ? (
+              <CompanyDetail row={selected} onBack={() => setSelectedId(null)} />
+            ) : (
+              <div className="radar-detail-empty">
+                <h2>Choose a company</h2>
+                <p>
+                  Open any name for what they do, why they’re easy to miss, and founder LinkedIn
+                  profiles — the research layer the public map doesn’t show.
+                </p>
               </div>
-            </section>
-          ) : null}
-          {watch.length ? (
-            <section className="radar-section" aria-label="Watch list">
-              <h2 className="radar-section-title">Watch</h2>
-              <div className="radar-grid">
-                {watch.map((row) => (
-                  <RadarCard key={row.id} row={row} />
-                ))}
-              </div>
-            </section>
-          ) : null}
-        </>
+            )}
+          </div>
+        </div>
       ) : (
         <section className="radar-gate">
           <h2>Still locked</h2>
