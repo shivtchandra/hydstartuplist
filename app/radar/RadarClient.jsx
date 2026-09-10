@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getClientAuth, signInWithGoogle, useAuthUser } from "../../lib/auth-client.js";
-import GoogleOneTap from "../components/GoogleOneTap.jsx";
+import { useAuthUser } from "../../lib/auth-client.js";
 
 async function fetchRadar(user) {
   const headers = {};
@@ -22,29 +21,58 @@ async function fetchRadar(user) {
   return data;
 }
 
-function FounderRow({ f, unlocked }) {
-  const label = [f.role, f.name].filter(Boolean).join(" · ");
-  if (unlocked && f.linkedin) {
-    return (
-      <li>
-        <a href={f.linkedin} target="_blank" rel="noopener noreferrer">
-          {label || f.name}
-        </a>
-      </li>
-    );
+function sourceLabel(s) {
+  if (s?.note && !/^linkedin$/i.test(String(s.note).trim())) return s.note;
+  if (s?.url) {
+    try {
+      return new URL(s.url).hostname.replace(/^www\./, "");
+    } catch {
+      return "Source";
+    }
   }
-  return <li>{label || f.name}</li>;
+  if (s?.type && !/^linkedin$/i.test(String(s.type).trim())) return s.type;
+  return "Source";
+}
+
+function FounderBox({ f }) {
+  const name = f.name || "Leadership";
+  const role = f.role || null;
+  return (
+    <div className="radar-founder-box">
+      <div className="radar-founder-box-text">
+        <p className="radar-founder-name">{name}</p>
+        {role ? <p className="radar-founder-role">{role}</p> : null}
+      </div>
+      {f.linkedin ? (
+        <a
+          href={f.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="radar-founder-li"
+        >
+          LinkedIn
+        </a>
+      ) : (
+        <span className="radar-founder-li radar-founder-li--muted">No profile</span>
+      )}
+    </div>
+  );
 }
 
 function RadarCard({ row }) {
   const founders = row.depth?.founders || row.founders || [];
   const stealth = row.depth?.stealthSignals || [];
   const sources = row.depth?.sources || [];
+  const notes = row.depth?.researchNotes || null;
+  const chips = [
+    ...(row.missReasonLabels || []),
+    ...stealth.filter((s) => !(row.missReasonLabels || []).includes(s)),
+  ].slice(0, 6);
+
   return (
     <article className="radar-card" data-tier={row.exclusiveTier || ""}>
       <header className="radar-card-head">
         <div>
-          <p className="radar-tier">{row.exclusiveTier === "core" ? "Core" : "Watch"}</p>
           <h2>{row.name}</h2>
           <p className="radar-meta-line">
             {[row.sector, row.area, row.jobModeLabel].filter(Boolean).join(" · ")}
@@ -69,52 +97,36 @@ function RadarCard({ row }) {
         </div>
       </header>
 
-      {row.why ? <p className="radar-why">{row.why}</p> : null}
-
-      {row.missReasonLabels?.length ? (
-        <ul className="radar-miss">
-          {row.missReasonLabels.map((label) => (
-            <li key={label}>{label}</li>
-          ))}
-        </ul>
+      {row.why ? (
+        <div className="radar-do">
+          <h3>What they do</h3>
+          <p>{row.why}</p>
+          {notes ? <p className="radar-insight">{notes}</p> : null}
+        </div>
+      ) : notes ? (
+        <div className="radar-do">
+          <h3>What they do</h3>
+          <p className="radar-insight">{notes}</p>
+        </div>
       ) : null}
 
       {founders.length ? (
         <div className="radar-block">
           <h3>Founders / leadership</h3>
-          <ul className="radar-founders">
+          <div className="radar-founder-grid">
             {founders.map((f) => (
-              <FounderRow key={`${f.name}-${f.role || ""}`} f={f} unlocked={!!row.depth} />
+              <FounderBox key={`${f.name}-${f.role || ""}`} f={f} />
             ))}
-          </ul>
+          </div>
         </div>
       ) : null}
 
-      {stealth.length ? (
+      {chips.length ? (
         <div className="radar-block">
           <h3>Why it’s hard to find</h3>
-          <ul>
-            {stealth.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-
-      {sources.length ? (
-        <div className="radar-block">
-          <h3>Sources</h3>
-          <ul className="radar-sources">
-            {sources.map((s) => (
-              <li key={`${s.type}-${s.url}`}>
-                {s.url ? (
-                  <a href={s.url} target="_blank" rel="noopener noreferrer">
-                    {s.note || s.type || s.url}
-                  </a>
-                ) : (
-                  s.note || s.type
-                )}
-              </li>
+          <ul className="radar-chips">
+            {chips.map((label) => (
+              <li key={label}>{label}</li>
             ))}
           </ul>
         </div>
@@ -123,20 +135,37 @@ function RadarCard({ row }) {
       {row.aliases?.length ? (
         <p className="radar-aliases">Also known as: {row.aliases.join(", ")}</p>
       ) : null}
+
+      {sources.length ? (
+        <details className="radar-sources-details">
+          <summary>Sources</summary>
+          <ul className="radar-sources">
+            {sources.map((s, i) => (
+              <li key={`${sourceLabel(s)}-${s.url || i}`}>
+                {s.url ? (
+                  <a href={s.url} target="_blank" rel="noopener noreferrer">
+                    {sourceLabel(s)}
+                  </a>
+                ) : (
+                  sourceLabel(s)
+                )}
+              </li>
+            ))}
+          </ul>
+        </details>
+      ) : null}
     </article>
   );
 }
 
 export default function RadarClient({ initialMeta }) {
-  const { user, ready } = useAuthUser();
-  const [busy, setBusy] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { user } = useAuthUser();
+  const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
   const [payload, setPayload] = useState(null);
   const exclusive = initialMeta?.exclusiveList || {};
   const total = exclusive.total || (exclusive.coreCount || 0) + (exclusive.watchCount || 0);
 
-  // TEMP: load depth without waiting on Firebase Admin unlock
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
@@ -146,7 +175,7 @@ export default function RadarClient({ initialMeta }) {
         if (!cancelled) setPayload(data);
       })
       .catch((e) => {
-        if (!cancelled) setErr(e.message || "Could not unlock Radar.");
+        if (!cancelled) setErr(e.message || "Could not load Radar.");
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -156,28 +185,12 @@ export default function RadarClient({ initialMeta }) {
     };
   }, [user]);
 
-  async function onSignIn() {
-    setBusy(true);
-    setErr("");
-    try {
-      await signInWithGoogle();
-    } catch (e) {
-      if (e?.code !== "auth/popup-closed-by-user") {
-        setErr("Sign-in failed. Try again.");
-      }
-    } finally {
-      setBusy(false);
-    }
-  }
-
   const unlocked = payload && !payload.locked && Array.isArray(payload.entries);
   const core = unlocked ? payload.entries.filter((e) => e.exclusiveTier === "core") : [];
   const watch = unlocked ? payload.entries.filter((e) => e.exclusiveTier === "watch") : [];
 
   return (
     <main className="radar-page">
-      <GoogleOneTap force />
-
       <header className="radar-hero">
         <p className="radar-kicker">Mapping HYD · Members</p>
         <h1>{initialMeta?.headline || "Radar"}</h1>
@@ -204,24 +217,18 @@ export default function RadarClient({ initialMeta }) {
         </div>
       ) : err ? (
         <section className="radar-gate">
-          <h2>Couldn’t unlock</h2>
+          <h2>Couldn’t load</h2>
           <p>{err}</p>
-          <p className="radar-gate-note">
-            If this keeps happening, confirm Firebase Admin (`FIREBASE_SERVICE_ACCOUNT`) is set on
-            the server.
-          </p>
           <button
             type="button"
             className="radar-sign-in"
             onClick={() => {
-              const auth = getClientAuth();
-              if (auth?.currentUser) {
-                setLoading(true);
-                fetchRadar(auth.currentUser)
-                  .then(setPayload)
-                  .catch((e) => setErr(e.message))
-                  .finally(() => setLoading(false));
-              }
+              setLoading(true);
+              setErr("");
+              fetchRadar(user || null)
+                .then(setPayload)
+                .catch((e) => setErr(e.message))
+                .finally(() => setLoading(false));
             }}
           >
             Retry
@@ -229,11 +236,9 @@ export default function RadarClient({ initialMeta }) {
         </section>
       ) : unlocked ? (
         <>
-          <p className="radar-unlocked">
-            {payload?.temporaryPublic
-              ? "Radar depth is temporarily open while member verify is fixed."
-              : `Signed in as ${user?.email || user?.displayName || "member"} — depth unlocked.`}
-          </p>
+          {payload?.temporaryPublic ? (
+            <p className="radar-unlocked">Temporarily open while member verify is fixed.</p>
+          ) : null}
           {core.length ? (
             <section className="radar-section" aria-label="Core exclusive">
               <h2 className="radar-section-title">Core</h2>
@@ -259,30 +264,6 @@ export default function RadarClient({ initialMeta }) {
         <section className="radar-gate">
           <h2>Still locked</h2>
           <p>{payload?.message || "Sign in required."}</p>
-          {payload?.authConfigured === false ? (
-            <p className="radar-gate-note">
-              Server cannot verify Google sign-in yet. In Vercel → Environment Variables, edit{" "}
-              <code>FIREBASE_SERVICE_ACCOUNT</code> for Production so the value starts with{" "}
-              <code>{"{"}</code> (no wrapping quotes), save, and redeploy. Then Retry.
-            </p>
-          ) : null}
-          <button
-            type="button"
-            className="radar-sign-in"
-            onClick={() => {
-              const auth = getClientAuth();
-              if (auth?.currentUser) {
-                setLoading(true);
-                setErr("");
-                fetchRadar(auth.currentUser)
-                  .then(setPayload)
-                  .catch((e) => setErr(e.message))
-                  .finally(() => setLoading(false));
-              }
-            }}
-          >
-            Retry
-          </button>
         </section>
       )}
     </main>

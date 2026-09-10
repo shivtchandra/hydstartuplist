@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-09",
+  "updatedAt": "2026-09-10",
   "headline": "Radar",
   "blurb": "Hand-picked hard-to-find employers — not an Inc42/Greenhouse scrape. Depth (founders, aliases, miss rationale) is curated research. Split by geo: Hyderabad map, San Francisco seed, full-remote Gem boards. Public Hyd map/jobs stay free.",
   "geos": {
@@ -2032,6 +2032,576 @@
       "founderNames": [
         "Anuradha Acharya"
       ]
+    },
+    {
+      "geo": "hyd",
+      "jobMode": "hyd-office",
+      "verifyStatus": "published",
+      "tags": [
+        "hard-to-find",
+        "space",
+        "deeptech"
+      ],
+      "startupId": "9d051ab6-67fd-4c4c-a31e-ec952ca7d636",
+      "name": "Dhruva Space",
+      "exclusiveTier": "core",
+      "missReasons": [
+        "outskirts",
+        "funding-list",
+        "marketing-careers"
+      ],
+      "why": "Full-stack small-sat / space engineering from Begumpet — real Hyd HQ that corridor SaaS scrapes miss.",
+      "careers": "https://www.dhruvaspace.com/careers",
+      "aliases": [
+        "Dhruvaspace"
+      ],
+      "founderNames": [
+        "Sanjay Nekkanti",
+        "Krishna Teja Penamakuru"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Sanjay Nekkanti",
+            "role": "Founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/sanjaynekkanti"
+          },
+          {
+            "name": "Krishna Teja Penamakuru",
+            "role": "COO",
+            "linkedin": "https://www.linkedin.com/in/krishna-teja-penamakuru"
+          }
+        ],
+        "stealthSignals": [
+          "Begumpet / non-HITEC pin — fails corridor-only sweeps",
+          "Space engineering — under-indexed vs consumer SaaS listicles"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/sanjaynekkanti",
+            "note": "CEO LinkedIn"
+          },
+          {
+            "type": "company",
+            "url": "https://www.dhruvaspace.com",
+            "note": "Company site"
+          }
+        ],
+        "researchNotes": "Hyd space employer with published careers; easy to skip if you only scrape Greenhouse in Gachibowli.",
+        "lastVerified": "2026-09-10"
+      }
+    },
+    {
+      "geo": "hyd",
+      "jobMode": "hyd-office",
+      "verifyStatus": "published",
+      "tags": [
+        "hard-to-find",
+        "aerospace",
+        "manufacturing"
+      ],
+      "startupId": "e8d2551b-4093-4b99-b129-76518b8c34ff",
+      "name": "JEH Aerospace",
+      "exclusiveTier": "core",
+      "missReasons": [
+        "us-hq-hyd-office",
+        "marketing-careers",
+        "funding-list"
+      ],
+      "why": "Precision aerospace manufacturing for global OEMs — Hyd plant with US founder narrative; not on Greenhouse aggregators.",
+      "careers": "https://www.jehaerospace.com/careers",
+      "aliases": [
+        "Jeh Aerospace",
+        "JEH Aero"
+      ],
+      "founderNames": [
+        "Vishal Sanghavi",
+        "Venkatesh Mudragalla"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Vishal Sanghavi",
+            "role": "Founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/vishal-sanghavi-7077a89"
+          },
+          {
+            "name": "Venkatesh Mudragalla",
+            "role": "Co-founder & COO",
+            "linkedin": "https://www.linkedin.com/in/venkatesh-mudragalla-5b369717"
+          }
+        ],
+        "stealthSignals": [
+          "US/Atlanta founder narrative + India manufacturing node",
+          "Marketing-site careers — fails Ashby/Greenhouse scrapes"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/vishal-sanghavi-7077a89",
+            "note": "CEO LinkedIn"
+          },
+          {
+            "type": "company",
+            "url": "https://www.jehaerospace.com",
+            "note": "Company site"
+          }
+        ],
+        "researchNotes": "Hard-to-find Hyd manufacturing employer for aerospace supply chain roles.",
+        "lastVerified": "2026-09-10"
+      }
+    },
+    {
+      "geo": "hyd",
+      "jobMode": "hyd-office",
+      "verifyStatus": "published",
+      "tags": [
+        "hard-to-find",
+        "ai",
+        "biotech"
+      ],
+      "startupId": "6238609b-918f-4741-a2ae-1ef96706c01b",
+      "name": "Aganitha AI",
+      "exclusiveTier": "watch",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list"
+      ],
+      "why": "Gachibowli in-silico biopharma AI — deep science stack; careers on marketing site, not Greenhouse.",
+      "careers": "https://www.aganitha.ai/careers",
+      "aliases": [
+        "Aganitha",
+        "Aganitha Computational"
+      ],
+      "founderNames": [
+        "Vikram Duvvoori",
+        "Ramarao Kanneganti"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Vikram Duvvoori",
+            "role": "Founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/vikram-duvvoori-7742578"
+          },
+          {
+            "name": "Ramarao Kanneganti",
+            "role": "Founder & CTO",
+            "linkedin": "https://www.linkedin.com/in/ramaraokanneganti"
+          }
+        ],
+        "stealthSignals": [
+          "Biopharma AI — skipped by consumer SaaS listicles",
+          "Own careers surface vs major ATS aggregators"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/vikram-duvvoori-7742578",
+            "note": "CEO LinkedIn"
+          },
+          {
+            "type": "company",
+            "url": "https://www.aganitha.ai",
+            "note": "Company site"
+          }
+        ],
+        "researchNotes": "Strong Hyd AI/deeptech employer that map users still miss without Radar.",
+        "lastVerified": "2026-09-10"
+      }
+    },
+    {
+      "geo": "hyd",
+      "jobMode": "hyd-office",
+      "verifyStatus": "published",
+      "tags": [
+        "hard-to-find",
+        "cleantech"
+      ],
+      "startupId": "6a49a27c-5a1b-4d8e-b26a-3a605fefba75",
+      "name": "Recykal",
+      "exclusiveTier": "watch",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list"
+      ],
+      "why": "Circular-economy / waste marketplace SaaS from Gachibowli — climate ops hiring outside Greenhouse feeds.",
+      "careers": "https://www.recykal.com/careers",
+      "aliases": [
+        "Recykal Technologies"
+      ],
+      "founderNames": [
+        "Abhay Deshpande",
+        "Abhishek Deshpande"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Abhay Deshpande",
+            "role": "Founder",
+            "linkedin": "https://www.linkedin.com/in/abhay--deshpande"
+          },
+          {
+            "name": "Abhishek Deshpande",
+            "role": "Co-founder & COO",
+            "linkedin": "https://www.linkedin.com/in/abhishek-deshpande-cofounderrecykal"
+          }
+        ],
+        "stealthSignals": [
+          "Climate / waste-tech — not Inc42 Top-N SaaS default",
+          "Marketing careers page"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/abhay--deshpande",
+            "note": "Founder LinkedIn"
+          },
+          {
+            "type": "company",
+            "url": "https://www.recykal.com",
+            "note": "Company site"
+          }
+        ],
+        "researchNotes": "Hyd climate infra employer with a real careers surface that aggregators under-index.",
+        "lastVerified": "2026-09-10"
+      }
+    },
+    {
+      "geo": "hyd",
+      "jobMode": "hyd-office",
+      "verifyStatus": "published",
+      "tags": [
+        "hard-to-find",
+        "ev",
+        "hardware"
+      ],
+      "startupId": "f5aed858-3a02-4380-8079-7398a22f56b0",
+      "name": "Pure EV",
+      "exclusiveTier": "watch",
+      "missReasons": [
+        "outskirts",
+        "marketing-careers",
+        "funding-list"
+      ],
+      "why": "EV / battery energy storage (PuR Energy) HQ in Secunderabad — hardware mobility hiring off HITEC corridor scrapes.",
+      "careers": "https://www.pureev.in/careers",
+      "aliases": [
+        "PURE EV",
+        "PuR Energy",
+        "PURE Energy"
+      ],
+      "founderNames": [
+        "Nishanth Dongari",
+        "Rohit Vadera"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Nishanth Dongari",
+            "role": "Founder & MD",
+            "linkedin": "https://www.linkedin.com/in/nishanthdongari"
+          },
+          {
+            "name": "Rohit Vadera",
+            "role": "Co-founder & CEO"
+          }
+        ],
+        "stealthSignals": [
+          "Secunderabad / IIT-H faculty-founder story — not HITEC SaaS cluster",
+          "Hardware EV careers on marketing site"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/nishanthdongari",
+            "note": "Founder LinkedIn"
+          },
+          {
+            "type": "company",
+            "url": "https://www.pureev.in",
+            "note": "Company site"
+          }
+        ],
+        "researchNotes": "Hardware EV employer that fresher/eng searches miss when filtered to HITEC Greenhouse boards.",
+        "lastVerified": "2026-09-10"
+      }
+    },
+    {
+      "geo": "hyd",
+      "jobMode": "hyd-office",
+      "verifyStatus": "published",
+      "tags": [
+        "hard-to-find",
+        "ai",
+        "us-hq"
+      ],
+      "startupId": "b08fd626-8198-4b65-859e-7f2e10376de7",
+      "name": "Deccan AI",
+      "exclusiveTier": "watch",
+      "missReasons": [
+        "us-hq-hyd-office",
+        "marketing-careers"
+      ],
+      "why": "AI evals / data for frontier labs — SF narrative with Financial District Hyd delivery team; easy to miss as California-only.",
+      "careers": "https://deccan.ai/careers",
+      "aliases": [
+        "DeccanAI",
+        "ai-deccan"
+      ],
+      "founderNames": [
+        "Rukesh Reddy"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Rukesh Reddy",
+            "role": "Founder",
+            "linkedin": "https://www.linkedin.com/in/rukeshreddy"
+          }
+        ],
+        "stealthSignals": [
+          "US/Bay Area brand; Hyd Financial District ops under-indexed",
+          "Careers on marketing site"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/rukeshreddy",
+            "note": "Founder LinkedIn"
+          },
+          {
+            "type": "company",
+            "url": "https://deccan.ai",
+            "note": "Company site"
+          }
+        ],
+        "researchNotes": "Classic US-HQ + Hyd eng node that city ATS filters drop.",
+        "lastVerified": "2026-09-10"
+      }
+    },
+    {
+      "geo": "hyd",
+      "jobMode": "hyd-office",
+      "verifyStatus": "published",
+      "tags": [
+        "hard-to-find",
+        "adtech"
+      ],
+      "startupId": "8c0b7076-0d16-4c5e-a840-db1d29a26ab0",
+      "name": "AdOnMo",
+      "exclusiveTier": "watch",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list"
+      ],
+      "why": "DOOH / digital outdoor ad network from Gachibowli — adtech hiring on marketing careers, not Ashby.",
+      "careers": "https://www.adonmo.com/careers",
+      "aliases": [
+        "Adonmo",
+        "Ad On Mo"
+      ],
+      "founderNames": [
+        "Sandeep Bommireddi"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Sandeep Bommireddi",
+            "role": "Co-founder",
+            "linkedin": "https://www.linkedin.com/in/sandeep-bommireddi"
+          }
+        ],
+        "stealthSignals": [
+          "DOOH adtech — skipped by SaaS Greenhouse defaults",
+          "Marketing-site careers"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/sandeep-bommireddi",
+            "note": "Co-founder LinkedIn"
+          },
+          {
+            "type": "company",
+            "url": "https://www.adonmo.com",
+            "note": "Company site"
+          }
+        ],
+        "researchNotes": "Hyd adtech employer with a clear careers URL that map users still overlook.",
+        "lastVerified": "2026-09-10"
+      }
+    },
+    {
+      "geo": "hyd",
+      "jobMode": "hyd-office",
+      "verifyStatus": "published",
+      "tags": [
+        "hard-to-find",
+        "proptech",
+        "yc"
+      ],
+      "startupId": "f6a83417-9b8d-4313-94e0-8c1012b758a1",
+      "name": "Landeed",
+      "exclusiveTier": "watch",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list",
+        "us-hq-hyd-office"
+      ],
+      "why": "YC property-intelligence rails for India — Hyd team with US co-founders; careers easy to miss vs real-estate aggregators.",
+      "careers": "https://www.landeed.com/careers",
+      "aliases": [
+        "Landeed YC"
+      ],
+      "founderNames": [
+        "Sanjay Mandava",
+        "Jonathan Richards",
+        "ZJ Lin"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Sanjay Mandava",
+            "role": "Co-founder",
+            "linkedin": "https://www.linkedin.com/in/sanjay-mandava-2066aa24"
+          },
+          {
+            "name": "Jonathan Richards",
+            "role": "Co-founder",
+            "linkedin": "https://www.linkedin.com/in/jonathan-richards-26259bb6"
+          }
+        ],
+        "stealthSignals": [
+          "YC + US/India split — Hyd office under-indexed on city job boards",
+          "Proptech depth vs consumer SaaS lists"
+        ],
+        "sources": [
+          {
+            "type": "yc",
+            "url": "https://www.ycombinator.com/companies/landeed",
+            "note": "YC company page"
+          },
+          {
+            "type": "company",
+            "url": "https://www.landeed.com",
+            "note": "Company site"
+          }
+        ],
+        "researchNotes": "YC Hyd proptech with active hiring — good Radar watch for land/records infra roles.",
+        "lastVerified": "2026-09-10"
+      }
+    },
+    {
+      "geo": "hyd",
+      "jobMode": "hyd-office",
+      "verifyStatus": "published",
+      "tags": [
+        "hard-to-find",
+        "logistics",
+        "ai"
+      ],
+      "startupId": "2aecf295-a845-4b97-8fdb-29218304ec1b",
+      "name": "Enmovil",
+      "exclusiveTier": "watch",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list"
+      ],
+      "why": "AI supply-chain / logistics visibility from Gachibowli — enterprise ops hiring outside Greenhouse.",
+      "careers": "https://www.enmovil.com/careers",
+      "aliases": [
+        "Enmovil Solutions"
+      ],
+      "founderNames": [
+        "Nanda Dharmavaram",
+        "Venkat Moganty",
+        "Ravi Bulusu"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Nanda Dharmavaram",
+            "role": "Co-founder & COO",
+            "linkedin": "https://www.linkedin.com/in/dnandak"
+          },
+          {
+            "name": "Venkat Moganty",
+            "role": "Co-founder & CTO",
+            "linkedin": "https://www.linkedin.com/in/moganty"
+          }
+        ],
+        "stealthSignals": [
+          "Enterprise logistics AI — not consumer startup listicles",
+          "Marketing careers surface"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/dnandak",
+            "note": "COO LinkedIn"
+          },
+          {
+            "type": "company",
+            "url": "https://www.enmovil.com",
+            "note": "Company site"
+          }
+        ],
+        "researchNotes": "Hyd logistics AI employer already on the map — Radar depth fills founder + miss rationale.",
+        "lastVerified": "2026-09-10"
+      }
+    },
+    {
+      "geo": "hyd",
+      "jobMode": "hyd-office",
+      "verifyStatus": "published",
+      "tags": [
+        "hard-to-find",
+        "healthtech"
+      ],
+      "startupId": "47a34793-9c94-4000-9be3-a452bfa09965",
+      "name": "ekincare",
+      "exclusiveTier": "watch",
+      "missReasons": [
+        "marketing-careers"
+      ],
+      "why": "Workforce health benefits platform — HITEC Hyd HQ with marketing careers; often skipped for bigger healthtech brands.",
+      "careers": "https://www.ekincare.com/careers",
+      "aliases": [
+        "eKincare",
+        "Ekin Care"
+      ],
+      "founderNames": [
+        "Kiran Kalakuntla"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Kiran Kalakuntla",
+            "role": "CEO & Co-founder",
+            "linkedin": "https://www.linkedin.com/in/kirankalakuntla"
+          }
+        ],
+        "stealthSignals": [
+          "Health benefits SaaS — careers on ekincare.com, not Greenhouse",
+          "Easy to overlook vs national healthtech brands"
+        ],
+        "sources": [
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/kirankalakuntla",
+            "note": "CEO LinkedIn"
+          },
+          {
+            "type": "company",
+            "url": "https://www.ekincare.com/company/leadership",
+            "note": "Leadership page"
+          }
+        ],
+        "researchNotes": "Mapped Hyd healthtech with clear founder LinkedIn — good exclusive watch add.",
+        "lastVerified": "2026-09-10"
+      }
     }
   ],
   "missReasons": {
@@ -2191,42 +2761,52 @@
   ],
   "exclusiveList": {
     "updatedAt": "2026-09-09",
-    "status": "applied — cut/demote removed; promoteFromMap + discovery deeptech promoted with founder depth",
+    "status": "expanded — UI polish pass; +hard-to-find on-map employers",
     "core": [
       "AltiusHub",
-      "Axirium Aerospace",
-      "Blaize",
-      "Eon Space Labs",
-      "Harvested Robotics",
-      "Logy.AI",
       "Perceptyne",
-      "Startoon Labs",
+      "Harvested Robotics",
+      "Blaize",
       "TakeMe2Space",
-      "Xbattery Energy"
+      "Axirium Aerospace",
+      "Xbattery Energy",
+      "Eon Space Labs",
+      "Logy.AI",
+      "Startoon Labs",
+      "Dhruva Space",
+      "JEH Aerospace"
     ],
     "watch": [
-      "Abyom",
-      "Anvi Robotics",
-      "Constelli",
-      "Cosmoserve Space",
-      "DeepEdge",
-      "Docturnal",
-      "Equal Identity",
-      "Eyva",
+      "Synthio Labs",
+      "Keus",
       "GTM Buddy",
+      "Portl",
+      "DeepEdge",
+      "ZestIOT",
+      "Supervity",
+      "Orbicular Pharmaceutical Technologies",
+      "Eyva",
       "Helex",
       "Indrajaal",
-      "Keus",
-      "Maithri Aquatech",
+      "Cosmoserve Space",
+      "Constelli",
+      "Anvi Robotics",
       "Makers Hive",
-      "MapmyGenome",
-      "Orbicular Pharmaceutical Technologies",
-      "Portl",
-      "Sensa Core",
-      "Supervity",
-      "Synthio Labs",
       "Vyuhaa Med Data",
-      "ZestIOT"
+      "Equal Identity",
+      "Abyom",
+      "Docturnal",
+      "Sensa Core",
+      "Maithri Aquatech",
+      "MapmyGenome",
+      "Aganitha AI",
+      "Recykal",
+      "Pure EV",
+      "Deccan AI",
+      "AdOnMo",
+      "Landeed",
+      "Enmovil",
+      "ekincare"
     ],
     "demote": [],
     "cut": [],
