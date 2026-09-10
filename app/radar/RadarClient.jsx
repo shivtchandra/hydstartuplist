@@ -136,15 +136,12 @@ export default function RadarClient({ initialMeta }) {
   const exclusive = initialMeta?.exclusiveList || {};
   const total = exclusive.total || (exclusive.coreCount || 0) + (exclusive.watchCount || 0);
 
+  // TEMP: load depth without waiting on Firebase Admin unlock
   useEffect(() => {
-    if (!ready || !user) {
-      setPayload(null);
-      return undefined;
-    }
     let cancelled = false;
     setLoading(true);
     setErr("");
-    fetchRadar(user)
+    fetchRadar(user || null)
       .then((data) => {
         if (!cancelled) setPayload(data);
       })
@@ -157,7 +154,7 @@ export default function RadarClient({ initialMeta }) {
     return () => {
       cancelled = true;
     };
-  }, [ready, user]);
+  }, [user]);
 
   async function onSignIn() {
     setBusy(true);
@@ -201,32 +198,9 @@ export default function RadarClient({ initialMeta }) {
         </p>
       </header>
 
-      {!ready ? (
+      {loading ? (
         <div className="radar-gate radar-gate-loading" aria-busy="true">
-          Checking sign-in…
-        </div>
-      ) : !user ? (
-        <section className="radar-gate" aria-label="Sign in to unlock Radar">
-          <h2>Sign in to unlock</h2>
-          <p>
-            Radar depth — CEO/CTO LinkedIns, stealth signals, and research notes — is for signed-in
-            members. The public map and jobs stay free.
-          </p>
-          <button type="button" className="radar-sign-in" onClick={onSignIn} disabled={busy}>
-            {busy ? "Opening Google…" : "Continue with Google"}
-          </button>
-          {err ? (
-            <p className="radar-err" role="status">
-              {err}
-            </p>
-          ) : null}
-          <p className="radar-gate-note">
-            Already browsing? Use the account chip Google shows in the corner, or the button above.
-          </p>
-        </section>
-      ) : loading ? (
-        <div className="radar-gate radar-gate-loading" aria-busy="true">
-          Unlocking Radar…
+          Loading Radar…
         </div>
       ) : err ? (
         <section className="radar-gate">
@@ -256,7 +230,9 @@ export default function RadarClient({ initialMeta }) {
       ) : unlocked ? (
         <>
           <p className="radar-unlocked">
-            Signed in as {user.email || user.displayName || "member"} — depth unlocked.
+            {payload?.temporaryPublic
+              ? "Radar depth is temporarily open while member verify is fixed."
+              : `Signed in as ${user?.email || user?.displayName || "member"} — depth unlocked.`}
           </p>
           {core.length ? (
             <section className="radar-section" aria-label="Core exclusive">
