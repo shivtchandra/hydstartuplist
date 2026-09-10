@@ -62,6 +62,17 @@ function formatUpdated(iso) {
   return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 }
 
+function areaLine(area, geoLabel) {
+  if (!area) return geoLabel || null;
+  if (/hyderabad/i.test(area)) return area;
+  return `${area}, Hyderabad`;
+}
+
+function sectorAreaLine(row) {
+  const place = areaLine(row.area, row.geoLabel);
+  return [row.sector, place].filter(Boolean).join(" · ");
+}
+
 /** Signals derived only from existing row fields — no invented claims. */
 function buildSignals(row) {
   const founders = row.depth?.founders || row.founders || [];
@@ -138,6 +149,7 @@ function FounderProfile({ f }) {
 }
 
 function CompanyRow({ row, active, onSelect }) {
+  const meta = sectorAreaLine(row) || row.geoLabel || "Hyderabad";
   return (
     <button
       type="button"
@@ -147,9 +159,7 @@ function CompanyRow({ row, active, onSelect }) {
     >
       <span className="radar-row-body">
         <span className="radar-row-name">{row.name}</span>
-        <span className="radar-row-meta">
-          {[row.sector, row.area].filter(Boolean).join(" · ") || row.geoLabel || "Hyderabad"}
-        </span>
+        <span className="radar-row-meta">{meta}</span>
         {row.jobModeLabel ? <span className="radar-row-mode">{row.jobModeLabel}</span> : null}
       </span>
       <span className="radar-row-chev" aria-hidden="true">
@@ -168,8 +178,9 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
   const whyHard = [...missLabels, ...stealth.filter((s) => !missLabels.includes(s))];
   const signals = buildSignals(row);
   const lastChecked = formatUpdated(row.depth?.lastVerified || listUpdatedAt);
-  const tier = row.exclusiveTier === "core" ? "Core" : "Watch";
-  const locLine = [row.sector, row.area].filter(Boolean).join(" · ");
+  const tier = row.exclusiveTier === "core" ? "Core" : row.exclusiveTier === "watch" ? "Watch" : null;
+  const placeMeta = sectorAreaLine(row);
+  const whatTheyDo = notes || row.why || null;
 
   return (
     <article className="radar-detail" data-tier={row.exclusiveTier || ""} key={row.id}>
@@ -179,21 +190,23 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
 
       <header className="radar-dossier-head">
         <div className="radar-dossier-meta">
-          <p className="radar-detail-tier">{tier}</p>
-          {locLine ? <p className="radar-detail-place">{locLine}</p> : null}
+          {tier ? <p className="radar-detail-tier">{tier}</p> : null}
+          {placeMeta ? <p className="radar-detail-place">{placeMeta}</p> : null}
         </div>
 
         <div className="radar-dossier-title-row">
           <div className="radar-dossier-title">
             <h2>{row.name}</h2>
-            {row.why && notes ? <p className="radar-one-liner">{row.why}</p> : null}
+            {row.why ? <p className="radar-one-liner">{row.why}</p> : null}
           </div>
           {(row.area || row.jobModeLabel) && (
             <aside className="radar-place-mark" aria-label="Hyderabad location">
-              <span className="radar-place-pin" aria-hidden="true" />
+              <div className="radar-place-map" aria-hidden="true">
+                <span className="radar-place-pin" />
+              </div>
               <div className="radar-place-copy">
                 {row.area ? <strong>{row.area}</strong> : null}
-                {row.jobModeLabel ? <span>{row.jobModeLabel}</span> : null}
+                {row.jobModeLabel ? <span>{row.jobModeLabel}</span> : <span>Hyderabad</span>}
               </div>
             </aside>
           )}
@@ -206,10 +219,10 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
         </nav>
       </header>
 
-      {(notes || row.why) ? (
+      {whatTheyDo ? (
         <section className="radar-section">
           <h3>What they do</h3>
-          <p className="radar-body">{notes || row.why}</p>
+          <p className="radar-body">{whatTheyDo}</p>
         </section>
       ) : null}
 
@@ -344,25 +357,21 @@ export default function RadarClient({ initialMeta }) {
   return (
     <main className="radar-page">
       <header className="radar-hero">
-        <h1>Radar</h1>
         <p className="radar-kicker">Mapping HYD · Members</p>
+        <h1>Radar</h1>
         <p className="radar-lede">Hard-to-find Hyderabad employers.</p>
         <p className="radar-sub">
           A private list of companies worth knowing about — especially the ones you won&apos;t find
           in the usual places.
         </p>
-        <div className="radar-stats">
-          <p className="radar-stats-primary">
-            <strong>{total || "—"}</strong> companies
-          </p>
-          <p className="radar-stats-secondary">
-            {exclusive.coreCount || 0} core · {exclusive.watchCount || 0} watch
-            {updatedLabel ? <> · Updated {updatedLabel}</> : null}
-          </p>
-        </div>
-        {payload?.temporaryPublic ? (
-          <p className="radar-unlocked">Temporarily open while member verify is fixed.</p>
-        ) : null}
+        <p className="radar-stats">
+          <strong>{total || "—"}</strong> companies
+          {" · "}
+          {exclusive.coreCount || 0} core
+          {" · "}
+          {exclusive.watchCount || 0} watch
+          {updatedLabel ? <> · Updated {updatedLabel}</> : null}
+        </p>
       </header>
 
       {loading ? (
@@ -408,7 +417,7 @@ export default function RadarClient({ initialMeta }) {
                   <h2>
                     Core <span>· {coreFiltered.length}</span>
                   </h2>
-                  <p>Companies we think are especially worth knowing.</p>
+                  <p>Strong Hyderabad signal.</p>
                 </div>
                 <div className="radar-list">
                   {coreFiltered.map((row) => (
@@ -429,7 +438,7 @@ export default function RadarClient({ initialMeta }) {
                   <h2>
                     Watch <span>· {watchFiltered.length}</span>
                   </h2>
-                  <p>Companies we&apos;re keeping an eye on.</p>
+                  <p>Worth keeping an eye on.</p>
                 </div>
                 <div className="radar-list">
                   {watchFiltered.map((row) => (
@@ -458,10 +467,11 @@ export default function RadarClient({ initialMeta }) {
               />
             ) : (
               <div className="radar-detail-empty">
+                <p className="radar-detail-empty-kicker">Research brief</p>
                 <h2>Choose a company</h2>
                 <p>
-                  Open any name for the research brief — what they do, why they hide, people to
-                  know.
+                  Open any name for the research brief — what they do, why they&apos;re hard to find,
+                  and the people worth knowing.
                 </p>
               </div>
             )}
@@ -469,8 +479,8 @@ export default function RadarClient({ initialMeta }) {
         </div>
       ) : (
         <section className="radar-gate">
-          <h2>Still locked</h2>
-          <p>{payload?.message || "Sign in required."}</p>
+          <h2>Members only</h2>
+          <p>{payload?.message || "Sign in to open Radar."}</p>
         </section>
       )}
     </main>
