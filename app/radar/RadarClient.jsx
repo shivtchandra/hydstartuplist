@@ -6,6 +6,8 @@ import { useAuthUser } from "../../lib/auth-client.js";
 import LoadingScreen from "../components/LoadingScreen.jsx";
 import StartupLogo from "../components/StartupLogo.jsx";
 
+const CHARMINAR_SRC = "/brand/charminar-radar.jpg";
+
 async function fetchRadar(user) {
   const headers = {};
   if (user) {
@@ -157,20 +159,19 @@ function FounderProfile({ f }) {
 
 /** GCC-style showcase card */
 function ShowcaseCard({ row, onOpen }) {
-  const meta = sectorAreaLine(row) || "Hyderabad";
+  const place = areaLine(row.area, row.geoLabel) || "Hyderabad";
+  const sectorPlace = [row.sector, place].filter(Boolean).join(" · ");
   return (
     <button type="button" className="feed-row radar-showcase-card" onClick={() => onOpen(row.id)}>
       <StartupLogo name={row.name} website={row.website} sector={row.sector} size={40} />
       <div className="feed-row-body">
         <div className="feed-row-name">{row.name}</div>
-        <div className="feed-row-sub">
-          {meta}
-          {row.exclusiveTier === "core" ? " · Core" : row.exclusiveTier === "watch" ? " · Watch" : ""}
-          {" · "}
-          {officeLabel(row)}
-        </div>
+        {sectorPlace ? <div className="feed-row-sub">{sectorPlace}</div> : null}
+        <div className="radar-card-office">{officeLabel(row)}</div>
       </div>
-      <span className="nls-more-link">Open research →</span>
+      <span className="nls-more-link radar-card-cta">
+        Open research <span className="radar-card-cta-arrow" aria-hidden="true">→</span>
+      </span>
     </button>
   );
 }
@@ -198,6 +199,8 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
         ← Back to Radar
       </button>
 
+      <div className="radar-brief-layout">
+        <div className="radar-brief-main">
       <header className="radar-brief-head">
         {tier ? <p className="radar-brief-tier">{tier}</p> : null}
         {placeUpper ? <p className="radar-brief-place">{placeUpper}</p> : null}
@@ -279,6 +282,19 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
       {row.aliases?.length ? (
         <p className="radar-aliases">Also known as: {row.aliases.join(", ")}</p>
       ) : null}
+        </div>
+
+        <figure className="radar-brief-photo">
+          <img
+            src={CHARMINAR_SRC}
+            alt="Charminar, Hyderabad"
+            width={480}
+            height={600}
+            loading="lazy"
+          />
+          <figcaption>Hyderabad</figcaption>
+        </figure>
+      </div>
     </article>
   );
 }
@@ -406,6 +422,11 @@ export default function RadarClient({ initialMeta }) {
                   placeholder="Search companies, sectors, aliases…"
                 />
               </label>
+
+              <p className="radar-feed-lead">
+                Open a company for the research brief — what they do, why they&apos;re hard to find, and
+                people worth knowing.
+              </p>
 
               {coreFiltered.length ? (
                 <section className="radar-showcase-section" aria-label="Core">
