@@ -3,6 +3,11 @@ const nextConfig = {
   // Hobby builds were SIGTERM'd at the default 60s while /sitemap and heavy
   // routes competed for workers; keep a higher ceiling as a safety net.
   staticPageGenerationTimeout: 180,
+  // Ensure curated JSON is available to serverless routes (Radar, GCC overlay, etc.)
+  outputFileTracingIncludes: {
+    "/api/**/*": ["./data/**/*"],
+    "/*": ["./data/**/*"],
+  },
   async redirects() {
     return [
       // Dead /industries/* labels linked from Insights (fold into real hubs)

@@ -78,13 +78,13 @@ export async function GET(req) {
       entries,
     });
   } catch (err) {
-    console.error("[api/radar]", err?.message || err);
-    return NextResponse.json(
-      {
-        locked: true,
-        error: "Radar failed to load. Check server logs / FIREBASE_SERVICE_ACCOUNT.",
-      },
-      { status: 500 }
-    );
+    const msg = String(err?.message || err || "");
+    console.error("[api/radar]", msg);
+    const hint = /FIREBASE|service.account|private_key|JSON/i.test(msg)
+      ? "FIREBASE_SERVICE_ACCOUNT looks invalid — paste the JSON without surrounding quotes from .env."
+      : /ENOENT|radar\.json/i.test(msg)
+        ? "Radar data file missing from the server bundle."
+        : "Radar failed to load. Check server logs / FIREBASE_SERVICE_ACCOUNT.";
+    return NextResponse.json({ locked: true, error: hint, detail: msg.slice(0, 160) }, { status: 500 });
   }
 }
