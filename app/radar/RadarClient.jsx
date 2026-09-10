@@ -6,7 +6,7 @@ import { useAuthUser } from "../../lib/auth-client.js";
 import LoadingScreen from "../components/LoadingScreen.jsx";
 import StartupLogo from "../components/StartupLogo.jsx";
 
-const CHARMINAR_SRC = "/brand/charminar-radar.jpg";
+const CHARMINAR_SRC = "/brand/charminar-radar-etch.png";
 
 async function fetchRadar(user) {
   const headers = {};
@@ -176,24 +176,6 @@ function ShowcaseCard({ row, onOpen }) {
   );
 }
 
-/** Compact featured strip — editorial, not a duplicate directory */
-function OnRadarItem({ row, onOpen }) {
-  const place = areaLine(row.area, row.geoLabel) || "Hyderabad";
-  const meta = [row.sector, place].filter(Boolean).join(" · ");
-  return (
-    <button type="button" className="radar-on-item" onClick={() => onOpen(row.id)}>
-      <StartupLogo name={row.name} website={row.website} sector={row.sector} size={32} />
-      <span className="radar-on-item-body">
-        <span className="radar-on-item-name">{row.name}</span>
-        {meta ? <span className="radar-on-item-meta">{meta}</span> : null}
-      </span>
-      <span className="radar-on-item-arrow" aria-hidden="true">
-        →
-      </span>
-    </button>
-  );
-}
-
 function CompanyDetail({ row, onBack, listUpdatedAt }) {
   const founders = row.depth?.founders || row.founders || [];
   const stealth = row.depth?.stealthSignals || [];
@@ -302,15 +284,15 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
       ) : null}
         </div>
 
-        <figure className="radar-brief-photo">
+        <figure className="radar-brief-art">
           <img
             src={CHARMINAR_SRC}
-            alt="Charminar, Hyderabad"
+            alt="Charminar, Hyderabad — line etching"
             width={480}
-            height={600}
+            height={640}
             loading="lazy"
           />
-          <figcaption>Hyderabad</figcaption>
+          <figcaption>Hyderabad · Charminar</figcaption>
         </figure>
       </div>
     </article>
@@ -376,30 +358,29 @@ export default function RadarClient({ initialMeta }) {
       ? payload.entries.find((e) => e.id === selectedId) || null
       : null;
 
+  const showHero = !selected;
+
   return (
-    <main className="radar-page">
+    <main className={`radar-page${selected ? " is-brief" : ""}`}>
       <div className="feed-page radar-feed">
-        <header className="radar-hero feed-head">
-          <p className="radar-kicker">Mapping HYD · Radar</p>
-          <h1>Companies worth knowing.</h1>
-          <p className="radar-sub form-sub">
-            A deliberately small list of Hyderabad employers that are easy to miss — researched and
-            edited by Mapping HYD.
-          </p>
-          <p className="radar-stats">
-            <strong>{total || "—"}</strong> companies
-            {" · "}
-            {exclusive.coreCount || 0} core
-            {" · "}
-            {exclusive.watchCount || 0} watch
-            {updatedLabel ? <> · Updated {updatedLabel}</> : null}
-          </p>
-          {payload?.temporaryPublic ? (
-            <p className="radar-unlocked">
-              Member access is temporarily open while verify is restored.
+        {showHero ? (
+          <header className="radar-hero">
+            <p className="radar-kicker">Mapping HYD · Radar</p>
+            <h1>Companies worth knowing.</h1>
+            <p className="radar-sub">
+              A deliberately small list of Hyderabad employers that are easy to miss — researched
+              and edited by Mapping HYD.
             </p>
-          ) : null}
-        </header>
+            <p className="radar-stats">
+              {total || "—"} companies · {exclusive.coreCount || 0} core ·{" "}
+              {exclusive.watchCount || 0} watch
+              {updatedLabel ? <> · Updated {updatedLabel}</> : null}
+              {payload?.temporaryPublic ? (
+                <span className="radar-unlocked"> · Temporarily open</span>
+              ) : null}
+            </p>
+          </header>
+        ) : null}
 
         {loading ? (
           <LoadingScreen label="Opening Radar…" />
@@ -431,35 +412,16 @@ export default function RadarClient({ initialMeta }) {
             />
           ) : (
             <>
-              <label className="radar-dir-search radar-feed-search">
+              <label className="radar-feed-search">
                 <span className="visually-hidden">Search companies, sectors, aliases</span>
                 <input
                   type="search"
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
-                  placeholder="Search companies, sectors, aliases…"
+                  placeholder="Search companies…"
+                  aria-label="Search companies, sectors, aliases"
                 />
               </label>
-
-              <section className="radar-featured" aria-label="Radar introduction">
-                <p className="radar-featured-kicker">Radar</p>
-                <p className="radar-feed-lead">
-                  Open a company for the research brief — what they do, why they&apos;re hard to find, and
-                  people worth knowing.
-                </p>
-                {(() => {
-                  const featured = [...coreFiltered, ...watchFiltered].slice(0, 6);
-                  if (!featured.length) return null;
-                  return (
-                    <div className="radar-on-list">
-                      <p className="radar-on-label">On the Radar</p>
-                      {featured.map((row) => (
-                        <OnRadarItem key={`on-${row.id}`} row={row} onOpen={setSelectedId} />
-                      ))}
-                    </div>
-                  );
-                })()}
-              </section>
 
               {coreFiltered.length ? (
                 <section className="radar-showcase-section" aria-label="Core">

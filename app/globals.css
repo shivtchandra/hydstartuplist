@@ -3,9 +3,16 @@
    ========================================================================== */
 
 :root {
+  /* Editorial pages share one reading width — wide enough for desk layouts */
+  --content-max: 1760px;
+  --content-pad: clamp(20px, 2.5vw, 36px);
   /* Light Theme Tokens */
-  --bg-gradient: radial-gradient(circle at 10% 10%, #ffffff 0%, #f4f6fb 40%, #eef2f8 100%);
-  --bg-color: #f6f8fc;
+  /* Warm editorial paper — same language as More page hero */
+  --bg-color: #faf8f5;
+  --bg-gradient:
+    radial-gradient(ellipse 75% 65% at 8% 0%, rgba(255, 87, 34, 0.16), transparent 58%),
+    radial-gradient(ellipse 55% 50% at 92% 4%, rgba(26, 67, 50, 0.06), transparent 55%),
+    linear-gradient(180deg, #fbf2ed 0%, #faf8f5 38%, #f7f5f2 100%);
   --surface-glass: rgba(255, 255, 255, 0.85);
   --surface-glass-solid: #ffffff;
   --surface-hover: rgba(255, 255, 255, 0.95);
@@ -138,7 +145,7 @@ a:hover:not(.btn) {
 
 .page-with-nav {
   min-height: 100vh;
-  background: var(--bg-color);
+  background: transparent;
 }
 
 .loading-screen {
@@ -214,8 +221,12 @@ a:hover:not(.btn) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  max-width: var(--content-max);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--content-pad);
   gap: 16px;
+  box-sizing: border-box;
 }
 
 .topnav-filters {
@@ -4129,12 +4140,15 @@ a:hover:not(.btn) {
   border-top: 1px solid #e2d9cf;
   background:
     linear-gradient(180deg, #f7f2ea 0%, #f1ebe2 100%);
-  padding: 40px 24px 108px;
+  padding: 40px var(--content-pad) 108px;
   color: #24312b;
 }
 .site-footer-inner {
-  max-width: 1120px;
+  max-width: var(--content-max);
+  width: 100%;
   margin: 0 auto;
+  padding: 0; /* parent already pads */
+  box-sizing: border-box;
 }
 .site-footer-brand {
   max-width: 28rem;
@@ -4217,22 +4231,16 @@ a:hover:not(.btn) {
 /* More page — editorial hub (not a footer twin) */
 .more-page {
   position: relative;
-  max-width: 1040px;
+  max-width: var(--content-max);
+  width: 100%;
   margin: 0 auto;
-  padding: 48px 24px 64px;
+  padding: 40px var(--content-pad) 64px;
+  box-sizing: border-box;
   isolation: isolate;
 }
 .more-page::before {
-  content: "";
-  position: absolute;
-  inset: 0 -12vw auto;
-  height: min(420px, 55vh);
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 70% 80% at 12% 0%, rgba(255, 87, 34, 0.14), transparent 58%),
-    radial-gradient(ellipse 55% 70% at 88% 10%, rgba(26, 67, 50, 0.08), transparent 55%),
-    linear-gradient(180deg, #f6f3ee 0%, transparent 100%);
+  /* Gradient now lives on body — no second wash */
+  content: none;
 }
 .more-hero {
   max-width: 34rem;
@@ -4378,7 +4386,7 @@ a:hover:not(.btn) {
 /* Radar — private curated company directory + research desk */
 /* ── Mapping HYD Radar — editorial polish ── */
 .radar-page {
-  --radar-bg: #f4f0e8;
+  --radar-bg: transparent; /* page sits on global editorial gradient */
   --radar-surface: #fbf9f4;
   --radar-elevated: #fffdf9;
   --radar-ink: #171b19;
@@ -4391,9 +4399,23 @@ a:hover:not(.btn) {
   --radar-sage: #e9ede7;
   color: var(--radar-ink);
 }
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 body:has(.radar-page) {
-  background: var(--radar-bg);
-  background-image: none;
+  /* Use shared editorial peach gradient; page tokens still drive surfaces */
+  background: var(--bg-color);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
 }
 
 /* Active Radar nav — warm, quiet */
@@ -4403,53 +4425,56 @@ body:has(.radar-page) .tn-links a[href="/radar"].active {
 }
 
 .radar-feed.feed-page {
-  max-width: 1180px;
-  padding-top: 12px;
-  padding-bottom: 80px;
+  max-width: var(--content-max);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px var(--content-pad) 64px;
+  gap: 20px;
+  box-sizing: border-box;
 }
 
-.radar-hero.feed-head {
+.radar-hero {
   max-width: 38rem;
-  margin-bottom: 28px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 .radar-kicker {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--radar-faint);
 }
 .radar-hero h1 {
-  margin: 0 0 12px;
-  font-size: clamp(2rem, 3.2vw, 2.55rem);
+  margin: 0 0 10px;
+  font-family: var(--font-heading);
+  font-size: clamp(1.9rem, 2.6vw, 2.4rem);
   font-weight: 800;
   letter-spacing: -0.04em;
-  line-height: 1.08;
+  line-height: 1.05;
   color: var(--radar-ink);
 }
 .radar-sub {
-  margin: 0 0 12px;
-  font-size: 0.98rem;
-  line-height: 1.6;
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  line-height: 1.45;
   color: var(--radar-muted);
   max-width: 34rem;
 }
 .radar-stats {
   margin: 0;
-  font-size: 0.8rem;
-  line-height: 1.45;
+  font-size: 0.78rem;
+  line-height: 1.35;
   color: var(--radar-faint);
   font-variant-numeric: tabular-nums;
 }
-.radar-stats strong {
-  color: var(--radar-muted);
-  font-weight: 700;
-}
 .radar-unlocked {
-  margin: 10px 0 0;
-  font-size: 0.78rem;
-  color: var(--radar-orange-deep);
+  color: var(--radar-faint);
+  font-weight: 500;
 }
 
 .radar-gate { max-width: 28rem; padding: 18px 0; }
@@ -4470,8 +4495,9 @@ body:has(.radar-page) .tn-links a[href="/radar"].active {
 
 .radar-feed-search {
   display: block;
-  margin: 0 0 14px;
-  max-width: 26rem;
+  margin: 0;
+  max-width: 22rem;
+  width: 100%;
 }
 .radar-feed-search input {
   width: 100%;
@@ -4492,104 +4518,11 @@ body:has(.radar-page) .tn-links a[href="/radar"].active {
   box-shadow: 0 0 0 3px rgba(241, 90, 41, 0.08);
 }
 
-.radar-featured {
-  margin: 0 0 40px;
-  max-width: 36rem;
-  padding-bottom: 28px;
-  border-bottom: 1px solid var(--radar-line);
-}
-.radar-featured-kicker {
-  margin: 0 0 8px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--radar-ink);
-}
-.radar-featured .radar-feed-lead {
-  margin-bottom: 18px;
-}
-.radar-on-label {
-  margin: 0 0 8px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--radar-faint);
-}
-.radar-on-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-button.radar-on-item {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 12px;
-  align-items: center;
-  width: 100%;
-  margin: 0;
-  padding: 10px 4px;
-  border: 0;
-  border-top: 1px solid var(--radar-line);
-  background: transparent;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-}
-button.radar-on-item:first-of-type {
-  border-top: 1px solid var(--radar-line);
-}
-button.radar-on-item:hover {
-  background: var(--radar-orange-soft);
-}
-button.radar-on-item:hover .radar-on-item-arrow {
-  transform: translateX(3px);
-  color: var(--radar-orange-deep);
-}
-.radar-on-item-body {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.radar-on-item-name {
-  font-size: 14px;
-  font-weight: 750;
-  letter-spacing: -0.015em;
-  color: var(--radar-ink);
-  line-height: 1.25;
-}
-.radar-on-item-meta {
-  font-size: 12px;
-  color: var(--radar-muted);
-  line-height: 1.35;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.radar-on-item-arrow {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--radar-orange);
-  transition: transform 0.16s ease, color 0.16s ease;
-}
-
-.radar-feed-lead {
-  margin: 0 0 0;
-  max-width: 34rem;
-  font-size: 0.9rem;
-  line-height: 1.55;
-  color: var(--radar-muted);
-}
-
 .radar-showcase-section {
-  margin: 0 0 48px;
+  margin: 0;
 }
 .radar-dir-head {
-  margin: 0 0 16px;
+  margin: 0 0 10px;
 }
 .radar-dir-head h2 {
   margin: 0 0 4px;
@@ -4618,7 +4551,13 @@ button.radar-on-item:hover .radar-on-item-arrow {
 
 /* Showcase cards — editorial, not SaaS */
 .radar-page .feed-list {
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+@media (max-width: 720px) {
+  .radar-page .feed-list {
+    grid-template-columns: 1fr;
+  }
 }
 button.radar-showcase-card {
   width: 100%;
@@ -4630,8 +4569,8 @@ button.radar-showcase-card {
   -webkit-appearance: none;
   background: var(--radar-elevated);
   border: 1px solid var(--radar-line);
-  border-radius: 11px;
-  padding: 16px 16px;
+  border-radius: 10px;
+  padding: 13px 14px;
   box-shadow: none;
   align-items: center;
   transition:
@@ -4685,13 +4624,19 @@ button.radar-showcase-card .nls-more-link,
 }
 
 /* Research brief */
+.radar-page.is-brief .radar-feed {
+  gap: 0;
+  padding-top: 6px;
+}
 .radar-brief {
-  max-width: 960px;
+  max-width: none;
+  width: 100%;
   padding: 4px 0 48px;
+  position: relative;
 }
 .radar-brief-back {
   display: inline-flex;
-  margin: 0 0 28px;
+  margin: 0 0 16px;
   padding: 0;
   border: 0;
   background: none;
@@ -4706,13 +4651,13 @@ button.radar-showcase-card .nls-more-link,
 
 .radar-brief-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
-  gap: 40px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(220px, 0.55fr);
+  gap: clamp(28px, 4vw, 56px);
   align-items: start;
 }
 .radar-brief-main {
   min-width: 0;
-  max-width: 40rem;
+  max-width: 44rem;
 }
 .radar-brief-head {
   margin: 0 0 4px;
@@ -4746,9 +4691,9 @@ button.radar-showcase-card .nls-more-link,
 .radar-brief-lede {
   margin: 0 0 16px;
   font-size: 1.02rem;
-  line-height: 1.65;
+  line-height: 1.6;
   color: #3a413c;
-  max-width: 36rem;
+  max-width: 40rem;
 }
 .radar-out-row {
   display: flex;
@@ -4918,30 +4863,41 @@ button.radar-showcase-card .nls-more-link,
 }
 
 /* Photographic Charminar — secondary punctuation */
-.radar-brief-photo {
+.radar-brief-art {
   margin: 0;
   position: sticky;
-  top: 88px;
+  top: 80px;
+  justify-self: end;
+  width: min(100%, 340px);
+  pointer-events: none;
 }
-.radar-brief-photo img {
+.radar-brief-art img {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  object-position: center 35%;
-  border-radius: 10px;
-  transition: transform 0.35s ease;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  object-position: center top;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  /* Sit in the page wash — no plate */
+  mix-blend-mode: multiply;
+  opacity: 0.78;
+  filter: contrast(1.05);
+  transition: opacity 0.25s ease;
 }
-.radar-brief-photo:hover img {
-  transform: scale(1.015);
+.radar-brief-art:hover img {
+  opacity: 0.88;
 }
-.radar-brief-photo figcaption {
+.radar-brief-art figcaption {
   margin-top: 8px;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--radar-faint);
+  opacity: 0.85;
 }
 
 /* Account dropdown polish on Radar */
@@ -4970,12 +4926,13 @@ body:has(.radar-page) .tn-auth-menu-item:hover {
 @media (max-width: 900px) {
   .radar-brief-layout {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 24px;
   }
-  .radar-brief-photo {
+  .radar-brief-art {
     position: static;
     order: 2;
-    max-width: 280px;
+    width: min(260px, 70vw);
+    justify-self: start;
   }
   .radar-brief-main { order: 1; }
 }
@@ -4993,12 +4950,12 @@ body:has(.radar-page) .tn-auth-menu-item:hover {
     margin-top: 6px;
     padding-left: 54px;
   }
-  .radar-brief-photo {
+  .radar-brief-art {
     max-width: none;
   }
-  .radar-brief-photo img {
-    aspect-ratio: 4 / 5;
-    max-height: 360px;
+  .radar-brief-art img {
+    aspect-ratio: 3 / 4;
+    max-height: 420px;
   }
 }
 

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-10",
+  "updatedAt": "2026-09-11",
   "headline": "Radar",
   "blurb": "Hand-picked hard-to-find employers — not an Inc42/Greenhouse scrape. Depth (founders, aliases, miss rationale) is curated research. Split by geo: Hyderabad map, San Francisco seed, full-remote Gem boards. Public Hyd map/jobs stay free.",
   "geos": {
@@ -46,10 +46,17 @@
           }
         ],
         "stealthSignals": [
+          "Careers on Gem (no public directory; not Greenhouse/Ashby)",
+          "Roles labeled Remote India / SF — fail Hyd city filters",
           "YC company listed as San Francisco; eng roles tagged Remote India / IN Remote",
           "Careers on jobs.gem.com (no public Gem directory / fails Greenhouse scrapes)"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://synthiolabs.com",
+            "note": "AI-Powered Customer Engagement for Life Sciences"
+          },
           {
             "type": "yc",
             "url": "https://www.ycombinator.com/companies/synthio-labs",
@@ -64,8 +71,8 @@
             "url": "https://inc42.com/buzz/synthio-labs-bags-5-mn-to-provide-voice-ai-to-life-sciences-industry/"
           }
         ],
-        "researchNotes": "SF-labeled YC life-sciences voice AI with Gem board + Remote India eng. Easy to miss on Hyd city ATS filters and Greenhouse aggregators.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "The intelligence layer behind modern life sciences engagement, enabling compliant, continuous conversations across HCPs, patients, and field teams YC life-sciences voice AI. Careers live on Gem with Remote India eng roles — easy to miss if you only scrape Greenhouse/Ashby. Hyderabad footprint: Hyderabad (AI).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Supreet Deshpande",
@@ -82,7 +89,7 @@
         "hard-to-find",
         "pharma"
       ],
-      "why": "Pharma track-and-trace SaaS in Kondapur. On-site Hyd hiring; not on big ATS aggregators.",
+      "why": "AI-powered pharma serialization & track-and-trace SaaS in Kondapur — on-site Hyd hiring, careers buried on the marketing site.",
       "careers": "https://altiushub.com/careers",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -102,22 +109,29 @@
           }
         ],
         "stealthSignals": [
-          "Pharma serialization SaaS — rarely on consumer startup forums",
-          "Careers on marketing site, not Greenhouse/Ashby"
+          "Careers on altiushub.com — not Greenhouse, Ashby, or Lever",
+          "Pharma serialization / regulatory-compliance niche — rarely on consumer startup forums",
+          "Kondapur pin — easy to miss in HITEC-only corridor scrapes",
+          "Small/early raise relative to Inc42 Top-N Hyd coverage"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://altiushub.com",
+            "note": "Product: serialization, track-and-trace, country compliance"
+          },
+          {
+            "type": "careers",
+            "url": "https://altiushub.com/careers"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/siddharth-reddy-241bba31",
             "note": "Co-founder @ AltiusHub, Hyderabad"
-          },
-          {
-            "type": "company",
-            "url": "https://altiushub.com/careers"
           }
         ],
-        "researchNotes": "Kondapur pharma track-and-trace; LinkedIn co-founder title verified via search snippet.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "AltiusHub is an AI-powered pharma supply-chain platform covering serialization, EPCIS track-and-trace, and multi-market regulatory reporting (US DSCSA, EU FMD, Saudi FDA, UAE Tatmeen, and more) for CMOs and MAHs. Built cloud-first on Azure. Hyderabad team in Kondapur; roles are easy to miss because hiring sits on a marketing-site careers page instead of a major ATS aggregator.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Siddharth Reddy"
@@ -131,7 +145,7 @@
         "hard-to-find",
         "robotics"
       ],
-      "why": "Funded robotics / AI team in Kondapur — careers page is easy to overlook.",
+      "why": "Kondapur physical-AI / semi-humanoid robotics team — careers page easy to overlook vs SaaS Greenhouse boards.",
       "careers": "https://www.perceptyne.com/career",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -141,7 +155,7 @@
       ],
       "aliases": [
         "Perceptyne Robots",
-        "Perceptyne Robotics"
+        "perceptyne-robots"
       ],
       "depth": {
         "founders": [
@@ -157,10 +171,21 @@
           }
         ],
         "stealthSignals": [
-          "Humanoid/industrial robotics — careers page easy to miss vs SaaS Greenhouse boards",
-          "Company LinkedIn slug perceptyne-robots (not the product domain alone)"
+          "Humanoid / industrial robotics — under-indexed vs SaaS job boards",
+          "Careers at perceptyne.com/career — not a Greenhouse scrape target",
+          "Company LinkedIn slug perceptyne-robots differs from product domain alone",
+          "Kondapur office — easy to miss if you only follow HITEC SaaS pins"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.perceptyne.com",
+            "note": "PR-OMNI semi-humanoid + Physical Intelligence stack"
+          },
+          {
+            "type": "careers",
+            "url": "https://www.perceptyne.com/career"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/raviteja-chivukula-b2637414"
@@ -168,14 +193,10 @@
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/jaggaraju"
-          },
-          {
-            "type": "company",
-            "url": "https://www.perceptyne.com/career"
           }
         ],
-        "researchNotes": "Third co-founder Mrutyunjaya N. appears in company posts; LinkedIn slug not confidently verified — omitted.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Perceptyne builds AI-driven dexterous robots for industrial workflows that still rely on human hands. Flagship PR-OMNI is a semi-humanoid with dual 7-DOF arms, multimodal sensing (vision/force/tactile), and holonomic mobility; Physical Intelligence (PR-PhI) layers modular skills, visual servoing, and tele-operation. Simulation on NVIDIA Isaac before deploy. Hyderabad base in Kondapur — hard to find if you only watch SaaS ATS aggregators.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Raviteja Chivukula",
@@ -191,7 +212,7 @@
         "zoho",
         "agritech"
       ],
-      "why": "Agritech robotics; hiring via Zoho Recruit, not Greenhouse/Lever.",
+      "why": "Hyderabad agritech laser weeder (Rakshak); hiring via Zoho Recruit, not Greenhouse — Gandi Maisamma pin.",
       "careers": "https://harvestedlabs.zohorecruit.in/jobs/Careers",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -202,7 +223,8 @@
       ],
       "aliases": [
         "Harvested Labs",
-        "Harvested"
+        "Rakshak",
+        "harvestedlabs"
       ],
       "depth": {
         "founders": [
@@ -220,9 +242,19 @@
         "stealthSignals": [
           "Zoho Recruit board (harvestedlabs.zohorecruit.in) — invisible to Greenhouse scrapers",
           "Gandi Maisamma outskirts pin — fails HITEC corridor sweeps",
-          "Domain harvestedlabs.com vs brand Harvested Robotics"
+          "Domain harvestedlabs.com vs brand Harvested Robotics",
+          "Chemical-free laser weeding niche — quiet vs consumer SaaS funding lists"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.harvestedlabs.com",
+            "note": "Rakshak tractor-mounted AI laser weeder"
+          },
+          {
+            "type": "careers",
+            "url": "https://harvestedlabs.zohorecruit.in/jobs/Careers"
+          },
           {
             "type": "directory",
             "url": "https://www.telangana.ai/startups/harvested-robotics"
@@ -230,14 +262,10 @@
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/rahul-arepaka"
-          },
-          {
-            "type": "careers",
-            "url": "https://harvestedlabs.zohorecruit.in/jobs/Careers"
           }
         ],
-        "researchNotes": "Agritech laser weeder; Arali Ventures seed per Tracxn/F6S — quiet raise vs Inc42 Top-N.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Harvested Robotics (harvestedlabs.com) designs and manufactures Rakshak, a tractor-mounted AI laser weeder trained on Indian crop/weed datasets — chemical-free, PTO-powered, retrofittable to existing tractors. Designed, developed and tested in Hyderabad (Gandi Maisamma). Hiring runs through Zoho Recruit, so the company rarely appears in Greenhouse/Ashby aggregators.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Rahul Arepaka",
@@ -252,7 +280,7 @@
         "hard-to-find",
         "hardware"
       ],
-      "why": "Edge AI silicon with a real Gachibowli office (DLF Cyber City) — often listed as US-only.",
+      "why": "Edge AI silicon with a real Gachibowli / DLF Cyber City India office — often indexed as US-only.",
       "careers": "https://www.blaize.com/careers/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -261,7 +289,8 @@
       ],
       "aliases": [
         "Blaize New Computing Technologies India Pvt Ltd",
-        "Blaize AI"
+        "Blaize AI",
+        "BZAI"
       ],
       "depth": {
         "founders": [
@@ -273,21 +302,28 @@
         ],
         "stealthSignals": [
           "US/global Blaize brand; Hyd office under India Pvt Ltd legal name",
-          "Often indexed as California-only edge AI silicon employer"
+          "Often indexed as California-only edge AI silicon employer",
+          "NASDAQ-listed parent narrative can hide the India engineering node",
+          "Gachibowli pin is the Hyd discoverability signal — not HQ Greenhouse alone"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.blaize.com",
+            "note": "Graph Streaming Processor edge AI platforms"
+          },
+          {
+            "type": "careers",
+            "url": "https://www.blaize.com/careers/"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/kkjain",
             "note": "India leadership — not global co-founder"
-          },
-          {
-            "type": "company",
-            "url": "https://www.blaize.com/careers/"
           }
         ],
-        "researchNotes": "Radar value is the Hyd India entity pin (DLF Cyber City), not another US HQ Greenhouse listing. Global founder LinkedIns not needed for Hyd discoverability story.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Blaize builds programmable, energy-efficient edge AI computing (Pathfinder / Xplorer platforms and Graph Streaming Processor architecture) for automotive, smart vision, and enterprise edge. Public company narrative is US-centric; Mapping HYD’s value is the real Hyderabad India engineering presence (Gachibowli / DLF Cyber City) that city ATS filters miss when they treat Blaize as California-only.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Kamal Jain"
@@ -302,7 +338,7 @@
         "hard-to-find",
         "space"
       ],
-      "why": "IIIT / CIE Vindhya space startup — small board, easy to miss in funding lists.",
+      "why": "Orbital compute / space data-centre startup from CIE–IIIT Hyd — small board, easy to miss in SaaS funding lists.",
       "careers": "https://www.tm2.space/about-tm2s",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -312,8 +348,9 @@
       ],
       "aliases": [
         "TM2S",
-        "TM2 Space",
-        "Take Me 2 Space"
+        "Take Me To Space",
+        "tm2.space",
+        "MOI"
       ],
       "depth": {
         "founders": [
@@ -324,21 +361,28 @@
           }
         ],
         "stealthSignals": [
-          "CIE/IIIT Vindhya incubator pin — easy to miss outside cohort lists",
-          "Orbital compute / space — small board vs SaaS funding lists"
+          "CIE / IIIT Vindhya incubator pin — easy to miss outside cohort lists",
+          "Orbital compute / space — small board vs SaaS funding listicles",
+          "Brand TakeMe2Space vs domain tm2.space",
+          "Series A / Chiratae narrative still under-covered on Hyd job boards"
         ],
         "sources": [
           {
-            "type": "linkedin",
-            "url": "https://www.linkedin.com/in/ronaksamantray"
+            "type": "company",
+            "url": "https://www.tm2.space",
+            "note": "MOI orbital compute + OrbitLab + RadShield"
           },
           {
             "type": "company",
             "url": "https://www.tm2.space/about-tm2s"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/ronaksamantray"
           }
         ],
-        "researchNotes": "Forbes 30U30 Asia / INK Fellow breadcrumbs; Hyd campus office is the map signal.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "TakeMe2Space is building orbital compute — satellites that process Earth-observation data in orbit (MOI platform, OrbitLab software, RadShield radiation coating). Demo mission completed; MOI-1A targeted for launch. Hyderabad roots via IIIT/CIE campus office. Easy to miss if you only scrape Greenhouse SaaS boards or Inc42 Top-N city lists.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Ronak Kumar Samantray"
@@ -352,7 +396,7 @@
         "hard-to-find",
         "aerospace"
       ],
-      "why": "Aerospace manufacturing outside the usual HITEC corridor — easy to skip in city-center sweeps.",
+      "why": "Ex-TASL aerospace manufacturing leadership at Kongar Khurd — outside the usual HITEC corridor.",
       "careers": "https://www.axirium.aero/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -361,32 +405,39 @@
         "funding-list"
       ],
       "aliases": [
-        "Axilor Aerospace"
+        "Axirium",
+        "Axilor"
       ],
       "depth": {
         "founders": [
           {
-            "name": "Neeraj Agarwal",
-            "role": "Co-founder",
-            "linkedin": "https://www.linkedin.com/in/neeraj-agarwal-7173031b"
-          },
-          {
             "name": "Nishant Khurana",
-            "role": "Co-founder",
+            "role": "Co-founder & CEO",
             "linkedin": "https://www.linkedin.com/in/nishantkhurana-aero"
           },
           {
+            "name": "Neeraj Agarwal",
+            "role": "Co-founder & CBO",
+            "linkedin": "https://www.linkedin.com/in/neeraj-agarwal-7173031b"
+          },
+          {
             "name": "Piyush Agarwal",
-            "role": "Co-founder",
+            "role": "Co-founder & CCO",
             "linkedin": "https://www.linkedin.com/in/piyush-agarwal-4529b825"
           }
         ],
         "stealthSignals": [
           "Aerospace manufacturing at Kongar Khurd — outside HITEC corridor",
           "Very early (2025) — absent from Inc42 Top-N city lists",
-          "Occasionally mistyped as Axilor in founder posts"
+          "Occasionally mistyped as Axilor in founder posts",
+          "Careers via careers@axirium.aero — not a public Greenhouse board"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.axirium.aero",
+            "note": "Aerostructures & aero-engines manufacturing"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/nishantkhurana-aero"
@@ -400,8 +451,8 @@
             "url": "https://www.linkedin.com/in/piyush-agarwal-4529b825"
           }
         ],
-        "researchNotes": "Ex-Tata Aerospace manufacturing leadership; outskirts pin is the miss reason.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Axirium Aerospace is a Hyderabad-region precision aerostructures and aero-engines manufacturer founded by ex-Tata Advanced Systems (TASL) leaders (CEO Nishant Khurana, CBO Neeraj Agarwal, CCO Piyush Agarwal). Capabilities span machining, sheet metal, tubes, structural sub-assemblies, and supply-chain ownership. Kongar Khurd plant is the miss reason — city-center SaaS scrapes never see it.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Neeraj Agarwal",
@@ -417,7 +468,7 @@
         "hard-to-find",
         "cleantech"
       ],
-      "why": "EV / BMS hardware at Narsingi coworking — not on mainstream ATS feeds.",
+      "why": "BharatBMS — universal BMS hardware for EVs & storage from Narsingi; not on mainstream ATS feeds.",
       "careers": "https://xbattery.energy/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -428,8 +479,8 @@
       ],
       "aliases": [
         "Xbattery",
-        "XBattery",
-        "BharatBMS"
+        "BharatBMS",
+        "Xbattery Energy"
       ],
       "depth": {
         "founders": [
@@ -450,10 +501,17 @@
           }
         ],
         "stealthSignals": [
-          "Narsingi coworking — outside HITEC corridor sweeps",
-          "Hardware BMS — careers not on major ATS aggregators"
+          "Narsingi coworking / outskirts pin — outside HITEC corridor sweeps",
+          "Hardware BMS — careers not on major ATS aggregators",
+          "Product brand BharatBMS vs company Xbattery",
+          "Seed raise via Deccan Founders breadcrumbs — quiet vs Inc42 Top-N"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://xbattery.energy",
+            "note": "BharatBMS modular BMS up to 1500V"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/satishreddyv"
@@ -472,8 +530,8 @@
             "note": "$2.3M seed mention"
           }
         ],
-        "researchNotes": "Seed raise breadcrumbs via Deccan Founders; product brand BharatBMS is an alias signal.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Xbattery Energy builds BharatBMS — a modular, India-made battery management system scaling from small ESS packs (51.2V / 72V / 110V SKUs) toward high-voltage EV and stationary storage (marketed up to 1500V). LFP/NMC cell support. Hyderabad footprint around Narsingi; hardware hiring rarely lands on Greenhouse aggregators.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Satish Reddy",
@@ -489,7 +547,7 @@
         "hard-to-find",
         "space"
       ],
-      "why": "Optical payloads for drones/space; Peeramcheru base.",
+      "why": "Indigenous EO/IR optical payloads (space, aerial, ground) from Peeramcheru — quiet vs consumer SaaS lists.",
       "careers": "https://www.eonspacelabs.com/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -499,7 +557,9 @@
       ],
       "aliases": [
         "EON Space Labs",
-        "EonSpaceLabs"
+        "Eon Space",
+        "MIRA",
+        "LUMIRA"
       ],
       "depth": {
         "founders": [
@@ -516,9 +576,16 @@
         ],
         "stealthSignals": [
           "Peeramcheru base — outskirts of usual corridor",
-          "EO/IR payload deeptech — quiet vs consumer SaaS lists"
+          "EO/IR payload deeptech — quiet vs consumer SaaS lists",
+          "Pre-Series A ~$1.2M (MGF Kavachh) — below Inc42 Top-N cutoff",
+          "iDEX / defence optics narrative under-indexed on Hyd job boards"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.eonspacelabs.com",
+            "note": "MIRA space / LUMIRA aerial / RAVEN ground EO-IR"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/manoj-kumar-02481518"
@@ -528,8 +595,8 @@
             "url": "https://www.linkedin.com/in/sanjay-kumar-esl"
           }
         ],
-        "researchNotes": "Pre-Series A ~$1.2M (MGF Kavachh) mentioned in Deccan Founders posts — below Inc42 Top-N cutoff.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "EON Space Labs engineers compact EO/IR imaging systems across space (MIRA ultra-compact telescopes for smallsats), aerial (LUMIRA gimbaled drone payloads), and ground (RAVEN). Indigenous optics focus; MIRA integrated with TakeMe2Space MOI-1 for PSLV path. Peeramcheru Hyderabad base and defence/iDEX signal make it easy to miss in corridor SaaS scrapes.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Manoj Kumar",
@@ -543,7 +610,7 @@
       "tags": [
         "hard-to-find"
       ],
-      "why": "Smart-home hardware HQ in Banjara Hills — careers buried on the marketing site.",
+      "why": "Banjara Hills premium smart-home hardware — ambience/lighting control brand easy to miss on SaaS ATS scrapes.",
       "careers": "https://www.keus.in/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -568,11 +635,18 @@
           }
         ],
         "stealthSignals": [
-          "Banjara Hills hardware HQ — not HITEC SaaS cluster",
-          "Careers buried on marketing site",
-          "Founders tied to Beam Telecom history — not obvious from brand alone"
+          "Smart-home hardware / systems integrator — under-indexed vs SaaS job boards",
+          "Banjara Hills pin — outside default HITEC corridor scrapes",
+          "Careers not on major ATS aggregators",
+          "Premium residential IoT niche — quiet on Inc42 Top-N Hyd lists",
+          "Careers buried on marketing site (no known ATS board)"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.keus.in",
+            "note": "Keus - Best Smart Home Automation Company in India"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/bansaldhruv1"
@@ -586,8 +660,8 @@
             "url": "https://www.linkedin.com/company/keus-smart-home"
           }
         ],
-        "researchNotes": "Company About notes ex-Beam Telecom promoters; smart-home hardware careers surface is weak.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Keus builds premium smart-home systems for distinctive residences — ambience, lighting, climate, curtain, and media control via Smart Console, Scene Wizard, app, and Alexa/Google. Hyderabad base in Banjara Hills with a demo studio model. Hardware/install employer that rarely appears in Greenhouse SaaS aggregators.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Dhruv Bansal",
@@ -602,7 +676,7 @@
         "hard-to-find",
         "ai"
       ],
-      "why": "Early AI healthtech at D-Labs / ISB — tiny funding, easy to skip.",
+      "why": "Early AI healthtech at D-Labs / ISB — WhatsApp-first screening; tiny raise, easy to skip.",
       "careers": "https://logy.ai/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -611,8 +685,8 @@
         "funding-list"
       ],
       "aliases": [
-        "Logy AI",
-        "Logy.ai"
+        "LogyAI",
+        "Logy AI"
       ],
       "depth": {
         "founders": [
@@ -624,20 +698,23 @@
         ],
         "stealthSignals": [
           "D-Labs / ISB campus incubator pin",
-          "Early AI healthtech — tiny raise, easy to skip on funding lists"
+          "Early AI healthtech — tiny raise, easy to skip on funding lists",
+          "WhatsApp-first product surface — not a classic careers ATS brand",
+          "Gachibowli / campus address can look non-commercial in map filters"
         ],
         "sources": [
           {
-            "type": "linkedin",
-            "url": "https://www.linkedin.com/in/priyanjitghosh"
+            "type": "company",
+            "url": "https://logy.ai/",
+            "note": "AI digital health screening"
           },
           {
-            "type": "company",
-            "url": "https://logy.ai/"
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/priyanjitghosh"
           }
         ],
-        "researchNotes": "WhatsApp-first digital screening; incubator address is the Hyd discoverability hook.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Logy.AI builds early-stage AI health screening experiences with a WhatsApp-first distribution angle, incubated around D-Labs / ISB in Hyderabad. Small funding footprint and campus pin mean it rarely shows up in Inc42 Top-N or Greenhouse-heavy Hyd employer scrapes — useful for talent looking beyond obvious SaaS brands.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Priyanjit Ghosh"
@@ -975,10 +1052,18 @@
           }
         ],
         "stealthSignals": [
+          "US/global brand; Hyd office under India entity name",
+          "Small/early raise — below Inc42 Top-N paywall cutoff",
+          "Careers buried on marketing site (no known ATS board)",
           "US HQ / Durham narrative; CIE IIIT-H Hyd office under India entity",
           "Careers#openroles hash on marketing site"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://gtmbuddy.ai",
+            "note": "Revenue Activation Engine for Agentic Sales | GTM Buddy"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/sreedharpeddineni"
@@ -992,8 +1077,8 @@
             "url": "https://gtmbuddy.ai/careers#openroles"
           }
         ],
-        "researchNotes": "Ex-Gainsight founder signal; Hyd eng leadership visible on LinkedIn location fields.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Activate reps who think, adapt, and close with autonomy. GTM Buddy turns enablement into a revenue activation engine with real-time deal guidance. US-HQ GTM SaaS with a real CIE/IIIT-H Hyd office and careers#openroles — easy to miss as Durham-only. Hyderabad footprint: Gachibowli, Hyderabad (SaaS).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Sreedhar Peddineni",
@@ -1031,6 +1116,8 @@
           }
         ],
         "stealthSignals": [
+          "Small/early raise — below Inc42 Top-N paywall cutoff",
+          "Careers buried on marketing site (no known ATS board)",
           "Connected fitness hardware — Inc42 healthtech list but marketing-site careers",
           "Banjara Hills office vs HITEC SaaS defaults"
         ],
@@ -1044,8 +1131,8 @@
             "url": "https://portl.co/"
           }
         ],
-        "researchNotes": "Legal name PORTL TECHNOLOGIES INC; product brand Portl.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Portl's premium smart home gym brings AI-guided workouts and real resistance home. Studio-quality fitness — explore UltraGym & the Studio AI mirror. Inc42 healthtech Hyd list; Banjara Hills office with careers on the marketing site. Hyderabad footprint: Banjara Hills, Hyderabad (Healthtech).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Indraneel Gupta"
@@ -1059,7 +1146,7 @@
         "hard-to-find",
         "healthtech"
       ],
-      "why": "Inc42 healthtech Hyd; Begumpet office with careers.php openings outside major ATS.",
+      "why": "Pheezee med-device physiotherapy tech from Paigah Colony / Begumpet — careers.php, not Greenhouse.",
       "careers": "https://startoonlabs.com/careers.php#point11",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -1068,8 +1155,8 @@
         "marketing-careers"
       ],
       "aliases": [
-        "Startoon Labs Inc",
-        "Pheezee"
+        "Pheezee",
+        "Startoon"
       ],
       "depth": {
         "founders": [
@@ -1081,21 +1168,27 @@
         ],
         "stealthSignals": [
           "Med-device careers.php surface — not Greenhouse",
-          "Begumpet / Paigah Colony — outside HITEC corridor defaults",
-          "Product alias Pheezee"
+          "Paigah Colony / SP Road Secunderabad — outside HITEC corridor defaults",
+          "Product alias Pheezee vs company Startoon Labs",
+          "BIRAC / MSME med-device narrative under-indexed on startup job boards"
         ],
         "sources": [
           {
-            "type": "linkedin",
-            "url": "https://www.linkedin.com/in/sureshsusurla"
+            "type": "company",
+            "url": "https://startoonlabs.com",
+            "note": "Pheezee joint/muscle assessment device"
           },
           {
             "type": "careers",
             "url": "https://startoonlabs.com/careers.php#point11"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/sureshsusurla"
           }
         ],
-        "researchNotes": "Tracxn also lists Mythreyi Kondapi Susurla and Chandrakanth Reddy Kancharla — LinkedIns not verified this pass.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Startoon Labs is a Hyderabad med-device company behind Pheezee, a US FDA 510(k)-exempt movement-assessment device that digitizes physiotherapy joint and muscle testing. HQ listed at Paigah Colony, SP Road, Secunderabad (Begumpet-adjacent on the map). Roles posted on careers.php — invisible to Ashby/Greenhouse scrapers.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Suresh Susurla"
@@ -1109,7 +1202,7 @@
         "hard-to-find",
         "ai"
       ],
-      "why": "HITEC edge-AI team with a marketing careers surface, not a Greenhouse/Ashby board.",
+      "why": "Low-code edge deep-learning platform (train-in-cloud, deploy-on-edge) with a Hyd engineering node often overshadowed by US address.",
       "careers": "https://www.deepedge.ai/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -1135,10 +1228,18 @@
           }
         ],
         "stealthSignals": [
-          "Pleasanton CA HQ narrative; Hyd HITEC engineering team easy to miss",
-          "Marketing careers surface — not Ashby/Greenhouse"
+          "US Pleasanton address dominates search — Hyd node easy to miss",
+          "Edge ML tooling niche — not a classic Greenhouse SaaS brand in Hyd lists",
+          "HITEC City pin under-indexed vs consumer startup directories",
+          "Platform + services model — hiring signal quieter than product-app startups",
+          "Careers buried on marketing site (no known ATS board)"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.deepedge.ai",
+            "note": "DeepEdge"
+          },
           {
             "type": "company",
             "url": "https://deepedge.ai/company/about/",
@@ -1154,8 +1255,8 @@
             "note": "Co-Founder & CEO DeepEdge posts"
           }
         ],
-        "researchNotes": "Anup Mehta LinkedIn headline currently shows MetaFloor AI — LinkedIn omitted until DeepEdge affiliation re-verified. Ravindra LI lists DeepEdge.ai + Hyderabad.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "DeepEdge is an integrated low-code/no-code deep-learning platform for edge applications — DeepData, DeepLabel, DeepTrain, DeepDeploy — training in the cloud and deploying to Ambarella, Xilinx, Intel, NVIDIA, and ARM. Public face often reads Pleasanton CA; Mapping HYD value is the Hyderabad / HITEC engineering presence that city ATS filters miss when they treat DeepEdge as US-only.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Ravindra Adapa",
@@ -1171,7 +1272,7 @@
         "hard-to-find",
         "iot"
       ],
-      "why": "Madhapur IoT employer with /company/careers outside Greenhouse/Ashby aggregators.",
+      "why": "Aviation connected-operations / turnaround IoT from HITEC City — global airline deployments, easy to miss in consumer SaaS lists.",
       "careers": "https://www.zestiot.com/company/careers/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -1181,7 +1282,7 @@
       ],
       "exclusiveTier": "watch",
       "tierNote": "Core-worthy vertical; needs depth block within 30 days.",
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1196,10 +1297,18 @@
           }
         ],
         "stealthSignals": [
-          "Aviation IoT/AI — industry registries over startup aggregators",
-          "HITEC office; careers on marketing site"
+          "Aviation / ground-handling vertical — under-indexed on consumer SaaS boards",
+          "NL entity + global airline narrative can hide Hyd HQ",
+          "HITEC address still easy to miss if you only scrape Inc42 Top-N product apps",
+          "IoT hardware+software ops platform — not Greenhouse-native hiring brand",
+          "Small/early raise — below Inc42 Top-N paywall cutoff"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.zestiot.com",
+            "note": "Zestiot | Zestiot"
+          },
           {
             "type": "company",
             "url": "https://www.zestiot.com/company/team-about-us/",
@@ -1211,12 +1320,17 @@
             "note": "Posts as ZestIoT Founder & CEO"
           }
         ],
-        "researchNotes": "CEO full name from company LinkedIn post; LI slug verified via posts. Eng director name-only until LI verified.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "ZestIoT builds an IoT-and-AI connected-operations platform for airlines, airports, and ground handlers — turnaround management, resource allocation, SmartBoarding, and connected passenger services. HQ listed at JVP Building, HITEC City, Hyderabad, with NL entity. Serious aviation ops employer that consumer Hyd startup scrapes routinely skip.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Amit Sukhija",
         "Chiranjeevi"
+      ],
+      "aliases": [
+        "ZestIoT",
+        "Zest IoT",
+        "ZestIOT Technologies"
       ]
     },
     {
@@ -1245,6 +1359,8 @@
           }
         ],
         "stealthSignals": [
+          "Small/early raise — below Inc42 Top-N paywall cutoff",
+          "Careers buried on marketing site (no known ATS board)",
           "Tracxn AI deeptech Hyd listing; Madhapur office not on Greenhouse aggregators",
           "US Bay Area founder narrative + Hyd delivery team"
         ],
@@ -1258,8 +1374,8 @@
             "url": "https://www.supervity.ai/"
           }
         ],
-        "researchNotes": "Additional founders may exist; only LI-verified co-founder included this pass.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Supervity offers enterprise-grade AI Employees that work alongside human teams to run workflows, assist decisions, and operate business functions from a central AI Command Center. Tracxn AI deeptech Hyd; Madhapur office not on Greenhouse/Ashby aggregators. Hyderabad footprint: Madhapur, Hyderabad (AI).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Vijay Navaluri"
@@ -1273,7 +1389,7 @@
         "hard-to-find",
         "pharma"
       ],
-      "why": "Inc42 healthtech leftover; ALEAP/Gajularamaram site outside HITEC corridor bias.",
+      "why": "Complex/specialty generics CDMO-style R&D in ALEAP / Kukatpally — pharma partner shop, not a SaaS careers brand.",
       "careers": "https://www.orbicular.co.in/careers/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -1284,7 +1400,7 @@
       ],
       "exclusiveTier": "watch",
       "tierNote": "Deep Roots research anchor; needs depth pass.",
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1299,10 +1415,18 @@
           }
         ],
         "stealthSignals": [
-          "Genome Valley / complex generics R&D — Deep Roots industrial, not HITEC SaaS lists",
-          "Team published on company site; careers on marketing site"
+          "Complex generics / specialty pharma R&D — not on SaaS job aggregators",
+          "ALEAP / Kukatpally industrial pin — outside corridor SaaS sweeps",
+          "Partner-licensing CDMO model — quiet hiring brand vs product startups",
+          "Marketing-site careers surface if any — fails Ashby/Greenhouse",
+          "Office outside HITEC/Gachibowli corridor"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.orbicular.co.in",
+            "note": "Orbicular Pharmaceutical Technologies"
+          },
           {
             "type": "company",
             "url": "https://www.orbicular.co.in/our-team/",
@@ -1317,12 +1441,16 @@
             "url": "https://www.linkedin.com/in/hiren-patel-59017819"
           }
         ],
-        "researchNotes": "Leadership from orbicular.co.in/our-team; LinkedIns matched via search + company titles.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Orbicular Pharmaceutical Technologies develops niche and specialty generic dosage forms — complex injectables, topicals, ophthalmics, nasal sprays, inhalations — for global licensing partners. ALEAP Industrial Estate, Kukatpally / Gajularamaram Hyderabad footprint. Pharma R&D employer that fails SaaS ATS and Inc42 consumer scrapes.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Dr. M.S. Mohan",
         "Dr. Hiren Patel"
+      ],
+      "aliases": [
+        "Orbicular",
+        "Orbicular Pharma"
       ]
     },
     {
@@ -1332,7 +1460,7 @@
         "healthtech",
         "incubator"
       ],
-      "why": "BlueSemi health wearable brand (eyva.io) at T-Hub Catalyst / IIIT-H — easy to confuse with eyva.ai and miss on ATS aggregators.",
+      "why": "Touch-based metabolic wellness device from T-Hub / Gachibowli — consumer healthtech easy to miss on SaaS ATS scrapes.",
       "careers": "https://eyva.io/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -1342,12 +1470,12 @@
         "funding-list"
       ],
       "aliases": [
-        "BlueSemi",
-        "EYVA by BlueSemi"
+        "EYVA",
+        "EYVA Pro"
       ],
       "exclusiveTier": "watch",
       "tierNote": "High novelty; needs founders + clinical-positioning clarity.",
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1357,8 +1485,10 @@
           }
         ],
         "stealthSignals": [
-          "CIE / IIIT-H incubator pin — easy to miss outside cohort lists",
-          "Wellness hardware + AI; marketing-site careers"
+          "Consumer wellness hardware — under-indexed vs SaaS Hyd lists",
+          "T-Hub / Gachibowli incubator address — easy to miss as non-commercial",
+          "Brand EYVA vs company naming fragments search",
+          "Careers not on major ATS aggregators"
         ],
         "sources": [
           {
@@ -1375,8 +1505,8 @@
             "url": "https://tracxn.com/d/companies/eyva/__fdqkIkAGqcSYF5buP6b1S-BqoUl3V2wIAsoMn4312-s"
           }
         ],
-        "researchNotes": "Founder LinkedIn + Tracxn Hyd seed confirmation. Catalyst/incubator path.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Eyva builds EYVA / EYVA Pro — a Made-in-India touch-based metabolic wellness device that reads metabolic, cardiovascular, and respiratory signals in a 60-second thumb scan (consumer wellness, not a medical device). Registered/corporate addresses around T-Hub / IIIT Gachibowli. Hardware+app healthtech employer that Greenhouse-heavy Hyd scrapes often skip.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Sunil Maddikatla"
@@ -1402,7 +1532,7 @@
       ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1422,18 +1552,25 @@
           }
         ],
         "stealthSignals": [
+          "Incubator / CIE / T-Hub / D-Labs pin — easy to miss outside cohort lists",
+          "Careers buried on marketing site (no known ATS board)",
           "BioNEST / UoH incubator",
           "US–India genomic medicines; Hyd R&D node"
         ],
         "sources": [
           {
             "type": "company",
+            "url": "https://helex.bio",
+            "note": "Helex | Home"
+          },
+          {
+            "type": "company",
             "url": "https://www.helex.bio/about",
             "note": "Official about page with LinkedIn links"
           }
         ],
-        "researchNotes": "Founders + LinkedIns scraped from helex.bio/about.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Revolutionizing genomic medicines. Inspired by patients, directed by nature’s intelligence. BioNEST UoH gene-therapy / kidney LNP — university incubator scrapers miss; not on Greenhouse Hyd lists. Hyderabad footprint: Gachibowli, Hyderabad (Deeptech).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Poulami Chaudhuri",
@@ -1447,7 +1584,7 @@
         "hard-to-find",
         "defense"
       ],
-      "why": "Counter-UAS / airspace defense — absent from consumer startup forums; Hyd infrastructure story.",
+      "why": "AI autonomous counter-drone / C-UAS defense from Somajiguda — defence deeptech easy to miss on consumer boards.",
       "careers": "https://www.indrajaal.in/careers",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -1455,10 +1592,14 @@
         "outskirts",
         "funding-list"
       ],
-      "aliases": [],
+      "aliases": [
+        "Indrajaal Defense",
+        "SkyOS",
+        "Zombee"
+      ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1468,9 +1609,18 @@
           }
         ],
         "stealthSignals": [
-          "Defense counter-UAS; not Inc42 Top-N SaaS"
+          "Defence / C-UAS vertical — under-indexed on consumer startup job boards",
+          "Somajiguda office — outside HITEC corridor defaults",
+          "Product suite sprawl (Ranger, Zombee, SkyOS) fragments search",
+          "Careers not on Greenhouse/Ashby aggregators",
+          "Office outside HITEC/Gachibowli corridor"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.indrajaal.in",
+            "note": "Indrajaal | AI-Powered Autonomous Anti-Drone Defense system"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/kiranpenumacha"
@@ -1480,8 +1630,8 @@
             "url": "https://indrajaal.in/team/"
           }
         ],
-        "researchNotes": "CEO LinkedIn title matches company team page.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Indrajaal builds AI-powered autonomous anti-drone defense — soft-kill (jamming/spoofing/cyber takeover) and hard-kill (Zombee interceptors), plus SkyOS C5ISRT command software. Product lines span Infra, Military, Ranger, Maritime, Border, Urban. Registered office in Somajiguda, Hyderabad. Defence deeptech employer that consumer SaaS scrapes never surface.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Kiran Raju"
@@ -1507,7 +1657,7 @@
       ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1517,6 +1667,8 @@
           }
         ],
         "stealthSignals": [
+          "Incubator / CIE / T-Hub / D-Labs pin — easy to miss outside cohort lists",
+          "Careers buried on marketing site (no known ATS board)",
           "T-Hub space; active debris removal niche"
         ],
         "sources": [
@@ -1529,8 +1681,8 @@
             "url": "https://cosmoserve.space/"
           }
         ],
-        "researchNotes": "Founder & CEO LinkedIn Hyd + former ISRO scientist signal.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Protecting Satellites and Orbits with Cutting Edge ADR Solutions Learn more Our vision and technology Future of Space with Advanced […] Orbital debris / in-orbit servicing — T-Hub space cohort; marketing #Careers anchor only. Hyderabad footprint: Madhapur, Hyderabad (Deeptech).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Chiranjeevi Phanindra B"
@@ -1556,7 +1708,7 @@
       ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1571,9 +1723,16 @@
           }
         ],
         "stealthSignals": [
+          "Office outside HITEC/Gachibowli corridor",
+          "Careers buried on marketing site (no known ATS board)",
           "Defense RF/EW hardware; Hyd deeptech"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.constelli.com",
+            "note": "Constelli - A Signal Processing Company in Defense and Aerospace"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/satya-gopal"
@@ -1583,8 +1742,8 @@
             "url": "https://www.linkedin.com/in/avinashchenreddy"
           }
         ],
-        "researchNotes": "CEO + CTO LinkedIns with Constelli titles.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Constelli is a signal processing company solving problems in Defense and Aerospace fields. RF/EW test & radar simulators — supplier registries, not startup listicles. Hyderabad footprint: Madhapur, Hyderabad (Deeptech).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Satya Gopal",
@@ -1607,7 +1766,7 @@
       "aliases": [],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1617,7 +1776,9 @@
           }
         ],
         "stealthSignals": [
-          "No Greenhouse/Ashby; LinkedIn hiring"
+          "Careers buried on marketing site (no known ATS board)",
+          "No Greenhouse/Ashby; LinkedIn hiring",
+          "Field / humanoid robotics — LinkedIn-only hiring surface; no public ATS."
         ],
         "sources": [
           {
@@ -1630,8 +1791,8 @@
             "url": "https://www.anvirobotics.com/"
           }
         ],
-        "researchNotes": "Public founder title not confirmed on About — recorded as Leadership with verified LI; upgrade when company lists founders.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Anvi Robotics is a global AI and robotics company building humanoid and semi-humanoid. We empower enterprises with autonomous navigation, LiDAR + SLAM, and intelligent control dashboards for smarter, safer, and faster operations. Field / humanoid robotics — LinkedIn-only hiring surface; no public ATS. Hyderabad footprint: Madhapur, Hyderabad (Deeptech).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Ramya Ramachandrula"
@@ -1644,7 +1805,7 @@
         "healthtech",
         "hardware"
       ],
-      "why": "Med robotics / KalArm bionic hand — Inc42 once then quiet; manufacturing depth.",
+      "why": "HITEC deeptech / makers hardware — small board easy to skip in SaaS-heavy Hyd scrapes.",
       "careers": "https://www.makershive.com/careers",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -1658,7 +1819,7 @@
       ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1668,16 +1829,25 @@
           }
         ],
         "stealthSignals": [
-          "Bionic hardware; not SaaS aggregators"
+          "Hardware / makers deeptech — under-indexed on SaaS boards",
+          "Small board — easy to skip in funding-list scrapes",
+          "HITEC pin still missed when scrapers filter for Greenhouse-only",
+          "Quiet careers surface vs consumer product startups",
+          "Careers buried on marketing site (no known ATS board)"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.makershive.com",
+            "note": "Makers Hive"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/pranav-vempati-245176175"
           }
         ],
-        "researchNotes": "CEO LinkedIn title CEO at Makers Hive.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Makers Hive is a Hyderabad deeptech/hardware employer pinned in HITEC City. Useful Radar signal for hardware-leaning talent; careers and brand presence stay quieter than SaaS peers on major ATS aggregators.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Pranav Vempati"
@@ -1690,7 +1860,7 @@
         "healthtech",
         "ai"
       ],
-      "why": "Digital pathology hardware–AI — map pin existed without Radar depth.",
+      "why": "Yousufguda healthtech / med-data — non-corridor pin, easy to miss on HITEC-only maps.",
       "careers": "https://vyuhaa.com",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -1702,7 +1872,7 @@
       ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1717,9 +1887,18 @@
           }
         ],
         "stealthSignals": [
-          "Pathology edge devices; quiet vs consumer healthtech lists"
+          "Yousufguda pin — fails HITEC corridor-only sweeps",
+          "Healthtech/med-data niche — under-indexed vs consumer SaaS",
+          "Small board / quiet careers surface",
+          "Not on major ATS aggregators",
+          "Careers buried on marketing site (no known ATS board)"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://vyuhaa.com",
+            "note": "Vyuhaa Med Data"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/madhusudancp"
@@ -1729,8 +1908,8 @@
             "url": "https://www.linkedin.com/in/dhritimanmallick"
           }
         ],
-        "researchNotes": "Leadership LinkedIns with Vyuhaa Med Data experience; exact founder titles soft.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Vyuhaa Med Data is a Hyderabad healthtech/med-data employer with a Yousufguda footprint. Non-corridor location plus quieter brand means it rarely appears in Greenhouse-heavy or HITEC-only startup scrapes.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Madhusudan CP",
@@ -1759,7 +1938,7 @@
       ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1774,9 +1953,16 @@
           }
         ],
         "stealthSignals": [
+          "Small/early raise — below Inc42 Top-N paywall cutoff",
+          "alias",
           "Alias/rebrand Equal AI ↔ Equal Identity"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.equal.in",
+            "note": "Equal - India's Most Advanced Data Sharing Platform"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/keshavreddy"
@@ -1786,8 +1972,8 @@
             "url": "https://www.linkedin.com/in/rajeevjranjan"
           }
         ],
-        "researchNotes": "Founders from LinkedIn titles Equal AI / Equal Identity; map pin is Equal Identity.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Equal is India's Most Advanced Data Sharing Platform. It is a platform that allows you to share your data with others in a secure and private way. Equal AI / Equal Identity alias trap — financial-data consent infra; easy to miss under either brand. Hyderabad footprint: Madhapur, Hyderabad (Fintech).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Keshav Reddy",
@@ -1813,7 +1999,7 @@
       ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1823,7 +2009,9 @@
           }
         ],
         "stealthSignals": [
-          "Campus / incubator pin; defense-space niche"
+          "Incubator / CIE / T-Hub / D-Labs pin — easy to miss outside cohort lists",
+          "Campus / incubator pin; defense-space niche",
+          "Reusable launch / rocket engines — BITS Pilani Hyd campus pin defeats corridor sweeps."
         ],
         "sources": [
           {
@@ -1835,8 +2023,8 @@
             "url": "https://www.abyom.com/"
           }
         ],
-        "researchNotes": "Founder & CEO LinkedIn + Forbes 30U30 Asia/India signal.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Abyom SpaceTech & Defence builds India's indigenous reusable launch vehicles and the AbyoKalaM engine family — sovereign, affordable access to orbit. Reusable launch / rocket engines — BITS Pilani Hyd campus pin defeats corridor sweeps. Hyderabad footprint: BITS Pilani Hyderabad Campus (Deeptech).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Jainul Abedin"
@@ -1861,7 +2049,7 @@
       ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1871,17 +2059,24 @@
           }
         ],
         "stealthSignals": [
+          "Office outside HITEC/Gachibowli corridor",
+          "Careers buried on marketing site (no known ATS board)",
           "Non-corridor medtech; cough/breath AI"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://docturnal.com",
+            "note": "Home - Docturnal"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/rpathri",
             "note": "Founder at Docturnal (Hyderabad/Austin)"
           }
         ],
-        "researchNotes": "Founder LinkedIn self-describes Docturnal Hyd/Austin.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Docturnal products are designed to make detection of respiratory ailments easy, affordable and in real time (20 seconds) Sanath Nagar respiratory AI (TimBre) — outskirts + LinkedIn hiring. Hyderabad footprint: Sanath Nagar, Hyderabad (Healthtech).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Rahul Pathri"
@@ -1894,7 +2089,7 @@
         "healthtech",
         "hardware"
       ],
-      "why": "Medical instrumentation / electrolytes analyzers — Genome Valley industrial Deep Roots.",
+      "why": "Indian IVD / POCT diagnostics manufacturer (Pashamylaram / Sultanpur belt) — med-device plant, not a SaaS board.",
       "careers": "https://www.sensacore.com/",
       "jobMode": "hyd-office",
       "geo": "hyd",
@@ -1903,11 +2098,12 @@
         "marketing-careers"
       ],
       "aliases": [
-        "SensaCore"
+        "SensaCore",
+        "Sensacore"
       ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1917,16 +2113,25 @@
           }
         ],
         "stealthSignals": [
-          "Industrial med device; not SaaS lists"
+          "IVD / POCT manufacturing — absent from SaaS ATS aggregators",
+          "Pashamylaram / Sultanpur industrial pin — fails HITEC-only sweeps",
+          "Born-in-India med-device brand — quiet on Inc42 consumer lists",
+          "Plant + R&D hiring signal under-indexed vs product-app startups",
+          "Office outside HITEC/Gachibowli corridor"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.sensacore.com",
+            "note": "Sensa Core | About us | POCT Devices | IVD Products"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/ravimeruva"
           }
         ],
-        "researchNotes": "Chairman/Founder/CEO LinkedIn title.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Sensa Core designs and manufactures in-vitro diagnostics and point-of-care devices — blood gas, electrolyte, glucose, lactate, hemoglobin analyzers — with large global install base. Manufacturing/R&D in the Pashamylaram EPIP / Sangareddy belt near Hyderabad. Classic hard-to-find med-device employer for Hyd talent maps.",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Dr. Ravi Kumar Meruva"
@@ -1951,7 +2156,7 @@
       ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -1966,9 +2171,16 @@
           }
         ],
         "stealthSignals": [
+          "Office outside HITEC/Gachibowli corridor",
+          "Careers buried on marketing site (no known ATS board)",
           "Water-from-air hardware; industrial"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.maithriaqua.com",
+            "note": "Atmospheric Pure Water Generator | Maithri Aquatech"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/ramkrishna-mukkavilli"
@@ -1978,8 +2190,8 @@
             "url": "https://www.linkedin.com/in/naveen-mathur-2b029533"
           }
         ],
-        "researchNotes": "Founder MD + CEO LinkedIns.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Maithri Aquatech is a water company that has built the MEGHDOOT Water Filter Machines. The technology used is based on - Atmospheric Water Generation (AWG) and is capable of generating and purifying water from the air. There is zero reliance on existing water resources and zero water wastage. Atmospheric water generators — industrial cleantech off corridor startup scrapes. Hyderabad footprint: Cherlapalli, Hyderabad (Cleantech).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Ramkrishna Mukkavilli",
@@ -2004,7 +2216,7 @@
       ],
       "exclusiveTier": "watch",
       "onMap": true,
-      "verifyStatus": "evidence-attached",
+      "verifyStatus": "published",
       "depth": {
         "founders": [
           {
@@ -2014,9 +2226,16 @@
           }
         ],
         "stealthSignals": [
-          "Own careers subdomain; genomics depth"
+          "Careers buried on marketing site (no known ATS board)",
+          "Own careers subdomain; genomics depth",
+          "Consumer genomics — on map + careers but never Radar-enriched; marketing careers site."
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://mapmygenome.in",
+            "note": "DNA Test India for Longevity, Health & Wellness – Mapmygenome"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/anuacharya"
@@ -2026,8 +2245,8 @@
             "url": "https://careers.mapmygenome.in/view-jobs"
           }
         ],
-        "researchNotes": "CEO LinkedIn title Mapmygenome.",
-        "lastVerified": "2026-09-09"
+        "researchNotes": "Take a personalized DNA test with MapmyGenome. Discover genetic insights for health, wellness, nutrition, fitness, longevity and disease prevention. Consumer genomics — on map + careers but never Radar-enriched; marketing careers site. Hyderabad footprint: Madhapur, Hyderabad (HealthTech).",
+        "lastVerified": "2026-09-11"
       },
       "founderNames": [
         "Anuradha Acharya"
@@ -2050,10 +2269,11 @@
         "funding-list",
         "marketing-careers"
       ],
-      "why": "Full-stack small-sat / space engineering from Begumpet — real Hyd HQ that corridor SaaS scrapes miss.",
+      "why": "Full-stack small-sat / space engineering HQ in Begumpet — real Hyd employer corridor SaaS scrapes miss.",
       "careers": "https://www.dhruvaspace.com/careers",
       "aliases": [
-        "Dhruvaspace"
+        "DhruvaSpace",
+        "Dhruva Space Pvt Ltd"
       ],
       "founderNames": [
         "Sanjay Nekkanti",
@@ -2073,23 +2293,29 @@
           }
         ],
         "stealthSignals": [
-          "Begumpet / non-HITEC pin — fails corridor-only sweeps",
-          "Space engineering — under-indexed vs consumer SaaS listicles"
+          "Begumpet / White House pin — fails HITEC-corridor-only sweeps",
+          "Space platforms + launch + ground stations — under-indexed vs consumer SaaS listicles",
+          "Published careers exist but brand is easy to skip in city ATS filters",
+          "Austria GmbH presence can confuse India HQ searches"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.dhruvaspace.com",
+            "note": "Satellites, launch solutions, ground stations; Begumpet HQ address"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/sanjaynekkanti",
             "note": "CEO LinkedIn"
           },
           {
-            "type": "company",
-            "url": "https://www.dhruvaspace.com",
-            "note": "Company site"
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/krishna-teja-penamakuru"
           }
         ],
-        "researchNotes": "Hyd space employer with published careers; easy to skip if you only scrape Greenhouse in Gachibowli.",
-        "lastVerified": "2026-09-10"
+        "researchNotes": "Dhruva Space offers full-stack space engineering — satellite platforms, launch dispensers, ground stations, solar arrays, and imagery services — from Begumpet (White House, Hyderabad). Applications span IoT, EO, communications, and national security. A serious Hyd space employer that corridor-only SaaS scrapes routinely miss.",
+        "lastVerified": "2026-09-11"
       }
     },
     {
@@ -2109,10 +2335,10 @@
         "marketing-careers",
         "funding-list"
       ],
-      "why": "Precision aerospace manufacturing for global OEMs — Hyd plant with US founder narrative; not on Greenhouse aggregators.",
+      "why": "Precision aerospace manufacturing for global OEMs — Hyd plant with US founder narrative; marketing-site careers.",
       "careers": "https://www.jehaerospace.com/careers",
       "aliases": [
-        "Jeh Aerospace",
+        "JEH",
         "JEH Aero"
       ],
       "founderNames": [
@@ -2134,22 +2360,28 @@
         ],
         "stealthSignals": [
           "US/Atlanta founder narrative + India manufacturing node",
-          "Marketing-site careers — fails Ashby/Greenhouse scrapes"
+          "Marketing-site careers — fails Ashby/Greenhouse scrapes",
+          "Precision aero manufacturing — under-indexed vs SaaS Hyd lists",
+          "Hyd plant pin easy to miss if you only follow product-company directories"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.jehaerospace.com",
+            "note": "Aerospace manufacturing"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/vishal-sanghavi-7077a89",
             "note": "CEO LinkedIn"
           },
           {
-            "type": "company",
-            "url": "https://www.jehaerospace.com",
-            "note": "Company site"
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/venkatesh-mudragalla-5b369717"
           }
         ],
-        "researchNotes": "Hard-to-find Hyd manufacturing employer for aerospace supply chain roles.",
-        "lastVerified": "2026-09-10"
+        "researchNotes": "JEH Aerospace is a precision aerospace manufacturing employer serving global OEM supply chains, with a Hyderabad manufacturing node and a US-facing founder narrative. Hard to find on Greenhouse aggregators because careers sit on the company marketing surface — a classic Mapping HYD Radar miss for hardware/manufacturing talent.",
+        "lastVerified": "2026-09-11"
       }
     },
     {
@@ -2192,6 +2424,8 @@
           }
         ],
         "stealthSignals": [
+          "Careers buried on marketing site (no known ATS board)",
+          "Small/early raise — below Inc42 Top-N paywall cutoff",
           "Biopharma AI — skipped by consumer SaaS listicles",
           "Own careers surface vs major ATS aggregators"
         ],
@@ -2207,8 +2441,8 @@
             "note": "Company site"
           }
         ],
-        "researchNotes": "Strong Hyd AI/deeptech employer that map users still miss without Radar.",
-        "lastVerified": "2026-09-10"
+        "researchNotes": "Aganitha partners with global biopharma to bring better medicines to market faster. Gachibowli in-silico biopharma AI — deep science stack; careers on marketing site, not Greenhouse. Hyderabad footprint: Gachibowli, Hyderabad (AI).",
+        "lastVerified": "2026-09-11"
       }
     },
     {
@@ -2249,6 +2483,8 @@
           }
         ],
         "stealthSignals": [
+          "Careers buried on marketing site (no known ATS board)",
+          "Small/early raise — below Inc42 Top-N paywall cutoff",
           "Climate / waste-tech — not Inc42 Top-N SaaS default",
           "Marketing careers page"
         ],
@@ -2264,8 +2500,8 @@
             "note": "Company site"
           }
         ],
-        "researchNotes": "Hyd climate infra employer with a real careers surface that aggregators under-index.",
-        "lastVerified": "2026-09-10"
+        "researchNotes": "Driving behavioural change for one billion people. Circular-economy / waste marketplace SaaS from Gachibowli — climate ops hiring outside Greenhouse feeds. Hyderabad footprint: Gachibowli, Hyderabad (Other).",
+        "lastVerified": "2026-09-11"
       }
     },
     {
@@ -2285,12 +2521,12 @@
         "marketing-careers",
         "funding-list"
       ],
-      "why": "EV / battery energy storage (PuR Energy) HQ in Secunderabad — hardware mobility hiring off HITEC corridor scrapes.",
+      "why": "PuREPower lithium storage / solar energy products from Secunderabad — hardware cleantech, not Greenhouse SaaS.",
       "careers": "https://www.pureev.in/careers",
       "aliases": [
-        "PURE EV",
-        "PuR Energy",
-        "PURE Energy"
+        "PuREPower",
+        "PURE Energy",
+        "PureEV"
       ],
       "founderNames": [
         "Nishanth Dongari",
@@ -2309,8 +2545,11 @@
           }
         ],
         "stealthSignals": [
-          "Secunderabad / IIT-H faculty-founder story — not HITEC SaaS cluster",
-          "Hardware EV careers on marketing site"
+          "Energy-storage hardware — under-indexed vs SaaS Hyd lists",
+          "Secunderabad pin — outside default Gachibowli corridor scrapes",
+          "Dealer/distribution GTM — careers quieter than product SaaS brands",
+          "Brand Pure EV vs PuREPower product line can fragment search",
+          "Office outside HITEC/Gachibowli corridor"
         ],
         "sources": [
           {
@@ -2324,8 +2563,8 @@
             "note": "Company site"
           }
         ],
-        "researchNotes": "Hardware EV employer that fresher/eng searches miss when filtered to HITEC Greenhouse boards.",
-        "lastVerified": "2026-09-10"
+        "researchNotes": "Pure EV / PuREPower sells lithium battery, solar inverter, and energy-storage products for home, commercial, and grid use — Made-in-India cleantech hardware with a Secunderabad / Hyd footprint. Dealer-network go-to-market. Easy to miss if you only track software startups on major ATS platforms.",
+        "lastVerified": "2026-09-11"
       }
     },
     {
@@ -2362,6 +2601,8 @@
           }
         ],
         "stealthSignals": [
+          "US/global brand; Hyd office under India entity name",
+          "Careers buried on marketing site (no known ATS board)",
           "US/Bay Area brand; Hyd Financial District ops under-indexed",
           "Careers on marketing site"
         ],
@@ -2377,8 +2618,8 @@
             "note": "Company site"
           }
         ],
-        "researchNotes": "Classic US-HQ + Hyd eng node that city ATS filters drop.",
-        "lastVerified": "2026-09-10"
+        "researchNotes": "Accelerate frontier model performance and enterprise agent deployment with Deccan AI’s super accurate pristine training data, RL envs and agents. AI evals / data for frontier labs — SF narrative with Financial District Hyd delivery team; easy to miss as California-only. Hyderabad footprint: Financial District, Hyderabad (AI).",
+        "lastVerified": "2026-09-11"
       }
     },
     {
@@ -2414,6 +2655,8 @@
           }
         ],
         "stealthSignals": [
+          "Careers buried on marketing site (no known ATS board)",
+          "Small/early raise — below Inc42 Top-N paywall cutoff",
           "DOOH adtech — skipped by SaaS Greenhouse defaults",
           "Marketing-site careers"
         ],
@@ -2429,8 +2672,8 @@
             "note": "Company site"
           }
         ],
-        "researchNotes": "Hyd adtech employer with a clear careers URL that map users still overlook.",
-        "lastVerified": "2026-09-10"
+        "researchNotes": "AdOnMo connects brands with 12M+ daily viewers through 66,000+ ambient DOOH screens across 27+ Indian cities. DOOH / digital outdoor ad network from Gachibowli — adtech hiring on marketing careers, not Ashby. Hyderabad footprint: Gachibowli, Hyderabad (Other).",
+        "lastVerified": "2026-09-11"
       }
     },
     {
@@ -2474,6 +2717,9 @@
           }
         ],
         "stealthSignals": [
+          "Careers buried on marketing site (no known ATS board)",
+          "Small/early raise — below Inc42 Top-N paywall cutoff",
+          "US/global brand; Hyd office under India entity name",
           "YC + US/India split — Hyd office under-indexed on city job boards",
           "Proptech depth vs consumer SaaS lists"
         ],
@@ -2489,8 +2735,8 @@
             "note": "Company site"
           }
         ],
-        "researchNotes": "YC Hyd proptech with active hiring — good Radar watch for land/records infra roles.",
-        "lastVerified": "2026-09-10"
+        "researchNotes": "India's fastest online document search platform. Download EC, Bhoomi RTC, Any ROR, and 7/12 documents effortlessly with Landeed. Simplify your land record research today! YC property-intelligence rails for India — Hyd team with US co-founders; careers easy to miss vs real-estate aggregators. Hyderabad footprint: Hyderabad (Other).",
+        "lastVerified": "2026-09-11"
       }
     },
     {
@@ -2509,7 +2755,7 @@
         "marketing-careers",
         "funding-list"
       ],
-      "why": "AI supply-chain / logistics visibility from Gachibowli — enterprise ops hiring outside Greenhouse.",
+      "why": "Gachibowli logistics / mobility tech — quieter hiring brand than consumer SaaS on ATS aggregators.",
       "careers": "https://www.enmovil.com/careers",
       "aliases": [
         "Enmovil Solutions"
@@ -2533,8 +2779,11 @@
           }
         ],
         "stealthSignals": [
-          "Enterprise logistics AI — not consumer startup listicles",
-          "Marketing careers surface"
+          "Logistics tech — under-indexed vs consumer SaaS Hyd lists",
+          "Gachibowli pin still easy to miss in Inc42 Top-N only sweeps",
+          "Marketing-site / non-ATS careers surface",
+          "Quiet brand vs louder mobility marketplaces",
+          "Careers buried on marketing site (no known ATS board)"
         ],
         "sources": [
           {
@@ -2548,8 +2797,8 @@
             "note": "Company site"
           }
         ],
-        "researchNotes": "Hyd logistics AI employer already on the map — Radar depth fills founder + miss rationale.",
-        "lastVerified": "2026-09-10"
+        "researchNotes": "Enmovil is a Hyderabad logistics/mobility technology employer with a Gachibowli footprint. Radar keeps it for the hard-to-find Hyd ops/tech hiring signal — roles rarely land on Greenhouse scrapes that dominate consumer startup directories.",
+        "lastVerified": "2026-09-11"
       }
     },
     {
@@ -2584,10 +2833,16 @@
           }
         ],
         "stealthSignals": [
+          "Careers buried on marketing site (no known ATS board)",
           "Health benefits SaaS — careers on ekincare.com, not Greenhouse",
           "Easy to overlook vs national healthtech brands"
         ],
         "sources": [
+          {
+            "type": "company",
+            "url": "https://www.ekincare.com",
+            "note": "ekincare - Enterprise Workforce Health Infrastructure for India Inc"
+          },
           {
             "type": "linkedin",
             "url": "https://www.linkedin.com/in/kirankalakuntla",
@@ -2599,8 +2854,8 @@
             "note": "Leadership page"
           }
         ],
-        "researchNotes": "Mapped Hyd healthtech with clear founder LinkedIn — good exclusive watch add.",
-        "lastVerified": "2026-09-10"
+        "researchNotes": "The platform 1,000+ Indian corporates run their health benefits on - cashless OPD, mental wellness, pharmacy, claims and analytics. 2M+ lives, one stack. Workforce health benefits platform — HITEC Hyd HQ with marketing careers; often skipped for bigger healthtech brands. Hyderabad footprint: HITEC City, Hyderabad (Healthtech).",
+        "lastVerified": "2026-09-11"
       }
     }
   ],
@@ -2761,7 +3016,7 @@
   ],
   "exclusiveList": {
     "updatedAt": "2026-09-09",
-    "status": "expanded — UI polish pass; +hard-to-find on-map employers",
+    "status": "core-12 hand research + watch hand pass on thin brands",
     "core": [
       "AltiusHub",
       "Perceptyne",
@@ -2834,6 +3089,9 @@
         "Starbuzz"
       ],
       "note": "Still on public map/jobs; removed from curated Radar exclusive list only."
-    }
+    },
+    "coreEnrichedAt": "2026-09-11",
+    "watchEnrichedAt": "2026-09-11",
+    "watchHandPassAt": "2026-09-11"
   }
 }
