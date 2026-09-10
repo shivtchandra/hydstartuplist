@@ -4383,9 +4383,9 @@ a:hover:not(.btn) {
   --radar-paper: #fbf8f2;
   --radar-sheet: #fffcf7;
   --radar-orange-deep: #c2410c;
-  max-width: 1220px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 18px 24px 64px;
+  padding: 16px 24px 64px;
   color: var(--radar-ink);
 }
 body:has(.radar-page) {
@@ -4450,9 +4450,10 @@ body:has(.radar-page) {
 /* Two-column research workspace */
 .radar-desk {
   display: grid;
-  grid-template-columns: minmax(0, 40%) minmax(0, 60%);
+  grid-template-columns: minmax(0, 42%) minmax(0, 58%);
   gap: 0;
-  min-height: min(78vh, 820px);
+  align-items: stretch;
+  min-height: min(76vh, 760px);
   border: 1px solid var(--radar-line);
   background: var(--radar-paper);
 }
@@ -4539,30 +4540,42 @@ body:has(.radar-page) {
 
 /* GCC-style directory rows: logo · name/meta · action */
 .radar-row {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
   width: 100%;
+  min-height: 78px;
   text-align: left;
   margin: 0;
-  padding: 14px 14px;
+  padding: 14px 14px 14px 16px;
   border: 1px solid rgba(22, 27, 24, 0.1);
-  border-radius: 12px;
+  border-radius: 8px;
   background: #fff;
   cursor: pointer;
   font: inherit;
   color: inherit;
-  box-shadow: 0 1px 0 rgba(22, 27, 24, 0.03);
+  box-shadow: none;
   transition:
     background 200ms ease,
     border-color 200ms ease,
     box-shadow 200ms ease,
     transform 200ms ease;
 }
+.radar-row-mark {
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 2px;
+  border-radius: 0 1px 1px 0;
+  background: transparent;
+  transition: background 200ms ease;
+}
 .radar-row:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   border-color: rgba(22, 27, 24, 0.14);
-  box-shadow: 0 8px 20px rgba(22, 27, 24, 0.06);
+  box-shadow: 0 6px 16px rgba(22, 27, 24, 0.05);
 }
 .radar-row:hover .radar-row-action {
   opacity: 1;
@@ -4570,27 +4583,22 @@ body:has(.radar-page) {
 }
 .radar-row:hover .card-logo,
 .radar-row:hover .card-logo-fallback {
-  box-shadow: 0 3px 10px rgba(22, 27, 24, 0.1);
+  box-shadow: 0 2px 8px rgba(22, 27, 24, 0.08);
 }
 .radar-row.is-active {
   background: #fffcf7;
   border-color: rgba(22, 27, 24, 0.14);
   box-shadow:
-    0 0 0 1px rgba(22, 27, 24, 0.04),
-    0 12px 28px rgba(22, 27, 24, 0.08);
-  transform: translateY(-2px);
+    0 0 0 1px rgba(22, 27, 24, 0.03),
+    0 8px 20px rgba(22, 27, 24, 0.06);
+  transform: translateY(-1px);
+}
+.radar-row.is-active .radar-row-mark {
+  background: rgba(194, 65, 12, 0.7);
 }
 .radar-row.is-active .radar-row-name {
   font-weight: 750;
   color: var(--radar-ink);
-}
-.radar-row.is-active .radar-row-name::after {
-  content: "";
-  display: block;
-  width: 28px;
-  height: 1.5px;
-  margin-top: 5px;
-  background: rgba(194, 65, 12, 0.55);
 }
 .radar-row.is-active .radar-row-action {
   color: var(--radar-orange-deep);
@@ -4638,8 +4646,8 @@ body:has(.radar-page) {
 .radar-featured {
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  max-width: 560px;
+  gap: 20px;
+  max-width: 520px;
 }
 .radar-featured-card {
   padding: 4px 0 0;
@@ -4760,8 +4768,8 @@ body:has(.radar-page) {
   background: rgba(194, 65, 12, 0.65);
 }
 .radar-featured-photo {
-  margin: 0;
-  max-width: 420px;
+  margin: 4px 0 0;
+  max-width: 340px;
 }
 .radar-featured-photo img {
   display: block;
@@ -4769,7 +4777,7 @@ body:has(.radar-page) {
   aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: center 30%;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 .radar-featured-photo figcaption {
   display: flex;
@@ -4862,6 +4870,13 @@ body:has(.radar-page) {
   text-decoration: none;
 }
 .radar-out:hover { color: var(--radar-orange-deep); }
+.radar-out-btn {
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
 .radar-section {
   padding: 20px 0;
   border-bottom: 1px solid var(--radar-line);
