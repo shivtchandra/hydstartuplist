@@ -23,9 +23,9 @@ const jakarta = localFont({
 });
 
 const SITE_URL = getSiteUrl();
-const OG_TITLE = "Mapping HYD — Hyderabad Startup & Product Companies Map, Jobs & Funding";
+const OG_TITLE = "Hyderabad Startup Map & Jobs — Interactive | Mapping HYD";
 const OG_DESC =
-  "Explore 1,000+ startups and product companies in Hyderabad on an interactive map. Filter by sector, funding stage, and area. Browse open jobs, startup news, and funding rounds.";
+  "Explore 1,000+ Hyderabad startups on an interactive city map. Filter by sector and area, browse open jobs and funding — free, no signup.";
 const OG_IMAGE = "/brand/og-card-v3.png"; // new path — WhatsApp ignores query-string cache busts
 
 const JSONLD = {
@@ -68,7 +68,7 @@ const JSONLD = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Mapping HYD — Hyderabad Startup Map, Jobs & Funding",
+    default: "Hyderabad Startup Map & Jobs — Interactive | Mapping HYD",
     template: "%s | Mapping HYD",
   },
   description: OG_DESC,
