@@ -66,7 +66,7 @@ function formatUpdated(iso) {
 
 function areaLine(area, geoLabel) {
   if (!area) return geoLabel || null;
-  if (/hyderabad/i.test(area)) return area;
+  if (/hyderabad/i.test(area) || /telangana/i.test(area)) return area;
   return `${area}, Hyderabad`;
 }
 
@@ -123,8 +123,8 @@ function FounderProfile({ f }) {
           className="radar-person-photo"
           src={photo}
           alt=""
-          width={48}
-          height={48}
+          width={44}
+          height={44}
           loading="lazy"
           referrerPolicy="no-referrer"
           onError={() => setImgFailed(true)}
@@ -170,37 +170,38 @@ function CompanyRow({ row, active, onSelect }) {
   );
 }
 
-function RadarIntro({ exclusive, total, updatedLabel }) {
+/** Compact right-panel default — not a second hero / landing page. */
+function RadarIndex({ exclusive, total, updatedLabel }) {
   return (
-    <div className="radar-intro">
-      <div className="radar-intro-copy">
-        <h2>Radar</h2>
-        <p className="radar-intro-lede">Companies worth knowing.</p>
-        <p className="radar-intro-body">
-          A deliberately small list of Hyderabad employers that are easy to miss — researched and
-          edited by Mapping HYD.
+    <div className="radar-index">
+      <div className="radar-index-copy">
+        <p className="radar-index-kicker">Radar index</p>
+        <p className="radar-index-lede">
+          Open any company for the research brief — what they do, why they&apos;re hard to find, and
+          people worth knowing.
         </p>
-        <div className="radar-intro-stats">
+        <dl className="radar-index-stats">
           <div>
-            <strong>{exclusive.coreCount || 0}</strong>
-            <span>Core</span>
+            <dt>Core</dt>
+            <dd>{exclusive.coreCount || 0}</dd>
           </div>
           <div>
-            <strong>{exclusive.watchCount || 0}</strong>
-            <span>Watch</span>
+            <dt>Watch</dt>
+            <dd>{exclusive.watchCount || 0}</dd>
           </div>
-        </div>
-        <p className="radar-intro-foot">
-          {total || "—"} companies
-          {updatedLabel ? <> · Updated {updatedLabel}</> : null}
-        </p>
+          <div>
+            <dt>Total</dt>
+            <dd>{total || "—"}</dd>
+          </div>
+        </dl>
+        {updatedLabel ? <p className="radar-index-updated">Updated {updatedLabel}</p> : null}
       </div>
-      <figure className="radar-intro-visual">
+      <figure className="radar-index-photo">
         <img
           src={CHARMINAR_SRC}
           alt="Charminar, Hyderabad"
-          width={360}
-          height={480}
+          width={280}
+          height={373}
           loading="lazy"
         />
         <figcaption>Hyderabad</figcaption>
@@ -224,36 +225,21 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
   const placeUpper = [row.sector, place].filter(Boolean).join(" · ");
 
   return (
-    <article className="radar-detail" data-tier={row.exclusiveTier || ""} key={row.id}>
-      <button type="button" className="radar-detail-back" onClick={onBack}>
-        ← Curated list
+    <article className="radar-brief" data-tier={row.exclusiveTier || ""} key={row.id}>
+      <button type="button" className="radar-brief-back" onClick={onBack}>
+        ← Radar
       </button>
 
-      <header className="radar-dossier-head">
-        <div className="radar-dossier-top">
-          <div className="radar-dossier-main">
-            {tier ? <p className="radar-detail-tier">{tier}</p> : null}
-            {placeUpper ? <p className="radar-detail-place">{placeUpper}</p> : null}
-            <h2>{row.name}</h2>
-            {row.why ? <p className="radar-one-liner">{row.why}</p> : null}
-            <nav className="radar-out-row" aria-label="Company links">
-              {row.slug ? <OutLink href={`/?startup=${row.slug}`}>Map</OutLink> : null}
-              {row.website ? <OutLink href={row.website}>Website</OutLink> : null}
-              {row.careers ? <OutLink href={row.careers}>Careers</OutLink> : null}
-            </nav>
-          </div>
-          {(place || row.jobModeLabel) && (
-            <aside className="radar-place-mark" aria-label="Hyderabad location">
-              <div className="radar-place-map" aria-hidden="true">
-                <span className="radar-place-dot" />
-              </div>
-              <div className="radar-place-copy">
-                {place ? <strong>{place}</strong> : null}
-                {row.jobModeLabel ? <span>{row.jobModeLabel}</span> : null}
-              </div>
-            </aside>
-          )}
-        </div>
+      <header className="radar-brief-head">
+        {tier ? <p className="radar-brief-tier">{tier}</p> : null}
+        {placeUpper ? <p className="radar-brief-place">{placeUpper}</p> : null}
+        <h2>{row.name}</h2>
+        {row.why ? <p className="radar-brief-lede">{row.why}</p> : null}
+        <nav className="radar-out-row" aria-label="Company links">
+          {row.slug ? <OutLink href={`/?startup=${row.slug}`}>Map</OutLink> : null}
+          {row.website ? <OutLink href={row.website}>Website</OutLink> : null}
+          {row.careers ? <OutLink href={row.careers}>Careers</OutLink> : null}
+        </nav>
       </header>
 
       {whatTheyDo ? (
@@ -325,78 +311,6 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
         <p className="radar-aliases">Also known as: {row.aliases.join(", ")}</p>
       ) : null}
     </article>
-  );
-}
-
-function CuratedList({
-  q,
-  setQ,
-  coreFiltered,
-  watchFiltered,
-  selectedId,
-  setSelectedId,
-}) {
-  return (
-    <aside className="radar-list-pane" aria-label="Curated company index">
-      <p className="radar-index-label">Curated list</p>
-      <label className="radar-search">
-        <span className="visually-hidden">Search companies, sectors, aliases</span>
-        <input
-          type="search"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search companies, sectors, aliases…"
-        />
-      </label>
-
-      <div className="radar-index-scroll">
-        {coreFiltered.length ? (
-          <section className="radar-list-section" aria-label="Core">
-            <div className="radar-class-head">
-              <h2>
-                Core <span>· {coreFiltered.length}</span>
-              </h2>
-              <p>Strong Hyderabad signal.</p>
-            </div>
-            <div className="radar-list">
-              {coreFiltered.map((row) => (
-                <CompanyRow
-                  key={row.id}
-                  row={row}
-                  active={selectedId === row.id}
-                  onSelect={setSelectedId}
-                />
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-        {watchFiltered.length ? (
-          <section className="radar-list-section" aria-label="Watch">
-            <div className="radar-class-head">
-              <h2>
-                Watch <span>· {watchFiltered.length}</span>
-              </h2>
-              <p>Worth keeping an eye on.</p>
-            </div>
-            <div className="radar-list">
-              {watchFiltered.map((row) => (
-                <CompanyRow
-                  key={row.id}
-                  row={row}
-                  active={selectedId === row.id}
-                  onSelect={setSelectedId}
-                />
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-        {!coreFiltered.length && !watchFiltered.length ? (
-          <p className="radar-empty">No companies match that search.</p>
-        ) : null}
-      </div>
-    </aside>
   );
 }
 
@@ -505,17 +419,69 @@ export default function RadarClient({ initialMeta }) {
           </button>
         </section>
       ) : unlocked ? (
-        <div className={`radar-shell${selected ? " has-detail" : " has-intro"}`}>
-          <CuratedList
-            q={q}
-            setQ={setQ}
-            coreFiltered={coreFiltered}
-            watchFiltered={watchFiltered}
-            selectedId={selectedId}
-            setSelectedId={setSelectedId}
-          />
+        <div className={`radar-desk${selected ? " has-brief" : ""}`}>
+          <aside className="radar-dir" aria-label="Curated company directory">
+            <p className="radar-dir-label">Curated list</p>
+            <label className="radar-dir-search">
+              <span className="visually-hidden">Search companies, sectors, aliases</span>
+              <input
+                type="search"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Search companies, sectors, aliases…"
+              />
+            </label>
 
-          <div className="radar-detail-pane">
+            <div className="radar-dir-scroll">
+              {coreFiltered.length ? (
+                <section className="radar-dir-section" aria-label="Core">
+                  <header className="radar-dir-head">
+                    <h2>
+                      Core <span>· {coreFiltered.length}</span>
+                    </h2>
+                    <p>Strong Hyderabad signal.</p>
+                  </header>
+                  <div className="radar-dir-list" role="list">
+                    {coreFiltered.map((row) => (
+                      <CompanyRow
+                        key={row.id}
+                        row={row}
+                        active={selectedId === row.id}
+                        onSelect={setSelectedId}
+                      />
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+
+              {watchFiltered.length ? (
+                <section className="radar-dir-section" aria-label="Watch">
+                  <header className="radar-dir-head">
+                    <h2>
+                      Watch <span>· {watchFiltered.length}</span>
+                    </h2>
+                    <p>Worth keeping an eye on.</p>
+                  </header>
+                  <div className="radar-dir-list" role="list">
+                    {watchFiltered.map((row) => (
+                      <CompanyRow
+                        key={row.id}
+                        row={row}
+                        active={selectedId === row.id}
+                        onSelect={setSelectedId}
+                      />
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+
+              {!coreFiltered.length && !watchFiltered.length ? (
+                <p className="radar-dir-empty">No companies match that search.</p>
+              ) : null}
+            </div>
+          </aside>
+
+          <section className="radar-pane" aria-label="Research brief">
             {selected ? (
               <CompanyDetail
                 row={selected}
@@ -523,9 +489,9 @@ export default function RadarClient({ initialMeta }) {
                 listUpdatedAt={initialMeta?.updatedAt}
               />
             ) : (
-              <RadarIntro exclusive={exclusive} total={total} updatedLabel={updatedLabel} />
+              <RadarIndex exclusive={exclusive} total={total} updatedLabel={updatedLabel} />
             )}
-          </div>
+          </section>
         </div>
       ) : (
         <section className="radar-gate">
