@@ -5,7 +5,7 @@ import { signInWithGoogle, signOutUser, useAuthUser } from "../../lib/auth-clien
 
 /**
  * Quiet nav auth — never blocks browsing.
- * Signed-in: first name + Radar + Log out (name alone was easy to miss as logout).
+ * Signed-in: first name + explicit Log out (name alone was easy to miss).
  */
 export default function AuthButton({ compact = false }) {
   const { user, ready } = useAuthUser();
