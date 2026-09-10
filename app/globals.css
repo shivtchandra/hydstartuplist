@@ -6602,7 +6602,17 @@ body:has(.startup-page-wrap) {
 
 
 /* Organic auth — quiet nav + post-save banner (never a browse wall) */
-.tn-auth-wrap{position:relative;display:inline-flex;align-items:center}
+.tn-auth-wrap{position:relative;display:inline-flex;align-items:center;gap:8px}
+.tn-auth-signed{gap:6px}
+.tn-auth-name{
+  font-size:13px;font-weight:600;color:#3d4a43;max-width:7rem;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+}
+.tn-auth-radar{
+  font-size:13px;font-weight:650;color:#1b4332;text-decoration:none;
+  padding:4px 0
+}
+.tn-auth-radar:hover{color:#ff5722;text-decoration:underline;text-underline-offset:2px}
 .tn-auth{
   border:1px solid #d5dbd6;background:#fff;color:#1a1f1c;
   font:inherit;font-size:13px;font-weight:600;padding:6px 11px;border-radius:999px;
@@ -6610,6 +6620,7 @@ body:has(.startup-page-wrap) {
 }
 .tn-auth:hover{border-color:#9aa59b;background:#f7f8f6}
 .tn-auth:disabled{opacity:.6;cursor:wait}
+.tn-auth-out{padding:5px 10px;font-weight:600}
 .tn-auth-in{padding:4px 10px}
 .tn-auth-in img{border-radius:50%;display:block}
 .tn-auth-err{position:absolute;top:100%;right:0;margin-top:4px;font-size:11px;color:#b42318;white-space:nowrap}
@@ -6653,6 +6664,8 @@ body:has(.startup-page-wrap) {
 
 @media(max-width:767px){
   .tn-auth{font-size:12px;padding:5px 9px}
+  .tn-auth-name{display:none}
+  .tn-auth-radar{font-size:12px}
   .soft-login{margin:10px 12px 0}
 }
 

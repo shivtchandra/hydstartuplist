@@ -26,6 +26,7 @@ export default function SiteNav({ active = "", mode }) {
   const linkActive = (key) => {
     if (key === "saved") return active === "saved" || pathname.startsWith("/saved");
     if (key === "gccs") return active === "gccs" || pathname.startsWith("/gccs");
+    if (key === "radar") return active === "radar" || pathname.startsWith("/radar");
     if (key === "more") {
       return (
         active === "more" ||
@@ -34,8 +35,7 @@ export default function SiteNav({ active = "", mode }) {
         pathname.startsWith("/stories") ||
         pathname.startsWith("/insights") ||
         pathname.startsWith("/newsletter") ||
-        pathname.startsWith("/feed") ||
-        pathname.startsWith("/radar")
+        pathname.startsWith("/feed")
       );
     }
     return active === key;
@@ -107,6 +107,13 @@ export default function SiteNav({ active = "", mode }) {
             <AuthButton />
             <Link href="/saved" className={linkActive("saved") ? "active" : undefined}>
               Saved
+            </Link>
+            <Link
+              href="/radar"
+              className={linkActive("radar") ? "active" : undefined}
+              title="Exclusive hard-to-find employers"
+            >
+              Radar
             </Link>
             <Link href="/gccs" className={linkActive("gccs") ? "active" : undefined}>
               GCCs

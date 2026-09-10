@@ -32,7 +32,7 @@ const FEATURED = [
     href: "/radar",
     kicker: "Members",
     title: "Radar",
-    blurb: "Hard-to-find employers with founder LinkedIns — sign in to unlock.",
+    blurb: "Exclusive research: founder LinkedIns, miss reasons, careers quirks. Sign in to unlock depth.",
   },
 ];
 

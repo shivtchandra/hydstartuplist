@@ -15,7 +15,7 @@ export default function RadarPage() {
   const meta = radarMeta("hyd");
   return (
     <>
-      <SiteNav active="more" />
+      <SiteNav active="radar" />
       <RadarClient
         initialMeta={{
           updatedAt: meta.updatedAt,

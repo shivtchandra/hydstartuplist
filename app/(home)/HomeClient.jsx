@@ -1196,7 +1196,9 @@ export default function HomeClient({ initialStartups = [] }) {
           </div>
 
           <nav className="tn-links">
-            <AuthButton /><Link href="/saved">Saved</Link>
+            <AuthButton />
+            <Link href="/saved">Saved</Link>
+            <Link href="/radar" title="Exclusive hard-to-find employers">Radar</Link>
             <Link href="/gccs">GCCs</Link>
             <Link href="/more">More</Link>
           </nav>

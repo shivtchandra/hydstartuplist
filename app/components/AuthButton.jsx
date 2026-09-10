@@ -5,7 +5,7 @@ import { signInWithGoogle, signOutUser, useAuthUser } from "../../lib/auth-clien
 
 /**
  * Quiet nav auth — never blocks browsing.
- * Organic conversion also happens via SoftLoginBanner / Google One Tap site-wide.
+ * Signed-in: first name + Radar + Log out (name alone was easy to miss as logout).
  */
 export default function AuthButton({ compact = false }) {
   const { user, ready } = useAuthUser();
@@ -37,16 +37,41 @@ export default function AuthButton({ compact = false }) {
 
   if (user) {
     const label = user.displayName?.split(" ")[0] || "Account";
+    if (compact) {
+      return (
+        <span className="tn-auth-wrap tn-auth-signed">
+          <button
+            type="button"
+            className="tn-auth tn-auth-out"
+            onClick={onSignOut}
+            disabled={busy}
+            title={`${user.email || "Signed in"} — log out`}
+            aria-label="Log out"
+          >
+            {user.photoURL ? (
+              <img src={user.photoURL} alt="" width={22} height={22} />
+            ) : (
+              "Out"
+            )}
+          </button>
+        </span>
+      );
+    }
     return (
-      <button
-        type="button"
-        className="tn-auth tn-auth-in"
-        onClick={onSignOut}
-        disabled={busy}
-        title={`${user.email || "Signed in"} — click to sign out`}
-      >
-        {compact ? (user.photoURL ? <img src={user.photoURL} alt="" width={22} height={22} /> : "Out") : label}
-      </button>
+      <span className="tn-auth-wrap tn-auth-signed">
+        <span className="tn-auth-name" title={user.email || "Signed in"}>
+          {label}
+        </span>
+        <button
+          type="button"
+          className="tn-auth tn-auth-out"
+          onClick={onSignOut}
+          disabled={busy}
+          aria-label="Log out"
+        >
+          {busy ? "…" : "Log out"}
+        </button>
+      </span>
     );
   }
 
@@ -55,7 +80,11 @@ export default function AuthButton({ compact = false }) {
       <button type="button" className="tn-auth" onClick={onSignIn} disabled={busy}>
         {busy ? "…" : compact ? "In" : "Sign in"}
       </button>
-      {err ? <span className="tn-auth-err" role="status">{err}</span> : null}
+      {err ? (
+        <span className="tn-auth-err" role="status">
+          {err}
+        </span>
+      ) : null}
     </span>
   );
 }
