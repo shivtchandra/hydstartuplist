@@ -32,9 +32,23 @@ export async function GET(req) {
 
     if (!claims && !devUnlock) {
       const adminErr = firebaseAdminInitError();
+      const saPresent = !!(process.env.FIREBASE_SERVICE_ACCOUNT || "").trim();
+      let message;
+      if (authConfigured) {
+        message = "Sign in with Google to unlock Radar depth.";
+      } else if (!saPresent) {
+        message =
+          "FIREBASE_SERVICE_ACCOUNT is missing on this deployment. In Vercel: save the env var for Production, then Redeploy (env changes do not apply to the old deploy).";
+      } else if (adminErr) {
+        message = `Firebase Admin failed to start (${adminErr}). Re-paste FIREBASE_SERVICE_ACCOUNT as one-line JSON starting with { — no wrapping quotes.`;
+      } else {
+        message =
+          "FIREBASE_SERVICE_ACCOUNT is set but Admin did not start. Redeploy once, then Retry. If it still fails, re-paste the JSON (must start with {).";
+      }
       return NextResponse.json({
         locked: true,
         authConfigured,
+        saPresent,
         geo,
         meta: {
           updatedAt: meta.updatedAt,
@@ -43,11 +57,7 @@ export async function GET(req) {
           exclusiveList: meta.exclusiveList,
           depthEnriched: meta.depthEnriched,
         },
-        message: authConfigured
-          ? "Sign in with Google to unlock Radar depth."
-          : adminErr
-            ? `Firebase Admin failed to start (${adminErr}). Re-paste FIREBASE_SERVICE_ACCOUNT as one-line JSON starting with { — no quotes around it.`
-            : "Sign-in is required. Set FIREBASE_SERVICE_ACCOUNT on Production and redeploy (or RADAR_DEV_UNLOCK=1 in local dev).",
+        message,
       });
     }
 
