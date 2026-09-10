@@ -93,14 +93,6 @@ export default function AuthButton({ compact = false }) {
           </div>
           <div className="tn-auth-menu-rule" role="separator" />
           <Link
-            href="/more"
-            className="tn-auth-menu-item"
-            role="menuitem"
-            onClick={() => setOpen(false)}
-          >
-            Account
-          </Link>
-          <Link
             href="/saved"
             className="tn-auth-menu-item"
             role="menuitem"
@@ -116,7 +108,7 @@ export default function AuthButton({ compact = false }) {
             onClick={onSignOut}
             disabled={busy}
           >
-            {busy ? "…" : "Log out"}
+            {busy ? "…" : "Logout"}
           </button>
         </div>
       </span>
