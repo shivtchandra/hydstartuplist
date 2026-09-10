@@ -13,7 +13,10 @@
     "radar:gap:miss": "node scripts/radar-gap-sweep.mjs --miss-only",
     "radar:gap:csv": "node scripts/radar-gap-sweep.mjs --csv",
     "radar:reconcile": "node scripts/radar-job-reconcile.mjs",
-    "radar:reconcile:dry": "node scripts/radar-job-reconcile.mjs --dry-run"
+    "radar:reconcile:dry": "node scripts/radar-job-reconcile.mjs --dry-run",
+    "fresher:gap": "node scripts/fresher-gap-sweep.mjs",
+    "fresher:gap:miss": "node scripts/fresher-gap-sweep.mjs --miss-only",
+    "fresher:gap:csv": "node scripts/fresher-gap-sweep.mjs --csv"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

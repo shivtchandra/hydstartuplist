@@ -143,3 +143,7 @@ npm run radar:gap:miss -- --source job-feed-orphans
 - **hiring-not-on-radar** — already on the map with live jobs; promote to Radar only if hard-to-find + real problem.
 - **job-feed-orphans** — hiring in feeds but not matched to `startups.json` (enterprise/GCC filtered). Verify address before pin.
 - Never auto-pin. Never invent founder LinkedIns.
+
+## Fresher gap
+
+Weekly: `npm run fresher:gap` (see `scripts/fresher-intake.md`).

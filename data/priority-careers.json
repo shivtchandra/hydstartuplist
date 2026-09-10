@@ -70,5 +70,48 @@
     "atsProvider": "lever",
     "atsSlug": "keyloop",
     "employerType": "other"
+  },
+  {
+    "id": "nxtwave",
+    "name": "NxtWave",
+    "url": "https://nxtwave.freshteam.com/jobs",
+    "startupId": "496c8550-86e8-43ae-ac47-7d7d2d0ea63f",
+    "employerType": "startup",
+    "note": "Freshteam board — fresher / early-career heavy"
+  },
+  {
+    "id": "ekincare",
+    "name": "ekincare",
+    "url": "https://www.ekincare.com/careers",
+    "startupId": "47a34793-9c94-4000-9be3-a452bfa09965",
+    "employerType": "startup"
+  },
+  {
+    "id": "redhealth",
+    "name": "RED.Health",
+    "url": "https://www.red.health/careers",
+    "startupId": "57a74765-464b-4b20-86ea-e2ef397b8551",
+    "employerType": "startup"
+  },
+  {
+    "id": "callhealth",
+    "name": "CallHealth",
+    "url": "https://www.callhealth.com/careers",
+    "startupId": "a38502c4-d394-43b5-96c9-b1ddfc5cc3b3",
+    "employerType": "startup"
+  },
+  {
+    "id": "enmovil",
+    "name": "Enmovil",
+    "url": "https://www.enmovil.com/careers",
+    "startupId": "2aecf295-a845-4b97-8fdb-29218304ec1b",
+    "employerType": "startup"
+  },
+  {
+    "id": "gradright",
+    "name": "GradRight",
+    "url": "https://gradright.com/careers",
+    "startupId": "42f0a99e-a66b-471f-be72-2a69fc05ecaf",
+    "employerType": "startup"
   }
 ]
