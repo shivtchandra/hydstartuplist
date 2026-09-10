@@ -155,27 +155,22 @@ function FounderProfile({ f }) {
   );
 }
 
-function DirectoryCard({ row, active, onSelect }) {
-  const meta = sectorAreaLine(row) || row.geoLabel || "Hyderabad";
+/** GCC-style showcase card */
+function ShowcaseCard({ row, onOpen }) {
+  const meta = sectorAreaLine(row) || "Hyderabad";
   return (
-    <button
-      type="button"
-      className={`radar-card${active ? " is-active" : ""}`}
-      onClick={() => onSelect(row.id)}
-      aria-pressed={active}
-    >
-      <StartupLogo name={row.name} website={row.website} sector={row.sector} size={38} />
-      <span className="radar-card-body">
-        <span className="radar-card-name">
-          {active ? <span className="radar-card-dot" aria-hidden="true" /> : null}
-          {row.name}
-        </span>
-        <span className="radar-card-meta">{meta}</span>
-        <span className="radar-card-office">{officeLabel(row)}</span>
-      </span>
-      <span className="radar-card-action" aria-hidden="true">
-        →
-      </span>
+    <button type="button" className="feed-row radar-showcase-card" onClick={() => onOpen(row.id)}>
+      <StartupLogo name={row.name} website={row.website} sector={row.sector} size={40} />
+      <div className="feed-row-body">
+        <div className="feed-row-name">{row.name}</div>
+        <div className="feed-row-sub">
+          {meta}
+          {row.exclusiveTier === "core" ? " · Core" : row.exclusiveTier === "watch" ? " · Watch" : ""}
+          {" · "}
+          {officeLabel(row)}
+        </div>
+      </div>
+      <span className="nls-more-link">Open research →</span>
     </button>
   );
 }
@@ -200,7 +195,7 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
   return (
     <article className="radar-brief" data-tier={row.exclusiveTier || ""} key={row.id}>
       <button type="button" className="radar-brief-back" onClick={onBack}>
-        ← Radar
+        ← Back to Radar
       </button>
 
       <header className="radar-brief-head">
@@ -305,12 +300,7 @@ export default function RadarClient({ initialMeta }) {
     setErr("");
     fetchRadar(user || null)
       .then((data) => {
-        if (cancelled) return;
-        setPayload(data);
-        if (!data?.locked && Array.isArray(data.entries) && data.entries.length) {
-          const firstCore = data.entries.find((e) => e.exclusiveTier === "core");
-          setSelectedId((prev) => prev || firstCore?.id || data.entries[0].id);
-        }
+        if (!cancelled) setPayload(data);
       })
       .catch((e) => {
         if (!cancelled) setErr(e.message || "Could not load Radar.");
@@ -352,105 +342,98 @@ export default function RadarClient({ initialMeta }) {
       ? payload.entries.find((e) => e.id === selectedId) || null
       : null;
 
-  function clearSelection() {
-    setSelectedId(null);
-  }
-
   return (
     <main className="radar-page">
-      <header className="radar-hero">
-        <p className="radar-kicker">Mapping HYD · Radar</p>
-        <h1>Companies worth knowing.</h1>
-        <p className="radar-sub">
-          A deliberately small list of Hyderabad employers that are easy to miss — researched and
-          edited by Mapping HYD.
-        </p>
-        <p className="radar-stats">
-          <strong>{total || "—"}</strong> companies
-          {" · "}
-          {exclusive.coreCount || 0} core
-          {" · "}
-          {exclusive.watchCount || 0} watch
-          {updatedLabel ? <> · Updated {updatedLabel}</> : null}
-        </p>
-        {payload?.temporaryPublic ? (
-          <p className="radar-unlocked">Member access is temporarily open while verify is restored.</p>
-        ) : null}
-      </header>
+      <div className="feed-page radar-feed">
+        <header className="radar-hero feed-head">
+          <p className="radar-kicker">Mapping HYD · Radar</p>
+          <h1>Companies worth knowing.</h1>
+          <p className="radar-sub form-sub">
+            A deliberately small list of Hyderabad employers that are easy to miss — researched and
+            edited by Mapping HYD.
+          </p>
+          <p className="radar-stats">
+            <strong>{total || "—"}</strong> companies
+            {" · "}
+            {exclusive.coreCount || 0} core
+            {" · "}
+            {exclusive.watchCount || 0} watch
+            {updatedLabel ? <> · Updated {updatedLabel}</> : null}
+          </p>
+          {payload?.temporaryPublic ? (
+            <p className="radar-unlocked">
+              Member access is temporarily open while verify is restored.
+            </p>
+          ) : null}
+        </header>
 
-      {loading ? (
-        <LoadingScreen label="Opening Radar…" />
-      ) : err ? (
-        <section className="radar-gate">
-          <h2>Couldn&apos;t load</h2>
-          <p>{err}</p>
-          <button
-            type="button"
-            className="radar-sign-in"
-            onClick={() => {
-              setLoading(true);
-              setErr("");
-              fetchRadar(user || null)
-                .then(setPayload)
-                .catch((e) => setErr(e.message))
-                .finally(() => setLoading(false));
-            }}
-          >
-            Retry
-          </button>
-        </section>
-      ) : unlocked ? (
-        <div className={`radar-desk${selected ? " has-brief" : ""}`}>
-          <aside className="radar-dir" aria-label="Curated company directory">
-            <p className="radar-dir-label">Curated list</p>
-            <label className="radar-dir-search">
-              <span className="visually-hidden">Search companies, sectors, aliases</span>
-              <input
-                type="search"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Search companies, sectors, aliases…"
-              />
-            </label>
+        {loading ? (
+          <LoadingScreen label="Opening Radar…" />
+        ) : err ? (
+          <section className="radar-gate">
+            <h2>Couldn&apos;t load</h2>
+            <p>{err}</p>
+            <button
+              type="button"
+              className="radar-sign-in"
+              onClick={() => {
+                setLoading(true);
+                setErr("");
+                fetchRadar(user || null)
+                  .then(setPayload)
+                  .catch((e) => setErr(e.message))
+                  .finally(() => setLoading(false));
+              }}
+            >
+              Retry
+            </button>
+          </section>
+        ) : unlocked ? (
+          selected ? (
+            <CompanyDetail
+              row={selected}
+              onBack={() => setSelectedId(null)}
+              listUpdatedAt={initialMeta?.updatedAt}
+            />
+          ) : (
+            <>
+              <label className="radar-dir-search radar-feed-search">
+                <span className="visually-hidden">Search companies, sectors, aliases</span>
+                <input
+                  type="search"
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder="Search companies, sectors, aliases…"
+                />
+              </label>
 
-            <div className="radar-dir-scroll">
               {coreFiltered.length ? (
-                <section className="radar-dir-section" aria-label="Core">
+                <section className="radar-showcase-section" aria-label="Core">
                   <header className="radar-dir-head">
                     <h2>
                       Core <span>· {coreFiltered.length}</span>
                     </h2>
                     <p>Strong Hyderabad signal.</p>
                   </header>
-                  <div className="radar-dir-list" role="list">
+                  <div className="feed-list">
                     {coreFiltered.map((row) => (
-                      <DirectoryCard
-                        key={row.id}
-                        row={row}
-                        active={selectedId === row.id}
-                        onSelect={setSelectedId}
-                      />
+                      <ShowcaseCard key={row.id} row={row} onOpen={setSelectedId} />
                     ))}
                   </div>
                 </section>
               ) : null}
 
               {watchFiltered.length ? (
-                <section className="radar-dir-section" aria-label="Watch">
+                <section className="radar-showcase-section" aria-label="Watch">
                   <header className="radar-dir-head">
                     <h2>
                       Watch <span>· {watchFiltered.length}</span>
                     </h2>
                     <p>Worth keeping an eye on.</p>
                   </header>
-                  <div className="radar-dir-list" role="list">
+                  <div className="feed-list">
                     {watchFiltered.map((row) => (
-                      <DirectoryCard
-                        key={row.id}
-                        row={row}
-                        active={selectedId === row.id}
-                        onSelect={setSelectedId}
-                      />
+                      <ShowcaseCard key={row.id} row={row} onOpen={setSelectedId} />
                     ))}
                   </div>
                 </section>
@@ -459,27 +442,15 @@ export default function RadarClient({ initialMeta }) {
               {!coreFiltered.length && !watchFiltered.length ? (
                 <p className="radar-dir-empty">No companies match that search.</p>
               ) : null}
-            </div>
-          </aside>
-
-          <section className="radar-pane" aria-label="Company research note">
-            {selected ? (
-              <CompanyDetail
-                row={selected}
-                onBack={clearSelection}
-                listUpdatedAt={initialMeta?.updatedAt}
-              />
-            ) : (
-              <p className="radar-pane-empty">Select a company from the curated list.</p>
-            )}
+            </>
+          )
+        ) : (
+          <section className="radar-gate">
+            <h2>Members only</h2>
+            <p>{payload?.message || "Sign in to open Radar."}</p>
           </section>
-        </div>
-      ) : (
-        <section className="radar-gate">
-          <h2>Members only</h2>
-          <p>{payload?.message || "Sign in to open Radar."}</p>
-        </section>
-      )}
+        )}
+      </div>
     </main>
   );
 }
