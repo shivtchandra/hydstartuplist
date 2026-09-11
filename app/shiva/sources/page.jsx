@@ -267,6 +267,15 @@ export default function SourceHealthPage() {
                 <strong className="src-kpi-value">{totals.apply}</strong>
                 <span className="src-kpi-hint">{fmtPct(applyRate)} of landings</span>
               </article>
+              <article className="src-kpi">
+                <span className="src-kpi-label">Google logins</span>
+                <strong className="src-kpi-value">{data.googleLogins?.total || 0}</strong>
+                <span className="src-kpi-hint">
+                  {(data.googleLogins?.popup || 0) + (data.googleLogins?.onetap || 0) > 0
+                    ? `${data.googleLogins?.popup || 0} popup · ${data.googleLogins?.onetap || 0} One Tap`
+                    : "popup + One Tap · fills after deploy"}
+                </span>
+              </article>
             </section>
           )}
 

@@ -43,3 +43,22 @@ test('page paths are sanitized into anonymous buckets', () => {
   );
   assert.equal(sanitizePath('/x?email=a@b.com'), '/x', 'query stripped before store');
 });
+
+test("google login events keep method only", () => {
+  const event = safeEvent({
+    event: "google_login",
+    session: "12345678-1234-1234-1234-123456789abc",
+    loginMethod: "onetap",
+    email: "private@a.com",
+  });
+  assert.equal(event.loginMethod, "onetap");
+  assert.equal(event.email, undefined);
+  assert.equal(
+    safeEvent({
+      event: "google_login",
+      session: "12345678-1234-1234-1234-123456789abc",
+      loginMethod: "evil",
+    }).loginMethod,
+    undefined
+  );
+});

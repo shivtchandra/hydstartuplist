@@ -12,7 +12,7 @@ const USEFUL = {
 export async function GET(req) {
   if (!checkAdminPasscode(req)) return new NextResponse(null, { status: 401 });
   const db = await getAdminDb();
-  if (!db) return NextResponse.json({ boards: [], enabled: false, funnel: {}, byProduct: {}, byPage: [] });
+  if (!db) return NextResponse.json({ boards: [], enabled: false, funnel: {}, byProduct: {}, byPage: [], googleLogins: { total: 0, popup: 0, onetap: 0 } });
 
   const productFilter = new URL(req.url).searchParams.get('product'); // startups | eateries | all
   const [boards, usage, sessions, seriesSnap] = await Promise.all([
@@ -27,6 +27,7 @@ export async function GET(req) {
 
   const funnel = {};
   const pageCounts = {};
+  const googleLogins = { total: 0, popup: 0, onetap: 0 };
   const byProduct = { startups: { landings: 0, useful: 0, apply: 0, sessions: 0 }, eateries: { landings: 0, useful: 0, apply: 0, sessions: 0 }, hub: { landings: 0, useful: 0, apply: 0, sessions: 0 } };
 
   for (const doc of sessions.docs) {
@@ -44,6 +45,13 @@ export async function GET(req) {
           pageCounts[path] = (pageCounts[path] || 0) + count;
         }
       }
+    }
+
+    // Google logins (popup / One Tap) — not gated on landing.
+    if (inProductSlice && s.events?.google_login !== undefined) {
+      googleLogins.total++;
+      if (s.loginMethod === 'popup') googleLogins.popup++;
+      else if (s.loginMethod === 'onetap') googleLogins.onetap++;
     }
 
     if (s.events?.landing === undefined) continue;
@@ -97,6 +105,7 @@ export async function GET(req) {
     funnel,
     byProduct,
     byPage,
+    googleLogins,
     seriesSupport,
   });
 }

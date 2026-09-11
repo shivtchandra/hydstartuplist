@@ -39,19 +39,19 @@ async function persistEvent(event) {
 
       // Funnel events: first occurrence only (existing behaviour).
       if (old?.events?.[event.event] !== undefined) return;
-      tx.set(
-        ref,
-        {
-          started,
-          expiresAt: new Date(started + 35 * 86400000),
-          product: old?.product || event.product || "startups",
-          variant: old?.variant || event.variant,
-          device: old?.device || event.device,
-          source: old?.source || event.source,
-          events: { ...old?.events, [event.event]: Date.now() - started },
-        },
-        { merge: true }
-      );
+      const payload = {
+        started,
+        expiresAt: new Date(started + 35 * 86400000),
+        product: old?.product || event.product || "startups",
+        variant: old?.variant || event.variant,
+        device: old?.device || event.device,
+        source: old?.source || event.source,
+        events: { ...(old?.events || {}), [event.event]: Date.now() - started },
+      };
+      if (event.event === "google_login" && event.loginMethod) {
+        payload.loginMethod = event.loginMethod;
+      }
+      tx.set(ref, payload, { merge: true });
     });
   } catch (err) {
     console.error("engagement write failed:", err?.message || err);
