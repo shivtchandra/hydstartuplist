@@ -4629,18 +4629,19 @@ button.radar-showcase-card .nls-more-link,
   padding-top: 6px;
 }
 .radar-brief {
+  --radar-brief-measure: min(68rem, 100%);
   max-width: none;
   width: 100%;
   padding: 4px 0 56px;
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
 }
 .radar-brief-toolbar {
   width: 100%;
-  max-width: 720px;
-  margin: 0 auto 18px;
+  max-width: var(--radar-brief-measure);
+  margin: 0 0 18px;
   display: flex;
   justify-content: flex-start;
 }
@@ -4685,8 +4686,8 @@ button.radar-showcase-card .nls-more-link,
 .radar-brief-layout {
   display: block;
   width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
+  max-width: var(--radar-brief-measure);
+  margin: 0;
 }
 .radar-brief-main {
   min-width: 0;
@@ -4897,9 +4898,9 @@ button.radar-showcase-card .nls-more-link,
 
 /* Photographic Charminar — secondary punctuation */
 .radar-brief-art {
-  margin: 28px auto 0;
+  margin: 28px 0 0;
   width: 100%;
-  max-width: 720px;
+  max-width: var(--radar-brief-measure);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
