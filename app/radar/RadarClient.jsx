@@ -195,9 +195,11 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
 
   return (
     <article className="radar-brief" data-tier={row.exclusiveTier || ""} key={row.id}>
-      <button type="button" className="radar-brief-back" onClick={onBack}>
-        ← Back to Radar
-      </button>
+      <div className="radar-brief-toolbar">
+        <button type="button" className="radar-brief-back" onClick={onBack}>
+          <span aria-hidden="true">←</span> Back to Radar
+        </button>
+      </div>
 
       <div className="radar-brief-layout">
         <div className="radar-brief-main">
@@ -283,18 +285,18 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
         <p className="radar-aliases">Also known as: {row.aliases.join(", ")}</p>
       ) : null}
         </div>
-
-        <figure className="radar-brief-art">
-          <img
-            src={CHARMINAR_SRC}
-            alt="Charminar, Hyderabad — line etching"
-            width={480}
-            height={640}
-            loading="lazy"
-          />
-          <figcaption>Hyderabad · Charminar</figcaption>
-        </figure>
       </div>
+
+      <figure className="radar-brief-art">
+        <img
+          src={CHARMINAR_SRC}
+          alt="Charminar, Hyderabad — line etching"
+          width={480}
+          height={640}
+          loading="lazy"
+        />
+        <figcaption>Hyderabad · Charminar</figcaption>
+      </figure>
     </article>
   );
 }
@@ -328,6 +330,11 @@ export default function RadarClient({ initialMeta }) {
       cancelled = true;
     };
   }, [user]);
+
+  // Brief replaces the list in-place; keep the previous scroll and you land on Sources/footer.
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [selectedId]);
 
   const unlocked = payload && !payload.locked && Array.isArray(payload.entries);
   const core = useMemo(

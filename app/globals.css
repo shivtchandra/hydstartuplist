@@ -4631,37 +4631,61 @@ button.radar-showcase-card .nls-more-link,
 .radar-brief {
   max-width: none;
   width: 100%;
-  padding: 4px 0 48px;
+  padding: 4px 0 56px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+.radar-brief-toolbar {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto 18px;
+  display: flex;
+  justify-content: flex-start;
+}
 .radar-brief-back {
   display: inline-flex;
-  align-self: stretch;
-  max-width: 920px;
-  width: 100%;
-  margin: 0 auto 16px;
-  padding: 0;
-  border: 0;
-  background: none;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 9px 14px;
+  border: 1px solid var(--radar-line);
+  border-radius: 9px;
+  background: var(--radar-elevated, #fffdf9);
   font: inherit;
   font-size: 13px;
   font-weight: 700;
-  color: var(--radar-muted);
+  color: var(--radar-ink);
   cursor: pointer;
-  transition: color 0.15s ease;
+  box-shadow: none;
+  transition:
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.16s ease;
 }
-.radar-brief-back:hover { color: var(--radar-orange-deep); }
+.radar-brief-back span {
+  display: inline-block;
+  transition: transform 0.16s ease;
+}
+.radar-brief-back:hover {
+  border-color: rgba(241, 90, 41, 0.35);
+  background: var(--radar-orange-soft, #fff0e9);
+  color: var(--radar-orange-deep);
+}
+.radar-brief-back:hover span {
+  transform: translateX(-2px);
+}
+.radar-brief-back:focus-visible {
+  outline: 2px solid var(--radar-orange);
+  outline-offset: 2px;
+}
 
 .radar-brief-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
-  gap: 28px;
-  align-items: start;
+  display: block;
   width: 100%;
-  max-width: 920px;
+  max-width: 720px;
   margin: 0 auto;
 }
 .radar-brief-main {
@@ -4873,34 +4897,36 @@ button.radar-showcase-card .nls-more-link,
 
 /* Photographic Charminar — secondary punctuation */
 .radar-brief-art {
-  margin: 0;
-  position: sticky;
-  top: 80px;
-  justify-self: stretch;
+  margin: 28px auto 0;
   width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   pointer-events: none;
 }
 .radar-brief-art img {
   display: block;
-  width: 100%;
+  width: min(240px, 42vw);
   height: auto;
   aspect-ratio: 3 / 4;
   object-fit: contain;
-  object-position: center top;
+  object-position: center bottom;
   border: 0;
   border-radius: 0;
   background: transparent;
-  /* Sit in the page wash — no plate */
   mix-blend-mode: multiply;
   opacity: 0.78;
   filter: contrast(1.05);
   transition: opacity 0.25s ease;
 }
 .radar-brief-art:hover img {
-  opacity: 0.88;
+  opacity: 0.9;
 }
 .radar-brief-art figcaption {
   margin-top: 8px;
+  width: min(240px, 42vw);
+  text-align: center;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -4933,22 +4959,18 @@ body:has(.radar-page) .tn-auth-menu-item:hover {
 }
 
 @media (max-width: 900px) {
+  .radar-brief-toolbar,
   .radar-brief-layout {
-    grid-template-columns: 1fr;
-    gap: 20px;
     max-width: none;
   }
   .radar-brief-art {
-    position: static;
-    order: 2;
-    width: min(240px, 70vw);
-    justify-self: center;
-    text-align: center;
+    align-items: center;
+    margin-top: 24px;
   }
+  .radar-brief-art img,
   .radar-brief-art figcaption {
-    text-align: center;
+    width: min(220px, 58vw);
   }
-  .radar-brief-main { order: 1; }
 }
 
 @media (max-width: 720px) {

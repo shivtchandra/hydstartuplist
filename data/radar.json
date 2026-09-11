@@ -1090,6 +1090,82 @@
       "verifyStatus": "published"
     },
     {
+      "startupId": "3bc81153-50c5-4051-85b3-aa2bbcb3aab9",
+      "tags": [
+        "hard-to-find",
+        "oss",
+        "saas"
+      ],
+      "why": "Open-source work infrastructure (MakePlane); Hyd + SF hiring — often filed under Bangalore/remote only.",
+      "careers": "https://plane.so/careers",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "us-hq-hyd-office",
+        "marketing-careers",
+        "funding-list"
+      ],
+      "aliases": [
+        "Plane.so",
+        "MakePlane",
+        "planepowers"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Vamsi Kurama",
+            "role": "Co-founder",
+            "linkedin": "https://www.linkedin.com/in/vamsi-kurama"
+          },
+          {
+            "name": "Vihar Kurama",
+            "role": "Co-founder",
+            "linkedin": "https://www.linkedin.com/in/vihar-kurama"
+          }
+        ],
+        "stealthSignals": [
+          "US/global brand; Hyd office under India entity name",
+          "Careers buried on marketing site (no known ATS board)",
+          "Open-source PM / work-infra tool often tagged Bangalore/remote; Hyd + SF hiring is quieter",
+          "LinkedIn company slug planepowers (not plane); GitHub makeplane/plane",
+          "Alias trap: MakePlane / planepowers vs product name Plane"
+        ],
+        "sources": [
+          {
+            "type": "company",
+            "url": "https://plane.so",
+            "note": "Open-source work infrastructure; Hyd + SF hiring stated on careers"
+          },
+          {
+            "type": "careers",
+            "url": "https://plane.so/careers",
+            "note": "Hiring in Hyderabad and San Francisco across eng/marketing/sales/QA"
+          },
+          {
+            "type": "github",
+            "url": "https://github.com/makeplane/plane",
+            "note": "Public codebase (MakePlane org)"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/vamsi-kurama"
+          },
+          {
+            "type": "linkedin",
+            "url": "https://www.linkedin.com/in/vihar-kurama"
+          }
+        ],
+        "researchNotes": "Restored to Watch 2026-09-11 after exclusive demote. Careers page confirms Hyd + SF hiring; product framed as open-source work infrastructure (not Greenhouse/Ashby board). HITEC City map pin at Jubilee Enclave. Same miss pattern as GTM Buddy / Deccan AI (us-hq-hyd-office).",
+        "lastVerified": "2026-09-11"
+      },
+      "founderNames": [
+        "Vamsi Kurama",
+        "Vihar Kurama"
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "Restored from demote — clears us-hq-hyd-office + alias depth; Watch not Core (SaaS tooling vs physical/scientific Core bar)."
+    },
+    {
       "startupId": "ed41befb-e88f-4f2f-90a3-e343af10d1a3",
       "tags": [
         "hard-to-find",
@@ -3015,8 +3091,8 @@
     }
   ],
   "exclusiveList": {
-    "updatedAt": "2026-09-09",
-    "status": "core-12 hand research + watch hand pass on thin brands",
+    "updatedAt": "2026-09-11",
+    "status": "core-12 hand research + watch hand pass; Plane restored to Watch (us-hq-hyd-office / MakePlane alias)",
     "core": [
       "AltiusHub",
       "Perceptyne",
@@ -3035,6 +3111,7 @@
       "Synthio Labs",
       "Keus",
       "GTM Buddy",
+      "Plane",
       "Portl",
       "DeepEdge",
       "ZestIOT",
@@ -3076,8 +3153,7 @@
     "removedFromRadar": {
       "demote": [
         "GradRight",
-        "Loop Health",
-        "Plane"
+        "Loop Health"
       ],
       "cut": [
         "Biva",
@@ -3088,10 +3164,14 @@
         "Pulse HRM",
         "Starbuzz"
       ],
-      "note": "Still on public map/jobs; removed from curated Radar exclusive list only."
+      "note": "Still on public map/jobs; removed from curated Radar exclusive list only. Plane restored to Watch 2026-09-11.",
+      "restored": [
+        "Plane"
+      ]
     },
     "coreEnrichedAt": "2026-09-11",
     "watchEnrichedAt": "2026-09-11",
-    "watchHandPassAt": "2026-09-11"
+    "watchHandPassAt": "2026-09-11",
+    "planeRestoredAt": "2026-09-11"
   }
 }
