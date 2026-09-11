@@ -285,18 +285,18 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
         <p className="radar-aliases">Also known as: {row.aliases.join(", ")}</p>
       ) : null}
         </div>
-      </div>
 
-      <figure className="radar-brief-art">
-        <img
-          src={CHARMINAR_SRC}
-          alt="Charminar, Hyderabad — line etching"
-          width={480}
-          height={640}
-          loading="lazy"
-        />
-        <figcaption>Hyderabad · Charminar</figcaption>
-      </figure>
+        <figure className="radar-brief-art">
+          <img
+            src={CHARMINAR_SRC}
+            alt="Charminar, Hyderabad — line etching"
+            width={480}
+            height={640}
+            loading="lazy"
+          />
+          <figcaption>Hyderabad · Charminar</figcaption>
+        </figure>
+      </div>
     </article>
   );
 }

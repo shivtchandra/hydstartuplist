@@ -4629,7 +4629,7 @@ button.radar-showcase-card .nls-more-link,
   padding-top: 6px;
 }
 .radar-brief {
-  --radar-brief-measure: min(68rem, 100%);
+  --radar-brief-measure: min(72rem, 100%);
   max-width: none;
   width: 100%;
   padding: 4px 0 56px;
@@ -4684,7 +4684,10 @@ button.radar-showcase-card .nls-more-link,
 }
 
 .radar-brief-layout {
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
+  gap: 40px 48px;
+  align-items: start;
   width: 100%;
   max-width: var(--radar-brief-measure);
   margin: 0;
@@ -4692,6 +4695,7 @@ button.radar-showcase-card .nls-more-link,
 .radar-brief-main {
   min-width: 0;
   max-width: none;
+  grid-column: 1;
 }
 .radar-brief-head {
   margin: 0 0 4px;
@@ -4896,37 +4900,42 @@ button.radar-showcase-card .nls-more-link,
   line-height: 1.5;
 }
 
-/* Photographic Charminar — secondary punctuation */
+/* Charminar etch — right column beside the research */
 .radar-brief-art {
-  margin: 28px 0 0;
+  margin: 0;
   width: 100%;
-  max-width: var(--radar-brief-measure);
+  max-width: none;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  position: sticky;
+  top: 88px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   pointer-events: none;
 }
 .radar-brief-art img {
   display: block;
-  width: min(240px, 42vw);
+  width: 100%;
   height: auto;
+  max-height: min(520px, 70vh);
   aspect-ratio: 3 / 4;
   object-fit: contain;
-  object-position: center bottom;
+  object-position: center top;
   border: 0;
   border-radius: 0;
   background: transparent;
   mix-blend-mode: multiply;
-  opacity: 0.78;
+  opacity: 0.82;
   filter: contrast(1.05);
   transition: opacity 0.25s ease;
 }
 .radar-brief-art:hover img {
-  opacity: 0.9;
+  opacity: 0.92;
 }
 .radar-brief-art figcaption {
-  margin-top: 8px;
-  width: min(240px, 42vw);
+  margin-top: 10px;
+  width: 100%;
   text-align: center;
   font-size: 10px;
   font-weight: 700;
@@ -4964,13 +4973,20 @@ body:has(.radar-page) .tn-auth-menu-item:hover {
   .radar-brief-layout {
     max-width: none;
   }
-  .radar-brief-art {
-    align-items: center;
-    margin-top: 24px;
+  .radar-brief-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
   }
-  .radar-brief-art img,
-  .radar-brief-art figcaption {
-    width: min(220px, 58vw);
+  .radar-brief-art {
+    grid-column: 1;
+    grid-row: auto;
+    position: static;
+    margin-top: 8px;
+    max-width: 220px;
+    justify-self: center;
+  }
+  .radar-brief-art img {
+    max-height: 360px;
   }
 }
 
