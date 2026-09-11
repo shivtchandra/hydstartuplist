@@ -12,7 +12,7 @@ const USEFUL = {
 export async function GET(req) {
   if (!checkAdminPasscode(req)) return new NextResponse(null, { status: 401 });
   const db = await getAdminDb();
-  if (!db) return NextResponse.json({ boards: [], enabled: false, funnel: {}, byProduct: {} });
+  if (!db) return NextResponse.json({ boards: [], enabled: false, funnel: {}, byProduct: {}, byPage: [] });
 
   const productFilter = new URL(req.url).searchParams.get('product'); // startups | eateries | all
   const [boards, usage, sessions, seriesSnap] = await Promise.all([
@@ -26,12 +26,27 @@ export async function GET(req) {
   };
 
   const funnel = {};
+  const pageCounts = {};
   const byProduct = { startups: { landings: 0, useful: 0, apply: 0, sessions: 0 }, eateries: { landings: 0, useful: 0, apply: 0, sessions: 0 }, hub: { landings: 0, useful: 0, apply: 0, sessions: 0 } };
 
   for (const doc of sessions.docs) {
     const s = doc.data();
-    if (s.events?.landing === undefined) continue;
     const product = s.product === 'eateries' ? 'eateries' : s.product === 'hub' ? 'hub' : 'startups';
+    const inProductSlice = !productFilter || productFilter === 'all' || productFilter === product;
+
+    // Per-page views (all sessions in slice — not gated on landing).
+    if (inProductSlice) {
+      const pages = s.pages && typeof s.pages === 'object' ? s.pages : null;
+      if (pages) {
+        for (const [path, n] of Object.entries(pages)) {
+          const count = Number(n) || 0;
+          if (!path || count <= 0) continue;
+          pageCounts[path] = (pageCounts[path] || 0) + count;
+        }
+      }
+    }
+
+    if (s.events?.landing === undefined) continue;
 
     const usefulKeys = USEFUL[product] || USEFUL.startups;
     const isUseful = usefulKeys.some((e) => s.events[e] !== undefined);
@@ -49,7 +64,7 @@ export async function GET(req) {
     if (isUseful) bp.useful++;
     if (convert) bp.apply++;
 
-    if (productFilter && productFilter !== 'all' && productFilter !== product) continue;
+    if (!inProductSlice) continue;
 
     const key = [product, s.variant, s.device, s.source].join('/');
     const f = funnel[key] || { landings: 0, useful: 0, apply: 0, product };
@@ -58,6 +73,11 @@ export async function GET(req) {
     if (convert) f.apply++;
     funnel[key] = f;
   }
+
+  const byPage = Object.entries(pageCounts)
+    .map(([path, views]) => ({ path, views }))
+    .sort((a, b) => b.views - a.views)
+    .slice(0, 40);
 
   return NextResponse.json({
     boards: boards.docs.map((d) => {
@@ -76,6 +96,7 @@ export async function GET(req) {
     usage: usage.data() || {},
     funnel,
     byProduct,
+    byPage,
     seriesSupport,
   });
 }

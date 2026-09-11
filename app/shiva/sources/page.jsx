@@ -123,6 +123,7 @@ export default function SourceHealthPage() {
   const byVariant = useMemo(() => rollup(data?.funnel, "variant"), [data]);
   const byDevice = useMemo(() => rollup(data?.funnel, "device"), [data]);
   const bySource = useMemo(() => rollup(data?.funnel, "source"), [data]);
+  const byPage = useMemo(() => data?.byPage || [], [data]);
 
   const boards = data?.boards || [];
   const overdueBoards = boards.filter((b) => b.overdue || b.error);
@@ -369,6 +370,39 @@ export default function SourceHealthPage() {
                 </tbody>
               </table>
             </div>
+          </section>
+
+          <section className="src-section">
+            <h2>Top pages</h2>
+            <p className="form-sub" style={{ margin: "0 0 10px" }}>
+              Anonymous page views (28d) · paths are bucketed, no query strings or IDs
+            </p>
+            {byPage.length === 0 ? (
+              <p className="form-sub">
+                No page views yet — counts start after deploy. Refresh in a day or two.
+              </p>
+            ) : (
+              <div className="src-table-wrap">
+                <table className="src-table">
+                  <thead>
+                    <tr>
+                      <th>Page</th>
+                      <th>Views</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {byPage.map((r) => (
+                      <tr key={r.path}>
+                        <td>
+                          <code className="src-path">{r.path}</code>
+                        </td>
+                        <td>{r.views}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </section>
 
           <section className="src-section">
