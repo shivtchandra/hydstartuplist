@@ -16,7 +16,11 @@
     "radar:reconcile:dry": "node scripts/radar-job-reconcile.mjs --dry-run",
     "fresher:gap": "node scripts/fresher-gap-sweep.mjs",
     "fresher:gap:miss": "node scripts/fresher-gap-sweep.mjs --miss-only",
-    "fresher:gap:csv": "node scripts/fresher-gap-sweep.mjs --csv"
+    "fresher:gap:csv": "node scripts/fresher-gap-sweep.mjs --csv",
+    "cron:ats": "node scripts/gh-cron.mjs sync-ats-jobs",
+    "cron:hiring": "node scripts/gh-cron.mjs check-hiring",
+    "cron:priority": "node scripts/gh-cron.mjs sync-priority-careers",
+    "cron:overlay": "node scripts/gh-cron.mjs rebuild-overlay"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

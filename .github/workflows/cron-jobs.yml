@@ -1,156 +1,158 @@
 name: Scheduled data refresh
 
-# Triggers the same cron API routes on the deployed Vercel app.
-# Kept sparse on purpose — each call burns Vercel Fluid Active CPU (Hobby limit).
-# GitHub Actions secrets:
-#   SITE_URL     — deployed origin, e.g. https://startups.mapmyhyd.com
-#   CRON_SECRET  — same value as CRON_SECRET on Vercel
+# Heavy scrapes run on GitHub runners (saves Vercel Fluid Active CPU).
+# Secrets: FIREBASE_SERVICE_ACCOUNT, SITE_URL, CRON_SECRET, optional FIRECRAWL_API_KEY
 on:
   schedule:
-    - cron: "30 2 * * *"   # sync-ats-jobs once/day ~8:00 IST
-    - cron: "0 3 * * *"    # check-hiring once/day
-    - cron: "15 4 * * *"   # sync-priority-careers once/day
-    - cron: "0 5 * * *"    # fetch-news once/day
-    - cron: "0 6 * * *"    # adzuna morning
-    - cron: "0 18 * * *"   # adzuna evening
-    - cron: "0 2 * * *"    # job-alerts near IST morning digest window
-    - cron: "30 3 * * 0"   # newsletter Sundays
-    - cron: "45 5 * * *"   # rebuild-overlay once/day
+    - cron: "30 2 * * *"
+    - cron: "0 3 * * *"
+    - cron: "15 4 * * *"
+    - cron: "0 5 * * *"
+    - cron: "0 6 * * *"
+    - cron: "0 18 * * *"
+    - cron: "0 2 * * *"
+    - cron: "30 3 * * 0"
+    - cron: "45 5 * * *"
   workflow_dispatch: {}
 
 jobs:
-
   sync-ats-jobs:
     if: github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
-      - name: Call sync-ats-jobs
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+      - name: Sync ATS boards on GitHub runner
         env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           SITE_URL: ${{ secrets.SITE_URL }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.SITE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
-        run: |
-          if [ -z "$SITE_URL" ]; then
-            echo "SITE_URL secret not set — skipping."
-            exit 0
-          fi
-          curl -s --max-time 35 -X GET "$SITE_URL/api/cron/sync-ats-jobs" \
-            -H "Authorization: Bearer $CRON_SECRET" \
-            -w "\nHTTP %{http_code}" || true
+          GITHUB_ACTIONS: "true"
+          CRON_TIME_BUDGET_MS: "600000"
+          CRON_CONCURRENCY: "6"
+        run: node scripts/gh-cron.mjs sync-ats-jobs
 
   check-hiring:
     if: github.event.schedule == '0 3 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
-      - name: Call check-hiring
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+      - name: Check hiring on GitHub runner
         env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           SITE_URL: ${{ secrets.SITE_URL }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.SITE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
-        run: |
-          if [ -z "$SITE_URL" ]; then
-            echo "SITE_URL secret not set — skipping."
-            exit 0
-          fi
-          # Smaller batch + short budget to protect Fluid Active CPU.
-          curl -s --max-time 35 -X GET "$SITE_URL/api/cron/check-hiring?limit=15" \
-            -H "Authorization: Bearer $CRON_SECRET" \
-            -w "\nHTTP %{http_code}" || true
-
-  fetch-news:
-    if: github.event.schedule == '0 5 * * *' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call fetch-news
-        env:
-          SITE_URL: ${{ secrets.SITE_URL }}
-          CRON_SECRET: ${{ secrets.CRON_SECRET }}
-        run: |
-          if [ -z "$SITE_URL" ]; then
-            echo "SITE_URL secret not set — skipping."
-            exit 0
-          fi
-          curl -sf --max-time 35 -X GET "$SITE_URL/api/cron/fetch-news?limit=20" \
-            -H "Authorization: Bearer $CRON_SECRET" || true
-
-  adzuna-jobs:
-    if: github.event.schedule == '0 6 * * *' || github.event.schedule == '0 18 * * *' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call adzuna-jobs
-        env:
-          SITE_URL: ${{ secrets.SITE_URL }}
-          CRON_SECRET: ${{ secrets.CRON_SECRET }}
-        run: |
-          if [ -z "$SITE_URL" ]; then
-            echo "SITE_URL secret not set — skipping."
-            exit 0
-          fi
-          curl -s --max-time 25 -X GET "$SITE_URL/api/cron/adzuna-jobs" \
-            -H "Authorization: Bearer $CRON_SECRET" \
-            -w "\nHTTP %{http_code}" || true
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          GITHUB_ACTIONS: "true"
+          CRON_TIME_BUDGET_MS: "600000"
+          CRON_CONCURRENCY: "4"
+          LIMIT: "40"
+        run: node scripts/gh-cron.mjs check-hiring
 
   sync-priority-careers:
     if: github.event.schedule == '15 4 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
-      - name: Call sync-priority-careers
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+      - name: Sync priority careers on GitHub runner
         env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           SITE_URL: ${{ secrets.SITE_URL }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.SITE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
-        run: |
-          if [ -z "$SITE_URL" ]; then
-            echo "SITE_URL secret not set — skipping."
-            exit 0
-          fi
-          curl -s --max-time 35 -X GET "$SITE_URL/api/cron/sync-priority-careers" \
-            -H "Authorization: Bearer $CRON_SECRET" \
-            -w "\nHTTP %{http_code}" || true
-
-  job-alerts:
-    if: github.event.schedule == '0 2 * * *' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call job-alerts
-        env:
-          SITE_URL: ${{ secrets.SITE_URL }}
-          CRON_SECRET: ${{ secrets.CRON_SECRET }}
-        run: |
-          if [ -z "$SITE_URL" ]; then
-            echo "SITE_URL secret not set — skipping."
-            exit 0
-          fi
-          curl -s --max-time 25 -X GET "$SITE_URL/api/cron/job-alerts" \
-            -H "Authorization: Bearer $CRON_SECRET" \
-            -w "\nHTTP %{http_code}" || true
-
-  newsletter:
-    if: github.event.schedule == '30 3 * * 0' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call newsletter digest
-        env:
-          SITE_URL: ${{ secrets.SITE_URL }}
-          CRON_SECRET: ${{ secrets.CRON_SECRET }}
-        run: |
-          if [ -z "$SITE_URL" ]; then
-            echo "SITE_URL secret not set — skipping."
-            exit 0
-          fi
-          curl -sf --max-time 35 -X GET "$SITE_URL/api/cron/newsletter" \
-            -H "Authorization: Bearer $CRON_SECRET" || true
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          GITHUB_ACTIONS: "true"
+          CRON_TIME_BUDGET_MS: "600000"
+          CRON_CONCURRENCY: "4"
+        run: node scripts/gh-cron.mjs sync-priority-careers
 
   rebuild-overlay:
     if: github.event.schedule == '45 5 * * *' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - name: Rebuild startups_dynamic rollup
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+      - name: Rebuild overlay rollup on GitHub runner
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.SITE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          GITHUB_ACTIONS: "true"
+        run: node scripts/gh-cron.mjs rebuild-overlay
+
+  fetch-news:
+    if: github.event.schedule == '0 5 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call fetch-news on Vercel
         env:
           SITE_URL: ${{ secrets.SITE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
-          if [ -z "$SITE_URL" ]; then
-            echo "SITE_URL secret not set — skipping."
-            exit 0
-          fi
-          curl -s --max-time 35 -X GET "$SITE_URL/api/cron/rebuild-overlay" \
-            -H "Authorization: Bearer $CRON_SECRET" \
-            -w "\nHTTP %{http_code}" || true
+          if [ -z "$SITE_URL" ]; then echo "SITE_URL missing"; exit 0; fi
+          curl -sf --max-time 35 -X GET "$SITE_URL/api/cron/fetch-news?limit=20" \
+            -H "Authorization: Bearer $CRON_SECRET" || true
+
+  adzuna-jobs:
+    if: github.event.schedule == '0 6 * * *' || github.event.schedule == '0 18 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call adzuna-jobs on Vercel
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$SITE_URL" ]; then echo "SITE_URL missing"; exit 0; fi
+          curl -s --max-time 25 -X GET "$SITE_URL/api/cron/adzuna-jobs" \
+            -H "Authorization: Bearer $CRON_SECRET" || true
+
+  job-alerts:
+    if: github.event.schedule == '0 2 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call job-alerts on Vercel
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$SITE_URL" ]; then echo "SITE_URL missing"; exit 0; fi
+          curl -s --max-time 25 -X GET "$SITE_URL/api/cron/job-alerts" \
+            -H "Authorization: Bearer $CRON_SECRET" || true
+
+  newsletter:
+    if: github.event.schedule == '30 3 * * 0'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call newsletter on Vercel
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$SITE_URL" ]; then echo "SITE_URL missing"; exit 0; fi
+          curl -sf --max-time 35 -X GET "$SITE_URL/api/cron/newsletter" \
+            -H "Authorization: Bearer $CRON_SECRET" || true
