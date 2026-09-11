@@ -97,205 +97,390 @@ function buildSignals(row) {
   return signals;
 }
 
-function OutLink({ href, children }) {
+function OutLink({ href, children, className = "radar-out" }) {
   if (!href) return null;
   const external = /^https?:\/\//i.test(href);
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="radar-out">
-        {children} <span aria-hidden="true">↗</span>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {children}
+        {/radar-cta/.test(className) ? null : (
+          <>
+            {" "}
+            <span aria-hidden="true">↗</span>
+          </>
+        )}
       </a>
     );
   }
   return (
-    <Link href={href} className="radar-out">
-      {children} <span aria-hidden="true">↗</span>
+    <Link href={href} className={className}>
+      {children}
+      {/radar-cta/.test(className) ? null : (
+        <>
+          {" "}
+          <span aria-hidden="true">↗</span>
+        </>
+      )}
     </Link>
+  );
+}
+
+function founderPhoto(f, imgFailed) {
+  const slug = linkedInSlug(f.linkedin);
+  return (
+    f.photo ||
+    f.image ||
+    f.photoUrl ||
+    (slug && !imgFailed ? `https://unavatar.io/linkedin/${encodeURIComponent(slug)}` : null)
+  );
+}
+
+function CardFounderChip({ f }) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const photo = founderPhoto(f, imgFailed);
+  const first = String(f.name || "").trim().split(/\s+/)[0] || "?";
+  return (
+    <span className="radar-card-person">
+      <span className="radar-card-avatar" aria-hidden>
+        {photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={photo} alt="" onError={() => setImgFailed(true)} referrerPolicy="no-referrer" />
+        ) : (
+          initials(f.name)
+        )}
+      </span>
+      {first}
+    </span>
   );
 }
 
 function FounderProfile({ f }) {
   const name = f.name || "Leadership";
-  const role = f.role || null;
+  const role = f.role || f.title || null;
   const slug = linkedInSlug(f.linkedin);
   const [imgFailed, setImgFailed] = useState(false);
-  const photo =
-    f.photo ||
-    f.image ||
-    (slug && !imgFailed ? `https://unavatar.io/linkedin/${encodeURIComponent(slug)}` : null);
+  const photo = founderPhoto(f, imgFailed);
 
   return (
-    <article className="radar-person">
-      {photo ? (
-        <img
-          className="radar-person-photo"
-          src={photo}
-          alt=""
-          width={40}
-          height={40}
-          loading="lazy"
-          referrerPolicy="no-referrer"
-          onError={() => setImgFailed(true)}
-        />
-      ) : (
-        <div className="radar-person-photo radar-person-photo--fallback" aria-hidden="true">
-          {initials(name)}
-        </div>
-      )}
-      <div className="radar-person-body">
-        <h4>{name}</h4>
-        {role ? <p className="radar-person-role">{role}</p> : null}
-        {f.linkedin ? (
-          <a href={f.linkedin} target="_blank" rel="noopener noreferrer" className="radar-person-li">
-            View LinkedIn profile <span aria-hidden="true">↗</span>
-          </a>
+    <li className="radar-person-card">
+      <div className="radar-person-card-media" aria-hidden>
+        {photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={photo}
+            alt=""
+            className="radar-person-photo"
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            onError={() => setImgFailed(true)}
+          />
         ) : (
-          <span className="radar-person-li radar-person-li--muted">LinkedIn not listed</span>
+          <span className="radar-person-fallback">{initials(name)}</span>
         )}
+      </div>
+      <div className="radar-person-card-body">
+        <p className="radar-person-name">{name}</p>
+        {role ? <p className="radar-person-role">{role}</p> : null}
+        {slug ? (
+          <OutLink href={f.linkedin} className="radar-person-link">
+            LinkedIn · {slug}
+          </OutLink>
+        ) : f.linkedin ? (
+          <OutLink href={f.linkedin} className="radar-person-link">
+            LinkedIn
+          </OutLink>
+        ) : (
+          <span className="radar-person-muted">No public LinkedIn on file</span>
+        )}
+      </div>
+    </li>
+  );
+}
+
+/** Split long blurbs into readable paragraphs */
+function briefParagraphs(text) {
+  const raw = String(text || "").trim();
+  if (!raw) return [];
+  const sentences = raw.split(/(?<=[.!?])\s+/).filter(Boolean);
+  if (sentences.length <= 2) return [raw];
+  const out = [];
+  let buf = [];
+  for (const s of sentences) {
+    buf.push(s);
+    const len = buf.join(" ").length;
+    if (buf.length >= 2 && len > 160) {
+      out.push(buf.join(" "));
+      buf = [];
+    }
+  }
+  if (buf.length) out.push(buf.join(" "));
+  return out;
+}
+
+function whyHardLabels(row) {
+  const missLabels = row.missReasonLabels || [];
+  const stealth = row.depth?.stealthSignals || [];
+  return [...missLabels, ...stealth.filter((s) => !missLabels.includes(s))];
+}
+
+/** GCC-style showcase card */
+function ShowcaseCard({ row, onOpen }) {
+  const place = areaLine(row.area, row.geoLabel);
+  const founders = row.depth?.founders || row.founders || [];
+  const why = whyHardLabels(row).slice(0, 2);
+  const jobs = row.liveJobs || 0;
+  const tier = row.exclusiveTier === "core" ? "core" : "watch";
+  const lede = row.why || null;
+  const careers = row.careers || null;
+
+  return (
+    <article className="radar-card radar-card--v2">
+      <button type="button" className="radar-card-hit" onClick={() => onOpen(row.id)} aria-label={`Open ${row.name}`}>
+        <div className="radar-card-top">
+          <StartupLogo
+            name={row.name}
+            logoUrl={row.logoUrl}
+            website={row.website}
+            size={48}
+            className="radar-card-logo"
+          />
+          <div className="radar-card-id">
+            <div className="radar-card-meta-row">
+              <span className={`radar-tier radar-tier--${tier}`}>
+                {tier === "core" ? "Core" : "Watch"}
+              </span>
+              {jobs > 0 ? <span className="radar-card-jobs">{jobs} open</span> : null}
+            </div>
+            <h2 className="radar-card-name">{row.name}</h2>
+            <p className="radar-card-place">{[row.sector, place].filter(Boolean).join(" · ")}</p>
+          </div>
+        </div>
+        {lede ? <p className="radar-card-line">{lede}</p> : null}
+        {why.length ? (
+          <ul className="radar-card-why">
+            {why.map((w) => (
+              <li key={w}>{w}</li>
+            ))}
+          </ul>
+        ) : null}
+        {founders.length ? (
+          <div className="radar-card-people">
+            {founders.slice(0, 3).map((f) => (
+              <CardFounderChip key={f.name} f={f} />
+            ))}
+            {founders.length > 3 ? (
+              <span className="radar-card-person radar-card-person--more">+{founders.length - 3}</span>
+            ) : null}
+          </div>
+        ) : null}
+      </button>
+      <div className="radar-card-actions">
+        <button type="button" className="radar-card-open" onClick={() => onOpen(row.id)}>
+          Open brief
+        </button>
+        {careers ? (
+          <OutLink href={careers} className="radar-card-ext">
+            Careers
+          </OutLink>
+        ) : row.website ? (
+          <OutLink href={row.website} className="radar-card-ext">
+            Website
+          </OutLink>
+        ) : null}
       </div>
     </article>
   );
 }
 
-/** GCC-style showcase card */
-function ShowcaseCard({ row, onOpen }) {
-  const place = areaLine(row.area, row.geoLabel) || "Hyderabad";
-  const sectorPlace = [row.sector, place].filter(Boolean).join(" · ");
-  return (
-    <button type="button" className="feed-row radar-showcase-card" onClick={() => onOpen(row.id)}>
-      <StartupLogo name={row.name} website={row.website} sector={row.sector} size={40} />
-      <div className="feed-row-body">
-        <div className="feed-row-name">{row.name}</div>
-        {sectorPlace ? <div className="feed-row-sub">{sectorPlace}</div> : null}
-        <div className="radar-card-office">{officeLabel(row)}</div>
-      </div>
-      <span className="nls-more-link radar-card-cta">
-        Open research <span className="radar-card-cta-arrow" aria-hidden="true">→</span>
-      </span>
-    </button>
-  );
-}
-
 function CompanyDetail({ row, onBack, listUpdatedAt }) {
   const founders = row.depth?.founders || row.founders || [];
-  const stealth = row.depth?.stealthSignals || [];
-  const sources = row.depth?.sources || [];
-  const notes = row.depth?.researchNotes || null;
-  const missLabels = row.missReasonLabels || [];
-  const whyHard = [...missLabels, ...stealth.filter((s) => !missLabels.includes(s))];
+  const why = whyHardLabels(row);
+  const sources = row.depth?.sources || row.sources || [];
   const signals = buildSignals(row);
-  const lastChecked = formatUpdated(row.depth?.lastVerified || listUpdatedAt);
-  const tier = row.exclusiveTier === "core" ? "Core" : row.exclusiveTier === "watch" ? "Watch" : null;
   const place = areaLine(row.area, row.geoLabel);
-  const placeUpper = [row.sector, place].filter(Boolean).join(" · ");
   const lede = row.why || null;
-  const whatTheyDo = notes && notes !== lede ? notes : null;
-  const companyHref = row.slug ? `/startups/${row.slug}` : null;
-  const mapHref = row.slug ? `/?startup=${row.slug}` : null;
+  const notes = row.depth?.researchNotes || null;
+  const blurbParas = briefParagraphs(notes && notes !== lede ? notes : null);
+  const jobs = row.liveJobs || 0;
+  const tier = row.exclusiveTier === "core" ? "core" : row.exclusiveTier === "watch" ? "watch" : null;
+  const careers = row.careers || null;
+  const lastChecked = formatUpdated(row.depth?.lastVerified || listUpdatedAt);
 
   return (
-    <article className="radar-brief" data-tier={row.exclusiveTier || ""} key={row.id}>
+    <article className="radar-brief radar-brief--v2" data-tier={row.exclusiveTier || ""}>
       <div className="radar-brief-toolbar">
-        <button type="button" className="radar-brief-back" onClick={onBack}>
-          <span aria-hidden="true">←</span> Back to Radar
+        <button type="button" className="radar-back" onClick={onBack}>
+          <span aria-hidden>←</span> Back to Radar
         </button>
+        <span className="radar-brief-toolbar-hint">Research brief</span>
       </div>
 
       <div className="radar-brief-layout">
         <div className="radar-brief-main">
-          <header className="radar-brief-head">
-            {tier ? <p className="radar-brief-tier">{tier}</p> : null}
-            {placeUpper ? <p className="radar-brief-place">{placeUpper}</p> : null}
-            <h2>{row.name}</h2>
-            {lede ? <p className="radar-brief-lede">{lede}</p> : null}
-            <nav className="radar-out-row" aria-label="Company links">
-              {companyHref ? <OutLink href={companyHref}>View company</OutLink> : null}
-              {mapHref ? <OutLink href={mapHref}>Map</OutLink> : null}
-              {row.website ? <OutLink href={row.website}>Website</OutLink> : null}
-              {row.careers ? <OutLink href={row.careers}>Careers</OutLink> : null}
-            </nav>
+          <header className="radar-brief-hero">
+            <div className="radar-brief-hero-row">
+              <StartupLogo
+                name={row.name}
+                logoUrl={row.logoUrl}
+                website={row.website}
+                size={72}
+                className="radar-brief-logo"
+              />
+              <div className="radar-brief-identity">
+                <div className="radar-brief-chips">
+                  {tier ? (
+                    <span className={`radar-tier radar-tier--${tier}`}>
+                      {tier === "core" ? "Core" : "Watch"}
+                    </span>
+                  ) : null}
+                  {row.sector ? <span className="radar-chip">{row.sector}</span> : null}
+                  {place ? <span className="radar-chip">{place}</span> : null}
+                  {jobs > 0 ? (
+                    <span className="radar-chip radar-chip--jobs">
+                      {jobs} live role{jobs === 1 ? "" : "s"}
+                    </span>
+                  ) : null}
+                </div>
+                <h2 className="radar-brief-name">{row.name}</h2>
+                {lede ? <p className="radar-brief-lede">{lede}</p> : null}
+              </div>
+            </div>
+
+            <div className="radar-brief-cta">
+              {careers ? (
+                <OutLink href={careers} className="radar-cta radar-cta--primary">
+                  Careers
+                </OutLink>
+              ) : null}
+              {row.website ? (
+                <OutLink
+                  href={row.website}
+                  className={`radar-cta ${careers ? "radar-cta--ghost" : "radar-cta--primary"}`}
+                >
+                  Website
+                </OutLink>
+              ) : null}
+              {row.onMap && row.slug ? (
+                <Link href={`/startups/${row.slug}`} className="radar-cta radar-cta--ghost">
+                  Company page
+                </Link>
+              ) : null}
+              {row.onMap && row.slug ? (
+                <Link href={`/?startup=${encodeURIComponent(row.slug)}`} className="radar-cta radar-cta--ghost">
+                  Map
+                </Link>
+              ) : null}
+            </div>
           </header>
 
-      {whatTheyDo ? (
-        <section className="radar-section">
-          <h3>What they do</h3>
-          <p className="radar-body">{whatTheyDo}</p>
-        </section>
-      ) : null}
+          {blurbParas.length ? (
+            <section className="radar-panel">
+              <div className="radar-panel-head">
+                <h3>What they do</h3>
+              </div>
+              <div className="radar-panel-body radar-brief-copy">
+                {blurbParas.map((para) => (
+                  <p key={para.slice(0, 48)}>{para}</p>
+                ))}
+              </div>
+            </section>
+          ) : null}
 
-      {whyHard.length ? (
-        <section className="radar-section">
-          <h3>Why it&apos;s hard to find</h3>
-          <ul className="radar-evidence">
-            {whyHard.map((label) => (
-              <li key={label}>{label}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+          {why.length ? (
+            <section className="radar-panel">
+              <div className="radar-panel-head">
+                <h3>Why it&apos;s hard to find</h3>
+                <p className="radar-panel-sub">Signals that keep this company under the radar</p>
+              </div>
+              <ul className="radar-why-grid">
+                {why.map((w) => (
+                  <li key={w} className="radar-why-item">
+                    {w}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
-      {founders.length ? (
-        <section className="radar-section">
-          <h3>People to know</h3>
-          <div className="radar-people">
-            {founders.map((f) => (
-              <FounderProfile key={`${f.name}-${f.linkedin || f.role || ""}`} f={f} />
-            ))}
-          </div>
-        </section>
-      ) : null}
+          {founders.length ? (
+            <section className="radar-panel">
+              <div className="radar-panel-head">
+                <h3>People to know</h3>
+                <p className="radar-panel-sub">Founders and operators worth a look</p>
+              </div>
+              <ul className="radar-people-grid">
+                {founders.map((f) => (
+                  <FounderProfile key={`${f.name}-${f.linkedin || ""}`} f={f} />
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
-      {signals.length ? (
-        <section className="radar-section">
-          <h3>Signals</h3>
-          <ul className="radar-signals">
-            {signals.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+          {signals.length ? (
+            <section className="radar-panel">
+              <div className="radar-panel-head">
+                <h3>Signals</h3>
+              </div>
+              <ul className="radar-signal-row">
+                {signals.map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
-      {sources.length ? (
-        <section className="radar-section">
-          <h3>Sources</h3>
-          <ul className="radar-sources">
-            {sources.map((s, i) => (
-              <li key={`${sourceLabel(s)}-${i}`}>
-                {s.url ? (
-                  <a href={s.url} target="_blank" rel="noopener noreferrer">
-                    {sourceLabel(s)}
-                  </a>
-                ) : (
-                  sourceLabel(s)
-                )}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+          {sources.length ? (
+            <section className="radar-panel radar-panel--quiet">
+              <div className="radar-panel-head">
+                <h3>Sources</h3>
+              </div>
+              <ul className="radar-sources-list">
+                {sources.map((s, i) => (
+                  <li key={`${sourceLabel(s)}-${i}`}>
+                    {s.url ? <OutLink href={s.url}>{sourceLabel(s)}</OutLink> : sourceLabel(s)}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
-      {lastChecked ? (
-        <p className="radar-last-checked">
-          <span>Last checked</span> {lastChecked}
-        </p>
-      ) : null}
-
-      {row.aliases?.length ? (
-        <p className="radar-aliases">Also known as: {row.aliases.join(", ")}</p>
-      ) : null}
+          {(row.aliases && row.aliases.length) || officeLabel(row) || lastChecked ? (
+            <footer className="radar-brief-foot">
+              {officeLabel(row) ? <span>{officeLabel(row)}</span> : null}
+              {lastChecked ? <span>Last checked {lastChecked}</span> : null}
+              {row.aliases?.length ? <span>Also known as: {row.aliases.join(", ")}</span> : null}
+            </footer>
+          ) : null}
         </div>
 
-        <figure className="radar-brief-art">
-          <img
-            src={CHARMINAR_SRC}
-            alt="Charminar, Hyderabad — line etching"
-            width={480}
-            height={640}
-            loading="lazy"
-          />
-          <figcaption>Hyderabad · Charminar</figcaption>
-        </figure>
+        <aside className="radar-brief-aside">
+          <figure className="radar-brief-art">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={CHARMINAR_SRC}
+              alt="Charminar, Hyderabad — line etching"
+              width={480}
+              height={640}
+              loading="lazy"
+            />
+            <figcaption>Hyderabad · Charminar</figcaption>
+          </figure>
+          {(careers || row.website) && (
+            <div className="radar-brief-aside-card">
+              <p className="radar-brief-aside-kicker">Next step</p>
+              <p className="radar-brief-aside-title">
+                {careers ? "Check open roles" : "Visit the company site"}
+              </p>
+              <OutLink
+                href={careers || row.website}
+                className="radar-cta radar-cta--primary radar-cta--block"
+              >
+                {careers ? "Open careers" : "Open website"}
+              </OutLink>
+            </div>
+          )}
+        </aside>
       </div>
     </article>
   );
