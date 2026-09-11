@@ -23,6 +23,7 @@ export default function AdminPage() {
   const [approvedStartups, setApprovedStartups] = useState([]);
   const [approvedBusyId, setApprovedBusyId] = useState(null);
   const [showHiddenApproved, setShowHiddenApproved] = useState(false);
+  const [approvedQuery, setApprovedQuery] = useState("");
   const [featuredReqs, setFeaturedReqs] = useState([]);
   const [frBusyId, setFrBusyId] = useState(null);
   const [placeOpenId, setPlaceOpenId] = useState(null);
@@ -369,10 +370,18 @@ export default function AdminPage() {
     () => (showPlacedFeatured ? featuredReqs : featuredReqs.filter((r) => r.status !== "placed")),
     [featuredReqs, showPlacedFeatured]
   );
-  const visibleApprovedStartups = useMemo(
-    () => (showHiddenApproved ? approvedStartups : approvedStartups.filter((s) => s.active !== false)),
-    [approvedStartups, showHiddenApproved]
-  );
+  const visibleApprovedStartups = useMemo(() => {
+    const base = showHiddenApproved ? approvedStartups : approvedStartups.filter((s) => s.active !== false);
+    const q = approvedQuery.trim().toLowerCase();
+    if (!q) return base;
+    return base.filter(
+      (s) =>
+        String(s.name || "").toLowerCase().includes(q) ||
+        String(s.website || "").toLowerCase().includes(q) ||
+        String(s.area || "").toLowerCase().includes(q) ||
+        String(s.id || "").toLowerCase().includes(q)
+    );
+  }, [approvedStartups, showHiddenApproved, approvedQuery]);
 
   async function reject(item) {
     if (!confirm(`Reject and delete "${item.name}"?`)) return;
@@ -533,14 +542,25 @@ export default function AdminPage() {
             Hide removes a startup from the public map without deleting the approval record.
           </p>
         </div>
-        <label className="admin-toggle">
+        <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
           <input
-            type="checkbox"
-            checked={showHiddenApproved}
-            onChange={(e) => setShowHiddenApproved(e.target.checked)}
+            className="input"
+            type="search"
+            placeholder="Search approved…"
+            value={approvedQuery}
+            onChange={(e) => setApprovedQuery(e.target.value)}
+            style={{ minWidth: 200, maxWidth: 280 }}
+            aria-label="Search approved listings"
           />
-          <span>Show hidden</span>
-        </label>
+          <label className="admin-toggle">
+            <input
+              type="checkbox"
+              checked={showHiddenApproved}
+              onChange={(e) => setShowHiddenApproved(e.target.checked)}
+            />
+            <span>Show hidden</span>
+          </label>
+        </div>
       </div>
 
       {visibleApprovedStartups.length === 0 && (
@@ -550,7 +570,7 @@ export default function AdminPage() {
       )}
 
       <div className="admin-list">
-        {visibleApprovedStartups.slice(0, 80).map((s) => (
+        {visibleApprovedStartups.slice(0, approvedQuery.trim() ? 200 : 80).map((s) => (
           <div key={s.id} className="admin-row">
             <div className="admin-info">
               <div className="admin-name">
@@ -580,8 +600,11 @@ export default function AdminPage() {
             </div>
           </div>
         ))}
-        {visibleApprovedStartups.length > 80 && (
-          <div className="sb-more">Showing 80 of {visibleApprovedStartups.length.toLocaleString()} approved listings.</div>
+        {visibleApprovedStartups.length > (approvedQuery.trim() ? 200 : 80) && (
+          <div className="sb-more">
+            Showing {approvedQuery.trim() ? 200 : 80} of {visibleApprovedStartups.length.toLocaleString()} —
+            search to find the rest.
+          </div>
         )}
       </div>
 

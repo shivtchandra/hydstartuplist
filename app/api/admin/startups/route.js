@@ -13,7 +13,7 @@ function checkPasscode(req) {
 export async function GET(req) {
   if (!checkPasscode(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const all = await getApproved();
+  const all = await getApproved({ fresh: true });
   const startups = all
     .map((s) => ({
       id: s.id,
