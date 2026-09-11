@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState, useCallback, startTransition } fr
 import Link from "next/link";
 import ExploreModes from "../components/ExploreModes.jsx";
 import AuthButton from "../components/AuthButton.jsx";
-import { normalizeArea, domainOf, hostnameOf, logoSrcs, colorFor, prettyName, careersUrl } from "../../lib/startupUi.js";
+import { normalizeArea, domainOf, hostnameOf, logoSrcs, colorFor, prettyName } from "../../lib/startupUi.js";
 import { startupSlug } from "../../lib/slug.js";
 import { jobUrlId } from "../../lib/jobs-seo.js";
 import MobileTabBar from "../components/MobileTabBar.jsx";
@@ -538,7 +538,7 @@ function DetailModal({ startup, onClose }) {
 
   if (!startup) return null;
   const site = detail?.website ?? startup.website;
-  const careers = detail?.careers || careersUrl(site);
+  const careers = detail?.careers || null;
   // Dedupe noisy career-page scrapes (same title listed twice).
   const roles = [];
   const seenRole = new Set();

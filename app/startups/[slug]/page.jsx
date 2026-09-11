@@ -9,7 +9,6 @@ import { getSiteUrl } from "../../../lib/site-url.js";
 import {
   colorFor,
   prettyName,
-  careersUrl,
   faviconUrl,
   normalizeArea,
   relatedStartups,
@@ -157,7 +156,7 @@ export default async function StartupDetailPage({ params }) {
 
   const hiring = visibleHiring(startup);
   const sponsored = (await featuredPinIdSetAsync()).has(startup.id) || startup.sponsored === true;
-  const careers = startup.careers || careersUrl(startup.website);
+  const careers = startup.careers || null;
   const maps = directionsUrl(startup.address, startup.lat, startup.lng);
   const slug = startupSlug(startup);
   const jsonLd = orgJsonLd(startup, slug, sponsored);
