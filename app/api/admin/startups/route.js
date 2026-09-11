@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
-import { getApproved, invalidateDynamicOverlay, visibleHiring } from "../../../../lib/store.js";
+import { getApproved, invalidateDynamicOverlay, refreshDynamicOverlayRollup, visibleHiring } from "../../../../lib/store.js";
 import { checkAdminPasscode } from "../../../../lib/admin-auth.js";
 
 export const dynamic = "force-dynamic";
@@ -54,6 +54,7 @@ export async function POST(req) {
     { merge: true }
   );
   invalidateDynamicOverlay();
+  void refreshDynamicOverlayRollup(db);
 
   return NextResponse.json({ ok: true, id, active });
 }

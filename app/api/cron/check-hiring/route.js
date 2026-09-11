@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getApproved } from "../../../../lib/store.js";
+import { getApproved, refreshDynamicOverlayRollup } from "../../../../lib/store.js";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { normalizeSalary, sanitizeJobHtml } from "../../../../lib/job-content.js";
 import { HYD_TG_LOC_RE } from "../../../../lib/ats/geo.js";
@@ -456,6 +456,11 @@ export async function GET(req) {
     } catch (err) {
       console.error("cursor write error:", err);
     }
+  }
+
+
+  if (db) {
+    void refreshDynamicOverlayRollup(db);
   }
 
   return NextResponse.json({

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getApproved } from "../../../../lib/store.js";
+import { getApproved, refreshDynamicOverlayRollup } from "../../../../lib/store.js";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 
 export const dynamic = "force-dynamic";
@@ -115,7 +115,12 @@ export async function GET(req) {
     }
   }
 
-  return NextResponse.json({
+  
+  if (db) {
+    void refreshDynamicOverlayRollup(db);
+  }
+
+return NextResponse.json({
     success: true,
     checked: targets.length,
     newsHits: hits,

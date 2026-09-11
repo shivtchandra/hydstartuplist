@@ -8,6 +8,7 @@ import { jobUrlId } from "../../../../lib/jobs-seo.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 import { reconcileBoard } from "../../../../lib/job-lifecycle.js";
 import { acquireBoard } from "../../../../lib/board-store.js";
+import { refreshDynamicOverlayRollup } from "../../../../lib/store.js";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -294,7 +295,12 @@ export async function GET(req) {
   const nextOffset = (start + advanced) % Math.max(allBoards.length, 1);
   await cursorRef.set({ offset: nextOffset, lastRunAt: fetchedAt });
 
-  return NextResponse.json({
+  
+  if (db) {
+    void refreshDynamicOverlayRollup(db);
+  }
+
+return NextResponse.json({
     success: true,
     boardsTotal: allBoards.length,
     boardsAttempted: attempted.filter(Boolean).length,

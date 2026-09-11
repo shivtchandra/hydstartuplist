@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getApproved, isHiringFresh } from "../../../../lib/store.js";
+import { getApproved, isHiringFresh, refreshDynamicOverlayRollup } from "../../../../lib/store.js";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { checkAdminPasscode } from "../../../../lib/admin-auth.js";
 
@@ -49,5 +49,6 @@ export async function POST(req) {
   if (!db) return NextResponse.json({ error: "FIREBASE_SERVICE_ACCOUNT not configured" }, { status: 500 });
 
   await db.collection("startups_dynamic").doc(id).set({ hiringHidden: hidden }, { merge: true });
+  void refreshDynamicOverlayRollup(db);
   return NextResponse.json({ ok: true, id, hidden });
 }

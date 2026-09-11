@@ -10,6 +10,11 @@ config({ path: path.join(__dirname, "..", ".env.local") });
 const RAW_PATH = path.join(__dirname, "..", "data", "startups-raw.json");
 const OUT_PATH = path.join(__dirname, "..", "data", "startups.json");
 const KEY = process.env.GOOGLE_MAPS_API_KEY;
+const LIMIT = parseInt(process.env.LIMIT || "0", 10);
+if (!LIMIT && process.env.CONFIRM !== "1") {
+  console.error("Refusing full geocode-seed run (Places/Geocoding cost). Use LIMIT=20 or CONFIRM=1.");
+  process.exit(1);
+}
 
 // Hyderabad bounding box — reject Places matches that resolve elsewhere.
 const IN_HYD = (lat, lng) => lat > 17.0 && lat < 17.75 && lng > 78.0 && lng < 78.85;
@@ -54,7 +59,8 @@ async function careersFor(website, name) {
   return `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(name)}`;
 }
 
-const raw = JSON.parse(fs.readFileSync(RAW_PATH, "utf-8"));
+const rawAll = JSON.parse(fs.readFileSync(RAW_PATH, "utf-8"));
+const raw = LIMIT ? rawAll.slice(0, LIMIT) : rawAll;
 const out = [];
 
 for (const entry of raw) {

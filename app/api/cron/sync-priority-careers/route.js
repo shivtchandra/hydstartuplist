@@ -10,6 +10,7 @@ import {
 import { notifyJobUrls } from "../../../../lib/google-indexing.js";
 import { jobUrlId } from "../../../../lib/jobs-seo.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
+import { refreshDynamicOverlayRollup } from "../../../../lib/store.js";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -108,7 +109,12 @@ export async function GET(req) {
   });
   revalidateTag("public-jobs");
 
-  return NextResponse.json({
+  
+  if (db) {
+    void refreshDynamicOverlayRollup(db);
+  }
+
+return NextResponse.json({
     success: true,
     employers: entries.length,
     hit: results.filter((r) => r.ok).length,

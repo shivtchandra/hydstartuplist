@@ -20,6 +20,12 @@ const DB = path.join(__dirname, "..", "data", "startups.json");
 const REPORT = path.join(__dirname, "..", "data", "verify-report.json");
 const KEY = process.env.GOOGLE_MAPS_API_KEY;
 const LIMIT = parseInt(process.env.LIMIT || "0", 10);
+// Full-catalog Places re-queries are expensive (Atmosphere / Places SKU).
+if (!LIMIT && process.env.CONFIRM !== "1") {
+  console.error("Refusing full verify-data run (Places cost). Use LIMIT=50 or CONFIRM=1.");
+  process.exit(1);
+}
+
 const UA = { "User-Agent": "Mozilla/5.0 (verify)" };
 
 function domainOf(website) {
