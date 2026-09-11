@@ -14,7 +14,7 @@ export async function GET(req) {
 
   return NextResponse.json(slim, {
     headers: {
-      "Cache-Control": "no-store, max-age=0",
+      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
     },
   });
 }

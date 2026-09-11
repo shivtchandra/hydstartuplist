@@ -25,19 +25,26 @@ export async function GET(req) {
       exclusiveOnly: geo === "hyd",
     });
 
-    return NextResponse.json({
-      locked: false,
-      temporaryPublic: true,
-      geo,
-      uid: "temp-public",
-      meta: {
-        updatedAt: meta.updatedAt,
-        headline: meta.headline,
-        blurb: meta.blurb,
-        exclusiveList: meta.exclusiveList,
+    return NextResponse.json(
+      {
+        locked: false,
+        temporaryPublic: true,
+        geo,
+        uid: "temp-public",
+        meta: {
+          updatedAt: meta.updatedAt,
+          headline: meta.headline,
+          blurb: meta.blurb,
+          exclusiveList: meta.exclusiveList,
+        },
+        entries,
       },
-      entries,
-    });
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=600, stale-while-revalidate=1200",
+        },
+      }
+    );
   } catch (err) {
     const msg = String(err?.message || err || "");
     console.error("[api/radar]", msg);

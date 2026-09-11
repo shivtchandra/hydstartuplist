@@ -3,7 +3,7 @@ import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { refreshDynamicOverlayRollup } from "../../../../lib/store.js";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;
+export const maxDuration = 30;
 
 /** One-shot / periodic rebuild of startups_meta/overlay_v1 (1-doc public read). */
 export async function GET(req) {

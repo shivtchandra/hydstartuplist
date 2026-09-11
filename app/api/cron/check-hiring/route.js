@@ -8,7 +8,7 @@ import { jobUrlId } from "../../../../lib/jobs-seo.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 60; // Max allowed serverless duration on Vercel Pro
+export const maxDuration = 30; // Hobby Fluid Active CPU budget
 
 // Firecrawl is a paid credit-metered fallback for JS-rendered careers pages.
 // Runs whenever FIRECRAWL_API_KEY is set on Vercel. Set FIRECRAWL_ENABLED=0 to disable.
@@ -362,8 +362,8 @@ export async function GET(req) {
   // advanced, stalling on the same stuck batch every run. Run with bounded
   // concurrency and a time budget instead; `attempted` tracks what actually
   // finished so the cursor advances only past real progress.
-  const CONCURRENCY = 6;
-  const TIME_BUDGET_MS = 45_000; // headroom under the 60s function cap
+  const CONCURRENCY = 3;
+  const TIME_BUDGET_MS = 22_000; // keep Active CPU short on Hobby
   const startedAt = Date.now();
   const attempted = new Array(targets.length).fill(false);
 

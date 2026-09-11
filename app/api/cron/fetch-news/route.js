@@ -3,7 +3,7 @@ import { getApproved, refreshDynamicOverlayRollup } from "../../../../lib/store.
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;
+export const maxDuration = 30;
 
 const UA = { "User-Agent": "Mozilla/5.0 (news-fetch)" };
 

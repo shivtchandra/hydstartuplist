@@ -13,10 +13,10 @@ import { getSiteUrl } from "../../../../lib/site-url.js";
 import { refreshDynamicOverlayRollup } from "../../../../lib/store.js";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;
+export const maxDuration = 30;
 
-const CONCURRENCY = 4;
-const TIME_BUDGET_MS = 48_000;
+const CONCURRENCY = 2;
+const TIME_BUDGET_MS = 22_000;
 
 export async function GET(req) {
   const cronSecret = process.env.CRON_SECRET;

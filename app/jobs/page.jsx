@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import OpportunityExplorer from "../components/OpportunityExplorer.jsx";
@@ -19,7 +20,7 @@ import {
 } from "../../lib/jobs-seo.js";
 import JobsSeoIndex from "../components/JobsSeoIndex.jsx";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 export async function generateMetadata() {
   const jobs = await getAllJobs();
@@ -48,16 +49,20 @@ export async function generateMetadata() {
   };
 }
 
-async function getFetchedAt() {
-  const db = await getAdminDb();
-  if (!db) return null;
-  try {
-    const snap = await db.collection("job_board").doc("adzuna_latest").get();
-    return snap.exists ? snap.data().fetchedAt : null;
-  } catch {
-    return null;
-  }
-}
+const getFetchedAt = unstable_cache(
+  async () => {
+    const db = await getAdminDb();
+    if (!db) return null;
+    try {
+      const snap = await db.collection("job_board").doc("adzuna_latest").get();
+      return snap.exists ? snap.data().fetchedAt : null;
+    } catch {
+      return null;
+    }
+  },
+  ["jobs-fetched-at"],
+  { revalidate: 600 }
+);
 
 export default async function JobsPage({ searchParams = {} }) {
   if (searchParams.job) {

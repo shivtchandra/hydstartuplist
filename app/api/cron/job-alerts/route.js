@@ -6,7 +6,7 @@ import { alertsReady,hash,sendOnce,escapeEmail,manageUrl } from '../../../../lib
 import { getSiteUrl } from '../../../../lib/site-url.js';
 import { jobUrlId } from '../../../../lib/jobs-seo.js';
 export const dynamic='force-dynamic';
-export const maxDuration=60;
+export const maxDuration = 20;
 export async function GET(req){
   if(!process.env.CRON_SECRET||req.headers.get('authorization')!==`Bearer ${process.env.CRON_SECRET}`)return new NextResponse(null,{status:401});
   if(!alertsReady())return NextResponse.json({enabled:false});

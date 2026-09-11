@@ -9,7 +9,7 @@ import HomeClient from "./HomeClient.jsx";
 import { getPublicStartups } from "../../lib/startups-public.js";
 import { jobUrlId } from "../../lib/jobs-seo.js";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 const getCachedStartups = unstable_cache(
   async () => getPublicStartups(),
@@ -22,8 +22,16 @@ export default async function HomePage({ searchParams = {} }) {
   if (searchParams.job) {
     redirect(`/jobs/${jobUrlId(String(searchParams.job))}`);
   }
-  const control = process.env.LANDING_EXPERIMENT === "1" && headers().get("x-hyd-landing") === "control";
-  if (searchParams.startup || searchParams.view !== "jobs" || process.env.LANDING_V2 === "0" || (control && !searchParams.view)) {
+  let control = false;
+  if (process.env.LANDING_EXPERIMENT === "1") {
+    control = (await headers()).get("x-hyd-landing") === "control";
+  }
+  if (
+    searchParams.startup ||
+    searchParams.view !== "jobs" ||
+    process.env.LANDING_V2 === "0" ||
+    (control && !searchParams.view)
+  ) {
     const startups = await getCachedStartups();
     return <><LandingExposure variant="control" /><HomeClient initialStartups={startups} /></>;
   }

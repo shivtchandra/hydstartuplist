@@ -13,7 +13,7 @@ import { getSiteUrl } from "../../../../lib/site-url.js";
 // Adzuna has no webhooks — we poll their search API on a short cadence and
 // upsert only new/changed listings into job_board/adzuna_latest.
 export const dynamic = "force-dynamic";
-export const maxDuration = 30;
+export const maxDuration = 20;
 
 const PAGES = 3;
 const DESC_MAX = 4000;
