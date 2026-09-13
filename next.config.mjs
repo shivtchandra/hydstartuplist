@@ -10,6 +10,13 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Redirect Vercel preview URL to canonical domain
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'hydstartuplist.vercel.app' }],
+        destination: 'https://startups.mapmyhyd.com/:path*',
+        permanent: true,
+      },
       // Dead /industries/* labels linked from Insights (fold into real hubs)
       { source: "/industries/aerospace", destination: "/industries/deeptech", permanent: true },
       { source: "/industries/hardware", destination: "/industries/deeptech", permanent: true },
