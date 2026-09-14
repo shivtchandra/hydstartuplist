@@ -127,7 +127,7 @@
   },
   {
     "id": "greenhouse:schrdinger",
-    "name": "Schrödinger",
+    "name": "Schr\u00f6dinger",
     "atsProvider": "greenhouse",
     "atsSlug": "schrdinger",
     "boardUrl": "https://boards.greenhouse.io/schrdinger",
@@ -389,7 +389,7 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "other",
     "website": "https://www.highradius.com"
   },
@@ -402,7 +402,7 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.amd.com"
   },
@@ -415,7 +415,7 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.qualcomm.com"
   },
@@ -428,7 +428,7 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.synchrony.com"
   },
@@ -441,7 +441,7 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.centific.com"
   },
@@ -454,7 +454,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.ncrvoyix.com"
   },
@@ -468,7 +468,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "other",
     "website": "https://www.arcesium.com"
   },
@@ -481,7 +481,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.worley.com"
   },
@@ -494,7 +494,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.bms.com"
   },
@@ -507,7 +507,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.kantar.com"
   },
@@ -520,7 +520,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.dieboldnixdorf.com"
   },
@@ -533,7 +533,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.tjx.com"
   },
@@ -546,7 +546,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.teradata.com"
   },
@@ -559,7 +559,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "other"
   },
   {
@@ -571,7 +571,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.viasat.com"
   },
@@ -584,7 +584,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — LinkedIn guest API; brittle",
+    "note": "jobs-only \u2014 LinkedIn guest API; brittle",
     "employerType": "other"
   },
   {
@@ -596,7 +596,7 @@
     "mapPin": true,
     "startupId": "f4178bf5-a3de-4645-8863-5dca4c8e9019",
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://blueyonder.com"
   },
@@ -609,7 +609,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.indiumsoftware.com"
   },
@@ -622,7 +622,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "other",
     "website": "https://wise.com"
   },
@@ -635,20 +635,20 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.brillio.com"
   },
   {
     "id": "htmlcareers:loreal",
-    "name": "L'Oréal",
+    "name": "L'Or\u00e9al",
     "atsProvider": "htmlcareers",
     "atsSlug": "loreal",
     "boardUrl": "https://careers.loreal.com/en_US/jobs/SearchJobs?3_110_3=18031&3_284_3=62924186",
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.loreal.com"
   },
@@ -661,7 +661,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.fujitsu.com"
   },
@@ -675,7 +675,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "other",
     "website": "https://www.cyara.com"
   },
@@ -688,7 +688,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — LinkedIn guest API; site careers 403 / unavailable",
+    "note": "jobs-only \u2014 LinkedIn guest API; site careers 403 / unavailable",
     "employerType": "other"
   },
   {
@@ -701,7 +701,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — LinkedIn guest API; talentformula.co careers returns 403",
+    "note": "jobs-only \u2014 LinkedIn guest API; talentformula.co careers returns 403",
     "employerType": "other"
   },
   {
@@ -713,7 +713,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "other"
   },
   {
@@ -725,7 +725,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.wbd.com"
   },
@@ -738,7 +738,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "other"
   },
   {
@@ -750,7 +750,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "other"
   },
   {
@@ -762,7 +762,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.elevancehealth.com"
   },
@@ -775,7 +775,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.honeywell.com"
   },
@@ -788,7 +788,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "other"
   },
   {
@@ -800,7 +800,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
     "employerType": "other"
   },
   {
@@ -812,7 +812,7 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only — Phenom widgets Hyd city facet; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Phenom widgets Hyd city facet; daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.roche.com"
   },
@@ -825,7 +825,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — SmartRecruiters India postings; LinkedIn companyId 6339; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 SmartRecruiters India postings; LinkedIn companyId 6339; daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.sutherlandglobal.com"
   },
@@ -838,7 +838,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — WordPress /jobs/ careers (Hyd HQ); daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 WordPress /jobs/ careers (Hyd HQ); daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.gbb.co.in"
   },
@@ -852,7 +852,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — LinkedIn guest API (company 13292742); site careers are static HTML with mostly commented openings; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 LinkedIn guest API (company 13292742); site careers are static HTML with mostly commented openings; daily via sync-ats-jobs",
     "employerType": "startup",
     "website": "https://www.algonox.com"
   },
@@ -865,7 +865,7 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only — Phenom widgets Hyd city facet; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Phenom widgets Hyd city facet; daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.thecignagroup.com"
   },
@@ -878,7 +878,7 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only — Workday IVZ Hyd searchText; daily via sync-ats-jobs (not myGwork)",
+    "note": "jobs-only \u2014 Workday IVZ Hyd searchText; daily via sync-ats-jobs (not myGwork)",
     "employerType": "enterprise",
     "website": "https://www.invesco.com"
   },
@@ -891,7 +891,7 @@
     "startupId": null,
     "active": true,
     "mapPin": false,
-    "note": "jobs-only — DirectEmployers jobsyn Solr (X-Origin ibm.dejobs.org); daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 DirectEmployers jobsyn Solr (X-Origin ibm.dejobs.org); daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.ibm.com"
   },
@@ -904,7 +904,7 @@
     "mapPin": false,
     "startupId": null,
     "active": true,
-    "note": "jobs-only — Zoho Recruit Careers (Hyd junior/.NET); daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Zoho Recruit Careers (Hyd junior/.NET); daily via sync-ats-jobs",
     "employerType": "startup",
     "website": "https://www.productspace.com"
   },
@@ -917,7 +917,7 @@
     "mapPin": true,
     "startupId": "a6e8df2a-ec7f-49aa-abe5-8c0619e1c842",
     "active": true,
-    "note": "jobs-only — Workday Early Careers Hyd location facet; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Workday Early Careers Hyd location facet; daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.kyndryl.com"
   },
@@ -930,7 +930,7 @@
     "mapPin": true,
     "startupId": "f6f56cdf-83d0-4273-adc6-8623934eba9e",
     "active": true,
-    "note": "jobs-only — Workday group_external Hyd searchText; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Workday group_external Hyd searchText; daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.flutter.com"
   },
@@ -943,7 +943,7 @@
     "mapPin": true,
     "startupId": "756e6f9f-b881-4eed-bd9f-327ac8236afc",
     "active": true,
-    "note": "jobs-only — Workday jade_careers Hyd location facets; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Workday jade_careers Hyd location facets; daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.jadeglobal.com"
   },
@@ -956,7 +956,7 @@
     "mapPin": true,
     "startupId": "61e0cfb5-f07a-4dbe-a173-f576a315b014",
     "active": true,
-    "note": "jobs-only — Phenom widgets Hyd city facet; apply via Workday; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Phenom widgets Hyd city facet; apply via Workday; daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.statestreet.com"
   },
@@ -969,7 +969,7 @@
     "mapPin": true,
     "startupId": "2e60659b-80fb-46ec-bddd-ad7cda61df73",
     "active": true,
-    "note": "jobs-only — Keka embed; Hyd via geoFilter; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Keka embed; Hyd via geoFilter; daily via sync-ats-jobs",
     "employerType": "startup",
     "website": "https://www.cognida.ai"
   },
@@ -982,7 +982,7 @@
     "mapPin": true,
     "startupId": "0bf737c0-3b17-47f7-a77c-725d0ca04d69",
     "active": true,
-    "note": "jobs-only — Rippling board API; Hyd via workLocation geoFilter; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Rippling board API; Hyd via workLocation geoFilter; daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.desri.com"
   },
@@ -995,7 +995,7 @@
     "mapPin": true,
     "startupId": "197770b4-4739-4972-acd5-4023221aa59c",
     "active": true,
-    "note": "jobs-only — Job2Web HTML Hyd locationsearch; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Job2Web HTML Hyd locationsearch; daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.deloitte.com"
   },
@@ -1008,7 +1008,7 @@
     "mapPin": true,
     "startupId": "7241649e-1830-4589-b3b5-b1c9f1bdcd59",
     "active": true,
-    "note": "jobs-only — Workday Hyd location facet; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Workday Hyd location facet; daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.zoetis.com"
   },
@@ -1021,7 +1021,7 @@
     "mapPin": true,
     "startupId": "63adc8a7-805e-44ac-b2e5-d4365bffec5f",
     "active": true,
-    "note": "jobs-only — Phenom widgets Hyd city (not myGwork); daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Phenom widgets Hyd city (not myGwork); daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.msd.com"
   },
@@ -1034,7 +1034,7 @@
     "mapPin": true,
     "startupId": "593a047d-82f9-4ff8-8586-fb7d7ce34ec4",
     "active": true,
-    "note": "jobs-only — Eightfold apply API Hyd location; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Eightfold apply API Hyd location; daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.hsbc.com"
   },
@@ -1047,7 +1047,7 @@
     "mapPin": true,
     "startupId": "1eb6d600-6f7c-4f5d-a400-7e4827f53add",
     "active": true,
-    "note": "jobs-only — DirectEmployers jobsyn Solr Hyd; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 DirectEmployers jobsyn Solr Hyd; daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.mcdonalds.com"
   },
@@ -1060,7 +1060,7 @@
     "mapPin": true,
     "startupId": "6192ca93-4aee-449c-922e-919122c1f0fe",
     "active": true,
-    "note": "jobs-only — Workday Hyd GCC (Puppalaguda); daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Workday Hyd GCC (Puppalaguda); daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.thehartford.com"
   },
@@ -1073,8 +1073,34 @@
     "mapPin": true,
     "startupId": "83f19da9-6b71-45e1-9b66-c221bb5d808f",
     "active": true,
-    "note": "jobs-only — Workday Hyd city facet; daily via sync-ats-jobs",
+    "note": "jobs-only \u2014 Workday Hyd city facet; daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.wellsfargo.com"
+  },
+  {
+    "id": "jobsyn:amgen",
+    "name": "Amgen",
+    "atsProvider": "jobsyn",
+    "atsSlug": "amgen",
+    "boardUrl": "https://www.amgen.jobs/locations/hyderabad-ind/jobs/",
+    "startupId": null,
+    "active": true,
+    "mapPin": false,
+    "note": "jobs-only \u2014 DirectEmployers jobsyn Solr Hyd (www.amgen.jobs); daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://www.amgen.com"
+  },
+  {
+    "id": "workday:fractal",
+    "name": "Fractal",
+    "atsProvider": "workday",
+    "atsSlug": "fractal",
+    "boardUrl": "https://fractal.wd1.myworkdayjobs.com/en-US/careers?locations=3b3fb1d62c071000e2a0f48656560000",
+    "startupId": null,
+    "active": true,
+    "mapPin": false,
+    "note": "jobs-only \u2014 Workday Hyd locations facet; daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "website": "https://fractal.ai"
   }
 ]
