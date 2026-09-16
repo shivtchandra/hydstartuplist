@@ -113,5 +113,93 @@
     "url": "https://gradright.com/careers",
     "startupId": "42f0a99e-a66b-471f-be72-2a69fc05ecaf",
     "employerType": "startup"
+  },
+  {
+    "id": "whatfix",
+    "name": "Whatfix",
+    "url": "https://boards.greenhouse.io/whatfix",
+    "atsProvider": "greenhouse",
+    "atsSlug": "whatfix",
+    "employerType": "startup"
+  },
+  {
+    "id": "icertis",
+    "name": "Icertis",
+    "url": "https://boards.greenhouse.io/icertis",
+    "atsProvider": "greenhouse",
+    "atsSlug": "icertis",
+    "employerType": "startup"
+  },
+  {
+    "id": "innovaccer",
+    "name": "Innovaccer",
+    "url": "https://boards.greenhouse.io/innovaccer",
+    "atsProvider": "greenhouse",
+    "atsSlug": "innovaccer",
+    "employerType": "startup"
+  },
+  {
+    "id": "netradyne",
+    "name": "Netradyne",
+    "url": "https://boards.greenhouse.io/netradyne",
+    "atsProvider": "greenhouse",
+    "atsSlug": "netradyne",
+    "employerType": "startup"
+  },
+  {
+    "id": "sprinklr",
+    "name": "Sprinklr",
+    "url": "https://boards.greenhouse.io/sprinklr",
+    "atsProvider": "greenhouse",
+    "atsSlug": "sprinklr",
+    "employerType": "startup"
+  },
+  {
+    "id": "postman",
+    "name": "Postman",
+    "url": "https://boards.greenhouse.io/postman",
+    "atsProvider": "greenhouse",
+    "atsSlug": "postman",
+    "employerType": "startup"
+  },
+  {
+    "id": "browserstack",
+    "name": "BrowserStack",
+    "url": "https://boards.greenhouse.io/browserstack",
+    "atsProvider": "greenhouse",
+    "atsSlug": "browserstack",
+    "employerType": "startup"
+  },
+  {
+    "id": "razorpay",
+    "name": "Razorpay",
+    "url": "https://jobs.lever.co/razorpay",
+    "atsProvider": "lever",
+    "atsSlug": "razorpay",
+    "employerType": "startup"
+  },
+  {
+    "id": "sarvam",
+    "name": "Sarvam AI",
+    "url": "https://jobs.ashbyhq.com/sarvam",
+    "atsProvider": "ashby",
+    "atsSlug": "sarvam",
+    "employerType": "startup"
+  },
+  {
+    "id": "atlan",
+    "name": "Atlan",
+    "url": "https://jobs.ashbyhq.com/atlan",
+    "atsProvider": "ashby",
+    "atsSlug": "atlan",
+    "employerType": "startup"
+  },
+  {
+    "id": "zluri",
+    "name": "Zluri",
+    "url": "https://jobs.ashbyhq.com/zluri",
+    "atsProvider": "ashby",
+    "atsSlug": "zluri",
+    "employerType": "startup"
   }
 ]

@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import Link from "next/link";
 import StartupLogo from "./StartupLogo.jsx";
 import { jobUrlId } from "../../lib/jobs-seo.js";
 import { roleFacetKey } from "../../lib/job-facets.js";
+import { capEmployerShare, employerShareKey } from "../../lib/opportunities.js";
 
 function timeAgo(iso) {
   if (!iso) return "";
@@ -29,6 +30,7 @@ const BANDS = [
 export default function FresherJobsList({ jobs }) {
   const [band, setBand] = useState("all");
   const [role, setRole] = useState("all");
+  const [expanded, setExpanded] = useState(() => new Set());
 
   const enriched = useMemo(
     () => jobs.map((j) => ({ ...j, _role: roleFacetKey(j.title) })),
@@ -52,16 +54,28 @@ export default function FresherJobsList({ jobs }) {
     });
   }, [enriched, band]);
 
-  const visible = useMemo(() => {
+  const matched = useMemo(() => {
     let list = enriched;
     if (band !== "all") list = list.filter((j) => j.level === band);
     if (role !== "all") list = list.filter((j) => j._role === role);
     return list;
   }, [enriched, band, role]);
 
+  // Capping after the filters means the three rows kept are the three relevant to the
+  // current band and role, not whichever three happened to come first overall.
+  const visible = useMemo(
+    () => capEmployerShare(matched, 3, (key) => expanded.has(key)),
+    [matched, expanded]
+  );
+
   function pickBand(key) {
     setBand(key);
     setRole("all");
+    setExpanded(new Set());
+  }
+
+  function expand(key) {
+    setExpanded((prev) => new Set(prev).add(key));
   }
 
   return (
@@ -107,7 +121,7 @@ export default function FresherJobsList({ jobs }) {
       </div>
 
       <p className="form-sub fresher-count" role="status">
-        Showing {visible.length} of {enriched.length} role{enriched.length === 1 ? "" : "s"}.
+        {`Showing ${visible.length} of ${enriched.length} role${enriched.length === 1 ? "" : "s"}.`}
       </p>
 
       {!visible.length && (
@@ -124,7 +138,8 @@ export default function FresherJobsList({ jobs }) {
           const place = j.area || j.location;
           const bandLabel = j.level === "intern" ? "Intern / fresher" : "Junior";
           return (
-            <div key={j.id} className="feed-row jobs-feed-row">
+            <Fragment key={j.id}>
+            <div className="feed-row jobs-feed-row">
               <StartupLogo
                 name={j.company || "?"}
                 website={j.website || j.boardUrl || null}
@@ -150,6 +165,18 @@ export default function FresherJobsList({ jobs }) {
                 </div>
               </Link>
             </div>
+            {j.moreAtCompany && (
+              <button
+                type="button"
+                className="fresher-more-company"
+                onClick={() => expand(j.moreAtCompany.key)}
+              >
+                {`+${j.moreAtCompany.count} more role${
+                  j.moreAtCompany.count === 1 ? "" : "s"
+                } at ${j.moreAtCompany.company}`}
+              </button>
+            )}
+            </Fragment>
           );
         })}
       </div>

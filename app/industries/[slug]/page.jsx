@@ -61,10 +61,56 @@ export default async function IndustryDetailPage({ params }) {
       name: `${landing.sector} startups in Hyderabad`,
     },
   };
+  const itemListLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `Top ${landing.sector} Startups & Companies in Hyderabad`,
+    numberOfItems: startups.length,
+    itemListElement: startups.slice(0, 30).map((s, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: prettyName(s.name),
+      url: `${getSiteUrl()}/startups/${s.slug}`,
+    })),
+  };
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `How many ${landing.sector} startups are based in Hyderabad?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `Mapping HYD tracks ${count.toLocaleString()} ${landing.sector} startups and tech companies in Hyderabad (${sharePct}% of the startup ecosystem), with ${hiringCount} actively hiring.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `Which ${landing.sector} companies lead the Hyderabad ecosystem?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: top3.length
+            ? `Top mapped ${landing.sector} startups include ${top3.join(", ")} and ${count - top3.length} others across HITEC City, Gachibowli, and Madhapur.`
+            : `Browse all ${count.toLocaleString()} ${landing.sector} startups on the directory.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `Where can I find ${landing.sector} jobs in Hyderabad?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `Browse ${jobsCount.toLocaleString()} open roles at Hyderabad ${landing.sector} startups on Mapping HYD Jobs.`,
+        },
+      },
+    ],
+  };
 
   return (
     <div className="page-with-nav">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <SiteNav active="insights" />
       <div className="feed-page industry-page">
         <nav className="industry-crumbs" aria-label="Breadcrumb">

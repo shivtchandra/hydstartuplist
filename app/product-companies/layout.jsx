@@ -4,13 +4,13 @@ const SITE_URL = getSiteUrl();
 
 export const metadata = {
   alternates: { canonical: `${SITE_URL}/product-companies` },
-  title: "Companies in Hyderabad – Product & Tech Startups | Mapping HYD",
+  title: "Product Based Companies in Hyderabad (2026 Directory & Map)",
   description:
-    "Browse companies in Hyderabad building software products — 1,000+ startups across SaaS, FinTech, HealthTech, and AI. Filter by sector, funding, and area.",
+    "Complete list of 1,000+ product-based companies and software startups in Hyderabad — SaaS, AI, FinTech, and DeepTech offices across HITEC City, Gachibowli, and Madhapur.",
   openGraph: {
-    title: "Companies in Hyderabad | Mapping HYD",
+    title: "Product Based Companies in Hyderabad (2026 Directory & Map)",
     description:
-      "1,000+ product-focused companies in Hyderabad — SaaS, FinTech, HealthTech, AI and more. Browse jobs and funding data.",
+      "Explore 1,000+ software product companies and startups in Hyderabad with live office pins, funding stages, and open job roles.",
     url: `${SITE_URL}/product-companies`,
   },
 };

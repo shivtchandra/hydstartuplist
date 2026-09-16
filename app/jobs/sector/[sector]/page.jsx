@@ -4,18 +4,12 @@ import SiteNav from "../../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../../components/JobsBreadcrumbs.jsx";
 import { getJobsBySector } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
-import { breadcrumbJsonLd, itemListJsonLd, jobUrlId, sectorLanding, thinListingRobots } from "../../../../lib/jobs-seo.js";
+import { JOB_SECTOR_LANDINGS, breadcrumbJsonLd, itemListJsonLd, jobUrlId, sectorLanding, thinListingRobots } from "../../../../lib/jobs-seo.js";
 
 export const revalidate = 1800;
 
 export function generateStaticParams() {
-  return [
-    { sector: "saas" },
-    { sector: "fintech" },
-    { sector: "healthtech" },
-    { sector: "deeptech" },
-    { sector: "edtech" },
-  ];
+  return JOB_SECTOR_LANDINGS.map((s) => ({ sector: s.slug }));
 }
 
 export async function generateMetadata({ params }) {

@@ -94,8 +94,10 @@ export default async function FresherJobsPage() {
           <h1>{landing.title}</h1>
           <p className="jobs-intro">{landing.description}</p>
           <p className="form-sub">
-            {jobs.length} fresher / early-career role{jobs.length === 1 ? "" : "s"} right now, newest
-            first. <Link href="/jobs?level=early">Filter early career on the jobs board →</Link>
+            {`${jobs.length} fresher / early-career role${
+              jobs.length === 1 ? "" : "s"
+            } right now, newest first. `}
+            <Link href="/jobs?level=early">Filter early career on the jobs board →</Link>
           </p>
         </div>
 

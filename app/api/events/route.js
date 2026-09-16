@@ -1,58 +1,55 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "../../../lib/firebaseAdmin.js";
 import { safeEvent } from "../../../lib/engagement.js";
+import { FieldValue } from "firebase-admin/firestore";
 export const dynamic = "force-dynamic";
 
 async function persistEvent(event) {
   try {
     const db = await getAdminDb();
     if (!db) return;
+
+    const started = event.started || Date.now();
+    const age = Date.now() - started;
+    if (age > 1800000 || age < 0) return;
+
+    const offset = Math.max(0, Math.min(1800000, age));
     const ref = db.collection("engagement_sessions").doc(event.session);
-    await db.runTransaction(async (tx) => {
-      const snap = await tx.get(ref);
-      const old = snap.data();
-      const started = old?.started || Date.now();
-      if (Date.now() - started > 1800000) return;
 
-      // Page views: count per sanitized path (can fire multiple times).
-      if (event.event === "page") {
-        const pages = { ...(old?.pages || {}) };
-        pages[event.path] = (pages[event.path] || 0) + 1;
-        const events = { ...(old?.events || {}) };
-        if (events.page === undefined) events.page = Date.now() - started;
-        tx.set(
-          ref,
-          {
-            started,
-            expiresAt: new Date(started + 35 * 86400000),
-            product: old?.product || event.product || "startups",
-            variant: old?.variant || event.variant,
-            device: old?.device || event.device,
-            source: old?.source || event.source,
-            events,
-            pages,
+    const basePayload = {
+      started,
+      expiresAt: new Date(started + 35 * 86400000),
+      product: event.product || "startups",
+      variant: event.variant || "new",
+      device: event.device || "desktop",
+      source: event.source || "other",
+    };
+
+    if (event.event === "page") {
+      await ref.set(
+        {
+          ...basePayload,
+          pages: {
+            [event.path]: FieldValue.increment(1),
           },
-          { merge: true }
-        );
-        return;
-      }
-
-      // Funnel events: first occurrence only (existing behaviour).
-      if (old?.events?.[event.event] !== undefined) return;
+          events: {
+            page: offset,
+          },
+        },
+        { merge: true }
+      );
+    } else {
       const payload = {
-        started,
-        expiresAt: new Date(started + 35 * 86400000),
-        product: old?.product || event.product || "startups",
-        variant: old?.variant || event.variant,
-        device: old?.device || event.device,
-        source: old?.source || event.source,
-        events: { ...(old?.events || {}), [event.event]: Date.now() - started },
+        ...basePayload,
+        events: {
+          [event.event]: offset,
+        },
       };
       if (event.event === "google_login" && event.loginMethod) {
         payload.loginMethod = event.loginMethod;
       }
-      tx.set(ref, payload, { merge: true });
-    });
+      await ref.set(payload, { merge: true });
+    }
   } catch (err) {
     console.error("engagement write failed:", err?.message || err);
   }

@@ -56,24 +56,46 @@ export default async function AreaDetailPage({ params }) {
       name: `${landing.area}, Hyderabad`,
     },
   };
+  const itemListLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `Top Startups & IT Companies in ${landing.area}, Hyderabad`,
+    numberOfItems: startups.length,
+    itemListElement: startups.slice(0, 30).map((s, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: prettyName(s.name),
+      url: `${getSiteUrl()}/startups/${s.slug}`,
+    })),
+  };
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: [
       {
         "@type": "Question",
-        name: `How many startups are in ${landing.area}, Hyderabad?`,
+        name: `How many software & IT startups are in ${landing.area}, Hyderabad?`,
         acceptedAnswer: {
           "@type": "Answer",
-          text: `Mapping HYD lists ${count.toLocaleString()} startups in ${landing.area} (${sharePct}% of mapped Hyderabad startups). ${hiringCount} are hiring.`,
+          text: `Mapping HYD lists ${count.toLocaleString()} mapped tech companies and startups in ${landing.area} (${sharePct}% of the Hyderabad startup ecosystem), with ${hiringCount} actively hiring.`,
         },
       },
       {
         "@type": "Question",
-        name: `Where can I find startup jobs in ${landing.area}?`,
+        name: `Which companies are based in ${landing.area}?`,
         acceptedAnswer: {
           "@type": "Answer",
-          text: `Browse ${jobsCount.toLocaleString()} tracked roles near ${landing.area} on Mapping HYD Jobs.`,
+          text: top3.length
+            ? `Top tech employers and startups in ${landing.area} include ${top3.join(", ")} and ${count - top3.length} others.`
+            : `Browse all ${count.toLocaleString()} mapped companies on the ${landing.area} directory.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `Where can I find startup and IT jobs in ${landing.area}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `Browse ${jobsCount.toLocaleString()} live tech openings in ${landing.area} across engineering, product, and sales on Mapping HYD Jobs.`,
         },
       },
     ],
@@ -82,6 +104,7 @@ export default async function AreaDetailPage({ params }) {
   return (
     <div className="page-with-nav">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <SiteNav active="insights" />
       <div className="feed-page industry-page">

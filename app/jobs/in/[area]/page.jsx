@@ -4,18 +4,12 @@ import SiteNav from "../../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../../components/JobsBreadcrumbs.jsx";
 import { getJobsByArea } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
-import { areaLanding, breadcrumbJsonLd, itemListJsonLd, jobUrlId, thinListingRobots } from "../../../../lib/jobs-seo.js";
+import { JOB_AREA_LANDINGS, areaLanding, breadcrumbJsonLd, itemListJsonLd, jobUrlId, thinListingRobots } from "../../../../lib/jobs-seo.js";
 
 export const revalidate = 1800;
 
 export function generateStaticParams() {
-  return [
-    { area: "gachibowli" },
-    { area: "madhapur" },
-    { area: "hitec-city" },
-    { area: "financial-district" },
-    { area: "jubilee-hills" },
-  ];
+  return JOB_AREA_LANDINGS.map((a) => ({ area: a.slug }));
 }
 
 export async function generateMetadata({ params }) {

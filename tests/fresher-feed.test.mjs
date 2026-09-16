@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { inferExperienceLevel, titleSeniority } from "../lib/job-facets.js";
 import { cleanScrapedTitle } from "../lib/job-content.js";
+import { collapseDuplicatePostings } from "../lib/job-lifecycle.js";
+import { capEmployerShare } from "../lib/opportunities.js";
 
 test("a senior band in the title is never demoted to an entry-level band", () => {
   // These all used to land on /jobs/fresher because "Engineer I" / "Analyst I" /
@@ -87,4 +89,68 @@ test("titles that legitimately contain a slash are left alone", () => {
 
 test("a title with no URL to check against is returned unchanged", () => {
   assert.equal(cleanScrapedTitle("Postgres / SQL Data Engineer"), "Postgres / SQL Data Engineer");
+});
+
+test("repeat requisitions of one role collapse into a single row with an openings count", () => {
+  // Wells Fargo posts this ten times; the punctuation and "and" variants must group too.
+  const rows = [
+    { id: "a", company: "Wells Fargo", title: "Associate Fraud & Claims Operations Representative", postedAt: "2026-09-10" },
+    { id: "b", company: "Wells Fargo", title: "Associate Fraud and Claims Operations Representative", postedAt: "2026-09-14" },
+    { id: "c", company: "Wells Fargo", title: "associate fraud & claims operations representative", postedAt: "2026-09-02" },
+    { id: "d", company: "NxtWave", title: "Influencer Marketing Associate", postedAt: "2026-09-11" },
+  ];
+  const collapsed = collapseDuplicatePostings(rows);
+  assert.equal(collapsed.length, 2);
+  const wf = collapsed.find((j) => j.company === "Wells Fargo");
+  assert.equal(wf.openings, 3);
+  // The freshest posting is the one the user clicks through to.
+  assert.equal(wf.id, "b");
+  assert.equal(collapsed.find((j) => j.company === "NxtWave").openings, 1);
+});
+
+test("different roles at the same employer stay separate", () => {
+  const collapsed = collapseDuplicatePostings([
+    { id: "a", company: "NxtWave", title: "Associate Project Manager" },
+    { id: "b", company: "NxtWave", title: "Associate Instructor Aptitude" },
+  ]);
+  assert.equal(collapsed.length, 2);
+});
+
+test("one employer cannot occupy the whole page, and the surplus stays reachable", () => {
+  const jobs = [
+    ...Array.from({ length: 6 }, (_, i) => ({ id: `n${i}`, company: "NxtWave", title: `BD Associate ${i}` })),
+    { id: "a", company: "Amgen", title: "Associate Data Scientist" },
+    { id: "b", company: "vidaXL", title: "Junior Site Speed Specialist" },
+  ];
+  const rows = capEmployerShare(jobs, 3);
+  assert.equal(rows.filter((j) => j.company === "NxtWave").length, 3);
+  // Smaller employers are untouched.
+  assert.equal(rows.filter((j) => j.company === "Amgen").length, 1);
+  assert.equal(rows.length, 5);
+  // The 3 hidden roles are advertised on the last NxtWave row, not silently dropped.
+  const nxt = rows.filter((j) => j.company === "NxtWave");
+  assert.deepEqual(nxt.at(-1).moreAtCompany, { company: "NxtWave", count: 3, key: "nxtwave" });
+  assert.equal(nxt[0].moreAtCompany, undefined);
+});
+
+test("an employer at or under the cap gets no surplus link", () => {
+  const rows = capEmployerShare(
+    [{ id: "a", company: "Amgen", title: "X" }, { id: "b", company: "Amgen", title: "Y" }],
+    3
+  );
+  assert.equal(rows.length, 2);
+  assert.ok(rows.every((j) => !j.moreAtCompany));
+});
+
+test("expanding an employer lifts the cap for that employer only", () => {
+  const jobs = [
+    ...Array.from({ length: 5 }, (_, i) => ({ id: `n${i}`, company: "NxtWave", title: `BD ${i}` })),
+    ...Array.from({ length: 5 }, (_, i) => ({ id: `w${i}`, company: "Wells Fargo", title: `Ops ${i}` })),
+  ];
+  const rows = capEmployerShare(jobs, 3, (key) => key === "nxtwave");
+  assert.equal(rows.filter((j) => j.company === "NxtWave").length, 5);
+  assert.equal(rows.filter((j) => j.company === "Wells Fargo").length, 3);
+  // An expanded employer shows no leftover "more roles" affordance.
+  assert.ok(rows.filter((j) => j.company === "NxtWave").every((j) => !j.moreAtCompany));
+  assert.equal(rows.filter((j) => j.moreAtCompany).length, 1);
 });

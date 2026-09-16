@@ -4,23 +4,12 @@ import SiteNav from "../../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../../components/JobsBreadcrumbs.jsx";
 import { getJobsByRole } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
-import {breadcrumbJsonLd, itemListJsonLd, jobUrlId, roleLanding, thinListingRobots } from "../../../../lib/jobs-seo.js";
+import { JOB_ROLE_LANDINGS, breadcrumbJsonLd, itemListJsonLd, jobUrlId, roleLanding, thinListingRobots } from "../../../../lib/jobs-seo.js";
 
 export const revalidate = 1800;
 
 export function generateStaticParams() {
-  return [
-    { role: "software-engineer" },
-    { role: "product-manager" },
-    { role: "data-scientist" },
-    { role: "designer" },
-    { role: "sales" },
-    { role: "marketing" },
-    { role: "devops" },
-    { role: "backend-engineer" },
-    { role: "frontend-engineer" },
-    { role: "full-stack-engineer" },
-  ];
+  return JOB_ROLE_LANDINGS.map((r) => ({ role: r.slug }));
 }
 
 export async function generateMetadata({ params }) {

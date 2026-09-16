@@ -23,9 +23,9 @@ const jakarta = localFont({
 });
 
 const SITE_URL = getSiteUrl();
-const OG_TITLE = "Hyderabad Startup Map — 1,200+ Startups, Jobs & Funding";
+const OG_TITLE = "Hyderabad Startup Map — 1,200+ Software, IT & Product Companies";
 const OG_DESC =
-  "Free interactive Hyderabad Startup Map: 1,200+ companies with real office pins, open startup jobs, and funding — filter by sector, stage, and area.";
+  "Interactive map of 1,200+ software companies, IT offices, product startups, and GCCs in Hyderabad. Filter by area (HITEC City, Gachibowli, Madhapur), sector, funding, and live jobs.";
 const OG_IMAGE = "/brand/og-card-v3.png"; // new path — WhatsApp ignores query-string cache busts
 
 const JSONLD = {
@@ -68,17 +68,20 @@ const JSONLD = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Hyderabad Startup Map — 1,200+ Startups, Jobs & Funding",
+    default: "Hyderabad Startup Map — 1,200+ Software, IT & Product Companies",
     template: "%s | Mapping HYD",
   },
   description: OG_DESC,
   keywords: [
+    "software companies Hyderabad",
+    "it companies in Hyderabad",
     "product companies Hyderabad",
     "startups in Hyderabad",
+    "gachibowli it companies",
+    "hitec city software companies",
     "Hyderabad tech companies",
     "Hyderabad startup map",
     "startup jobs Hyderabad",
-    "software companies Hyderabad",
     "GCCs Hyderabad",
     "Hyderabad startup funding",
   ],

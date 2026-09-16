@@ -1,8 +1,12 @@
 import Link from "next/link";
-import { JOB_SECTOR_LANDINGS, JOB_AREA_LANDINGS } from "../../lib/jobs-seo.js";
+import { AREA_LANDINGS } from "../../lib/areas.js";
+import { INDUSTRY_LANDINGS } from "../../lib/industries.js";
 
-/** Unified site footer — one chrome for every page. SEO hub links stay crawlable. */
+/** Unified site footer — SEO hub links across all areas, industries, and jobs. */
 export default function SiteFooter() {
+  const topAreas = AREA_LANDINGS.slice(0, 8);
+  const topIndustries = INDUSTRY_LANDINGS.slice(0, 8);
+
   return (
     <footer className="site-footer">
       <div className="site-footer-inner">
@@ -24,55 +28,69 @@ export default function SiteFooter() {
             </span>
           </Link>
           <p>
-            The Hyderabad Startup Map — startups, jobs, and GCCs on one map. Free to browse, built for people who work here.
+            The Hyderabad Startup Map — 1,200+ software companies, product startups, GCCs, and jobs on one interactive map.
           </p>
         </div>
 
         <div className="site-footer-grid">
           <nav className="site-footer-col" aria-label="Explore">
-            <h2>Explore</h2>
-            <Link href="/">Hyderabad Startup Map</Link>
-            <Link href="/jobs">Jobs</Link>
-            <Link href="/product-companies">Companies</Link>
-            <Link href="/gccs">GCCs</Link>
-            <Link href="/more">More</Link>
-            <Link href="/radar">Radar</Link>
-            <Link href="/submit">Submit a startup</Link>
+            <h2>Directory</h2>
+            <Link href="/">Startup Map</Link>
+            <Link href="/product-companies">Product Companies</Link>
+            <Link href="/parks">Tech Parks &amp; SEZs</Link>
+            <Link href="/areas">Tech Corridors</Link>
+            <Link href="/industries">Industries</Link>
+            <Link href="/stage">Funding Stages</Link>
+            <Link href="/gccs">GCCs &amp; MNCs</Link>
+            <Link href="/radar">Radar (New Startups)</Link>
           </nav>
 
-          <nav className="site-footer-col" aria-label="Jobs by sector">
-            <h2>Jobs by sector</h2>
-            {JOB_SECTOR_LANDINGS.map((s) => (
-              <Link key={s.slug} href={`/jobs/sector/${s.slug}`}>
-                {s.sector}
-              </Link>
-            ))}
-            <Link href="/jobs/fresher">Fresher &amp; early-career</Link>
-          </nav>
-
-          <nav className="site-footer-col" aria-label="Jobs by area">
-            <h2>Jobs by area</h2>
-            {JOB_AREA_LANDINGS.map((a) => (
-              <Link key={a.slug} href={`/jobs/in/${a.slug}`}>
+          <nav className="site-footer-col" aria-label="Tech Corridors">
+            <h2>Tech Areas</h2>
+            {topAreas.map((a) => (
+              <Link key={a.slug} href={`/areas/${a.slug}`}>
                 {a.area}
               </Link>
             ))}
+            <Link href="/areas" style={{ opacity: 0.8 }}>All Tech Areas →</Link>
+          </nav>
+
+          <nav className="site-footer-col" aria-label="Industries">
+            <h2>Sectors</h2>
+            {topIndustries.map((s) => (
+              <Link key={s.slug} href={`/industries/${s.slug}`}>
+                {s.sector}
+              </Link>
+            ))}
+            <Link href="/industries" style={{ opacity: 0.8 }}>All Sectors →</Link>
+          </nav>
+
+          <nav className="site-footer-col" aria-label="Jobs by sector">
+            <h2>Careers &amp; Jobs</h2>
+            <Link href="/jobs">All Startup Jobs</Link>
+            <Link href="/jobs/fresher">Fresher Jobs</Link>
+            <Link href="/jobs/sector/saas">SaaS Jobs</Link>
+            <Link href="/jobs/sector/ai">AI &amp; ML Jobs</Link>
+            <Link href="/jobs/sector/fintech">Fintech Jobs</Link>
+            <Link href="/jobs/role/software-engineer">Software Engineer</Link>
+            <Link href="/jobs/role/product-manager">Product Manager</Link>
           </nav>
 
           <nav className="site-footer-col" aria-label="Mapping HYD series">
-            <h2>Series</h2>
-            <a href="https://mapmyhyd.com/">Mapping HYD</a>
-            <a href="https://eats.mapmyhyd.com/">Hyderabad Eats</a>
-            <a href="https://mapmyhyd.com/about">About</a>
-            <Link href="/stories">Stories</Link>
-            <Link href="/insights">Insights</Link>
-            <Link href="/newsletter">Newsletter</Link>
+            <h2>Guides &amp; Insights</h2>
+            <Link href="/stories/top-product-companies-hyderabad">Top 50 Product Cos</Link>
+            <Link href="/stories/hyderabad-tech-parks-guide">Tech Parks Guide</Link>
+            <Link href="/stories">All Stories &amp; Reports</Link>
+            <Link href="/insights">Ecosystem Data</Link>
+            <Link href="/news">Startup News</Link>
+            <a href="https://mapmyhyd.com/" target="_blank" rel="noopener noreferrer">Mapping HYD ↗</a>
+            <a href="https://eats.mapmyhyd.com/" target="_blank" rel="noopener noreferrer">Hyderabad Eats ↗</a>
           </nav>
         </div>
 
         <div className="site-footer-bottom">
           <p>
-            Part of <a href="https://mapmyhyd.com/">Mapping HYD</a> — Hyderabad startups, jobs &amp; funding on one map.
+            Part of <a href="https://mapmyhyd.com/">Mapping HYD</a> — Hyderabad startups, IT companies, jobs &amp; funding on one map.
           </p>
         </div>
       </div>

@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { randomUUID } from "crypto";
 import fs from "fs";
 import path from "path";
 import { getApproved, refreshDynamicOverlayRollup } from "../../../../lib/store.js";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
+import { startupSlug } from "../../../../lib/slug.js";
 
 const DB = path.join(process.cwd(), "data", "startups.json");
 const IN_HYD = (lat, lng) => lat > 17.0 && lat < 17.75 && lng > 78.0 && lng < 78.85;
@@ -114,6 +116,7 @@ export async function POST(req) {
     if (db) {
       await db.collection("startups_dynamic").doc(id).set({ ...entry, _full: true });
       await refreshDynamicOverlayRollup(db);
+      revalidatePath(`/startups/${startupSlug(entry)}`);
     } else {
       const list = JSON.parse(fs.readFileSync(DB, "utf-8"));
       list.push(entry);

@@ -2,6 +2,8 @@ import { getSiteUrl } from "../lib/site-url.js";
 import { JOB_SECTOR_LANDINGS, JOB_AREA_LANDINGS, JOB_ROLE_LANDINGS } from "../lib/jobs-seo.js";
 import { INDUSTRY_LANDINGS } from "../lib/industries.js";
 import { AREA_LANDINGS } from "../lib/areas.js";
+import { TECH_PARKS } from "../lib/parks.js";
+import { STAGE_LANDINGS } from "../lib/stages.js";
 
 /**
  * Hub sitemap only. Individual job URLs live in /sitemap-jobs.xml (recent-only).
@@ -22,8 +24,12 @@ const STATIC_ROUTES = [
   { path: "/gccs", priority: 0.7, changeFrequency: "weekly" },
   { path: "/industries", priority: 0.85, changeFrequency: "daily" },
   { path: "/areas", priority: 0.85, changeFrequency: "daily" },
+  { path: "/parks", priority: 0.85, changeFrequency: "daily" },
+  { path: "/stage", priority: 0.85, changeFrequency: "daily" },
   { path: "/insights", priority: 0.7, changeFrequency: "weekly" },
   { path: "/stories", priority: 0.7, changeFrequency: "weekly" },
+  { path: "/stories/top-product-companies-hyderabad", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/stories/hyderabad-tech-parks-guide", priority: 0.8, changeFrequency: "monthly" },
   { path: "/stories/hyderabad-startup-hiring-report-2026", priority: 0.75, changeFrequency: "monthly" },
   { path: "/stories/t-hub-hyderabad", priority: 0.8, changeFrequency: "monthly" },
   { path: "/newsletter", priority: 0.6, changeFrequency: "monthly" },
@@ -31,6 +37,8 @@ const STATIC_ROUTES = [
 ];
 
 const STORY_SLUGS = [
+  "top-product-companies-hyderabad",
+  "hyderabad-tech-parks-guide",
   "bengaluru-vs-hyderabad-startup-limelight",
   "hyderabad-startup-hiring-report-2026",
   "space-startups-hyderabad",
@@ -67,6 +75,20 @@ export default function sitemap() {
     priority: 0.8,
   }));
 
+  const techParkEntries = TECH_PARKS.map((p) => ({
+    url: `${SITE_URL}/parks/${p.slug}`,
+    lastModified: now,
+    changeFrequency: "daily",
+    priority: 0.8,
+  }));
+
+  const stageEntries = STAGE_LANDINGS.map((s) => ({
+    url: `${SITE_URL}/stage/${s.slug}`,
+    lastModified: now,
+    changeFrequency: "daily",
+    priority: 0.8,
+  }));
+
   const sectorEntries = JOB_SECTOR_LANDINGS.map((s) => ({
     url: `${SITE_URL}/jobs/sector/${s.slug}`,
     lastModified: now,
@@ -95,6 +117,8 @@ export default function sitemap() {
     ...storyEntries,
     ...industryEntries,
     ...techAreaEntries,
+    ...techParkEntries,
+    ...stageEntries,
     ...sectorEntries,
     ...areaEntries,
     ...roleEntries,

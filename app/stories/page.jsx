@@ -17,6 +17,18 @@ export const metadata = {
 
 const STORIES = [
   {
+    href: "/stories/top-product-companies-hyderabad",
+    title: "Top 50 Product Based Companies in Hyderabad (Tier 1 & High-Growth 2026 Guide)",
+    blurb:
+      "The comprehensive guide to product companies in Hyderabad: Microsoft, Google, Amazon, Darwinbox, Zenoti, Keka, Skyroot, tech stacks, salary benchmarks, and office pins.",
+  },
+  {
+    href: "/stories/hyderabad-tech-parks-guide",
+    title: "The Insider's Guide to Hyderabad IT Parks & Tech Campuses (2026)",
+    blurb:
+      "Everything you need to know about working in Mindspace Madhapur, Sattva Knowledge City, WaveRock SEZ, DLF Cyber City, and Cyber Towers: commute times, major employers, and food culture.",
+  },
+  {
     href: "/stories/space-startups-hyderabad",
     title: "Space startups in Hyderabad: launch, satellites, and the city’s aerospace map",
     blurb:

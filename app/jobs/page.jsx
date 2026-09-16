@@ -3,7 +3,7 @@ import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import OpportunityExplorer from "../components/OpportunityExplorer.jsx";
-import { searchOpportunities } from "../../lib/opportunity-store.js";
+import { opportunityDataset, searchOpportunities } from "../../lib/opportunity-store.js";
 import SiteNav from "../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../components/JobsBreadcrumbs.jsx";
 import JobsClient from "./JobsClient.jsx";
@@ -22,9 +22,22 @@ import JobsSeoIndex from "../components/JobsSeoIndex.jsx";
 
 export const revalidate = 600;
 
+/**
+ * Distinct roles, not raw postings.
+ *
+ * The board collapses repeat requisitions of one role, so counting getAllJobs() would
+ * advertise a bigger number than the list actually shows. The dataset is memoized and
+ * the page render needs it anyway, so this adds no extra read.
+ */
+async function distinctRoleCount() {
+  const data = await opportunityDataset().catch(() => null);
+  if (data?.jobs?.length) return data.jobs.length;
+  const jobs = await getAllJobs().catch(() => []);
+  return jobs.length;
+}
+
 export async function generateMetadata() {
-  const jobs = await getAllJobs();
-  const count = jobs.length;
+  const count = await distinctRoleCount();
   const title = `Jobs in Hyderabad – ${count}+ Startup & Tech Openings | Mapping HYD`;
   const description =
     "Jobs in Hyderabad at 1,000+ mapped startups and tech companies. Browse open roles across Gachibowli, Madhapur, and HITEC City — including fresher jobs in Hyderabad, SaaS, and fintech.";
@@ -70,13 +83,13 @@ export default async function JobsPage({ searchParams = {} }) {
   }
   if (process.env.LANDING_V2 !== "0") {
     const initial = await searchOpportunities(searchParams).catch(() => ({ jobs: [], total: 0, stale: true }));
-    const allJobs = await getAllJobs().catch(() => []);
+    const roleCount = await distinctRoleCount();
     return (
       <>
         <Suspense fallback={<p>Loading opportunities…</p>}>
           <OpportunityExplorer initial={initial} />
         </Suspense>
-        <JobsSeoIndex jobCount={allJobs.length || initial.total || 0} />
+        <JobsSeoIndex jobCount={roleCount || initial.total || 0} />
       </>
     );
   }

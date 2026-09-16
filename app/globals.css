@@ -4175,8 +4175,8 @@ a:hover:not(.btn) {
 }
 .site-footer-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 28px 32px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 28px 24px;
   padding-top: 8px;
   border-top: 1px solid #dde5df;
 }
@@ -4220,12 +4220,12 @@ a:hover:not(.btn) {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-@media (max-width: 900px) {
-  .site-footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 20px; }
+@media (max-width: 1024px) {
+  .site-footer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 20px; }
 }
-@media (max-width: 520px) {
+@media (max-width: 640px) {
   .site-footer { padding: 32px 16px 112px; }
-  .site-footer-grid { grid-template-columns: 1fr 1fr; gap: 22px 16px; }
+  .site-footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 16px; }
 }
 
 /* More page — editorial hub (not a footer twin) */
@@ -7636,6 +7636,48 @@ body:has(.startup-page-wrap) {
   font-weight: 700;
   letter-spacing: 0.02em;
   vertical-align: middle;
+}
+.op-openings {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  background: var(--accent-soft, rgba(255, 87, 34, 0.12));
+  color: var(--accent-primary, #ff5722);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+}
+.fresher-more-company {
+  display: block;
+  width: 100%;
+  padding: 8px 0 10px 52px;
+  border: 0;
+  background: none;
+  color: var(--accent-primary, #ff5722);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.fresher-more-company:hover {
+  text-decoration: underline;
+}
+.op-more-company {
+  margin: 2px 0 0;
+}
+.op-more-company button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent-primary, #ff5722);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.op-more-company button:hover {
+  text-decoration: underline;
 }
 .op-alert-nudge .op-text-btn {
   appearance: none;
