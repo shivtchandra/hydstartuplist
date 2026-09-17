@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
   const college = getCollegeBySlug(slug);
   if (!college) return {};
 
-  const title = `${college.name} Placements 2026 – Median CTC & Top Recruiters | Mapping HYD`;
+  const title = `${college.name} Placements 2026 – Median CTC & Top Recruiters`;
   const url = `${getSiteUrl()}/colleges/${college.slug}`;
 
   return {
@@ -50,9 +50,7 @@ export default async function CollegeDetailPage({ params }) {
   const college = getCollegeBySlug(slug);
   if (!college) notFound();
 
-  // Load live jobs and match against college's recruiters
   const allJobs = await getAllJobs();
-  const recruiterNames = new Set(college.topRecruiters.map((r) => r.toLowerCase()));
   const matchingRecruiterJobs = allJobs.filter((j) => {
     const co = String(j.company || "").toLowerCase();
     return college.topRecruiters.some((r) => co.includes(r.toLowerCase()) || r.toLowerCase().includes(co));
@@ -115,62 +113,104 @@ export default async function CollegeDetailPage({ params }) {
         </div>
 
         {/* Highlight Stats Ribbon */}
-        <div
-          style={{
-            background: "var(--bg-card, rgba(255, 255, 255, 0.75))",
-            border: "1px solid var(--border-glass, rgba(0, 0, 0, 0.1))",
-            borderRadius: "14px",
-            padding: "20px 24px",
-            margin: "20px 0 28px",
-            backdropFilter: "blur(10px)",
-          }}
-        >
-          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 14px", color: "var(--text-main)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
-            📊 Verified Placement Disclosures (2024–2026)
-          </h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-              gap: "14px",
-            }}
-          >
-            <div>
-              <span style={{ display: "block", fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase" }}>Median CTC</span>
-              <strong style={{ fontSize: "20px", color: "#059669" }}>{college.stats.medianCTC}</strong>
+        <div className="fresher-tool-card" style={{ margin: "20px 0 28px" }}>
+          <p className="fresher-tool-kicker">Verified Disclosures (2024–2026)</p>
+          <div className="fresher-metric-grid" style={{ marginBottom: 0 }}>
+            <div className="fresher-metric-cell">
+              <span className="fresher-metric-lbl">Median CTC</span>
+              <span className="fresher-metric-num emerald">{college.stats.medianCTC}</span>
             </div>
-            <div>
-              <span style={{ display: "block", fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase" }}>Placement Rate</span>
-              <strong style={{ fontSize: "20px", color: "var(--text-main)" }}>{college.stats.placementRate}</strong>
+            <div className="fresher-metric-cell">
+              <span className="fresher-metric-lbl">Placement Rate</span>
+              <span className="fresher-metric-num">{college.stats.placementRate}</span>
             </div>
-            <div>
-              <span style={{ display: "block", fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase" }}>Highest Offer</span>
-              <strong style={{ fontSize: "20px", color: "var(--text-main)" }}>{college.stats.highestCTC}</strong>
+            <div className="fresher-metric-cell">
+              <span className="fresher-metric-lbl">Highest Offer</span>
+              <span className="fresher-metric-num">{college.stats.highestCTC}</span>
             </div>
-            <div>
-              <span style={{ display: "block", fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase" }}>Total Offers</span>
-              <strong style={{ fontSize: "20px", color: "var(--text-main)" }}>{college.stats.totalOffers}</strong>
+            <div className="fresher-metric-cell">
+              <span className="fresher-metric-lbl">Total Offers</span>
+              <span className="fresher-metric-num">{college.stats.totalOffers}</span>
             </div>
-            <div>
-              <span style={{ display: "block", fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase" }}>Placed Students</span>
-              <strong style={{ fontSize: "20px", color: "var(--text-main)" }}>{college.stats.placedCount} / {college.stats.batchSize}</strong>
+            <div className="fresher-metric-cell">
+              <span className="fresher-metric-lbl">Graduating Batch</span>
+              <span className="fresher-metric-num">{college.stats.placedCount} / {college.stats.batchSize}</span>
             </div>
           </div>
         </div>
 
+        {/* Verified LPA Salary Distribution & Selection Breakdown */}
+        {college.salaryDistribution && college.salaryDistribution.length > 0 && (
+          <div className="fresher-tool-card" style={{ marginBottom: "28px" }}>
+            <div className="fresher-tool-header">
+              <span className="fresher-tool-kicker">Placement Ground Reality</span>
+              <h2 className="fresher-tool-title">LPA Salary Distribution &amp; Selection Volume ({college.stats.batchSize} Batch)</h2>
+              <p className="fresher-tool-sub">
+                Actual student selection count, percentage distribution across CTC tiers, and confirmed hiring employers.
+              </p>
+            </div>
+
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+                <thead>
+                  <tr style={{ background: "rgba(0,0,0,0.03)", borderBottom: "1px solid var(--border-glass, #e2e8f0)", textAlign: "left" }}>
+                    <th style={{ padding: "10px 12px", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>CTC Bracket</th>
+                    <th style={{ padding: "10px 12px", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Category</th>
+                    <th style={{ padding: "10px 12px", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Selections</th>
+                    <th style={{ padding: "10px 12px", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Batch Share</th>
+                    <th style={{ padding: "10px 12px", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Hiring Companies</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {college.salaryDistribution.map((tier, idx) => (
+                    <tr key={idx} style={{ borderBottom: "1px solid var(--border-glass, #e2e8f0)" }}>
+                      <td style={{ padding: "10px 12px", fontWeight: 700, color: tier.lpaBand.includes(">") ? "#059669" : "var(--text-main)" }}>
+                        {tier.lpaBand}
+                      </td>
+                      <td style={{ padding: "10px 12px", fontSize: "12.5px" }}>
+                        <strong style={{ display: "block" }}>{tier.category}</strong>
+                        <span style={{ fontSize: "11.5px", color: "var(--text-muted)" }}>{tier.description}</span>
+                      </td>
+                      <td style={{ padding: "10px 12px", fontWeight: 700 }}>
+                        {tier.studentCount ? `~${tier.studentCount} students` : "—"}
+                      </td>
+                      <td style={{ padding: "10px 12px" }}>
+                        <span style={{
+                          display: "inline-block",
+                          padding: "2px 8px",
+                          borderRadius: "var(--radius-full)",
+                          fontSize: "11.5px",
+                          fontWeight: 700,
+                          background: tier.percentage.startsWith("0") || tier.percentage.startsWith("1.") || tier.percentage.startsWith("2.") || tier.percentage.startsWith("3.") || tier.percentage.startsWith("4.") || tier.percentage.startsWith("5.") || tier.percentage.startsWith("6.") ? "rgba(16, 185, 129, 0.1)" : "rgba(0,0,0,0.05)",
+                          color: tier.percentage.startsWith("0") || tier.percentage.startsWith("1.") || tier.percentage.startsWith("2.") || tier.percentage.startsWith("3.") || tier.percentage.startsWith("4.") || tier.percentage.startsWith("5.") || tier.percentage.startsWith("6.") ? "#059669" : "var(--text-main)",
+                        }}>
+                          {tier.percentage}
+                        </span>
+                      </td>
+                      <td style={{ padding: "10px 12px", fontSize: "12px", color: "var(--text-muted)" }}>
+                        {tier.companies}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
         {/* Top Recruiters & Alumni Startups */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "18px", marginBottom: "28px" }}>
-          <div style={{ border: "1px solid var(--border-glass)", borderRadius: "10px", padding: "16px", background: "var(--bg-card)" }}>
-            <h3 style={{ fontSize: "14.5px", margin: "0 0 10px" }}>🏢 Top Recurring Recruiters</h3>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px", marginBottom: "28px" }}>
+          <div className="fresher-tool-card" style={{ padding: "18px 20px" }}>
+            <h3 style={{ fontSize: "14px", margin: "0 0 10px", color: "var(--text-main)" }}>Recurring Recruiters</h3>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
               {college.topRecruiters.map((r) => (
                 <span
                   key={r}
                   style={{
                     padding: "3px 10px",
-                    borderRadius: "100px",
-                    background: "rgba(0,0,0,0.04)",
-                    border: "1px solid var(--border-glass)",
+                    borderRadius: "var(--radius-full)",
+                    background: "var(--bg-glass, rgba(0,0,0,0.04))",
+                    border: "1px solid var(--border-glass, #e2e8f0)",
                     fontSize: "12px",
                     fontWeight: 600,
                   }}
@@ -181,15 +221,15 @@ export default async function CollegeDetailPage({ params }) {
             </div>
           </div>
 
-          <div style={{ border: "1px solid var(--border-glass)", borderRadius: "10px", padding: "16px", background: "var(--bg-card)" }}>
-            <h3 style={{ fontSize: "14.5px", margin: "0 0 10px" }}>🚀 Connected Alumni Startups</h3>
+          <div className="fresher-tool-card" style={{ padding: "18px 20px" }}>
+            <h3 style={{ fontSize: "14px", margin: "0 0 10px", color: "var(--text-main)" }}>Connected Alumni Startups</h3>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
               {college.alumniStartups.map((s) => (
                 <span
                   key={s}
                   style={{
                     padding: "3px 10px",
-                    borderRadius: "100px",
+                    borderRadius: "var(--radius-full)",
                     background: "var(--accent-soft, rgba(255, 87, 34, 0.1))",
                     color: "var(--accent-primary, #ff5722)",
                     fontSize: "12px",

@@ -19,7 +19,7 @@ export const revalidate = 1800;
 export async function generateMetadata() {
   const landing = FRESHER_JOBS_LANDING;
   const jobs = await getFresherJobs(landing.experienceLevels);
-  const title = `${landing.title} – ${jobs.length} Entry-Level Openings | Mapping HYD`;
+  const title = `${landing.title} – ${jobs.length} Entry-Level Openings`;
   const url = `${getSiteUrl()}/jobs/fresher`;
   return {
     title,
@@ -103,69 +103,68 @@ export default async function FresherJobsPage() {
           </p>
         </div>
 
-        {/* 2026 Fresher Market Overview Ribbon */}
-        <div className="fresher-benchmarks-card" style={{
-          background: "var(--bg-glass, rgba(255, 255, 255, 0.7))",
-          border: "1px solid var(--border-glass, rgba(0, 0, 0, 0.08))",
-          borderRadius: "12px",
-          padding: "16px 20px",
-          margin: "0 0 20px",
-          backdropFilter: "blur(10px)",
-        }}>
-          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px", color: "var(--text-main)" }}>
-            ⚡ 2026 Hyderabad Entry-Level Tech Landscape
-          </h3>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-            gap: "12px",
-            fontSize: "12.5px",
-          }}>
-            <div>
-              <strong style={{ display: "block", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase" }}>Product Startups</strong>
-              <span>₹6 – ₹16 LPA (Median: ₹7.5 LPA)</span>
-            </div>
-            <div>
-              <strong style={{ display: "block", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase" }}>GCCs & Tech Giants</strong>
-              <span>₹12 – ₹24 LPA+</span>
-            </div>
-            <div>
-              <strong style={{ display: "block", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase" }}>Internships</strong>
-              <span>₹20,000 – ₹55,000 / mo</span>
-            </div>
-            <div>
-              <strong style={{ display: "block", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase" }}>Zero Agency Spam</strong>
-              <span>100% Direct Company ATS</span>
+        {/* 2026 Fresher Market Overview Card */}
+        <section className="fresher-tool-card" style={{ marginBottom: "24px" }} aria-label="Hyderabad Fresher Market Benchmarks">
+          <div className="fresher-tool-header">
+            <span className="fresher-tool-kicker">2026 Market Intelligence</span>
+            <h2 className="fresher-tool-title">Hyderabad Entry-Level Tech Landscape</h2>
+            <p className="fresher-tool-sub">
+              Verified compensation and hiring bands compiled from direct startup ATS data and off-campus placements.
+            </p>
+          </div>
+
+          <div className="fresher-metric-board">
+            <div className="fresher-metric-grid">
+              <div className="fresher-metric-cell">
+                <span className="fresher-metric-lbl">Product Startups</span>
+                <span className="fresher-metric-num" style={{ fontSize: "16px" }}>₹6 – ₹16 LPA</span>
+                <span className="fresher-metric-sub">Median: ₹7.5 LPA Base</span>
+              </div>
+              <div className="fresher-metric-cell">
+                <span className="fresher-metric-lbl">GCCs & Tech Hubs</span>
+                <span className="fresher-metric-num" style={{ fontSize: "16px" }}>₹12 – ₹24 LPA</span>
+                <span className="fresher-metric-sub">HITEC City & Gachibowli</span>
+              </div>
+              <div className="fresher-metric-cell">
+                <span className="fresher-metric-lbl">Internship Stipends</span>
+                <span className="fresher-metric-num" style={{ fontSize: "16px" }}>₹20k – ₹1.2L</span>
+                <span className="fresher-metric-sub">Monthly (startup – GCC)</span>
+              </div>
+              <div className="fresher-metric-cell">
+                <span className="fresher-metric-lbl">Application Pipeline</span>
+                <span className="fresher-metric-num" style={{ fontSize: "16px" }}>100% Direct</span>
+                <span className="fresher-metric-sub">Zero consultancies / agency fees</span>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Specialized Fresher Category Hubs */}
-        <div style={{ marginBottom: 22 }}>
-          <p style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.04em", margin: "0 0 8px" }}>
-            Explore by Specialization
+        <div style={{ marginBottom: 24 }}>
+          <p style={{ fontSize: "11px", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 10px" }}>
+            Filter by Specialization
           </p>
           <div className="fresher-chips">
-            <Link href="/jobs/fresher" className="fresher-chip is-active" style={{ textDecoration: "none" }}>
+            <Link href="/jobs/fresher" className="fresher-chip is-active">
               All Roles
             </Link>
-            <Link href="/jobs/fresher/internships" className="fresher-chip" style={{ textDecoration: "none" }}>
-              🎓 Internships
+            <Link href="/jobs/fresher/internships" className="fresher-chip">
+              Internships
             </Link>
-            <Link href="/jobs/fresher/software-engineer" className="fresher-chip" style={{ textDecoration: "none" }}>
-              💻 Software Engineer / SDE-1
+            <Link href="/jobs/fresher/software-engineer" className="fresher-chip">
+              Software Engineer / SDE-1
             </Link>
-            <Link href="/jobs/fresher/data-analyst" className="fresher-chip" style={{ textDecoration: "none" }}>
-              📊 Data & AI
+            <Link href="/jobs/fresher/data-analyst" className="fresher-chip">
+              Data & AI
             </Link>
-            <Link href="/jobs/fresher/frontend" className="fresher-chip" style={{ textDecoration: "none" }}>
-              🎨 Frontend & UI
+            <Link href="/jobs/fresher/frontend" className="fresher-chip">
+              Frontend & UI
             </Link>
-            <Link href="/jobs/fresher/qa-testing" className="fresher-chip" style={{ textDecoration: "none" }}>
-              🧪 QA & SDET
+            <Link href="/jobs/fresher/qa-testing" className="fresher-chip">
+              QA & SDET
             </Link>
-            <Link href="/jobs/fresher/non-tech" className="fresher-chip" style={{ textDecoration: "none" }}>
-              💼 Non-Tech / Business
+            <Link href="/jobs/fresher/non-tech" className="fresher-chip">
+              Non-Tech / Business
             </Link>
           </div>
         </div>

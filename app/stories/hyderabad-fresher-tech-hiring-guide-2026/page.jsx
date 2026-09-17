@@ -10,7 +10,7 @@ const DESCRIPTION =
 
 export const metadata = {
   alternates: { canonical: `${getSiteUrl()}/stories/${SLUG}` },
-  title: `${TITLE} | Mapping HYD`,
+  title: TITLE,
   description: DESCRIPTION,
   openGraph: {
     title: TITLE,
@@ -194,7 +194,7 @@ export default function FresherHiringGuidePage() {
             padding: "16px 20px",
             margin: "24px 0",
           }}>
-            <h4 style={{ margin: "0 0 6px", color: "var(--accent-primary, #ff5722)" }}>⚡ Direct Verified Openings</h4>
+            <h4 style={{ margin: "0 0 6px", color: "var(--accent-primary, #ff5722)" }}>Direct Verified Openings</h4>
             <p style={{ margin: 0, fontSize: "14px" }}>
               Skip the agency middle-men. Browse our real-time <Link href="/jobs/fresher" style={{ fontWeight: 700, color: "var(--accent-primary, #ff5722)" }}>Hyderabad Fresher Jobs Hub</Link> or
               jump into <Link href="/jobs/fresher/software-engineer" style={{ fontWeight: 700, color: "var(--accent-primary, #ff5722)" }}>SDE-1 &amp; Fresher Roles</Link> and <Link href="/jobs/fresher/internships" style={{ fontWeight: 700, color: "var(--accent-primary, #ff5722)" }}>Tech Internships</Link> crawled directly from company ATS portals.
@@ -315,7 +315,7 @@ export default function FresherHiringGuidePage() {
             margin: "18px 0",
             borderRadius: "0 8px 8px 0",
           }}>
-            <h4 style={{ margin: "0 0 4px", color: "#b91c1c" }}>⚠️ The Reality of Proxy / Fake Experience in 2026:</h4>
+            <h4 style={{ margin: "0 0 4px", color: "#b91c1c" }}>Background Verification Alert: The Reality of Proxy / Fake Experience</h4>
             <p style={{ margin: 0, fontSize: "13px", lineHeight: 1.5 }}>
               Enterprise companies (TCS, Infosys, Accenture) and GCCs (Microsoft, Amazon, ServiceNow, JPMC) utilize
               deep automated Background Verification (BGV) via EPFO (UAN passbook validation), Form 26AS tax records,

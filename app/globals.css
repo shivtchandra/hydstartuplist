@@ -7718,3 +7718,435 @@ body:has(.startup-page-wrap) {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* ── Clean Fresher Tools & Colleges Design System ───────────────────────── */
+
+.fresher-tools-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 28px 0;
+}
+
+.fresher-tool-card {
+  background: var(--bg-card, rgba(255, 255, 255, 0.85));
+  border: 1px solid var(--border-glass, rgba(0, 0, 0, 0.08));
+  border-radius: var(--radius-lg, 12px);
+  padding: 22px 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  backdrop-filter: var(--backdrop-blur);
+}
+
+.fresher-tool-header {
+  margin-bottom: 18px;
+}
+
+.fresher-tool-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin: 0 0 4px;
+}
+
+.fresher-tool-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+.fresher-tool-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.fresher-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.fresher-field-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.fresher-select {
+  width: 100%;
+  appearance: none;
+  background: var(--bg-color, #ffffff);
+  border: 1px solid var(--border-glass, #cbd5e1);
+  border-radius: var(--radius-md, 8px);
+  padding: 9px 32px 9px 12px;
+  font-family: var(--font-main);
+  font-size: 12.5px;
+  color: var(--text-main);
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+  transition: border-color 0.15s ease;
+}
+
+.fresher-select:hover {
+  border-color: var(--border-hover, #94a3b8);
+}
+
+.fresher-select:focus {
+  outline: none;
+  border-color: var(--accent-primary, #ff5722);
+}
+
+.fresher-metric-board {
+  background: var(--bg-glass, rgba(0, 0, 0, 0.02));
+  border: 1px solid var(--border-glass, rgba(0, 0, 0, 0.06));
+  border-radius: var(--radius-md, 8px);
+  padding: 16px 18px;
+}
+
+.fresher-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.fresher-metric-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fresher-metric-lbl {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.fresher-metric-num {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+.fresher-metric-num.emerald {
+  color: #059669;
+}
+
+.fresher-metric-num.blue {
+  color: #0284c7;
+}
+
+.fresher-metric-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.fresher-metric-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-glass, rgba(0, 0, 0, 0.06));
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Scam Shield Component */
+.scam-shield-form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.scam-shield-input {
+  flex: 1 1 260px;
+  appearance: none;
+  background: var(--bg-color, #ffffff);
+  border: 1px solid var(--border-glass, #cbd5e1);
+  border-radius: var(--radius-md, 8px);
+  padding: 9px 14px;
+  font-family: var(--font-main);
+  font-size: 13px;
+  color: var(--text-main);
+}
+
+.scam-shield-input:focus {
+  outline: none;
+  border-color: var(--accent-primary, #ff5722);
+}
+
+.scam-shield-btn {
+  appearance: none;
+  background: var(--accent-primary, #ff5722);
+  color: #ffffff;
+  border: 0;
+  border-radius: var(--radius-md, 8px);
+  padding: 9px 18px;
+  font-family: var(--font-main);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.scam-shield-btn:hover {
+  opacity: 0.9;
+}
+
+.scam-result-box {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid transparent;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.scam-result-box.verified {
+  background: rgba(16, 185, 129, 0.06);
+  border-color: rgba(16, 185, 129, 0.22);
+  color: var(--text-main);
+}
+
+.scam-result-box.consultancy {
+  background: rgba(245, 158, 11, 0.06);
+  border-color: rgba(245, 158, 11, 0.22);
+  color: var(--text-main);
+}
+
+.scam-result-box.danger {
+  background: rgba(239, 68, 68, 0.06);
+  border-color: rgba(239, 68, 68, 0.22);
+  color: var(--text-main);
+}
+
+.scam-result-box.unknown {
+  background: rgba(107, 114, 128, 0.06);
+  border-color: rgba(107, 114, 128, 0.22);
+  color: var(--text-main);
+}
+
+.scam-result-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  font-size: 12.5px;
+  margin-bottom: 4px;
+}
+
+/* Colleges Directory Cards */
+.colleges-directory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin: 20px 0 32px;
+}
+
+.college-item-card {
+  background: var(--bg-card, rgba(255, 255, 255, 0.85));
+  border: 1px solid var(--border-glass, rgba(0, 0, 0, 0.08));
+  border-radius: var(--radius-lg, 12px);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.college-item-card:hover {
+  border-color: var(--border-hover, #94a3b8);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.college-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.college-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.college-card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.college-card-title a:hover {
+  color: var(--accent-primary);
+}
+
+.college-card-meta {
+  font-size: 11.5px;
+  color: var(--accent-primary, #ff5722);
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.college-card-desc {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0 0 12px;
+}
+
+.college-stat-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: var(--bg-glass, rgba(0, 0, 0, 0.02));
+  border: 1px solid var(--border-glass, rgba(0, 0, 0, 0.05));
+  border-radius: var(--radius-md, 8px);
+  padding: 8px 10px;
+  margin-bottom: 12px;
+}
+
+.college-stat-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.college-stat-col span {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.college-stat-col strong {
+  font-size: 13px;
+  color: var(--text-main);
+}
+
+.college-stat-col strong.green {
+  color: #059669;
+}
+
+.college-pill-btn {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 7px 12px;
+  background: var(--bg-color, #ffffff);
+  border: 1px solid var(--border-glass, #cbd5e1);
+  border-radius: var(--radius-md, 8px);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.college-pill-btn:hover {
+  border-color: var(--accent-primary, #ff5722);
+  color: var(--accent-primary, #ff5722);
+}
+
+/* Fresher Calculator Real Verification & Breakdown */
+.fresher-proof-section {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-glass, rgba(0, 0, 0, 0.08));
+}
+
+.fresher-proof-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fresher-proof-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.fresher-proof-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #059669;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.fresher-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.fresher-proof-card {
+  background: var(--bg-glass, rgba(0, 0, 0, 0.02));
+  border: 1px solid var(--border-glass, rgba(0, 0, 0, 0.06));
+  border-radius: var(--radius-md, 8px);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fresher-proof-type {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.fresher-proof-companies {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.35;
+}
+
+.fresher-proof-band {
+  font-size: 12px;
+  font-weight: 700;
+  color: #059669;
+}
+
+.fresher-math-explainer {
+  background: var(--bg-glass, rgba(0, 0, 0, 0.015));
+  border: 1px dashed var(--border-glass, rgba(0, 0, 0, 0.1));
+  border-radius: var(--radius-md, 8px);
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.fresher-math-explainer strong {
+  color: var(--text-main);
+}
+

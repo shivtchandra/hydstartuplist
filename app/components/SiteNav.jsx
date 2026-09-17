@@ -33,6 +33,7 @@ export default function SiteNav({ active = "", mode }) {
         pathname.startsWith("/more") ||
         pathname.startsWith("/news") ||
         pathname.startsWith("/stories") ||
+        pathname.startsWith("/colleges") ||
         pathname.startsWith("/insights") ||
         pathname.startsWith("/newsletter") ||
         pathname.startsWith("/feed")

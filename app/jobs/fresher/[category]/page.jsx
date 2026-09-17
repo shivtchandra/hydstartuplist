@@ -116,49 +116,47 @@ export default async function FresherCategoryPage({ params }) {
 
         {/* 2026 Fresher Benchmark Card */}
         {cat.benchmarks && (
-          <div className="fresher-benchmarks-card" style={{
-            background: "var(--bg-glass, rgba(255, 255, 255, 0.7))",
-            border: "1px solid var(--border-glass, rgba(0, 0, 0, 0.08))",
-            borderRadius: "12px",
-            padding: "16px 20px",
-            margin: "0 0 24px",
-            backdropFilter: "blur(10px)",
-          }}>
-            <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px", color: "var(--text-main)" }}>
-              📊 2026 Hyderabad {cat.categoryName} Market Benchmarks
-            </h3>
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-              gap: "12px",
-              fontSize: "12.5px",
-            }}>
-              <div>
-                <strong style={{ display: "block", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase" }}>Compensation</strong>
-                <span>{cat.benchmarks.typicalStipend}</span>
-              </div>
-              <div>
-                <strong style={{ display: "block", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase" }}>Target Experience</strong>
-                <span>{cat.benchmarks.duration}</span>
-              </div>
-              <div>
-                <strong style={{ display: "block", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase" }}>Key Hubs</strong>
-                <span>{cat.benchmarks.topLocations}</span>
-              </div>
-              <div>
-                <strong style={{ display: "block", color: "var(--text-muted)", fontSize: "11px", textTransform: "uppercase" }}>In-Demand Skills</strong>
-                <span>{cat.benchmarks.popularSkills}</span>
+          <section className="fresher-tool-card" style={{ marginBottom: 24 }} aria-label={`${cat.categoryName} Market Benchmarks`}>
+            <div className="fresher-tool-header">
+              <span className="fresher-tool-kicker">Role Intelligence</span>
+              <h2 className="fresher-tool-title">{cat.categoryName} Market Benchmarks</h2>
+              <p className="fresher-tool-sub">
+                Hiring standards, realistic compensation, and key hubs across Hyderabad startups and tech centers.
+              </p>
+            </div>
+
+            <div className="fresher-metric-board">
+              <div className="fresher-metric-grid">
+                <div className="fresher-metric-cell">
+                  <span className="fresher-metric-lbl">Compensation</span>
+                  <span className="fresher-metric-num" style={{ fontSize: "16px" }}>{cat.benchmarks.typicalStipend}</span>
+                  <span className="fresher-metric-sub">Base pay / stipend</span>
+                </div>
+                <div className="fresher-metric-cell">
+                  <span className="fresher-metric-lbl">Target Experience</span>
+                  <span className="fresher-metric-num" style={{ fontSize: "16px" }}>{cat.benchmarks.duration}</span>
+                  <span className="fresher-metric-sub">Eligibility band</span>
+                </div>
+                <div className="fresher-metric-cell">
+                  <span className="fresher-metric-lbl">Key Tech Hubs</span>
+                  <span className="fresher-metric-num" style={{ fontSize: "16px" }}>{cat.benchmarks.topLocations}</span>
+                  <span className="fresher-metric-sub">Primary clusters</span>
+                </div>
+                <div className="fresher-metric-cell">
+                  <span className="fresher-metric-lbl">In-Demand Skills</span>
+                  <span className="fresher-metric-num" style={{ fontSize: "16px" }}>{cat.benchmarks.popularSkills}</span>
+                  <span className="fresher-metric-sub">ATS keyword filters</span>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
         )}
 
         {/* Quick Category Navigation */}
-        <div className="fresher-chips" style={{ marginBottom: 20 }}>
+        <div className="fresher-chips" style={{ marginBottom: 24 }}>
           <Link
             href="/jobs/fresher"
             className="fresher-chip"
-            style={{ textDecoration: "none" }}
           >
             All Fresher Roles
           </Link>
@@ -167,7 +165,6 @@ export default async function FresherCategoryPage({ params }) {
               key={c.slug}
               href={`/jobs/fresher/${c.slug}`}
               className={`fresher-chip${c.slug === slug ? " is-active" : ""}`}
-              style={{ textDecoration: "none" }}
             >
               {c.categoryName}
             </Link>
