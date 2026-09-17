@@ -33,7 +33,18 @@ test("a description mentioning few years cannot pull a senior title into the fre
 });
 
 test("genuine entry-level postings still resolve to the fresher bands", () => {
-  const intern = ["React Native Intern", "NATA Trainee", "Industrial Trainee - Tax", "Graduate Engineer Trainee"];
+  const intern = [
+    "React Native Intern",
+    "NATA Trainee",
+    "Industrial Trainee - Tax",
+    "Graduate Engineer Trainee",
+    "GET - Embedded Systems",
+    "Management Trainee - Sales",
+    "Apprentice Software Engineer",
+    "AI/ML Research Intern",
+    "Summer Intern 2026",
+    "Software Engineer - 2026 Batch",
+  ];
   for (const title of intern) assert.equal(inferExperienceLevel(title, ""), "intern", title);
 
   const junior = ["Associate Software Engineer", "SDE I", "Junior Site Speed Specialist", "IT Operations Analyst I"];

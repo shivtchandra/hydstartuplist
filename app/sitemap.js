@@ -1,5 +1,7 @@
 import { getSiteUrl } from "../lib/site-url.js";
 import { JOB_SECTOR_LANDINGS, JOB_AREA_LANDINGS, JOB_ROLE_LANDINGS } from "../lib/jobs-seo.js";
+import { FRESHER_CATEGORIES } from "../lib/fresher-seo.js";
+import { TELANGANA_COLLEGES } from "../lib/colleges.js";
 import { INDUSTRY_LANDINGS } from "../lib/industries.js";
 import { AREA_LANDINGS } from "../lib/areas.js";
 import { TECH_PARKS } from "../lib/parks.js";
@@ -17,6 +19,7 @@ const SITE_URL = getSiteUrl();
 const STATIC_ROUTES = [
   { path: "", priority: 1.0, changeFrequency: "hourly" },
   { path: "/jobs/fresher", priority: 0.95, changeFrequency: "daily" },
+  { path: "/colleges", priority: 0.9, changeFrequency: "daily" },
   { path: "/jobs", priority: 0.95, changeFrequency: "hourly" },
   { path: "/feed", priority: 0.9, changeFrequency: "hourly" },
   { path: "/news", priority: 0.8, changeFrequency: "daily" },
@@ -28,6 +31,7 @@ const STATIC_ROUTES = [
   { path: "/stage", priority: 0.85, changeFrequency: "daily" },
   { path: "/insights", priority: 0.7, changeFrequency: "weekly" },
   { path: "/stories", priority: 0.7, changeFrequency: "weekly" },
+  { path: "/stories/hyderabad-fresher-tech-hiring-guide-2026", priority: 0.85, changeFrequency: "monthly" },
   { path: "/stories/top-product-companies-hyderabad", priority: 0.8, changeFrequency: "monthly" },
   { path: "/stories/hyderabad-tech-parks-guide", priority: 0.8, changeFrequency: "monthly" },
   { path: "/stories/hyderabad-startup-hiring-report-2026", priority: 0.75, changeFrequency: "monthly" },
@@ -37,6 +41,7 @@ const STATIC_ROUTES = [
 ];
 
 const STORY_SLUGS = [
+  "hyderabad-fresher-tech-hiring-guide-2026",
   "top-product-companies-hyderabad",
   "hyderabad-tech-parks-guide",
   "bengaluru-vs-hyderabad-startup-limelight",
@@ -110,10 +115,26 @@ export default function sitemap() {
     priority: 0.8,
   }));
 
+  const fresherCategoryEntries = FRESHER_CATEGORIES.map((c) => ({
+    url: `${SITE_URL}/jobs/fresher/${c.slug}`,
+    lastModified: now,
+    changeFrequency: "daily",
+    priority: 0.9,
+  }));
+
+  const collegeEntries = TELANGANA_COLLEGES.map((c) => ({
+    url: `${SITE_URL}/colleges/${c.slug}`,
+    lastModified: now,
+    changeFrequency: "daily",
+    priority: 0.85,
+  }));
+
   // Dedupe story paths that also appear in STATIC_ROUTES
   const seen = new Set();
   return [
     ...staticEntries,
+    ...fresherCategoryEntries,
+    ...collegeEntries,
     ...storyEntries,
     ...industryEntries,
     ...techAreaEntries,

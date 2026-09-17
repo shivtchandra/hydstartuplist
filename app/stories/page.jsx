@@ -17,6 +17,12 @@ export const metadata = {
 
 const STORIES = [
   {
+    href: "/stories/hyderabad-fresher-tech-hiring-guide-2026",
+    title: "Hyderabad Fresher Tech Hiring & Salary Guide (2026 Edition)",
+    blurb:
+      "The definitive guide for freshers: salary tiers (₹3.5 LPA to ₹24+ LPA), top product companies hiring entry-level talent, off-campus tactics, and how to avoid consultancy scams.",
+  },
+  {
     href: "/stories/top-product-companies-hyderabad",
     title: "Top 50 Product Based Companies in Hyderabad (Tier 1 & High-Growth 2026 Guide)",
     blurb:

@@ -38,6 +38,7 @@ export default function SiteFooter() {
             <Link href="/">Startup Map</Link>
             <Link href="/product-companies">Product Companies</Link>
             <Link href="/parks">Tech Parks &amp; SEZs</Link>
+            <Link href="/colleges">College Placements</Link>
             <Link href="/areas">Tech Corridors</Link>
             <Link href="/industries">Industries</Link>
             <Link href="/stage">Funding Stages</Link>
@@ -68,16 +69,17 @@ export default function SiteFooter() {
           <nav className="site-footer-col" aria-label="Jobs by sector">
             <h2>Careers &amp; Jobs</h2>
             <Link href="/jobs">All Startup Jobs</Link>
-            <Link href="/jobs/fresher">Fresher Jobs</Link>
+            <Link href="/jobs/fresher">Fresher Jobs Hub</Link>
+            <Link href="/jobs/fresher/internships">Tech Internships</Link>
+            <Link href="/jobs/fresher/software-engineer">SDE-1 &amp; Fresher Roles</Link>
             <Link href="/jobs/sector/saas">SaaS Jobs</Link>
             <Link href="/jobs/sector/ai">AI &amp; ML Jobs</Link>
-            <Link href="/jobs/sector/fintech">Fintech Jobs</Link>
             <Link href="/jobs/role/software-engineer">Software Engineer</Link>
-            <Link href="/jobs/role/product-manager">Product Manager</Link>
           </nav>
 
           <nav className="site-footer-col" aria-label="Mapping HYD series">
             <h2>Guides &amp; Insights</h2>
+            <Link href="/stories/hyderabad-fresher-tech-hiring-guide-2026">2026 Fresher Hiring Guide</Link>
             <Link href="/stories/top-product-companies-hyderabad">Top 50 Product Cos</Link>
             <Link href="/stories/hyderabad-tech-parks-guide">Tech Parks Guide</Link>
             <Link href="/stories">All Stories &amp; Reports</Link>
