@@ -180,6 +180,14 @@ export default async function JobDetailPage({ params }) {
                 </span>
               </>
             )}
+            {(job.source === "ats" || job.source === "careers" || job.atsProvider) && (
+              <>
+                {" · "}
+                <span className="job-detail-badge jobs-type-badge jobs-type-direct" title="Direct from company careers ATS / 0% agency spam">
+                  🟢 Direct ATS
+                </span>
+              </>
+            )}
           </p>
         </header>
 

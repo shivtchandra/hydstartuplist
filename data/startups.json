@@ -196,10 +196,10 @@
       }
     ],
     "spotlight": true,
-    "atsProvider": null,
-    "atsSlug": null,
-    "atsBoardUrl": null,
-    "atsClassifiedAt": "2026-09-04T16:06:37.741Z"
+    "atsProvider": "freshteam",
+    "atsSlug": "nxtwave",
+    "atsBoardUrl": "https://nxtwave.freshteam.com/jobs",
+    "atsClassifiedAt": "2026-09-17T16:28:11.817Z"
   },
   {
     "id": "69202061-81b2-4f20-8e6b-00d43ed8f311",
@@ -11482,7 +11482,11 @@
     "lat": 17.4520154,
     "lng": 78.3894378,
     "locSource": "startupindia+places",
-    "status": "approved"
+    "status": "approved",
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.172Z"
   },
   {
     "id": "bb8d0ff9-febd-45df-84b0-286346f93179",
@@ -31580,7 +31584,8 @@
     "atsSlug": null,
     "atsBoardUrl": null,
     "addedAt": "2026-09-04T20:37:18.329Z",
-    "addedReason": "startupblink-aerospace-gap-fill"
+    "addedReason": "startupblink-aerospace-gap-fill",
+    "atsClassifiedAt": "2026-09-17T16:28:04.174Z"
   },
   {
     "id": "3dcc7fa9-48da-435c-ba76-06442ad60591",
@@ -31602,7 +31607,8 @@
     "atsSlug": null,
     "atsBoardUrl": null,
     "addedAt": "2026-09-04T20:37:18.329Z",
-    "addedReason": "startupblink-aerospace-gap-fill"
+    "addedReason": "startupblink-aerospace-gap-fill",
+    "atsClassifiedAt": "2026-09-17T16:28:04.175Z"
   },
   {
     "id": "2914d09f-ce38-4765-a9a0-f8e0070c867b",
@@ -31624,7 +31630,8 @@
     "atsSlug": null,
     "atsBoardUrl": null,
     "addedAt": "2026-09-04T20:37:18.329Z",
-    "addedReason": "startupblink-aerospace-gap-fill"
+    "addedReason": "startupblink-aerospace-gap-fill",
+    "atsClassifiedAt": "2026-09-17T16:28:04.176Z"
   },
   {
     "id": "01e662bd-2901-4c48-a77f-1c1211488298",
@@ -31646,7 +31653,8 @@
     "atsSlug": null,
     "atsBoardUrl": null,
     "addedAt": "2026-09-04T20:37:18.329Z",
-    "addedReason": "startupblink-aerospace-gap-fill"
+    "addedReason": "startupblink-aerospace-gap-fill",
+    "atsClassifiedAt": "2026-09-17T16:28:04.177Z"
   },
   {
     "id": "8a039a6e-e794-4679-a70e-c6224be6ca06",
@@ -31668,7 +31676,8 @@
     "atsSlug": null,
     "atsBoardUrl": null,
     "addedAt": "2026-09-04T20:37:18.329Z",
-    "addedReason": "startupblink-aerospace-gap-fill"
+    "addedReason": "startupblink-aerospace-gap-fill",
+    "atsClassifiedAt": "2026-09-17T16:28:04.179Z"
   },
   {
     "id": "86f43b74-bfdf-4a27-8ea1-bd9ab7c904a9",
@@ -31690,7 +31699,8 @@
     "atsSlug": null,
     "atsBoardUrl": null,
     "addedAt": "2026-09-04T20:37:18.329Z",
-    "addedReason": "startupblink-aerospace-gap-fill"
+    "addedReason": "startupblink-aerospace-gap-fill",
+    "atsClassifiedAt": "2026-09-17T16:28:04.203Z"
   },
   {
     "id": "e7e6f60f-9658-4bc0-bb39-420e64510107",
@@ -31712,7 +31722,8 @@
     "atsSlug": null,
     "atsBoardUrl": null,
     "addedAt": "2026-09-04T20:37:18.329Z",
-    "addedReason": "startupblink-aerospace-gap-fill"
+    "addedReason": "startupblink-aerospace-gap-fill",
+    "atsClassifiedAt": "2026-09-17T16:28:04.204Z"
   },
   {
     "id": "83f19da9-6b71-45e1-9b66-c221bb5d808f",
@@ -31825,9 +31836,9 @@
     "hiring": null,
     "spotlight": false,
     "atsProvider": "rippling",
-    "atsSlug": "desri",
-    "atsBoardUrl": "https://ats.rippling.com/en-GB/desri-careers/jobs?jobBoardSlug=desri-careers&country=IN",
-    "atsClassifiedAt": "2026-09-07T07:45:59.458Z"
+    "atsSlug": "desri-careers",
+    "atsBoardUrl": "https://ats.rippling.com/desri-careers/jobs",
+    "atsClassifiedAt": "2026-09-17T16:28:11.822Z"
   },
   {
     "id": "61e0cfb5-f07a-4dbe-a173-f576a315b014",
@@ -32030,7 +32041,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.206Z"
   },
   {
     "id": "d44906d9-9385-49b0-838e-71295dadfc5d",
@@ -32049,7 +32064,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.207Z"
   },
   {
     "id": "07b8d5ac-b8be-4809-bcbe-14e34ca6d344",
@@ -32068,7 +32087,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.218Z"
   },
   {
     "id": "86f8f9ed-f68d-41cb-92e6-8c747d0152ea",
@@ -32087,7 +32110,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.220Z"
   },
   {
     "id": "faa9cdc5-08a9-43e9-8d60-d86cb4f5a448",
@@ -32106,7 +32133,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.245Z"
   },
   {
     "id": "a8668de6-a2bd-4570-b982-b5391190d434",
@@ -32125,7 +32156,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.247Z"
   },
   {
     "id": "e819b8ec-db34-4dec-9489-e40280ff97b5",
@@ -32144,7 +32179,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.248Z"
   },
   {
     "id": "fb3ea0ee-85d3-4d5d-9834-246aa8b19bd0",
@@ -32163,7 +32202,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.249Z"
   },
   {
     "id": "d807de4e-2fca-44fd-a9f9-f0c481536284",
@@ -32182,7 +32225,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.250Z"
   },
   {
     "id": "7732f415-af6b-48fa-832e-71f782c94d03",
@@ -32201,7 +32248,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.251Z"
   },
   {
     "id": "5a23c455-c758-4974-a026-078da93b1d06",
@@ -32220,7 +32271,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": "zoho",
+    "atsSlug": "harvestedlabs",
+    "atsBoardUrl": "https://harvestedlabs.zohorecruit.com/jobs/Careers",
+    "atsClassifiedAt": "2026-09-17T16:28:11.822Z"
   },
   {
     "id": "44c3636f-8f33-4540-b6f8-a9b4b7856be5",
@@ -32239,7 +32294,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.275Z"
   },
   {
     "id": "42f0a99e-a66b-471f-be72-2a69fc05ecaf",
@@ -32257,7 +32316,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.284Z"
   },
   {
     "id": "464ad7bc-fa85-4e15-a430-ae439e3c9c20",
@@ -32276,7 +32339,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.286Z"
   },
   {
     "id": "8578b761-5f72-46a7-988c-2493d2c84648",
@@ -32295,7 +32362,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.287Z"
   },
   {
     "id": "b17083a7-54a2-4e8f-a591-d97a64a53786",
@@ -32314,7 +32385,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.288Z"
   },
   {
     "id": "5c32fa11-4d7c-4886-a319-7cbbca31af9a",
@@ -32333,7 +32408,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.289Z"
   },
   {
     "id": "d25b6732-7014-4357-9248-c74ab47698cc",
@@ -32351,7 +32430,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.317Z"
   },
   {
     "id": "b20a4113-4958-42cf-af1e-c90bc28d288e",
@@ -32370,7 +32453,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.318Z"
   },
   {
     "id": "003fa9e4-ee53-44e7-b486-11cded258f29",
@@ -32389,7 +32476,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.321Z"
   },
   {
     "id": "ed41befb-e88f-4f2f-90a3-e343af10d1a3",
@@ -32408,7 +32499,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.319Z"
   },
   {
     "id": "9fb75fd6-6530-4061-a5be-e6d4be2447e2",
@@ -32427,7 +32522,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.322Z"
   },
   {
     "id": "1afc2766-d3ab-40f0-95d9-c13887618b4c",
@@ -32446,7 +32545,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.332Z"
   },
   {
     "id": "aacd83e5-506f-4abe-bf76-7abb41cc99f2",
@@ -32465,7 +32568,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.354Z"
   },
   {
     "id": "7195815f-a345-4f81-8591-89f3910f4192",
@@ -32484,7 +32591,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.355Z"
   },
   {
     "id": "19b2005d-498f-4336-b25e-a3301ad3a530",
@@ -32503,7 +32614,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.357Z"
   },
   {
     "id": "57a282bf-08a4-4a06-84e4-fc9218cdea22",
@@ -32522,7 +32637,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.357Z"
   },
   {
     "id": "3f9c82a0-882a-4f61-b734-616c96c774fd",
@@ -32541,7 +32660,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.357Z"
   },
   {
     "id": "9b173e6d-a5d4-4f94-bcbb-2d81982ecca2",
@@ -32560,7 +32683,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.358Z"
   },
   {
     "id": "6ebe2fa7-1f2b-4b02-bda3-45f8b563ba1d",
@@ -32579,7 +32706,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.369Z"
   },
   {
     "id": "30acf087-ee61-420a-a371-e3c8dc08584b",
@@ -32598,7 +32729,11 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.370Z"
   },
   {
     "id": "a906df8a-c45f-4130-aa4f-516cdfb79922",
@@ -32617,6 +32752,10 @@
     "founded": null,
     "news": [],
     "hiring": null,
-    "spotlight": false
+    "spotlight": false,
+    "atsProvider": null,
+    "atsSlug": null,
+    "atsBoardUrl": null,
+    "atsClassifiedAt": "2026-09-17T16:28:04.370Z"
   }
 ]

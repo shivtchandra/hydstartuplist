@@ -5,6 +5,7 @@ import {
   normalizeSalary,
   stripHtml,
   ADZUNA_FRESH_DAYS,
+  isSpamOrConsultancyJob,
 } from "../../../../lib/job-content.js";
 import { notifyJobUrls } from "../../../../lib/google-indexing.js";
 import { jobUrlId } from "../../../../lib/jobs-seo.js";
@@ -28,7 +29,7 @@ function isStillFresh(job, nowMs) {
 
 function normalizeAdzunaResult(r, fetchedAt) {
   const description = r.description ? stripHtml(String(r.description)) : null;
-  return {
+  const job = {
     id: String(r.id),
     title: r.title?.replace(/<[^>]+>/g, "").trim(),
     company: r.company?.display_name || "Unknown",
@@ -46,6 +47,8 @@ function normalizeAdzunaResult(r, fetchedAt) {
     salary: normalizeSalary(r.salary_min, r.salary_max),
     source: "adzuna",
   };
+  if (isSpamOrConsultancyJob(job)) return null;
+  return job;
 }
 
 export async function GET(req) {
@@ -118,7 +121,7 @@ export async function GET(req) {
   for (const data of pages) {
     for (const r of data?.results || []) {
       const job = normalizeAdzunaResult(r, fetchedAt);
-      if (!job.id || !job.title) continue;
+      if (!job?.id || !job?.title) continue;
       incoming.set(job.id, job);
     }
   }
@@ -140,7 +143,7 @@ export async function GET(req) {
       // Start from still-fresh previous jobs, then overlay/add API hits
       const merged = new Map();
       for (const j of prevJobs) {
-        if (!isStillFresh(j, nowMs)) {
+        if (!isStillFresh(j, nowMs) || isSpamOrConsultancyJob(j)) {
           droppedStale++;
           continue;
         }
