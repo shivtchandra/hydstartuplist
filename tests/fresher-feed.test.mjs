@@ -17,6 +17,9 @@ test("a senior band in the title is never demoted to an entry-level band", () =>
     ["ML Data Associate-II, Artificial General Intelligence", "mid"],
     ["Machine Learning Associate Advisor", "mid"],
     ["Software Engineering Associate Advisor - HIH - Evernorth", "mid"],
+    ["Software Engineering SMTS, Identity and Access Management", "senior"],
+    ["LMTS - Cloud Infrastructure", "lead"],
+    ["PMTS Distributed Systems", "lead"],
     ["Operation Lead", "lead"],
   ];
   for (const [title, expected] of cases) {
