@@ -35,6 +35,21 @@ test("a description mentioning few years cannot pull a senior title into the fre
   assert.equal(level, "lead");
 });
 
+test("a years mention unrelated to experience requirements does not demote a fresher posting", () => {
+  assert.equal(
+    inferExperienceLevel(
+      "Graduate Trainee - Operations",
+      "We were founded 8 years ago and offer 3 years of paid parental leave. Freshers welcome, 0-1 years experience."
+    ),
+    "intern"
+  );
+});
+
+test("an explicit years-of-experience requirement still demotes a generic title", () => {
+  assert.equal(inferExperienceLevel("Software Engineer", "Looking for candidates with 5+ years of experience."), "senior");
+  assert.equal(inferExperienceLevel("Software Engineer", "Minimum 3-5 years of relevant experience required."), "mid");
+});
+
 test("genuine entry-level postings still resolve to the fresher bands", () => {
   const intern = [
     "React Native Intern",
