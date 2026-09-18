@@ -155,7 +155,7 @@ jobs:
         with:
           node-version: "20"
           cache: npm
-        run: npm ci
+      - run: npm ci
       - name: Sync healthcare jobs on GitHub runner
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
