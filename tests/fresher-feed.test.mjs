@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { inferExperienceLevel, titleSeniority } from "../lib/job-facets.js";
+import { inferExperienceLevel, titleSeniority, dropOtherMetroRows } from "../lib/job-facets.js";
 import { cleanScrapedTitle } from "../lib/job-content.js";
 import { collapseDuplicatePostings } from "../lib/job-lifecycle.js";
 import { capEmployerShare } from "../lib/opportunities.js";
@@ -118,6 +118,17 @@ test("titles that legitimately contain a slash are left alone", () => {
 
 test("a title with no URL to check against is returned unchanged", () => {
   assert.equal(cleanScrapedTitle("Postgres / SQL Data Engineer"), "Postgres / SQL Data Engineer");
+});
+
+test("a multi-city title naming Hyderabad alongside other metros is kept", () => {
+  const jobs = [
+    { id: "a", title: "Graduate Trainee - Bengaluru / Hyderabad / Pune" },
+    { id: "b", title: "Associate Software Engineer, Hyderabad" },
+    { id: "c", title: "Backend Developer - Chennai" },
+    { id: "d", title: "Analyst (Bangalore)" },
+  ];
+  dropOtherMetroRows(jobs);
+  assert.deepEqual(jobs.map((j) => j.id), ["a", "b"]);
 });
 
 test("repeat requisitions of one role collapse into a single row with an openings count", () => {
