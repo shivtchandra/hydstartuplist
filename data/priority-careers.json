@@ -201,5 +201,41 @@
     "atsProvider": "ashby",
     "atsSlug": "zluri",
     "employerType": "startup"
+  },
+  {
+    "id": "sugarfit",
+    "name": "Sugar.fit",
+    "url": "https://sugarfit.com/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "twinhealth",
+    "name": "Twin Health",
+    "url": "https://ind.twinhealth.com/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "aighospitals",
+    "name": "AIG Hospitals",
+    "url": "https://aighospitals.com/careers",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "apollohospitals",
+    "name": "Apollo Hospitals",
+    "url": "https://www.apollohospitals.com/careers/",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "rainbowhospitals",
+    "name": "Rainbow Children's Hospital",
+    "url": "https://www.rainbowhospitals.in/careers",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "fernandezhospital",
+    "name": "Fernandez Hospital",
+    "url": "https://www.fernandez.foundation/careers",
+    "employerType": "enterprise"
   }
 ]

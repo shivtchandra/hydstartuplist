@@ -28,6 +28,7 @@ import {
   prettyName,
 } from "../../../lib/startupUi.js";
 import { fundingLabel } from "../../../lib/company-quality.js";
+import { jobExperienceDisplay } from "../../../lib/job-facets.js";
 
 export const revalidate = 3600;
 
@@ -160,6 +161,14 @@ export default async function JobDetailPage({ params }) {
             {job.location || "Hyderabad"}
             {" · "}
             {timeAgo(job.postedAt)}
+            {jobExperienceDisplay(job) && (
+              <>
+                {" · "}
+                <span className="job-detail-badge jobs-type-badge" title="Experience requirement">
+                  💼 {jobExperienceDisplay(job)}
+                </span>
+              </>
+            )}
             {salaryLabel && (
               <>
                 {" · "}

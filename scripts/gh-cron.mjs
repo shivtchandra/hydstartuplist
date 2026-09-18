@@ -37,6 +37,8 @@ const runners = {
   },
   "sync-priority-careers": async () =>
     (await import("../lib/cron/sync-priority-careers.js")).runSyncPriorityCareers(),
+  "sync-healthcare-jobs": async () =>
+    (await import("../lib/cron/sync-healthcare-jobs.js")).runSyncHealthcareJobs(),
   "rebuild-overlay": async () => (await import("../lib/cron/rebuild-overlay.js")).runRebuildOverlay(),
 };
 

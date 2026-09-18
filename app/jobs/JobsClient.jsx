@@ -14,6 +14,7 @@ import {
   experienceLabel,
   inferArea,
   inferExperienceLevel,
+  jobExperienceDisplay,
   roleFacetKey,
   sectorFacetKey,
 } from "../../lib/job-facets.js";
@@ -410,7 +411,7 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
 
       <div className="feed-list jobs-feed">
         {filtered.map((j) => {
-          const levelLab = experienceLabel(j._level);
+          const expLab = jobExperienceDisplay(j) || experienceLabel(j._level);
           const roleLab = j._role && j._role !== "Other" ? j._role : null;
           const sectorLab =
             j._sector && j._sector !== "other"
@@ -437,15 +438,15 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
                 </div>
                 <div className="feed-row-sub">
                   <span className="jobs-co-line">
-                    {j.company}
+                     {j.company}
                     <span className={`jobs-type-badge jobs-type-${j.category || "other"}`}>{typeLab}</span>
                   </span>
                   {place ? <> · {place}</> : null}
                   {j.postedAt ? <> · {timeAgo(j.postedAt)}</> : null}
-                  {(roleLab || levelLab || sectorLab || j.fundingStage) && (
+                  {(roleLab || expLab || sectorLab || j.fundingStage) && (
                     <span className="jobs-row-badges">
                       {roleLab && <span className="jobs-facet-badge">{roleLab}</span>}
-                      {levelLab && <span className="jobs-facet-badge">{levelLab}</span>}
+                      {expLab && <span className="jobs-facet-badge">{expLab}</span>}
                       {sectorLab && <span className="jobs-facet-badge">{sectorLab}</span>}
                       {j.fundingStage && <span className="jobs-facet-badge">{j.fundingStage}</span>}
                     </span>

@@ -104,11 +104,29 @@ export async function GET(req) {
     }).then((r) => (r.ok ? r.json() : null));
   };
 
-  // Bounded pack: 3 Hyd IT pages + 3 fresher keyword pages (1 each) = 6 API calls max.
+  const healthcarePage = (what) => {
+    const params = new URLSearchParams({
+      app_id: appId,
+      app_key: appKey,
+      what: what,
+      where: "Hyderabad",
+      max_days_old: "7",
+      results_per_page: "50",
+      sort_by: "date",
+      "content-type": "application/json",
+    });
+    return fetch(`https://api.adzuna.com/v1/api/jobs/in/search/1?${params}`, {
+      signal: AbortSignal.timeout(15000),
+    }).then((r) => (r.ok ? r.json() : null));
+  };
+
+  // Bounded pack: 3 Hyd IT pages + 3 fresher keyword pages + 3 dietetics/health coach queries
   const FRESHER_QUERIES = ["fresher", "internship", "graduate"];
+  const HEALTHCARE_QUERIES = ["dietitian", "nutritionist", "health coach"];
   const pages = await Promise.all([
     ...Array.from({ length: PAGES }, (_, i) => basePage(i + 1).catch(() => null)),
     ...FRESHER_QUERIES.map((q) => fresherPage(q).catch(() => null)),
+    ...HEALTHCARE_QUERIES.map((q) => healthcarePage(q).catch(() => null)),
   ]);
   const firstOk = pages.find(Boolean);
   if (!firstOk) {

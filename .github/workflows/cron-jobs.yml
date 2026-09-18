@@ -145,6 +145,26 @@ jobs:
           curl -s --max-time 25 -X GET "$SITE_URL/api/cron/sync-empleos-jobs" \
             -H "Authorization: Bearer $CRON_SECRET" || true
 
+  sync-healthcare-jobs:
+    if: github.event.schedule == '45 5 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+        run: npm ci
+      - name: Sync healthcare jobs on GitHub runner
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.SITE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          GITHUB_ACTIONS: "true"
+        run: node scripts/gh-cron.mjs sync-healthcare-jobs
+
   job-alerts:
     if: github.event.schedule == '0 2 * * *'
     runs-on: ubuntu-latest
