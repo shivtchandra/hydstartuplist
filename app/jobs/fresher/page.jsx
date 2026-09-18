@@ -103,44 +103,8 @@ export default async function FresherJobsPage() {
           </p>
         </div>
 
-        {/* 2026 Fresher Market Overview Card */}
-        <section className="fresher-tool-card" style={{ marginBottom: "24px" }} aria-label="Hyderabad Fresher Market Benchmarks">
-          <div className="fresher-tool-header">
-            <span className="fresher-tool-kicker">2026 Market Intelligence</span>
-            <h2 className="fresher-tool-title">Hyderabad Entry-Level Tech Landscape</h2>
-            <p className="fresher-tool-sub">
-              Verified compensation and hiring bands compiled from direct startup ATS data and off-campus placements.
-            </p>
-          </div>
-
-          <div className="fresher-metric-board">
-            <div className="fresher-metric-grid">
-              <div className="fresher-metric-cell">
-                <span className="fresher-metric-lbl">Product Startups</span>
-                <span className="fresher-metric-num" style={{ fontSize: "16px" }}>₹6 – ₹16 LPA</span>
-                <span className="fresher-metric-sub">Median: ₹7.5 LPA Base</span>
-              </div>
-              <div className="fresher-metric-cell">
-                <span className="fresher-metric-lbl">GCCs & Tech Hubs</span>
-                <span className="fresher-metric-num" style={{ fontSize: "16px" }}>₹12 – ₹24 LPA</span>
-                <span className="fresher-metric-sub">HITEC City & Gachibowli</span>
-              </div>
-              <div className="fresher-metric-cell">
-                <span className="fresher-metric-lbl">Internship Stipends</span>
-                <span className="fresher-metric-num" style={{ fontSize: "16px" }}>₹20k – ₹1.2L</span>
-                <span className="fresher-metric-sub">Monthly (startup – GCC)</span>
-              </div>
-              <div className="fresher-metric-cell">
-                <span className="fresher-metric-lbl">Application Pipeline</span>
-                <span className="fresher-metric-num" style={{ fontSize: "16px" }}>100% Direct</span>
-                <span className="fresher-metric-sub">Zero consultancies / agency fees</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Specialized Fresher Category Hubs */}
-        <div style={{ marginBottom: 24 }}>
+        <div style={{ marginBottom: 20 }}>
           <p style={{ fontSize: "11px", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 10px" }}>
             Filter by Specialization
           </p>

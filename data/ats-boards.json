@@ -1,5 +1,19 @@
 [
   {
+    "id": "smartrecruiters:servicenow",
+    "name": "ServiceNow",
+    "atsProvider": "smartrecruiters",
+    "atsSlug": "servicenow",
+    "boardUrl": "https://jobs.smartrecruiters.com/ServiceNow",
+    "startupId": null,
+    "active": true,
+    "hydJobs": 8,
+    "totalJobs": 100,
+    "verifiedAt": "2026-09-18T05:30:00.000Z",
+    "employerType": "enterprise",
+    "website": "https://www.servicenow.com"
+  },
+  {
     "id": "greenhouse:doordashindia",
     "name": "DoorDash India",
     "atsProvider": "greenhouse",
