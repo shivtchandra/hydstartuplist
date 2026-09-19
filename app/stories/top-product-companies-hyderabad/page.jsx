@@ -112,7 +112,7 @@ export default function TopProductCompaniesPage() {
             }}
           >
             <h3 style={{ margin: "0 0 10px", fontSize: "16px", fontWeight: 700 }}>
-              💡 What Defines a &quot;Product-Based Company&quot; in Hyderabad?
+              What Defines a &quot;Product-Based Company&quot; in Hyderabad?
             </h3>
             <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "#475569" }}>
               Unlike IT services firms where engineers build custom software on client billing hours, product

@@ -165,7 +165,7 @@ export default async function JobDetailPage({ params }) {
               <>
                 {" · "}
                 <span className="job-detail-badge jobs-type-badge" title="Experience requirement">
-                  💼 {jobExperienceDisplay(job)}
+                  {jobExperienceDisplay(job)}
                 </span>
               </>
             )}
@@ -193,7 +193,7 @@ export default async function JobDetailPage({ params }) {
               <>
                 {" · "}
                 <span className="job-detail-badge jobs-type-badge jobs-type-direct" title="Direct from company careers ATS / 0% agency spam">
-                  🟢 Direct ATS
+                  Direct ATS
                 </span>
               </>
             )}
@@ -201,7 +201,7 @@ export default async function JobDetailPage({ params }) {
               <>
                 {" · "}
                 <Link href="/jobs/fresher" className="job-detail-badge jobs-type-badge" style={{ textDecoration: "none" }} title="Browse all fresher & entry-level roles in Hyderabad">
-                  {job.level === "intern" ? "🎓 Intern & Fresher" : "🌱 Junior (0–2y)"}
+                  {job.level === "intern" ? "Intern & Fresher" : "Junior (0–2y)"}
                 </Link>
               </>
             )}

@@ -245,41 +245,5 @@
     "name": "Zyla Health",
     "url": "https://zyla.in/careers",
     "employerType": "startup"
-  },
-  {
-    "id": "aighospitals",
-    "name": "AIG Hospitals",
-    "url": "https://aighospitals.com/careers",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "apollohospitals",
-    "name": "Apollo Hospitals",
-    "url": "https://www.apollohospitals.com/careers/",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "rainbowhospitals",
-    "name": "Rainbow Children's Hospital",
-    "url": "https://www.rainbowhospitals.in/careers",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "fernandezhospital",
-    "name": "Fernandez Hospital",
-    "url": "https://www.fernandez.foundation/careers",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "yashodahospitals",
-    "name": "Yashoda Hospitals",
-    "url": "https://www.yashodahospitals.com/careers/",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "kimshospitals",
-    "name": "KIMS Hospitals",
-    "url": "https://www.kimshospitals.com/careers/",
-    "employerType": "enterprise"
   }
 ]

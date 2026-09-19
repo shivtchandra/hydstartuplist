@@ -130,7 +130,7 @@ export default async function TechParkDetailPage({ params }) {
           aria-label="Campus Transit Guide"
         >
           <h2 style={{ fontSize: "14px", fontWeight: 750, textTransform: "uppercase", letterSpacing: "0.05em", margin: "0 0 8px" }}>
-            🚇 Commute &amp; Landmark Guide
+            Commute &amp; Landmark Guide
           </h2>
           <p style={{ fontSize: "13.5px", margin: "0 0 6px", lineHeight: 1.5 }}>
             <strong>Transit &amp; Metro:</strong> {park.transit}

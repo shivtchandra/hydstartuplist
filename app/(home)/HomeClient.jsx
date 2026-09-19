@@ -759,7 +759,7 @@ function SpotlightShelf({ startups, onSelect }) {
   return (
     <div className="spotlight-shelf">
       <div className="spotlight-head">
-        <span className="spotlight-title">🌟 Spotlight</span>
+        <span className="spotlight-title">Spotlight</span>
         <span className="spotlight-sub">Well-known Hyderabad startups</span>
       </div>
       <div className="spotlight-row">

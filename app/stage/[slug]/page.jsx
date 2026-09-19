@@ -129,7 +129,7 @@ export default async function StageDetailPage({ params }) {
           aria-label="Career & Culture Advice"
         >
           <h2 style={{ fontSize: "14px", fontWeight: 750, textTransform: "uppercase", letterSpacing: "0.05em", margin: "0 0 8px" }}>
-            💡 Career, Equity &amp; Hiring Insights
+            Career, Equity &amp; Hiring Insights
           </h2>
           <p style={{ fontSize: "13.5px", margin: 0, lineHeight: 1.55 }}>
             {landing.careerAdvice}

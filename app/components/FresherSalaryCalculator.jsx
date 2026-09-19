@@ -449,7 +449,7 @@ export default function FresherSalaryCalculator() {
           background: "rgba(0,0,0,0.015)",
         }}
       >
-        <span style={{ color: "var(--accent-primary, #ff5722)", fontWeight: 700 }}>💡 Key Readiness:</span>
+        <span style={{ color: "var(--accent-primary, #ff5722)", fontWeight: 700 }}>Key Readiness:</span>
         <span>{role.criteria}</span>
       </div>
 
