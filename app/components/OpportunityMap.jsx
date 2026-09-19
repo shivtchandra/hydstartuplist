@@ -42,10 +42,9 @@ export default function OpportunityMap({ companies, onSelect, onBounds }) {
           scrollWheelZoom: false,
         });
         map.current = instance;
-        const key = process.env.NEXT_PUBLIC_STADIA_KEY;
         const tiles = L.tileLayer(
-          `https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png${key ? '?api_key=' + key : ''}`,
-          { attribution: '© Stadia Maps © OpenMapTiles © OpenStreetMap', maxZoom: 19 }
+          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          { attribution: '© OpenStreetMap contributors', maxZoom: 19 }
         );
         let errors = 0;
         tiles.on('tileerror', () => {

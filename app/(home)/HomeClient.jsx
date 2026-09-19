@@ -122,15 +122,11 @@ function useLeafletMap(containerRef) {
         maxZoom: 18,
       });
       L.control.zoom({ position: "bottomright" }).addTo(mapRef.current);
-      const stadiaKey = process.env.NEXT_PUBLIC_STADIA_KEY;
-      const tileUrl = stadiaKey
-        ? `https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png?api_key=${stadiaKey}`
-        : "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png";
       let tileErrors=0;
-      L.tileLayer(tileUrl, {
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
-          '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        maxZoom: 20,
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19,
         updateWhenIdle: true,
         keepBuffer: 1,
       }).on("tileerror",()=>{if(!cancelled&&++tileErrors>=3)setMapError(true);}).addTo(mapRef.current);

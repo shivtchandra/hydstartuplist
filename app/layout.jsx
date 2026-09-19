@@ -107,7 +107,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="light" className={`${outfit.variable} ${jakarta.variable}`}>
       <head>
-        <link rel="preconnect" href="https://tiles.stadiamaps.com" />
+        <link rel="preconnect" href="https://tile.openstreetmap.org" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSONLD) }}
