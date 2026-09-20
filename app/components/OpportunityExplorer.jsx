@@ -422,7 +422,14 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
           const salaryPill = formatSalaryPill(job.salary);
 
           return (
-            <article className={`op-job op-job-card${isSelected ? ' is-selected' : ''}`} key={job.id}>
+            <article
+              className={`op-job op-job-card${isSelected ? ' is-selected' : ''}`}
+              key={job.id}
+              onClick={e => {
+                if (e.target.closest('button, select, input')) return;
+                openJob(job);
+              }}
+            >
               <div className="op-card-top-row">
                 <div className="op-card-brand-col">
                   <StartupLogo
@@ -446,7 +453,10 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                       className={`op-save-btn${isSaved ? ' is-saved' : ''}`}
                       aria-label={`Save ${job.title}`}
                       aria-pressed={isSaved}
-                      onClick={() => save(job)}
+                      onClick={e => {
+                        e.stopPropagation();
+                        save(job);
+                      }}
                     >
                       {isSaved ? 'Saved' : 'Save'}
                     </button>
@@ -494,7 +504,10 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                   <button
                     type="button"
                     className="op-more-roles-btn"
-                    onClick={() => change({ company: job.moreAtCompany.company })}
+                    onClick={e => {
+                      e.stopPropagation();
+                      change({ company: job.moreAtCompany.company });
+                    }}
                   >
                     +{job.moreAtCompany.count} more roles at {job.moreAtCompany.company} →
                   </button>
@@ -504,7 +517,11 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                     aria-label={`Status for ${job.title}`}
                     className="op-saved-status-select"
                     value={shortlist.jobs[job.id]?.status || 'saved'}
-                    onChange={e => save(job, e.target.value)}
+                    onClick={e => e.stopPropagation()}
+                    onChange={e => {
+                      e.stopPropagation();
+                      save(job, e.target.value);
+                    }}
                   >
                     <option value="saved">Saved</option>
                     <option value="applied">Applied</option>
