@@ -1,4 +1,5 @@
 'use client';
+
 import ExploreModes from './ExploreModes.jsx';
 import { useEffect,useMemo,useRef,useState,startTransition } from 'react';
 import Link from 'next/link';
@@ -6,20 +7,45 @@ import dynamic from 'next/dynamic';
 import { usePathname,useRouter,useSearchParams } from 'next/navigation';
 import SiteNav from './SiteNav.jsx';
 import MobileTabBar from './MobileTabBar.jsx';
+import StartupLogo from './StartupLogo.jsx';
 import { FILTER_KEYS,readFilters } from '../../lib/opportunities.js';
 import { freshnessLabel } from '../../lib/job-lifecycle.js';
 import { jobExperienceDisplay } from '../../lib/job-facets.js';
 import { jobUrlId } from '../../lib/jobs-seo.js';
+import { cleanJobDescriptionHtml } from '../../lib/job-content.js';
+import { domainOf } from '../../lib/startupUi.js';
 import { readShortlist,writeShortlist } from '../../lib/shortlist.js';
 import { pushShortlistToCloud, useAuthUser } from '../../lib/auth-client.js';
 import { trackEvent } from '../../lib/engagement-client.js';
 const Map=dynamic(()=>import('./OpportunityMap.jsx'),{ssr:false,loading:()=> <div className="op-map-status">Loading map…</div>});
 
 function money(salary) {
-  if(!salary)return 'Salary not disclosed';
-  if(typeof salary==='string')return salary;
+  if(!salary) return 'Competitive / As per industry';
+  if(typeof salary==='string') return salary;
   const min=salary.min??salary.salary_min,max=salary.max??salary.salary_max;
-  return min||max ? `${salary.currency||'INR'} ${Number(min||max).toLocaleString('en-IN')}${min&&max?'–'+Number(max).toLocaleString('en-IN'):''}` : 'Salary disclosed on listing';
+  const curr = salary.currency || 'INR';
+  return min||max ? `${curr} ${Number(min||max).toLocaleString('en-IN')}${min&&max?' – '+Number(max).toLocaleString('en-IN'):''}` : 'Disclosed on application';
+}
+
+function formatSalaryPill(salary) {
+  if (!salary) return null;
+  const min = salary.min ?? salary.salary_min;
+  const max = salary.max ?? salary.salary_max;
+  if (!min && !max) return null;
+  const currency = salary.currency || 'INR';
+  const fmt = (n) => {
+    if (n >= 100000) {
+      const l = n / 100000;
+      return `${currency === 'INR' ? '₹' : currency + ' '}${Number(l.toFixed(1)).toString()}L`;
+    }
+    return `${currency === 'INR' ? '₹' : currency + ' '}${Number(n).toLocaleString('en-IN')}`;
+  };
+  if (min && max) {
+    if (min === max) return fmt(min);
+    return `${fmt(min)}–${fmt(max)}`;
+  }
+  if (min) return `From ${fmt(min)}`;
+  return `Up to ${fmt(max)}`;
 }
 // The `intern` band also holds freshers, trainees and entry-level hires, so labelling it
 // "Internship" tells a job seeker something untrue about a full-time role.
@@ -175,7 +201,17 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
       if(changed)persist(stored);
     });return()=>{cancelled=true;};
   },[storageReady]);
-  useEffect(()=>{if(!detail)return;setView('list');detailRef.current?.focus();},[detail?.id]);
+  useEffect(()=>{
+    if(!detail) return;
+    const onKeyDown = (e) => {
+      if(e.key === 'Escape') closeJob();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    if(detailRef.current) {
+      detailRef.current.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    return () => window.removeEventListener('keydown', onKeyDown);
+  },[detail?.id]);
   function persist(next){if(writeShortlist(next)){startTransition(()=>{setShortlist(next);setNotice('');});if(authUser?.uid)pushShortlistToCloud(authUser.uid,next);}else setNotice('This browser could not save locally. Allow site storage and try again.');}
   function save(job,status='saved'){persist({...shortlist,jobs:{...shortlist.jobs,[job.id]:{job,status,at:new Date().toISOString()}}});if(status==='saved')trackEvent('save',variant);}
   async function shareJob(job){
@@ -358,32 +394,297 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     {shortlist.companies.length>0&&<div className="op-follows"><span>Following</span>{shortlist.companies.map(c=><button key={c} onClick={()=>change({company:c})}>{c}</button>)}</div>}
     {savedOnly&&shortlist.searches.length>0&&<section className="op-saved-searches"><h2>Saved searches</h2>{shortlist.searches.map((s,i)=><Link key={i} href={'/jobs?'+new URLSearchParams(Object.entries(s.filters).filter(([,v])=>v))}>{s.name} ↗</Link>)}</section>}
     {compare&&<section className="op-compare"><h2>Compare hiring in two areas</h2><p>Using your current role filters. These are office areas, not commute estimates.</p><div className="op-compare-dds">{[[areaA,setAreaA],[areaB,setAreaB]].map(([value,set],i)=><OpFilterSelect key={i} ariaLabel={`Comparison area ${i+1}`} value={value} emptyLabel="Choose area" onChange={set} options={(facet.areas||[]).map(a=>({value:a,label:a}))}/>)}</div>{comparison&&<div className="op-comparison">{comparison.map((g,i)=><article key={i}><h3>{[areaA,areaB][i]}</h3><strong>{g.total??'—'} roles</strong><p>{g.companies?.length??0} hiring employers</p>{g.work&&<p>{g.work.hybrid||0} hybrid · {g.work.remote||0} remote · {g.work.unknown||0} unspecified</p>}</article>)}</div>}</section>}
-    <div className="op-results-bar"><span role="status">{savedOnly?visible.length:(data?.total??'—')} roles{!savedOnly&&data?.employers!=null?` · ${data.employers} employers`:''}{busy?' · Updating…':''}</span><div>{!savedOnly&&<button onClick={saveSearch}>Save search</button>}<div className="op-view" role="group" aria-label="Layout"><button type="button" aria-pressed={view==='list'} onClick={()=>setView('list')}>All jobs</button><button type="button" aria-pressed={view==='map'} onClick={()=>setView('map')}>Map</button></div></div></div>
+    <div className="op-results-bar">
+      <span role="status">
+        {savedOnly ? visible.length : (data?.total ?? '—')} roles
+        {!savedOnly && data?.employers != null ? ` · ${data.employers} employers` : ''}
+        {busy ? ' · Updating…' : ''}
+      </span>
+      <div>
+        {!savedOnly && (
+          <button type="button" className="op-save-search-bar-btn" onClick={saveSearch}>
+            Save search
+          </button>
+        )}
+      </div>
+    </div>
     {!savedOnly&&filters.level==='early'&&<p className="op-return op-alert-nudge">Get these early-career roles by email — <button type="button" className="op-text-btn" onClick={saveSearch}>alert me</button>.</p>}
     {filterQuery&&!savedOnly&&<div className="op-active">{Object.entries(filters).filter(([,v])=>v).map(([k,v])=><button key={k} onClick={()=>change({[k]:''})}>{k}: {v} ×</button>)}<button onClick={()=>router.replace(pathname==='/'?'/?view=jobs':pathname,{scroll:false})}>Clear all</button></div>}
     {newAvailable&&<button className="op-refresh" onClick={()=>setRefresh(v=>v+1)}>Updated matches available — refresh results</button>}
     {(error||notice||data?.stale)&&<p className="op-warning" role="status">{error||notice||'Showing cached results. Source checks are temporarily delayed.'}</p>}
     <div className={`op-workspace op-view-${view}${detail?' op-has-detail':''}`}>
-      <section className="op-results" aria-label="Job results">{visible.map(job=>{
-        const expDisplay = jobExperienceDisplay(job) || (job.level && job.level !== 'unknown' ? readable(job.level) : null);
-        return (
-          <article className="op-job" key={job.id}>
-            <div className="op-job-top"><a className="op-job-title" href={'/jobs/'+jobUrlId(job.id)} onClick={e=>{if(!e.metaKey&&!e.ctrlKey&&!e.shiftKey&&!e.altKey&&e.button===0){e.preventDefault();openJob(job);}}}>{job.title}</a><button className="op-save" aria-label={`Save ${job.title}`} aria-pressed={!!shortlist.jobs[job.id]} onClick={()=>save(job)}>{shortlist.jobs[job.id]?'Saved':'Save'}</button></div>
-            <p className="op-employer">
-              {job.company} <span>· {job.area||job.location}</span>
-              {job.isDirect && <span className="op-direct-badge" title="Direct from company careers ATS / 0% agency spam">Direct ATS</span>}
-              {job.openings>1&&<>{' '}<span className="op-openings">{job.openings} openings</span></>}
+      <section className="op-results" aria-label="Job results">
+        {visible.map(job => {
+          const expDisplay = jobExperienceDisplay(job) || (job.level && job.level !== 'unknown' ? readable(job.level) : null);
+          const logoWebsite = job.website || (job.url ? domainOf(job.url) : null);
+          const isSaved = !!shortlist.jobs[job.id];
+          const isSelected = detail?.id === job.id;
+          const salaryPill = formatSalaryPill(job.salary);
+
+          return (
+            <article className={`op-job op-job-card${isSelected ? ' is-selected' : ''}`} key={job.id}>
+              <div className="op-card-top-row">
+                <div className="op-card-brand-col">
+                  <StartupLogo
+                    name={job.company || 'Company'}
+                    website={logoWebsite}
+                    logoUrl={job.logoUrl}
+                    sector={job.sector || job.role}
+                    size={44}
+                    className="op-card-logo"
+                  />
+                </div>
+                <div className="op-card-main-col">
+                  <div className="op-card-header-line">
+                    <div className="op-card-employer-meta">
+                      <span className="op-card-company-name">{job.company}</span>
+                      {job.area && <span className="op-card-dot">·</span>}
+                      {job.area && <span className="op-card-location">{job.area}</span>}
+                      {job.isDirect && <span className="op-direct-badge" title="Direct from company careers ATS">Direct ATS</span>}
+                    </div>
+                    <button
+                      className={`op-save-btn${isSaved ? ' is-saved' : ''}`}
+                      aria-label={`Save ${job.title}`}
+                      aria-pressed={isSaved}
+                      onClick={() => save(job)}
+                    >
+                      {isSaved ? 'Saved' : 'Save'}
+                    </button>
+                  </div>
+
+                  <a
+                    className="op-card-title-link"
+                    href={'/jobs/' + jobUrlId(job.id)}
+                    onClick={e => {
+                      if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
+                        e.preventDefault();
+                        openJob(job);
+                      }
+                    }}
+                  >
+                    {job.title}
+                  </a>
+
+                  <div className="op-card-pills-row">
+                    {expDisplay && <span className="op-tag-pill op-tag-exp">{expDisplay}</span>}
+                    {job.area && job.area !== 'Hyderabad' && (
+                      <span className="op-tag-pill op-tag-area">{job.area}</span>
+                    )}
+                    {job.role && job.role !== 'Other' && (
+                      <span className="op-tag-pill op-tag-role">{job.role}</span>
+                    )}
+                    {job.work && job.work !== 'unknown' && (
+                      <span className="op-tag-pill op-tag-work">{readable(job.work)}</span>
+                    )}
+                    {salaryPill && (
+                      <span className="op-tag-pill op-tag-salary">{salaryPill}</span>
+                    )}
+                    {job.openings > 1 && (
+                      <span className="op-tag-pill op-tag-openings">{job.openings} openings</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="op-card-footer-row">
+                <span className="op-card-timestamp">
+                  {job.status === 'closed' ? 'Closed' : freshnessLabel(job)}
+                </span>
+                {job.moreAtCompany && (
+                  <button
+                    type="button"
+                    className="op-more-roles-btn"
+                    onClick={() => change({ company: job.moreAtCompany.company })}
+                  >
+                    +{job.moreAtCompany.count} more roles at {job.moreAtCompany.company} →
+                  </button>
+                )}
+                {savedOnly && (
+                  <select
+                    aria-label={`Status for ${job.title}`}
+                    className="op-saved-status-select"
+                    value={shortlist.jobs[job.id]?.status || 'saved'}
+                    onChange={e => save(job, e.target.value)}
+                  >
+                    <option value="saved">Saved</option>
+                    <option value="applied">Applied</option>
+                    <option value="hidden">Hidden</option>
+                  </select>
+                )}
+              </div>
+            </article>
+          );
+        })}
+        {!visible.length && (
+          <div className="op-empty">
+            <h2>{savedOnly ? 'Start your shortlist' : 'No matching roles right now'}</h2>
+            <p>
+              {savedOnly
+                ? 'Save a role while exploring. Find it here when you are ready.'
+                : 'Try fewer filters, or save this search for later.'}
             </p>
-            <p className="op-facts">
-              {job.work&&job.work!=='unknown'?readable(job.work):'Work arrangement unspecified'}
-              {expDisplay ? <> · {expDisplay}</> : null}
-            </p>
-            <p className="op-pay">{money(job.salary)}</p>{job.moreAtCompany&&<p className="op-more-company"><button type="button" onClick={()=>change({company:job.moreAtCompany.company})}>{`+${job.moreAtCompany.count} more role${job.moreAtCompany.count===1?'':'s'} at ${job.moreAtCompany.company} →`}</button></p>}<div className="op-job-bottom"><span>{job.status==='closed'?'Closed':freshnessLabel(job)}</span>{savedOnly?<select aria-label={`Status for ${job.title}`} value={shortlist.jobs[job.id]?.status||'saved'} onChange={e=>save(job,e.target.value)}><option value="saved">Saved</option><option value="applied">Applied</option><option value="hidden">Hidden</option></select>:<button onClick={()=>save(job,'hidden')}>Hide</button>}</div>
-          </article>
-        );
-      })}{!visible.length&&<div className="op-empty"><h2>{savedOnly?'Start your shortlist':'No matching roles right now'}</h2><p>{savedOnly?'Save a role while exploring. Find it here when you are ready.':'Try fewer filters, or save this search for later.'}</p><Link href="/jobs">Browse roles ↗</Link>{!savedOnly&&<button onClick={saveSearch}>Save this search</button>}</div>}
-      {!savedOnly&&data?.nextCursor&&<button className="op-load" disabled={busy} onClick={loadMore}>Load more roles</button>}</section>
-      <aside className="op-context">{detail?<section className="op-detail" ref={detailRef} tabIndex={-1} aria-label="Selected role"><button onClick={closeJob}>← Back to results</button><p className="op-eyebrow">{detail.company}{detail.isDirect && <span className="op-direct-pill"> · Direct ATS</span>}</p><h2>{detail.title}</h2><p>{detail.area||detail.location}{jobExperienceDisplay(detail) ? ` · ${jobExperienceDisplay(detail)}` : ''} · {freshnessLabel(detail)}</p><p>{money(detail.salary)}</p>{detailError&&<p role="status">{detailError}</p>}<div className="op-detail-actions">{detail.applyUrl&&detail.status!=='closed'&&<a className="op-primary" href={detail.applyUrl} target="_blank" rel="noopener noreferrer" onClick={()=>trackEvent('apply',variant)}>Apply ↗</a>}<button onClick={()=>save(detail)}>Save role</button><button type="button" onClick={()=>shareJob(detail)}>Share</button><button onClick={()=>follow(detail.company)}>{shortlist.companies.includes(detail.company)?'Unfollow company':'Follow company'}</button></div>{detail.status==='closed'&&<p>This role has closed. <Link href={'/jobs?q='+encodeURIComponent(detail.role||detail.title)}>Find similar active roles</Link></p>}<h3>About the role</h3><p className="op-description">{String(detail.description||'Read the complete requirements on the original listing.').replace(/<[^>]*>/g,' ')}</p><Link href={'/jobs/'+jobUrlId(detail.id)}>Open permanent job page ↗</Link></section>:view==='map'?<Map companies={mapVersion===data?.version?groups:[]} onSelect={c=>{change(c.isArea?{area:c.area,company:''}:{company:c.name});trackEvent(c.isArea?'results':'company',variant);setView('list');}} onBounds={b=>{change({bounds:[b.south,b.north,b.west,b.east].join(',')});setNotice('Searching this map area. Roles without a verified location remain included.');setView('list');}}/>:null}</aside>
+            <Link href="/jobs">Browse roles ↗</Link>
+            {!savedOnly && <button onClick={saveSearch}>Save this search</button>}
+          </div>
+        )}
+        {!savedOnly && data?.nextCursor && (
+          <button className="op-load" disabled={busy} onClick={loadMore}>
+            Load more roles
+          </button>
+        )}
+      </section>
+
+      {detail && (
+        <div
+          className="op-drawer-backdrop"
+          onClick={closeJob}
+          aria-hidden="true"
+        />
+      )}
+
+      <aside className={`op-context ${detail ? 'op-drawer-container op-has-active-detail' : ''}`}>
+        {detail ? (
+          <section className="op-detail op-detail-otta" ref={detailRef} tabIndex={-1} aria-label="Selected role">
+            <div className="op-detail-top-bar">
+              <button className="op-back-results-btn" onClick={closeJob}>
+                ← Back to results
+              </button>
+              <div className="op-detail-top-tools">
+                <button type="button" className="op-tool-btn" onClick={() => shareJob(detail)}>
+                  Share
+                </button>
+                <button
+                  type="button"
+                  className={`op-tool-btn${shortlist.jobs[detail.id] ? ' is-saved' : ''}`}
+                  onClick={() => save(detail)}
+                >
+                  {shortlist.jobs[detail.id] ? 'Saved' : 'Save'}
+                </button>
+                <button
+                  type="button"
+                  className="op-tool-btn op-drawer-close-btn"
+                  onClick={closeJob}
+                  aria-label="Close details"
+                  title="Close (Esc)"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            <div className="op-detail-hero-card">
+              <div className="op-detail-hero-header">
+                <StartupLogo
+                  name={detail.company || 'Company'}
+                  website={detail.website || (detail.url ? domainOf(detail.url) : null)}
+                  logoUrl={detail.logoUrl}
+                  sector={detail.sector || detail.role}
+                  size={52}
+                  className="op-detail-avatar"
+                />
+                <div className="op-detail-hero-titles">
+                  <div className="op-detail-company-line">
+                    <span className="op-detail-company-name">{detail.company}</span>
+                    {detail.isDirect && <span className="op-direct-badge">Direct ATS</span>}
+                  </div>
+                  <h2 className="op-detail-main-title">{detail.title}</h2>
+                  <div className="op-detail-meta-line">
+                    <span>{detail.area || detail.location || 'Hyderabad'}</span>
+                    <span>·</span>
+                    <span>{freshnessLabel(detail)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {detail.applyUrl && detail.status !== 'closed' && (
+                <a
+                  className="op-primary-apply-cta"
+                  href={detail.applyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent('apply', variant)}
+                >
+                  Apply on official site →
+                </a>
+              )}
+            </div>
+
+            <div className="op-quick-facts-grid">
+              <div className="op-fact-item">
+                <span className="op-fact-label">Experience</span>
+                <span className="op-fact-val">
+                  {jobExperienceDisplay(detail) || (detail.level && detail.level !== 'unknown' ? readable(detail.level) : 'Not specified')}
+                </span>
+              </div>
+              <div className="op-fact-item">
+                <span className="op-fact-label">Compensation</span>
+                <span className="op-fact-val">{money(detail.salary)}</span>
+              </div>
+              <div className="op-fact-item">
+                <span className="op-fact-label">Workplace</span>
+                <span className="op-fact-val">
+                  {detail.work && detail.work !== 'unknown' ? readable(detail.work) : 'On-site / Unspecified'}
+                </span>
+              </div>
+              <div className="op-fact-item">
+                <span className="op-fact-label">Tech Area</span>
+                <span className="op-fact-val">{detail.area || detail.location || 'Hyderabad'}</span>
+              </div>
+            </div>
+
+            {detail.status === 'closed' && (
+              <div className="op-closed-notice">
+                This role has closed. <Link href={'/jobs?q=' + encodeURIComponent(detail.role || detail.title)}>Browse similar active openings →</Link>
+              </div>
+            )}
+
+            {detailError && <p className="op-detail-error" role="status">{detailError}</p>}
+
+            <div className="op-detail-description-section">
+              <h3 className="op-section-heading">About the role</h3>
+              <div
+                className="op-description-content"
+                dangerouslySetInnerHTML={{
+                  __html: cleanJobDescriptionHtml(detail.description) || '<p>View the complete requirements and apply on the employer official site.</p>',
+                }}
+              />
+            </div>
+
+            <div className="op-detail-employer-box">
+              <h3 className="op-section-heading">About {detail.company}</h3>
+              <p className="op-employer-summary">
+                {detail.company} is tracked on the Hyderabad startup & tech directory.
+              </p>
+              <div className="op-employer-links">
+                <Link className="op-link-chip" href={'/jobs/' + jobUrlId(detail.id)}>
+                  Permanent Role Page ↗
+                </Link>
+                <button
+                  type="button"
+                  className="op-link-chip"
+                  onClick={() => follow(detail.company)}
+                >
+                  {shortlist.companies.includes(detail.company) ? 'Unfollow Company' : '+ Follow Company'}
+                </button>
+              </div>
+            </div>
+          </section>
+        ) : view === 'map' ? (
+          <Map
+            companies={mapVersion === data?.version ? groups : []}
+            onSelect={c => {
+              change(c.isArea ? { area: c.area, company: '' } : { company: c.name });
+              trackEvent(c.isArea ? 'results' : 'company', variant);
+              setView('list');
+            }}
+            onBounds={b => {
+              change({ bounds: [b.south, b.north, b.west, b.east].join(',') });
+              setNotice('Searching this map area. Roles without a verified location remain included.');
+              setView('list');
+            }}
+          />
+        ) : null}
+      </aside>
     </div>
     <dialog className="op-dialog op-filters-dialog" ref={sheetRef} onCancel={()=>setSheet(false)} onClick={e=>{if(e.target===sheetRef.current)setSheet(false);}}><header><h2>Find your fit</h2><button autoFocus onClick={()=>setSheet(false)} aria-label="Close filters">×</button></header>{filterFields}<p>Unknown experience and work arrangements are available as explicit filter options.</p><button className="op-primary" onClick={()=>setSheet(false)}>Show {data?.total??''} roles</button></dialog>
     <dialog ref={emailRef} className="op-dialog op-alert-box" onCancel={()=>setEmailOpen(false)} aria-label="Saved search alerts"><button className="op-dismiss" onClick={()=>setEmailOpen(false)} aria-label="Close email signup">×</button><h2>Search saved on this device.</h2><p>Get a daily email for: <strong>{Object.values(savedSearch?.filters||filters).filter(Boolean).join(' · ')||'all Hyderabad roles'}</strong>. Confirm your address to start. No email is sent when there are no new matches.</p><form onSubmit={subscribe}><input type="email" aria-label="Email address" placeholder="you@example.com" required value={email} onChange={e=>setEmail(e.target.value)}/><button className="op-primary">Send confirmation</button></form><p role="status">{emailState}</p></dialog>

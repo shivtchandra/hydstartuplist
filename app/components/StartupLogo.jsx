@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { colorFor, logoSrcs } from "../../lib/startupUi.js";
 
-export default function StartupLogo({ name, website, logoUrl, sector, size = 56, className = "" }) {
-  const srcs = logoSrcs(website, logoUrl);
+export default function StartupLogo({ name = "", website, logoUrl, sector, size = 56, className = "" }) {
+  const srcs = logoSrcs(website, logoUrl, name);
   const [stage, setStage] = useState(0);
-  const imgClass = ["card-logo", "startup-detail-logo", className].filter(Boolean).join(" ");
-  const fallbackClass = ["card-logo-fallback", "startup-detail-logo", className].filter(Boolean).join(" ");
+  const imgClass = ["card-logo", "startup-detail-logo", "op-brand-squircle", className].filter(Boolean).join(" ");
+  const fallbackClass = ["card-logo-fallback", "startup-detail-logo", "op-brand-squircle", className].filter(Boolean).join(" ");
 
   if (stage < srcs.length) {
     return (

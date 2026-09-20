@@ -86,23 +86,25 @@ export default function SiteNav({ active = "", mode }) {
 
           <ExploreModes active={exploreMode} />
 
-          <form className="tn-search" onSubmit={onSearch} role="search">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
-              <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
-              <path d="m20 20-3.2-3.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-            <input
-              name="q"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder={
-                exploreMode === "jobs"
-                  ? "Role, skill, or company"
-                  : "Search startups, sectors, areas…"
-              }
-              aria-label={exploreMode === "jobs" ? "Search jobs" : "Search startups"}
-            />
-          </form>
+          {pathname !== "/jobs" && !pathname.startsWith("/jobs/") && (
+            <form className="tn-search" onSubmit={onSearch} role="search">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+                <path d="m20 20-3.2-3.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              <input
+                name="q"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder={
+                  exploreMode === "jobs"
+                    ? "Role, skill, or company"
+                    : "Search startups, sectors, areas…"
+                }
+                aria-label={exploreMode === "jobs" ? "Search jobs" : "Search startups"}
+              />
+            </form>
+          )}
 
           <nav className="tn-links" aria-label="Site">
             <AuthButton />
