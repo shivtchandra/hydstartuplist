@@ -10,7 +10,11 @@ import { startupSlug } from "../../../../lib/slug.js";
 import { breadcrumbJsonLd, itemListJsonLd, jobPostingJsonLd, jobUrlId, thinListingRobots } from "../../../../lib/jobs-seo.js";
 import { jobDescriptionForPage } from "../../../../lib/job-content.js";
 
-export const revalidate = 1800;
+// Job data only refreshes via the twice-daily sync crons (2:30am, 3:00am IST),
+// so revalidating every 30 min bought no freshness — just full ISR
+// recomputes on cache misses (this route is thin/many-URL enough that hit
+// rate is near zero).
+export const revalidate = 21600;
 
 // Generate on the first visit, then reuse HTML through ISR for new and existing URLs.
 export function generateStaticParams() { return []; }

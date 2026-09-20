@@ -20,7 +20,8 @@ import {
 } from "../../lib/jobs-seo.js";
 import JobsSeoIndex from "../components/JobsSeoIndex.jsx";
 
-export const revalidate = 600;
+// Job data only refreshes via the twice-daily sync crons (2:30am, 3:00am IST).
+export const revalidate = 21600;
 
 /**
  * Distinct roles, not raw postings.

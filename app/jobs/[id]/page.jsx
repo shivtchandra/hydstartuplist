@@ -30,7 +30,9 @@ import {
 import { fundingLabel } from "../../../lib/company-quality.js";
 import { jobExperienceDisplay } from "../../../lib/job-facets.js";
 
-export const revalidate = 3600;
+// Job data only refreshes via the twice-daily sync crons (2:30am, 3:00am IST);
+// see app/jobs/company/[slug]/page.jsx for why this matches that window.
+export const revalidate = 21600;
 
 // Generate on the first visit, then reuse HTML through ISR for new and existing URLs.
 export function generateStaticParams() { return []; }

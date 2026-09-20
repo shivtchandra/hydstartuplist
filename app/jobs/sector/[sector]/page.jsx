@@ -6,7 +6,8 @@ import { getJobsBySector } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 import { JOB_SECTOR_LANDINGS, breadcrumbJsonLd, itemListJsonLd, jobUrlId, sectorLanding, thinListingRobots } from "../../../../lib/jobs-seo.js";
 
-export const revalidate = 1800;
+// Job data only refreshes via the twice-daily sync crons (2:30am, 3:00am IST).
+export const revalidate = 21600;
 
 export function generateStaticParams() {
   return JOB_SECTOR_LANDINGS.map((s) => ({ sector: s.slug }));

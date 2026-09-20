@@ -18,7 +18,8 @@ import {
   FRESHER_JOBS_LANDING,
 } from "../../../../lib/jobs-seo.js";
 
-export const revalidate = 1800;
+// Job data only refreshes via the twice-daily sync crons (2:30am, 3:00am IST).
+export const revalidate = 21600;
 
 export async function generateStaticParams() {
   return FRESHER_CATEGORIES.map((cat) => ({
