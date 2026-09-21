@@ -5,7 +5,10 @@ import {
   JOB_ROLE_LANDINGS,
 } from "../../lib/jobs-seo.js";
 
-/** Crawlable jobs intro below the client explorer shell. */
+/**
+ * Crawlable jobs footer & directory index.
+ * Styled as a sleek, integrated 4-column directory with accordion FAQ and bottom copyright.
+ */
 export default function JobsSeoIndex({ jobCount = 0 }) {
   const faqLd = {
     "@context": "https://schema.org",
@@ -13,107 +16,196 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
     mainEntity: [
       {
         "@type": "Question",
-        name: "Where can I find jobs in Hyderabad?",
+        name: "Where can I find startup and tech jobs in Hyderabad?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: `Mapping HYD lists ${jobCount || "1,000+"} startup and tech openings across the city — filter by area, role, and experience. Free, no signup.`,
+          text: `Mapping HYD tracks ${jobCount || "1,400+"} verified startup, GCC, and product company openings across Hyderabad — searchable by locality, experience level, and tech sector with direct ATS applications.`,
         },
       },
       {
         "@type": "Question",
-        name: "Are there fresher jobs in Hyderabad on this board?",
+        name: "Are fresher and early-career jobs available?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. Open the fresher jobs in Hyderabad landing for entry-level, intern, and early-career roles.",
+          text: "Yes. Use the dedicated fresher & early career filter or visit /jobs/fresher to find entry-level software engineering, data analyst, and product roles.",
         },
       },
       {
         "@type": "Question",
-        name: "Is the Hyderabad jobs board free?",
+        name: "Which tech hubs in Hyderabad have the most hiring?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. Browse the board on Mapping HYD without creating an account.",
+          text: "HITEC City, Madhapur, Gachibowli, Financial District, and Nanakramguda account for over 85% of active tech hiring in Hyderabad.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is this job board free to use?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, 100% free with no paywall or forced signups. All roles link directly to the official employer career portals.",
         },
       },
     ],
   };
 
   return (
-    <section className="home-seo" aria-label="Jobs in Hyderabad directory">
+    <footer className="jobs-dir-footer" aria-label="Hyderabad Jobs Directory & FAQ">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <div className="home-seo-inner">
-        <header className="home-seo-head">
-          <h1>Jobs in Hyderabad</h1>
-          <p className="home-seo-sub">
-            Browse <strong>jobs in Hyderabad</strong> at mapped startups and product companies —
-            openings across Gachibowli, Madhapur, HITEC City, and the Financial District.
-            {jobCount ? <> {jobCount.toLocaleString()}+ roles tracked right now.</> : null}
-          </p>
-          <p className="home-seo-sub">
-            Looking for entry-level work? See the{" "}
-            <Link href="/jobs/fresher">fresher & early-career board</Link>. Use the map above to
-            filter live openings by commute area and role.
-          </p>
-          <nav className="home-seo-actions" aria-label="Job landings">
-            <Link href="/jobs/fresher">Fresher & early-career</Link>
-            <Link href="/product-companies">Companies in Hyderabad</Link>
-            <Link href="/gccs">GCC Hyderabad</Link>
-            <Link href="/">Startup map</Link>
-          </nav>
-        </header>
 
-        <div className="home-seo-sectors-section">
-          <h2 className="home-seo-section-title">Jobs by sector</h2>
-          <p className="home-seo-sub">
-            Narrow jobs in Hyderabad by industry — SaaS, fintech, healthtech, and more.
-          </p>
-          <div className="home-seo-areas-grid">
-            {JOB_SECTOR_LANDINGS.map((s) => (
-              <Link key={s.slug} href={`/jobs/sector/${s.slug}`} className="home-seo-area-chip">
-                <span className="home-seo-area-name">{s.sector || s.title.replace(/ Jobs in Hyderabad$/i, "")}</span>
-              </Link>
-            ))}
+      <div className="jobs-dir-inner">
+        {/* Intro banner */}
+        <div className="jobs-dir-hero">
+          <div className="jobs-dir-hero-text">
+            <h2 className="jobs-dir-title">Explore Hyderabad Tech Careers</h2>
+            <p className="jobs-dir-desc">
+              Tracking <strong>{jobCount ? `${jobCount.toLocaleString()}+` : "1,400+"} open roles</strong> across mapped startups, GCCs, and product companies in Hyderabad.
+            </p>
+          </div>
+          <div className="jobs-dir-hero-chips">
+            <Link href="/jobs/fresher" className="jobs-dir-hero-chip">
+              Fresher & Early Career
+            </Link>
+            <Link href="/product-companies" className="jobs-dir-hero-chip">
+              Product Companies
+            </Link>
+            <Link href="/gccs" className="jobs-dir-hero-chip">
+              GCCs in Hyderabad
+            </Link>
+            <Link href="/" className="jobs-dir-hero-chip">
+              Startup Map
+            </Link>
           </div>
         </div>
 
-        <div className="home-seo-areas-section">
-          <h2 className="home-seo-section-title">Jobs by area</h2>
-          <div className="home-seo-areas-grid">
-            {JOB_AREA_LANDINGS.map((a) => (
-              <Link key={a.slug} href={`/jobs/in/${a.slug}`} className="home-seo-area-chip">
-                <span className="home-seo-area-name">{a.area}</span>
-              </Link>
-            ))}
+        {/* 4-Column Directory Grid */}
+        <div className="jobs-dir-grid">
+          {/* Col 1: By Sector */}
+          <div className="jobs-dir-col">
+            <h3 className="jobs-dir-col-title">Jobs by Sector</h3>
+            <ul className="jobs-dir-links">
+              {JOB_SECTOR_LANDINGS.map((s) => (
+                <li key={s.slug}>
+                  <Link href={`/jobs/sector/${s.slug}`}>
+                    {s.sector || s.title.replace(/ Jobs in Hyderabad$/i, "")}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Col 2: By Tech Hub / Area */}
+          <div className="jobs-dir-col">
+            <h3 className="jobs-dir-col-title">Jobs by Area</h3>
+            <ul className="jobs-dir-links">
+              {JOB_AREA_LANDINGS.slice(0, 8).map((a) => (
+                <li key={a.slug}>
+                  <Link href={`/jobs/in/${a.slug}`}>{a.area}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Col 3: Popular Roles */}
+          <div className="jobs-dir-col">
+            <h3 className="jobs-dir-col-title">Popular Roles</h3>
+            <ul className="jobs-dir-links">
+              {JOB_ROLE_LANDINGS.map((r) => (
+                <li key={r.slug}>
+                  <Link href={`/jobs/role/${r.slug}`}>{r.role}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Col 4: Resources & Reports */}
+          <div className="jobs-dir-col">
+            <h3 className="jobs-dir-col-title">Resources</h3>
+            <ul className="jobs-dir-links">
+              <li>
+                <Link href="/jobs/fresher">Fresher Hiring Board</Link>
+              </li>
+              <li>
+                <Link href="/stories/hyderabad-startup-hiring-report-2026">Hiring Report 2026</Link>
+              </li>
+              <li>
+                <Link href="/stories/hyderabad-tech-parks-guide">Tech Parks Guide</Link>
+              </li>
+              <li>
+                <Link href="/stories/top-product-companies-hyderabad">Top Product Companies</Link>
+              </li>
+              <li>
+                <Link href="/radar">Radar (Hard-to-Find Employers)</Link>
+              </li>
+              <li>
+                <Link href="/saved">My Saved Shortlist</Link>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="home-seo-areas-section">
-          <h2 className="home-seo-section-title">Popular roles</h2>
-          <div className="home-seo-areas-grid">
-            {JOB_ROLE_LANDINGS.slice(0, 6).map((r) => (
-              <Link key={r.slug} href={`/jobs/role/${r.slug}`} className="home-seo-area-chip">
-                <span className="home-seo-area-name">{r.role}</span>
-              </Link>
-            ))}
+        {/* Accordion FAQ */}
+        <div className="jobs-dir-faq-section">
+          <h3 className="jobs-dir-faq-heading">Frequently Asked Questions</h3>
+          <div className="jobs-dir-faq-list">
+            <details className="jobs-dir-faq-item">
+              <summary className="jobs-dir-faq-summary">
+                <span>Where can I find startup and tech jobs in Hyderabad?</span>
+                <span className="jobs-dir-faq-arrow" aria-hidden="true">▾</span>
+              </summary>
+              <div className="jobs-dir-faq-answer">
+                Mapping HYD tracks over {jobCount ? `${jobCount.toLocaleString()}+` : "1,400+"} verified startup, GCC, and product company openings across Hyderabad — searchable by locality (Gachibowli, HITEC City, Madhapur, Financial District), experience level, and tech sector with direct ATS applications.
+              </div>
+            </details>
+
+            <details className="jobs-dir-faq-item">
+              <summary className="jobs-dir-faq-summary">
+                <span>Are fresher and early-career jobs available?</span>
+                <span className="jobs-dir-faq-arrow" aria-hidden="true">▾</span>
+              </summary>
+              <div className="jobs-dir-faq-answer">
+                Yes. Use the &ldquo;Early career&rdquo; quick chip above or visit the{" "}
+                <Link href="/jobs/fresher">Fresher & Early Career board</Link> to browse entry-level software engineering, data analyst, and design roles.
+              </div>
+            </details>
+
+            <details className="jobs-dir-faq-item">
+              <summary className="jobs-dir-faq-summary">
+                <span>Which tech hubs in Hyderabad have the most hiring?</span>
+                <span className="jobs-dir-faq-arrow" aria-hidden="true">▾</span>
+              </summary>
+              <div className="jobs-dir-faq-answer">
+                HITEC City, Madhapur, Gachibowli, Financial District, and Nanakramguda account for over 85% of active tech hiring in Hyderabad. You can filter all open positions by specific areas using the area filter.
+              </div>
+            </details>
+
+            <details className="jobs-dir-faq-item">
+              <summary className="jobs-dir-faq-summary">
+                <span>Is this job board free to use?</span>
+                <span className="jobs-dir-faq-arrow" aria-hidden="true">▾</span>
+              </summary>
+              <div className="jobs-dir-faq-answer">
+                Yes, 100% free with no paywall or forced signup. All jobs link directly to the employer official career page or ATS portal.
+              </div>
+            </details>
           </div>
         </div>
 
-        <section className="home-seo-faq" aria-label="FAQ">
-          <h2 className="home-seo-section-title">FAQ</h2>
-          <p>
-            <strong>Where can I find jobs in Hyderabad?</strong> Use this board for startup and tech
-            openings, or jump to area and sector landings above.
-          </p>
-          <p>
-            <strong>Fresher roles?</strong>{" "}
-            <Link href="/jobs/fresher">Entry-level and intern openings</Link> are listed on a
-            dedicated page.
-          </p>
-          <p>
-            <strong>Is it free?</strong> Yes — browse without signup.
-          </p>
-        </section>
+        {/* Bottom Bar */}
+        <div className="jobs-dir-bottom-bar">
+          <div className="jobs-dir-bottom-left">
+            <span>Mapping <strong>HYD</strong> · Hyderabad Startup & Opportunities Directory</span>
+            <span className="jobs-dir-sep">·</span>
+            <span>Saved items stay on this device</span>
+          </div>
+          <div className="jobs-dir-bottom-right">
+            <Link href="/?view=companies">Startups</Link>
+            <Link href="/gccs">GCCs</Link>
+            <Link href="/more">Insights & News</Link>
+            <Link href="/submit">Submit a Role</Link>
+          </div>
+        </div>
       </div>
-    </section>
+    </footer>
   );
 }
