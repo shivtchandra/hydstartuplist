@@ -34,13 +34,12 @@ import { jobExperienceDisplay } from "../../../lib/job-facets.js";
 // see app/jobs/company/[slug]/page.jsx for why this matches that window.
 export const revalidate = 21600;
 
-// Every prerendered path adds to deployment size, so only the newest postings
-// are prebuilt (this route saw ~0% ISR cache hit rate — each is a distinct
-// URL usually visited once — which made this one of the largest Fluid CPU
-// consumers on the account). The long tail still works: dynamicParams
-// defaults to true, so an unlisted id renders on first request and is
-// cached by ISR from then on.
-const PRERENDERED_JOB_LIMIT = 300;
+// Every prerendered path adds to deployment size and counts as an ISR write,
+// so only the newest postings are prebuilt (this route saw ~0% ISR cache hit
+// rate — each is a distinct URL usually visited once — which made this one
+// of the largest Fluid CPU consumers on the account). Kept low: see
+// app/jobs/company/[slug]/page.jsx for why 300 was too much.
+const PRERENDERED_JOB_LIMIT = 50;
 
 export async function generateStaticParams() {
   const jobs = await getAllJobs();

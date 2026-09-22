@@ -16,13 +16,16 @@ import { jobDescriptionForPage } from "../../../../lib/job-content.js";
 // rate is near zero).
 export const revalidate = 21600;
 
-// Every prerendered path adds to deployment size, so only the companies with
-// the most open roles are prebuilt (this route saw ~0% ISR cache hit rate —
-// each is a distinct URL usually visited once — which made this the single
-// largest Fluid CPU consumer on the account). The long tail still works:
-// dynamicParams defaults to true, so an unlisted slug renders on first
-// request and is cached by ISR from then on.
-const PRERENDERED_COMPANY_LIMIT = 300;
+// Every prerendered path adds to deployment size and counts as an ISR write,
+// so only the companies with the most open roles are prebuilt (this route
+// saw ~0% ISR cache hit rate — each is a distinct URL usually visited once —
+// which made this the single largest Fluid CPU consumer on the account).
+// Kept low: next.config.mjs force-includes the whole data/ dir into every
+// page's function trace, and 300 was pushing Functions Storage and ISR
+// Writes over their Hobby caps. The long tail still works: dynamicParams
+// defaults to true, so an unlisted slug renders on first request and is
+// cached by ISR from then on.
+const PRERENDERED_COMPANY_LIMIT = 50;
 
 export async function generateStaticParams() {
   const companies = await getCompaniesWithJobs();
