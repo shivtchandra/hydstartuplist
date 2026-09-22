@@ -385,6 +385,14 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
             {data?.shortcuts?.today && (
               <button type="button" className="op-chip" aria-pressed={filters.when === 'discovered'} onClick={() => change({ when: filters.when === 'discovered' ? '' : 'discovered' })}>New today</button>
             )}
+            <button
+              type="button"
+              className="op-chip"
+              aria-pressed={filters.hyd === 'yes'}
+              onClick={() => change({ hyd: filters.hyd === 'yes' ? '' : 'yes' })}
+            >
+              Hyderabad only
+            </button>
             <button type="button" className="op-chip" aria-pressed={compare} onClick={() => setCompare((v) => !v)}>Compare areas</button>
           </div>
         </div>
