@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import SiteNav from "../../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../../components/JobsBreadcrumbs.jsx";
 import StartupLogo from "../../../components/StartupLogo.jsx";
-import { getJobsForStartupSlug } from "../../../../lib/jobs.js";
+import { getJobsForStartupSlug, getCompaniesWithJobs } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 import { prettyName } from "../../../../lib/startupUi.js";
 import { startupSlug } from "../../../../lib/slug.js";
@@ -16,8 +16,18 @@ import { jobDescriptionForPage } from "../../../../lib/job-content.js";
 // rate is near zero).
 export const revalidate = 21600;
 
-// Generate on the first visit, then reuse HTML through ISR for new and existing URLs.
-export function generateStaticParams() { return []; }
+// Every prerendered path adds to deployment size, so only the companies with
+// the most open roles are prebuilt (this route saw ~0% ISR cache hit rate —
+// each is a distinct URL usually visited once — which made this the single
+// largest Fluid CPU consumer on the account). The long tail still works:
+// dynamicParams defaults to true, so an unlisted slug renders on first
+// request and is cached by ISR from then on.
+const PRERENDERED_COMPANY_LIMIT = 300;
+
+export async function generateStaticParams() {
+  const companies = await getCompaniesWithJobs();
+  return companies.slice(0, PRERENDERED_COMPANY_LIMIT).map((c) => ({ slug: c.slug }));
+}
 
 export async function generateMetadata({ params }) {
   const { startup, jobs, companyName } = await getJobsForStartupSlug(params.slug);

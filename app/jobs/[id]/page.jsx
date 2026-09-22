@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 import ShareJobButton from "../../components/ShareJobButton.jsx";
-import { getJobById, getJobsByArea, getJobsForCompany } from "../../../lib/jobs.js";
+import { getJobById, getJobsByArea, getJobsForCompany, getAllJobs } from "../../../lib/jobs.js";
 import { getStartupBySlug, getApproved } from "../../../lib/store.js";
 import { startupSlug, slugify } from "../../../lib/slug.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
@@ -34,8 +34,21 @@ import { jobExperienceDisplay } from "../../../lib/job-facets.js";
 // see app/jobs/company/[slug]/page.jsx for why this matches that window.
 export const revalidate = 21600;
 
-// Generate on the first visit, then reuse HTML through ISR for new and existing URLs.
-export function generateStaticParams() { return []; }
+// Every prerendered path adds to deployment size, so only the newest postings
+// are prebuilt (this route saw ~0% ISR cache hit rate — each is a distinct
+// URL usually visited once — which made this one of the largest Fluid CPU
+// consumers on the account). The long tail still works: dynamicParams
+// defaults to true, so an unlisted id renders on first request and is
+// cached by ISR from then on.
+const PRERENDERED_JOB_LIMIT = 300;
+
+export async function generateStaticParams() {
+  const jobs = await getAllJobs();
+  return [...jobs]
+    .sort((a, b) => (Date.parse(b.postedAt || b.firstSeenAt || 0) || 0) - (Date.parse(a.postedAt || a.firstSeenAt || 0) || 0))
+    .slice(0, PRERENDERED_JOB_LIMIT)
+    .map((j) => ({ id: jobUrlId(j.id) }));
+}
 
 export async function generateMetadata({ params }) {
   const id = jobIdFromUrl(params.id);
