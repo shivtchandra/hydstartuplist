@@ -485,10 +485,8 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
 
                   <div className="op-card-pills-row">
                     {expDisplay && <span className="op-tag-pill op-tag-exp">{expDisplay}</span>}
-                    {job.area && job.area !== 'Hyderabad' && (
-                      <span className="op-tag-pill op-tag-area" title={job.area}>
-                        {job.area.split(',')[0]}
-                      </span>
+                    {job.area && job.area !== 'Hyderabad' && !job.area.includes(',') && (
+                      <span className="op-tag-pill op-tag-area">{job.area}</span>
                     )}
                     {job.role && job.role !== 'Other' && (
                       <span className="op-tag-pill op-tag-role">{job.role}</span>
