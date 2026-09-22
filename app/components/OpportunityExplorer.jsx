@@ -454,7 +454,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                     <div className="op-card-employer-meta">
                       <span className="op-card-company-name">{job.company}</span>
                       {job.area && <span className="op-card-dot">·</span>}
-                      {job.area && <span className="op-card-location">{job.area}</span>}
+                      {job.area && <span className="op-card-location" title={job.area}>{job.area.split(',')[0]}</span>}
                       {job.isDirect && <span className="op-direct-badge" title="Direct from company careers ATS">Direct ATS</span>}
                     </div>
                     <button
@@ -486,7 +486,9 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                   <div className="op-card-pills-row">
                     {expDisplay && <span className="op-tag-pill op-tag-exp">{expDisplay}</span>}
                     {job.area && job.area !== 'Hyderabad' && (
-                      <span className="op-tag-pill op-tag-area">{job.area}</span>
+                      <span className="op-tag-pill op-tag-area" title={job.area}>
+                        {job.area.split(',')[0]}
+                      </span>
                     )}
                     {job.role && job.role !== 'Other' && (
                       <span className="op-tag-pill op-tag-role">{job.role}</span>
