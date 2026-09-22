@@ -421,7 +421,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     {newAvailable&&<button className="op-refresh" onClick={()=>setRefresh(v=>v+1)}>Updated matches available — refresh results</button>}
     {(error||notice||data?.stale)&&<p className="op-warning" role="status">{error||notice||'Showing cached results. Source checks are temporarily delayed.'}</p>}
     <div className={`op-workspace op-view-${view}${detail?' op-has-detail':''}`}>
-      <section className="op-results" aria-label="Job results">
+      <section className={`op-results${busy ? ' op-results-loading' : ''}`} aria-label="Job results">
         {visible.map(job => {
           const expDisplay = jobExperienceDisplay(job) || (job.level && job.level !== 'unknown' ? readable(job.level) : null);
           const logoWebsite = job.website || (job.url ? domainOf(job.url) : null);
