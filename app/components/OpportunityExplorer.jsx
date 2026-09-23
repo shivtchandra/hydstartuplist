@@ -261,9 +261,8 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
         <OpFilterSelect
           label="Area"
           value={filters.area}
-          emptyLabel="All Hyderabad"
           onChange={(v) => change({ area: v })}
-          options={(facet.areas || []).map((a) => ({ value: a, label: a }))}
+          options={['Hyderabad', ...(facet.areas || []).filter(a => a !== 'Hyderabad')].map(a => ({ value: a, label: a }))}
         />
       </div>
       {[
