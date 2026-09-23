@@ -22,16 +22,16 @@ const WEBSITE = "https://www.punarvienergies.com/careers/";
 const LOCATION = "Vijayawada, Andhra Pradesh";
 
 const roles = [
-  { slug: "bdm", title: "Business Development Manager" },
-  { slug: "bde", title: "Business Development Executive" },
+  { slug: "bdm", title: "Business Development Manager", url: `${WEBSITE}?role=bdm` },
+  { slug: "bde", title: "Business Development Executive", url: `${WEBSITE}?role=bde` },
 ];
 
-const newJobs = roles.map(({ slug, title }) => ({
+const newJobs = roles.map(({ slug, title, url }) => ({
   id: `priority-${ENTRY_ID}-${slug}`,
   title,
   company: COMPANY,
   location: LOCATION,
-  url: WEBSITE,
+  url,
   postedAt: today,
   sourcePostedAt: today,
   firstSeenAt: now,
