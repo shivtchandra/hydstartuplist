@@ -17,7 +17,7 @@ import { domainOf } from '../../lib/startupUi.js';
 import { readShortlist,writeShortlist } from '../../lib/shortlist.js';
 import { pushShortlistToCloud, useAuthUser } from '../../lib/auth-client.js';
 import { trackEvent } from '../../lib/engagement-client.js';
-const Map=dynamic(()=>import('./OpportunityMap.jsx'),{ssr:false,loading:()=> <div className="op-map-status">Loading map…</div>});
+const OpportunityMap=dynamic(()=>import('./OpportunityMap.jsx'),{ssr:false,loading:()=> <div className="op-map-status">Loading map…</div>});
 
 function money(salary) {
   if(!salary) return 'Competitive / As per industry';
@@ -120,6 +120,120 @@ function OpFilterSelect({ label, value, onChange, options, emptyLabel = 'Any', a
         </ul>
       )}
     </div>
+  );
+}
+
+/** Pinned exclusive / sponsored employers — shown above the regular job grid. */
+function ExclusivePins({ jobs, onOpen }) {
+  const groups = useMemo(() => {
+    // Plain object — avoid `new Map()` (this file historically shadowed Map).
+    const byKey = Object.create(null);
+    for (const job of jobs || []) {
+      if (!job?.sponsored && !job?.exclusive) continue;
+      const key = String(job.employerId || job.companyId || job.company || job.id).toLowerCase();
+      if (!byKey[key]) {
+        byKey[key] = {
+          key,
+          company: job.company,
+          location: job.location || job.area,
+          website: job.website,
+          logoUrl: job.logoUrl,
+          label: job.sponsoredLabel || 'Exclusive',
+          blurb: job.description || null,
+          applyEmail: job.applyEmail || null,
+          applyPhones: Array.isArray(job.applyPhones) ? job.applyPhones : [],
+          qualification: job.qualification || null,
+          experience: job.experience || null,
+          industry: job.industry || null,
+          roles: [],
+        };
+      }
+      const g = byKey[key];
+      if (!g.applyEmail && job.applyEmail) g.applyEmail = job.applyEmail;
+      if ((!g.applyPhones || !g.applyPhones.length) && job.applyPhones?.length) g.applyPhones = job.applyPhones;
+      if (!g.blurb && job.description) g.blurb = job.description;
+      if (!g.qualification && job.qualification) g.qualification = job.qualification;
+      if (!g.experience && job.experience) g.experience = job.experience;
+      if (!g.industry && job.industry) g.industry = job.industry;
+      g.roles.push(job);
+    }
+    return Object.values(byKey);
+  }, [jobs]);
+
+  if (!groups.length) return null;
+
+  return (
+    <section className="op-exclusive-rail" aria-label="Exclusive openings">
+      {groups.map((g) => {
+        const metaBits = [
+          g.experience,
+          g.qualification?.replace(/\s*\(any degree\)/i, '').trim(),
+          g.industry,
+        ].filter(Boolean);
+        const place = g.location ? String(g.location).split(',')[0].trim() : null;
+        const mailto = g.applyEmail
+          ? `mailto:${g.applyEmail}?subject=${encodeURIComponent(`Application — ${g.roles[0]?.title || 'Open role'} at ${g.company}`)}`
+          : null;
+        return (
+          <article key={g.key} className="op-exclusive-card">
+            <header className="op-exclusive-top">
+              <span className="op-exclusive-pill">{g.label}</span>
+              <span className="op-exclusive-sourced">Mapping HYD exclusive</span>
+            </header>
+
+            <div className="op-exclusive-body">
+              <div className="op-exclusive-copy">
+                <h2 className="op-exclusive-company">{g.company}</h2>
+                {place && <p className="op-exclusive-location">{place}</p>}
+                {!metaBits.length && g.blurb && <p className="op-exclusive-blurb">{g.blurb}</p>}
+
+                {metaBits.length > 0 && (
+                  <ul className="op-exclusive-chips" aria-label="Role requirements">
+                    {metaBits.map((bit) => (
+                      <li key={bit}>{bit}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              <ul className="op-exclusive-roles">
+                {g.roles.map((role) => (
+                  <li key={role.id}>
+                    <button type="button" className="op-exclusive-role-btn" onClick={() => onOpen?.(role)}>
+                      <span className="op-exclusive-role-title">{role.title}</span>
+                      <span className="op-exclusive-role-cta" aria-hidden="true">→</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <footer className="op-exclusive-foot">
+              {mailto && (
+                <a className="op-exclusive-primary" href={mailto}>
+                  Email HR to apply
+                </a>
+              )}
+              <div className="op-exclusive-links">
+                {g.applyEmail && (
+                  <a className="op-exclusive-link" href={mailto}>{g.applyEmail}</a>
+                )}
+                {g.applyPhones.map((phone) => (
+                  <a key={phone} className="op-exclusive-link" href={`tel:${phone.replace(/\s+/g, '')}`}>
+                    {phone}
+                  </a>
+                ))}
+                {g.website && (
+                  <a className="op-exclusive-link" href={g.website} target="_blank" rel="noreferrer">
+                    Website ↗
+                  </a>
+                )}
+              </div>
+            </footer>
+          </article>
+        );
+      })}
+    </section>
   );
 }
 
@@ -253,6 +367,11 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     Promise.all([areaA,areaB].map(area=>{const p=new URLSearchParams(filterQuery);p.set('area',area);return fetch('/api/v2/map?'+p,{signal:c.signal}).then(r=>r.json());})).then(setComparison).catch(()=>{});return()=>c.abort();
   },[compare,areaA,areaB,filterQuery]);
   const visible=savedOnly?Object.values(shortlist.jobs).filter(s=>s.status!=='hidden').map(s=>s.job):(data?.jobs||[]).filter(j=>shortlist.jobs[j.id]?.status!=='hidden');
+  // Exclusive pin owns those rows — don't also show them as regular cards underneath.
+  const feedJobs = useMemo(
+    () => (savedOnly ? visible : visible.filter((j) => !j.sponsored && !j.exclusive)),
+    [visible, savedOnly]
+  );
   const recent=lastVisit?(data?.jobs||[]).filter(j=>j.firstSeenAt&&j.firstSeenAt>lastVisit).length:0;
   const facet=data?.facets||{};
   const filterFields = (
@@ -421,7 +540,10 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     {(error||notice||data?.stale)&&<p className="op-warning" role="status">{error||notice||'Showing cached results. Source checks are temporarily delayed.'}</p>}
     <div className={`op-workspace op-view-${view}${detail?' op-has-detail':''}`}>
       <section className={`op-results${busy ? ' op-results-loading' : ''}`} aria-label="Job results">
-        {visible.map(job => {
+        {!savedOnly && view === 'list' && (
+          <ExclusivePins jobs={visible} onOpen={openJob} />
+        )}
+        {feedJobs.map(job => {
           const expDisplay = jobExperienceDisplay(job) || (job.level && job.level !== 'unknown' ? readable(job.level) : null);
           const logoWebsite = job.website || (job.url ? domainOf(job.url) : null);
           const isSaved = !!shortlist.jobs[job.id];
@@ -430,7 +552,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
 
           return (
             <article
-              className={`op-job op-job-card${isSelected ? ' is-selected' : ''}`}
+              className={`op-job op-job-card${isSelected ? ' is-selected' : ''}${job.sponsored ? ' op-job-sponsored' : ''}`}
               key={job.id}
               onClick={e => {
                 if (e.target.closest('button, select, input')) return;
@@ -454,6 +576,11 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                       <span className="op-card-company-name">{job.company}</span>
                       {job.area && <span className="op-card-dot">·</span>}
                       {job.area && <span className="op-card-location" title={job.area}>{job.area.split(',')[0]}</span>}
+                      {job.sponsored && (
+                        <span className="op-featured-badge" title="Exclusive Mapping HYD listing">
+                          {job.sponsoredLabel || 'Exclusive'}
+                        </span>
+                      )}
                       {job.isDirect && <span className="op-direct-badge" title="Direct from company careers ATS">Direct ATS</span>}
                     </div>
                     <button
@@ -694,7 +821,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
             </div>
           </section>
         ) : view === 'map' ? (
-          <Map
+          <OpportunityMap
             companies={mapVersion === data?.version ? groups : []}
             onSelect={c => {
               change(c.isArea ? { area: c.area, company: '' } : { company: c.name });

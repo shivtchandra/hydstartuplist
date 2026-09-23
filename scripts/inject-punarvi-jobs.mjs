@@ -18,12 +18,17 @@ const today = now.slice(0, 10);
 
 const ENTRY_ID = "punarvi-energies";
 const COMPANY = "Punarvi Energies Ltd.";
-const WEBSITE = "https://www.punarvienergies.com/careers/";
-const LOCATION = "Vijayawada, Andhra Pradesh";
+const WEBSITE = "https://www.punarvienergies.com/";
+const CAREERS = "https://www.punarvienergies.com/careers/";
+const LOCATION = "Vijayawada / Amaravathi, Andhra Pradesh";
+const APPLY_EMAIL = "hr@punarvienergies.com";
+const APPLY_PHONES = ["+91 79970 33799", "+91 72878 72877"];
+const BLURB =
+  "Solar / renewables BD roles — direct apply only (careers page has no listings). Graduation · 3–5 years · preferred solar/renewables.";
 
 const roles = [
-  { slug: "bdm", title: "Business Development Manager", url: `${WEBSITE}?role=bdm` },
-  { slug: "bde", title: "Business Development Executive", url: `${WEBSITE}?role=bde` },
+  { slug: "bdm", title: "Business Development Manager", url: `${CAREERS}?role=bdm` },
+  { slug: "bde", title: "Business Development Executive", url: `${CAREERS}?role=bde` },
 ];
 
 const newJobs = roles.map(({ slug, title, url }) => ({
@@ -32,13 +37,13 @@ const newJobs = roles.map(({ slug, title, url }) => ({
   company: COMPANY,
   location: LOCATION,
   url,
-  postedAt: today,
-  sourcePostedAt: today,
+  postedAt: now,
+  sourcePostedAt: now,
   firstSeenAt: now,
   lastCheckedAt: now,
   lastSeenAt: now,
   fetchedAt: now,
-  description: "Qualification: Graduation | Experience: 3–5 Years | Preferred Industry: Solar / Renewable Energy. Contact: hr@punarvienergies.com | +91 7997033799",
+  description: BLURB,
   salary: null,
   source: "careers",
   startupId: null,
@@ -47,6 +52,13 @@ const newJobs = roles.map(({ slug, title, url }) => ({
   employerId: ENTRY_ID,
   status: "active",
   missingScans: 0,
+  exclusive: true,
+  applyEmail: APPLY_EMAIL,
+  applyPhones: APPLY_PHONES,
+  qualification: "Graduation (any degree)",
+  experience: "3–5 years",
+  industry: "Solar / Renewables",
+  exclusiveNote: "No portal listing — email or call HR to apply.",
 }));
 
 const snap = await db.collection("job_board").doc("priority_careers_latest").get();

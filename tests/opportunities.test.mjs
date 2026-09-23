@@ -20,3 +20,31 @@ test('ATS jobs keep postedAt when sourcePostedAt is missing', () => {
   assert.equal(job.sourcePostedAt, '2026-09-04T19:10:22.383Z');
   assert.equal(filterJobs([job, ...jobs], {}).some(j => j.id === 'ats-workday-ncr-1'), true);
 });
+
+test('sponsored jobs pin to top and bypass hyd-only filter', () => {
+  const prepared = prepareJobs([
+    {
+      id: 'hyd-1',
+      title: 'Engineer',
+      company: 'HydCo',
+      url: 'https://a.com/h',
+      location: 'Hyderabad',
+      postedAt: '2026-09-23T18:00:00.000Z',
+      status: 'active',
+    },
+    {
+      id: 'priority-punarvi-energies-bdm',
+      title: 'Business Development Manager',
+      company: 'Punarvi Energies Ltd.',
+      url: 'https://www.punarvienergies.com/careers/?role=bdm',
+      location: 'Vijayawada, Andhra Pradesh',
+      postedAt: '2026-09-23',
+      status: 'active',
+      sponsored: true,
+    },
+  ]);
+  const ranked = filterJobs(prepared, {});
+  assert.equal(ranked[0].id, 'priority-punarvi-energies-bdm');
+  assert.equal(filterJobs(prepared, { hyd: 'yes' }).some((j) => j.id === 'priority-punarvi-energies-bdm'), true);
+  assert.equal(filterJobs(prepared.map((j) => ({ ...j, sponsored: false })), { hyd: 'yes' }).some((j) => j.id === 'priority-punarvi-energies-bdm'), false);
+});
