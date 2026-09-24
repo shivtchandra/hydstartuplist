@@ -25,6 +25,15 @@ export async function generateMetadata({ params }) {
     description: landing.description,
     alternates: { canonical: url },
     openGraph: { title, description: landing.description, url, type: "website" },
+    keywords: [
+      `companies in ${landing.name.toLowerCase()}`,
+      `${landing.name.toLowerCase()} companies list`,
+      `${landing.name.toLowerCase()} hyderabad`,
+      `${landing.name.toLowerCase()} it companies`,
+      `software companies in ${landing.name.toLowerCase()}`,
+      "hyderabad tech parks",
+      "hyderabad startup map",
+    ],
   };
 }
 

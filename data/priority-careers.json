@@ -245,5 +245,124 @@
     "name": "Zyla Health",
     "url": "https://zyla.in/careers",
     "employerType": "startup"
+  },
+  {
+    "id": "deccanai",
+    "name": "Deccan AI",
+    "url": "https://deccan.ai/careers",
+    "startupId": "b08fd626-8198-4b65-859e-7f2e10376de7",
+    "employerType": "startup"
+  },
+  {
+    "id": "perceptyne",
+    "name": "Perceptyne",
+    "url": "https://www.perceptyne.com/career",
+    "startupId": "faa9cdc5-08a9-43e9-8d60-d86cb4f5a448",
+    "employerType": "startup"
+  },
+  {
+    "id": "aganitha",
+    "name": "Aganitha AI",
+    "url": "https://www.aganitha.ai/careers",
+    "startupId": "6238609b-918f-4741-a2ae-1ef96706c01b",
+    "employerType": "startup"
+  },
+  {
+    "id": "landeed",
+    "name": "Landeed",
+    "url": "https://www.landeed.com/careers",
+    "startupId": "f6a83417-9b8d-4313-94e0-8c1012b758a1",
+    "employerType": "startup"
+  },
+  {
+    "id": "altiushub",
+    "name": "AltiusHub",
+    "url": "https://altiushub.com/careers",
+    "startupId": "a8668de6-a2bd-4570-b982-b5391190d434",
+    "employerType": "startup"
+  },
+  {
+    "id": "gtmbuddy",
+    "name": "GTM Buddy",
+    "url": "https://gtmbuddy.ai/careers#openroles",
+    "startupId": "003fa9e4-ee53-44e7-b486-11cded258f29",
+    "employerType": "startup"
+  },
+  {
+    "id": "dhruvaspace",
+    "name": "Dhruva Space",
+    "url": "https://www.dhruvaspace.com/careers",
+    "startupId": "9d051ab6-67fd-4c4c-a31e-ec952ca7d636",
+    "employerType": "startup"
+  },
+  {
+    "id": "jehaerospace",
+    "name": "JEH Aerospace",
+    "url": "https://www.jehaerospace.com/careers",
+    "startupId": "e8d2551b-4093-4b99-b129-76518b8c34ff",
+    "employerType": "startup"
+  },
+  {
+    "id": "recykal",
+    "name": "Recykal",
+    "url": "https://recykal.com/careers",
+    "startupId": "6a49a27c-5a1b-4d8e-b26a-3a605fefba75",
+    "employerType": "startup"
+  },
+  {
+    "id": "pureev",
+    "name": "Pure EV",
+    "url": "https://www.pureev.in/careers",
+    "startupId": "f5aed858-3a02-4380-8079-7398a22f56b0",
+    "employerType": "startup"
+  },
+  {
+    "id": "bhanzu",
+    "name": "Bhanzu",
+    "url": "https://bhanzu.com/careers",
+    "startupId": "dea7c8a3-14b7-47bb-85b1-4e27488cc688",
+    "employerType": "startup"
+  },
+  {
+    "id": "marutdrones",
+    "name": "MARUT Drones",
+    "url": "https://marutdrones.com/careers",
+    "startupId": "2a0e9715-21af-43d9-89ff-f2ff7ee4fee5",
+    "employerType": "startup"
+  },
+  {
+    "id": "takeme2space",
+    "name": "TakeMe2Space",
+    "url": "https://www.tm2.space/about-tm2s",
+    "startupId": "e819b8ec-db34-4dec-9489-e40280ff97b5",
+    "employerType": "startup"
+  },
+  {
+    "id": "cosmoserve",
+    "name": "Cosmoserve Space",
+    "url": "https://cosmoserve.space/#Careers",
+    "startupId": "7a67e031-fb8b-4ad0-a5b9-13a2119fcd0b",
+    "employerType": "startup"
+  },
+  {
+    "id": "bluecopa",
+    "name": "Bluecopa",
+    "url": "https://bluecopa.com/careers",
+    "startupId": "e69bec8b-3e20-4064-a915-2befa9fc7a81",
+    "employerType": "startup"
+  },
+  {
+    "id": "turbohire",
+    "name": "TurboHire",
+    "url": "https://turbohire.co/careers",
+    "startupId": "dcbd7266-c446-45a9-b97d-8b8520f90bde",
+    "employerType": "startup"
+  },
+  {
+    "id": "adonmo",
+    "name": "AdOnMo",
+    "url": "https://adonmo.com/careers",
+    "startupId": "8c0b7076-0d16-4c5e-a840-db1d29a26ab0",
+    "employerType": "startup"
   }
 ]

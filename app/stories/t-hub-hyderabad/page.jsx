@@ -12,6 +12,17 @@ export const metadata = {
   alternates: { canonical: `${getSiteUrl()}/stories/${SLUG}` },
   title: `${TITLE} | Mapping HYD`,
   description: DESCRIPTION,
+  keywords: [
+    "t hub hyderabad",
+    "what is t hub in hyderabad",
+    "what is t hub",
+    "t hub full form",
+    "t hub hitech city",
+    "t hub madhapur",
+    "t hub internships",
+    "thub startups",
+    "thub hyderabad",
+  ],
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
@@ -37,10 +48,18 @@ export default function THubHyderabadStory() {
       mainEntity: [
         {
           "@type": "Question",
-          name: "What is T-Hub Hyderabad?",
+          name: "What is T-Hub Hyderabad and what does it do?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "T-Hub Hyderabad is Telangana’s public-private innovation hub in Madhapur, built to support startups with space, programmes, and corporate connections.",
+            text: "T-Hub Hyderabad is Telangana’s public-private innovation hub in Madhapur / Knowledge City, built to support startups with incubation, workspace, funding programmes, and corporate connections.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is the full form of T-Hub?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "T-Hub stands for Technology Hub. It is one of the world's largest startup innovation campuses, headquartered in Hyderabad.",
           },
         },
         {
@@ -48,7 +67,15 @@ export default function THubHyderabadStory() {
           name: "Where is T-Hub Hyderabad located?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "T-Hub Hyderabad sits in the Madhapur / HITEC City tech belt — the same corridor where many mapped startups and jobs cluster on Mapping HYD.",
+            text: "T-Hub Hyderabad sits in the Madhapur / HITEC City / Raidurgam tech belt — the same corridor where many mapped startups and jobs cluster on Mapping HYD.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Can freshers and students find internships at T-Hub startups?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes, startups incubated and operating within T-Hub regularly hire student interns and fresh graduates for engineering, AI/ML, design, and growth roles.",
           },
         },
         {

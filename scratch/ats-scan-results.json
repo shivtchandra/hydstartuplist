@@ -1,0 +1,592 @@
+{
+  "activeHits": [
+    {
+      "name": "Accordion India",
+      "atsProvider": "greenhouse",
+      "atsSlug": "accordionindia",
+      "jobCount": 21,
+      "totalRaw": 21,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Assistant Manager - Finance and Accounting",
+          "location": "Hyderabad",
+          "url": "https://job-boards.greenhouse.io/accordionindia/jobs/7857660"
+        },
+        {
+          "title": "Associate - NetSuite ERP",
+          "location": "Hyderabad",
+          "url": "https://job-boards.greenhouse.io/accordionindia/jobs/7857645"
+        },
+        {
+          "title": "Associate - Operational and Technical Accounting",
+          "location": "Hyderabad",
+          "url": "https://job-boards.greenhouse.io/accordionindia/jobs/7857661"
+        }
+      ]
+    },
+    {
+      "name": "Zenoti",
+      "atsProvider": "greenhouse",
+      "atsSlug": "zenoti",
+      "jobCount": 24,
+      "totalRaw": 49,
+      "alreadyInBoards": true,
+      "matchedStartupId": "ce8748f6-8eb8-487f-9a95-b49e928853cd",
+      "sampleJobs": [
+        {
+          "title": "Assistant Manager – Global Payroll",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://job-boards.greenhouse.io/zenoti/jobs/7894907003"
+        },
+        {
+          "title": "Data Operator",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://job-boards.greenhouse.io/zenoti/jobs/7959372003"
+        },
+        {
+          "title": "Data Operator",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://job-boards.greenhouse.io/zenoti/jobs/7959333003"
+        }
+      ]
+    },
+    {
+      "name": "GHX",
+      "atsProvider": "greenhouse",
+      "atsSlug": "globalhealthcareexchangeinc",
+      "jobCount": 23,
+      "totalRaw": 48,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "AI Knowledge Analyst I",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://job-boards.greenhouse.io/globalhealthcareexchangeinc/jobs/4736567005"
+        },
+        {
+          "title": "Credentialing Analyst I",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://job-boards.greenhouse.io/globalhealthcareexchangeinc/jobs/4734494005"
+        },
+        {
+          "title": "Customer Support Analyst I",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://job-boards.greenhouse.io/globalhealthcareexchangeinc/jobs/4731165005"
+        }
+      ]
+    },
+    {
+      "name": "Truveta",
+      "atsProvider": "greenhouse",
+      "atsSlug": "truveta",
+      "jobCount": 18,
+      "totalRaw": 40,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Clinical Terminologist",
+          "location": "Hyderabad, India",
+          "url": "https://job-boards.greenhouse.io/truveta/jobs/5990400004"
+        },
+        {
+          "title": "Clinical Terminologist Lead (MBBS Required)",
+          "location": "Hyderabad, India",
+          "url": "https://job-boards.greenhouse.io/truveta/jobs/6122414004"
+        },
+        {
+          "title": "Director Of Engineering - Platform Services",
+          "location": "Hyderabad, India",
+          "url": "https://job-boards.greenhouse.io/truveta/jobs/6184481004"
+        }
+      ]
+    },
+    {
+      "name": "DoorDash India",
+      "atsProvider": "greenhouse",
+      "atsSlug": "doordashindia",
+      "jobCount": 19,
+      "totalRaw": 23,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Associate Manager, Forecasting",
+          "location": "Hyderabad, India",
+          "url": "https://job-boards.greenhouse.io/doordashindia/jobs/8214157"
+        },
+        {
+          "title": "Data Analyst, Labs",
+          "location": "Hyderabad, India",
+          "url": "https://job-boards.greenhouse.io/doordashindia/jobs/6661816"
+        },
+        {
+          "title": "Global Benefits Specialist (Fixed Term Contract)",
+          "location": "Hyderabad, IN",
+          "url": "https://job-boards.greenhouse.io/doordashindia/jobs/8167903"
+        }
+      ]
+    },
+    {
+      "name": "Crunchyroll",
+      "atsProvider": "greenhouse",
+      "atsSlug": "crunchyroll",
+      "jobCount": 10,
+      "totalRaw": 75,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Delivery Operations Coordinator",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://boards.greenhouse.io/crunchyroll/jobs/8211391?gh_jid=8211391"
+        },
+        {
+          "title": "Senior Data Analyst",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://boards.greenhouse.io/crunchyroll/jobs/8211106?gh_jid=8211106"
+        },
+        {
+          "title": "Senior Database Operations Engineer",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://boards.greenhouse.io/crunchyroll/jobs/8026651?gh_jid=8026651"
+        }
+      ]
+    },
+    {
+      "name": "Capco",
+      "atsProvider": "greenhouse",
+      "atsSlug": "capco",
+      "jobCount": 15,
+      "totalRaw": 764,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "BA - Power Systems",
+          "location": "India - Bengaluru; India - Chennai ; India - Gurugram; India - Hyderabad; India - Mumbai; India - Pune",
+          "url": "https://job-boards.greenhouse.io/capco/jobs/8102623"
+        },
+        {
+          "title": "Data Engineer with Scala and Spark/ Pyspark",
+          "location": "India - Bengaluru; India - Chennai ; India - Gurugram; India - Hyderabad; India - Mumbai; India - Pune",
+          "url": "https://job-boards.greenhouse.io/capco/jobs/8018268"
+        },
+        {
+          "title": "Data Quality - BCBS239",
+          "location": "India - Bengaluru; India - Hyderabad",
+          "url": "https://job-boards.greenhouse.io/capco/jobs/7966453"
+        }
+      ]
+    },
+    {
+      "name": "Cohere Health",
+      "atsProvider": "greenhouse",
+      "atsSlug": "coherehealth",
+      "jobCount": 42,
+      "totalRaw": 81,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Associate Payroll Specialist",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://job-boards.greenhouse.io/coherehealth/jobs/7777131003"
+        },
+        {
+          "title": "Associate SDET Engineer",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://job-boards.greenhouse.io/coherehealth/jobs/7693298003"
+        },
+        {
+          "title": "Business Intelligence Engineer",
+          "location": "Hyderabad, Telangana, India",
+          "url": "https://job-boards.greenhouse.io/coherehealth/jobs/7693133003"
+        }
+      ]
+    },
+    {
+      "name": "Khan Academy",
+      "atsProvider": "greenhouse",
+      "atsSlug": "khanacademy",
+      "jobCount": 1,
+      "totalRaw": 14,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Project Lead- Telangana",
+          "location": "Hyderabad, Telangana",
+          "url": "https://job-boards.greenhouse.io/khanacademy/jobs/7892974"
+        }
+      ]
+    },
+    {
+      "name": "AlphaGrep Securities",
+      "atsProvider": "greenhouse",
+      "atsSlug": "alphagrepsecurities",
+      "jobCount": 1,
+      "totalRaw": 15,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Regional Sales Head- Hyderabad",
+          "location": "Hyderabad",
+          "url": "https://job-boards.greenhouse.io/alphagrepsecurities/jobs/8598183002"
+        }
+      ]
+    },
+    {
+      "name": "Schrödinger",
+      "atsProvider": "greenhouse",
+      "atsSlug": "schrdinger",
+      "jobCount": 6,
+      "totalRaw": 27,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Associate Counsel, Legal (Hyderabad)",
+          "location": "Hyderabad",
+          "url": "https://job-boards.greenhouse.io/schrdinger/jobs/7831819003"
+        },
+        {
+          "title": "Developer Experience Engineer - Hyderabad",
+          "location": "Hyderabad",
+          "url": "https://job-boards.greenhouse.io/schrdinger/jobs/7995528003"
+        },
+        {
+          "title": "Senior Associate, India Finance (Hyderabad)",
+          "location": "Hyderabad",
+          "url": "https://job-boards.greenhouse.io/schrdinger/jobs/7996771003"
+        }
+      ]
+    },
+    {
+      "name": "Fresh Prints",
+      "atsProvider": "greenhouse",
+      "atsSlug": "freshprints",
+      "jobCount": 6,
+      "totalRaw": 39,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Campus Recruiter",
+          "location": "Hyderabad, India (Remote)",
+          "url": "https://job-boards.greenhouse.io/freshprints/jobs/6182882004"
+        },
+        {
+          "title": "Learning and Development Associate",
+          "location": "Hyderabad, India (Remote)",
+          "url": "https://job-boards.greenhouse.io/freshprints/jobs/6100443004"
+        },
+        {
+          "title": "Operations Manager – Founder/Entrepreneurial Experience",
+          "location": "Hyderabad, India (Remote)",
+          "url": "https://job-boards.greenhouse.io/freshprints/jobs/6111374004"
+        }
+      ]
+    },
+    {
+      "name": "Anaplan",
+      "atsProvider": "greenhouse",
+      "atsSlug": "anaplan",
+      "jobCount": 1,
+      "totalRaw": 145,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Enterprise Account Executive",
+          "location": "Hyderabad, Remote",
+          "url": "https://job-boards.greenhouse.io/anaplan/jobs/8537052002"
+        }
+      ]
+    },
+    {
+      "name": "Coupang Internal",
+      "atsProvider": "greenhouse",
+      "atsSlug": "coupanginternal",
+      "jobCount": 4,
+      "totalRaw": 480,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Senior Staff Backend Engineer",
+          "location": "Hyderabad",
+          "url": "https://boards.greenhouse.io/coupanginternal/jobs/7953043?gh_jid=7953043"
+        },
+        {
+          "title": "Senior Staff Backend Engineer",
+          "location": "Hyderabad",
+          "url": "https://boards.greenhouse.io/coupanginternal/jobs/8059288?gh_jid=8059288"
+        },
+        {
+          "title": "Staff Back-end Engineer",
+          "location": "Hyderabad",
+          "url": "https://boards.greenhouse.io/coupanginternal/jobs/7892763?gh_jid=7892763"
+        }
+      ]
+    },
+    {
+      "name": "Telnyx",
+      "atsProvider": "greenhouse",
+      "atsSlug": "telnyx54",
+      "jobCount": 1,
+      "totalRaw": 55,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Senior Infrastructure Engineer (Bare Metal) APAC Remote",
+          "location": "Danang, Vietnam; Ho Chi Minh City, Vietnam; Hanoi, Vietnam; Bengaluru, India; Hyderabad, India; Chennai, India; Pune, India; Mumbai, India; Taipei, Taiwan; Hsinchu, Taiwan; Taoyuan, Taiwan; Kuala Lumpur, Malaysia; Cyberjaya, Malaysia; Johor Bahru, Malaysia; Penang, Malaysia; Singapore",
+          "url": "https://job-boards.greenhouse.io/telnyx54/jobs/7693384003"
+        }
+      ]
+    },
+    {
+      "name": "Brillio 2",
+      "atsProvider": "lever",
+      "atsSlug": "brillio-2",
+      "jobCount": 15,
+      "totalRaw": 202,
+      "alreadyInBoards": false,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Analyst - R01571355",
+          "location": "Hyderabad, Andhra Pradesh, India",
+          "url": "https://jobs.lever.co/brillio-2/db8fcd41-cd24-4568-97eb-621c10c68fee"
+        },
+        {
+          "title": "Architect - R01570449",
+          "location": "Hyderabad, Andhra Pradesh, India",
+          "url": "https://jobs.lever.co/brillio-2/507b4f75-838d-4512-ab08-7a7975d07c64"
+        },
+        {
+          "title": "Consultant - R01569546",
+          "location": "Hyderabad, Andhra Pradesh, India",
+          "url": "https://jobs.lever.co/brillio-2/35fe1920-675a-4982-b360-f36e2ca9ee34"
+        }
+      ]
+    },
+    {
+      "name": "Weekday",
+      "atsProvider": "lever",
+      "atsSlug": "weekdayworks",
+      "jobCount": 5,
+      "totalRaw": 60,
+      "alreadyInBoards": false,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "DevSecOps & Product Security Engineer",
+          "location": "Hyderabad",
+          "url": "https://jobs.lever.co/weekdayworks/a0a8757e-20a9-4989-87bc-18e5ddc24b08"
+        },
+        {
+          "title": "Senior Engineer - Analog Simulation CAD",
+          "location": "Hyderabad",
+          "url": "https://jobs.lever.co/weekdayworks/970a1630-eec0-464f-9ca2-d04615403984"
+        },
+        {
+          "title": "Senior Full Stack Developer",
+          "location": "Hyderabad",
+          "url": "https://jobs.lever.co/weekdayworks/1b2e7777-9451-4315-91a0-11a82e687195"
+        }
+      ]
+    },
+    {
+      "name": "MongoDB",
+      "atsProvider": "greenhouse",
+      "atsSlug": "mongodb",
+      "jobCount": 1,
+      "totalRaw": 398,
+      "alreadyInBoards": false,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Solutions Architect",
+          "location": "Bengaluru; Gurugram; Hyderabad",
+          "url": "https://www.mongodb.com/careers/job/?gh_jid=8173661"
+        }
+      ]
+    },
+    {
+      "name": "New Relic",
+      "atsProvider": "greenhouse",
+      "atsSlug": "newrelic",
+      "jobCount": 4,
+      "totalRaw": 52,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Lead Software Engineer",
+          "location": "Hyderabad, India",
+          "url": "https://job-boards.greenhouse.io/newrelic/jobs/5201237008"
+        },
+        {
+          "title": "Lead Software Engineer",
+          "location": "Hyderabad, India",
+          "url": "https://job-boards.greenhouse.io/newrelic/jobs/5256109008"
+        },
+        {
+          "title": "Manager, Product Design: Application Observability",
+          "location": "Hyderabad, India",
+          "url": "https://job-boards.greenhouse.io/newrelic/jobs/5395118008"
+        }
+      ]
+    },
+    {
+      "name": "Zscaler",
+      "atsProvider": "greenhouse",
+      "atsSlug": "zscaler",
+      "jobCount": 5,
+      "totalRaw": 372,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Senior LMS Administrator",
+          "location": "Bangalore, IND; Hyderabad, IND",
+          "url": "https://job-boards.greenhouse.io/zscaler/jobs/5228172007"
+        },
+        {
+          "title": "Sr. Software Development Engineer",
+          "location": "Hyderabad, IND",
+          "url": "https://job-boards.greenhouse.io/zscaler/jobs/5184114007"
+        },
+        {
+          "title": "Sr. Staff Software Development Engineer - Java/Go + Distributed Systems",
+          "location": "Bangalore, IND; Hyderabad, IND",
+          "url": "https://job-boards.greenhouse.io/zscaler/jobs/5177393007"
+        }
+      ]
+    },
+    {
+      "name": "CRED",
+      "atsProvider": "lever",
+      "atsSlug": "cred",
+      "jobCount": 1,
+      "totalRaw": 12,
+      "alreadyInBoards": true,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "area collections manager hyderabad -flows",
+          "location": "hyderabad",
+          "url": "https://jobs.lever.co/cred/8b535f0b-1c68-4982-95b0-91f9edb5945e"
+        }
+      ]
+    },
+    {
+      "name": "Meesho",
+      "atsProvider": "lever",
+      "atsSlug": "meesho",
+      "jobCount": 1,
+      "totalRaw": 51,
+      "alreadyInBoards": false,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Cluster Head- Last mile Telangana (Hyderabad)",
+          "location": "Hyderabad, Telangana",
+          "url": "https://jobs.lever.co/meesho/fa26aec6-d483-469e-9d98-3a01da28af26"
+        }
+      ]
+    }
+  ],
+  "newHits": [
+    {
+      "name": "Brillio 2",
+      "atsProvider": "lever",
+      "atsSlug": "brillio-2",
+      "jobCount": 15,
+      "totalRaw": 202,
+      "alreadyInBoards": false,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Analyst - R01571355",
+          "location": "Hyderabad, Andhra Pradesh, India",
+          "url": "https://jobs.lever.co/brillio-2/db8fcd41-cd24-4568-97eb-621c10c68fee"
+        },
+        {
+          "title": "Architect - R01570449",
+          "location": "Hyderabad, Andhra Pradesh, India",
+          "url": "https://jobs.lever.co/brillio-2/507b4f75-838d-4512-ab08-7a7975d07c64"
+        },
+        {
+          "title": "Consultant - R01569546",
+          "location": "Hyderabad, Andhra Pradesh, India",
+          "url": "https://jobs.lever.co/brillio-2/35fe1920-675a-4982-b360-f36e2ca9ee34"
+        }
+      ]
+    },
+    {
+      "name": "Weekday",
+      "atsProvider": "lever",
+      "atsSlug": "weekdayworks",
+      "jobCount": 5,
+      "totalRaw": 60,
+      "alreadyInBoards": false,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "DevSecOps & Product Security Engineer",
+          "location": "Hyderabad",
+          "url": "https://jobs.lever.co/weekdayworks/a0a8757e-20a9-4989-87bc-18e5ddc24b08"
+        },
+        {
+          "title": "Senior Engineer - Analog Simulation CAD",
+          "location": "Hyderabad",
+          "url": "https://jobs.lever.co/weekdayworks/970a1630-eec0-464f-9ca2-d04615403984"
+        },
+        {
+          "title": "Senior Full Stack Developer",
+          "location": "Hyderabad",
+          "url": "https://jobs.lever.co/weekdayworks/1b2e7777-9451-4315-91a0-11a82e687195"
+        }
+      ]
+    },
+    {
+      "name": "MongoDB",
+      "atsProvider": "greenhouse",
+      "atsSlug": "mongodb",
+      "jobCount": 1,
+      "totalRaw": 398,
+      "alreadyInBoards": false,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Solutions Architect",
+          "location": "Bengaluru; Gurugram; Hyderabad",
+          "url": "https://www.mongodb.com/careers/job/?gh_jid=8173661"
+        }
+      ]
+    },
+    {
+      "name": "Meesho",
+      "atsProvider": "lever",
+      "atsSlug": "meesho",
+      "jobCount": 1,
+      "totalRaw": 51,
+      "alreadyInBoards": false,
+      "matchedStartupId": null,
+      "sampleJobs": [
+        {
+          "title": "Cluster Head- Last mile Telangana (Hyderabad)",
+          "location": "Hyderabad, Telangana",
+          "url": "https://jobs.lever.co/meesho/fa26aec6-d483-469e-9d98-3a01da28af26"
+        }
+      ]
+    }
+  ]
+}

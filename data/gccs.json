@@ -341,5 +341,19 @@
     "industry": "Tech",
     "website": "https://www.cognida.ai",
     "careers": "https://www.cognida.ai/careers/"
+  },
+  {
+    "id": "mongodb",
+    "name": "MongoDB",
+    "industry": "Database & Cloud Software",
+    "website": "https://www.mongodb.com",
+    "careers": "https://boards.greenhouse.io/mongodb"
+  },
+  {
+    "id": "brillio",
+    "name": "Brillio",
+    "industry": "Digital Transformation & Enterprise IT",
+    "website": "https://www.brillio.com",
+    "careers": "https://jobs.lever.co/brillio-2"
   }
 ]

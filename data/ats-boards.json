@@ -1149,5 +1149,61 @@
     "startupId": "0bf737c0-3b17-47f7-a77c-725d0ca04d69",
     "employerType": "startup",
     "active": true
+  },
+  {
+    "id": "lever:brillio-2",
+    "name": "Brillio",
+    "atsProvider": "lever",
+    "atsSlug": "brillio-2",
+    "boardUrl": "https://jobs.lever.co/brillio-2",
+    "startupId": null,
+    "active": true,
+    "hydJobs": 15,
+    "totalJobs": 202,
+    "verifiedAt": "2026-09-24T20:11:01.931Z",
+    "employerType": "enterprise",
+    "website": "https://www.brillio.com"
+  },
+  {
+    "id": "lever:weekdayworks",
+    "name": "Weekday",
+    "atsProvider": "lever",
+    "atsSlug": "weekdayworks",
+    "boardUrl": "https://jobs.lever.co/weekdayworks",
+    "startupId": null,
+    "active": true,
+    "hydJobs": 5,
+    "totalJobs": 60,
+    "verifiedAt": "2026-09-24T20:11:01.932Z",
+    "employerType": "startup",
+    "website": "https://www.weekday.works"
+  },
+  {
+    "id": "greenhouse:mongodb",
+    "name": "MongoDB",
+    "atsProvider": "greenhouse",
+    "atsSlug": "mongodb",
+    "boardUrl": "https://boards.greenhouse.io/mongodb",
+    "startupId": null,
+    "active": true,
+    "hydJobs": 1,
+    "totalJobs": 398,
+    "verifiedAt": "2026-09-24T20:11:01.932Z",
+    "employerType": "enterprise",
+    "website": "https://www.mongodb.com"
+  },
+  {
+    "id": "lever:meesho",
+    "name": "Meesho",
+    "atsProvider": "lever",
+    "atsSlug": "meesho",
+    "boardUrl": "https://jobs.lever.co/meesho",
+    "startupId": null,
+    "active": true,
+    "hydJobs": 1,
+    "totalJobs": 51,
+    "verifiedAt": "2026-09-24T20:11:01.932Z",
+    "employerType": "enterprise",
+    "website": "https://www.meesho.com"
   }
 ]
