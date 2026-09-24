@@ -364,5 +364,229 @@
     "url": "https://adonmo.com/careers",
     "startupId": "8c0b7076-0d16-4c5e-a840-db1d29a26ab0",
     "employerType": "startup"
+  },
+  {
+    "id": "amazon",
+    "name": "Amazon",
+    "url": "https://www.amazon.jobs/en/locations/hyderabad-india",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "microsoft",
+    "name": "Microsoft",
+    "url": "https://careers.microsoft.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "google",
+    "name": "Google",
+    "url": "https://careers.google.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "salesforce",
+    "name": "Salesforce",
+    "url": "https://www.salesforce.com/company/careers/",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "deloitte-usi",
+    "name": "Deloitte USI",
+    "url": "https://www.deloitte.com/us/en/careers.html",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "jpmorgan",
+    "name": "JPMorgan Chase",
+    "url": "https://careers.jpmorgan.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "goldmansachs",
+    "name": "Goldman Sachs",
+    "url": "https://www.goldmansachs.com/careers/",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "franklintempleton",
+    "name": "Franklin Templeton",
+    "url": "https://www.franklintempletoncareers.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "novartis",
+    "name": "Novartis",
+    "url": "https://www.novartis.com/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "micron",
+    "name": "Micron",
+    "url": "https://micron.com/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "accenture",
+    "name": "Accenture",
+    "url": "https://www.accenture.com/us-en/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "att",
+    "name": "AT&T",
+    "url": "https://www.att.jobs",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "elililly",
+    "name": "Eli Lilly",
+    "url": "https://careers.lilly.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "tmobile",
+    "name": "T-Mobile",
+    "url": "https://www.t-mobile.com/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "apple",
+    "name": "Apple",
+    "url": "https://www.apple.com/careers/in/",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "citigroup",
+    "name": "Citigroup",
+    "url": "https://jobs.citi.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "sanofi",
+    "name": "Sanofi",
+    "url": "https://www.sanofi.com/en/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "optum",
+    "name": "Optum",
+    "url": "https://www.optum.com/careers.html",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "pepsico",
+    "name": "PepsiCo",
+    "url": "https://www.pepsicojobs.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "factset",
+    "name": "FactSet",
+    "url": "https://www.factset.com/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "vanguard",
+    "name": "Vanguard",
+    "url": "https://www.vanguardjobs.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "marriott",
+    "name": "Marriott",
+    "url": "https://careers.marriott.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "agilent",
+    "name": "Agilent",
+    "url": "https://www.agilent.com/en/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "americanairlines",
+    "name": "American Airlines",
+    "url": "https://jobs.aa.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "jaggaer",
+    "name": "Jaggaer",
+    "url": "https://www.jaggaer.com/careers/",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "costco",
+    "name": "Costco",
+    "url": "https://careers.costco.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "westernunion",
+    "name": "Western Union",
+    "url": "https://careers.westernunion.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "hca",
+    "name": "HCA Healthcare",
+    "url": "https://careers.hcahealthcare.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "lpl",
+    "name": "LPL Financial",
+    "url": "https://www.lpl.com/about-lpl/careers.html",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "ubs",
+    "name": "UBS",
+    "url": "https://www.ubs.com/global/en/careers.html",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "dazn",
+    "name": "DAZN",
+    "url": "https://careers.dazn.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "kyndryl",
+    "name": "Kyndryl",
+    "url": "https://kyndryl.wd5.myworkdayjobs.com",
+    "startupId": null,
+    "employerType": "enterprise"
   }
 ]
