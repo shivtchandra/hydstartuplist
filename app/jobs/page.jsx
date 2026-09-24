@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { unstable_cache } from "next/cache";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import OpportunityExplorer from "../components/OpportunityExplorer.jsx";
 import { opportunityDataset, searchOpportunities } from "../../lib/opportunity-store.js";
@@ -16,7 +15,6 @@ import {
   JOB_AREA_LANDINGS,
   JOB_SECTOR_LANDINGS,
   JOB_ROLE_LANDINGS,
-  jobUrlId,
 } from "../../lib/jobs-seo.js";
 import JobsSeoIndex from "../components/JobsSeoIndex.jsx";
 
@@ -79,12 +77,16 @@ const getFetchedAt = unstable_cache(
   { revalidate: 600 }
 );
 
-export default async function JobsPage({ searchParams = {} }) {
-  if (searchParams.job) {
-    redirect(`/jobs/${jobUrlId(String(searchParams.job))}`);
-  }
+// No searchParams here on purpose: a page component that reads searchParams
+// forces the whole route into per-request dynamic rendering, which silently
+// overrides `revalidate` above (this route was running full SSR on every
+// hit, ignoring the caching fix entirely). The `?job=` redirect now lives in
+// middleware.js, and the client (OpportunityExplorer) already refetches via
+// /api/v2/jobs whenever filters are present — this initial fetch only ever
+// matters for the unfiltered, cacheable case.
+export default async function JobsPage() {
   if (process.env.LANDING_V2 !== "0") {
-    const initial = await searchOpportunities(searchParams).catch(() => ({ jobs: [], total: 0, stale: true }));
+    const initial = await searchOpportunities({}).catch(() => ({ jobs: [], total: 0, stale: true }));
     const roleCount = await distinctRoleCount();
     return (
       <>
