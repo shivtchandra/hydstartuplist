@@ -18,8 +18,9 @@ import {
   FRESHER_JOBS_LANDING,
 } from "../../../../lib/jobs-seo.js";
 
-// Job data only refreshes via the twice-daily sync crons (2:30am, 3:00am IST).
-export const revalidate = 21600;
+// This app redeploys multiple times a day, which already resets the ISR
+// cache — see app/jobs/company/[slug]/page.jsx.
+export const revalidate = 604800;
 
 export async function generateStaticParams() {
   return FRESHER_CATEGORIES.map((cat) => ({

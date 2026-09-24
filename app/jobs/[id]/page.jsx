@@ -30,9 +30,11 @@ import {
 import { fundingLabel } from "../../../lib/company-quality.js";
 import { jobExperienceDisplay } from "../../../lib/job-facets.js";
 
-// Job data only refreshes via the twice-daily sync crons (2:30am, 3:00am IST);
-// see app/jobs/company/[slug]/page.jsx for why this matches that window.
-export const revalidate = 21600;
+// See app/jobs/company/[slug]/page.jsx: this app redeploys multiple times a
+// day, which already resets the ISR cache, so a short revalidate window here
+// only added rewrites from repeat crawler visits (ISR Writes blew past the
+// Hobby cap). One week is effectively "until the next deploy."
+export const revalidate = 604800;
 
 // Every prerendered path adds to deployment size and counts as an ISR write,
 // so only the newest postings are prebuilt (this route saw ~0% ISR cache hit

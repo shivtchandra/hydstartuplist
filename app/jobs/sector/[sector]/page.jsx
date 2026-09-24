@@ -6,8 +6,9 @@ import { getJobsBySector } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 import { JOB_SECTOR_LANDINGS, breadcrumbJsonLd, itemListJsonLd, jobUrlId, sectorLanding, thinListingRobots } from "../../../../lib/jobs-seo.js";
 
-// Job data only refreshes via the twice-daily sync crons (2:30am, 3:00am IST).
-export const revalidate = 21600;
+// This app redeploys multiple times a day, which already resets the ISR
+// cache — see app/jobs/company/[slug]/page.jsx.
+export const revalidate = 604800;
 
 export function generateStaticParams() {
   return JOB_SECTOR_LANDINGS.map((s) => ({ sector: s.slug }));

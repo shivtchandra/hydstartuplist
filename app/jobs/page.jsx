@@ -20,8 +20,9 @@ import {
 } from "../../lib/jobs-seo.js";
 import JobsSeoIndex from "../components/JobsSeoIndex.jsx";
 
-// Job data only refreshes via the twice-daily sync crons (2:30am, 3:00am IST).
-export const revalidate = 21600;
+// This app redeploys multiple times a day, which already resets the ISR
+// cache — see app/jobs/company/[slug]/page.jsx.
+export const revalidate = 604800;
 
 /**
  * Distinct roles, not raw postings.

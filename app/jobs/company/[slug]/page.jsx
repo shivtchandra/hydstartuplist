@@ -10,11 +10,13 @@ import { startupSlug } from "../../../../lib/slug.js";
 import { breadcrumbJsonLd, itemListJsonLd, jobPostingJsonLd, jobUrlId, thinListingRobots } from "../../../../lib/jobs-seo.js";
 import { jobDescriptionForPage } from "../../../../lib/job-content.js";
 
-// Job data only refreshes via the twice-daily sync crons (2:30am, 3:00am IST),
-// so revalidating every 30 min bought no freshness — just full ISR
-// recomputes on cache misses (this route is thin/many-URL enough that hit
-// rate is near zero).
-export const revalidate = 21600;
+// This app redeploys multiple times a day (every push), and a new deploy
+// resets the ISR cache regardless of this value — so the real refresh
+// cadence is "next deploy," not this number. A short revalidate window here
+// only adds extra rewrites from repeat crawler visits within one
+// deployment's lifetime (this route's near-zero hit rate meant ISR Writes
+// blew past the Hobby cap). One week is effectively "until the next deploy."
+export const revalidate = 604800;
 
 // Every prerendered path adds to deployment size and counts as an ISR write,
 // so only the companies with the most open roles are prebuilt (this route

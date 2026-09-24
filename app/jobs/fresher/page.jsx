@@ -14,21 +14,30 @@ import {
   thinListingRobots,
 } from "../../../lib/jobs-seo.js";
 
-// Job data only refreshes via the twice-daily sync crons (2:30am, 3:00am IST).
-export const revalidate = 21600;
+// This app redeploys multiple times a day, which already resets the ISR
+// cache — see app/jobs/company/[slug]/page.jsx.
+export const revalidate = 604800;
 
 export async function generateMetadata() {
   const landing = FRESHER_JOBS_LANDING;
   const jobs = await getFresherJobs(landing.experienceLevels);
-  const title = `${landing.title} – ${jobs.length} Entry-Level Openings`;
+  const title = `Startup Companies in Hyderabad for Freshers (${jobs.length} Openings)`;
+  const description =
+    "Looking for startup companies in Hyderabad for freshers? Explore verified entry-level, junior software engineer, and intern openings at Hyderabad startups.";
   const url = `${getSiteUrl()}/jobs/fresher`;
   return {
     title,
-    description: landing.description,
+    description,
     alternates: { canonical: url },
     robots: thinListingRobots(jobs.length, { min: 1 }),
-    openGraph: { title, description: landing.description, url, type: "website" },
+    openGraph: { title, description, url, type: "website" },
     keywords: [
+      "startup companies in hyderabad for freshers",
+      "startups in hyderabad hiring freshers",
+      "startup companies in hyderabad for freshers hiring",
+      "startups in hyderabad for freshers",
+      "startup jobs in hyderabad",
+      "startup jobs for freshers",
       "fresher jobs in Hyderabad",
       "fresher jobs hyderabad",
       "entry level jobs hyderabad",
@@ -51,10 +60,26 @@ export default async function FresherJobsPage() {
     mainEntity: [
       {
         "@type": "Question",
+        name: "Which startup companies in Hyderabad are hiring freshers?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Startups across SaaS, AI, and fintech in HITEC City, Madhapur, and Gachibowli regularly recruit fresh graduates for software engineering, QA, data analytics, and product operations.",
+        },
+      },
+      {
+        "@type": "Question",
         name: "Where can I find fresher jobs in Hyderabad?",
         acceptedAnswer: {
           "@type": "Answer",
           text: "Mapping HYD lists fresher jobs in Hyderabad from mapped startups — entry-level, intern, and early-career openings. Browse this page or open the full jobs board.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How can freshers apply to Hyderabad startups?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Use Mapping HYD to filter startups by live hiring status and click directly into verified ATS career portals (Workday, Greenhouse, Lever, Keka) without third-party recruitment middlemen.",
         },
       },
       {
