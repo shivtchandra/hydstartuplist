@@ -17,6 +17,12 @@ export const metadata = {
 
 const STORIES = [
   {
+    href: "/stories/hyderabad-job-market-pulse-2026",
+    title: "Hyderabad job market pulse — who's hiring, what roles, and how Hyd compares",
+    blurb:
+      "Live board analysis: role demand, experience bands, fresher scarcity, employer concentration, and how Hyderabad stacks up against Bengaluru and Pune.",
+  },
+  {
     href: "/stories/hyderabad-fresher-tech-hiring-guide-2026",
     title: "Hyderabad Fresher Tech Hiring & Salary Guide (2026 Edition)",
     blurb:

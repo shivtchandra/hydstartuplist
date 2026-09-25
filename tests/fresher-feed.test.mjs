@@ -50,6 +50,43 @@ test("an explicit years-of-experience requirement still demotes a generic title"
   assert.equal(inferExperienceLevel("Software Engineer", "Minimum 3-5 years of relevant experience required."), "mid");
 });
 
+test("3+ year JDs never land in the early-career band even with associate titles", () => {
+  const cases = [
+    ["Frontend Engineer, Chanakya", "What We're Looking For\n• 3–6 years in frontend engineering with shipped products"],
+    ["Frontend Engineer, Vision", "4–5 years building production frontend applications"],
+    ["AI/ML Engineer (Python + LLM)", "Key Responsibilities:\nExperience - 4-8 years.\nLocation - Hyderabad"],
+    ["Full Stack Developer - 2", "3–5 years building production Full stack applications"],
+    ["Associate Software Engineer", "Looking for candidates with 3-5 years of relevant experience."],
+    ["Software Engineer", { experience: "3-6 years" }],
+  ];
+  for (const [title, descOrJob] of cases) {
+    const level =
+      typeof descOrJob === "object"
+        ? inferExperienceLevel(title, "", descOrJob)
+        : inferExperienceLevel(title, descOrJob);
+    assert.ok(!["intern", "junior"].includes(level), `${title} → ${level}`);
+    assert.ok(["mid", "senior", "lead"].includes(level), `${title} → ${level}`);
+  }
+});
+
+test("experience field and startYear are respected when prepareJobs-style job objects are passed", () => {
+  assert.equal(
+    inferExperienceLevel("Associate Dietitian", "", { experience: "3-5 years" }),
+    "mid"
+  );
+  assert.equal(
+    inferExperienceLevel("Clinical Dietitian", "", { startYear: 0, endYear: 1 }),
+    "intern"
+  );
+  // Frozen wrong experienceLevel must not beat an explicit years requirement.
+  assert.equal(
+    inferExperienceLevel("Backend Engineer", "Requires 5+ years of experience.", {
+      experienceLevel: "junior",
+    }),
+    "senior"
+  );
+});
+
 test("genuine entry-level postings still resolve to the fresher bands", () => {
   const intern = [
     "React Native Intern",

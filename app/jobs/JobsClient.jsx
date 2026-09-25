@@ -178,7 +178,7 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
     return dedupedJobs.map((j) => ({
       ...j,
       _role: roleFacetKey(j.title),
-      _level: inferExperienceLevel(j.title, j.description),
+      _level: inferExperienceLevel(j.title, j.description, j),
       _area: inferArea(j.area || j.location),
       _sector: sectorFacetKey(j.sector),
     }));
@@ -217,7 +217,8 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
     let list = facetPool;
 
     if (roleType) list = list.filter((j) => j._role === roleType);
-    if (level) list = list.filter((j) => j._level === level);
+    if (level === "early") list = list.filter((j) => j._level === "intern" || j._level === "junior");
+    else if (level) list = list.filter((j) => j._level === level);
     if (area) list = list.filter((j) => j._area === area);
     if (sector) list = list.filter((j) => j._sector === sector);
 
