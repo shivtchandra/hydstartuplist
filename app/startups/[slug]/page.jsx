@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
 import StartupLogo from "../../components/StartupLogo.jsx";
 import { getStartupBySlug, getApproved, visibleHiring } from "../../../lib/store.js";
-import { getJobsForStartupSlug } from "../../../lib/jobs.js";
+import { getJobsForStartupSlug, getCompaniesWithJobs } from "../../../lib/jobs.js";
 import { startupSlug } from "../../../lib/slug.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import {
@@ -24,10 +24,23 @@ import {
 } from "../../../lib/jobs-seo.js";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 
-export const revalidate = 86400;
+// This app redeploys multiple times a day, which already resets the ISR
+// cache — see app/jobs/company/[slug]/page.jsx for the full reasoning.
+export const revalidate = 604800;
 
-// Generate on the first visit, then reuse HTML through ISR for new and existing URLs.
-export function generateStaticParams() { return []; }
+// Every prerendered path adds to deployment size and counts as an ISR
+// write, so only the companies with the most open roles are prebuilt (of
+// 1,205 startups, most are long-tail profile pages visited rarely — same
+// crawler-driven near-zero cache hit rate diagnosed on the /jobs/company
+// route). Reuses the jobs-count ranking already computed there. The long
+// tail still works: dynamicParams defaults to true, so an unlisted slug
+// renders on first request and is cached by ISR from then on.
+const PRERENDERED_STARTUP_LIMIT = 50;
+
+export async function generateStaticParams() {
+  const companies = await getCompaniesWithJobs();
+  return companies.slice(0, PRERENDERED_STARTUP_LIMIT).map((c) => ({ slug: c.slug }));
+}
 
 export async function generateMetadata({ params }) {
   const startup = await getStartupBySlug(params.slug);
