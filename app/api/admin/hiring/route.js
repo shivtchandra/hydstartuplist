@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getApproved, isHiringFresh, refreshDynamicOverlayRollup } from "../../../../lib/store.js";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { checkAdminPasscode } from "../../../../lib/admin-auth.js";
@@ -50,5 +51,11 @@ export async function POST(req) {
 
   await db.collection("startups_dynamic").doc(id).set({ hiringHidden: hidden }, { merge: true });
   void refreshDynamicOverlayRollup(db);
+  try {
+    revalidatePath("/");
+    revalidatePath("/api/startups");
+    revalidatePath("/insights");
+    revalidatePath("/product-companies");
+  } catch {}
   return NextResponse.json({ ok: true, id, hidden });
 }

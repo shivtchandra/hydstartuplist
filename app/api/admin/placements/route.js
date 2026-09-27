@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import { getApproved } from "../../../../lib/store.js";
 import { checkAdminPasscode } from "../../../../lib/admin-auth.js";
+import { invalidateGrantedSlotsCache } from "../../../../lib/placements.js";
 
 export const dynamic = "force-dynamic";
 
@@ -44,6 +46,12 @@ export async function POST(req) {
         { merge: true }
       );
     }
+    invalidateGrantedSlotsCache();
+    try {
+      revalidatePath("/");
+      revalidatePath("/api/startups");
+      revalidatePath("/api/placements");
+    } catch {}
     return NextResponse.json({ ok: true, id: body.id, active: false });
   }
   if (action === "show") {
@@ -55,6 +63,12 @@ export async function POST(req) {
         { merge: true }
       );
     }
+    invalidateGrantedSlotsCache();
+    try {
+      revalidatePath("/");
+      revalidatePath("/api/startups");
+      revalidatePath("/api/placements");
+    } catch {}
     return NextResponse.json({ ok: true, id: body.id, active: true });
   }
 
@@ -124,6 +138,13 @@ export async function POST(req) {
       { merge: true }
     );
   }
+
+  invalidateGrantedSlotsCache();
+  try {
+    revalidatePath("/");
+    revalidatePath("/api/startups");
+    revalidatePath("/api/placements");
+  } catch {}
 
   return NextResponse.json({ ok: true, slotId: ref.id, endsAt: doc.endsAt });
 }
