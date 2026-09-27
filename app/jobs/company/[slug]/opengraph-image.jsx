@@ -6,6 +6,11 @@ import { prettyName } from "../../../../lib/startupUi.js";
 export const alt = "Startup jobs in Hyderabad";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+// Uncached by default; image generation (Satori/PNG render) is heavier per
+// hit than HTML, and this gets re-rendered on every social-crawler/link
+// unfurl. Same revalidate reasoning as the rest of the jobs routes — see
+// app/jobs/company/[slug]/page.jsx.
+export const revalidate = 604800;
 
 export default async function CompanyJobsOgImage({ params }) {
   const { startup, jobs } = await getJobsForStartupSlug(params.slug);
