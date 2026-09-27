@@ -8,6 +8,7 @@ import JobsBreadcrumbs from "../components/JobsBreadcrumbs.jsx";
 import JobsClient from "./JobsClient.jsx";
 import { getAllJobs } from "../../lib/jobs.js";
 import { getAdminDb } from "../../lib/firebaseAdmin.js";
+import { isNextProductionBuild } from "../../lib/build-phase.js";
 import { getSiteUrl } from "../../lib/site-url.js";
 import {
   breadcrumbJsonLd,
@@ -86,7 +87,19 @@ const getFetchedAt = unstable_cache(
 // matters for the unfiltered, cacheable case.
 export default async function JobsPage() {
   if (process.env.LANDING_V2 !== "0") {
-    const initial = await searchOpportunities({}).catch(() => ({ jobs: [], total: 0, stale: true }));
+    // Build workers only see the filesystem careers feed (often empty). Give that
+    // prerender a 60s life (unstable_cache revalidate lowers the page's ISR window)
+    // so the first real visit regenerates it from runtime data, and flag it stale so
+    // the client refetches /api/v2/jobs meanwhile. Runtime renders keep the week-long
+    // window; the public-jobs tag lets the sync crons' revalidateTag refresh the page.
+    const buildPhase = isNextProductionBuild();
+    const getInitial = unstable_cache(
+      () => searchOpportunities({}),
+      ["jobs-initial-opportunities", buildPhase ? "build" : "runtime"],
+      { revalidate: buildPhase ? 60 : revalidate, tags: ["public-jobs"] }
+    );
+    const initial = await getInitial().catch(() => ({ jobs: [], total: 0, stale: true }));
+    if (buildPhase) initial.stale = true;
     const roleCount = await distinctRoleCount();
     return (
       <>
