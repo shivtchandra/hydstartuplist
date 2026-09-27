@@ -55,6 +55,12 @@ export async function POST(req) {
   );
   invalidateDynamicOverlay();
   void refreshDynamicOverlayRollup(db);
+  try {
+    revalidatePath("/");
+    revalidatePath("/api/startups");
+    revalidatePath("/insights");
+    revalidatePath("/product-companies");
+  } catch {}
 
   return NextResponse.json({ ok: true, id, active });
 }

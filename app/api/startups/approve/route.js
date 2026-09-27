@@ -76,6 +76,13 @@ export async function POST(req) {
       if (db) {
         await db.collection("startups_dynamic").doc(s.claimFor).set(overrides, { merge: true });
         await refreshDynamicOverlayRollup(db);
+        try {
+          revalidatePath("/");
+          revalidatePath("/api/startups");
+          revalidatePath("/insights");
+          revalidatePath("/product-companies");
+          revalidatePath(`/startups/${startupSlug(existing)}`);
+        } catch {}
       } else {
         const list = JSON.parse(fs.readFileSync(DB, "utf-8"));
         const idx = list.findIndex((x) => x.id === s.claimFor);
@@ -116,7 +123,13 @@ export async function POST(req) {
     if (db) {
       await db.collection("startups_dynamic").doc(id).set({ ...entry, _full: true });
       await refreshDynamicOverlayRollup(db);
-      revalidatePath(`/startups/${startupSlug(entry)}`);
+      try {
+        revalidatePath("/");
+        revalidatePath("/api/startups");
+        revalidatePath("/insights");
+        revalidatePath("/product-companies");
+        revalidatePath(`/startups/${startupSlug(entry)}`);
+      } catch {}
     } else {
       const list = JSON.parse(fs.readFileSync(DB, "utf-8"));
       list.push(entry);

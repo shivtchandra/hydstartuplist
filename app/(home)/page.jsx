@@ -14,7 +14,7 @@ export const revalidate = 300;
 const getCachedStartups = unstable_cache(
   async () => getPublicStartups(),
   ["home-public-startups"],
-  { revalidate: 300 }
+  { revalidate: 300, tags: ["startups-dynamic"] }
 );
 
 export default async function HomePage({ searchParams = {} }) {

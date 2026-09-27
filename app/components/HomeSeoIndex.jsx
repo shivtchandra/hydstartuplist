@@ -19,7 +19,7 @@ import HomeSeoReveal from "./HomeSeoReveal.jsx";
 const getApprovedCached = unstable_cache(
   async () => getApproved(),
   ["home-seo-approved"],
-  { revalidate: 300 }
+  { revalidate: 300, tags: ["startups-dynamic"] }
 );
 
 const PER_SECTOR = 3;
