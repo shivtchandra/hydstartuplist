@@ -366,13 +366,6 @@
     "employerType": "startup"
   },
   {
-    "id": "amazon",
-    "name": "Amazon",
-    "url": "https://www.amazon.jobs/en/locations/hyderabad-india",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
     "id": "microsoft",
     "name": "Microsoft",
     "url": "https://careers.microsoft.com",
@@ -397,13 +390,6 @@
     "id": "deloitte-usi",
     "name": "Deloitte USI",
     "url": "https://www.deloitte.com/us/en/careers.html",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "jpmorgan",
-    "name": "JPMorgan Chase",
-    "url": "https://careers.jpmorgan.com",
     "startupId": null,
     "employerType": "enterprise"
   },
