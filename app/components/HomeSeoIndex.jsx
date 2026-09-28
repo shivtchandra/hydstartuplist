@@ -19,7 +19,9 @@ import HomeSeoReveal from "./HomeSeoReveal.jsx";
 const getApprovedCached = unstable_cache(
   async () => getApproved(),
   ["home-seo-approved"],
-  { revalidate: 300, tags: ["startups-dynamic"] }
+  // 300 here capped the whole homepage's ISR window at 5 minutes (Next uses the
+  // lowest revalidate in the render). Approvals bust "startups-dynamic" by tag.
+  { revalidate: 86400, tags: ["startups-dynamic"] }
 );
 
 const PER_SECTOR = 3;

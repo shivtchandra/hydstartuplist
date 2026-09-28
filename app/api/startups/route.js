@@ -14,7 +14,9 @@ export async function GET(req) {
 
   return NextResponse.json(slim, {
     headers: {
-      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+      // ~680KB per response; at s-maxage=300 each query variant was regenerated
+      // up to 288x/day. Admin edits call revalidatePath("/api/startups").
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
     },
   });
 }

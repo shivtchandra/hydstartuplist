@@ -1,40 +1,21 @@
 import { unstable_cache } from "next/cache";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import OpportunityExplorer from "../components/OpportunityExplorer.jsx";
 import LandingExposure from "../components/LandingExposure.jsx";
-import { searchOpportunities } from "../../lib/opportunity-store.js";
 import HomeClient from "./HomeClient.jsx";
 import { getPublicStartups } from "../../lib/startups-public.js";
-import { jobUrlId } from "../../lib/jobs-seo.js";
 
-export const revalidate = 300;
+// No searchParams/headers() here on purpose: reading them made this ~920KB
+// page render dynamically on every visit. `?job=` and `?view=jobs` are handled
+// in middleware.js; `?startup=` selection is read client-side by HomeClient.
+// Freshness comes from tag busts (twice-daily bump-cache, admin revalidatePath).
+export const revalidate = 86400;
 
 const getCachedStartups = unstable_cache(
   async () => getPublicStartups(),
   ["home-public-startups"],
-  { revalidate: 300, tags: ["startups-dynamic"] }
+  { revalidate: 86400, tags: ["startups-dynamic"] }
 );
 
-export default async function HomePage({ searchParams = {} }) {
-  // Crawlable job URLs are /jobs/[id] — never serve unique ?job= shells on the homepage.
-  if (searchParams.job) {
-    redirect(`/jobs/${jobUrlId(String(searchParams.job))}`);
-  }
-  let control = false;
-  if (process.env.LANDING_EXPERIMENT === "1") {
-    control = (await headers()).get("x-hyd-landing") === "control";
-  }
-  if (
-    searchParams.startup ||
-    searchParams.view !== "jobs" ||
-    process.env.LANDING_V2 === "0" ||
-    (control && !searchParams.view)
-  ) {
-    const startups = await getCachedStartups();
-    return <><LandingExposure variant="control" /><HomeClient initialStartups={startups} /></>;
-  }
-  const initial = await searchOpportunities(searchParams).catch(() => ({ jobs: [], total: 0, stale: true }));
-  return <Suspense fallback={<p>Loading opportunities…</p>}><OpportunityExplorer initial={initial} /></Suspense>;
+export default async function HomePage() {
+  const startups = await getCachedStartups();
+  return <><LandingExposure variant="control" /><HomeClient initialStartups={startups} /></>;
 }
