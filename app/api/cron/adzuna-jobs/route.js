@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { revalidateTag } from "next/cache";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import {
   normalizeSalary,
@@ -199,7 +198,8 @@ export async function GET(req) {
         lastPollNew: newCount,
         lastPollIncoming: incoming.size,
       });
-      revalidateTag("public-jobs");
+      // No tag bust here: busting "public-jobs" invalidates every ISR page built
+      // from it. The workflow busts once per scrape batch via /api/cron/bump-cache.
 
       const site = getSiteUrl();
       const updated = [...nextIds]

@@ -13,7 +13,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
-import { bumpVercelCache } from "../lib/cron/soft-revalidate.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, "..", ".env.local") });
@@ -53,10 +52,8 @@ try {
   const result = await runners[job]();
   console.log(JSON.stringify({ job, ms: Date.now() - started, result }, null, 2));
   if (result?.ok === false) process.exit(1);
-  if (job !== "rebuild-overlay") {
-    const bump = await bumpVercelCache();
-    console.log("[gh-cron] bump-cache", bump);
-  }
+  // No per-job cache bust: each bust invalidates every ISR page built from the
+  // tagged data. The workflow's bump-cache job busts once per scrape batch.
 } catch (err) {
   console.error(`[gh-cron] ${job} failed:`, err);
   process.exit(1);
