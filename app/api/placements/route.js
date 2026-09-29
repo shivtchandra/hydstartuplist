@@ -57,7 +57,9 @@ export async function GET() {
     },
     {
       headers: {
-        "Cache-Control": "no-store, max-age=0",
+        // Fetched on every homepage visit; no-store meant a function run + Firestore
+        // read each time. Sponsor inventory tolerates 5 minutes of staleness.
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600",
       },
     }
   );

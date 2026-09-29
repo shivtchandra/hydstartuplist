@@ -15,7 +15,6 @@ on:
     - cron: "45 5 * * *"
     - cron: "30 6 * * *"
     - cron: "45 6 * * *"
-    - cron: "15 18 * * *"
   workflow_dispatch: {}
 
 jobs:
@@ -134,15 +133,16 @@ jobs:
           curl -s --max-time 25 -X GET "$SITE_URL/api/cron/adzuna-jobs" \
             -H "Authorization: Bearer $CRON_SECRET" || true
 
-  # Single cache bust per scrape batch. Busting a tag invalidates every ISR page
-  # built from that data, so per-job busts (~9/day) forced full-site re-renders
-  # and ISR writes. 06:45 runs after the morning batch (incl. rebuild-overlay
-  # at 05:45); 18:15 runs after the evening adzuna pull.
+  # One cache bust per day. Busting a tag invalidates every ISR page built from
+  # that data, and each crawled long-tail page then re-renders on its next visit,
+  # so every extra bust costs a near full-site re-render (CPU + ISR writes).
+  # 06:45 runs after the morning batch (incl. rebuild-overlay at 05:45); the
+  # evening adzuna pull is published by the next morning's bust.
   bump-cache:
     # needs + always(): on a manual dispatch every job runs, so wait for the
     # scrapes to finish before busting; on schedules they're skipped and this runs alone.
     needs: [sync-ats-jobs, check-hiring, sync-priority-careers, rebuild-overlay, adzuna-jobs, sync-empleos-jobs, sync-direct-jobs, sync-healthcare-jobs]
-    if: always() && (github.event.schedule == '45 6 * * *' || github.event.schedule == '15 18 * * *' || github.event_name == 'workflow_dispatch')
+    if: always() && (github.event.schedule == '45 6 * * *' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     steps:
       - name: Bust public-jobs and startups-dynamic once
