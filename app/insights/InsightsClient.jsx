@@ -247,6 +247,8 @@ export default function InsightsClient({ initialStartups = [] }) {
 
             <p className="ins-footer">
               <Link href="/jobs">Browse open startup jobs →</Link>
+              {" · "}
+              <Link href="/hyderabad-tech-statistics">Citable Hyderabad tech statistics &amp; methodology →</Link>
             </p>
           </>
         )}

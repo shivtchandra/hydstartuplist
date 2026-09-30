@@ -346,6 +346,11 @@ export default async function HyderabadJobMarketPulseStory() {
             </li>
           </ul>
 
+          <p>
+            For the city-wide headline numbers in one citable place (startups by sector and area, GCC count,
+            hiring share), see <Link href="/hyderabad-tech-statistics">Hyderabad tech statistics</Link>.
+          </p>
+
           <div className="story-callout">
             Numbers refresh as career pages sync. Duplicate same-title requisitions are collapsed
             into one role with an openings count, so this pulse measures distinct jobs — not raw

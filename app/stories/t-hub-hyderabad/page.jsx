@@ -4,9 +4,9 @@ import { articleJsonLd } from "../../../lib/jobs-seo.js";
 import SiteNav from "../../components/SiteNav.jsx";
 
 const SLUG = "t-hub-hyderabad";
-const TITLE = "T-Hub Hyderabad — what it is and how startups use it";
+const TITLE = "T-Hub Hyderabad (2026 Guide) — Startups List, Location, Jobs & Incubation";
 const DESCRIPTION =
-  "T-Hub Hyderabad is Telangana’s flagship innovation hub in Madhapur. Here’s what T-Hub Hyderabad is for, who it serves, and how it connects to the Mapping HYD startup map and jobs board.";
+  "Everything you need to know about T-Hub Hyderabad: location in Raidurgam & Knowledge City, incubation programmes, startups list, internships, and hiring opportunities on Mapping HYD.";
 
 export const metadata = {
   alternates: { canonical: `${getSiteUrl()}/stories/${SLUG}` },
@@ -16,12 +16,16 @@ export const metadata = {
     "t hub hyderabad",
     "what is t hub in hyderabad",
     "what is t hub",
+    "what is t-hub hyderabad",
     "t hub full form",
+    "t-hub hyderabad location",
     "t hub hitech city",
     "t hub madhapur",
     "t hub internships",
     "thub startups",
+    "thub companies",
     "thub hyderabad",
+    "thub gachibowli",
   ],
   openGraph: {
     title: TITLE,
@@ -117,7 +121,11 @@ export default function THubHyderabadStory() {
           T-Hub Hyderabad runs programmes, coworking-style space, and corporate innovation
           partnerships aimed at early and growth-stage startups. It is not a full list of every
           Hyderabad company — it is a hub inside a much larger tech corridor that also includes
-          HITEC City, Gachibowli, and the Financial District.
+          campuses like <Link href="/parks/sattva-knowledge-city">Sattva Knowledge City</Link> and{" "}
+          <Link href="/parks/mindspace-madhapur">Mindspace Madhapur</Link>, plus{" "}
+          <Link href="/areas/gachibowli">Gachibowli</Link> and the{" "}
+          <Link href="/areas/financial-district">Financial District</Link>. See the{" "}
+          <Link href="/parks/t-hub-ecosystem">T-Hub ecosystem park page</Link> for mapped companies around the campus.
         </p>
 
         <h2>How to explore startups near T-Hub</h2>
@@ -138,7 +146,8 @@ export default function THubHyderabadStory() {
           </p>
           <p>
             <strong>Is every Hyderabad startup at T-Hub?</strong> No. T-Hub Hyderabad is one node;
-            thousands of companies sit across the city map.
+            the <Link href="/hyderabad-tech-statistics">live Hyderabad tech statistics</Link> show how many
+            companies sit across the rest of the city map.
           </p>
           <p>
             <strong>Where next?</strong>{" "}

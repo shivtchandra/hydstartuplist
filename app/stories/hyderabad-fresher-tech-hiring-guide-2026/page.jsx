@@ -231,7 +231,10 @@ export default function FresherHiringGuidePage() {
           <h2>2. College-by-College Placement Reality in Hyderabad (2024–2026 Data)</h2>
           <p>
             Examining official NIRF submissions and Training &amp; Placement (T&amp;P) disclosures for top Hyderabad institutions reveals
-            the true picture of on-campus placement rates, median packages, and top recruiter types:
+            the true picture of on-campus placement rates, median packages, and top recruiter types. Each college also has a
+            live page of employers hiring from it: <Link href="/colleges/iiit-hyderabad">IIIT Hyderabad</Link>,{" "}
+            <Link href="/colleges/cbit-hyderabad">CBIT</Link>, <Link href="/colleges/vnr-vjiet-hyderabad">VNR VJIET</Link>,{" "}
+            <Link href="/colleges/jntuh-hyderabad">JNTUH</Link> and <Link href="/colleges">more colleges</Link>.
           </p>
 
           <div style={{ overflowX: "auto", margin: "20px 0" }}>
@@ -264,7 +267,9 @@ export default function FresherHiringGuidePage() {
           <h2>3. What Kinds of Roles Are Freshers Actually Getting?</h2>
           <p>
             Discussions across tech communities frequently ask: <em>&quot;What jobs are actually available for entry-level candidates in Hyderabad right now?&quot;</em>
-            Based on direct crawler data across mapped employers, roles fall into five key segments:
+            Based on direct crawler data across mapped employers (the{" "}
+            <Link href="/hyderabad-tech-statistics">Hyderabad tech statistics</Link> page tracks the intern and junior share of
+            all open roles), they fall into five key segments:
           </p>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "16px", margin: "20px 0" }}>

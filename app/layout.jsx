@@ -56,6 +56,7 @@ const JSONLD = {
       name: "Mapping HYD",
       url: SITE_URL,
       logo: { "@type": "ImageObject", url: `${SITE_URL}/icon.svg` },
+      founder: [{ "@id": `${SITE_URL}/#founder` }, { "@id": `${SITE_URL}/#cofounder` }],
       sameAs: [
         "https://mapmyhyd.com/",
         "https://eats.mapmyhyd.com/",

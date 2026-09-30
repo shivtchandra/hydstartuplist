@@ -21,9 +21,9 @@ export const revalidate = 604800;
 export async function generateMetadata() {
   const landing = FRESHER_JOBS_LANDING;
   const jobs = await getFresherJobs(landing.experienceLevels);
-  const title = `Startup Companies in Hyderabad for Freshers (${jobs.length} Openings)`;
+  const title = `Startup Companies in Hyderabad for Freshers (${jobs.length} Live Openings 2026)`;
   const description =
-    "Looking for startup companies in Hyderabad for freshers? Explore verified entry-level, junior software engineer, and intern openings at Hyderabad startups.";
+    "Looking for startup companies in Hyderabad for freshers? Explore 100+ verified entry-level, junior software engineer, and intern openings at Hyderabad product startups.";
   const url = `${getSiteUrl()}/jobs/fresher`;
   return {
     title,
@@ -36,9 +36,13 @@ export async function generateMetadata() {
       "startups in hyderabad hiring freshers",
       "startup companies in hyderabad for freshers hiring",
       "startups in hyderabad for freshers",
+      "startup companies in hyderabad recruitment",
+      "hyderabad startup companies for freshers",
       "startup jobs in hyderabad",
       "startup jobs for freshers",
-      "fresher jobs in Hyderabad",
+      "startup company jobs for freshers",
+      "t hub internships",
+      "fresher jobs in hyderabad",
       "fresher jobs hyderabad",
       "entry level jobs hyderabad",
       "internship jobs hyderabad startups",

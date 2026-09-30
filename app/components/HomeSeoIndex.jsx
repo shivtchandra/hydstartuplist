@@ -13,7 +13,6 @@ import { getApproved, visibleHiring } from "../../lib/store.js";
 import { startupSlug } from "../../lib/slug.js";
 import { prettyName, colorFor } from "../../lib/startupUi.js";
 import { industrySlugForSector } from "../../lib/industries.js";
-import { areaSlugForName } from "../../lib/areas.js";
 import HomeSeoReveal from "./HomeSeoReveal.jsx";
 
 const getApprovedCached = unstable_cache(
@@ -24,9 +23,8 @@ const getApprovedCached = unstable_cache(
   { revalidate: 86400, tags: ["startups-dynamic"] }
 );
 
-const PER_SECTOR = 3;
+const PER_SECTOR = 5;
 const MAX_SECTORS = 10;
-const MAX_AREAS = 8;
 
 function normalizeSector(sec) {
   if (!sec) return "Other";
@@ -46,14 +44,6 @@ function normalizeSector(sec) {
   if (lower === "legaltech") return "Legaltech";
   if (lower === "insurtech") return "Insurtech";
   return s;
-}
-
-function cleanAreaName(area) {
-  if (!area) return "";
-  let a = String(area).trim();
-  a = a.replace(/,\s*(Hyderabad|Telangana|India|Andhra Pradesh)\b.*$/gi, "").trim();
-  if (a.toLowerCase() === "hyderabad" || a.toLowerCase() === "telangana") return "";
-  return a;
 }
 
 export default async function HomeSeoIndex() {
@@ -81,23 +71,11 @@ export default async function HomeSeoIndex() {
       sector,
       color: colorFor(sector),
       count: list.length,
+      hiring: list.filter((s) => visibleHiring(s)).length,
       picks: [...list]
         .sort((a, b) => Number(!!visibleHiring(b)) - Number(!!visibleHiring(a)))
         .slice(0, PER_SECTOR),
     }));
-
-  const areaMap = new Map();
-  for (const s of all) {
-    const a = cleanAreaName(s.area);
-    if (!a) continue;
-    if (!areaMap.has(a)) areaMap.set(a, []);
-    areaMap.get(a).push(s);
-  }
-
-  const byArea = [...areaMap.entries()]
-    .map(([area, list]) => ({ area, count: list.length }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, MAX_AREAS);
 
   const hiringCount = all.filter((s) => visibleHiring(s)).length;
   const year = new Date().getFullYear();
@@ -144,41 +122,44 @@ export default async function HomeSeoIndex() {
   return (
     <section className="home-seo" aria-label="Hyderabad Startup Directory">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <div className="home-seo-bridge" aria-hidden="true">
-        <span className="home-seo-bridge-label">
-          Browse the directory
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-        </span>
-      </div>
-
       <HomeSeoReveal>
         <div className="home-seo-inner">
           <header className="home-seo-head home-seo-step">
-            <h1>Hyderabad Startup Map — companies, jobs &amp; funding</h1>
-            <p className="home-seo-updated">
-              Updated {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-              {" · "}
-              {total.toLocaleString()}+ startups
-              {" · "}
-              {hiringCount || "60+"} hiring now
-            </p>
+            <h1>
+              Hyderabad Startup Map
+              <span className="home-seo-h1-sub">Companies, jobs &amp; funding</span>
+            </h1>
             <p className="home-seo-sub">
               Interactive map of startups and product companies across HITEC City, Gachibowli, Madhapur, and beyond — plus open jobs and funding, updated for {year}.
             </p>
-            <p className="home-seo-stats-line">
-              <strong>{total.toLocaleString()}+</strong> startups
-              <span aria-hidden="true"> · </span>
-              <strong>{hiringCount || "60+"}</strong> hiring
-              <span aria-hidden="true"> · </span>
-              <strong>{sectorMap.size}</strong> sectors
+            <dl className="home-seo-stats">
+              <div>
+                <dt>Startups</dt>
+                <dd>{total.toLocaleString()}+</dd>
+              </div>
+              <div>
+                <dt>Hiring now</dt>
+                <dd>{hiringCount || "60+"}</dd>
+              </div>
+              <div>
+                <dt>Sectors</dt>
+                <dd>{sectorMap.size}</dd>
+              </div>
+            </dl>
+            <p className="home-seo-updated">
+              Updated {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+              {" · "}
+              <Link href="/hyderabad-tech-statistics">See all statistics</Link>
             </p>
             <nav className="home-seo-actions" aria-label="Explore">
               <Link href="/jobs">Jobs in Hyderabad</Link>
-              <Link href="/jobs/fresher">Fresher jobs in Hyderabad</Link>
-              <Link href="/industries">Industries</Link>
+              <Link href="/jobs/fresher">Fresher jobs</Link>
               <Link href="/product-companies">Product companies</Link>
-              <Link href="/submit">Add your startup</Link>
+              <Link href="/industries">Industries</Link>
             </nav>
+            <Link href="/submit" className="home-seo-add">
+              Add your startup to the map →
+            </Link>
           </header>
 
           <div className="home-seo-sectors-section home-seo-step">
@@ -188,80 +169,56 @@ export default async function HomeSeoIndex() {
             </div>
 
             <div className="home-seo-sectors">
-              {bySector.map(({ sector, color, count, picks }) => (
-                <div
-                  key={sector}
-                  className="home-seo-card"
-                  style={{ "--sector-accent": color }}
-                >
-                  <div className="home-seo-card-head">
+              {bySector.map(({ sector, color, count, hiring, picks }) => (
+                <details key={sector} className="home-seo-sector-row">
+                  <summary>
                     <span className="home-seo-sector-badge" style={{ backgroundColor: color }} />
-                    <Link href={`/industries/${industrySlugForSector(sector)}`} className="home-seo-sector-title">
-                      {sector}
-                    </Link>
+                    <span className="home-seo-sector-name">{sector}</span>
+                    {hiring > 0 && <span className="home-seo-sector-hiring">{hiring} hiring</span>}
                     <span className="home-seo-count">{count}</span>
-                  </div>
-                  <ul className="home-seo-startup-list">
+                    <svg className="home-seo-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                  </summary>
+                  <div className="home-seo-sector-body">
                     {picks.map((s) => (
-                      <li key={s.id} className="home-seo-startup-item">
-                        <Link href={`/startups/${startupSlug(s)}`} className="home-seo-startup-link">
-                          <span className="home-seo-startup-name">{prettyName(s.name)}</span>
-                          {visibleHiring(s) && <span className="home-seo-hiring-badge">Hiring</span>}
-                        </Link>
-                      </li>
+                      <Link key={s.id} href={`/startups/${startupSlug(s)}`} className="home-seo-pick">
+                        {visibleHiring(s) && <span className="home-seo-pick-dot" aria-label="Hiring" />}
+                        {prettyName(s.name)}
+                      </Link>
                     ))}
-                  </ul>
-                </div>
+                    <Link href={`/industries/${industrySlugForSector(sector)}`} className="home-seo-pick-all">
+                      All {count} {sector} companies →
+                    </Link>
+                  </div>
+                </details>
               ))}
             </div>
           </div>
 
-          {byArea.length > 0 && (
-            <div className="home-seo-areas-section home-seo-step">
-              <h3 className="home-seo-section-title">Tech clusters</h3>
-              <div className="home-seo-areas-grid">
-                {byArea.map((a) => {
-                  const hub = areaSlugForName(a.area);
-                  return (
-                  <Link
-                    key={a.area}
-                    href={hub ? `/areas/${hub}` : `/?view=companies&area=${encodeURIComponent(a.area)}`}
-                    className="home-seo-area-chip"
-                  >
-                    <span className="home-seo-area-name">{a.area}</span>
-                    <span className="home-seo-area-count">{a.count}</span>
-                  </Link>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
           <section className="home-seo-faq home-seo-step" aria-label="FAQ">
             <h2 className="home-seo-section-title">FAQ</h2>
-            <p>
-              <strong>How many startups are on Mapping HYD?</strong> This directory lists{" "}
-              <strong>{total.toLocaleString()}+</strong> Hyderabad startups across HITEC City,
-              Gachibowli, Madhapur, and more — updated for {year}.
-            </p>
-            <p>
-              <strong>Where can I find jobs in Hyderabad?</strong>{" "}
-              <Link href="/jobs">Browse live openings</Link> or jump to{" "}
-              <Link href="/jobs/fresher">fresher jobs in Hyderabad</Link> — free, no signup.
-            </p>
-            <p>
-              <strong>Is Mapping HYD Startups free?</strong> Yes. Browse the map, company pages, and
-              jobs without creating an account.{" "}
-              <Link href="/submit">Submit your company</Link> if you are missing.
-            </p>
+            <details>
+              <summary>How many startups are on Mapping HYD?</summary>
+              <p>
+                This directory lists <strong>{total.toLocaleString()}+</strong> Hyderabad startups across HITEC City,
+                Gachibowli, Madhapur, and more — updated for {year}. See the{" "}
+                <Link href="/hyderabad-tech-statistics">full statistics</Link>.
+              </p>
+            </details>
+            <details>
+              <summary>Where can I find jobs in Hyderabad?</summary>
+              <p>
+                <Link href="/jobs">Browse live openings</Link> or jump to{" "}
+                <Link href="/jobs/fresher">fresher jobs in Hyderabad</Link> — free, no signup.
+              </p>
+            </details>
+            <details>
+              <summary>Is Mapping HYD Startups free?</summary>
+              <p>
+                Yes. Browse the map, company pages, and jobs without creating an account.{" "}
+                <Link href="/submit">Submit your company</Link> if you are missing.
+              </p>
+            </details>
           </section>
-
-          <div className="home-seo-cta home-seo-step">
-            <p>
-              Building in Hyderabad?{" "}
-              <Link href="/submit">Add your startup to the map →</Link>
-            </p>
-          </div>
         </div>
       </HomeSeoReveal>
     </section>

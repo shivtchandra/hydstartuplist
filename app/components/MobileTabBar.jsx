@@ -38,6 +38,14 @@ const ICONS = {
       <path d="M7 9h7M7 13h7M7 17h4" />
     </svg>
   ),
+  radar: (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <path d="M12 12 18.5 5.5" />
+      <circle cx="12" cy="12" r="1" fill="currentColor" />
+    </svg>
+  ),
   insights: (
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
@@ -49,6 +57,7 @@ const TABS = [
   { href: "/", label: "Explore", icon: ICONS.map },
   { href: "/jobs", label: "Jobs", icon: ICONS.jobs },
   { href: "/saved", label: "Saved", icon: ICONS.feed },
+  { href: "/radar", label: "Radar", icon: ICONS.radar },
   { href: "/more", label: "More", icon: ICONS.insights },
 ];
 
@@ -56,6 +65,7 @@ function pendingLabel(href) {
   if (href === "/jobs") return "Loading jobs…";
   if (href === "/") return "Loading map…";
   if (href === "/saved") return "Loading saved…";
+  if (href === "/radar") return "Loading radar…";
   return "Loading…";
 }
 

@@ -84,6 +84,8 @@ export default function SiteFooter() {
             <Link href="/stories/hyderabad-tech-parks-guide">Tech Parks Guide</Link>
             <Link href="/stories">All Stories &amp; Reports</Link>
             <Link href="/insights">Ecosystem Data</Link>
+            <Link href="/hyderabad-tech-statistics">Hyderabad Tech Statistics</Link>
+            <Link href="/about">About Mapping HYD</Link>
             <Link href="/news">Startup News</Link>
             <a href="https://mapmyhyd.com/" target="_blank" rel="noopener noreferrer">Mapping HYD ↗</a>
             <a href="https://eats.mapmyhyd.com/" target="_blank" rel="noopener noreferrer">Hyderabad Eats ↗</a>

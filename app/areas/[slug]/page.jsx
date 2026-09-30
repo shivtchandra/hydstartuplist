@@ -18,8 +18,9 @@ export async function generateMetadata({ params }) {
   if (!landing) return { title: "Area not found" };
   const data = await getAreaPage(params.slug);
   const count = data?.count ?? 0;
-  const title = `${landing.title} — ${count} Companies`;
-  const description = `${landing.description} ${count} startups on the Hyderabad map (${data?.sharePct || "0"}% of the ecosystem).`;
+  const areaLower = landing.area.toLowerCase();
+  const title = `Top IT & Software Companies in ${landing.area}, Hyderabad (2026 List & Map) — ${count} Companies`;
+  const description = `${landing.description} Browse ${count} verified tech companies, startups, and open jobs in ${landing.area}, Hyderabad.`;
   const url = `${getSiteUrl()}/areas/${params.slug}`;
   return {
     title,
@@ -27,12 +28,16 @@ export async function generateMetadata({ params }) {
     alternates: { canonical: url },
     openGraph: { title, description, url, type: "website" },
     keywords: [
-      `${landing.area.toLowerCase()} it companies`,
-      `companies in ${landing.area.toLowerCase()} hyderabad`,
-      `${landing.area.toLowerCase()} software companies`,
-      `${landing.area.toLowerCase()} companies list`,
-      `startups in ${landing.area.toLowerCase()}`,
-      `it companies in ${landing.area.toLowerCase()}`,
+      `list of it companies in ${areaLower} hyderabad`,
+      `${areaLower} it companies`,
+      `${areaLower} software companies list`,
+      `companies in ${areaLower} hyderabad`,
+      `${areaLower} companies list`,
+      `${areaLower} software companies`,
+      `it companies in ${areaLower} hyderabad`,
+      `startups in ${areaLower}`,
+      `software companies in ${areaLower}`,
+      `it company in ${areaLower}`,
       "hyderabad startup map",
     ],
   };

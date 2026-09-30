@@ -45,7 +45,7 @@ export default function SoftLoginBanner({ force = false }) {
       setShow(false);
       return;
     }
-    // Always re-offer on member surfaces (saved / radar) even if snoozed.
+    // Always re-offer on member surfaces (saved / radar details) even if snoozed.
     const memberSurface =
       force ||
       pathname.startsWith("/saved") ||

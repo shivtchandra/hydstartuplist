@@ -4,11 +4,16 @@ import SiteNav from "../components/SiteNav.jsx";
 import RadarClient from "./RadarClient.jsx";
 
 export const metadata = {
-  title: "Radar — curated hard-to-find employers | Mapping HYD",
+  title: "Radar: Hard-to-Find Hyderabad Startups & Employers Worth Knowing",
   description:
-    "Login-gated research on hard-to-find Hyderabad employers: founder LinkedIns, why they’re missed, and careers quirks. Map and jobs stay free.",
+    "A hand-picked list of Hyderabad startups and employers that are easy to miss: what they build and where to apply. Sign in free for founder links and full research briefs.",
   alternates: { canonical: `${getSiteUrl()}/radar` },
-  robots: { index: false, follow: true },
+  openGraph: {
+    title: "Radar: Hard-to-Find Hyderabad Startups & Employers",
+    description: "A hand-picked list of Hyderabad employers that are easy to miss, researched by Mapping HYD.",
+    url: `${getSiteUrl()}/radar`,
+    type: "website",
+  },
 };
 
 export default function RadarPage() {

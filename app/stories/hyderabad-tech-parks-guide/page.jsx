@@ -104,8 +104,11 @@ export default function TechParksGuidePage() {
           <p>
             Whether you are relocating to Hyderabad, switching to a new product engineering role, or deciding where to
             rent an apartment, understanding the city&apos;s tech park ecosystem is essential. Hyderabad&apos;s tech landscape
-            is concentrated primarily along the western corridor, but each campus has its own distinctive commute dynamics,
-            employer profile, and work culture.
+            is concentrated primarily along the western corridor, from <Link href="/areas/madhapur">Madhapur</Link> and{" "}
+            <Link href="/areas/hitec-city">HITEC City</Link> down to <Link href="/areas/gachibowli">Gachibowli</Link> and
+            the <Link href="/areas/financial-district">Financial District</Link>, but each campus has its own distinctive
+            commute dynamics, employer profile, and work culture. For how many startups sit in each neighbourhood, see the{" "}
+            <Link href="/hyderabad-tech-statistics">Hyderabad tech statistics</Link>.
           </p>
 
           <h2>The 5 Major Tech Campuses Shaping Hyderabad Tech</h2>
@@ -174,7 +177,7 @@ export default function TechParksGuidePage() {
               <tbody>
                 <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
                   <td style={{ padding: "12px 14px", fontWeight: 600 }}>Sattva Knowledge City &amp; T-Hub</td>
-                  <td style={{ padding: "12px 14px" }}>Madhapur, Durgam Cheruvu, Kondapur, Jubilee Hills</td>
+                  <td style={{ padding: "12px 14px" }}><Link href="/areas/madhapur">Madhapur</Link>, Durgam Cheruvu, <Link href="/areas/kondapur">Kondapur</Link>, <Link href="/areas/jubilee-hills">Jubilee Hills</Link></td>
                   <td style={{ padding: "12px 14px" }}>Hyderabad Metro (Blue Line to Raidurg) or 10-15 min drive</td>
                 </tr>
                 <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
@@ -184,7 +187,7 @@ export default function TechParksGuidePage() {
                 </tr>
                 <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
                   <td style={{ padding: "12px 14px", fontWeight: 600 }}>WaveRock &amp; Financial District</td>
-                  <td style={{ padding: "12px 14px" }}>Nanakramguda, Kokapet, Gachibowli, Tellapur</td>
+                  <td style={{ padding: "12px 14px" }}><Link href="/areas/nanakramguda">Nanakramguda</Link>, Kokapet, Gachibowli, Tellapur</td>
                   <td style={{ padding: "12px 14px" }}>Outer Ring Road (ORR) / Personal Vehicle or Shuttle</td>
                 </tr>
                 <tr style={{ borderBottom: "1px solid #e2e8f0" }}>

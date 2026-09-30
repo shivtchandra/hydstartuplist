@@ -5,7 +5,7 @@ const SITE_URL = getSiteUrl();
 
 export const metadata = {
   alternates: { canonical: `${SITE_URL}/gccs` },
-  title: "GCC Companies in Hyderabad (2026 List) — Global Capability Centers Directory | Mapping HYD",
+  title: "Top 100+ GCC Companies in Hyderabad (2026 List) — Global Capability Centers Directory | Mapping HYD",
   description:
     "Explore 100+ Global Capability Centers (GCCs) in Hyderabad. Browse tech, BFSI, pharma, and product engineering hubs across HITEC City, Knowledge City, and Gachibowli with verified career pages.",
   keywords: [
@@ -16,10 +16,13 @@ export const metadata = {
     "global capability center hyderabad",
     "top 10 gcc companies in hyderabad",
     "new gccs in hyderabad",
+    "global capability centers in hyderabad",
     "global capability centres in hyderabad",
+    "msd gcc hyderabad",
+    "hyderabad startup map",
   ],
   openGraph: {
-    title: "GCC Companies in Hyderabad (2026 List) — Global Capability Centers Directory",
+    title: "Top 100+ GCC Companies in Hyderabad (2026 List) — Global Capability Centers Directory",
     description:
       "Explore 100+ Global Capability Centers (GCCs) in Hyderabad across HITEC City, Knowledge City, and Gachibowli.",
     url: `${SITE_URL}/gccs`,
@@ -46,6 +49,35 @@ const JSONLD = {
         "@type": "Thing",
         name: "Global Capability Centers in Hyderabad",
       },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What are the top GCC companies in Hyderabad?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Prominent Global Capability Centers (GCCs) in Hyderabad include Microsoft IDC, Google, Amazon, Wells Fargo, Goldman Sachs, JPMorgan Chase, Novartis, Sanofi, Providence, Bristol Myers Squibb (BMS), and Micron.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Where are GCCs clustered in Hyderabad?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The vast majority of Hyderabad's GCCs are located in Salarpuria Sattva Knowledge City (Raidurgam), HITEC City (Mindspace), Gachibowli (DLF & Phoenix), and Financial District (WaveRock).",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How many GCCs operate in Hyderabad?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Hyderabad is home to over 250+ active Global Capability Centers employing more than 200,000 technology and business professionals.",
+          },
+        },
+      ],
     },
   ],
 };

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useAuthUser } from "../../lib/auth-client.js";
+import { signInWithGoogle, useAuthUser } from "../../lib/auth-client.js";
 import LoadingScreen from "../components/LoadingScreen.jsx";
 import StartupLogo from "../components/StartupLogo.jsx";
 
@@ -230,7 +230,8 @@ function ShowcaseCard({ row, onOpen }) {
   const founders = row.depth?.founders || row.founders || [];
   const why = whyHardLabels(row).slice(0, 2);
   const jobs = row.liveJobs || 0;
-  const tier = row.exclusiveTier === "core" ? "core" : "watch";
+  const tier = row.exclusiveTier === "core" ? "core" : row.exclusiveTier === "remote" ? "remote" : "watch";
+  const tierLabel = tier === "core" ? "Core" : tier === "remote" ? "Remote" : "Watch";
   const lede = row.why || null;
   const careers = row.careers || null;
 
@@ -248,7 +249,7 @@ function ShowcaseCard({ row, onOpen }) {
           <div className="radar-card-id">
             <div className="radar-card-meta-row">
               <span className={`radar-tier radar-tier--${tier}`}>
-                {tier === "core" ? "Core" : "Watch"}
+                {tierLabel}
               </span>
               {jobs > 0 ? <span className="radar-card-jobs">{jobs} open</span> : null}
             </div>
@@ -293,7 +294,7 @@ function ShowcaseCard({ row, onOpen }) {
   );
 }
 
-function CompanyDetail({ row, onBack, listUpdatedAt }) {
+function CompanyDetail({ row, onBack, listUpdatedAt, detailsLocked }) {
   const founders = row.depth?.founders || row.founders || [];
   const why = whyHardLabels(row);
   const sources = row.depth?.sources || row.sources || [];
@@ -303,7 +304,8 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
   const notes = row.depth?.researchNotes || null;
   const blurbParas = briefParagraphs(notes && notes !== lede ? notes : null);
   const jobs = row.liveJobs || 0;
-  const tier = row.exclusiveTier === "core" ? "core" : row.exclusiveTier === "watch" ? "watch" : null;
+  const tier = row.exclusiveTier === "core" ? "core" : row.exclusiveTier === "remote" ? "remote" : row.exclusiveTier === "watch" ? "watch" : null;
+  const tierLabel = tier === "core" ? "Core" : tier === "remote" ? "Remote" : "Watch";
   const careers = row.careers || null;
   const lastChecked = formatUpdated(row.depth?.lastVerified || listUpdatedAt);
 
@@ -331,7 +333,7 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
                 <div className="radar-brief-chips">
                   {tier ? (
                     <span className={`radar-tier radar-tier--${tier}`}>
-                      {tier === "core" ? "Core" : "Watch"}
+                      {tierLabel}
                     </span>
                   ) : null}
                   {row.sector ? <span className="radar-chip">{row.sector}</span> : null}
@@ -384,6 +386,36 @@ function CompanyDetail({ row, onBack, listUpdatedAt }) {
                   <p key={para.slice(0, 48)}>{para}</p>
                 ))}
               </div>
+            </section>
+          ) : null}
+
+          {detailsLocked ? (
+            <section className="radar-panel radar-lock">
+              <div className="radar-panel-head">
+                <h3>Full research brief</h3>
+                <p className="radar-panel-sub">
+                  Founder LinkedIns, sources, research notes and why this company is hard to find.
+                </p>
+              </div>
+              <button type="button" className="radar-cta radar-cta--primary" onClick={() => signInWithGoogle()}>
+                Sign in free to unlock
+              </button>
+            </section>
+          ) : null}
+
+          {row.sampleRoles && row.sampleRoles.length ? (
+            <section className="radar-panel">
+              <div className="radar-panel-head">
+                <h3>Open Remote Roles</h3>
+                <p className="radar-panel-sub">Verified active engineering openings</p>
+              </div>
+              <ul className="radar-signal-row">
+                {row.sampleRoles.map((role) => (
+                  <li key={role} style={{ fontWeight: 600, color: "var(--accent-primary)", background: "var(--accent-soft)", borderColor: "var(--accent-primary)" }}>
+                    {role}
+                  </li>
+                ))}
+              </ul>
             </section>
           ) : null}
 
@@ -493,6 +525,7 @@ export default function RadarClient({ initialMeta }) {
   const [payload, setPayload] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [q, setQ] = useState("");
+  const [section, setSection] = useState("all");
   const exclusive = initialMeta?.exclusiveList || {};
   const total = exclusive.total || (exclusive.coreCount || 0) + (exclusive.watchCount || 0);
   const updatedLabel = formatUpdated(initialMeta?.updatedAt);
@@ -530,6 +563,10 @@ export default function RadarClient({ initialMeta }) {
     () => (unlocked ? payload.entries.filter((e) => e.exclusiveTier === "watch") : []),
     [unlocked, payload]
   );
+  const remote = useMemo(
+    () => (unlocked ? payload.entries.filter((e) => e.exclusiveTier === "remote") : []),
+    [unlocked, payload]
+  );
 
   const filterRows = (rows) => {
     const needle = q.trim().toLowerCase();
@@ -543,8 +580,9 @@ export default function RadarClient({ initialMeta }) {
     });
   };
 
-  const coreFiltered = filterRows(core);
-  const watchFiltered = filterRows(watch);
+  const coreFiltered   = (section === "all" || section === "core")   ? filterRows(core)   : [];
+  const watchFiltered  = (section === "all" || section === "watch")  ? filterRows(watch)  : [];
+  const remoteFiltered = (section === "all" || section === "remote") ? filterRows(remote) : [];
   const selected =
     unlocked && selectedId
       ? payload.entries.find((e) => e.id === selectedId) || null
@@ -566,10 +604,8 @@ export default function RadarClient({ initialMeta }) {
             <p className="radar-stats">
               {total || "—"} companies · {exclusive.coreCount || 0} core ·{" "}
               {exclusive.watchCount || 0} watch
+              {exclusive.remoteCount ? <> · {exclusive.remoteCount} remote hires</> : null}
               {updatedLabel ? <> · Updated {updatedLabel}</> : null}
-              {payload?.temporaryPublic ? (
-                <span className="radar-unlocked"> · Temporarily open</span>
-              ) : null}
             </p>
           </header>
         ) : null}
@@ -601,19 +637,29 @@ export default function RadarClient({ initialMeta }) {
               row={selected}
               onBack={() => setSelectedId(null)}
               listUpdatedAt={initialMeta?.updatedAt}
+              detailsLocked={!!payload?.detailsLocked}
             />
           ) : (
             <>
-              <label className="radar-feed-search">
-                <span className="visually-hidden">Search companies, sectors, aliases</span>
-                <input
-                  type="search"
-                  value={q}
-                  onChange={(e) => setQ(e.target.value)}
-                  placeholder="Search companies…"
-                  aria-label="Search companies, sectors, aliases"
-                />
-              </label>
+              <div className="jobs-tabs radar-section-tabs" role="tablist" aria-label="Filter by section">
+                {[
+                  { key: "all",    label: "All",          count: core.length + watch.length + remote.length },
+                  { key: "core",   label: "Core",         count: core.length },
+                  { key: "watch",  label: "Watch",        count: watch.length },
+                  { key: "remote", label: "Remote Hires", count: remote.length },
+                ].map(({ key, label, count }) => (
+                  <button
+                    key={key}
+                    role="tab"
+                    aria-selected={section === key}
+                    className={section === key ? "on" : ""}
+                    onClick={() => setSection(key)}
+                  >
+                    {label}
+                    <span className="jobs-tab-count">{count}</span>
+                  </button>
+                ))}
+              </div>
 
               {coreFiltered.length ? (
                 <section className="radar-showcase-section" aria-label="Core">
@@ -647,7 +693,23 @@ export default function RadarClient({ initialMeta }) {
                 </section>
               ) : null}
 
-              {!coreFiltered.length && !watchFiltered.length ? (
+              {remoteFiltered.length ? (
+                <section className="radar-showcase-section" aria-label="Remote Hires">
+                  <header className="radar-dir-head">
+                    <h2>
+                      Remote Hires <span>· {remoteFiltered.length}</span>
+                    </h2>
+                    <p>Curated craft-first startups hiring Worldwide &amp; Remote India.</p>
+                  </header>
+                  <div className="feed-list">
+                    {remoteFiltered.map((row) => (
+                      <ShowcaseCard key={row.id} row={row} onOpen={setSelectedId} />
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+
+              {!coreFiltered.length && !watchFiltered.length && !remoteFiltered.length ? (
                 <p className="radar-dir-empty">No companies match that search.</p>
               ) : null}
             </>

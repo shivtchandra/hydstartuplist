@@ -18,14 +18,24 @@ export async function generateMetadata({ params }) {
   const landing = areaLanding(params.area);
   if (!landing) return { title: "Area jobs not found" };
   const jobs = await getJobsByArea(landing.area);
-  const title = `${landing.title} – ${jobs.length} Open Roles`;
+  const title = `Startup & IT Jobs in ${landing.area}, Hyderabad (${jobs.length} Open Roles) | Mapping HYD`;
+  const description = `${landing.description} Browse ${jobs.length} live startup and IT jobs in ${landing.area}, Hyderabad with verified ATS direct apply links.`;
   const url = `${getSiteUrl()}/jobs/in/${params.area}`;
+  const areaLower = landing.area.toLowerCase();
   return {
     title,
-    description: landing.description,
+    description,
     alternates: { canonical: url },
     robots: thinListingRobots(jobs.length),
-    openGraph: { title, description: landing.description, url, type: "website" },
+    openGraph: { title, description, url, type: "website" },
+    keywords: [
+      `startup jobs in ${areaLower}`,
+      `it jobs in ${areaLower}`,
+      `software jobs in ${areaLower} hyderabad`,
+      `${areaLower} tech jobs`,
+      `jobs in ${areaLower} hyderabad`,
+      "hyderabad startup map",
+    ],
   };
 }
 
