@@ -2,10 +2,26 @@ import { NextResponse } from "next/server";
 import { getRadarEntries, getRadarRemoteHires, radarMeta } from "../../../lib/radar.js";
 import { verifyBearerIdToken } from "../../../lib/firebaseAdmin.js";
 
+// Signed-out visitors get a preview: this many companies per section.
+const PREVIEW_PER_TIER = 3;
+
 // Research fields only signed-in members receive.
 function stripDetails(row) {
   const { depth, missReasons, missReasonLabels, tierNote, ...rest } = row;
-  return { ...rest, missReasons: [], missReasonLabels: [], hasDepth: !!depth || row.hasDepth };
+  const founders = depth?.founders || [];
+  return {
+    ...rest,
+    missReasons: [],
+    missReasonLabels: [],
+    hasDepth: !!depth || row.hasDepth,
+    // Counts only — lets signed-out visitors see what the full brief contains.
+    lockedCounts: {
+      linkedins: founders.filter((f) => f.linkedin).length,
+      sources: (depth?.sources || []).length,
+      whyHard: new Set([...(missReasonLabels || []), ...(depth?.stealthSignals || [])]).size,
+      notes: !!depth?.researchNotes,
+    },
+  };
 }
 
 export const dynamic = "force-dynamic";
@@ -13,8 +29,9 @@ export const dynamic = "force-dynamic";
 /**
  * GET /api/radar?geo=hyd
  *
- * The list is public; research details (founder LinkedIns, sources, notes,
- * why-it's-missed) are sent only with a valid Firebase ID token.
+ * Signed-out: a preview (PREVIEW_PER_TIER companies per section, no research
+ * details) plus hidden counts. With a valid Firebase ID token: every company
+ * and its full brief (founder LinkedIns, sources, notes, why-it's-missed).
  */
 export async function GET(req) {
   try {
@@ -27,7 +44,7 @@ export async function GET(req) {
     const member = await verifyBearerIdToken(req);
     const meta = radarMeta(geo);
     let entries = await getRadarEntries(geo, {
-      includeDepth: !!member,
+      includeDepth: true, // stripped below for signed-out requests
       includeJobs: false,
       exclusiveOnly: geo === "hyd",
     });
@@ -45,12 +62,27 @@ export async function GET(req) {
     });
 
     let allEntries = [...entries, ...remoteHires];
-    if (!member) allEntries = allEntries.map(stripDetails);
+    const hiddenCounts = { core: 0, watch: 0, remote: 0 };
+    if (!member) {
+      const seen = { core: 0, watch: 0, remote: 0 };
+      allEntries = allEntries
+        .filter((e) => {
+          const tier = e.exclusiveTier in seen ? e.exclusiveTier : "watch";
+          seen[tier] += 1;
+          if (seen[tier] > PREVIEW_PER_TIER) {
+            hiddenCounts[tier] += 1;
+            return false;
+          }
+          return true;
+        })
+        .map(stripDetails);
+    }
 
     return NextResponse.json(
       {
         locked: false,
         detailsLocked: !member,
+        hiddenCounts,
         geo,
         meta: {
           updatedAt: meta.updatedAt,

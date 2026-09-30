@@ -155,7 +155,7 @@ function CardFounderChip({ f }) {
   );
 }
 
-function FounderProfile({ f }) {
+function FounderProfile({ f, locked }) {
   const name = f.name || "Leadership";
   const role = f.role || f.title || null;
   const slug = linkedInSlug(f.linkedin);
@@ -190,6 +190,10 @@ function FounderProfile({ f }) {
           <OutLink href={f.linkedin} className="radar-person-link">
             LinkedIn
           </OutLink>
+        ) : locked ? (
+          <span className="radar-person-muted radar-person-locked">
+            <LockIcon /> LinkedIn · sign in to view
+          </span>
         ) : (
           <span className="radar-person-muted">No public LinkedIn on file</span>
         )}
@@ -218,6 +222,46 @@ function briefParagraphs(text) {
   return out;
 }
 
+function lockedSummary(row) {
+  const c = row.lockedCounts;
+  if (!c) return [];
+  const parts = [];
+  if (c.linkedins) parts.push(`${c.linkedins} founder LinkedIn${c.linkedins === 1 ? "" : "s"}`);
+  if (c.sources) parts.push(`${c.sources} source${c.sources === 1 ? "" : "s"}`);
+  if (c.whyHard) parts.push(`${c.whyHard} reason${c.whyHard === 1 ? "" : "s"} it's hard to find`);
+  if (c.notes) parts.push("research notes");
+  return parts;
+}
+
+function LockIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="4" y="11" width="16" height="10" rx="2" />
+      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+    </svg>
+  );
+}
+
+function MoreLockedCard({ count, label }) {
+  if (!count) return null;
+  return (
+    <button type="button" className="radar-more-locked" onClick={() => signInWithGoogle()}>
+      <span className="radar-more-locked-ghosts" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </span>
+      <span className="radar-more-locked-text">
+        <strong>
+          <LockIcon /> +{count} more {label} {count === 1 ? "company" : "companies"}
+        </strong>
+        <span>Sign in free to see the full list and every research brief.</span>
+      </span>
+      <span className="radar-more-locked-cta">Sign in with Google</span>
+    </button>
+  );
+}
+
 function whyHardLabels(row) {
   const missLabels = row.missReasonLabels || [];
   const stealth = row.depth?.stealthSignals || [];
@@ -230,10 +274,9 @@ function ShowcaseCard({ row, onOpen }) {
   const founders = row.depth?.founders || row.founders || [];
   const why = whyHardLabels(row).slice(0, 2);
   const jobs = row.liveJobs || 0;
-  const tier = row.exclusiveTier === "core" ? "core" : row.exclusiveTier === "remote" ? "remote" : "watch";
-  const tierLabel = tier === "core" ? "Core" : tier === "remote" ? "Remote" : "Watch";
   const lede = row.why || null;
   const careers = row.careers || null;
+  const locked = lockedSummary(row);
 
   return (
     <article className="radar-card radar-card--v2">
@@ -247,13 +290,10 @@ function ShowcaseCard({ row, onOpen }) {
             className="radar-card-logo"
           />
           <div className="radar-card-id">
-            <div className="radar-card-meta-row">
-              <span className={`radar-tier radar-tier--${tier}`}>
-                {tierLabel}
-              </span>
+            <h2 className="radar-card-name">
+              {row.name}
               {jobs > 0 ? <span className="radar-card-jobs">{jobs} open</span> : null}
-            </div>
-            <h2 className="radar-card-name">{row.name}</h2>
+            </h2>
             <p className="radar-card-place">{[row.sector, place].filter(Boolean).join(" · ")}</p>
           </div>
         </div>
@@ -274,6 +314,11 @@ function ShowcaseCard({ row, onOpen }) {
               <span className="radar-card-person radar-card-person--more">+{founders.length - 3}</span>
             ) : null}
           </div>
+        ) : null}
+        {locked.length ? (
+          <p className="radar-card-locked">
+            <LockIcon /> Full brief: {locked.slice(0, 2).join(" · ")}
+          </p>
         ) : null}
       </button>
       <div className="radar-card-actions">
@@ -392,12 +437,20 @@ function CompanyDetail({ row, onBack, listUpdatedAt, detailsLocked }) {
           {detailsLocked ? (
             <section className="radar-panel radar-lock">
               <div className="radar-panel-head">
-                <h3>Full research brief</h3>
-                <p className="radar-panel-sub">
-                  Founder LinkedIns, sources, research notes and why this company is hard to find.
-                </p>
+                <h3>
+                  <LockIcon /> Unlock the full research brief
+                </h3>
+                <p className="radar-panel-sub">Free with a Google sign-in. Takes five seconds.</p>
               </div>
-              <button type="button" className="radar-cta radar-cta--primary" onClick={() => signInWithGoogle()}>
+              <ul className="radar-lock-list">
+                {(lockedSummary(row).length
+                  ? lockedSummary(row)
+                  : ["Founder LinkedIns", "Sources", "Why it's hard to find"]
+                ).map((item) => (
+                  <li key={item}>{item.charAt(0).toUpperCase() + item.slice(1)}</li>
+                ))}
+              </ul>
+              <button type="button" className="radar-cta radar-cta--primary radar-cta--block" onClick={() => signInWithGoogle()}>
                 Sign in free to unlock
               </button>
             </section>
@@ -443,7 +496,7 @@ function CompanyDetail({ row, onBack, listUpdatedAt, detailsLocked }) {
               </div>
               <ul className="radar-people-grid">
                 {founders.map((f) => (
-                  <FounderProfile key={`${f.name}-${f.linkedin || ""}`} f={f} />
+                  <FounderProfile key={`${f.name}-${f.linkedin || ""}`} f={f} locked={detailsLocked} />
                 ))}
               </ul>
             </section>
@@ -526,8 +579,7 @@ export default function RadarClient({ initialMeta }) {
   const [selectedId, setSelectedId] = useState(null);
   const [q, setQ] = useState("");
   const [section, setSection] = useState("all");
-  const exclusive = initialMeta?.exclusiveList || {};
-  const total = exclusive.total || (exclusive.coreCount || 0) + (exclusive.watchCount || 0);
+  const exclusive = payload?.meta?.exclusiveList || initialMeta?.exclusiveList || {};
   const updatedLabel = formatUpdated(initialMeta?.updatedAt);
 
   useEffect(() => {
@@ -568,6 +620,9 @@ export default function RadarClient({ initialMeta }) {
     [unlocked, payload]
   );
 
+  const hidden = payload?.hiddenCounts || {};
+  const searching = q.trim().length > 0;
+
   const filterRows = (rows) => {
     const needle = q.trim().toLowerCase();
     if (!needle) return rows;
@@ -602,10 +657,25 @@ export default function RadarClient({ initialMeta }) {
               and edited by Mapping HYD.
             </p>
             <p className="radar-stats">
-              {total || "—"} companies · {exclusive.coreCount || 0} core ·{" "}
-              {exclusive.watchCount || 0} watch
-              {exclusive.remoteCount ? <> · {exclusive.remoteCount} remote hires</> : null}
+              {unlocked ? (
+                <>
+                  <strong>
+                    {core.length + watch.length + remote.length + (hidden.core || 0) + (hidden.watch || 0) + (hidden.remote || 0)}
+                  </strong>{" "}
+                  companies
+                </>
+              ) : (
+                <>{exclusive.total || "—"} companies</>
+              )}
               {updatedLabel ? <> · Updated {updatedLabel}</> : null}
+              {payload?.detailsLocked ? (
+                <>
+                  {" · "}
+                  <button type="button" className="radar-stats-unlock" onClick={() => signInWithGoogle()}>
+                    Sign in for full briefs
+                  </button>
+                </>
+              ) : null}
             </p>
           </header>
         ) : null}
@@ -641,12 +711,20 @@ export default function RadarClient({ initialMeta }) {
             />
           ) : (
             <>
+              <input
+                type="search"
+                className="jobs-search radar-search"
+                placeholder="Search company, sector or area…"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                aria-label="Search Radar"
+              />
               <div className="jobs-tabs radar-section-tabs" role="tablist" aria-label="Filter by section">
                 {[
-                  { key: "all",    label: "All",          count: core.length + watch.length + remote.length },
-                  { key: "core",   label: "Core",         count: core.length },
-                  { key: "watch",  label: "Watch",        count: watch.length },
-                  { key: "remote", label: "Remote Hires", count: remote.length },
+                  { key: "all",    label: "All",          count: core.length + watch.length + remote.length + (hidden.core || 0) + (hidden.watch || 0) + (hidden.remote || 0) },
+                  { key: "core",   label: "Core",         count: core.length + (hidden.core || 0) },
+                  { key: "watch",  label: "Watch",        count: watch.length + (hidden.watch || 0) },
+                  { key: "remote", label: "Remote Hires", count: remote.length + (hidden.remote || 0) },
                 ].map(({ key, label, count }) => (
                   <button
                     key={key}
@@ -665,7 +743,7 @@ export default function RadarClient({ initialMeta }) {
                 <section className="radar-showcase-section" aria-label="Core">
                   <header className="radar-dir-head">
                     <h2>
-                      Core <span>· {coreFiltered.length}</span>
+                      Core <span>· {coreFiltered.length + (searching ? 0 : hidden.core || 0)}</span>
                     </h2>
                     <p>Strong Hyderabad signal.</p>
                   </header>
@@ -673,6 +751,7 @@ export default function RadarClient({ initialMeta }) {
                     {coreFiltered.map((row) => (
                       <ShowcaseCard key={row.id} row={row} onOpen={setSelectedId} />
                     ))}
+                    {!searching ? <MoreLockedCard count={hidden.core} label="Core" /> : null}
                   </div>
                 </section>
               ) : null}
@@ -681,7 +760,7 @@ export default function RadarClient({ initialMeta }) {
                 <section className="radar-showcase-section" aria-label="Watch">
                   <header className="radar-dir-head">
                     <h2>
-                      Watch <span>· {watchFiltered.length}</span>
+                      Watch <span>· {watchFiltered.length + (searching ? 0 : hidden.watch || 0)}</span>
                     </h2>
                     <p>Worth keeping an eye on.</p>
                   </header>
@@ -689,6 +768,7 @@ export default function RadarClient({ initialMeta }) {
                     {watchFiltered.map((row) => (
                       <ShowcaseCard key={row.id} row={row} onOpen={setSelectedId} />
                     ))}
+                    {!searching ? <MoreLockedCard count={hidden.watch} label="Watch" /> : null}
                   </div>
                 </section>
               ) : null}
@@ -697,7 +777,7 @@ export default function RadarClient({ initialMeta }) {
                 <section className="radar-showcase-section" aria-label="Remote Hires">
                   <header className="radar-dir-head">
                     <h2>
-                      Remote Hires <span>· {remoteFiltered.length}</span>
+                      Remote Hires <span>· {remoteFiltered.length + (searching ? 0 : hidden.remote || 0)}</span>
                     </h2>
                     <p>Curated craft-first startups hiring Worldwide &amp; Remote India.</p>
                   </header>
@@ -705,6 +785,7 @@ export default function RadarClient({ initialMeta }) {
                     {remoteFiltered.map((row) => (
                       <ShowcaseCard key={row.id} row={row} onOpen={setSelectedId} />
                     ))}
+                    {!searching ? <MoreLockedCard count={hidden.remote} label="Remote" /> : null}
                   </div>
                 </section>
               ) : null}
