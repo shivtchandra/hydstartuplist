@@ -1,7 +1,6 @@
 import Link from "next/link";
 import SiteNav from "../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../components/JobsBreadcrumbs.jsx";
-import SiteFooter from "../components/SiteFooter.jsx";
 import { getSiteUrl } from "../../lib/site-url.js";
 import { TELANGANA_COLLEGES } from "../../lib/colleges.js";
 import { breadcrumbJsonLd } from "../../lib/jobs-seo.js";
@@ -135,7 +134,6 @@ export default function CollegesIndexPage() {
           </div>
         </section>
       </div>
-      <SiteFooter />
     </div>
   );
 }

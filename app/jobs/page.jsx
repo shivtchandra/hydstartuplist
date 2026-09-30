@@ -39,7 +39,7 @@ async function distinctRoleCount() {
 
 export async function generateMetadata() {
   const count = await distinctRoleCount();
-  const title = `Jobs in Hyderabad – ${count}+ Startup & Tech Openings | Mapping HYD`;
+  const title = `Jobs in Hyderabad – ${count}+ Startup & Tech Openings`;
   const description =
     "Jobs in Hyderabad at 1,000+ mapped startups and tech companies. Browse open roles across Gachibowli, Madhapur, and HITEC City — including fresher jobs in Hyderabad, SaaS, and fintech.";
   return {

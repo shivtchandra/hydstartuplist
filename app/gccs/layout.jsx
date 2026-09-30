@@ -5,7 +5,7 @@ const SITE_URL = getSiteUrl();
 
 export const metadata = {
   alternates: { canonical: `${SITE_URL}/gccs` },
-  title: "Top 100+ GCC Companies in Hyderabad (2026 List) — Global Capability Centers Directory | Mapping HYD",
+  title: "Top 100+ GCC Companies in Hyderabad (2026 List) — Global Capability Centers Directory",
   description:
     "Explore 100+ Global Capability Centers (GCCs) in Hyderabad. Browse tech, BFSI, pharma, and product engineering hubs across HITEC City, Knowledge City, and Gachibowli with verified career pages.",
   keywords: [

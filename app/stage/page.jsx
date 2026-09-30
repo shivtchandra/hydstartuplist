@@ -6,7 +6,7 @@ import { getSiteUrl } from "../../lib/site-url.js";
 export const revalidate = 86400;
 
 export const metadata = {
-  title: "Hyderabad Startups by Funding Stage | Mapping HYD",
+  title: "Hyderabad Startups by Funding Stage",
   description:
     "Browse Hyderabad startups by investment and maturity tier — Unicorns, Series A, Seed, and Bootstrapped companies with verified funding data and open roles.",
   alternates: { canonical: `${getSiteUrl()}/stage` },

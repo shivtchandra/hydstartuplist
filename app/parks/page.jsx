@@ -6,7 +6,7 @@ import { getSiteUrl } from "../../lib/site-url.js";
 export const revalidate = 86400;
 
 export const metadata = {
-  title: "Hyderabad Tech Parks & IT Campuses Directory | Mapping HYD",
+  title: "Hyderabad Tech Parks & IT Campuses Directory",
   description:
     "Explore major IT parks, SEZs, and technology campuses in Hyderabad — Mindspace, Sattva Knowledge City, WaveRock SEZ, DLF Cyber City, and Cyber Towers with tenant directories and live jobs.",
   alternates: { canonical: `${getSiteUrl()}/parks` },

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
-import SiteFooter from "../../components/SiteFooter.jsx";
 import FresherJobsList from "../../components/FresherJobsList.jsx";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import { TELANGANA_COLLEGES, getCollegeBySlug } from "../../../lib/colleges.js";
@@ -271,7 +270,6 @@ export default async function CollegeDetailPage({ params }) {
           </section>
         )}
       </div>
-      <SiteFooter />
     </div>
   );
 }

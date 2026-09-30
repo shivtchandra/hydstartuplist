@@ -1,5 +1,6 @@
 import "./globals.css";
 import "./opportunities.css";
+import "./ui.css";
 import InteractionMetrics from "./components/InteractionMetrics.jsx";
 import GoogleAnalytics from "./components/GoogleAnalytics.jsx";
 import GoogleOneTap from "./components/GoogleOneTap.jsx";

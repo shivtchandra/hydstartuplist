@@ -10,7 +10,7 @@ const DESCRIPTION =
 
 export const metadata = {
   alternates: { canonical: `${getSiteUrl()}/stories/${SLUG}` },
-  title: `${TITLE} | Mapping HYD`,
+  title: `${TITLE}`,
   description: DESCRIPTION,
   keywords: [
     "t hub hyderabad",

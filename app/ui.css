@@ -1,0 +1,336 @@
+/* ─────────────────────────────────────────────────────────────
+   Mapping HYD UI foundation
+   Shared tokens + primitives. Loaded after globals.css and
+   opportunities.css. Page CSS should consume these tokens instead
+   of hardcoding colours, sizes or radii.
+   Breakpoints: 480px (phone), 768px (tablet), 1024px (desktop).
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* Ink */
+  --ink: var(--text-main);
+  --ink-2: var(--text-muted);
+  --ink-3: #94a3b8;
+
+  /* Lines */
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+
+  /* Surfaces (warm, matching the cream page background) */
+  --surface-2: #f7f5f0;
+  --surface-3: #efece5;
+  --warn-bg: #fdf6e3;
+  --warn-ink: #8a5a00;
+  --success-bg: var(--badge-hiring-bg);
+  --success-ink: var(--badge-hiring-text);
+
+  /* Type scale */
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-md: 15px;
+  --fs-base: 16px;
+  --fs-lg: 18px;
+  --fs-xl: 22px;
+  --fs-2xl: 28px;
+  --fs-3xl: clamp(30px, 4vw, 40px);
+  --lh-tight: 1.15;
+  --lh-snug: 1.35;
+  --lh-body: 1.6;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+
+  /* Controls */
+  --control-h: 40px;
+  --control-h-lg: 44px;
+  --radius-control: 10px;
+  --focus-ring: 0 0 0 3px var(--accent-soft), 0 0 0 1px var(--accent-primary);
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--control-h);
+  padding: 0 var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast),
+    color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.ui-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.ui-btn--primary {
+  background: var(--accent-primary);
+  color: #fff;
+}
+.ui-btn--primary:hover {
+  background: var(--accent-hover);
+  color: #fff;
+}
+.ui-btn--secondary {
+  background: var(--surface-card);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+.ui-btn--secondary:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-text);
+}
+.ui-btn--ghost {
+  background: transparent;
+  color: var(--accent-text);
+  padding: 0 var(--space-2);
+}
+.ui-btn--ghost:hover {
+  background: var(--accent-soft);
+}
+.ui-btn--lg {
+  min-height: var(--control-h-lg);
+  padding: 0 var(--space-5);
+  font-size: var(--fs-md);
+}
+.ui-btn--sm {
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  font-size: var(--fs-xs);
+}
+.ui-btn--block {
+  width: 100%;
+}
+
+/* ── Chips (links / filter pills) & badges ───────────────── */
+.ui-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-full);
+  background: var(--surface-card);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+.ui-chip:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-text);
+}
+.ui-chip[aria-pressed="true"],
+.ui-chip.is-on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+.ui-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.ui-badge--hiring {
+  background: var(--success-bg);
+  color: var(--success-ink);
+}
+.ui-badge--new,
+.ui-badge--accent {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+.ui-badge--direct {
+  background: #eef2ff;
+  color: #3730a3;
+}
+.ui-badge--locked {
+  background: var(--surface-3);
+  color: var(--ink-2);
+}
+
+/* ── Cards ───────────────────────────────────────────────── */
+.ui-card {
+  background: var(--surface-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+}
+.ui-card--interactive {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.ui-card--interactive:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--card-hover-shadow);
+  color: inherit;
+}
+
+/* ── Form fields ─────────────────────────────────────────── */
+.ui-input,
+.ui-select {
+  width: 100%;
+  min-height: var(--control-h-lg);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-control);
+  background: var(--surface-card);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: var(--fs-md);
+}
+.ui-input::placeholder {
+  color: var(--ink-3);
+}
+.ui-input:focus,
+.ui-select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: var(--focus-ring);
+}
+
+/* ── Page & section headers ──────────────────────────────── */
+.page-head {
+  margin: 0 0 var(--space-6);
+  max-width: 44rem;
+}
+.page-kicker {
+  margin: 0 0 var(--space-2);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.page-kicker a {
+  color: inherit;
+  text-decoration: none;
+}
+.page-head h1 {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-heading);
+  font-size: var(--fs-3xl);
+  font-weight: 800;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.page-lede {
+  margin: 0;
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: var(--space-7) 0 var(--space-4);
+}
+.section-head h2 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--fs-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.section-head a {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--accent-text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ── Empty / error states ────────────────────────────────── */
+.ui-empty {
+  max-width: 30rem;
+  margin: var(--space-8) auto;
+  padding: var(--space-7) var(--space-5);
+  text-align: center;
+}
+.ui-empty h1,
+.ui-empty h2 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-heading);
+  font-size: var(--fs-xl);
+  font-weight: 800;
+  color: var(--ink);
+}
+.ui-empty p {
+  margin: 0 0 var(--space-5);
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+}
+.ui-empty .ui-chip-row {
+  justify-content: center;
+}
+
+/* ── Existing classes aligned to the primitives ──────────── */
+.btn,
+.btn-ghost,
+.btn-disabled {
+  height: auto;
+  min-height: var(--control-h);
+  border-radius: var(--radius-control);
+  font-size: var(--fs-sm);
+}
+.btn {
+  background: var(--accent-primary);
+}
+.btn:hover {
+  background: var(--accent-hover);
+}
+.op-primary {
+  border-radius: var(--radius-control) !important;
+  font-weight: 700;
+  min-height: var(--control-h-lg);
+}
+.radar-cta {
+  border-radius: var(--radius-control);
+}
+.story-index-tag,
+.home-seo-sector-hiring {
+  font-size: var(--fs-xs);
+}

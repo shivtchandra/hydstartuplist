@@ -4,7 +4,7 @@ import AuthButton from "../components/AuthButton.jsx";
 import { getSiteUrl } from "../../lib/site-url.js";
 
 export const metadata = {
-  title: "Explore more of Hyderabad | Mapping HYD",
+  title: "Explore more of Hyderabad",
   alternates: { canonical: `${getSiteUrl()}/more` },
 };
 
