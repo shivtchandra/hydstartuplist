@@ -14,7 +14,10 @@ async function fetchRadar(user) {
     const token = await user.getIdToken();
     headers.Authorization = `Bearer ${token}`;
   }
-  const res = await fetch("/api/radar?geo=hyd", { headers, cache: "no-store" });
+  // Signed-in requests use their own URL: Vercel's CDN ignores Vary: Authorization
+  // and would otherwise serve the cached signed-out preview.
+  const url = user ? "/api/radar?geo=hyd&member=1" : "/api/radar?geo=hyd";
+  const res = await fetch(url, { headers, cache: "no-store" });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     const err = new Error(data.error || data.message || `Radar ${res.status}`);

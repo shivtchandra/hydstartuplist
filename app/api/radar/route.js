@@ -42,6 +42,7 @@ export async function GET(req) {
     }
 
     const member = await verifyBearerIdToken(req);
+    const personalised = !!req.headers.get("authorization") || searchParams.has("member");
     const meta = radarMeta(geo);
     let entries = await getRadarEntries(geo, {
       includeDepth: true, // stripped below for signed-out requests
@@ -100,7 +101,7 @@ export async function GET(req) {
       {
         headers: {
           // Only the anonymous (detail-free) response may be shared by the CDN.
-          "Cache-Control": member
+          "Cache-Control": personalised
             ? "private, no-store"
             : "public, s-maxage=600, stale-while-revalidate=1200",
           Vary: "Authorization",
