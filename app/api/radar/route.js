@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getRadarEntries, getRadarRemoteHires, radarMeta } from "../../../lib/radar.js";
-import { verifyBearerIdToken } from "../../../lib/firebaseAdmin.js";
+import { verifyBearerIdToken, lastIdTokenError } from "../../../lib/firebaseAdmin.js";
 
 // Signed-out visitors get a preview: this many companies per section.
 const PREVIEW_PER_TIER = 3;
@@ -84,6 +84,8 @@ export async function GET(req) {
         locked: false,
         detailsLocked: !member,
         hiddenCounts,
+        // Why a token that was sent didn't unlock Radar (short code, no secrets).
+        ...(personalised && !member ? { authError: lastIdTokenError() || "no-token" } : {}),
         geo,
         meta: {
           updatedAt: meta.updatedAt,
