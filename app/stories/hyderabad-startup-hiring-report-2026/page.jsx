@@ -7,7 +7,7 @@ import {
   JOB_SECTOR_LANDINGS,
   articleJsonLd,
 } from "../../../lib/jobs-seo.js";
-import SiteNav from "../../components/SiteNav.jsx";
+import ArticleShell from "../../components/ArticleShell.jsx";
 
 export const revalidate = 86400;
 
@@ -47,25 +47,16 @@ export default async function HyderabadHiringReportStory() {
   });
 
   return (
-    <div className="page-with-nav">
+    <ArticleShell
+      kicker={<><Link href="/stories">Stories</Link> · Hiring</>}
+      title={TITLE}
+      lede={<>Hyderabad&apos;s startup job board currently lists{" "}<strong>{stats.totalRoles.toLocaleString()} open roles</strong>, including{" "}<strong>{stats.startupRoles.toLocaleString()} pulled directly from startup career pages</strong>. This report summarizes who is hiring now — and where to browse next.</>}
+      meta={[`Updated ${new Date().toLocaleDateString("en-IN", { month: "long", year: "numeric" })}`, "Live data from Hyderabad Startup Map"]}
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SiteNav active="stories" />
-      <article className="story-page">
-        <p className="story-kicker">
-          <Link href="/stories">Stories</Link> · Hiring
-        </p>
-        <h1>{TITLE}</h1>
-        <p className="story-lede">
-          Hyderabad&apos;s startup job board currently lists{" "}
-          <strong>{stats.totalRoles.toLocaleString()} open roles</strong>, including{" "}
-          <strong>{stats.startupRoles.toLocaleString()} pulled directly from startup career pages</strong>.
-          This report summarizes who is hiring now — and where to browse next.
-        </p>
-        <p className="story-meta">Updated {new Date().toLocaleDateString("en-IN", { month: "long", year: "numeric" })} · Live data from Hyderabad Startup Map</p>
-
         <div className="story-body">
           <h2>Total open roles</h2>
           <p>
@@ -147,7 +138,6 @@ export default async function HyderabadHiringReportStory() {
             of Hyderabad startups, visit the <Link href="/">Hyderabad Startup Map</Link>.
           </div>
         </div>
-      </article>
-    </div>
+      </ArticleShell>
   );
 }

@@ -461,11 +461,10 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     <div className="op-hero">
       <header className="op-heading">
         <div>
-          <p className="op-eyebrow">MAPPING HYD / OPPORTUNITIES</p>
-          <h1>{savedOnly ? 'Your next moves.' : 'Find your next role in Hyderabad.'}</h1>
-          <p>{savedOnly ? 'Your shortlist stays on this device.' : 'Real roles. Local employers. A clearer next move.'}</p>
+          <h1>{savedOnly ? 'Your shortlist' : 'Jobs in Hyderabad'}</h1>
+          <p>{savedOnly ? 'Roles and searches you save stay on this device.' : 'Live roles straight from company career pages, refreshed daily.'}</p>
         </div>
-        <Link className="op-company-link" href="/?view=companies">Explore all companies ↗</Link>
+        {!savedOnly && <Link className="op-company-link" href="/?view=companies">Browse companies →</Link>}
       </header>
       {!savedOnly && <>
         {!mapHome && (

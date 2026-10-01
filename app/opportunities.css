@@ -1918,3 +1918,247 @@ body:has(.op-shell) .home-seo{
 
 
 
+
+/* ==========================================================================
+   UI polish phase 1 — jobs board aligned to shared tokens (app/ui.css)
+   ========================================================================== */
+.op-eyebrow {
+  font-size: var(--fs-xs) !important;
+  letter-spacing: 0.1em;
+  color: var(--accent-text);
+}
+.op-heading h1 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.op-heading p {
+  font-size: var(--fs-md);
+  color: var(--ink-2);
+}
+.op-company-link {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--accent-text);
+  text-decoration: none;
+}
+.op-dd-label {
+  font-size: var(--fs-xs) !important;
+}
+
+/* Search row */
+.op-search input {
+  height: var(--control-h-lg);
+  font-size: var(--fs-md);
+  border-color: var(--line-strong);
+}
+.op-search input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: var(--focus-ring);
+}
+.op-filters-mobile-btn {
+  min-height: var(--control-h-lg) !important;
+  padding: 0 var(--space-4) !important;
+  border: 1px solid var(--line-strong) !important;
+  border-radius: var(--radius-control) !important;
+  background: var(--surface-card) !important;
+  font-size: var(--fs-sm) !important;
+  font-weight: 700 !important;
+  color: var(--ink) !important;
+}
+
+/* Quick chips: same shape as .ui-chip, brand-tinted pressed state */
+.op-shortcuts .op-chip,
+.op-shortcuts button.op-chip {
+  border-color: var(--line) !important;
+  color: var(--ink) !important;
+  font-size: var(--fs-sm) !important;
+  min-height: 36px !important;
+}
+.op-shortcuts .op-chip:hover {
+  border-color: var(--accent-primary) !important;
+  background: var(--surface-card) !important;
+  color: var(--accent-text) !important;
+}
+
+/* Job cards */
+.op-job-card {
+  border-radius: var(--radius-md);
+  box-shadow: none;
+}
+.op-job-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--card-hover-shadow);
+  transform: none;
+}
+.op-job-card.is-selected {
+  background: var(--surface-card);
+  box-shadow: var(--focus-ring);
+}
+.op-card-company-name {
+  color: var(--ink);
+}
+.op-card-dot {
+  color: var(--ink-3);
+}
+.op-card-title-link {
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+  letter-spacing: -0.01em;
+}
+.op-card-title-link:hover {
+  color: var(--accent-text);
+}
+.op-direct-badge {
+  font-size: var(--fs-xs);
+  color: #3730a3;
+  background: #eef2ff;
+  border: 0;
+  border-radius: var(--radius-full);
+  padding: 2px 8px;
+}
+.op-featured-badge {
+  font-size: var(--fs-xs);
+  border-radius: var(--radius-full);
+}
+.op-tag-pill {
+  border-radius: var(--radius-full);
+  padding: 3px 10px;
+  color: var(--ink);
+}
+.op-tag-exp {
+  background: var(--surface-2);
+}
+.op-tag-salary {
+  background: var(--success-bg);
+  color: var(--success-ink);
+  border-color: transparent;
+}
+.op-card-timestamp {
+  font-size: var(--fs-xs);
+}
+.op-more-roles-btn {
+  color: var(--accent-text) !important;
+  font-size: var(--fs-xs) !important;
+}
+.op-save-btn {
+  min-height: 32px !important;
+  padding: 0 12px !important;
+  border-radius: var(--radius-full) !important;
+  color: var(--ink) !important;
+}
+.op-save-btn.is-saved {
+  background: var(--accent-soft) !important;
+  color: var(--accent-text) !important;
+  border-color: var(--accent-primary) !important;
+}
+
+/* Results bar, empty state, load more */
+.op-results-bar {
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+.op-empty {
+  text-align: center;
+  padding: var(--space-8) var(--space-5);
+}
+.op-empty h2 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-xl);
+  color: var(--ink);
+  margin: 0 0 var(--space-2);
+}
+.op-empty p {
+  color: var(--ink-2);
+  margin: 0 0 var(--space-4);
+}
+.op-load {
+  min-height: var(--control-h-lg) !important;
+  border: 1px solid var(--line-strong) !important;
+  border-radius: var(--radius-control) !important;
+  background: var(--surface-card) !important;
+  font-weight: 700;
+  color: var(--ink);
+}
+.op-load:hover {
+  border-color: var(--accent-primary) !important;
+  color: var(--accent-text);
+}
+.op-return,
+.op-warning {
+  border-radius: var(--radius-control);
+}
+
+/* Detail panel */
+.op-detail {
+  border-radius: var(--radius-md);
+  border-color: var(--line);
+}
+.op-detail h2 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.op-detail > p,
+.op-description {
+  font-size: var(--fs-md);
+  line-height: var(--lh-body);
+  color: var(--ink);
+}
+.op-dialog {
+  border-radius: var(--radius-lg);
+}
+
+@media (max-width: 768px) {
+  .op-heading p {
+    font-size: var(--fs-sm);
+  }
+  .op-eyebrow {
+    font-size: var(--fs-xs) !important;
+  }
+  .op-shortcuts .op-chip,
+  .op-shortcuts button.op-chip {
+    font-size: var(--fs-sm) !important;
+    min-height: 36px !important;
+  }
+  .op-card-title-link {
+    font-size: var(--fs-md);
+  }
+  .op-save-btn {
+    min-height: 36px !important;
+  }
+}
+.op-eyebrow {
+  text-transform: uppercase;
+}
+@media (max-width: 768px) {
+  /* Search + Filters on one row */
+  .op-search {
+    flex-wrap: nowrap;
+  }
+  .op-search .op-query {
+    flex: 1 1 auto;
+    flex-basis: auto;
+  }
+  .op-search .op-filters-mobile-btn {
+    flex: 0 0 auto;
+  }
+  /* Quick chips: one swipeable row instead of three wrapped rows */
+  .op-shortcuts {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-right: -16px;
+    padding-right: 16px;
+  }
+  .op-shortcuts::-webkit-scrollbar {
+    display: none;
+  }
+  .op-shortcuts .op-chip,
+  .op-shortcuts button.op-chip {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}

@@ -4,7 +4,7 @@ import { getJobMarketPulse } from "../../lib/jobs.js";
 import { getSiteUrl } from "../../lib/site-url.js";
 import { areaSlugForName } from "../../lib/areas.js";
 import { industrySlugForSector } from "../../lib/industries.js";
-import SiteNav from "../components/SiteNav.jsx";
+import ArticleShell from "../components/ArticleShell.jsx";
 
 export const revalidate = 86400;
 
@@ -170,24 +170,14 @@ export default async function HyderabadTechStatisticsPage() {
   };
 
   return (
-    <div className="page-with-nav">
+    <ArticleShell
+      navActive=""
+      kicker={<><Link href="/insights">Ecosystem data</Link> · Statistics</>}
+      title={TITLE}
+      lede={<>Hyderabad has <strong>{eco.totalStartups.toLocaleString()} mapped startups and software companies</strong>,{" "}<strong>{eco.totalGccs} global capability centres</strong> and{" "}<strong>{pulse.totalRoles.toLocaleString()} open tech roles</strong> on the Mapping HYD board. Every number on this page is computed from live data, not copied from press releases, and refreshes daily.</>}
+      meta={[`As of ${fmtDate(eco.asOf)}`, "Source: Mapping HYD", "Free to cite with attribution"]}
+    >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <SiteNav />
-      <article className="story-page">
-        <p className="story-kicker">
-          <Link href="/insights">Ecosystem data</Link> · Statistics
-        </p>
-        <h1>{TITLE}</h1>
-        <p className="story-lede">
-          Hyderabad has <strong>{eco.totalStartups.toLocaleString()} mapped startups and software companies</strong>,{" "}
-          <strong>{eco.totalGccs} global capability centres</strong> and{" "}
-          <strong>{pulse.totalRoles.toLocaleString()} open tech roles</strong> on the Mapping HYD board. Every
-          number on this page is computed from live data, not copied from press releases, and refreshes daily.
-        </p>
-        <p className="story-meta">
-          As of {fmtDate(eco.asOf)} · Source: Mapping HYD · Free to cite with attribution
-        </p>
-
         <div className="story-body">
           <h2>Key facts</h2>
           <ul>
@@ -315,7 +305,6 @@ export default async function HyderabadTechStatisticsPage() {
             Licensed CC BY 4.0: free to reuse with a link back to this page.
           </div>
         </div>
-      </article>
-    </div>
+      </ArticleShell>
   );
 }

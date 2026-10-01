@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import { articleJsonLd } from "../../../lib/jobs-seo.js";
-import SiteNav from "../../components/SiteNav.jsx";
+import ArticleShell from "../../components/ArticleShell.jsx";
 
 const SLUG = "top-product-companies-hyderabad";
 const TITLE = "Top 50 Product Based Companies in Hyderabad (Tier 1 & High-Growth 2026 Guide)";
@@ -124,29 +124,15 @@ export default function TopProductCompaniesPage() {
   ];
 
   return (
-    <div className="page-with-nav">
+    <ArticleShell
+      kicker={<><Link href="/stories">Stories</Link> · Companies</>}
+      title={TITLE}
+      lede={DESCRIPTION}
+      meta={["By Mapping HYD Research", "Updated September 2026", "8 min read"]}
+    >
       {jsonLd.map((data, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-        />
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
       ))}
-      <SiteNav active="stories" />
-      <article className="story-article">
-        <header className="story-header">
-          <p className="story-kicker">Ecosystem Report · Hyderabad 2026</p>
-          <h1>{TITLE}</h1>
-          <p className="story-dek">{DESCRIPTION}</p>
-          <div className="story-byline">
-            <span>By Mapping HYD Research</span>
-            <span aria-hidden="true">·</span>
-            <span>Updated September 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>8 min read</span>
-          </div>
-        </header>
-
         <section className="story-body">
           <p>
             Over the last five years, Hyderabad has transformed from a primarily services-driven IT hub into
@@ -160,18 +146,12 @@ export default function TopProductCompaniesPage() {
           </p>
 
           <div
-            style={{
-              background: "#f8fafc",
-              border: "1px solid #e2e8f0",
-              borderRadius: "12px",
-              padding: "20px 24px",
-              margin: "24px 0",
-            }}
+            className="story-callout story-callout--quiet"
           >
-            <h3 style={{ margin: "0 0 10px", fontSize: "16px", fontWeight: 700 }}>
+            <h3>
               What Defines a &quot;Product-Based Company&quot; in Hyderabad?
             </h3>
-            <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "#475569" }}>
+            <p>
               Unlike IT services firms where engineers build custom software on client billing hours, product
               companies develop and own their intellectual property (IP). Compensation is significantly higher,
               work focuses on distributed systems scalability, and equity/ESOPs form a substantial portion of the
@@ -186,32 +166,26 @@ export default function TopProductCompaniesPage() {
           </p>
 
           {CATEGORIES.map((cat) => (
-            <div key={cat.category} style={{ margin: "32px 0" }}>
-              <h3 style={{ fontSize: "18px", fontWeight: 750, color: "var(--fg)", marginBottom: "6px" }}>
+            <div key={cat.category} className="story-group">
+              <h3>
                 {cat.category}
               </h3>
-              <p style={{ fontSize: "14px", color: "#64748b", margin: "0 0 16px" }}>{cat.summary}</p>
+              <p className="story-group-sub">{cat.summary}</p>
 
-              <div style={{ display: "grid", gap: "12px" }}>
+              <div className="story-cards">
                 {cat.companies.map((c) => (
                   <div
                     key={c.name}
-                    style={{
-                      background: "#fff",
-                      border: "1px solid #e2e8f0",
-                      borderRadius: "10px",
-                      padding: "16px 20px",
-                      boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-                    }}
+                    className="story-card"
                   >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "6px" }}>
-                      <h4 style={{ margin: 0, fontSize: "16px", fontWeight: 700, color: "#0f172a" }}>{c.name}</h4>
-                      <span style={{ fontSize: "12px", fontWeight: 600, color: "#c2410c", background: "#ffedd5", padding: "2px 8px", borderRadius: "12px" }}>
+                    <div className="story-card-head">
+                      <h4 className="story-card-title">{c.name}</h4>
+                      <span className="ui-badge ui-badge--accent">
                         {c.area}
                       </span>
                     </div>
-                    <p style={{ margin: "0 0 8px", fontSize: "13.5px", color: "#334155" }}>{c.role}</p>
-                    <div style={{ fontSize: "12.5px", color: "#64748b" }}>
+                    <p className="story-card-text">{c.role}</p>
+                    <div className="story-card-meta">
                       <strong>Tech Stack / Focus:</strong> {c.stack}
                     </div>
                   </div>
@@ -221,47 +195,47 @@ export default function TopProductCompaniesPage() {
           ))}
 
           <h2>2. Salary Benchmarks in Hyderabad Product Companies (2026)</h2>
-          <div style={{ overflowX: "auto", margin: "20px 0" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "14px", textAlign: "left" }}>
+          <div className="story-table-wrap">
+            <table>
               <thead>
-                <tr style={{ background: "#f1f5f9", borderBottom: "2px solid #cbd5e1" }}>
-                  <th style={{ padding: "12px 14px", fontWeight: 700 }}>Experience Level</th>
-                  <th style={{ padding: "12px 14px", fontWeight: 700 }}>Typical Role</th>
-                  <th style={{ padding: "12px 14px", fontWeight: 700 }}>Tier-1 Giants (Fixed + Stocks)</th>
-                  <th style={{ padding: "12px 14px", fontWeight: 700 }}>High-Growth Startups (Fixed + ESOPs)</th>
+                <tr>
+                  <th>Experience Level</th>
+                  <th>Typical Role</th>
+                  <th>Tier-1 Giants (Fixed + Stocks)</th>
+                  <th>High-Growth Startups (Fixed + ESOPs)</th>
                 </tr>
               </thead>
               <tbody>
-                <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
-                  <td style={{ padding: "12px 14px", fontWeight: 600 }}>Fresher / Entry Level (0-1 yrs)</td>
-                  <td style={{ padding: "12px 14px" }}>SDE-1 / Graduate Engineer</td>
-                  <td style={{ padding: "12px 14px", color: "#166534", fontWeight: 600 }}>₹16L – ₹32L CTC</td>
-                  <td style={{ padding: "12px 14px" }}>₹8L – ₹18L + ESOPs</td>
+                <tr>
+                  <td>Fresher / Entry Level (0-1 yrs)</td>
+                  <td>SDE-1 / Graduate Engineer</td>
+                  <td>₹16L – ₹32L CTC</td>
+                  <td>₹8L – ₹18L + ESOPs</td>
                 </tr>
-                <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
-                  <td style={{ padding: "12px 14px", fontWeight: 600 }}>Mid-Level (2-5 yrs)</td>
-                  <td style={{ padding: "12px 14px" }}>SDE-2 / Product Engineer</td>
-                  <td style={{ padding: "12px 14px", color: "#166534", fontWeight: 600 }}>₹30L – ₹65L CTC</td>
-                  <td style={{ padding: "12px 14px" }}>₹20L – ₹42L + ESOPs</td>
+                <tr>
+                  <td>Mid-Level (2-5 yrs)</td>
+                  <td>SDE-2 / Product Engineer</td>
+                  <td>₹30L – ₹65L CTC</td>
+                  <td>₹20L – ₹42L + ESOPs</td>
                 </tr>
-                <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
-                  <td style={{ padding: "12px 14px", fontWeight: 600 }}>Senior / Lead (5-9 yrs)</td>
-                  <td style={{ padding: "12px 14px" }}>Senior SDE / Tech Lead / PM</td>
-                  <td style={{ padding: "12px 14px", color: "#166534", fontWeight: 600 }}>₹65L – ₹1.2Cr CTC</td>
-                  <td style={{ padding: "12px 14px" }}>₹40L – ₹80L + ESOPs</td>
+                <tr>
+                  <td>Senior / Lead (5-9 yrs)</td>
+                  <td>Senior SDE / Tech Lead / PM</td>
+                  <td>₹65L – ₹1.2Cr CTC</td>
+                  <td>₹40L – ₹80L + ESOPs</td>
                 </tr>
-                <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
-                  <td style={{ padding: "12px 14px", fontWeight: 600 }}>Staff / Principal (10+ yrs)</td>
-                  <td style={{ padding: "12px 14px" }}>Staff Engineer / Engineering Director</td>
-                  <td style={{ padding: "12px 14px", color: "#166534", fontWeight: 600 }}>₹1.2Cr – ₹2.5Cr+ CTC</td>
-                  <td style={{ padding: "12px 14px" }}>₹80L – ₹1.5Cr + Heavy Equity</td>
+                <tr>
+                  <td>Staff / Principal (10+ yrs)</td>
+                  <td>Staff Engineer / Engineering Director</td>
+                  <td>₹1.2Cr – ₹2.5Cr+ CTC</td>
+                  <td>₹80L – ₹1.5Cr + Heavy Equity</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <h2>3. How to Break into Product Companies in Hyderabad</h2>
-          <ol style={{ fontSize: "15px", lineHeight: 1.7, paddingLeft: "24px" }}>
+          <ol>
             <li>
               <strong>Data Structures &amp; Distributed Systems:</strong> Tier-1 giants heavily evaluate system design
               (caching, message queues with Kafka, sharding, concurrency) and core algorithmic depth.
@@ -277,38 +251,22 @@ export default function TopProductCompaniesPage() {
           </ol>
 
           <div
-            style={{
-              background: "#fff7ed",
-              border: "1px solid #fdba74",
-              borderRadius: "12px",
-              padding: "20px 24px",
-              margin: "32px 0",
-              textAlign: "center",
-            }}
+            className="story-group"
           >
-            <h3 style={{ margin: "0 0 8px", fontSize: "16px", fontWeight: 700, color: "#9a3412" }}>
+            <h3>
               Explore the Interactive Hyderabad Company Map
             </h3>
-            <p style={{ margin: "0 0 16px", fontSize: "14px", color: "#7c2d12" }}>
+            <p>
               Filter over 1,200+ companies by exact office pin, funding stage, and open engineering jobs.
             </p>
             <Link
               href="/product-companies"
-              style={{
-                display: "inline-block",
-                background: "#ea580c",
-                color: "#fff",
-                fontWeight: 700,
-                padding: "10px 20px",
-                borderRadius: "8px",
-                textDecoration: "none",
-              }}
+              className="ui-btn ui-btn--primary"
             >
               Browse 1,000+ Product Companies →
             </Link>
           </div>
         </section>
-      </article>
-    </div>
+      </ArticleShell>
   );
 }

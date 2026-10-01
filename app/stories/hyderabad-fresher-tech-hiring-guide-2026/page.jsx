@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import { articleJsonLd } from "../../../lib/jobs-seo.js";
-import SiteNav from "../../components/SiteNav.jsx";
+import ArticleShell from "../../components/ArticleShell.jsx";
 
 const SLUG = "hyderabad-fresher-tech-hiring-guide-2026";
 const TITLE = "Hyderabad Fresher Tech Hiring & Placement Report (2026 Ground Reality)";
@@ -157,23 +157,13 @@ export default function FresherHiringGuidePage() {
   });
 
   return (
-    <div className="page-with-nav">
+    <ArticleShell
+      kicker={<><Link href="/stories">Stories</Link> · Freshers</>}
+      title={TITLE}
+      lede={DESCRIPTION}
+      meta={["By Mapping HYD Research", "Updated September 2026", "12 min read"]}
+    >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <SiteNav active="stories" />
-      <article className="story-article">
-        <header className="story-header">
-          <p className="story-kicker">Comprehensive Ecosystem Report · Hyderabad 2026</p>
-          <h1>{TITLE}</h1>
-          <p className="story-dek">{DESCRIPTION}</p>
-          <div className="story-byline">
-            <span>By Mapping HYD Research</span>
-            <span aria-hidden="true">·</span>
-            <span>Updated September 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>12 min read</span>
-          </div>
-        </header>
-
         <section className="story-body">
           <p>
             Every year, over <strong>1,15,000 students</strong> enroll in engineering across Telangana, with more than
@@ -187,17 +177,11 @@ export default function FresherHiringGuidePage() {
             on <em>r/hyderabad</em> and <em>r/developersIndia</em>.
           </p>
 
-          <div style={{
-            background: "var(--accent-soft, rgba(255, 87, 34, 0.08))",
-            border: "1px solid var(--accent-primary, rgba(255, 87, 34, 0.25))",
-            borderRadius: "10px",
-            padding: "16px 20px",
-            margin: "24px 0",
-          }}>
-            <h4 style={{ margin: "0 0 6px", color: "var(--accent-primary, #ff5722)" }}>Direct Verified Openings</h4>
-            <p style={{ margin: 0, fontSize: "14px" }}>
-              Skip the agency middle-men. Browse our real-time <Link href="/jobs/fresher" style={{ fontWeight: 700, color: "var(--accent-primary, #ff5722)" }}>Hyderabad Fresher Jobs Hub</Link> or
-              jump into <Link href="/jobs/fresher/software-engineer" style={{ fontWeight: 700, color: "var(--accent-primary, #ff5722)" }}>SDE-1 &amp; Fresher Roles</Link> and <Link href="/jobs/fresher/internships" style={{ fontWeight: 700, color: "var(--accent-primary, #ff5722)" }}>Tech Internships</Link> crawled directly from company ATS portals.
+          <div className="story-callout">
+            <h4>Direct Verified Openings</h4>
+            <p>
+              Skip the agency middle-men. Browse our real-time <Link href="/jobs/fresher">Hyderabad Fresher Jobs Hub</Link> or
+              jump into <Link href="/jobs/fresher/software-engineer">SDE-1 &amp; Fresher Roles</Link> and <Link href="/jobs/fresher/internships">Tech Internships</Link> crawled directly from company ATS portals.
             </p>
           </div>
 
@@ -207,21 +191,21 @@ export default function FresherHiringGuidePage() {
             reducing baseline campus offers by 40–60% since 2023), campus placement statistics across Hyderabad have bifurcated sharply:
           </p>
 
-          <div style={{ overflowX: "auto", margin: "20px 0" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+          <div className="story-table-wrap">
+            <table>
               <thead>
-                <tr style={{ background: "rgba(0,0,0,0.04)", borderBottom: "2px solid var(--border-glass, #e2e8f0)", textAlign: "left" }}>
-                  <th style={{ padding: "10px" }}>Funnel Stage</th>
-                  <th style={{ padding: "10px" }}>Estimated Annual Volume</th>
-                  <th style={{ padding: "10px" }}>Share / Status</th>
+                <tr>
+                  <th>Funnel Stage</th>
+                  <th>Estimated Annual Volume</th>
+                  <th>Share / Status</th>
                 </tr>
               </thead>
               <tbody>
                 {FUNNEL_DATA.map((row, i) => (
-                  <tr key={i} style={{ borderBottom: "1px solid var(--border-glass, #e2e8f0)" }}>
-                    <td style={{ padding: "10px", fontWeight: 600 }}>{row.stage}</td>
-                    <td style={{ padding: "10px", color: "#059669", fontWeight: 700 }}>{row.count}</td>
-                    <td style={{ padding: "10px", color: "var(--text-muted)" }}>{row.pct}</td>
+                  <tr key={i}>
+                    <td>{row.stage}</td>
+                    <td>{row.count}</td>
+                    <td>{row.pct}</td>
                   </tr>
                 ))}
               </tbody>
@@ -237,27 +221,27 @@ export default function FresherHiringGuidePage() {
             <Link href="/colleges/jntuh-hyderabad">JNTUH</Link> and <Link href="/colleges">more colleges</Link>.
           </p>
 
-          <div style={{ overflowX: "auto", margin: "20px 0" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12.5px" }}>
+          <div className="story-table-wrap">
+            <table>
               <thead>
-                <tr style={{ background: "rgba(0,0,0,0.04)", borderBottom: "2px solid var(--border-glass, #e2e8f0)", textAlign: "left" }}>
-                  <th style={{ padding: "10px" }}>Institution</th>
-                  <th style={{ padding: "10px" }}>Tier / Category</th>
-                  <th style={{ padding: "10px" }}>Placed Rate</th>
-                  <th style={{ padding: "10px" }}>Median CTC</th>
-                  <th style={{ padding: "10px" }}>Highest Package</th>
-                  <th style={{ padding: "10px" }}>Key Recruiters</th>
+                <tr>
+                  <th>Institution</th>
+                  <th>Tier / Category</th>
+                  <th>Placed Rate</th>
+                  <th>Median CTC</th>
+                  <th>Highest Package</th>
+                  <th>Key Recruiters</th>
                 </tr>
               </thead>
               <tbody>
                 {COLLEGE_PLACEMENTS.map((c, i) => (
-                  <tr key={i} style={{ borderBottom: "1px solid var(--border-glass, #e2e8f0)" }}>
-                    <td style={{ padding: "10px", fontWeight: 700 }}>{c.college}</td>
-                    <td style={{ padding: "10px", fontSize: "11px", color: "var(--text-muted)" }}>{c.tier}</td>
-                    <td style={{ padding: "10px", fontWeight: 600 }}>{c.placementRate}</td>
-                    <td style={{ padding: "10px", color: "#059669", fontWeight: 700 }}>{c.medianCTC}</td>
-                    <td style={{ padding: "10px", fontWeight: 600 }}>{c.highestCTC}</td>
-                    <td style={{ padding: "10px", fontSize: "11px", color: "var(--text-muted)" }}>{c.topRecruiters}</td>
+                  <tr key={i}>
+                    <td>{c.college}</td>
+                    <td>{c.tier}</td>
+                    <td>{c.placementRate}</td>
+                    <td>{c.medianCTC}</td>
+                    <td>{c.highestCTC}</td>
+                    <td>{c.topRecruiters}</td>
                   </tr>
                 ))}
               </tbody>
@@ -272,30 +256,25 @@ export default function FresherHiringGuidePage() {
             all open roles), they fall into five key segments:
           </p>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px", margin: "20px 0" }}>
+          <div className="story-cards">
             {ROLES_BREAKDOWN.map((r, i) => (
-              <div key={i} style={{
-                border: "1px solid var(--border-glass, rgba(0,0,0,0.08))",
-                borderRadius: "10px",
-                padding: "16px 18px",
-                background: "var(--bg-card, rgba(255,255,255,0.6))",
-              }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: "8px", marginBottom: "6px" }}>
-                  <h3 style={{ margin: 0, fontSize: "15.5px" }}>{r.category}</h3>
-                  <span style={{ fontSize: "12px", background: "rgba(16, 185, 129, 0.12)", color: "#059669", padding: "2px 8px", borderRadius: "100px", fontWeight: 700 }}>
+              <div key={i} className="story-card">
+                <div className="story-card-head">
+                  <h3 className="story-card-title">{r.category}</h3>
+                  <span className="ui-badge ui-badge--hiring">
                     {r.ctcRange}
                   </span>
                 </div>
-                <p style={{ margin: "0 0 6px", fontSize: "12px", color: "var(--accent-primary, #ff5722)", fontWeight: 600 }}>
+                <p className="story-card-kicker">
                   Volume: {r.share}
                 </p>
-                <p style={{ margin: "0 0 6px", fontSize: "13px" }}>
+                <p className="story-card-text">
                   <strong>Typical Titles:</strong> {r.roles}
                 </p>
-                <p style={{ margin: "0 0 6px", fontSize: "12px", color: "var(--text-muted)" }}>
+                <p className="story-card-meta">
                   <strong>Core In-Demand Tech Stack:</strong> {r.topTech}
                 </p>
-                <p style={{ margin: 0, fontSize: "12px", color: "var(--text-muted)" }}>
+                <p className="story-card-meta">
                   <strong>Key Hyderabad Employers:</strong> {r.employers}
                 </p>
               </div>
@@ -313,15 +292,9 @@ export default function FresherHiringGuidePage() {
             training in Java, Python, and AWS, dozens of rogue consultancies market <em>&quot;backdoor placements&quot;</em>,
             <em>&quot;proxy interview setups&quot;</em>, and fake 2–3 year experience letters from defunct shell companies for ₹30,000 to ₹1,00,000.
           </p>
-          <div style={{
-            background: "rgba(239, 68, 68, 0.06)",
-            borderLeft: "4px solid #ef4444",
-            padding: "14px 18px",
-            margin: "18px 0",
-            borderRadius: "0 8px 8px 0",
-          }}>
-            <h4 style={{ margin: "0 0 4px", color: "#b91c1c" }}>Background Verification Alert: The Reality of Proxy / Fake Experience</h4>
-            <p style={{ margin: 0, fontSize: "13px", lineHeight: 1.5 }}>
+          <div className="story-callout story-callout--warn">
+            <h4>Background Verification Alert: The Reality of Proxy / Fake Experience</h4>
+            <p>
               Enterprise companies (TCS, Infosys, Accenture) and GCCs (Microsoft, Amazon, ServiceNow, JPMC) utilize
               deep automated Background Verification (BGV) via EPFO (UAN passbook validation), Form 26AS tax records,
               and NASSCOM National Skills Registry (NSR). Candidates submitting forged letters face instant termination,
@@ -337,7 +310,7 @@ export default function FresherHiringGuidePage() {
           </p>
 
           <h3>C. What Actually Works: Proven Strategies from Successfully Placed Freshers</h3>
-          <ol style={{ paddingLeft: "20px", lineHeight: 1.6 }}>
+          <ol>
             <li>
               <strong>Bypass Aggregators — Target Direct ATS Links:</strong> Companies review candidates who apply directly
               through their native Greenhouse, Lever, Zoho Recruit, Freshteam, and Keka portals with far higher priority
@@ -376,32 +349,24 @@ export default function FresherHiringGuidePage() {
             </li>
           </ul>
 
-          <div style={{
-            marginTop: 36,
-            padding: "24px",
-            background: "var(--bg-glass, rgba(255, 255, 255, 0.7))",
-            borderRadius: "12px",
-            border: "1px solid var(--border-glass, rgba(0, 0, 0, 0.08))",
-            textAlign: "center",
-          }}>
-            <h3 style={{ margin: "0 0 8px" }}>Explore 100% Verified Fresher Roles in Hyderabad</h3>
-            <p style={{ margin: "0 0 18px", fontSize: "14px", color: "var(--text-muted)" }}>
+          <div className="story-cta">
+            <h3>Explore 100% Verified Fresher Roles in Hyderabad</h3>
+            <p>
               No consultancy middle-men, no registration fees. Only direct startup and product company ATS openings.
             </p>
-            <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/jobs/fresher" className="op-primary" style={{ textDecoration: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: 700 }}>
+            <div className="story-cta-actions">
+              <Link href="/jobs/fresher" className="ui-btn ui-btn--primary">
                 Open Fresher Jobs Hub →
               </Link>
-              <Link href="/jobs/fresher/software-engineer" style={{ textDecoration: "none", padding: "10px 20px", borderRadius: "6px", border: "1px solid var(--border-glass)", background: "var(--bg-card)" }}>
+              <Link href="/jobs/fresher/software-engineer" className="ui-btn ui-btn--secondary">
                 Software Engineer Roles →
               </Link>
-              <Link href="/jobs/fresher/internships" style={{ textDecoration: "none", padding: "10px 20px", borderRadius: "6px", border: "1px solid var(--border-glass)", background: "var(--bg-card)" }}>
+              <Link href="/jobs/fresher/internships" className="ui-btn ui-btn--secondary">
                 Paid Internships →
               </Link>
             </div>
           </div>
         </section>
-      </article>
-    </div>
+      </ArticleShell>
   );
 }

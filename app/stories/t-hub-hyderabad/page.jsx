@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import { articleJsonLd } from "../../../lib/jobs-seo.js";
-import SiteNav from "../../components/SiteNav.jsx";
+import ArticleShell from "../../components/ArticleShell.jsx";
 
 const SLUG = "t-hub-hyderabad";
 const TITLE = "T-Hub Hyderabad (2026 Guide) — Startups List, Location, Jobs & Incubation";
@@ -95,20 +95,16 @@ export default function THubHyderabadStory() {
   ];
 
   return (
-    <div className="page-with-nav">
+    <ArticleShell
+      kicker={<><Link href="/stories">Stories</Link> · Ecosystem</>}
+      title={TITLE}
+      lede={DESCRIPTION}
+      meta={["Updated September 2026"]}
+    >
       {jsonLd.map((data, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-        />
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
       ))}
-      <SiteNav active="insights" />
-      <article className="feed-page story-article" style={{ maxWidth: 720, margin: "0 auto", padding: "24px 20px 64px" }}>
-        <p className="story-kicker">Hyderabad · Ecosystem</p>
-        <h1>{TITLE}</h1>
-        <p className="jobs-intro">{DESCRIPTION}</p>
-
+        <div className="story-body">
         <p>
           <strong>T-Hub Hyderabad</strong> (Technology Hub) is one of the city’s most visible startup
           institutions — a large Madhapur campus where founders, mentors, and corporate partners
@@ -155,7 +151,7 @@ export default function THubHyderabadStory() {
             <Link href="/insights">Insights</Link>
           </p>
         </section>
-      </article>
-</div>
+        </div>
+      </ArticleShell>
   );
 }

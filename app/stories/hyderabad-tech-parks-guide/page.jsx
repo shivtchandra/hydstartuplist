@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import { articleJsonLd } from "../../../lib/jobs-seo.js";
-import SiteNav from "../../components/SiteNav.jsx";
+import ArticleShell from "../../components/ArticleShell.jsx";
 
 const SLUG = "hyderabad-tech-parks-guide";
 const TITLE = "The Insider's Guide to Hyderabad IT Parks & Tech Campuses (2026)";
@@ -83,23 +83,13 @@ export default function TechParksGuidePage() {
   });
 
   return (
-    <div className="page-with-nav">
+    <ArticleShell
+      kicker={<><Link href="/stories">Stories</Link> · Tech parks</>}
+      title={TITLE}
+      lede={DESCRIPTION}
+      meta={["By Mapping HYD Research", "Updated September 2026", "7 min read"]}
+    >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <SiteNav active="stories" />
-      <article className="story-article">
-        <header className="story-header">
-          <p className="story-kicker">Campus Guide · Hyderabad 2026</p>
-          <h1>{TITLE}</h1>
-          <p className="story-dek">{DESCRIPTION}</p>
-          <div className="story-byline">
-            <span>By Mapping HYD Research</span>
-            <span aria-hidden="true">·</span>
-            <span>Updated September 2026</span>
-            <span aria-hidden="true">·</span>
-            <span>7 min read</span>
-          </div>
-        </header>
-
         <section className="story-body">
           <p>
             Whether you are relocating to Hyderabad, switching to a new product engineering role, or deciding where to
@@ -113,34 +103,27 @@ export default function TechParksGuidePage() {
 
           <h2>The 5 Major Tech Campuses Shaping Hyderabad Tech</h2>
 
-          <div style={{ display: "grid", gap: "24px", margin: "24px 0" }}>
+          <div className="story-cards">
             {PARKS_DATA.map((park) => (
               <div
                 key={park.name}
-                style={{
-                  background: "#fff",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: "12px",
-                  padding: "24px",
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-                }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "8px", marginBottom: "8px" }}>
-                  <h3 style={{ margin: 0, fontSize: "18px", fontWeight: 750, color: "#0f172a" }}>
-                    <Link href={`/parks/${park.slug}`} style={{ color: "inherit", textDecoration: "none" }}>
+                <div className="story-card-head">
+                  <h3 className="story-card-title">
+                    <Link href={`/parks/${park.slug}`}>
                       {park.name}
                     </Link>
                   </h3>
-                  <span style={{ fontSize: "12px", fontWeight: 600, color: "#0369a1", background: "#e0f2fe", padding: "3px 10px", borderRadius: "12px" }}>
+                  <span className="ui-badge">
                     {park.location}
                   </span>
                 </div>
 
-                <p style={{ fontSize: "13.5px", fontWeight: 600, color: "#c2410c", margin: "0 0 12px" }}>
+                <p className="story-card-kicker">
                   {park.vibe}
                 </p>
 
-                <div style={{ display: "grid", gap: "8px", fontSize: "13.5px", color: "#334155" }}>
+                <div className="story-card-facts">
                   <div>
                     <strong>Key Employers &amp; Startups:</strong> {park.tenants}
                   </div>
@@ -152,10 +135,10 @@ export default function TechParksGuidePage() {
                   </div>
                 </div>
 
-                <div style={{ marginTop: "16px" }}>
+                <div className="story-card-foot">
                   <Link
                     href={`/parks/${park.slug}`}
-                    style={{ fontSize: "13px", fontWeight: 700, color: "#ea580c", textDecoration: "none" }}
+                    className="story-card-link"
                   >
                     View Mapped Startups &amp; Jobs in {park.name} →
                   </Link>
@@ -165,73 +148,57 @@ export default function TechParksGuidePage() {
           </div>
 
           <h2>Commute Strategy: Where to Live Based on Your Tech Park</h2>
-          <div style={{ overflowX: "auto", margin: "20px 0" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "14px", textAlign: "left" }}>
+          <div className="story-table-wrap">
+            <table>
               <thead>
-                <tr style={{ background: "#f1f5f9", borderBottom: "2px solid #cbd5e1" }}>
-                  <th style={{ padding: "12px 14px", fontWeight: 700 }}>Your Office Location</th>
-                  <th style={{ padding: "12px 14px", fontWeight: 700 }}>Best Residential Neighborhoods</th>
-                  <th style={{ padding: "12px 14px", fontWeight: 700 }}>Commute Mode</th>
+                <tr>
+                  <th>Your Office Location</th>
+                  <th>Best Residential Neighborhoods</th>
+                  <th>Commute Mode</th>
                 </tr>
               </thead>
               <tbody>
-                <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
-                  <td style={{ padding: "12px 14px", fontWeight: 600 }}>Sattva Knowledge City &amp; T-Hub</td>
-                  <td style={{ padding: "12px 14px" }}><Link href="/areas/madhapur">Madhapur</Link>, Durgam Cheruvu, <Link href="/areas/kondapur">Kondapur</Link>, <Link href="/areas/jubilee-hills">Jubilee Hills</Link></td>
-                  <td style={{ padding: "12px 14px" }}>Hyderabad Metro (Blue Line to Raidurg) or 10-15 min drive</td>
+                <tr>
+                  <td>Sattva Knowledge City &amp; T-Hub</td>
+                  <td><Link href="/areas/madhapur">Madhapur</Link>, Durgam Cheruvu, <Link href="/areas/kondapur">Kondapur</Link>, <Link href="/areas/jubilee-hills">Jubilee Hills</Link></td>
+                  <td>Hyderabad Metro (Blue Line to Raidurg) or 10-15 min drive</td>
                 </tr>
-                <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
-                  <td style={{ padding: "12px 14px", fontWeight: 600 }}>Mindspace Madhapur</td>
-                  <td style={{ padding: "12px 14px" }}>Madhapur, Ayyappa Society, Kondapur, Gachibowli</td>
-                  <td style={{ padding: "12px 14px" }}>Blue Line Metro or Cable Bridge from Central Hyd</td>
+                <tr>
+                  <td>Mindspace Madhapur</td>
+                  <td>Madhapur, Ayyappa Society, Kondapur, Gachibowli</td>
+                  <td>Blue Line Metro or Cable Bridge from Central Hyd</td>
                 </tr>
-                <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
-                  <td style={{ padding: "12px 14px", fontWeight: 600 }}>WaveRock &amp; Financial District</td>
-                  <td style={{ padding: "12px 14px" }}><Link href="/areas/nanakramguda">Nanakramguda</Link>, Kokapet, Gachibowli, Tellapur</td>
-                  <td style={{ padding: "12px 14px" }}>Outer Ring Road (ORR) / Personal Vehicle or Shuttle</td>
+                <tr>
+                  <td>WaveRock &amp; Financial District</td>
+                  <td><Link href="/areas/nanakramguda">Nanakramguda</Link>, Kokapet, Gachibowli, Tellapur</td>
+                  <td>Outer Ring Road (ORR) / Personal Vehicle or Shuttle</td>
                 </tr>
-                <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
-                  <td style={{ padding: "12px 14px", fontWeight: 600 }}>DLF Cyber City &amp; Gachibowli</td>
-                  <td style={{ padding: "12px 14px" }}>Gachibowli, Kondapur, Manikonda, Kothaguda</td>
-                  <td style={{ padding: "12px 14px" }}>Direct bus corridors, 2-wheeler, or short auto ride</td>
+                <tr>
+                  <td>DLF Cyber City &amp; Gachibowli</td>
+                  <td>Gachibowli, Kondapur, Manikonda, Kothaguda</td>
+                  <td>Direct bus corridors, 2-wheeler, or short auto ride</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <div
-            style={{
-              background: "#fff7ed",
-              border: "1px solid #fdba74",
-              borderRadius: "12px",
-              padding: "20px 24px",
-              margin: "32px 0",
-              textAlign: "center",
-            }}
+            className="story-cta"
           >
-            <h3 style={{ margin: "0 0 8px", fontSize: "16px", fontWeight: 700, color: "#9a3412" }}>
+            <h3>
               Explore All Tech Parks &amp; Startups on the Map
             </h3>
-            <p style={{ margin: "0 0 16px", fontSize: "14px", color: "#7c2d12" }}>
+            <p>
               Search across 1,200+ startups, IT companies, and live open roles by tech corridor.
             </p>
             <Link
               href="/parks"
-              style={{
-                display: "inline-block",
-                background: "#ea580c",
-                color: "#fff",
-                fontWeight: 700,
-                padding: "10px 20px",
-                borderRadius: "8px",
-                textDecoration: "none",
-              }}
+              className="ui-btn ui-btn--primary"
             >
               Browse All Hyderabad Tech Parks →
             </Link>
           </div>
         </section>
-      </article>
-    </div>
+      </ArticleShell>
   );
 }

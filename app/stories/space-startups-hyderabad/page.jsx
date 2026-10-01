@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import { articleJsonLd } from "../../../lib/jobs-seo.js";
-import SiteNav from "../../components/SiteNav.jsx";
+import ArticleShell from "../../components/ArticleShell.jsx";
 
 const SLUG = "space-startups-hyderabad";
 const TITLE = "Space startups in Hyderabad: launch, satellites, and the city’s aerospace map";
@@ -97,28 +97,16 @@ export default function SpaceStartupsHyderabadStory() {
   });
 
   return (
-    <div className="page-with-nav">
+    <ArticleShell
+      kicker={<><Link href="/stories">Stories</Link> · Deeptech</>}
+      title={TITLE}
+      lede={<>Hyderabad&apos;s deeptech map is not only SaaS and biotech. A real{" "}<strong>space and aerospace stack</strong> sits across Shamshabad, Begumpet, Kukatpally, Secunderabad, and Madhapur — from orbital launch to satellites, manufacturing, and in-orbit servicing — with drone and counter-UAS companies in the same talent pool.</>}
+      meta={["September 2026", <>Based on companies tracked on the <Link href="/">Hyderabad Startup Map</Link></>]}
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SiteNav active="stories" />
-      <article className="story-page">
-        <p className="story-kicker">
-          <Link href="/stories">Stories</Link> · Deeptech
-        </p>
-        <h1>{TITLE}</h1>
-        <p className="story-lede">
-          Hyderabad&apos;s deeptech map is not only SaaS and biotech. A real{" "}
-          <strong>space and aerospace stack</strong> sits across Shamshabad, Begumpet, Kukatpally,
-          Secunderabad, and Madhapur — from orbital launch to satellites, manufacturing, and
-          in-orbit servicing — with drone and counter-UAS companies in the same talent pool.
-        </p>
-        <p className="story-meta">
-          September 2026 · Based on companies tracked on the{" "}
-          <Link href="/">Hyderabad Startup Map</Link>
-        </p>
-
         <div className="story-body">
           <h2>Why Hyderabad shows up in space</h2>
           <p>
@@ -236,7 +224,6 @@ export default function SpaceStartupsHyderabadStory() {
             include them.
           </div>
         </div>
-      </article>
-    </div>
+      </ArticleShell>
   );
 }

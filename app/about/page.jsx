@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getEcosystemStats } from "../../lib/ecosystem-stats.js";
 import { getSiteUrl } from "../../lib/site-url.js";
-import SiteNav from "../components/SiteNav.jsx";
+import ArticleShell from "../components/ArticleShell.jsx";
 
 export const revalidate = 86400;
 
@@ -70,19 +70,13 @@ export default async function AboutPage() {
   };
 
   return (
-    <div className="page-with-nav">
+    <ArticleShell
+      navActive=""
+      kicker="About"
+      title="About Mapping HYD"
+      lede={<>Mapping HYD is an open map and data platform tracking{" "}<strong>{eco.totalStartups.toLocaleString()} reviewed startups and software companies</strong>,{" "}<strong>{eco.totalGccs} GCCs</strong> and <strong>{eco.techParks} tech parks</strong> across Hyderabad, built for engineers, founders, investors and recruiters.</>}
+    >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <SiteNav />
-      <article className="story-page">
-        <p className="story-kicker">About</p>
-        <h1>About Mapping HYD</h1>
-        <p className="story-lede">
-          Mapping HYD is an open map and data platform tracking{" "}
-          <strong>{eco.totalStartups.toLocaleString()} reviewed startups and software companies</strong>,{" "}
-          <strong>{eco.totalGccs} GCCs</strong> and <strong>{eco.techParks} tech parks</strong> across Hyderabad,
-          built for engineers, founders, investors and recruiters.
-        </p>
-
         <div className="story-body">
           <h2>What Mapping HYD does</h2>
           <p>
@@ -170,7 +164,6 @@ export default async function AboutPage() {
             attribution.
           </div>
         </div>
-      </article>
-    </div>
+      </ArticleShell>
   );
 }

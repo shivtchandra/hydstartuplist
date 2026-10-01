@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getJobMarketPulse } from "../../../lib/jobs.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import { articleJsonLd } from "../../../lib/jobs-seo.js";
-import SiteNav from "../../components/SiteNav.jsx";
+import ArticleShell from "../../components/ArticleShell.jsx";
 
 export const revalidate = 86400;
 
@@ -87,31 +87,16 @@ export default async function HyderabadJobMarketPulseStory() {
   const dataShare = pulse.byRole.find((r) => r.name === "Data")?.count || 0;
 
   return (
-    <div className="page-with-nav">
+    <ArticleShell
+      kicker={<><Link href="/stories">Stories</Link> · Hiring</>}
+      title={TITLE}
+      lede={<>Right now the Mapping HYD board shows{" "}<strong>{pulse.totalRoles.toLocaleString()} distinct open roles</strong> across{" "}<strong>{pulse.uniqueEmployers.toLocaleString()} employers</strong> — with{" "}<strong>{pulse.recent7.toLocaleString()}</strong> appearing in the last seven days. This piece reads that live feed: which roles are in demand, which experience bands companies prefer, how thin fresher hiring still is, and where Hyderabad sits against Bengaluru and Pune.</>}
+      meta={[`Snapshot ${new Date(pulse.asOf).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}`, "Live from career pages synced on Mapping HYD", "Duplicate requisitions collapsed"]}
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SiteNav active="stories" />
-      <article className="story-page">
-        <p className="story-kicker">
-          <Link href="/stories">Stories</Link> · Hiring
-        </p>
-        <h1>{TITLE}</h1>
-        <p className="story-lede">
-          Right now the Mapping HYD board shows{" "}
-          <strong>{pulse.totalRoles.toLocaleString()} distinct open roles</strong> across{" "}
-          <strong>{pulse.uniqueEmployers.toLocaleString()} employers</strong> — with{" "}
-          <strong>{pulse.recent7.toLocaleString()}</strong> appearing in the last seven days.
-          This piece reads that live feed: which roles are in demand, which experience bands
-          companies prefer, how thin fresher hiring still is, and where Hyderabad sits against
-          Bengaluru and Pune.
-        </p>
-        <p className="story-meta">
-          Snapshot {new Date(pulse.asOf).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}{" "}
-          · Live from career pages synced on Mapping HYD · Duplicate requisitions collapsed
-        </p>
-
         <div className="story-body">
           <h2>The headline numbers</h2>
           <p>
@@ -358,7 +343,6 @@ export default async function HyderabadJobMarketPulseStory() {
             measurements; treat them as context around the live Hyderabad board.
           </div>
         </div>
-      </article>
-    </div>
+      </ArticleShell>
   );
 }

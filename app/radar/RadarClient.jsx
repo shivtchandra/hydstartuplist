@@ -650,11 +650,10 @@ export default function RadarClient({ initialMeta }) {
       <div className="feed-page radar-feed">
         {showHero ? (
           <header className="radar-hero">
-            <p className="radar-kicker">Mapping HYD · Radar</p>
-            <h1>Companies worth knowing.</h1>
+            <p className="radar-kicker">Radar</p>
+            <h1>Companies worth knowing</h1>
             <p className="radar-sub">
-              A deliberately small list of Hyderabad employers that are easy to miss — researched
-              and edited by Mapping HYD.
+              A small, hand-picked list of Hyderabad employers that are easy to miss.
             </p>
             <p className="radar-stats">
               {unlocked ? (
@@ -743,7 +742,7 @@ export default function RadarClient({ initialMeta }) {
                 <section className="radar-showcase-section" aria-label="Core">
                   <header className="radar-dir-head">
                     <h2>
-                      Core <span>· {coreFiltered.length + (searching ? 0 : hidden.core || 0)}</span>
+                      Core <span>{coreFiltered.length + (searching ? 0 : hidden.core || 0)}</span>
                     </h2>
                     <p>Strong Hyderabad signal.</p>
                   </header>
@@ -760,7 +759,7 @@ export default function RadarClient({ initialMeta }) {
                 <section className="radar-showcase-section" aria-label="Watch">
                   <header className="radar-dir-head">
                     <h2>
-                      Watch <span>· {watchFiltered.length + (searching ? 0 : hidden.watch || 0)}</span>
+                      Watch <span>{watchFiltered.length + (searching ? 0 : hidden.watch || 0)}</span>
                     </h2>
                     <p>Worth keeping an eye on.</p>
                   </header>
@@ -777,7 +776,7 @@ export default function RadarClient({ initialMeta }) {
                 <section className="radar-showcase-section" aria-label="Remote Hires">
                   <header className="radar-dir-head">
                     <h2>
-                      Remote Hires <span>· {remoteFiltered.length + (searching ? 0 : hidden.remote || 0)}</span>
+                      Remote Hires <span>{remoteFiltered.length + (searching ? 0 : hidden.remote || 0)}</span>
                     </h2>
                     <p>Curated craft-first startups hiring Worldwide &amp; Remote India.</p>
                   </header>

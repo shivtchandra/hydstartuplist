@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getSiteUrl } from "../../../lib/site-url.js";
-import SiteNav from "../../components/SiteNav.jsx";
+import ArticleShell from "../../components/ArticleShell.jsx";
 
 const TITLE =
   "Bengaluru vs Hyderabad startups: limelight, unicorns, and why Hyd isn’t mini-Bangalore";
@@ -25,21 +25,12 @@ export const metadata = {
 
 export default function BengaluruVsHyderabadStory() {
   return (
-    <div className="page-with-nav">
-      <SiteNav />
-      <article className="story-page">
-        <p className="story-kicker">
-          <Link href="/stories">Stories</Link> · Ecosystem
-        </p>
-        <h1>{TITLE}</h1>
-        <p className="story-lede">
-          If you only watch unicorn scoreboards, Bengaluru still owns India’s startup limelight.
-          Hyderabad’s story in 2026 is different: faster funding growth, a thick Global Capability
-          Center layer, and deeptech / enterprise density that doesn’t show up when people ask for a
-          “mini-Bangalore.”
-        </p>
-        <p className="story-meta">Updated August 2026 · Based on Inc42 hub and city trackers</p>
-
+    <ArticleShell
+      kicker={<><Link href="/stories">Stories</Link> · Ecosystem</>}
+      title={TITLE}
+      lede={<>If you only watch unicorn scoreboards, Bengaluru still owns India’s startup limelight. Hyderabad’s story in 2026 is different: faster funding growth, a thick Global Capability Center layer, and deeptech / enterprise density that doesn’t show up when people ask for a “mini-Bangalore.”</>}
+      meta={["Updated August 2026", "Based on Inc42 hub and city trackers"]}
+    >
         <div className="story-body">
           <p>
             Comparisons between <strong>Bengaluru vs Hyderabad startups</strong> usually start — and
@@ -177,7 +168,6 @@ export default function BengaluruVsHyderabadStory() {
             substitute for their full datasets. Hub stats move every half.
           </p>
         </aside>
-      </article>
-    </div>
+      </ArticleShell>
   );
 }
