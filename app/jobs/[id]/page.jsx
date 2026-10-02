@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 import ShareJobButton from "../../components/ShareJobButton.jsx";
-import { getJobById, getJobsByArea, getJobsForCompany, getAllJobs } from "../../../lib/jobs.js";
+import { getJobById, getJobsByArea, getJobsForCompany } from "../../../lib/jobs.js";
 import { getStartupBySlug, getApproved } from "../../../lib/store.js";
 import { startupSlug, slugify } from "../../../lib/slug.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
@@ -30,26 +30,12 @@ import {
 import { fundingLabel } from "../../../lib/company-quality.js";
 import { jobExperienceDisplay } from "../../../lib/job-facets.js";
 
-// See app/jobs/company/[slug]/page.jsx: this app redeploys multiple times a
-// day, which already resets the ISR cache, so a short revalidate window here
-// only added rewrites from repeat crawler visits (ISR Writes blew past the
-// Hobby cap). One week is effectively "until the next deploy."
-export const revalidate = 604800;
-
-// Every prerendered path adds to deployment size and counts as an ISR write,
-// so only the newest postings are prebuilt (this route saw ~0% ISR cache hit
-// rate — each is a distinct URL usually visited once — which made this one
-// of the largest Fluid CPU consumers on the account). Kept low: see
-// app/jobs/company/[slug]/page.jsx for why 300 was too much.
-const PRERENDERED_JOB_LIMIT = 50;
-
-export async function generateStaticParams() {
-  const jobs = await getAllJobs();
-  return [...jobs]
-    .sort((a, b) => (Date.parse(b.postedAt || b.firstSeenAt || 0) || 0) - (Date.parse(a.postedAt || a.firstSeenAt || 0) || 0))
-    .slice(0, PRERENDERED_JOB_LIMIT)
-    .map((j) => ({ id: jobUrlId(j.id) }));
-}
+// Rendered per request, not cached. Thousands of job URLs that churn daily,
+// each usually crawled once per cache lifetime: caching them (on-demand ISR,
+// added Sep 9) made every crawler hit an ISR write, and the daily
+// "public-jobs" bust re-wrote them, ~15-20k Write Units/day over the Hobby
+// cap. A one-off render costs the same CPU either way; uncached it writes nothing.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const id = jobIdFromUrl(params.id);

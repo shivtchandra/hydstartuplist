@@ -3,36 +3,17 @@ import { notFound } from "next/navigation";
 import SiteNav from "../../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../../components/JobsBreadcrumbs.jsx";
 import StartupLogo from "../../../components/StartupLogo.jsx";
-import { getJobsForStartupSlug, getCompaniesWithJobs } from "../../../../lib/jobs.js";
+import { getJobsForStartupSlug } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 import { prettyName } from "../../../../lib/startupUi.js";
 import { startupSlug } from "../../../../lib/slug.js";
 import { breadcrumbJsonLd, itemListJsonLd, jobPostingJsonLd, jobUrlId, thinListingRobots } from "../../../../lib/jobs-seo.js";
 import { jobDescriptionForPage } from "../../../../lib/job-content.js";
 
-// This app redeploys multiple times a day (every push), and a new deploy
-// resets the ISR cache regardless of this value — so the real refresh
-// cadence is "next deploy," not this number. A short revalidate window here
-// only adds extra rewrites from repeat crawler visits within one
-// deployment's lifetime (this route's near-zero hit rate meant ISR Writes
-// blew past the Hobby cap). One week is effectively "until the next deploy."
-export const revalidate = 604800;
-
-// Every prerendered path adds to deployment size and counts as an ISR write,
-// so only the companies with the most open roles are prebuilt (this route
-// saw ~0% ISR cache hit rate — each is a distinct URL usually visited once —
-// which made this the single largest Fluid CPU consumer on the account).
-// Kept low: next.config.mjs force-includes the whole data/ dir into every
-// page's function trace, and 300 was pushing Functions Storage and ISR
-// Writes over their Hobby caps. The long tail still works: dynamicParams
-// defaults to true, so an unlisted slug renders on first request and is
-// cached by ISR from then on.
-const PRERENDERED_COMPANY_LIMIT = 50;
-
-export async function generateStaticParams() {
-  const companies = await getCompaniesWithJobs();
-  return companies.slice(0, PRERENDERED_COMPANY_LIMIT).map((c) => ({ slug: c.slug }));
-}
+// Rendered per request, not cached; see app/jobs/[id]/page.jsx. Long-tail
+// pages crawled about once per cache lifetime turned every crawler hit into
+// an ISR write, re-written after each daily "public-jobs" bust.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const { startup, jobs, companyName } = await getJobsForStartupSlug(params.slug);
