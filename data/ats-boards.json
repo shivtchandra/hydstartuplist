@@ -796,6 +796,22 @@
     "website": "https://www.arcesium.com"
   },
   {
+    "id": "ashby:bjakcareer",
+    "name": "Bjak",
+    "atsProvider": "ashby",
+    "atsSlug": "bjakcareer",
+    "boardUrl": "https://jobs.ashbyhq.com/bjakcareer",
+    "website": null,
+    "startupId": null,
+    "employerType": "other",
+    "active": true,
+    "hydJobs": 0,
+    "totalJobs": 3047,
+    "verifiedAt": "2026-10-05T20:16:15.482Z",
+    "allowRemote": true,
+    "remoteJobs": 16
+  },
+  {
     "id": "workday:blueyonder",
     "name": "Blue Yonder",
     "atsProvider": "workday",
@@ -1065,6 +1081,38 @@
     "website": "https://www.dozee.health"
   },
   {
+    "id": "lever:drivetrain",
+    "name": "Drivetrain",
+    "atsProvider": "lever",
+    "atsSlug": "drivetrain",
+    "boardUrl": "https://jobs.lever.co/drivetrain",
+    "website": null,
+    "startupId": null,
+    "employerType": "other",
+    "active": true,
+    "hydJobs": 0,
+    "totalJobs": 33,
+    "verifiedAt": "2026-10-05T20:16:17.880Z",
+    "allowRemote": true,
+    "remoteJobs": 21
+  },
+  {
+    "id": "zoho:dumroo",
+    "name": "Dumroo.ai",
+    "atsProvider": "zoho",
+    "atsSlug": "dumroo",
+    "boardUrl": "https://dumroo.zohorecruit.com/jobs/Careers",
+    "website": null,
+    "startupId": null,
+    "employerType": "other",
+    "active": true,
+    "hydJobs": 0,
+    "totalJobs": 3,
+    "verifiedAt": "2026-10-05T20:16:16.101Z",
+    "allowRemote": true,
+    "remoteJobs": 1
+  },
+  {
     "id": "workday:elevancehealth",
     "name": "Elevance Health (Carelon Global India)",
     "atsProvider": "workday",
@@ -1183,6 +1231,22 @@
     "startupId": "5a23c455-c758-4974-a026-078da93b1d06",
     "employerType": "startup",
     "active": true
+  },
+  {
+    "id": "lever:gohighlevel",
+    "name": "HighLevel",
+    "atsProvider": "lever",
+    "atsSlug": "gohighlevel",
+    "boardUrl": "https://jobs.lever.co/gohighlevel",
+    "website": null,
+    "startupId": null,
+    "employerType": "other",
+    "active": true,
+    "hydJobs": 0,
+    "totalJobs": 88,
+    "verifiedAt": "2026-10-05T20:16:18.958Z",
+    "allowRemote": true,
+    "remoteJobs": 67
   },
   {
     "id": "greenhouse:highradius",
@@ -1441,6 +1505,22 @@
     "note": "jobs-only — daily via sync-ats-jobs",
     "employerType": "enterprise",
     "website": "https://www.ncrvoyix.com"
+  },
+  {
+    "id": "lever:netomi",
+    "name": "Netomi",
+    "atsProvider": "lever",
+    "atsSlug": "netomi",
+    "boardUrl": "https://jobs.lever.co/netomi",
+    "website": null,
+    "startupId": null,
+    "employerType": "other",
+    "active": true,
+    "hydJobs": 0,
+    "totalJobs": 23,
+    "verifiedAt": "2026-10-05T20:16:17.539Z",
+    "allowRemote": true,
+    "remoteJobs": 5
   },
   {
     "id": "smartrecruiters:nowfloats",

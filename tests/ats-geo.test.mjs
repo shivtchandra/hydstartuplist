@@ -10,3 +10,12 @@ test("remote-eligible locations: India / APAC / worldwide only", () => {
     assert.equal(isCuratedRemoteEligibleLocation(loc), false, loc);
   }
 });
+
+test("Lever and Ashby structured remote flags read as remote locations", async () => {
+  const { locationOf } = await import("../lib/ats/providers.js");
+  assert.equal(locationOf("lever", { categories: { location: "India" }, workplaceType: "remote" }), "India (Remote)");
+  assert.equal(locationOf("lever", { categories: { location: "Hyderabad" }, workplaceType: "hybrid" }), "Hyderabad");
+  assert.equal(locationOf("ashby", { location: "India", isRemote: true }), "India (Remote)");
+  assert.equal(isCuratedRemoteEligibleLocation(locationOf("lever", { categories: { location: "India" }, workplaceType: "remote" })), true);
+  assert.equal(isCuratedRemoteEligibleLocation(locationOf("lever", { categories: { location: "United States" }, workplaceType: "remote" })), false);
+});
