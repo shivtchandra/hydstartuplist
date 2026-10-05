@@ -3,6 +3,7 @@ import { opportunityDataset } from '../../../../../lib/opportunity-store.js';
 import { getAdminDb } from '../../../../../lib/firebaseAdmin.js';
 import { withTimeout } from '../../../../../lib/build-phase.js';
 import { recordId } from '../../../../../lib/board-store.js';
+import { getAtsFeedSnapshot } from '../../../../../lib/ats/feed-store.js';
 export const dynamic='force-dynamic';
 export async function POST(req) {
   const raw=await req.text();
@@ -16,7 +17,7 @@ export async function POST(req) {
     if(missing.length){const db=await getAdminDb();if(db){
       const records=process.env.JOBS_V2_READS==='1'
         ?(await withTimeout(db.getAll(...missing.map(id=>db.collection('jobs_v2').doc(recordId(id)))),4000,[])).map(d=>d.data())
-        :(await withTimeout(db.collection('job_board').doc('ats_latest').get(),4000,null))?.data()?.jobs||[];
+        :(await withTimeout(getAtsFeedSnapshot(db),4000,null))?.data()?.jobs||[];
       for(const job of records)if(job&&wanted.has(job.id))found.set(job.id,job);
     }}
     return NextResponse.json({jobs:[...found.values()].map(({id,status})=>({id,status})),stale:data.stale});

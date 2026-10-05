@@ -63,3 +63,18 @@ test("inferRoleType accurately categorizes Healthcare & Nutrition titles", () =>
     assert.equal(inferRoleType(r), "Healthcare / Nutrition", `Failed for: ${r}`);
   }
 });
+
+test("inferExperienceLevel catches entry titles without a junior/fresher word", () => {
+  assert.equal(inferExperienceLevel("University Graduate - Software Engineer"), "intern");
+  assert.equal(inferExperienceLevel("Early Career Data Analyst"), "intern");
+  assert.equal(inferExperienceLevel("Graduate Analyst Programme 2026"), "intern");
+  assert.equal(inferExperienceLevel("Data Engineer 1"), "junior");
+  assert.equal(inferExperienceLevel("L1 Support Engineer"), "junior");
+  assert.equal(inferExperienceLevel("Customer Support Executive"), "junior");
+  assert.equal(inferExperienceLevel("Process Associate - Voice"), "junior");
+  assert.equal(inferExperienceLevel("Telecaller"), "junior");
+  // Seniority words and explicit years still win.
+  assert.equal(inferExperienceLevel("Senior Customer Support Executive"), "senior");
+  assert.equal(inferExperienceLevel("Customer Support Executive", "Requires 4-6 years of experience"), "mid");
+  assert.notEqual(inferExperienceLevel("Enterprise Account Executive"), "junior");
+});

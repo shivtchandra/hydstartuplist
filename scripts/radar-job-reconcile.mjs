@@ -18,6 +18,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { config } from "dotenv";
+import { ATS_FEED_DOC, getAtsFeedSnapshot } from "../lib/ats/feed-store.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -104,7 +105,7 @@ async function loadJobs() {
   if (!db) throw new Error("Firebase admin unavailable — set FIREBASE_SERVICE_ACCOUNT in .env.local");
   let all = [];
   for (const id of FEEDS) {
-    const snap = await db.collection("job_board").doc(id).get();
+    const snap = id === ATS_FEED_DOC ? await getAtsFeedSnapshot(db) : await db.collection("job_board").doc(id).get();
     if (snap.exists) all = all.concat(snap.data().jobs || []);
     else console.warn("missing feed:", id);
   }
