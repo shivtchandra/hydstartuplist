@@ -391,78 +391,6 @@
       "verifyStatus": "published"
     },
     {
-      "startupId": "fb3ea0ee-85d3-4d5d-9834-246aa8b19bd0",
-      "tags": [
-        "hard-to-find",
-        "aerospace"
-      ],
-      "why": "Ex-TASL aerospace manufacturing leadership at Kongar Khurd — outside the usual HITEC corridor.",
-      "careers": "https://www.axirium.aero/",
-      "jobMode": "hyd-office",
-      "geo": "hyd",
-      "missReasons": [
-        "outskirts",
-        "funding-list"
-      ],
-      "aliases": [
-        "Axirium",
-        "Axilor"
-      ],
-      "depth": {
-        "founders": [
-          {
-            "name": "Nishant Khurana",
-            "role": "Co-founder & CEO",
-            "linkedin": "https://www.linkedin.com/in/nishantkhurana-aero"
-          },
-          {
-            "name": "Neeraj Agarwal",
-            "role": "Co-founder & CBO",
-            "linkedin": "https://www.linkedin.com/in/neeraj-agarwal-7173031b"
-          },
-          {
-            "name": "Piyush Agarwal",
-            "role": "Co-founder & CCO",
-            "linkedin": "https://www.linkedin.com/in/piyush-agarwal-4529b825"
-          }
-        ],
-        "stealthSignals": [
-          "Aerospace manufacturing at Kongar Khurd — outside HITEC corridor",
-          "Very early (2025) — absent from Inc42 Top-N city lists",
-          "Occasionally mistyped as Axilor in founder posts",
-          "Careers via careers@axirium.aero — not a public Greenhouse board"
-        ],
-        "sources": [
-          {
-            "type": "company",
-            "url": "https://www.axirium.aero",
-            "note": "Aerostructures & aero-engines manufacturing"
-          },
-          {
-            "type": "linkedin",
-            "url": "https://www.linkedin.com/in/nishantkhurana-aero"
-          },
-          {
-            "type": "linkedin",
-            "url": "https://www.linkedin.com/in/neeraj-agarwal-7173031b"
-          },
-          {
-            "type": "linkedin",
-            "url": "https://www.linkedin.com/in/piyush-agarwal-4529b825"
-          }
-        ],
-        "researchNotes": "Axirium Aerospace is a Hyderabad-region precision aerostructures and aero-engines manufacturer founded by ex-Tata Advanced Systems (TASL) leaders (CEO Nishant Khurana, CBO Neeraj Agarwal, CCO Piyush Agarwal). Capabilities span machining, sheet metal, tubes, structural sub-assemblies, and supply-chain ownership. Kongar Khurd plant is the miss reason — city-center SaaS scrapes never see it.",
-        "lastVerified": "2026-09-11"
-      },
-      "founderNames": [
-        "Neeraj Agarwal",
-        "Nishant Khurana",
-        "Piyush Agarwal"
-      ],
-      "exclusiveTier": "core",
-      "verifyStatus": "published"
-    },
-    {
       "startupId": "d807de4e-2fca-44fd-a9f9-f0c481536284",
       "tags": [
         "hard-to-find",
@@ -952,9 +880,9 @@
     },
     {
       "name": "Sequencing",
-      "careers": "https://jobs.gem.com/sequencing",
+      "careers": "https://jobs.ashbyhq.com/sequencing",
       "tags": [
-        "gem",
+        "ashby",
         "remote",
         "full-remote"
       ],
@@ -2537,7 +2465,7 @@
         "funding-list"
       ],
       "why": "Circular-economy / waste marketplace SaaS from Gachibowli — climate ops hiring outside Greenhouse feeds.",
-      "careers": "https://www.recykal.com/careers",
+      "careers": "https://www.linkedin.com/company/recykaldotcom/jobs/",
       "aliases": [
         "Recykal Technologies"
       ],
@@ -2714,7 +2642,7 @@
         "funding-list"
       ],
       "why": "DOOH / digital outdoor ad network from Gachibowli — adtech hiring on marketing careers, not Ashby.",
-      "careers": "https://www.adonmo.com/careers",
+      "careers": "https://adonmo.com/career-page/",
       "aliases": [
         "Adonmo",
         "Ad On Mo"

@@ -14,6 +14,7 @@
     "radar:gap:csv": "node scripts/radar-gap-sweep.mjs --csv",
     "radar:reconcile": "node scripts/radar-job-reconcile.mjs",
     "radar:reconcile:dry": "node scripts/radar-job-reconcile.mjs --dry-run",
+    "radar:links": "node scripts/verify-radar-links.mjs",
     "fresher:gap": "node scripts/fresher-gap-sweep.mjs",
     "fresher:gap:miss": "node scripts/fresher-gap-sweep.mjs --miss-only",
     "fresher:gap:csv": "node scripts/fresher-gap-sweep.mjs --csv",

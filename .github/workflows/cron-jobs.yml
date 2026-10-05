@@ -231,3 +231,16 @@ jobs:
           if [ -z "$SITE_URL" ]; then echo "SITE_URL missing"; exit 0; fi
           curl -sf --max-time 35 -X GET "$SITE_URL/api/cron/newsletter" \
             -H "Authorization: Bearer $CRON_SECRET" || true
+
+  # Weekly Radar careers-link check. Runs only on GitHub (no Vercel cost);
+  # a dead link fails the job, so GitHub's failure email is the alert.
+  radar-links:
+    if: github.event.schedule == '30 3 * * 0'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: node scripts/verify-radar-links.mjs
