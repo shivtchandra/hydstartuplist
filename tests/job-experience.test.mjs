@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { inferExperienceLevel, jobExperienceDisplay, inferRoleType } from "../lib/job-facets.js";
+import { inferExperienceLevel, jobExperienceDisplay, inferRoleType, parseYearsRequirement } from "../lib/job-facets.js";
 import { formatExperienceRange } from "../lib/healthcare.js";
 
 test("formatExperienceRange handles various range configurations", () => {
@@ -77,4 +77,15 @@ test("inferExperienceLevel catches entry titles without a junior/fresher word", 
   assert.equal(inferExperienceLevel("Senior Customer Support Executive"), "senior");
   assert.equal(inferExperienceLevel("Customer Support Executive", "Requires 4-6 years of experience"), "mid");
   assert.notEqual(inferExperienceLevel("Enterprise Account Executive"), "junior");
+});
+
+test("years requirement read from the full JD outranks an 'Associate' title", () => {
+  const job = { title: "Associate Software Engineer - Full Stack", description: "We are seeking a motivated engineer...", experience: "2-4 years" };
+  assert.equal(inferExperienceLevel(job.title, job.description, job), "mid");
+  assert.equal(inferExperienceLevel({ title: "Associate Software Engineer", description: "", experience: null }), "junior");
+});
+
+test("education length is not read as an experience requirement", () => {
+  const years = parseYearsRequirement("Educational Qualification: 15 years full time education. Minimum 0-1 year(s) of experience is required.");
+  assert.deepEqual(years, { lo: 0, hi: 1 });
 });
