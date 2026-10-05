@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRadarEntries, getRadarRemoteHires, radarMeta } from "../../../lib/radar.js";
+import { getRadarEntries, getRadarRemoteHires, liveRolesByBoard, radarMeta } from "../../../lib/radar.js";
 import { verifyBearerIdToken, lastIdTokenError } from "../../../lib/firebaseAdmin.js";
 
 // Signed-out visitors get a preview: this many companies per section.
@@ -50,7 +50,7 @@ export async function GET(req) {
       exclusiveOnly: geo === "hyd",
     });
 
-    const remoteHires = getRadarRemoteHires();
+    const remoteHires = getRadarRemoteHires(await liveRolesByBoard().catch(() => null));
     const remoteNames = new Set(
       remoteHires.flatMap((r) => [r.name.toLowerCase(), r.id.replace(/^radar-remote-/, "").toLowerCase()])
     );

@@ -463,7 +463,7 @@ function CompanyDetail({ row, onBack, listUpdatedAt, detailsLocked }) {
             <section className="radar-panel">
               <div className="radar-panel-head">
                 <h3>Open Remote Roles</h3>
-                <p className="radar-panel-sub">Verified active engineering openings</p>
+                <p className="radar-panel-sub">Live on their careers board today</p>
               </div>
               <ul className="radar-signal-row">
                 {row.sampleRoles.map((role) => (

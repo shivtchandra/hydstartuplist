@@ -103,7 +103,8 @@ export async function GET(req) {
     }).then((r) => (r.ok ? r.json() : null));
   };
 
-  const healthcarePage = (what) => {
+  // Any category — healthcare and non-tech entry roles live outside it-jobs.
+  const keywordPage = (what) => {
     const params = new URLSearchParams({
       app_id: appId,
       app_key: appKey,
@@ -119,13 +120,18 @@ export async function GET(req) {
     }).then((r) => (r.ok ? r.json() : null));
   };
 
-  // Bounded pack: 3 Hyd IT pages + 3 fresher keyword pages + 3 dietetics/health coach queries
+  // Bounded pack, all in parallel: 3 Hyd IT pages + 3 fresher IT pages +
+  // 4 non-tech entry pages + 3 dietetics/health coach queries (13 calls per run).
   const FRESHER_QUERIES = ["fresher", "internship", "graduate"];
+  // Picked by sampling Hyderabad results: narrower phrases ("graduate trainee",
+  // "fresher operations") returned 0–2 rows; these each surface ~8–11 entry roles.
+  const NONTECH_ENTRY_QUERIES = ["fresher", "intern", "associate", "sales executive"];
   const HEALTHCARE_QUERIES = ["dietitian", "nutritionist", "health coach"];
   const pages = await Promise.all([
     ...Array.from({ length: PAGES }, (_, i) => basePage(i + 1).catch(() => null)),
     ...FRESHER_QUERIES.map((q) => fresherPage(q).catch(() => null)),
-    ...HEALTHCARE_QUERIES.map((q) => healthcarePage(q).catch(() => null)),
+    ...NONTECH_ENTRY_QUERIES.map((q) => keywordPage(q).catch(() => null)),
+    ...HEALTHCARE_QUERIES.map((q) => keywordPage(q).catch(() => null)),
   ]);
   const firstOk = pages.find(Boolean);
   if (!firstOk) {
