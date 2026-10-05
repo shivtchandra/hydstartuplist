@@ -40,8 +40,10 @@ jobs:
           CRON_CONCURRENCY: "6"
         run: node scripts/gh-cron.mjs sync-ats-jobs
 
+  # Downstream jobs use !cancelled() so one failed scrape doesn't block the rest.
   check-hiring:
-    if: github.event.schedule == '0 3 * * *' || github.event_name == 'workflow_dispatch'
+    needs: sync-ats-jobs
+    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -65,7 +67,8 @@ jobs:
         run: node scripts/gh-cron.mjs check-hiring
 
   sync-priority-careers:
-    if: github.event.schedule == '15 4 * * *' || github.event_name == 'workflow_dispatch'
+    needs: check-hiring
+    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -88,7 +91,8 @@ jobs:
         run: node scripts/gh-cron.mjs sync-priority-careers
 
   rebuild-overlay:
-    if: github.event.schedule == '45 5 * * *' || github.event_name == 'workflow_dispatch'
+    needs: sync-priority-careers
+    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -120,8 +124,10 @@ jobs:
           curl -sf --max-time 35 -X GET "$SITE_URL/api/cron/fetch-news?limit=20" \
             -H "Authorization: Bearer $CRON_SECRET" || true
 
+  # Evening (18:00) pull runs alone, no bust; next morning's bust publishes it.
   adzuna-jobs:
-    if: github.event.schedule == '0 6 * * *' || github.event.schedule == '0 18 * * *'
+    needs: [rebuild-overlay, sync-healthcare-jobs]
+    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event.schedule == '0 18 * * *') }}
     runs-on: ubuntu-latest
     steps:
       - name: Call adzuna-jobs on Vercel
@@ -135,14 +141,11 @@ jobs:
 
   # One cache bust per day. Busting a tag invalidates every ISR page built from
   # that data, and each crawled long-tail page then re-renders on its next visit,
-  # so every extra bust costs a near full-site re-render (CPU + ISR writes).
-  # 06:45 runs after the morning batch (incl. rebuild-overlay at 05:45); the
-  # evening adzuna pull is published by the next morning's bust.
+  # so every extra bust costs a near full-site re-render (CPU + ISR writes +
+  # origin transfer). Never add busts to individual scrapes; this is the only one.
   bump-cache:
-    # needs + always(): on a manual dispatch every job runs, so wait for the
-    # scrapes to finish before busting; on schedules they're skipped and this runs alone.
     needs: [sync-ats-jobs, check-hiring, sync-priority-careers, rebuild-overlay, adzuna-jobs, sync-empleos-jobs, sync-direct-jobs, sync-healthcare-jobs]
-    if: always() && (github.event.schedule == '45 6 * * *' || github.event_name == 'workflow_dispatch')
+    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-latest
     steps:
       - name: Bust public-jobs and startups-dynamic once
@@ -155,7 +158,8 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET"
 
   sync-empleos-jobs:
-    if: github.event.schedule == '30 6 * * *' || github.event_name == 'workflow_dispatch'
+    needs: adzuna-jobs
+    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-latest
     steps:
       - name: Call sync-empleos-jobs on Vercel
@@ -168,7 +172,8 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" || true
 
   sync-direct-jobs:
-    if: github.event.schedule == '30 6 * * *' || github.event_name == 'workflow_dispatch'
+    needs: adzuna-jobs
+    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-latest
     steps:
       - name: Call sync-direct-jobs (Amazon, JPMorgan) on Vercel
@@ -181,7 +186,8 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" || true
 
   sync-healthcare-jobs:
-    if: github.event.schedule == '45 5 * * *' || github.event_name == 'workflow_dispatch'
+    needs: sync-priority-careers
+    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
