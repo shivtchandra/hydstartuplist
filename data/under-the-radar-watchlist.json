@@ -567,5 +567,65 @@
     "signals": ["High-scale event streaming", "Greenhouse ATS", "Senior Staff leadership"],
     "activeRoles": ["Senior Staff Software Engineer (Backend Systems)"],
     "stage": "Growth / Enterprise"
+  },
+  {
+    "id": "supabase",
+    "name": "Supabase",
+    "archetype": "Boutique Global Remote",
+    "category": "Open-Source Postgres Platform",
+    "careersUrl": "https://jobs.ashbyhq.com/supabase",
+    "atsType": "ashby",
+    "locationMode": "worldwide-remote",
+    "whyMissed": "Fully remote team that posts roles as remote rather than under a city, so Hyderabad job searches never surface them.",
+    "signals": ["Open source", "Fully remote", "Ashby ATS"],
+    "stage": "Growth (VC-backed)"
+  },
+  {
+    "id": "signoz",
+    "name": "SigNoz",
+    "archetype": "Frontier AI & Infrastructure",
+    "category": "Open-Source Observability (OpenTelemetry)",
+    "careersUrl": "https://jobs.ashbyhq.com/signoz",
+    "atsType": "ashby",
+    "locationMode": "remote-india",
+    "whyMissed": "Indian-founded open-source observability company hiring Remote India; roles are labeled just 'India' with a remote flag, so city filters drop them.",
+    "signals": ["Open source", "Remote India", "Ashby ATS"],
+    "stage": "Early growth (VC-backed)"
+  },
+  {
+    "id": "canonical",
+    "name": "Canonical",
+    "archetype": "Boutique Global Remote",
+    "category": "Ubuntu & Open-Source Infrastructure",
+    "careersUrl": "https://job-boards.greenhouse.io/canonical",
+    "atsType": "greenhouse",
+    "locationMode": "worldwide-remote",
+    "whyMissed": "Hires 'home based - worldwide' for most roles, including some entry-level ones; postings carry no city, so local job searches skip them.",
+    "signals": ["Home-based worldwide", "Open source", "Some entry-level roles"],
+    "stage": "Established (private)"
+  },
+  {
+    "id": "railway",
+    "name": "Railway",
+    "archetype": "Boutique Global Remote",
+    "category": "Cloud Deployment Platform",
+    "careersUrl": "https://jobs.ashbyhq.com/railway",
+    "atsType": "ashby",
+    "locationMode": "worldwide-remote",
+    "whyMissed": "Small fully remote infrastructure team; roles are listed as remote with no city attached.",
+    "signals": ["Fully remote", "Developer infrastructure", "Ashby ATS"],
+    "stage": "Growth (VC-backed)"
+  },
+  {
+    "id": "circle-so",
+    "name": "Circle.so",
+    "archetype": "Boutique Global Remote",
+    "category": "Community Platform for Creators",
+    "careersUrl": "https://jobs.ashbyhq.com/circle",
+    "atsType": "ashby",
+    "locationMode": "remote-india",
+    "whyMissed": "Remote-first community platform whose India roles are posted as 'India' on Ashby, not under any Indian city.",
+    "signals": ["Remote-first", "India roles", "Ashby ATS"],
+    "stage": "Growth (VC-backed)"
   }
 ]

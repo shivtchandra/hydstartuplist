@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-11",
+  "updatedAt": "2026-10-05",
   "headline": "Radar",
   "blurb": "Hand-picked hard-to-find employers — not an Inc42/Greenhouse scrape. Depth (founders, aliases, miss rationale) is curated research. Split by geo: Hyderabad map, San Francisco seed, full-remote Gem boards. Public Hyd map/jobs stay free.",
   "geos": {
@@ -2861,6 +2861,88 @@
         "researchNotes": "The platform 1,000+ Indian corporates run their health benefits on - cashless OPD, mental wellness, pharmacy, claims and analytics. 2M+ lives, one stack. Workforce health benefits platform — HITEC Hyd HQ with marketing careers; often skipped for bigger healthtech brands. Hyderabad footprint: HITEC City, Hyderabad (Healthtech).",
         "lastVerified": "2026-09-11"
       }
+    },
+    {
+      "name": "Vanguard",
+      "careers": "https://vanguard.wd5.myworkdayjobs.com/en-US/vanguard_external",
+      "tags": [
+        "gcc",
+        "hard-to-find"
+      ],
+      "why": "US asset manager now hiring in Hyderabad — 77 Hyderabad roles on its Workday board, yet the brand isn’t known as a local tech employer.",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "onMap": false,
+      "missReasons": [
+        "us-hq-hyd-office",
+        "workday"
+      ],
+      "aliases": [],
+      "exclusiveTier": "watch",
+      "tierNote": "Added Oct 2026 from verified careers boards.",
+      "verifyStatus": "published"
+    },
+    {
+      "name": "Sanofi",
+      "careers": "https://sanofi.wd3.myworkdayjobs.com/en-US/SanofiCareers",
+      "tags": [
+        "gcc",
+        "pharma"
+      ],
+      "why": "Sanofi’s Hyderabad hub — 73 Hyderabad roles on its Workday board, invisible if you only search job sites.",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "onMap": false,
+      "missReasons": [
+        "us-hq-hyd-office",
+        "workday"
+      ],
+      "aliases": [],
+      "exclusiveTier": "watch",
+      "tierNote": "Added Oct 2026 from verified careers boards.",
+      "verifyStatus": "published"
+    },
+    {
+      "name": "Kore.ai",
+      "careers": "https://jobs.smartrecruiters.com/koreai",
+      "tags": [
+        "ai",
+        "hard-to-find"
+      ],
+      "why": "Conversational-AI company with Hyderabad engineering; Hyderabad roles sit on a SmartRecruiters board most aggregators skip.",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "onMap": false,
+      "missReasons": [
+        "smartrecruiters",
+        "us-hq-hyd-office"
+      ],
+      "aliases": [
+        "Koreai"
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "Added Oct 2026 from verified careers boards.",
+      "verifyStatus": "published"
+    },
+    {
+      "name": "Zeta",
+      "careers": "https://jobs.lever.co/zeta",
+      "tags": [
+        "fintech"
+      ],
+      "why": "Banking-tech platform whose Hyderabad roles are buried in a mostly-Bengaluru Lever board (8 of 25 today).",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "onMap": false,
+      "missReasons": [
+        "multi-city-board"
+      ],
+      "aliases": [
+        "Zeta Suite"
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "Added Oct 2026 from verified careers boards.",
+      "verifyStatus": "published"
     }
   ],
   "missReasons": {
@@ -2873,7 +2955,10 @@
     "funding-list": "Small/early raise — below Inc42 Top-N paywall cutoff",
     "marketing-careers": "Careers buried on marketing site (no known ATS board)",
     "keka": "Careers on Keka",
-    "rippling": "Careers on Rippling"
+    "rippling": "Careers on Rippling",
+    "workday": "Careers on a Workday tenant — city scrapers and job sites rarely index it",
+    "smartrecruiters": "Careers on SmartRecruiters (long-tail ATS)",
+    "multi-city-board": "Hyderabad roles buried in a board dominated by other cities"
   },
   "intake": {
     "flow": "gap-sweep MISS → human verify → radar.json geo:hyd → address confirm → startups.json pin + optional ats-boards",
