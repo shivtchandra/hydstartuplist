@@ -10,3 +10,8 @@ test("isInvalidJobListing drops aggregator junk titles", () => {
     assert.equal(isInvalidJobListing({ title, url: "https://example.com/job/1" }), false, title);
   }
 });
+
+test("keyword-stuffed SEO titles are dropped", () => {
+  assert.equal(isInvalidJobListing({ title: "Itfresherjobs-Softwarejobs", url: "https://example.com/1" }), true);
+  assert.equal(isInvalidJobListing({ title: "Jobs Data Engineer", url: "https://example.com/1" }), false);
+});

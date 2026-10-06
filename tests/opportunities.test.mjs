@@ -48,3 +48,13 @@ test('sponsored jobs pin to top and bypass hyd-only filter', () => {
   assert.equal(filterJobs(prepared, { hyd: 'yes' }).some((j) => j.id === 'priority-punarvi-energies-bdm'), true);
   assert.equal(filterJobs(prepared.map((j) => ({ ...j, sponsored: false })), { hyd: 'yes' }).some((j) => j.id === 'priority-punarvi-energies-bdm'), false);
 });
+
+test("prepareJobs keeps old ATS postings still live on their board, drops stale scraped ones", () => {
+  const old = new Date(Date.now() - 200 * 86400000).toISOString();
+  const now = new Date().toISOString();
+  const jobs = prepareJobs([
+    { id: "a", title: "Graduate Software Engineer", company: "Canonical", url: "https://x/a", postedAt: old, lastSeenAt: now, atsProvider: "greenhouse", source: "ats" },
+    { id: "b", title: "Data Analyst", company: "Old Co", url: "https://x/b", postedAt: old, lastSeenAt: now, source: "adzuna" },
+  ]);
+  assert.deepEqual(jobs.map((j) => j.id), ["a"]);
+});
