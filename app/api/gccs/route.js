@@ -13,6 +13,8 @@ export async function GET() {
     list.map((g) => ({
       ...g,
       sponsored: spotlight.has(g.id) || g.sponsored === true,
-    }))
+    })),
+    // Same TTL as /api/placements so spotlight toggles show within minutes.
+    { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600" } }
   );
 }

@@ -1139,7 +1139,7 @@ export default function HomeClient({ initialStartups = [] }) {
         .then((d) => {
           const jobs = Array.isArray(d.jobs) ? d.jobs : [];
           setJobsList(jobs.slice(0, 12));
-          setJobsTotal(jobs.length);
+          setJobsTotal(typeof d.total === "number" ? d.total : jobs.length);
         })
         .catch(() => {});
     };

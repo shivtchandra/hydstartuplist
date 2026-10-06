@@ -7,5 +7,8 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const items = await getNewsFeed();
-  return NextResponse.json(items);
+  // ~270KB; news is fetched once a day by cron, so cache at the edge.
+  return NextResponse.json(items, {
+    headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" },
+  });
 }

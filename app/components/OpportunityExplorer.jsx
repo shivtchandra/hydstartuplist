@@ -287,7 +287,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     return()=>c.abort();
   },[filterQuery,refresh,view,compare]);
   useEffect(()=>{
-    const c=new AbortController();const t=setInterval(()=>{if(document.visibilityState!=='visible')return;fetch(`/api/v2/jobs?${filterQuery}`,{signal:c.signal}).then(r=>r.ok?r.json():null).then(d=>{if(c.signal.aborted||!d?.version)return;if(data?.stale&&!d.stale){startTransition(()=>{setData(d);setNewAvailable(false);setError('');});}else if(d.version!==data?.version)setNewAvailable(true);}).catch(()=>{});},60000);
+    const c=new AbortController();const t=setInterval(()=>{if(document.visibilityState!=='visible')return;fetch(`/api/v2/jobs?${filterQuery}`,{signal:c.signal}).then(r=>r.ok?r.json():null).then(d=>{if(c.signal.aborted||!d?.version)return;if(data?.stale&&!d.stale){startTransition(()=>{setData(d);setNewAvailable(false);setError('');});}else if(d.version!==data?.version)setNewAvailable(true);}).catch(()=>{});},300000);
     return()=>{clearInterval(t);c.abort();};
   },[filterQuery,data?.version,data?.stale]);
   // Legacy ?job= links → permanent SSR page (Google must not index query shells).

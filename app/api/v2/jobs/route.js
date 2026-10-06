@@ -6,6 +6,6 @@ export async function GET(req) {
   try {
     const p=new URL(req.url).searchParams;
     const data=await searchOpportunities(readFilters(p),p.get('cursor')||'');
-    return NextResponse.json(data,{headers:{'Cache-Control':'public, max-age=15, stale-while-revalidate=30'}});
+    return NextResponse.json(data,{headers:{'Cache-Control':'public, max-age=15, s-maxage=300, stale-while-revalidate=600'}});
   } catch(err) {return NextResponse.json({error:err.message==='Invalid cursor'?err.message:'Jobs temporarily unavailable'}, {status:err.message==='Invalid cursor'?400:503});}
 }
