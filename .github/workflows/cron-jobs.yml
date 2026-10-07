@@ -5,21 +5,42 @@ name: Scheduled data refresh
 on:
   schedule:
     - cron: "30 2 * * *"
-    - cron: "0 3 * * *"
-    - cron: "15 4 * * *"
     - cron: "0 5 * * *"
-    - cron: "0 6 * * *"
     - cron: "0 18 * * *"
     - cron: "0 2 * * *"
     - cron: "30 3 * * 0"
-    - cron: "45 5 * * *"
-    - cron: "30 6 * * *"
-    - cron: "45 6 * * *"
   workflow_dispatch: {}
 
 jobs:
-  sync-ats-jobs:
+  # The morning scrape has two triggers. Vercel Cron dispatches it on time
+  # (/api/cron/dispatch-scrape, 00:30 UTC); GitHub's '30 2' schedule, which fires
+  # 6-7h late, is the backup and stands down when a dispatch already ran today.
+  # If the gh lookup itself fails, run anyway: a duplicate scrape beats a missed day.
+  gate:
     if: github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    outputs:
+      run: ${{ steps.check.outputs.run }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          run=true
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            n=$(gh run list -R "${{ github.repository }}" --workflow cron-jobs.yml --event workflow_dispatch \
+              --created ">=$(date -u +%F)" --json conclusion \
+              -q '[.[] | select(.conclusion != "failure" and .conclusion != "cancelled")] | length') || n=0
+            [ "${n:-0}" -gt 0 ] && run=false
+          fi
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+          echo "morning scrape: run=$run"
+
+  sync-ats-jobs:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -42,8 +63,8 @@ jobs:
 
   # Downstream jobs use !cancelled() so one failed scrape doesn't block the rest.
   check-hiring:
-    needs: sync-ats-jobs
-    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
+    needs: [gate, sync-ats-jobs]
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -67,8 +88,8 @@ jobs:
         run: node scripts/gh-cron.mjs check-hiring
 
   sync-priority-careers:
-    needs: check-hiring
-    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
+    needs: [gate, check-hiring]
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -91,8 +112,8 @@ jobs:
         run: node scripts/gh-cron.mjs sync-priority-careers
 
   rebuild-overlay:
-    needs: sync-priority-careers
-    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
+    needs: [gate, sync-priority-careers]
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -126,8 +147,8 @@ jobs:
 
   # Evening (18:00) pull runs alone, no bust; next morning's bust publishes it.
   adzuna-jobs:
-    needs: [rebuild-overlay, sync-healthcare-jobs]
-    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event.schedule == '0 18 * * *') }}
+    needs: [gate, rebuild-overlay, sync-healthcare-jobs]
+    if: ${{ !cancelled() && (needs.gate.outputs.run == 'true' || github.event.schedule == '0 18 * * *') }}
     runs-on: ubuntu-latest
     steps:
       - name: Call adzuna-jobs on Vercel
@@ -144,22 +165,24 @@ jobs:
   # so every extra bust costs a near full-site re-render (CPU + ISR writes +
   # origin transfer). Never add busts to individual scrapes; this is the only one.
   bump-cache:
-    needs: [sync-ats-jobs, check-hiring, sync-priority-careers, rebuild-overlay, adzuna-jobs, sync-empleos-jobs, sync-direct-jobs, sync-healthcare-jobs]
-    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
+    needs: [gate, sync-ats-jobs, check-hiring, sync-priority-careers, rebuild-overlay, adzuna-jobs, sync-empleos-jobs, sync-direct-jobs, sync-healthcare-jobs]
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Bust public-jobs and startups-dynamic once
         env:
           SITE_URL: ${{ secrets.SITE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        # This bust is what publishes the day's scrape; a single failed request
+        # used to leave the site on old data, so retry before giving up.
         run: |
           if [ -z "$SITE_URL" ]; then echo "SITE_URL missing"; exit 0; fi
-          curl -sf --max-time 15 -X GET "$SITE_URL/api/cron/bump-cache?tags=public-jobs,startups-dynamic" \
+          curl -sf --retry 4 --retry-all-errors --retry-delay 15 --max-time 15 -X GET "$SITE_URL/api/cron/bump-cache?tags=public-jobs,startups-dynamic" \
             -H "Authorization: Bearer $CRON_SECRET"
 
   sync-empleos-jobs:
-    needs: adzuna-jobs
-    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
+    needs: [gate, adzuna-jobs]
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Call sync-empleos-jobs on Vercel
@@ -172,8 +195,8 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" || true
 
   sync-direct-jobs:
-    needs: adzuna-jobs
-    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
+    needs: [gate, adzuna-jobs]
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Call sync-direct-jobs (Amazon, JPMorgan) on Vercel
@@ -186,8 +209,8 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" || true
 
   sync-healthcare-jobs:
-    needs: sync-priority-careers
-    if: ${{ !cancelled() && (github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch') }}
+    needs: [gate, sync-priority-careers]
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

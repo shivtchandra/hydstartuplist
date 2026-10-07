@@ -1,6 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "regions": ["iad1"],
+  "crons": [
+    { "path": "/api/cron/dispatch-scrape", "schedule": "30 0 * * *" }
+  ],
   "functions": {
     "app/api/cron/**/*.js": {
       "maxDuration": 30

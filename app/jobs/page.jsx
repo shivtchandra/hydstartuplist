@@ -90,13 +90,14 @@ export default async function JobsPage() {
     // Build workers only see the filesystem careers feed (often empty). Give that
     // prerender a 60s life (unstable_cache revalidate lowers the page's ISR window)
     // so the first real visit regenerates it from runtime data, and flag it stale so
-    // the client refetches /api/v2/jobs meanwhile. Runtime renders keep the week-long
-    // window; the public-jobs tag lets the sync crons' revalidateTag refresh the page.
+    // the client refetches /api/v2/jobs meanwhile. The public-jobs tag bust after the
+    // morning scrape is what refreshes this; the 1-day window is the safety net for a
+    // missed bust (with the week-long window one missed bust froze /jobs for 7 days).
     const buildPhase = isNextProductionBuild();
     const getInitial = unstable_cache(
       () => searchOpportunities({}),
       ["jobs-initial-opportunities", buildPhase ? "build" : "runtime"],
-      { revalidate: buildPhase ? 60 : revalidate, tags: ["public-jobs"] }
+      { revalidate: buildPhase ? 60 : 86400, tags: ["public-jobs"] }
     );
     const initial = await getInitial().catch(() => ({ jobs: [], total: 0, stale: true }));
     if (buildPhase) initial.stale = true;
