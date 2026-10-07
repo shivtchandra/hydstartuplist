@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { colorFor, logoSrcs } from "../../lib/startupUi.js";
+import { logoSrcs, monogramColor } from "../../lib/startupUi.js";
 
 export default function StartupLogo({ name = "", website, logoUrl, sector, size = 56, className = "" }) {
   const srcs = logoSrcs(website, logoUrl, name);
@@ -34,7 +34,7 @@ export default function StartupLogo({ name = "", website, logoUrl, sector, size 
   return (
     <div
       className={fallbackClass}
-      style={{ width: size, height: size, background: colorFor(sector) }}
+      style={{ width: size, height: size, background: monogramColor(name, sector) }}
     >
       {name.charAt(0).toUpperCase()}
     </div>

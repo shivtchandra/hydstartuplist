@@ -12,7 +12,7 @@ import { FILTER_KEYS,readFilters } from '../../lib/opportunities.js';
 import { freshnessLabel } from '../../lib/job-lifecycle.js';
 import { jobExperienceDisplay } from '../../lib/job-facets.js';
 import { jobUrlId } from '../../lib/jobs-seo.js';
-import { cleanJobDescriptionHtml } from '../../lib/job-content.js';
+import { cleanJobDescriptionHtml, displayJobTitle } from '../../lib/job-content.js';
 import { domainOf } from '../../lib/startupUi.js';
 import { readShortlist,writeShortlist } from '../../lib/shortlist.js';
 import { pushShortlistToCloud, useAuthUser } from '../../lib/auth-client.js';
@@ -47,6 +47,27 @@ function formatSalaryPill(salary) {
   if (min) return `From ${fmt(min)}`;
   return `Up to ${fmt(max)}`;
 }
+const CARD_ICONS = {
+  pin: 'M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21zm0-9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
+  role: 'M4 8h16v11H4zM9 8V5h6v3',
+  exp: 'M4 19h4v-5H4zm6 0h4V9h-4zm6 0h4V4h-4z',
+  work: 'M3 11l9-7 9 7M5 10v10h14V10',
+  pay: 'M7 5h10M7 9h10M7 5c5 0 5 8 0 8l7 7',
+  people: 'M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zm-6 9c0-3.3 2.7-6 6-6s6 2.7 6 6m1-9a3 3 0 1 0 0-6m2.5 15c0-2.6-1.3-4.7-3.5-5.6',
+  bookmark: 'M6 4h12v17l-6-4-6 4z',
+};
+function CardIcon({ name, size = 13 }) {
+  return (
+    <svg className="op-card-icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d={CARD_ICONS[name]} />
+    </svg>
+  );
+}
+function postedWithinDay(job) {
+  const t = Date.parse(job.sourcePostedAt || job.postedAt || job.firstSeenAt || '');
+  return Number.isFinite(t) && Date.now() - t < 864e5;
+}
+
 // The `intern` band also holds freshers, trainees and entry-level hires, so labelling it
 // "Internship" tells a job seeker something untrue about a full-time role.
 function readable(key) {return ({intern:'Intern & fresher',junior:'Early career',mid:'Mid-level',senior:'Senior',lead:'Lead',manager:'Manager',unknown:'Not specified',discovered:'New today',today:'Posted today',week:'This week',month:'This month',newest:'Newest',company:'Company',remote:'Remote',hybrid:'Hybrid',onsite:'On-site',early:'Early career'})[key]||key;}
@@ -565,36 +586,12 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                     website={logoWebsite}
                     logoUrl={job.logoUrl}
                     sector={job.sector || job.role}
-                    size={44}
+                    size={48}
                     className="op-card-logo"
                   />
                 </div>
                 <div className="op-card-main-col">
-                  <div className="op-card-header-line">
-                    <div className="op-card-employer-meta">
-                      <span className="op-card-company-name">{job.company}</span>
-                      {job.area && <span className="op-card-dot">·</span>}
-                      {job.area && <span className="op-card-location" title={job.area}>{job.area.split(',')[0]}</span>}
-                      {job.sponsored && (
-                        <span className="op-featured-badge" title="Exclusive Mapping HYD listing">
-                          {job.sponsoredLabel || 'Exclusive'}
-                        </span>
-                      )}
-                      {job.isDirect && <span className="op-direct-badge" title="Direct from company careers ATS">Direct ATS</span>}
-                    </div>
-                    <button
-                      className={`op-save-btn${isSaved ? ' is-saved' : ''}`}
-                      aria-label={`Save ${job.title}`}
-                      aria-pressed={isSaved}
-                      onClick={e => {
-                        e.stopPropagation();
-                        save(job);
-                      }}
-                    >
-                      {isSaved ? 'Saved' : 'Save'}
-                    </button>
-                  </div>
-
+                  <div className="op-card-title-line">
                   <a
                     className="op-card-title-link"
                     href={'/jobs/' + jobUrlId(job.id)}
@@ -605,33 +602,61 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                       }
                     }}
                   >
-                    {job.title}
+                    {displayJobTitle(job.title)}
                   </a>
+                    <button
+                      className={`op-bookmark-btn${isSaved ? ' is-saved' : ''}`}
+                      aria-label={`Save ${job.title}`}
+                      aria-pressed={isSaved}
+                      title={isSaved ? 'Saved' : 'Save'}
+                      onClick={e => {
+                        e.stopPropagation();
+                        save(job);
+                      }}
+                    >
+                      <CardIcon name="bookmark" size={18} />
+                    </button>
+                  </div>
+
+                  <div className="op-card-employer-meta">
+                    <span className="op-card-company-name">{job.company}</span>
+                    {job.area && (
+                      <span className="op-card-location" title={job.area}>
+                        <CardIcon name="pin" />
+                        {job.area.split(',')[0]}
+                      </span>
+                    )}
+                    {job.sponsored && (
+                      <span className="op-featured-badge" title="Exclusive Mapping HYD listing">
+                        {job.sponsoredLabel || 'Exclusive'}
+                      </span>
+                    )}
+                  </div>
+
+                  {job.snippet && <p className="op-card-snippet">{job.snippet}</p>}
 
                   <div className="op-card-pills-row">
-                    {expDisplay && <span className="op-tag-pill op-tag-exp">{expDisplay}</span>}
-                    {job.area && job.area !== 'Hyderabad' && !job.area.includes(',') && (
-                      <span className="op-tag-pill op-tag-area">{job.area}</span>
+                    {salaryPill && (
+                      <span className="op-tag-pill op-tag-salary"><CardIcon name="pay" />{salaryPill}</span>
                     )}
+                    {expDisplay && <span className="op-tag-pill op-tag-exp"><CardIcon name="exp" />{expDisplay}</span>}
                     {job.role && job.role !== 'Other' && (
-                      <span className="op-tag-pill op-tag-role">{job.role}</span>
+                      <span className="op-tag-pill op-tag-role"><CardIcon name="role" />{job.role}</span>
                     )}
                     {job.work && job.work !== 'unknown' && (
-                      <span className="op-tag-pill op-tag-work">{readable(job.work)}</span>
-                    )}
-                    {salaryPill && (
-                      <span className="op-tag-pill op-tag-salary">{salaryPill}</span>
+                      <span className="op-tag-pill op-tag-work"><CardIcon name="work" />{readable(job.work)}</span>
                     )}
                     {job.openings > 1 && (
-                      <span className="op-tag-pill op-tag-openings">{job.openings} openings</span>
+                      <span className="op-tag-pill op-tag-openings"><CardIcon name="people" />{job.openings} openings</span>
                     )}
                   </div>
                 </div>
               </div>
 
               <div className="op-card-footer-row">
-                <span className="op-card-timestamp">
+                <span className={`op-card-timestamp${job.status !== 'closed' && postedWithinDay(job) ? ' is-fresh' : ''}`}>
                   {job.status === 'closed' ? 'Closed' : freshnessLabel(job)}
+                  {job.isDirect && <span className="op-direct-badge" title="Direct from company careers ATS">Direct from careers page</span>}
                 </span>
                 {job.moreAtCompany && (
                   <button
@@ -737,7 +762,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                     <span className="op-detail-company-name">{detail.company}</span>
                     {detail.isDirect && <span className="op-direct-badge">Direct ATS</span>}
                   </div>
-                  <h2 className="op-detail-main-title">{detail.title}</h2>
+                  <h2 className="op-detail-main-title">{displayJobTitle(detail.title)}</h2>
                   <div className="op-detail-meta-line">
                     <span>{detail.area || detail.location || 'Hyderabad'}</span>
                     <span>·</span>

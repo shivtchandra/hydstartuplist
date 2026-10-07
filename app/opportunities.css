@@ -751,14 +751,6 @@ body:has(.op-shell) .home-seo{
   gap: 4px;
 }
 
-.op-card-header-line {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-}
-
 .op-card-employer-meta {
   display: flex;
   align-items: center;
@@ -1123,15 +1115,6 @@ body:has(.op-shell) .home-seo{
   border-color: #bfdbfe;
 }
 
-.op-tag-area {
-  background: #fefce8;
-  color: #854d0e;
-  border-color: #fef08a;
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .op-tag-openings {
   background: #fff1f2;
   color: #9f1239;
@@ -1172,30 +1155,6 @@ body:has(.op-shell) .home-seo{
   text-decoration: underline;
 }
 
-.op-save-btn {
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  padding: 4px 10px !important;
-  min-height: 28px !important;
-  border-radius:var(--radius-control) !important;
-  border: 1px solid var(--line-strong) !important;
-  background: #ffffff !important;
-  color: #475569 !important;
-  cursor: pointer;
-  transition: all 0.12s ease;
-  flex-shrink: 0;
-}
-
-.op-save-btn:hover {
-  background: var(--surface-2) !important;
-  border-color: #94a3b8 !important;
-}
-
-.op-save-btn.is-saved {
-  background: #fff7ed !important;
-  color: var(--accent-text) !important;
-  border-color: #fdba74 !important;
-}
 
 /* ==========================================================================
    OTTA SPLIT DETAIL PANE
@@ -2043,17 +2002,6 @@ body:has(.op-shell) .home-seo{
   color: var(--accent-text) !important;
   font-size: var(--fs-xs) !important;
 }
-.op-save-btn {
-  min-height: 32px !important;
-  padding: 0 12px !important;
-  border-radius: var(--radius-full) !important;
-  color: var(--ink) !important;
-}
-.op-save-btn.is-saved {
-  background: var(--accent-soft) !important;
-  color: var(--accent-text) !important;
-  border-color: var(--accent-primary) !important;
-}
 
 /* Results bar, empty state, load more */
 .op-results-bar {
@@ -2126,9 +2074,6 @@ body:has(.op-shell) .home-seo{
   .op-card-title-link {
     font-size: var(--fs-md);
   }
-  .op-save-btn {
-    min-height: 36px !important;
-  }
 }
 .op-eyebrow {
   text-transform: uppercase;
@@ -2161,4 +2106,177 @@ body:has(.op-shell) .home-seo{
     flex: 0 0 auto;
     white-space: nowrap;
   }
+}
+
+/* ==========================================================================
+   Job card v2 — title-first, icon facts, bookmark, inline freshness
+   (Himalayas-style). Scoped under .op-shell to beat the older layers above.
+   ========================================================================== */
+.op-shell .op-job-card {
+  padding: 20px 22px 16px;
+  border-radius: 16px;
+  border: 1px solid #e8e5df;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+  transition: border-color 0.15s ease, box-shadow 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.op-shell .op-job-card:hover {
+  border-color: #d6d0c6;
+  box-shadow: 0 12px 28px -12px rgba(15, 23, 42, 0.16), 0 2px 6px rgba(15, 23, 42, 0.04);
+  transform: translateY(-2px);
+}
+.op-shell .op-job-card.is-selected {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.14);
+  transform: none;
+}
+.op-shell .op-card-top-row { gap: 16px; }
+.op-shell .op-card-brand-col {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border-color: rgba(15, 23, 42, 0.07);
+}
+.op-shell .op-card-brand-col img,
+.op-shell .op-card-brand-col .card-logo,
+.op-shell .op-card-brand-col .card-logo-fallback {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 11px !important;
+}
+.op-shell .op-card-brand-col img { padding: 6px; box-sizing: border-box; }
+.op-shell .op-card-brand-col .card-logo-fallback { font-size: 19px !important; border: 0; }
+.op-shell .op-card-main-col { gap: 6px; }
+
+.op-card-title-line {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.op-shell .op-card-title-link {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: #111827;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.op-shell .op-job-card:hover .op-card-title-link { color: var(--accent-text); }
+
+.op-shell .op-bookmark-btn {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  margin: -6px -8px 0 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #9ca3af;
+  transition: color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+}
+.op-shell .op-bookmark-btn:hover { background: #f5f3ef; color: #374151; }
+.op-shell .op-bookmark-btn:active { transform: scale(0.92); }
+.op-shell .op-bookmark-btn.is-saved { color: var(--accent-primary); }
+.op-shell .op-bookmark-btn.is-saved svg { fill: currentColor; }
+
+.op-shell .op-card-employer-meta {
+  gap: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+}
+.op-shell .op-card-company-name { color: #374151; font-weight: 600; }
+.op-shell .op-card-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #6b7280;
+}
+.op-card-icon { flex-shrink: 0; }
+.op-card-snippet {
+  margin: 2px 0 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #6b7280;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.op-shell .op-card-pills-row { gap: 6px; margin-top: 6px; }
+.op-shell .op-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 550;
+  line-height: 1.3;
+  background: #f4f2ee;
+  color: #3f3f46;
+}
+.op-shell .op-tag-pill .op-card-icon { opacity: 0.7; }
+.op-shell .op-tag-salary { background: #e9f9ef; color: #047857; font-weight: 650; }
+.op-shell .op-tag-role { background: #f3efff; color: #5b21b6; }
+.op-shell .op-tag-work { background: #eaf2ff; color: #1d4ed8; }
+.op-shell .op-tag-openings { background: #fff0f1; color: #9f1239; }
+
+.op-shell .op-card-footer-row {
+  margin-top: 14px;
+  padding: 0 0 0 64px;
+  border-top: 0;
+  font-size: 12.5px;
+  color: #6b7280;
+}
+.op-shell .op-card-timestamp {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  font-size: 12.5px;
+  color: #6b7280;
+}
+.op-shell .op-card-timestamp.is-fresh::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  margin-right: -4px;
+  border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+.op-shell .op-direct-badge {
+  padding: 2px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #3730a3;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .op-shell .op-job-card { padding: 16px 16px 14px; }
+  .op-shell .op-card-top-row { gap: 12px; }
+  .op-shell .op-card-title-link { font-size: 16px; }
+  .op-shell .op-card-employer-meta { font-size: 13px; }
+  .op-shell .op-card-footer-row { padding-left: 0; margin-top: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .op-shell .op-job-card,
+  .op-shell .op-job-card:hover { transform: none; transition: none; }
 }
