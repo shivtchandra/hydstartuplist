@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '../../../../lib/firebaseAdmin.js';
+import { isAllowedOrigin } from '../../../../lib/same-origin.js';
 import { verifyAlert } from '../../../../lib/alert-tokens.js';
 export const dynamic='force-dynamic';
 export async function POST(req){
-  if(req.headers.get('origin')!==new URL(req.url).origin)return NextResponse.json({error:'Invalid origin'},{status:403});
+  if(!isAllowedOrigin(req))return NextResponse.json({error:'Invalid origin'},{status:403});
   let body;try{body=await req.json();}catch{return NextResponse.json({error:'Invalid request'},{status:400});}
   const payload=verifyAlert(String(body.token||''),process.env.ALERT_TOKEN_SECRET||'');
   if(!process.env.ALERT_TOKEN_SECRET||!payload)return NextResponse.json({error:'This link is invalid or has expired.'},{status:400});

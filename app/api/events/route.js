@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "../../../lib/firebaseAdmin.js";
+import { isAllowedOrigin } from "../../../lib/same-origin.js";
 import { safeEvent } from "../../../lib/engagement.js";
 import { FieldValue } from "firebase-admin/firestore";
 export const dynamic = "force-dynamic";
@@ -56,7 +57,7 @@ async function persistEvent(event) {
 }
 
 export async function POST(req) {
-  if (req.headers.get("origin") !== new URL(req.url).origin) {
+  if (!isAllowedOrigin(req)) {
     return new NextResponse(null, { status: 403 });
   }
   const raw = await req.text();

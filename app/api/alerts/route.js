@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import { getAdminDb } from '../../../lib/firebaseAdmin.js';
+import { isAllowedOrigin } from '../../../lib/same-origin.js';
 import { readFilters } from '../../../lib/opportunities.js';
 import { alertsReady,hash,sendOnce,escapeEmail } from '../../../lib/alerts.js';
 import { signAlert } from '../../../lib/alert-tokens.js';
 import { getSiteUrl } from '../../../lib/site-url.js';
 export const dynamic='force-dynamic';
 export async function POST(req){
-  if(req.headers.get('origin')!==new URL(req.url).origin)return NextResponse.json({error:'Invalid origin'},{status:403});
+  if(!isAllowedOrigin(req))return NextResponse.json({error:'Invalid origin'},{status:403});
   if(!alertsReady())return NextResponse.json({message:'Your search is saved locally. Email alerts are not available yet.'},{status:503});
   const text=await req.text();if(text.length>4096)return NextResponse.json({error:'Request too large'},{status:413});
   let body;try{body=JSON.parse(text);}catch{return NextResponse.json({error:'Invalid request'},{status:400});}

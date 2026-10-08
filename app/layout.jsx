@@ -126,7 +126,8 @@ export default function RootLayout({ children }) {
         {children}
         <SiteFooter />
         <GoogleAnalytics />
-        <Analytics />
+        {/* Vercel Analytics only exists on Vercel; the Cloudflare Pages build uses GA4. */}
+        {process.env.HYD_STATIC_EXPORT !== "1" && <Analytics />}
         <GoogleOneTap />
         <SoftLoginBanner />
         <InteractionMetrics />

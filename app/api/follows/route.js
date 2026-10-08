@@ -1,9 +1,10 @@
 import {NextResponse} from 'next/server';
 import {getAdminDb} from '../../../lib/firebaseAdmin.js';
+import {isAllowedOrigin} from '../../../lib/same-origin.js';
 import {recordId} from '../../../lib/board-store.js';
 export const dynamic='force-dynamic';
 export async function POST(req){
-  if(req.headers.get('origin')!==new URL(req.url).origin)return new NextResponse(null,{status:403});
+  if(!isAllowedOrigin(req))return new NextResponse(null,{status:403});
   const text=await req.text();if(text.length>1024)return new NextResponse(null,{status:413});
   let input;try{input=JSON.parse(text);}catch{return new NextResponse(null,{status:400});}
   if(!/^[a-f0-9-]{36}$/.test(input.device||'')||typeof input.company!=='string'||input.company.length>160||typeof input.follow!=='boolean')return new NextResponse(null,{status:400});
