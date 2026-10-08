@@ -1,6 +1,7 @@
 import { unstable_cache } from "next/cache";
 import LandingExposure from "../components/LandingExposure.jsx";
 import HomeClient from "./HomeClient.jsx";
+import LegacyQueryRedirect from "../components/LegacyQueryRedirect.jsx";
 import { getPublicStartups } from "../../lib/startups-public.js";
 
 // No searchParams/headers() here on purpose: reading them made this ~920KB
@@ -17,5 +18,5 @@ const getCachedStartups = unstable_cache(
 
 export default async function HomePage() {
   const startups = await getCachedStartups();
-  return <><LandingExposure variant="control" /><HomeClient initialStartups={startups} /></>;
+  return <><LegacyQueryRedirect /><LandingExposure variant="control" /><HomeClient initialStartups={startups} /></>;
 }

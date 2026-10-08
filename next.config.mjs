@@ -1,5 +1,10 @@
+// HYD_STATIC_EXPORT=1 (scripts/build-static.sh, GitHub Actions) builds the whole
+// site as static files for Cloudflare Pages. Vercel builds are unaffected.
+const staticExport = process.env.HYD_STATIC_EXPORT === "1";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  ...(staticExport ? { output: "export", images: { unoptimized: true } } : {}),
   // Hobby builds were SIGTERM'd at the default 60s while /sitemap and heavy
   // routes competed for workers; keep a higher ceiling as a safety net.
   staticPageGenerationTimeout: 180,
@@ -10,11 +15,12 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Redirect Vercel preview URL to canonical domain
+      // Redirect Vercel preview URL to canonical domain, except /api: the
+      // Cloudflare Pages proxy (functions/api) calls the APIs on this host.
       {
-        source: '/:path*',
+        source: '/:path((?!api/).*)',
         has: [{ type: 'host', value: 'hydstartuplist.vercel.app' }],
-        destination: 'https://startups.mapmyhyd.com/:path*',
+        destination: 'https://startups.mapmyhyd.com/:path',
         permanent: true,
       },
       // Dead /industries/* labels linked from Insights (fold into real hubs)

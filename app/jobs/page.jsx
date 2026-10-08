@@ -18,6 +18,7 @@ import {
   JOB_ROLE_LANDINGS,
 } from "../../lib/jobs-seo.js";
 import JobsSeoIndex from "../components/JobsSeoIndex.jsx";
+import LegacyQueryRedirect from "../components/LegacyQueryRedirect.jsx";
 
 // This app redeploys multiple times a day, which already resets the ISR
 // cache — see app/jobs/company/[slug]/page.jsx.
@@ -104,6 +105,7 @@ export default async function JobsPage() {
     const roleCount = await distinctRoleCount();
     return (
       <>
+        <LegacyQueryRedirect />
         <Suspense fallback={<p>Loading opportunities…</p>}>
           <OpportunityExplorer initial={initial} />
         </Suspense>
