@@ -34,7 +34,11 @@ export async function GET(req) {
       "X-GitHub-Api-Version": "2022-11-28",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ ref: process.env.GITHUB_DISPATCH_REF || "master" }),
+    // ?scope=jobs (the 06:30/12:30/18:30 runs) skips the Firecrawl-backed scrapers.
+    body: JSON.stringify({
+      ref: process.env.GITHUB_DISPATCH_REF || "master",
+      inputs: { scope: new URL(req.url).searchParams.get("scope") === "jobs" ? "jobs" : "full" },
+    }),
     signal: AbortSignal.timeout(8_000),
   }).catch((err) => ({ ok: false, status: 0, text: async () => String(err?.message || err) }));
 

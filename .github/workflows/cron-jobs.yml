@@ -6,10 +6,18 @@ on:
   schedule:
     - cron: "30 2 * * *"
     - cron: "0 5 * * *"
-    - cron: "0 18 * * *"
     - cron: "0 2 * * *"
     - cron: "30 3 * * 0"
-  workflow_dispatch: {}
+  # Vercel Cron dispatches the scrape every 6h (vercel.json): 00:30 UTC with
+  # scope=full, 06:30/12:30/18:30 with scope=jobs. "jobs" skips check-hiring and
+  # sync-priority-careers, which spend Firecrawl credits, so they stay once a day.
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: "full = every scraper; jobs = job feeds only (no Firecrawl)"
+        type: choice
+        options: [full, jobs]
+        default: full
 
 # Morning-scrape runs (dispatch or the '30 2' backup) queue behind each other instead of
 # scraping in parallel. Other schedules get a per-run group so they never queue or get
@@ -71,7 +79,7 @@ jobs:
   # Downstream jobs use !cancelled() so one failed scrape doesn't block the rest.
   check-hiring:
     needs: [gate, sync-ats-jobs]
-    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' && github.event.inputs.scope != 'jobs' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -96,7 +104,7 @@ jobs:
 
   sync-priority-careers:
     needs: [gate, check-hiring]
-    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' && github.event.inputs.scope != 'jobs' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -160,10 +168,9 @@ jobs:
           GITHUB_ACTIONS: "true"
         run: node scripts/gh-cron.mjs fetch-news limit=60
 
-  # Evening (18:00) pull runs alone, no bust; next morning's bust publishes it.
   adzuna-jobs:
     needs: [gate, rebuild-overlay, sync-healthcare-jobs]
-    if: ${{ !cancelled() && (needs.gate.outputs.run == 'true' || github.event.schedule == '0 18 * * *') }}
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
