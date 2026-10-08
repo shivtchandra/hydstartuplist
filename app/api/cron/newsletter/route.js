@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { buildDigest, getSubscribers, sendDigestEmail } from "../../../../lib/newsletter.js";
 
 // Weekly digest — triggered by Vercel Cron (vercel.json: Sundays 09:00 IST).
@@ -22,14 +21,14 @@ export async function GET(req) {
   // rejects anyone else from triggering a mass-send by hitting the URL.
   const auth = req.headers.get("authorization");
   if (process.env.CRON_SECRET && auth !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
   const digest = await buildDigest();
   const subscribers = await getSubscribers();
 
   if (!subscribers) {
-    return NextResponse.json({
+    return Response.json({
       ok: true,
       sent: 0,
       note: "FIREBASE_SERVICE_ACCOUNT not configured — digest composed but subscriber list unreadable. Logged only.",
@@ -43,5 +42,5 @@ export async function GET(req) {
   }
   const sent = results.filter((r) => r.sent).length;
 
-  return NextResponse.json({ ok: true, sent, of: subscribers.length, note: sent === 0 ? "RESEND_API_KEY not configured" : undefined });
+  return Response.json({ ok: true, sent, of: subscribers.length, note: sent === 0 ? "RESEND_API_KEY not configured" : undefined });
 }

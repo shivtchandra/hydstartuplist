@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { getApproved, refreshDynamicOverlayRollup } from "../../../../lib/store.js";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 
@@ -67,7 +66,7 @@ export async function GET(req) {
   if (cronSecret) {
     const authHeader = req.headers.get("authorization");
     if (authHeader !== `Bearer ${cronSecret}`) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
   }
 
@@ -120,7 +119,7 @@ export async function GET(req) {
     void refreshDynamicOverlayRollup(db);
   }
 
-return NextResponse.json({
+return Response.json({
     success: true,
     checked: targets.length,
     newsHits: hits,

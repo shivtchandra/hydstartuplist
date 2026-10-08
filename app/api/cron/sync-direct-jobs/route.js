@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { runSyncDirectJobs } from "../../../../lib/cron/sync-direct-jobs.js";
 
 export const dynamic = "force-dynamic";
@@ -9,12 +8,12 @@ export async function GET(req) {
   if (cronSecret) {
     const authHeader = req.headers.get("authorization");
     if (authHeader !== `Bearer ${cronSecret}`) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
   }
 
   const result = await runSyncDirectJobs();
-  return NextResponse.json(result, {
+  return Response.json(result, {
     status: result.status || (result.ok === false ? 500 : 200),
   });
 }

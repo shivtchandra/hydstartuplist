@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { getAdminDb } from '../../../../lib/firebaseAdmin.js';
 import { opportunityDataset } from '../../../../lib/opportunity-store.js';
 import { matchesJob } from '../../../../lib/opportunities.js';
@@ -8,9 +7,9 @@ import { jobUrlId } from '../../../../lib/jobs-seo.js';
 export const dynamic='force-dynamic';
 export const maxDuration = 20;
 export async function GET(req){
-  if(!process.env.CRON_SECRET||req.headers.get('authorization')!==`Bearer ${process.env.CRON_SECRET}`)return new NextResponse(null,{status:401});
-  if(!alertsReady())return NextResponse.json({enabled:false});
-  const db=await getAdminDb();const data=await opportunityDataset();if(!db||data.stale)return NextResponse.json({error:'Fresh data unavailable'},{status:503});
+  if(!process.env.CRON_SECRET||req.headers.get('authorization')!==`Bearer ${process.env.CRON_SECRET}`)return new Response(null,{status:401});
+  if(!alertsReady())return Response.json({enabled:false});
+  const db=await getAdminDb();const data=await opportunityDataset();if(!db||data.stale)return Response.json({error:'Fresh data unavailable'},{status:503});
   const snap=await db.collection('alert_subscriptions').where('status','==','active').get();let sent=0;const started=Date.now();
   for(const doc of snap.docs){if(Date.now()-started>40000)break;const sub=doc.data();
     const now=Date.now(),istHour=new Date(now+19800000).getUTCHours();
@@ -23,5 +22,5 @@ export async function GET(req){
     const result=await sendOnce(`digest:${doc.id}:${slot}`,sub.email,`${jobs.length} new Hyderabad role${jobs.length===1?'':'s'}`,html,{checkpoint:new Date(now).toISOString()});
     if(result.sent){sent++;await doc.ref.set({lastSlot:slot,lastCheckedAt:result.checkpoint||sub.lastCheckedAt||sub.confirmedAt},{merge:true});}
   }
-  return NextResponse.json({sent});
+  return Response.json({sent});
 }

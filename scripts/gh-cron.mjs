@@ -24,7 +24,7 @@ if (!process.env.NEXT_PUBLIC_SITE_URL && process.env.SITE_URL) {
 
 const job = process.argv[2];
 if (!job) {
-  console.error("Usage: node scripts/gh-cron.mjs <sync-ats-jobs|check-hiring|sync-priority-careers|rebuild-overlay>");
+  console.error("Usage: node scripts/gh-cron.mjs <job> [query]  (see runners below)");
   process.exit(2);
 }
 
@@ -40,6 +40,28 @@ const runners = {
     (await import("../lib/cron/sync-healthcare-jobs.js")).runSyncHealthcareJobs(),
   "rebuild-overlay": async () => (await import("../lib/cron/rebuild-overlay.js")).runRebuildOverlay(),
 };
+
+// These used to be curl'd on Vercel, where each run was capped at 20-30s and
+// billed as Fluid Active CPU. Run the same route handlers here instead: free
+// and unlimited on a public repo, with up to 6h per job. Optional 3rd arg is a
+// query string, e.g. `node scripts/gh-cron.mjs fetch-news limit=20`.
+const ROUTE_JOBS = ["fetch-news", "adzuna-jobs", "sync-empleos-jobs", "sync-direct-jobs", "job-alerts", "newsletter"];
+for (const name of ROUTE_JOBS) {
+  runners[name] = async () => {
+    // The handlers check `Bearer ${CRON_SECRET}`; mint one in-process if unset.
+    if (!process.env.CRON_SECRET) process.env.CRON_SECRET = crypto.randomUUID();
+    const site = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost";
+    const query = process.argv[3] ? `?${process.argv[3]}` : "";
+    const { GET } = await import(`../app/api/cron/${name}/route.js`);
+    const res = await GET(
+      new Request(`${site}/api/cron/${name}${query}`, {
+        headers: { authorization: `Bearer ${process.env.CRON_SECRET}` },
+      })
+    );
+    const body = await res.json().catch(() => null);
+    return { ok: res.ok, status: res.status, ...(body && typeof body === "object" ? body : { body }) };
+  };
+}
 
 if (!runners[job]) {
   console.error("Unknown job:", job);

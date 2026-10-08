@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import {
   normalizeSalary,
@@ -55,14 +54,14 @@ export async function GET(req) {
   if (cronSecret) {
     const authHeader = req.headers.get("authorization");
     if (authHeader !== `Bearer ${cronSecret}`) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
   }
 
   const appId = process.env.ADZUNA_APP_ID;
   const appKey = process.env.ADZUNA_APP_KEY;
   if (!appId || !appKey) {
-    return NextResponse.json(
+    return Response.json(
       { error: "ADZUNA_APP_ID/ADZUNA_APP_KEY not configured" },
       { status: 500 }
     );
@@ -135,7 +134,7 @@ export async function GET(req) {
   ]);
   const firstOk = pages.find(Boolean);
   if (!firstOk) {
-    return NextResponse.json({ error: "Adzuna request failed" }, { status: 502 });
+    return Response.json({ error: "Adzuna request failed" }, { status: 502 });
   }
 
   const fetchedAt = new Date().toISOString();
@@ -220,7 +219,7 @@ export async function GET(req) {
     }
   }
 
-  return NextResponse.json({
+  return Response.json({
     success: true,
     mode: "incremental-poll",
     incoming: incoming.size,
