@@ -4,13 +4,15 @@ const SITE_URL = getSiteUrl();
 
 export const metadata = {
   alternates: { canonical: `${SITE_URL}/product-companies` },
-  title: "Top Product Based Companies in Hyderabad (2026 Directory & Map) — 1,000+ Startups",
+  title: "Top 100+ Product Companies in Hyderabad (2026 Directory + Live Jobs & Salaries)",
   description:
-    "Complete list of 1,000+ top product-based companies and software startups in Hyderabad — SaaS, AI, FinTech, and DeepTech offices across HITEC City, Gachibowli, and Madhapur.",
+    "Complete directory of 1,000+ verified product software companies in Hyderabad with 400+ live jobs, direct ATS portals (Greenhouse/Lever/Ashby), office maps, and zero consultancies.",
   keywords: [
     "product based companies in hyderabad",
     "product companies in hyderabad",
     "top product based companies in hyderabad",
+    "product based companies in hyderabad hiring",
+    "product based companies in hyderabad for freshers",
     "what are product based companies in hyderabad",
     "best product based companies in hyderabad",
     "product based companies list in hyderabad",
@@ -22,11 +24,12 @@ export const metadata = {
     "product base company in hyderabad",
     "saas companies in hyderabad",
     "hyderabad startup map",
+    "hyderabad startups map",
   ],
   openGraph: {
-    title: "Top Product Based Companies in Hyderabad (2026 Directory & Map)",
+    title: "Top 100+ Product Companies in Hyderabad (2026 Directory + Live Jobs & Salaries)",
     description:
-      "Explore 1,000+ software product companies and startups in Hyderabad with live office pins, funding stages, and open job roles.",
+      "Explore 1,000+ verified product software companies and startups in Hyderabad with live office pins, funding stages, and direct ATS job openings.",
     url: `${SITE_URL}/product-companies`,
   },
 };
@@ -37,7 +40,7 @@ const JSONLD = {
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Hyderabad Startup Map", item: SITE_URL },
+        { "@type": "ListItem", position: 1, name: "Hyderabad Startups Map", item: SITE_URL },
         { "@type": "ListItem", position: 2, name: "Product Based Companies in Hyderabad", item: `${SITE_URL}/product-companies` },
       ],
     },
@@ -65,18 +68,26 @@ const JSONLD = {
         },
         {
           "@type": "Question",
-          name: "How many product-based startups are located in Hyderabad?",
+          name: "Which product companies in Hyderabad are actively hiring?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Mapping HYD tracks over 1,000+ verified product-based companies and software startups across HITEC City, Gachibowli, Madhapur, Knowledge City, and Financial District.",
+            text: "Over 60+ verified product startups and tech companies in Hyderabad have active openings tracked on Hyderabad Startups Map, linking directly to company ATS portals (Greenhouse, Lever, Ashby, Workday) with zero recruitment consultancies.",
           },
         },
         {
           "@type": "Question",
-          name: "Where can I find jobs at product companies in Hyderabad?",
+          name: "What are the top product-based companies in Hyderabad for freshers?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "You can explore live engineering, product, and AI roles directly on Mapping HYD's Jobs Board, linking straight to company ATS portals with zero consultancy middle-layers.",
+            text: "Startups and growth-stage product companies hiring entry-level talent and interns include Phenom, Darwinbox, Zenoti, Keka, HighRadius, alongside specialized deep-tech builders like Skyroot Aerospace and Dhruva Space.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How many product-based startups are located in Hyderabad?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Hyderabad Startups Map tracks over 1,000+ verified product-based companies and software startups across HITEC City, Gachibowli, Madhapur, Knowledge City, and Financial District.",
           },
         },
       ],

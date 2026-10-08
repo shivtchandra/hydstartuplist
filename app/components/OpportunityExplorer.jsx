@@ -440,8 +440,8 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
         </svg>
       </span>
       <span className="tn-title">
-        <span className="tn-title-full">Mapping<b> HYD</b></span>
-        <span className="tn-title-short">Mapping<b> HYD</b></span>
+        <span className="tn-title-full">Hyderabad<b> Startups Map</b></span>
+        <span className="tn-title-short">Startups<b> Map</b></span>
       </span>
     </Link>
   );

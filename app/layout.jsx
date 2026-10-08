@@ -35,13 +35,14 @@ const JSONLD = {
     {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
-      url: SITE_URL,
-      name: "Mapping HYD",
+      url: `${SITE_URL}/`,
+      name: "Hyderabad Startups Map",
       alternateName: [
         "Hyderabad Startup Map",
-        "Hyd Startup Map",
-        "Hyderabad Startups Map",
-        "MappingHYD",
+        "Hyderabad Startups",
+        "Hyd Startups Map",
+        "Startups MapMyHyd",
+        "Mapping HYD",
       ],
       description: OG_DESC,
       inLanguage: "en-IN",
@@ -54,21 +55,14 @@ const JSONLD = {
     {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,
-      name: "Mapping HYD",
+      name: "Hyderabad Startups Map",
       url: SITE_URL,
       logo: { "@type": "ImageObject", url: `${SITE_URL}/icon.svg` },
       founder: [{ "@id": `${SITE_URL}/#founder` }, { "@id": `${SITE_URL}/#cofounder` }],
       sameAs: [
         "https://mapmyhyd.com/",
-        "https://eats.mapmyhyd.com/",
         "https://github.com/shivtchandra/hydstartuplist",
       ],
-      parentOrganization: {
-        "@type": "Organization",
-        "@id": "https://mapmyhyd.com/#organization",
-        name: "Mapping HYD",
-        url: "https://mapmyhyd.com/",
-      },
     },
   ],
 };
@@ -76,8 +70,8 @@ const JSONLD = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Hyderabad Startup Map — 1,200+ Software, IT & Product Companies",
-    template: "%s | Mapping HYD",
+    default: "Hyderabad Startups Map — 1,200+ Software, IT & Product Companies",
+    template: "%s | Hyderabad Startups Map",
   },
   description: OG_DESC,
   keywords: [
@@ -103,7 +97,7 @@ export const metadata = {
   openGraph: {
     title: OG_TITLE,
     description: OG_DESC,
-    siteName: "Mapping HYD",
+    siteName: "Hyderabad Startups Map",
     url: SITE_URL,
     type: "website",
     locale: "en_IN",

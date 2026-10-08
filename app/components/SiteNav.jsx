@@ -76,10 +76,10 @@ export default function SiteNav({ active = "", mode }) {
             </span>
             <span className="tn-title">
               <span className="tn-title-full">
-                Mapping<b> HYD</b>
+                Hyderabad<b> Startups Map</b>
               </span>
               <span className="tn-title-short">
-                Mapping<b> HYD</b>
+                Startups<b> Map</b>
               </span>
             </span>
           </Link>

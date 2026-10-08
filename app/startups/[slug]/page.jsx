@@ -31,16 +31,28 @@ import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
-  const startup = await getStartupBySlug(params.slug);
+  const [startup, companyJobs] = await Promise.all([
+    getStartupBySlug(params.slug),
+    getJobsForStartupSlug(params.slug).catch(() => []),
+  ]);
   if (!startup) return { title: "Startup not found" };
 
   const name = prettyName(startup.name);
   const cleanDesc = cleanCompanyDescription(startup.descriptionLong || startup.description || "");
   const stage = fundingLabel(startup.fundingStage);
-  const title = `${name} – ${startup.sector} Startup in ${startup.area || "Hyderabad"}`;
+  const hiring = visibleHiring(startup);
+  const roleCount = Math.max(companyJobs.length, hiring?.roles?.length || hiring?.count || 0);
+
+  const title =
+    roleCount > 0
+      ? `${name} Hyderabad Office & Careers (${roleCount} Live Jobs, Location & Tech Stack)`
+      : `${name} – ${startup.sector} Startup in ${startup.area || "Hyderabad"}`;
+
   const description =
-    cleanDesc ||
-    `${name} is a ${stage} ${startup.sector} startup based in ${startup.area || "Hyderabad"}.`;
+    roleCount > 0
+      ? `${name} is actively hiring in ${startup.area || "Hyderabad"}. Explore ${roleCount} verified open roles, office address, tech stack, and direct ATS application links with zero consultancies.`
+      : cleanDesc ||
+        `${name} is a ${stage} ${startup.sector} startup based in ${startup.area || "Hyderabad"}.`;
   const url = `${getSiteUrl()}/startups/${params.slug}`;
   const image = faviconUrl(startup.website) || `${getSiteUrl()}/brand/og-card-v3.png`;
 
@@ -264,6 +276,19 @@ export default async function StartupDetailPage({ params }) {
           </div>
 
           <div className="startup-hero-actions">
+            {(companyJobs.length > 0 || hiring?.roles?.length > 0) && (
+              <a
+                className="btn startup-cta-btn"
+                href="#open-roles"
+                style={{
+                  background: "linear-gradient(135deg, #ff5722, #f4511e)",
+                  color: "#fff",
+                  boxShadow: "0 2px 6px rgba(255, 87, 34, 0.35)",
+                }}
+              >
+                ⚡ {Math.max(companyJobs.length, hiring?.roles?.length || 0)} Open Roles
+              </a>
+            )}
             {startup.website && (
               <a className="btn startup-cta-btn" href={startup.website} target="_blank" rel="noopener noreferrer">
                 Visit website <span aria-hidden="true">↗</span>
@@ -302,7 +327,7 @@ export default async function StartupDetailPage({ params }) {
             )}
 
             {(companyJobs.length > 0 || hiring?.roles?.length > 0) && (
-              <section className="startup-section">
+              <section className="startup-section" id="open-roles">
                 <div className="startup-section-head">
                   <h2 className="startup-section-title">Open roles</h2>
                   <Link className="startup-view-all-link" href={`/jobs/company/${slug}`}>

@@ -21,7 +21,8 @@
     "cron:ats": "node scripts/gh-cron.mjs sync-ats-jobs",
     "cron:hiring": "node scripts/gh-cron.mjs check-hiring",
     "cron:priority": "node scripts/gh-cron.mjs sync-priority-careers",
-    "cron:overlay": "node scripts/gh-cron.mjs rebuild-overlay"
+    "cron:overlay": "node scripts/gh-cron.mjs rebuild-overlay",
+    "newsletter:remote": "node scripts/send-remote-jobs-newsletter.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

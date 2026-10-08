@@ -68,7 +68,7 @@ export async function generateMetadata({ params }) {
       description,
       url,
       type: "article",
-      siteName: "Mapping HYD",
+      siteName: "Hyderabad Startups Map",
     },
     twitter: {
       card: "summary_large_image",

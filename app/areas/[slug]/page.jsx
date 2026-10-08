@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
 import StartupLogo from "../../components/StartupLogo.jsx";
+import AreaDirectoryClient from "../../components/AreaDirectoryClient.jsx";
 import { AREA_LANDINGS, areaLanding, getAreaPage } from "../../../lib/areas.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import { prettyName } from "../../../lib/startupUi.js";
@@ -18,9 +19,10 @@ export async function generateMetadata({ params }) {
   if (!landing) return { title: "Area not found" };
   const data = await getAreaPage(params.slug);
   const count = data?.count ?? 0;
+  const jobsCount = data?.jobsCount ?? 0;
   const areaLower = landing.area.toLowerCase();
-  const title = `Top IT & Software Companies in ${landing.area}, Hyderabad (2026 List & Map) — ${count} Companies`;
-  const description = `${landing.description} Browse ${count} verified tech companies, startups, and open jobs in ${landing.area}, Hyderabad.`;
+  const title = `Top ${count}+ IT & Product Companies in ${landing.area} (${jobsCount > 0 ? `${jobsCount}+ Live Jobs` : "Hiring Now"})`;
+  const description = `${landing.description} Browse ${count} verified tech companies and ${jobsCount > 0 ? `${jobsCount}+ live open jobs` : "careers"} in ${landing.area}, Hyderabad with direct ATS portals and zero consultancies.`;
   const url = `${getSiteUrl()}/areas/${params.slug}`;
   return {
     title,
@@ -38,7 +40,11 @@ export async function generateMetadata({ params }) {
       `startups in ${areaLower}`,
       `software companies in ${areaLower}`,
       `it company in ${areaLower}`,
+      `${areaLower} it jobs`,
+      `startup jobs in ${areaLower}`,
+      `jobs in ${areaLower} hyderabad`,
       "hyderabad startup map",
+      "hyderabad startups map",
     ],
   };
 }
@@ -178,48 +184,12 @@ export default async function AreaDetailPage({ params }) {
           </section>
         )}
 
-        <section className="industry-section">
-          <h2>Companies</h2>
-          <div className="feed-list">
-            {startups.map((s) => (
-              <Link key={s.id} className="feed-row feed-row-link" href={`/startups/${s.slug}`}>
-                <StartupLogo name={s.name} website={s.website} size={40} />
-                <div className="feed-row-body">
-                  <div className="feed-row-name">
-                    {prettyName(s.name)}
-                    {s.hiring ? <span className="hiring-badge">Hiring</span> : null}
-                  </div>
-                  <div className="feed-row-sub">
-                    {[s.sector, s.fundingStage].filter(Boolean).join(" · ")}
-                  </div>
-                  {s.description && <div className="feed-row-desc">{s.description}</div>}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {jobs.length > 0 && (
-          <section className="industry-section">
-            <h2>Open roles nearby</h2>
-            <p className="industry-section-sub">
-              Sample of tracked openings at mapped {landing.area} companies.{" "}
-              <Link href={`/jobs/in/${landing.slug}`}>See all →</Link>
-            </p>
-            <div className="feed-list">
-              {jobs.map((j) => (
-                <Link key={j.id} className="feed-row feed-row-link" href={`/jobs/${jobUrlId(j.id)}`}>
-                  <div className="feed-row-body">
-                    <div className="feed-row-name">{j.title}</div>
-                    <div className="feed-row-sub">
-                      {j.company} · {j.location}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
+        <AreaDirectoryClient
+          areaName={landing.area}
+          areaSlug={landing.slug}
+          startups={startups}
+          jobs={jobs}
+        />
 
         <section className="industry-section" aria-label="FAQ">
           <h2>FAQ</h2>
