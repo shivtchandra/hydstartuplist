@@ -15,10 +15,10 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Redirect Vercel preview URL to canonical domain, except /api: the
-      // Cloudflare Pages proxy (functions/api) calls the APIs on this host.
+      // Redirect Vercel preview URL to canonical domain, except /api and /insights:
+      // Cloudflare Pages proxies (functions/api, functions/insights) call these endpoints.
       {
-        source: '/:path((?!api/).*)',
+        source: '/:path((?!(?:api|insights)/).*)',
         has: [{ type: 'host', value: 'hydstartuplist.vercel.app' }],
         destination: 'https://startups.mapmyhyd.com/:path',
         permanent: true,
@@ -44,6 +44,14 @@ const nextConfig = {
       { source: "/startups/fb5fd7a4-e468-46f0-9c9c-bbd1c4e7750d", destination: "/startups/apollo-micro-systems", permanent: true },
       { source: "/startups/079b948f-ff87-41a7-89af-1295ede5820e", destination: "/startups/indrajaal", permanent: true },
       { source: "/startups/2a0e9715-21af-43d9-89ff-f2ff7ee4fee5", destination: "/startups/marut-drones", permanent: true },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/insights/:path*',
+        destination: '/_vercel/insights/:path*',
+      },
     ];
   },
   async headers() {

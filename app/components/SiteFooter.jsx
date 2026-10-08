@@ -74,6 +74,7 @@ export default function SiteFooter() {
 
           <FooterSection title="Jobs" label="Jobs by sector">
             <Link href="/jobs">All jobs in Hyderabad</Link>
+            <Link href="/jobs/remote">Remote jobs (India)</Link>
             <Link href="/jobs/fresher">Fresher jobs</Link>
             <Link href="/jobs/fresher/internships">Tech internships</Link>
             <Link href="/jobs/fresher/software-engineer">SDE-1 roles</Link>

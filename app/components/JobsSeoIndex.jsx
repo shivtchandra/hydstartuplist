@@ -63,6 +63,9 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
             </p>
           </div>
           <div className="jobs-dir-hero-chips">
+            <Link href="/jobs/remote" className="jobs-dir-hero-chip" style={{ background: "#ecfdf5", color: "#065f46", borderColor: "#a7f3d0", fontWeight: 700 }}>
+              🌐 Remote Jobs (India)
+            </Link>
             <Link href="/jobs/fresher" className="jobs-dir-hero-chip">
               Fresher & Early Career
             </Link>

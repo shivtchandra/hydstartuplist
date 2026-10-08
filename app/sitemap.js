@@ -1,6 +1,7 @@
 import { getSiteUrl } from "../lib/site-url.js";
 import { JOB_SECTOR_LANDINGS, JOB_AREA_LANDINGS, JOB_ROLE_LANDINGS } from "../lib/jobs-seo.js";
 import { FRESHER_CATEGORIES } from "../lib/fresher-seo.js";
+import { REMOTE_CATEGORIES } from "../lib/remote-seo.js";
 import { TELANGANA_COLLEGES } from "../lib/colleges.js";
 import { INDUSTRY_LANDINGS } from "../lib/industries.js";
 import { AREA_LANDINGS } from "../lib/areas.js";
@@ -19,6 +20,7 @@ const SITE_URL = getSiteUrl();
 const STATIC_ROUTES = [
   { path: "", priority: 1.0, changeFrequency: "hourly" },
   { path: "/jobs/fresher", priority: 0.95, changeFrequency: "daily" },
+  { path: "/jobs/remote", priority: 0.95, changeFrequency: "daily" },
   { path: "/colleges", priority: 0.9, changeFrequency: "daily" },
   { path: "/jobs", priority: 0.95, changeFrequency: "hourly" },
   { path: "/feed", priority: 0.9, changeFrequency: "hourly" },
@@ -125,6 +127,13 @@ export default function sitemap() {
     priority: 0.9,
   }));
 
+  const remoteCategoryEntries = REMOTE_CATEGORIES.map((c) => ({
+    url: `${SITE_URL}/jobs/remote/${c.slug}`,
+    lastModified: now,
+    changeFrequency: "daily",
+    priority: 0.9,
+  }));
+
   const collegeEntries = TELANGANA_COLLEGES.map((c) => ({
     url: `${SITE_URL}/colleges/${c.slug}`,
     lastModified: now,
@@ -137,6 +146,7 @@ export default function sitemap() {
   return [
     ...staticEntries,
     ...fresherCategoryEntries,
+    ...remoteCategoryEntries,
     ...collegeEntries,
     ...storyEntries,
     ...industryEntries,
