@@ -17,6 +17,7 @@ import { domainOf } from '../../lib/startupUi.js';
 import { readShortlist,writeShortlist } from '../../lib/shortlist.js';
 import { pushShortlistToCloud, useAuthUser } from '../../lib/auth-client.js';
 import { trackEvent } from '../../lib/engagement-client.js';
+import { jobsFetch } from '../../lib/opportunities-client.js';
 const OpportunityMap=dynamic(()=>import('./OpportunityMap.jsx'),{ssr:false,loading:()=> <div className="op-map-status">Loading map…</div>});
 
 function money(salary) {
@@ -292,7 +293,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     const c=new AbortController();let alive=true;
     if(initialRequest.current && !filterQuery && initial?.jobs && !initial.stale && refresh===0){initialRequest.current=false;setBusy(false);return()=>c.abort();}
     initialRequest.current=false;setBusy(true);setError('');
-    fetch(`/api/v2/jobs?${filterQuery}`,{signal:c.signal}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(d=>{
+    jobsFetch(`/api/v2/jobs?${filterQuery}`,{signal:c.signal}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(d=>{
       if(!alive) return;
       startTransition(()=>{setData(d);setNewAvailable(false);});
       trackEvent('results',variant);
@@ -304,11 +305,11 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   useEffect(()=>{
     if(view!=='map' && !compare) return;
     const c=new AbortController();
-    fetch(`/api/v2/map?${filterQuery}`,{signal:c.signal}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{setGroups(d.companies);setMapVersion(d.version);}).catch(()=>{});
+    jobsFetch(`/api/v2/map?${filterQuery}`,{signal:c.signal}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{setGroups(d.companies);setMapVersion(d.version);}).catch(()=>{});
     return()=>c.abort();
   },[filterQuery,refresh,view,compare]);
   useEffect(()=>{
-    const c=new AbortController();const t=setInterval(()=>{if(document.visibilityState!=='visible')return;fetch(`/api/v2/jobs?${filterQuery}`,{signal:c.signal}).then(r=>r.ok?r.json():null).then(d=>{if(c.signal.aborted||!d?.version)return;if(data?.stale&&!d.stale){startTransition(()=>{setData(d);setNewAvailable(false);setError('');});}else if(d.version!==data?.version)setNewAvailable(true);}).catch(()=>{});},300000);
+    const c=new AbortController();const t=setInterval(()=>{if(document.visibilityState!=='visible')return;jobsFetch(`/api/v2/jobs?${filterQuery}`,{signal:c.signal}).then(r=>r.ok?r.json():null).then(d=>{if(c.signal.aborted||!d?.version)return;if(data?.stale&&!d.stale){startTransition(()=>{setData(d);setNewAvailable(false);setError('');});}else if(d.version!==data?.version)setNewAvailable(true);}).catch(()=>{});},300000);
     return()=>{clearInterval(t);c.abort();};
   },[filterQuery,data?.version,data?.stale]);
   // Legacy ?job= links → permanent SSR page (Google must not index query shells).
@@ -322,7 +323,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     const id=selectedJobId;if(!id){setDetail(null);return;}
     abortDetail.current?.abort();const c=new AbortController();abortDetail.current=c;setDetailError('');
     setDetail(data?.jobs?.find(j=>j.id===id)||shortlist.jobs[id]?.job||{id,title:'Loading role…'});
-    fetch('/api/v2/jobs/detail?id='+encodeURIComponent(id),{signal:c.signal}).then(r=>r.ok?r.json():Promise.reject()).then(d=>setDetail(d.job)).catch(e=>{if(e?.name!=='AbortError')setDetailError('This role could not be loaded. Try its original listing or return to results.');});
+    jobsFetch('/api/v2/jobs/detail?id='+encodeURIComponent(id),{signal:c.signal}).then(r=>r.ok?r.json():Promise.reject()).then(d=>setDetail(d.job)).catch(e=>{if(e?.name!=='AbortError')setDetailError('This role could not be loaded. Try its original listing or return to results.');});
     trackEvent('detail',variant);return()=>c.abort();
   },[selectedJobId]);
   useEffect(()=>{if(sheet)sheetRef.current?.showModal();else sheetRef.current?.close();},[sheet]);
@@ -331,7 +332,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     if(!storageReady)return;let cancelled=false;
     const stored=readShortlist();
     const ids=Object.keys(stored.jobs).slice(0,100);if(!ids.length)return;
-    fetch('/api/v2/jobs/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ids})}).then(r=>r.ok?r.json():{jobs:[]}).then(({jobs=[]})=>jobs.map(job=>({job}))).catch(()=>[]).then(results=>{
+    jobsFetch('/api/v2/jobs/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ids})}).then(r=>r.ok?r.json():{jobs:[]}).then(({jobs=[]})=>jobs.map(job=>({job}))).catch(()=>[]).then(results=>{
       if(cancelled)return;let changed=false;for(const result of results){if(result?.job && stored.jobs[result.job.id] && result.job.status==='closed'){stored.jobs[result.job.id].job={...stored.jobs[result.job.id].job,...result.job};changed=true;}}
       if(changed)persist(stored);
     });return()=>{cancelled=true;};
@@ -380,12 +381,12 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   }
   function openJob(job){setView('list');setSelectedJobId(job.id);}
   function closeJob(){setSelectedJobId(null);setDetail(null);}
-  async function loadMore(){if(!data.nextCursor)return;setBusy(true);try{const r=await fetch(`/api/v2/jobs?${filterQuery}&cursor=${encodeURIComponent(data.nextCursor)}`);if(!r.ok)throw Error();const d=await r.json();if(d.reset){setNewAvailable(true);return;}setData(prev=>({...d,jobs:[...prev.jobs,...d.jobs]}));}catch{setError('Could not load more roles. Try again.');}finally{setBusy(false);}}
+  async function loadMore(){if(!data.nextCursor)return;setBusy(true);try{const r=await jobsFetch(`/api/v2/jobs?${filterQuery}&cursor=${encodeURIComponent(data.nextCursor)}`);if(!r.ok)throw Error();const d=await r.json();if(d.reset){setNewAvailable(true);return;}setData(prev=>({...d,jobs:[...prev.jobs,...d.jobs]}));}catch{setError('Could not load more roles. Try again.');}finally{setBusy(false);}}
   function saveSearch(){const entry={name:filters.q||filters.role||'Hyderabad roles',filters:{...filters},at:new Date().toISOString()};persist({...shortlist,searches:[entry,...shortlist.searches.filter(s=>JSON.stringify(s.filters)!==JSON.stringify(entry.filters))].slice(0,20)});setSavedSearch(entry);setEmailOpen(true);}
   async function subscribe(e){e.preventDefault();setEmailState('Sending confirmation…');try{const r=await fetch('/api/alerts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,filters:savedSearch?.filters||filters,frequency:'daily'})});const d=await r.json();setEmailState(d.message||d.error||'Check your email.');}catch{setEmailState('Could not subscribe. Your search is still saved on this device.');}}
   useEffect(()=>{
     if(!compare||!areaA||!areaB)return;const c=new AbortController();setComparison(null);
-    Promise.all([areaA,areaB].map(area=>{const p=new URLSearchParams(filterQuery);p.set('area',area);return fetch('/api/v2/map?'+p,{signal:c.signal}).then(r=>r.json());})).then(setComparison).catch(()=>{});return()=>c.abort();
+    Promise.all([areaA,areaB].map(area=>{const p=new URLSearchParams(filterQuery);p.set('area',area);return jobsFetch('/api/v2/map?'+p,{signal:c.signal}).then(r=>r.json());})).then(setComparison).catch(()=>{});return()=>c.abort();
   },[compare,areaA,areaB,filterQuery]);
   const visible=savedOnly?Object.values(shortlist.jobs).filter(s=>s.status!=='hidden').map(s=>s.job):(data?.jobs||[]).filter(j=>shortlist.jobs[j.id]?.status!=='hidden');
   // Exclusive pin owns those rows — don't also show them as regular cards underneath.

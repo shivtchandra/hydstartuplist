@@ -503,7 +503,7 @@ function DetailModal({ startup, onClose }) {
   useEffect(() => {
     if (!startup) { setDetail(null); return; }
     let cancelled = false;
-    fetch(`/api/startups/${startup.id}`)
+    fetch(`/data/startups/${encodeURIComponent(startup.id)}.json`)
       .then((r) => r.json())
       .then((d) => { if (!cancelled) setDetail(d); })
       .catch(() => {});
