@@ -820,7 +820,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
               <div
                 className="op-description-content"
                 dangerouslySetInnerHTML={{
-                  __html: cleanJobDescriptionHtml(detail.description) || '<p>View the complete requirements and apply on the employer official site.</p>',
+                  __html: cleanJobDescriptionHtml(detail.description, detail.company) || '<p>View the complete requirements and apply on the employer official site.</p>',
                 }}
               />
             </div>
