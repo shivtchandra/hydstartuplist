@@ -220,6 +220,9 @@ jobs:
   bump-cache:
     needs: [gate, sync-ats-jobs, check-hiring, sync-priority-careers, rebuild-overlay, adzuna-jobs, sync-direct-jobs, sync-healthcare-jobs]
     if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
+    # Only refreshes Vercel's API cache; the Cloudflare site rebuilds from
+    # Firestore regardless, so a Vercel outage shouldn't fail the whole run.
+    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - name: Bust public-jobs and startups-dynamic once

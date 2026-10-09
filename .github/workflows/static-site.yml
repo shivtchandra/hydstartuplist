@@ -56,7 +56,7 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" != "workflow_run" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; exit 0; fi
           n=$(gh run view "${{ github.event.workflow_run.id }}" -R "${{ github.repository }}" --json jobs \
-            -q '[.jobs[] | select((.name == "bump-cache" or .name == "fetch-news") and .conclusion == "success")] | length') || n=1
+            -q '[.jobs[] | select((.name == "sync-ats-jobs" or .name == "fetch-news") and .conclusion == "success")] | length') || n=1
           echo "run=$([ "${n:-0}" -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v4
