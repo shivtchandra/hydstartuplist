@@ -249,7 +249,13 @@ jobs:
           NEXT_PUBLIC_SITE_URL: ${{ secrets.SITE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           GITHUB_ACTIONS: "true"
-        run: node scripts/gh-cron.mjs sync-empleos-jobs
+        # in.empleos.io answers GitHub runner IPs with HTTP 403, so fall back to
+        # the Vercel route (one page fetch, negligible CPU) when the runner is refused.
+        run: |
+          if ! node scripts/gh-cron.mjs sync-empleos-jobs; then
+            echo "empleos refused the GitHub runner; running on Vercel instead"
+            curl -sf --max-time 25 -X GET "$SITE_URL/api/cron/sync-empleos-jobs" -H "Authorization: Bearer $CRON_SECRET"
+          fi
 
   sync-direct-jobs:
     needs: [gate, adzuna-jobs]
