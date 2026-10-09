@@ -230,9 +230,13 @@ jobs:
           curl -sf --retry 4 --retry-all-errors --retry-delay 15 --max-time 15 -X GET "$SITE_URL/api/cron/bump-cache?tags=public-jobs,startups-dynamic" \
             -H "Authorization: Bearer $CRON_SECRET"
 
+  # in.empleos.io blocks datacenter IPs (403 from both GitHub and Vercel) and has
+  # never stored a job (job_board/empleos_latest is empty). Non-blocking so a
+  # known-dead source doesn't mark every run failed; still tried in case it opens up.
   sync-empleos-jobs:
     needs: [gate, adzuna-jobs]
     if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
+    continue-on-error: true
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
