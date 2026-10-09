@@ -113,9 +113,11 @@ jobs:
           LIMIT: "40"
         run: node scripts/gh-cron.mjs check-hiring
 
+  # Runs every slot. Firecrawl (paid fallback for pages plain HTML can't read) is only
+  # enabled on the daily full batch; jobs-only slots refresh the free sources.
   sync-priority-careers:
     needs: [gate, check-hiring]
-    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' && github.event.inputs.scope != 'jobs' && github.event.schedule != '17 7,13,19 * * *' }}
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -132,6 +134,7 @@ jobs:
           NEXT_PUBLIC_SITE_URL: ${{ secrets.SITE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          PRIORITY_FIRECRAWL: ${{ (github.event.inputs.scope == 'jobs' || github.event.schedule == '17 7,13,19 * * *') && '0' || '1' }}
           GITHUB_ACTIONS: "true"
           CRON_TIME_BUDGET_MS: "600000"
           CRON_CONCURRENCY: "4"
