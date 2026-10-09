@@ -4,13 +4,18 @@ name: Scheduled data refresh
 # Secrets: FIREBASE_SERVICE_ACCOUNT, SITE_URL, CRON_SECRET, optional FIRECRAWL_API_KEY
 on:
   schedule:
-    - cron: "30 2 * * *"
+    # Scrape backups, one per 6h slot. GitHub fires these hours late, so they
+    # stand down when a scrape already ran in the last 4h (see `gate`).
+    # '17 1' is the daily full batch; the others are jobs-only (no Firecrawl).
+    - cron: "17 1 * * *"
+    - cron: "17 7,13,19 * * *"
     - cron: "0 5 * * *"
     - cron: "0 2 * * *"
     - cron: "30 3 * * 0"
-  # Vercel Cron dispatches the scrape every 6h (vercel.json): 00:30 UTC with
-  # scope=full, 06:30/12:30/18:30 with scope=jobs. "jobs" skips check-hiring and
-  # sync-priority-careers, which spend Firecrawl credits, so they stay once a day.
+  # Vercel Cron dispatches the scrape on time every 6h (vercel.json): 00:30 UTC
+  # with scope=full, 06:30/12:30/18:30 with scope=jobs. "jobs" skips check-hiring
+  # and sync-priority-careers, which spend Firecrawl credits, so they stay once a
+  # day. Needs GH_DISPATCH_TOKEN in Vercel's env; without it only the backups run.
   workflow_dispatch:
     inputs:
       scope:
@@ -19,20 +24,20 @@ on:
         options: [full, jobs]
         default: full
 
-# Morning-scrape runs (dispatch or the '30 2' backup) queue behind each other instead of
-# scraping in parallel. Other schedules get a per-run group so they never queue or get
-# replaced as a pending run.
+# Scrape runs (dispatches and the scrape backups) queue behind each other instead
+# of scraping in parallel. Other schedules get a per-run group so they never queue
+# or get replaced as a pending run.
 concurrency:
-  group: ${{ (github.event_name == 'workflow_dispatch' || github.event.schedule == '30 2 * * *') && 'morning-scrape' || format('cron-{0}', github.run_id) }}
+  group: ${{ (github.event_name == 'workflow_dispatch' || github.event.schedule == '17 1 * * *' || github.event.schedule == '17 7,13,19 * * *') && 'scrape' || format('cron-{0}', github.run_id) }}
   cancel-in-progress: false
 
 jobs:
-  # The morning scrape has two triggers. Vercel Cron dispatches it on time
-  # (/api/cron/dispatch-scrape, 00:30 UTC); GitHub's '30 2' schedule, which fires
-  # 6-7h late, is the backup and stands down when a dispatch already ran today.
-  # If the gh lookup itself fails, run anyway: a duplicate scrape beats a missed day.
+  # Each 6h scrape slot has two triggers: Vercel Cron's on-time dispatch and a
+  # late GitHub schedule. A scheduled backup stands down when any scrape (either
+  # trigger) ran or is running from the last 4h. If the gh lookup itself fails,
+  # run anyway: a duplicate scrape beats a missed one.
   gate:
-    if: github.event.schedule == '30 2 * * *' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '17 1 * * *' || github.event.schedule == '17 7,13,19 * * *'
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -45,13 +50,19 @@ jobs:
         run: |
           run=true
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            n=$(gh run list -R "${{ github.repository }}" --workflow cron-jobs.yml --event workflow_dispatch \
-              --created ">=$(date -u +%F)" --json conclusion \
-              -q '[.[] | select(.conclusion != "failure" and .conclusion != "cancelled")] | length') || n=0
-            [ "${n:-0}" -gt 0 ] && run=false
+            repo="${{ github.repository }}"
+            since=$(date -u -d '4 hours ago' +%Y-%m-%dT%H:%M:%SZ)
+            ids=$(gh run list -R "$repo" --workflow cron-jobs.yml --created ">=$since" --json databaseId,conclusion \
+              -q '.[] | select(.conclusion != "failure" and .conclusion != "cancelled") | .databaseId') || ids=""
+            for id in $ids; do
+              [ "$id" = "${{ github.run_id }}" ] && continue
+              n=$(gh run view "$id" -R "$repo" --json jobs \
+                -q '[.jobs[] | select(.name == "sync-ats-jobs" and .conclusion != "skipped" and .conclusion != "failure" and .conclusion != "cancelled")] | length') || n=0
+              if [ "${n:-0}" -gt 0 ]; then run=false; echo "scrape run $id already covers this slot"; break; fi
+            done
           fi
           echo "run=$run" >> "$GITHUB_OUTPUT"
-          echo "morning scrape: run=$run"
+          echo "scrape: run=$run"
 
   sync-ats-jobs:
     needs: gate
@@ -79,7 +90,7 @@ jobs:
   # Downstream jobs use !cancelled() so one failed scrape doesn't block the rest.
   check-hiring:
     needs: [gate, sync-ats-jobs]
-    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' && github.event.inputs.scope != 'jobs' }}
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' && github.event.inputs.scope != 'jobs' && github.event.schedule != '17 7,13,19 * * *' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -104,7 +115,7 @@ jobs:
 
   sync-priority-careers:
     needs: [gate, check-hiring]
-    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' && github.event.inputs.scope != 'jobs' }}
+    if: ${{ !cancelled() && needs.gate.outputs.run == 'true' && github.event.inputs.scope != 'jobs' && github.event.schedule != '17 7,13,19 * * *' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
