@@ -1,10 +1,10 @@
 // Cloudflare Pages Function. The site is served as static files from Cloudflare
-// Pages; /api/* (votes, admin, payments, alerts, events, live job search) stays
-// on Vercel. This forwards those requests unchanged so the browser code keeps
-// calling same-origin /api paths.
+// Pages; /api/* (admin, payments, alerts, follows) runs on the startups-api
+// Worker (api-worker/). This forwards those requests unchanged so the browser
+// code keeps calling same-origin /api paths.
 export async function onRequest({ request, env }) {
   const url = new URL(request.url);
-  const target = new URL(url.pathname + url.search, env.API_ORIGIN || "https://hydstartuplist.vercel.app");
+  const target = new URL(url.pathname + url.search, env.API_ORIGIN || "https://startups-api.shivachandra9490.workers.dev");
   const headers = new Headers(request.headers);
   headers.delete("host");
   headers.set("x-forwarded-host", url.host);
