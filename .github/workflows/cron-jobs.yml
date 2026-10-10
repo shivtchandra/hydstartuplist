@@ -289,8 +289,6 @@ jobs:
           node-version: "20"
           cache: npm
       - run: npm ci
-      # Email env (RESEND_API_KEY, ALERT_TOKEN_SECRET...) isn't set anywhere yet,
-      # so this reports enabled:false, same as it did on Vercel.
       - name: Send job alerts on GitHub runner
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
@@ -299,6 +297,8 @@ jobs:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           ALERT_TOKEN_SECRET: ${{ secrets.ALERT_TOKEN_SECRET }}
+          ALERTS_ENABLED: ${{ secrets.ALERTS_ENABLED }}
+          NEWSLETTER_FROM: ${{ secrets.NEWSLETTER_FROM }}
           GITHUB_ACTIONS: "true"
         run: node scripts/gh-cron.mjs job-alerts
 
@@ -320,6 +320,7 @@ jobs:
           NEXT_PUBLIC_SITE_URL: ${{ secrets.SITE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NEWSLETTER_FROM: ${{ secrets.NEWSLETTER_FROM }}
           GITHUB_ACTIONS: "true"
         run: node scripts/gh-cron.mjs newsletter
 
