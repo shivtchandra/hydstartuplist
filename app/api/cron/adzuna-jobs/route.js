@@ -18,19 +18,23 @@ export const maxDuration = 20;
 
 const PAGES = 4;
 const DESC_MAX = 4000;
-const ADZUNA_FRESHER_DAYS = 7;
+const ADZUNA_MAX_DAYS = 2;
 
 function isStillFresh(job, nowMs) {
   const raw = job?.postedAt || job?.fetchedAt;
   if (!raw) return false;
   const t = new Date(raw).getTime();
   if (Number.isNaN(t)) return false;
-  const level = inferExperienceLevel(job.title, job.description, job);
-  const allowedDays = level === "intern" || level === "junior" ? ADZUNA_FRESHER_DAYS : ADZUNA_FRESH_DAYS;
-  return nowMs - t <= allowedDays * 24 * 60 * 60 * 1000;
+  return nowMs - t <= ADZUNA_MAX_DAYS * 24 * 60 * 60 * 1000;
 }
 
-function normalizeAdzunaResult(r, fetchedAt) {
+function normalizeAdzunaResult(r, fetchedAt, nowMs = Date.now()) {
+  if (r.created) {
+    const ageMs = nowMs - new Date(r.created).getTime();
+    if (!Number.isNaN(ageMs) && ageMs > ADZUNA_MAX_DAYS * 24 * 60 * 60 * 1000) {
+      return null;
+    }
+  }
   const description = r.description ? stripHtml(String(r.description)) : null;
   const job = {
     id: String(r.id),
@@ -80,7 +84,7 @@ export async function GET(req) {
       app_key: appKey,
       where: "Hyderabad",
       category: "it-jobs",
-      max_days_old: "3",
+      max_days_old: "2",
       results_per_page: "50",
       sort_by: "date",
       "content-type": "application/json",
@@ -97,7 +101,7 @@ export async function GET(req) {
       what: what,
       where: "Hyderabad",
       category: "it-jobs",
-      max_days_old: "7",
+      max_days_old: "2",
       results_per_page: "50",
       sort_by: "date",
       "content-type": "application/json",
@@ -114,7 +118,7 @@ export async function GET(req) {
       app_key: appKey,
       what: what,
       where: "Hyderabad",
-      max_days_old: "7",
+      max_days_old: "2",
       results_per_page: "50",
       sort_by: "date",
       "content-type": "application/json",
@@ -166,7 +170,7 @@ export async function GET(req) {
   const incoming = new Map();
   for (const data of pages) {
     for (const r of data?.results || []) {
-      const job = normalizeAdzunaResult(r, fetchedAt);
+      const job = normalizeAdzunaResult(r, fetchedAt, nowMs);
       if (!job?.id || !job?.title) continue;
       incoming.set(job.id, job);
     }
