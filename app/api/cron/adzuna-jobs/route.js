@@ -9,20 +9,25 @@ import { notifyJobUrls } from "../../../../lib/google-indexing.js";
 import { jobUrlId } from "../../../../lib/jobs-seo.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 
+import { inferExperienceLevel } from "../../../../lib/job-facets.js";
+
 // Adzuna has no webhooks — we poll their search API on a short cadence and
 // upsert only new/changed listings into job_board/adzuna_latest.
 export const dynamic = "force-dynamic";
 export const maxDuration = 20;
 
-const PAGES = 3;
+const PAGES = 4;
 const DESC_MAX = 4000;
+const ADZUNA_FRESHER_DAYS = 7;
 
 function isStillFresh(job, nowMs) {
   const raw = job?.postedAt || job?.fetchedAt;
   if (!raw) return false;
   const t = new Date(raw).getTime();
   if (Number.isNaN(t)) return false;
-  return nowMs - t <= ADZUNA_FRESH_DAYS * 24 * 60 * 60 * 1000;
+  const level = inferExperienceLevel(job.title, job.description, job);
+  const allowedDays = level === "intern" || level === "junior" ? ADZUNA_FRESHER_DAYS : ADZUNA_FRESH_DAYS;
+  return nowMs - t <= allowedDays * 24 * 60 * 60 * 1000;
 }
 
 function normalizeAdzunaResult(r, fetchedAt) {
@@ -85,7 +90,7 @@ export async function GET(req) {
     }).then((r) => (r.ok ? r.json() : null));
   };
 
-  const fresherPage = (what) => {
+  const fresherPage = (what, page = 1) => {
     const params = new URLSearchParams({
       app_id: appId,
       app_key: appKey,
@@ -97,13 +102,13 @@ export async function GET(req) {
       sort_by: "date",
       "content-type": "application/json",
     });
-    return fetch(`https://api.adzuna.com/v1/api/jobs/in/search/1?${params}`, {
+    return fetch(`https://api.adzuna.com/v1/api/jobs/in/search/${page}?${params}`, {
       signal: AbortSignal.timeout(15000),
     }).then((r) => (r.ok ? r.json() : null));
   };
 
-  // Any category — healthcare and non-tech entry roles live outside it-jobs.
-  const keywordPage = (what) => {
+  // Any category — healthcare, operations and non-tech entry roles live outside it-jobs.
+  const keywordPage = (what, page = 1) => {
     const params = new URLSearchParams({
       app_id: appId,
       app_key: appKey,
@@ -114,23 +119,42 @@ export async function GET(req) {
       sort_by: "date",
       "content-type": "application/json",
     });
-    return fetch(`https://api.adzuna.com/v1/api/jobs/in/search/1?${params}`, {
+    return fetch(`https://api.adzuna.com/v1/api/jobs/in/search/${page}?${params}`, {
       signal: AbortSignal.timeout(15000),
     }).then((r) => (r.ok ? r.json() : null));
   };
 
-  // Bounded pack, all in parallel: 3 Hyd IT pages + 3 fresher IT pages +
-  // 4 non-tech entry pages + 3 dietetics/health coach queries (13 calls per run).
-  const FRESHER_QUERIES = ["fresher", "internship", "graduate"];
-  // Picked by sampling Hyderabad results: narrower phrases ("graduate trainee",
-  // "fresher operations") returned 0–2 rows; these each surface ~8–11 entry roles.
-  const NONTECH_ENTRY_QUERIES = ["fresher", "intern", "associate", "sales executive"];
+  // Targeted pack for below 1-year / fresher openings in Hyderabad:
+  // - Top tech fresher queries with 2 pages each (up to 100 results per term)
+  // - Specific 0-1y phrasing commonly used by Indian tech recruiters
+  const FRESHER_IT_QUERIES = [
+    { what: "fresher", pages: [1, 2] },
+    { what: "0-1 years", pages: [1, 2] },
+    { what: "0-1 year", pages: [1] },
+    { what: "internship", pages: [1, 2] },
+    { what: "trainee", pages: [1, 2] },
+    { what: "entry level", pages: [1] },
+    { what: "junior developer", pages: [1] },
+    { what: "graduate trainee", pages: [1] },
+    { what: "associate engineer", pages: [1] },
+  ];
+
+  // Broad entry roles outside it-jobs (operations, support, sales, general freshers).
+  const BROAD_ENTRY_QUERIES = [
+    { what: "fresher", pages: [1, 2] },
+    { what: "0-1 years", pages: [1] },
+    { what: "intern", pages: [1] },
+    { what: "associate", pages: [1] },
+    { what: "sales executive", pages: [1] },
+  ];
+
   const HEALTHCARE_QUERIES = ["dietitian", "nutritionist", "health coach"];
+
   const pages = await Promise.all([
     ...Array.from({ length: PAGES }, (_, i) => basePage(i + 1).catch(() => null)),
-    ...FRESHER_QUERIES.map((q) => fresherPage(q).catch(() => null)),
-    ...NONTECH_ENTRY_QUERIES.map((q) => keywordPage(q).catch(() => null)),
-    ...HEALTHCARE_QUERIES.map((q) => keywordPage(q).catch(() => null)),
+    ...FRESHER_IT_QUERIES.flatMap((q) => q.pages.map((p) => fresherPage(q.what, p).catch(() => null))),
+    ...BROAD_ENTRY_QUERIES.flatMap((q) => q.pages.map((p) => keywordPage(q.what, p).catch(() => null))),
+    ...HEALTHCARE_QUERIES.map((q) => keywordPage(q, 1).catch(() => null)),
   ]);
   const firstOk = pages.find(Boolean);
   if (!firstOk) {
@@ -186,12 +210,24 @@ export async function GET(req) {
       // Firestore 1MB guard — prefer newest if somehow oversized
       let payloadJobs = jobs;
       let jsonSize = Buffer.byteLength(JSON.stringify({ jobs: payloadJobs, fetchedAt }), "utf8");
-      if (jsonSize > 900_000) {
+      if (jsonSize > 850_000) {
         payloadJobs = jobs.map((j) =>
-          j.description && j.description.length > 1500
-            ? { ...j, description: j.description.slice(0, 1500) }
+          j.description && j.description.length > 1200
+            ? { ...j, description: j.description.slice(0, 1200) }
             : j
         );
+        jsonSize = Buffer.byteLength(JSON.stringify({ jobs: payloadJobs, fetchedAt }), "utf8");
+      }
+      if (jsonSize > 850_000) {
+        payloadJobs = payloadJobs.map((j) =>
+          j.description && j.description.length > 600
+            ? { ...j, description: j.description.slice(0, 600) }
+            : j
+        );
+        jsonSize = Buffer.byteLength(JSON.stringify({ jobs: payloadJobs, fetchedAt }), "utf8");
+      }
+      if (jsonSize > 850_000) {
+        payloadJobs = payloadJobs.slice(0, 400);
       }
 
       const nextIds = new Set(payloadJobs.map((j) => String(j.id)));
