@@ -9,7 +9,7 @@ import { notifyJobUrls } from "../../../../lib/google-indexing.js";
 import { jobUrlId } from "../../../../lib/jobs-seo.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 
-import { inferExperienceLevel } from "../../../../lib/job-facets.js";
+import { inferExperienceLevel, parseYearsRequirement } from "../../../../lib/job-facets.js";
 
 // Adzuna has no webhooks — we poll their search API on a short cadence and
 // upsert only new/changed listings into job_board/adzuna_latest.
@@ -64,6 +64,21 @@ function normalizeAdzunaResult(r, fetchedAt, nowMs = Date.now()) {
     source: "adzuna",
   };
   if (isSpamOrConsultancyJob(job)) return null;
+
+  // Correct level misclassification from noisy keyword queries.
+  // Adzuna full-text search may return a senior job for the query "associate software engineer"
+  // because "associate" appears anywhere in the body. Parse the description for an explicit years
+  // requirement and store it as startYear/endYear — these are read FIRST in inferExperienceLevel
+  // (before title words like "associate" or "junior"), so a job saying "8-10 years required" will
+  // always surface as senior/lead, not as early-career.
+  if (job.description) {
+    const yrs = parseYearsRequirement(job.description);
+    if (yrs && Number.isFinite(yrs.lo)) {
+      job.startYear = yrs.lo;
+      job.endYear = Number.isFinite(yrs.hi) ? yrs.hi : yrs.lo;
+    }
+  }
+
   return job;
 }
 
@@ -140,6 +155,10 @@ export async function GET(req) {
   // Targeted pack for below 1-year / fresher openings in Hyderabad:
   // - Top tech fresher and internship queries with 2 pages each (up to 100 results per term)
   // - 14-day window for early-career roles (reflects true hiring cadence without dropping active drives)
+  // NOTE: "junior developer" / "junior engineer" removed — Adzuna full-text search returns
+  //   senior jobs that mention "junior" anywhere in the body (e.g., "mentor junior devs"),
+  //   and the exact-years guard can't catch every case.  The precise fresher terms below are
+  //   semantically cleaner and generate less noise.
   const FRESHER_IT_QUERIES = [
     { what: "intern", pages: [1, 2] },
     { what: "internship", pages: [1, 2] },
@@ -150,8 +169,6 @@ export async function GET(req) {
     { what: "trainee", pages: [1] },
     { what: "graduate engineer trainee", pages: [1] },
     { what: "associate software engineer", pages: [1] },
-    { what: "junior developer", pages: [1, 2] },
-    { what: "junior engineer", pages: [1, 2] },
   ];
 
   // Broad entry roles outside it-jobs (operations, support, sales, general freshers).
