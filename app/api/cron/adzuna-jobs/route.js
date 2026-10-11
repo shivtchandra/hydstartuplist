@@ -19,26 +19,35 @@ export const maxDuration = 20;
 const PAGES = 4;
 const DESC_MAX = 4000;
 const ADZUNA_MAX_DAYS = 2;
+const ADZUNA_FRESHER_DAYS = 14;
 
 function isStillFresh(job, nowMs) {
   const raw = job?.postedAt || job?.fetchedAt;
   if (!raw) return false;
   const t = new Date(raw).getTime();
   if (Number.isNaN(t)) return false;
-  return nowMs - t <= ADZUNA_MAX_DAYS * 24 * 60 * 60 * 1000;
+  const level = inferExperienceLevel(job.title, job.description, job);
+  const isEarly = level === "intern" || level === "junior";
+  const maxDays = isEarly ? ADZUNA_FRESHER_DAYS : ADZUNA_MAX_DAYS;
+  return nowMs - t <= maxDays * 24 * 60 * 60 * 1000;
 }
 
 function normalizeAdzunaResult(r, fetchedAt, nowMs = Date.now()) {
+  const description = r.description ? stripHtml(String(r.description)) : null;
+  const tempTitle = r.title?.replace(/<[^>]+>/g, "").trim();
+  const tempJob = { title: tempTitle, description };
+  const level = inferExperienceLevel(tempTitle, description, tempJob);
+  const isEarly = level === "intern" || level === "junior";
+  const maxDays = isEarly ? ADZUNA_FRESHER_DAYS : ADZUNA_MAX_DAYS;
   if (r.created) {
     const ageMs = nowMs - new Date(r.created).getTime();
-    if (!Number.isNaN(ageMs) && ageMs > ADZUNA_MAX_DAYS * 24 * 60 * 60 * 1000) {
+    if (!Number.isNaN(ageMs) && ageMs > maxDays * 24 * 60 * 60 * 1000) {
       return null;
     }
   }
-  const description = r.description ? stripHtml(String(r.description)) : null;
   const job = {
     id: String(r.id),
-    title: r.title?.replace(/<[^>]+>/g, "").trim(),
+    title: tempTitle,
     company: r.company?.display_name || "Unknown",
     location: r.location?.display_name || "Hyderabad",
     url: r.redirect_url,
@@ -101,7 +110,7 @@ export async function GET(req) {
       what: what,
       where: "Hyderabad",
       category: "it-jobs",
-      max_days_old: "2",
+      max_days_old: "14",
       results_per_page: "50",
       sort_by: "date",
       "content-type": "application/json",
@@ -118,7 +127,7 @@ export async function GET(req) {
       app_key: appKey,
       what: what,
       where: "Hyderabad",
-      max_days_old: "2",
+      max_days_old: "14",
       results_per_page: "50",
       sort_by: "date",
       "content-type": "application/json",
@@ -129,27 +138,29 @@ export async function GET(req) {
   };
 
   // Targeted pack for below 1-year / fresher openings in Hyderabad:
-  // - Top tech fresher queries with 2 pages each (up to 100 results per term)
-  // - Specific 0-1y phrasing commonly used by Indian tech recruiters
+  // - Top tech fresher and internship queries with 2 pages each (up to 100 results per term)
+  // - 14-day window for early-career roles (reflects true hiring cadence without dropping active drives)
   const FRESHER_IT_QUERIES = [
-    { what: "fresher", pages: [1, 2] },
-    { what: "0-1 years", pages: [1, 2] },
-    { what: "0-1 year", pages: [1] },
+    { what: "intern", pages: [1, 2] },
     { what: "internship", pages: [1, 2] },
-    { what: "trainee", pages: [1, 2] },
-    { what: "entry level", pages: [1] },
-    { what: "junior developer", pages: [1] },
-    { what: "graduate trainee", pages: [1] },
-    { what: "associate engineer", pages: [1] },
+    { what: "software intern", pages: [1] },
+    { what: "fresher", pages: [1, 2] },
+    { what: "0-1 years", pages: [1] },
+    { what: "0-1 year", pages: [1] },
+    { what: "trainee", pages: [1] },
+    { what: "graduate engineer trainee", pages: [1] },
+    { what: "associate software engineer", pages: [1] },
+    { what: "junior developer", pages: [1, 2] },
+    { what: "junior engineer", pages: [1, 2] },
   ];
 
   // Broad entry roles outside it-jobs (operations, support, sales, general freshers).
   const BROAD_ENTRY_QUERIES = [
     { what: "fresher", pages: [1, 2] },
-    { what: "0-1 years", pages: [1] },
-    { what: "intern", pages: [1] },
+    { what: "intern", pages: [1, 2] },
+    { what: "internship", pages: [1] },
+    { what: "trainee", pages: [1] },
     { what: "associate", pages: [1] },
-    { what: "sales executive", pages: [1] },
   ];
 
   const HEALTHCARE_QUERIES = ["dietitian", "nutritionist", "health coach"];
