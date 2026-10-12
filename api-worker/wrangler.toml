@@ -9,6 +9,11 @@ workers_dev = true
 [build]
 command = "node build.mjs"
 
+# Dispatch the GitHub scrape on time (GitHub's own schedule fires hours late).
+# 00:30 UTC = full scrape; the rest are jobs-only. See scheduled() in src/index.js.
+[triggers]
+crons = ["30 0 * * *", "30 6 * * *", "30 12 * * *", "30 18 * * *"]
+
 [observability]
 enabled = true
 

@@ -105,4 +105,29 @@ export default {
       return Response.json({ error: "Server error" }, { status: 500 });
     }
   },
+
+  // Cron Triggers (wrangler.toml) → workflow_dispatch of the scrape. GitHub's own
+  // schedule runs hours late; a dispatch starts within seconds. The scrape still
+  // runs on GitHub; the late schedule stays as a backup and its gate stands down.
+  async scheduled(controller, env, ctx) {
+    if (!env.GH_DISPATCH_TOKEN) {
+      console.error("[cron] GH_DISPATCH_TOKEN not set; GitHub schedule remains the only trigger");
+      return;
+    }
+    const scope = controller.cron === "30 0 * * *" ? "full" : "jobs";
+    const repo = env.GITHUB_REPO || "shivtchandra/hydstartuplist";
+    const res = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/cron-jobs.yml/dispatches`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.GH_DISPATCH_TOKEN}`,
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "Content-Type": "application/json",
+        "User-Agent": "startups-api-worker",
+      },
+      body: JSON.stringify({ ref: env.GITHUB_DISPATCH_REF || "master", inputs: { scope } }),
+    });
+    if (!res.ok) throw new Error(`dispatch ${scope} failed: ${res.status} ${(await res.text()).slice(0, 300)}`);
+    console.log(`[cron] dispatched scrape scope=${scope}`);
+  },
 };
