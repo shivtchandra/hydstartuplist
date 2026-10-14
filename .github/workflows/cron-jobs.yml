@@ -24,6 +24,10 @@ on:
         type: choice
         options: [full, jobs]
         default: full
+      force:
+        description: "Scrape even if another scrape ran in the last 30 min"
+        type: boolean
+        default: false
 
 # Scrape runs (dispatches and the scrape backups) queue behind each other instead
 # of scraping in parallel. Other schedules get a per-run group so they never queue
@@ -33,10 +37,13 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Each 6h scrape slot has two triggers: Vercel Cron's on-time dispatch and a
-  # late GitHub schedule. A scheduled backup stands down when any scrape (either
-  # trigger) ran or is running from the last 4h. If the gh lookup itself fails,
-  # run anyway: a duplicate scrape beats a missed one.
+  # Each 6h scrape slot has two triggers: the Worker's on-time dispatch and a late
+  # GitHub schedule. A scheduled backup stands down after an on-time dispatch from
+  # the last 6h (backups land up to ~6h late, so 4h let a full backup re-scrape
+  # and re-spend Firecrawl), or any scrape from the last 4h (backups still cover
+  # each other if dispatch breaks). A dispatch stands down if any scrape ran in
+  # the last 30 min: Cloudflare Cron can fire a trigger twice. force=true skips
+  # that. If the gh lookup itself fails, run anyway: a duplicate beats a miss.
   gate:
     if: github.event_name == 'workflow_dispatch' || github.event.schedule == '17 1 * * *' || github.event.schedule == '17 7,13,19 * * *'
     runs-on: ubuntu-latest
@@ -50,18 +57,24 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           run=true
+          repo="${{ github.repository }}"
+          ids=""
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            repo="${{ github.repository }}"
-            since=$(date -u -d '4 hours ago' +%Y-%m-%dT%H:%M:%SZ)
-            ids=$(gh run list -R "$repo" --workflow cron-jobs.yml --created ">=$since" --json databaseId,conclusion \
+            any_since=$(date -u -d '4 hours ago' +%Y-%m-%dT%H:%M:%SZ)
+            since=$(date -u -d '6 hours ago' +%Y-%m-%dT%H:%M:%SZ)
+            ids=$(gh run list -R "$repo" --workflow cron-jobs.yml --limit 100 --created ">=$since" --json databaseId,conclusion,event,createdAt \
+              -q ".[] | select(.conclusion != \"failure\" and .conclusion != \"cancelled\") | select(.event == \"workflow_dispatch\" or .createdAt >= \"$any_since\") | .databaseId") || ids=""
+          elif [ "${{ inputs.force }}" != "true" ]; then
+            since=$(date -u -d '30 minutes ago' +%Y-%m-%dT%H:%M:%SZ)
+            ids=$(gh run list -R "$repo" --workflow cron-jobs.yml --limit 100 --created ">=$since" --json databaseId,conclusion \
               -q '.[] | select(.conclusion != "failure" and .conclusion != "cancelled") | .databaseId') || ids=""
-            for id in $ids; do
-              [ "$id" = "${{ github.run_id }}" ] && continue
-              n=$(gh run view "$id" -R "$repo" --json jobs \
-                -q '[.jobs[] | select(.name == "sync-ats-jobs" and .conclusion != "skipped" and .conclusion != "failure" and .conclusion != "cancelled")] | length') || n=0
-              if [ "${n:-0}" -gt 0 ]; then run=false; echo "scrape run $id already covers this slot"; break; fi
-            done
           fi
+          for id in $ids; do
+            [ "$id" = "${{ github.run_id }}" ] && continue
+            n=$(gh run view "$id" -R "$repo" --json jobs \
+              -q '[.jobs[] | select(.name == "sync-ats-jobs" and .conclusion != "skipped" and .conclusion != "failure" and .conclusion != "cancelled")] | length') || n=0
+            if [ "${n:-0}" -gt 0 ]; then run=false; echo "scrape run $id already covers this slot"; break; fi
+          done
           echo "run=$run" >> "$GITHUB_OUTPUT"
           echo "scrape: run=$run"
 
