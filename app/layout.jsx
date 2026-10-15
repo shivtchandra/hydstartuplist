@@ -9,7 +9,7 @@ import SiteFooter from "./components/SiteFooter.jsx";
 import { Analytics } from "@vercel/analytics/next";
 import localFont from "next/font/local";
 
-import { getSiteUrl } from "../lib/site-url.js";
+import { getSiteUrl, PARENT_ORG_ID, PARENT_SITE_URL } from "../lib/site-url.js";
 
 const outfit = localFont({
   src: "./fonts/Outfit.ttf",
@@ -36,8 +36,9 @@ const JSONLD = {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       url: `${SITE_URL}/`,
-      name: "Hyderabad Startups Map",
+      name: "Mapping HYD Startups",
       alternateName: [
+        "Hyderabad Startups Map",
         "Hyderabad Startup Map",
         "Hyderabad Startups",
         "Hyd Startups Map",
@@ -46,6 +47,7 @@ const JSONLD = {
       ],
       description: OG_DESC,
       inLanguage: "en-IN",
+      publisher: { "@id": PARENT_ORG_ID },
       potentialAction: {
         "@type": "SearchAction",
         target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/?q={search_term_string}` },
@@ -54,13 +56,16 @@ const JSONLD = {
     },
     {
       "@type": "Organization",
-      "@id": `${SITE_URL}/#organization`,
-      name: "Hyderabad Startups Map",
-      url: SITE_URL,
+      // Parent brand entity (same @id as mapmyhyd.com) — not a separate org.
+      "@id": PARENT_ORG_ID,
+      name: "Mapping HYD",
+      alternateName: ["MapMyHyd", "Map My Hyd", "Hyderabad Startups Map"],
+      url: PARENT_SITE_URL,
       logo: { "@type": "ImageObject", url: `${SITE_URL}/icon.svg` },
       founder: [{ "@id": `${SITE_URL}/#founder` }, { "@id": `${SITE_URL}/#cofounder` }],
+      // TODO: add LinkedIn company page URL once it exists.
       sameAs: [
-        "https://mapmyhyd.com/",
+        "https://www.instagram.com/mapmyhyd/",
         "https://github.com/shivtchandra/hydstartuplist",
       ],
     },
@@ -71,7 +76,7 @@ export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: "Hyderabad Startups Map — 1,200+ Software, IT & Product Companies",
-    template: "%s | Hyderabad Startups Map",
+    template: "%s | Mapping HYD",
   },
   description: OG_DESC,
   keywords: [
@@ -97,7 +102,7 @@ export const metadata = {
   openGraph: {
     title: OG_TITLE,
     description: OG_DESC,
-    siteName: "Hyderabad Startups Map",
+    siteName: "Mapping HYD",
     url: SITE_URL,
     type: "website",
     locale: "en_IN",

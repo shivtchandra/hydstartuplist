@@ -22,7 +22,7 @@ export async function generateMetadata() {
   const url = `${getSiteUrl()}/stories/${SLUG}`;
   return {
     alternates: { canonical: url },
-    title: `${title} | Hyderabad Startup Map`,
+    title,
     description: DESCRIPTION,
     openGraph: { title, description: DESCRIPTION, url, type: "article" },
     twitter: { card: "summary_large_image", title, description: DESCRIPTION },

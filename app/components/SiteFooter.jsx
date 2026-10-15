@@ -95,7 +95,7 @@ export default function SiteFooter() {
         </div>
 
         <div className="site-footer-bottom">
-          <p>© {year} Hyderabad Startups Map</p>
+          <p>© {year} Mapping HYD</p>
           <nav aria-label="Company">
             <Link href="/about">About</Link>
             <Link href="/hyderabad-tech-statistics">Statistics</Link>

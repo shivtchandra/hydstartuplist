@@ -4,8 +4,9 @@
 
 ## Product
 - Name: Mapping HYD
-- Also known as: Mapping HYD Startups
+- Also known as: MapMyHyd, Map My Hyd, Mapping HYD Startups
 - Site: https://startups.mapmyhyd.com/
+- Instagram: https://www.instagram.com/mapmyhyd/
 - Parent: https://mapmyhyd.com/
 - Free, no signup required to browse
 - Canonical brand: "Mapping HYD" (not generic "Hyderabad Startup Map" — other directories use that phrase)

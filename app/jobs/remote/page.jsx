@@ -69,7 +69,7 @@ export default async function RemoteJobsPage() {
         "@type": "Question",
         name: "How are these remote jobs verified?",
         answer:
-          "Hyderabad Startups Map crawls direct ATS career portals (Greenhouse, Lever, Ashby, Workday, Keka) and filters out third-party staffing agencies, ensuring 100% direct company listings.",
+          "Mapping HYD crawls direct ATS career portals (Greenhouse, Lever, Ashby, Workday, Keka) and filters out third-party staffing agencies, ensuring 100% direct company listings.",
       },
       {
         "@type": "Question",

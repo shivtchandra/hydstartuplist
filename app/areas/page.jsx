@@ -6,12 +6,12 @@ import { getSiteUrl } from "../../lib/site-url.js";
 export const revalidate = 86400;
 
 export const metadata = {
-  title: "Tech Areas | Hyderabad Startup Map",
+  title: "Hyderabad Tech Areas",
   description:
     "Browse Hyderabad startups by tech corridor — HITEC City, Madhapur, Gachibowli, and Financial District — with live company counts and hiring.",
   alternates: { canonical: `${getSiteUrl()}/areas` },
   openGraph: {
-    title: "Tech Areas | Hyderabad Startup Map",
+    title: "Hyderabad Tech Areas | Mapping HYD",
     description:
       "Company hubs for Hyderabad’s main startup corridors: who is based where, who’s hiring, and links into open roles.",
     type: "website",

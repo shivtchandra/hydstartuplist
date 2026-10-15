@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getEcosystemStats, pct } from "../../lib/ecosystem-stats.js";
 import { getJobMarketPulse } from "../../lib/jobs.js";
-import { getSiteUrl } from "../../lib/site-url.js";
+import { getSiteUrl, PARENT_ORG_ID } from "../../lib/site-url.js";
 import { areaSlugForName } from "../../lib/areas.js";
 import { industrySlugForSector } from "../../lib/industries.js";
 import ArticleShell from "../components/ArticleShell.jsx";
@@ -135,8 +135,8 @@ export default async function HyderabadTechStatisticsPage() {
         name: TITLE,
         description: DESCRIPTION,
         url: pageUrl,
-        creator: { "@id": `${site}/#organization` },
-        publisher: { "@id": `${site}/#organization` },
+        creator: { "@id": PARENT_ORG_ID },
+        publisher: { "@id": PARENT_ORG_ID },
         dateModified: eco.asOf,
         temporalCoverage: `${YEAR}`,
         spatialCoverage: { "@type": "Place", name: "Hyderabad, Telangana, India" },

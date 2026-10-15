@@ -6,12 +6,12 @@ import { getSiteUrl } from "../../lib/site-url.js";
 export const revalidate = 86400;
 
 export const metadata = {
-  title: "Industries | Hyderabad Startup Map",
+  title: "Hyderabad Startups by Industry",
   description:
     "Browse Hyderabad startups by industry — SaaS, AI, Fintech, Deeptech, Healthtech, Edtech, and more — with live counts, hiring, and company lists.",
   alternates: { canonical: `${getSiteUrl()}/industries` },
   openGraph: {
-    title: "Industries | Hyderabad Startup Map",
+    title: "Hyderabad Startups by Industry | Mapping HYD",
     description:
       "Clear industry sub-pages for the Hyderabad startup ecosystem: share of the map, who’s hiring, and top companies in each sector.",
     type: "website",

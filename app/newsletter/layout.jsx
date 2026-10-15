@@ -1,7 +1,7 @@
 import { getSiteUrl } from "../../lib/site-url.js";
 
 export const metadata = {
-  title: "Newsletter – Hyderabad Startup Map",
+  title: "Hyderabad Startups Newsletter",
   description: "Get notified about new Hyderabad startups, funding rounds, and open roles.",
   alternates: { canonical: `${getSiteUrl()}/newsletter` },
 };

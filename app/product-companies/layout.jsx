@@ -4,7 +4,7 @@ const SITE_URL = getSiteUrl();
 
 export const metadata = {
   alternates: { canonical: `${SITE_URL}/product-companies` },
-  title: "Top 100+ Product Companies in Hyderabad (2026 Directory + Live Jobs & Salaries)",
+  title: "Top 100+ Product Companies in Hyderabad (2026 Directory + Live Jobs)",
   description:
     "Complete directory of 1,000+ verified product software companies in Hyderabad with 400+ live jobs, direct ATS portals (Greenhouse/Lever/Ashby), office maps, and zero consultancies.",
   keywords: [
@@ -27,7 +27,7 @@ export const metadata = {
     "hyderabad startups map",
   ],
   openGraph: {
-    title: "Top 100+ Product Companies in Hyderabad (2026 Directory + Live Jobs & Salaries)",
+    title: "Top 100+ Product Companies in Hyderabad (2026 Directory + Live Jobs)",
     description:
       "Explore 1,000+ verified product software companies and startups in Hyderabad with live office pins, funding stages, and direct ATS job openings.",
     url: `${SITE_URL}/product-companies`,
@@ -71,7 +71,7 @@ const JSONLD = {
           name: "Which product companies in Hyderabad are actively hiring?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Over 60+ verified product startups and tech companies in Hyderabad have active openings tracked on Hyderabad Startups Map, linking directly to company ATS portals (Greenhouse, Lever, Ashby, Workday) with zero recruitment consultancies.",
+            text: "Over 60+ verified product startups and tech companies in Hyderabad have active openings tracked on Mapping HYD, linking directly to company ATS portals (Greenhouse, Lever, Ashby, Workday) with zero recruitment consultancies.",
           },
         },
         {
@@ -87,7 +87,7 @@ const JSONLD = {
           name: "How many product-based startups are located in Hyderabad?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Hyderabad Startups Map tracks over 1,000+ verified product-based companies and software startups across HITEC City, Gachibowli, Madhapur, Knowledge City, and Financial District.",
+            text: "Mapping HYD tracks over 1,000+ verified product-based companies and software startups across HITEC City, Gachibowli, Madhapur, Knowledge City, and Financial District.",
           },
         },
       ],

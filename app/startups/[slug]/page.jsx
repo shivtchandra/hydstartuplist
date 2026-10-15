@@ -46,7 +46,7 @@ export async function generateMetadata({ params }) {
   const title =
     roleCount > 0
       ? `${name} Hyderabad Office & Careers (${roleCount} Live Jobs, Location & Tech Stack)`
-      : `${name} – ${startup.sector} Startup in ${startup.area || "Hyderabad"}`;
+      : `${name} Hyderabad Office – ${startup.sector ? `${startup.sector} ` : ""}Startup in ${startup.area || "Hyderabad"}`;
 
   const description =
     roleCount > 0

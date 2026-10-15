@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getEcosystemStats } from "../../lib/ecosystem-stats.js";
-import { getSiteUrl } from "../../lib/site-url.js";
+import { getSiteUrl, PARENT_ORG_ID } from "../../lib/site-url.js";
 import ArticleShell from "../components/ArticleShell.jsx";
 
 export const revalidate = 86400;
@@ -55,7 +55,7 @@ export default async function AboutPage() {
         url: pageUrl,
         name: TITLE,
         description: DESCRIPTION,
-        mainEntity: { "@id": `${site}/#organization` },
+        mainEntity: { "@id": PARENT_ORG_ID },
       },
       ...FOUNDERS.map((f) => ({
         "@type": "Person",
@@ -63,7 +63,7 @@ export default async function AboutPage() {
         name: f.name,
         jobTitle: f.role,
         description: f.bio,
-        worksFor: { "@id": `${site}/#organization` },
+        worksFor: { "@id": PARENT_ORG_ID },
         sameAs: f.links.map((l) => l.href),
       })),
     ],

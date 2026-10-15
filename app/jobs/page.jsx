@@ -42,7 +42,7 @@ export async function generateMetadata() {
   const count = await distinctRoleCount();
   const title = `Jobs in Hyderabad – ${count}+ Startup & Tech Openings`;
   const description =
-    "Jobs in Hyderabad at 1,000+ mapped startups and tech companies. Browse open roles across Gachibowli, Madhapur, and HITEC City — including fresher jobs in Hyderabad, SaaS, and fintech.";
+    "Jobs in Hyderabad at 1,000+ mapped startups and tech companies. Browse the latest job vacancy in Hyderabad across Gachibowli, Madhapur, and HITEC City — including fresher jobs in Hyderabad, SaaS, and fintech.";
   return {
     title,
     description,
@@ -148,6 +148,16 @@ export default async function JobsPage() {
         </div>
 
         <JobsClient initialJobs={jobs} fetchedAt={fetchedAt} />
+
+        <section className="jobs-landing-links" aria-labelledby="jobs-vacancy-heading">
+          <h2 id="jobs-vacancy-heading">Latest job vacancy in Hyderabad</h2>
+          <p>
+            Each job vacancy in Hyderabad here comes from company careers pages, applicant tracking
+            systems, and vetted job feeds, with staffing agencies filtered out. Browse by sector, area, or
+            role below, or see{" "}
+            <Link href="/jobs/fresher">fresher jobs in Hyderabad</Link>.
+          </p>
+        </section>
 
         <section className="jobs-landing-links" aria-labelledby="jobs-browse-heading">
           <h2 id="jobs-browse-heading">Browse jobs by sector, area, or role</h2>

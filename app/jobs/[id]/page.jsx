@@ -43,7 +43,7 @@ export async function generateMetadata({ params }) {
   if (!job) return { title: "Job not found" };
 
   const title = `${job.title} at ${job.company} – Hyderabad Startup Jobs`;
-  const description = `Apply for ${job.title} at ${job.company} in ${job.location || "Hyderabad"}. Listed on Hyderabad Startup Map.`;
+  const description = `Apply for ${job.title} at ${job.company} in ${job.location || "Hyderabad"}. Listed on Mapping HYD.`;
   const url = `${getSiteUrl()}/jobs/${params.id}`;
 
   const indexable = jobShouldIndex(job);
@@ -68,7 +68,7 @@ export async function generateMetadata({ params }) {
       description,
       url,
       type: "article",
-      siteName: "Hyderabad Startups Map",
+      siteName: "Mapping HYD",
     },
     twitter: {
       card: "summary_large_image",
@@ -127,7 +127,7 @@ export default async function JobDetailPage({ params }) {
 
   const breadcrumbs = [
     { name: "Hyderabad Startup Map", href: "/" },
-    { name: "Jobs", href: "/jobs" },
+    { name: "Jobs in Hyderabad", href: "/jobs" },
     { name: job.company, href: companyPath },
     { name: job.title },
   ];

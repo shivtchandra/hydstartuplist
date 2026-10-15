@@ -6,12 +6,12 @@ import { getSiteUrl } from "../../lib/site-url.js";
 export const revalidate = 86400;
 
 export const metadata = {
-  title: "Hyderabad Tech Parks & IT Campuses Directory",
+  title: "Hyderabad IT Parks & SEZ List: Tech Campuses Directory",
   description:
     "Explore major IT parks, SEZs, and technology campuses in Hyderabad — Mindspace, Sattva Knowledge City, WaveRock SEZ, DLF Cyber City, and Cyber Towers with tenant directories and live jobs.",
   alternates: { canonical: `${getSiteUrl()}/parks` },
   openGraph: {
-    title: "Hyderabad Tech Parks & IT Campuses Directory | Mapping HYD",
+    title: "Hyderabad IT Parks & SEZ List: Tech Campuses Directory | Mapping HYD",
     description:
       "Directory of startups, software companies, and GCCs in Hyderabad's premier IT parks with commute tips and office pins.",
     type: "website",
@@ -28,7 +28,7 @@ export default async function TechParksIndexPage() {
       <div className="feed-page industry-page">
         <header className="industry-head">
           <p className="story-kicker">Hyderabad Tech Parks &amp; Campuses</p>
-          <h1>IT Parks &amp; SEZ Directory</h1>
+          <h1>Hyderabad IT Parks &amp; SEZs</h1>
           <p className="industry-lead">
             Detailed directories of companies, startups, and global technology teams operating inside
             Hyderabad&apos;s landmark tech corridors and SEZ campuses. Updated for {year}.

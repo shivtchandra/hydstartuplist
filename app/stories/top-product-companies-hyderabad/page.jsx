@@ -144,6 +144,11 @@ export default function TopProductCompaniesPage() {
             startups and GCCs by sector and area, see our{" "}
             <Link href="/hyderabad-tech-statistics">Hyderabad tech statistics</Link>.
           </p>
+          <p>
+            This guide covers the standouts. For the{" "}
+            <Link href="/product-companies">full list of product based companies in Hyderabad</Link>{" "}
+            — with office locations and live openings — use the directory.
+          </p>
 
           <div
             className="story-callout story-callout--quiet"

@@ -9,7 +9,7 @@ const DESCRIPTION =
 
 export const metadata = {
   alternates: { canonical: `${getSiteUrl()}/stories/bengaluru-vs-hyderabad-startup-limelight` },
-  title: `${TITLE} | Hyderabad Startup Map`,
+  title: TITLE,
   description: DESCRIPTION,
   openGraph: {
     title: TITLE,

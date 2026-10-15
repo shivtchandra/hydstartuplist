@@ -21,7 +21,10 @@ export async function generateMetadata({ params }) {
   const count = data?.count ?? 0;
   const jobsCount = data?.jobsCount ?? 0;
   const areaLower = landing.area.toLowerCase();
-  const title = `Top ${count}+ IT & Product Companies in ${landing.area} (${jobsCount > 0 ? `${jobsCount}+ Live Jobs` : "Hiring Now"})`;
+  const title =
+    count > 0
+      ? `Companies in ${landing.area}, Hyderabad: List of ${count} IT & Software Companies (2026)`
+      : `Companies in ${landing.area}, Hyderabad: IT & Software Companies List (2026)`;
   const description = `${landing.description} Browse ${count} verified tech companies and ${jobsCount > 0 ? `${jobsCount}+ live open jobs` : "careers"} in ${landing.area}, Hyderabad with direct ATS portals and zero consultancies.`;
   const url = `${getSiteUrl()}/areas/${params.slug}`;
   return {
