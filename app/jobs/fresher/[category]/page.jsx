@@ -107,6 +107,9 @@ export default async function FresherCategoryPage({ params }) {
 
         <div className="feed-head">
           <h1>{cat.headline}</h1>
+          {jobs.length > 0 && <p className="jobs-intro">
+            {`${jobs.length} ${cat.categoryName} opening${jobs.length === 1 ? " is" : "s are"} live in Hyderabad right now at ${new Set(jobs.map((j) => j.company).filter(Boolean)).size} companies — all intern or entry-level roles open to freshers and recent graduates.`}
+          </p>}
           <p className="jobs-intro">{cat.subheading}</p>
           <p className="form-sub">
             {`${jobs.length} verified role${

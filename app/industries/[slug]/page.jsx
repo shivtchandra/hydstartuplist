@@ -126,7 +126,10 @@ export default async function IndustryDetailPage({ params }) {
           <h1>
             {count.toLocaleString()} {landing.sector} startups in Hyderabad
           </h1>
-          <p className="industry-lead">{landing.description}</p>
+          <p className="industry-lead">
+            {`Hyderabad has ${count.toLocaleString()} mapped ${landing.sector} companies — ${sharePct}% of ${totalEcosystem.toLocaleString()} tracked. ${hiringCount.toLocaleString()} are hiring now${jobsCount > 0 ? `, with ${jobsCount.toLocaleString()} open roles tracked` : ""}${topAreas.length ? `; most are based in ${topAreas.slice(0, 3).map((a) => a.area).join(", ")}` : ""}.`}
+          </p>
+          <p className="industry-lead-soft">{landing.description}</p>
           {leadLine && <p className="industry-lead-soft">{leadLine}</p>}
         </header>
 

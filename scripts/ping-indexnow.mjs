@@ -2,7 +2,11 @@
 //
 //   INDEXNOW_KEY=<key> node scripts/ping-indexnow.mjs          # read out/sitemap*.xml (after static build)
 //   INDEXNOW_KEY=<key> node scripts/ping-indexnow.mjs --live   # fetch sitemaps from the live site
+//   ... --startups                                             # also submit every /startups/<slug> page
 //   ... --dry-run                                              # print URLs, send nothing
+//
+// --startups: company profiles are kept out of sitemap.xml for Google crawl
+// budget (see app/sitemap.js), but Bing/IndexNow should still get them.
 //
 // The key must also be served at https://<host>/<key>.txt (public/<key>.txt).
 import { readFile, access } from "node:fs/promises";
@@ -49,6 +53,12 @@ for (const name of SITEMAPS) {
     continue;
   }
   for (const u of locs(xml)) if (new URL(u).hostname === HOST) urls.add(u);
+}
+
+if (process.argv.includes("--startups")) {
+  const { startupSlug } = await import("../lib/slug.js");
+  const startups = JSON.parse(await readFile(path.join(root, "data", "startups.json"), "utf8"));
+  for (const s of startups) if (s.active !== false && s.name) urls.add(`${SITE}/startups/${startupSlug(s)}`);
 }
 
 const list = [...urls];

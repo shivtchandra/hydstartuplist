@@ -85,6 +85,7 @@ export default function SiteFooter() {
 
           <FooterSection title="Guides & data" label="Guides and insights">
             <Link href="/hyderabad-tech-statistics">Hyderabad tech statistics</Link>
+            <Link href="/how-we-verify">How we verify</Link>
             <Link href="/stories/hyderabad-fresher-tech-hiring-guide-2026">Fresher hiring guide 2026</Link>
             <Link href="/stories/top-product-companies-hyderabad">Top 50 product companies</Link>
             <Link href="/stories/hyderabad-tech-parks-guide">Tech parks guide</Link>

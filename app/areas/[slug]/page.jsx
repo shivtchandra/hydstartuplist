@@ -56,8 +56,12 @@ export default async function AreaDetailPage({ params }) {
   const data = await getAreaPage(params.slug);
   if (!data) notFound();
 
-  const { landing, count, sharePct, hiringCount, jobsCount, topSectors, startups, jobs, totalEcosystem } =
+  const { landing, count, sharePct, hiringCount, jobsCount, topSectors, buildings = [], startups, jobs, totalEcosystem } =
     data;
+
+  // Answer-first summary built only from live counts (quotable by search + AI engines).
+  const topSectorNames = topSectors.slice(0, 3).map((s) => s.sector);
+  const answerLine = `${landing.area} has ${count.toLocaleString()} mapped tech companies — ${sharePct}% of the ${totalEcosystem.toLocaleString()} tracked across Hyderabad. ${hiringCount.toLocaleString()} are hiring now${jobsCount > 0 ? `, with ${jobsCount.toLocaleString()} open roles tracked` : ""}${topSectorNames.length ? `; the largest sectors are ${topSectorNames.join(", ")}` : ""}.`;
 
   const others = AREA_LANDINGS.filter((a) => a.slug !== landing.slug);
   const top3 = startups.slice(0, 3).map((s) => prettyName(s.name));
@@ -144,7 +148,8 @@ export default async function AreaDetailPage({ params }) {
           <h1>
             {count.toLocaleString()} startups in {landing.area}
           </h1>
-          <p className="industry-lead">{landing.description}</p>
+          <p className="industry-lead">{answerLine}</p>
+          <p className="industry-lead-soft">{landing.description}</p>
           <p className="industry-lead-soft">{landing.body}</p>
           {leadLine && <p className="industry-lead-soft">{leadLine}</p>}
         </header>
@@ -184,6 +189,30 @@ export default async function AreaDetailPage({ params }) {
                 </li>
               ))}
             </ul>
+          </section>
+        )}
+
+        {buildings.length > 0 && (
+          <section className="industry-section">
+            <h2>Companies by building in {landing.area}</h2>
+            <p className="industry-section-sub">
+              Grouped by the tech park or building named in each company&apos;s office address.
+            </p>
+            {buildings.map((b) => (
+              <div key={b.park} style={{ marginTop: 14 }}>
+                <h3>
+                  <Link href={`/parks/${b.park}`}>{b.name}</Link>{" "}
+                  <span className="industry-facet-count">{b.companies.length}</span>
+                </h3>
+                <ul className="industry-facet-list">
+                  {b.companies.map((c) => (
+                    <li key={c.slug}>
+                      <Link href={`/startups/${c.slug}`}>{prettyName(c.name)}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </section>
         )}
 

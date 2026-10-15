@@ -23,6 +23,7 @@ const STATIC_ROUTES = [
   { path: "/jobs/remote", priority: 0.95, changeFrequency: "daily" },
   { path: "/colleges", priority: 0.9, changeFrequency: "daily" },
   { path: "/jobs", priority: 0.95, changeFrequency: "hourly" },
+  { path: "/how-we-verify", priority: 0.6, changeFrequency: "monthly" },
   { path: "/feed", priority: 0.9, changeFrequency: "hourly" },
   { path: "/news", priority: 0.8, changeFrequency: "daily" },
   { path: "/product-companies", priority: 0.85, changeFrequency: "weekly" },

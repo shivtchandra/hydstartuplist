@@ -32,7 +32,14 @@ export default async function StageDetailPage({ params }) {
   const data = await getStagePage(params.slug);
   if (!data) notFound();
 
-  const { landing, count, sharePct, hiringCount, jobsCount, topSectors, startups, jobs } = data;
+  const { landing, count, sharePct, hiringCount, jobsCount, topSectors, startups, jobs, totalEcosystem } = data;
+
+  // Answer-first summary from live counts, with a per-round breakdown.
+  const roundCounts = new Map();
+  for (const s of startups) if (s.fundingStage) roundCounts.set(s.fundingStage, (roundCounts.get(s.fundingStage) || 0) + 1);
+  const rounds = [...roundCounts.entries()].sort((a, b) => b[1] - a[1]);
+  const answerLine = `${count.toLocaleString()} ${landing.stageName.toLowerCase()} are mapped in Hyderabad — ${sharePct}% of ${totalEcosystem.toLocaleString()} tracked companies. ${hiringCount.toLocaleString()} are hiring now${jobsCount > 0 ? `, with ${jobsCount.toLocaleString()} open roles tracked` : ""}${topSectors.length ? `; leading sectors are ${topSectors.slice(0, 3).map((s) => s.sector).join(", ")}` : ""}.`;
+  const roundLine = rounds.length > 1 ? `By stage: ${rounds.map(([r, n]) => `${r} ${n}`).join(", ")}.` : null;
   const others = STAGE_LANDINGS.filter((s) => s.slug !== landing.slug);
   const top3 = startups.slice(0, 3).map((s) => prettyName(s.name));
 
@@ -112,7 +119,9 @@ export default async function StageDetailPage({ params }) {
         <header className="industry-head">
           <p className="story-kicker">Hyderabad Startup Ecosystem</p>
           <h1>{landing.stageName} in Hyderabad</h1>
-          <p className="industry-lead">{landing.description}</p>
+          <p className="industry-lead">{answerLine}</p>
+          {roundLine && <p className="industry-lead-soft">{roundLine}</p>}
+          <p className="industry-lead-soft">{landing.description}</p>
           <p className="industry-lead-soft">{landing.body}</p>
         </header>
 
