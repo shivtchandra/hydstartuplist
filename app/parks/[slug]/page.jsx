@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
   if (!landing) return { title: "Tech park not found" };
   const data = await getTechParkPage(params.slug);
   const count = data?.count ?? 0;
-  const title = `${landing.title} (${count} Companies)`;
+  const title = count >= 5 ? `${landing.title} (${count} Companies)` : landing.title;
   const url = `${getSiteUrl()}/parks/${params.slug}`;
   return {
     title,
