@@ -921,7 +921,8 @@
     "active": true,
     "hydJobs": 1,
     "totalJobs": 492,
-    "verifiedAt": "2026-10-06T09:07:03.417Z"
+    "verifiedAt": "2026-10-06T09:07:03.417Z",
+    "allowRemote": true
   },
   {
     "id": "greenhouse:telnyx54",
@@ -2975,5 +2976,31 @@
     "note": "jobs-only — Workday Hyd location facet; daily via sync-ats-jobs",
     "employerType": "gcc",
     "website": "https://www.zoetis.com"
+  },
+  {
+    "id": "greenhouse:devrev",
+    "name": "DevRev",
+    "atsProvider": "greenhouse",
+    "atsSlug": "devrev",
+    "boardUrl": "https://boards.greenhouse.io/devrev",
+    "website": "https://devrev.ai",
+    "startupId": null,
+    "employerType": "other",
+    "allowRemote": true,
+    "active": true,
+    "verifiedAt": "2026-10-15T18:53:08.151Z"
+  },
+  {
+    "id": "greenhouse:hackerrank",
+    "name": "HackerRank",
+    "atsProvider": "greenhouse",
+    "atsSlug": "hackerrank",
+    "boardUrl": "https://boards.greenhouse.io/hackerrank",
+    "website": "https://www.hackerrank.com",
+    "startupId": null,
+    "employerType": "other",
+    "allowRemote": true,
+    "active": true,
+    "verifiedAt": "2026-10-15T18:53:08.153Z"
   }
 ]
