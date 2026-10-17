@@ -15,6 +15,7 @@ import {
 } from "../../../lib/startupUi.js";
 import { featuredPinIdSetAsync } from "../../../lib/placements.js";
 import { cleanCompanyDescription, fundingLabel } from "../../../lib/company-quality.js";
+import { areaSlugForName } from "../../../lib/areas.js";
 import {
   breadcrumbJsonLd,
   jobPostingJsonLd,
@@ -73,6 +74,18 @@ export async function generateMetadata({ params }) {
       description,
     },
   };
+}
+
+// Facts-only summary from verified fields (no generated claims). Gives the
+// ~430 profiles with a one-line description a quotable, specific opening.
+function factsSummary(startup, name, stage, openRoles) {
+  const area = String(startup.area || "").replace(/,\s*(Hyderabad|Telangana|India)\b.*$/i, "").trim();
+  const sector = startup.sector ? `${startup.sector} company` : "tech company";
+  const parts = [`${name} is a ${sector} with an office in ${area && area !== "Hyderabad" ? `${area}, ` : ""}Hyderabad.`];
+  if (startup.founded) parts.push(`It was founded in ${startup.founded}.`);
+  if (stage && stage !== "Not disclosed") parts.push(`Funding stage: ${stage}.`);
+  if (openRoles > 0) parts.push(`${name} has ${openRoles} open role${openRoles === 1 ? "" : "s"} listed on Mapping HYD right now.`);
+  return parts.join(" ");
 }
 
 function directionsUrl(address, lat, lng) {
@@ -202,6 +215,10 @@ export default async function StartupDetailPage({ params }) {
     { name: prettyName(startup.name) },
   ];
   const crumbLd = breadcrumbJsonLd(crumbs);
+  const displayName = prettyName(startup.name);
+  const summary = factsSummary(startup, displayName, stage, Math.max(companyJobs.length, hiring?.roles?.length || 0));
+  const areaHubSlug = areaSlugForName(startup.area);
+  const areaHubName = String(startup.area || "").replace(/,\s*(Hyderabad|Telangana|India)\b.*$/i, "").trim();
   const postingLd = companyJobs.slice(0, 25).map((j) =>
     jobPostingJsonLd(j, {
       pageUrl: `${getSiteUrl()}/jobs/${jobUrlId(j.id)}`,
@@ -312,16 +329,34 @@ export default async function StartupDetailPage({ params }) {
 
         <div className="startup-layout">
           <div className="startup-main">
-            {about && (
+            <section className="startup-section">
+              <h2 className="startup-section-title">About</h2>
+              <p className="startup-section-body">{summary}</p>
+              {about && <p className="startup-section-body">{about}</p>}
+              {services.length > 0 && (
+                <ul className="startup-service-list">
+                  {services.map((s) => (
+                    <li key={s}>{s}</li>
+                  ))}
+                </ul>
+              )}
+            </section>
+
+            {(startup.address || startup.area) && (
               <section className="startup-section">
-                <h2 className="startup-section-title">About</h2>
-                <p className="startup-section-body">{about}</p>
-                {services.length > 0 && (
-                  <ul className="startup-service-list">
-                    {services.map((s) => (
-                      <li key={s}>{s}</li>
-                    ))}
-                  </ul>
+                <h2 className="startup-section-title">{displayName} Hyderabad office</h2>
+                <p className="startup-section-body startup-address-text">{startup.address || startup.area}</p>
+                {maps && (
+                  <a className="startup-text-link" href={maps} target="_blank" rel="noopener noreferrer">
+                    Get directions ↗
+                  </a>
+                )}
+                {areaHubSlug && (
+                  <p className="startup-section-body">
+                    <Link href={`/areas/${areaHubSlug}`}>IT companies in {areaHubName || "this area"}</Link>
+                    {" · "}
+                    <Link href="/jobs/fresher">Fresher jobs in Hyderabad</Link>
+                  </p>
                 )}
               </section>
             )}
@@ -368,18 +403,6 @@ export default async function StartupDetailPage({ params }) {
                     </li>
                   ))}
                 </ul>
-              </section>
-            )}
-
-            {(startup.address || startup.area) && (
-              <section className="startup-section">
-                <h2 className="startup-section-title">Office</h2>
-                <p className="startup-section-body startup-address-text">{startup.address || startup.area}</p>
-                {maps && (
-                  <a className="startup-text-link" href={maps} target="_blank" rel="noopener noreferrer">
-                    Open in Maps ↗
-                  </a>
-                )}
               </section>
             )}
 

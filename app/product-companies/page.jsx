@@ -41,11 +41,28 @@ export default async function ProductCompaniesPage() {
       postedAt: j.postedAt || j.sourcePostedAt || null,
     }));
 
+  // Answer-first summary from live counts.
+  const tally = (key) => {
+    const m = new Map();
+    for (const s of startups) {
+      const k = key(s);
+      if (k) m.set(k, (m.get(k) || 0) + 1);
+    }
+    return [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([k]) => k);
+  };
+  const topSectors = tally((s) => s.sector);
+  const topAreas = tally((s) => {
+    const a = String(s.area || "").replace(/,\s*(Hyderabad|Telangana|India)\b.*$/i, "").trim();
+    return a && a.toLowerCase() !== "hyderabad" ? a : null;
+  });
+  const hiringCount = startups.filter((s) => s.hiring).length;
+  const summary = `Hyderabad has ${startups.length.toLocaleString()} product based companies and startups on this map. ${hiringCount.toLocaleString()} are hiring now${productJobs.length ? `, with ${productJobs.length.toLocaleString()} open roles` : ""}. The biggest sectors are ${topSectors.join(", ")}, and most are based in ${topAreas.join(", ")}.`;
+
   return (
     <div className="page-with-nav">
       <SiteNav active="" />
       <div className="feed-page">
-        <ProductCompaniesClient startups={startups} jobs={productJobs} />
+        <ProductCompaniesClient startups={startups} jobs={productJobs} summary={summary} />
       </div>
     </div>
   );

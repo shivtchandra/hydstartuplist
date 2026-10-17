@@ -17,7 +17,7 @@ function timeAgo(iso) {
   return `${Math.floor(days / 30)}mo ago`;
 }
 
-export default function ProductCompaniesClient({ startups = [], jobs = [] }) {
+export default function ProductCompaniesClient({ startups = [], jobs = [], summary = null }) {
   const [activeTab, setActiveTab] = useState("companies");
   const [sector, setSector] = useState("");
   const [jobLevel, setJobLevel] = useState("all");
@@ -44,7 +44,8 @@ export default function ProductCompaniesClient({ startups = [], jobs = [] }) {
   return (
     <>
       <div className="feed-head">
-        <h1>Top Product Companies in Hyderabad</h1>
+        <h1>Top Product Based Companies in Hyderabad</h1>
+        {summary && <p className="jobs-intro">{summary}</p>}
         <p className="form-sub">
           {startups.length}+ verified product tech companies and startups in Hyderabad — building
           their own software, tools, and platforms with live direct-apply career portals. Browse by sector or{" "}

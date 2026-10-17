@@ -235,6 +235,13 @@ export default async function JobDetailPage({ params }) {
           ) : (
             <p className="job-detail-description-body" style={{ whiteSpace: "pre-wrap" }}>{descriptionHtml}</p>
           )}
+          {(job.level === "intern" || job.level === "junior") && (
+            <p className="form-sub" style={{ marginTop: 12 }}>
+              Looking for more entry-level roles? Browse all{" "}
+              <Link href="/jobs/fresher">fresher jobs in Hyderabad</Link> or{" "}
+              <Link href="/jobs/fresher/internships">tech internships in Hyderabad</Link>.
+            </p>
+          )}
         </section>
 
         {(startup || local || similarNearby.length > 0) && (
@@ -249,7 +256,7 @@ export default async function JobDetailPage({ params }) {
                   {startup.area ? ` in ${startup.area}` : " in Hyderabad"}
                   {startup.founded ? `, founded ${startup.founded}` : ""}.
                   {" "}
-                  <Link href={`/startups/${startupSlug(startup)}`}>View on the map →</Link>
+                  <Link href={`/startups/${startupSlug(startup)}`}>{prettyName(startup.name)} Hyderabad office →</Link>
                 </li>
               )}
               {local && (

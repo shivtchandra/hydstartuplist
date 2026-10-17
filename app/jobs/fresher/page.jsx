@@ -5,7 +5,8 @@ import FresherAlertCta from "../../components/FresherAlertCta.jsx";
 import FresherJobsList from "../../components/FresherJobsList.jsx";
 import FresherSalaryCalculator from "../../components/FresherSalaryCalculator.jsx";
 import CompanyScamShield from "../../components/CompanyScamShield.jsx";
-import { getFresherJobs } from "../../../lib/jobs.js";
+import { getFresherJobs, getFresherCompanies } from "../../../lib/jobs.js";
+import { prettyName } from "../../../lib/startupUi.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import {
   breadcrumbJsonLd,
@@ -53,6 +54,7 @@ export async function generateMetadata() {
 export default async function FresherJobsPage() {
   const landing = FRESHER_JOBS_LANDING;
   const jobs = await getFresherJobs(landing.experienceLevels);
+  const fresherCompanies = await getFresherCompanies(landing.experienceLevels).catch(() => []);
   const breadcrumbs = [
     { name: "Hyderabad Startup Map", href: "/" },
     { name: "Jobs", href: "/jobs" },
@@ -173,6 +175,23 @@ export default async function FresherJobsPage() {
               ones land.
             </p>
           </div>
+        )}
+
+        {fresherCompanies.length > 0 && (
+          <section className="industry-section" aria-labelledby="fresher-companies-heading" style={{ marginTop: 28 }}>
+            <h2 id="fresher-companies-heading">Startup &amp; tech companies in Hyderabad hiring freshers</h2>
+            <p className="industry-section-sub">
+              {`${fresherCompanies.length} companies have intern or entry-level openings in Hyderabad right now, from ${jobs.length} roles in total. Each links to that company's open jobs.`}
+            </p>
+            <ul className="industry-facet-list">
+              {fresherCompanies.slice(0, 60).map((c) => (
+                <li key={c.slug}>
+                  <Link href={`/jobs/company/${c.slug}`}>{prettyName(c.name)}</Link>
+                  <span className="industry-facet-count">{c.count}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
 
         {/* Interactive Fresher Salary & Reality Check Calculator */}
