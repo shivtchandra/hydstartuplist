@@ -16,7 +16,9 @@
   {
     "id": "skyroot",
     "name": "Skyroot Aerospace",
-    "url": "https://www.skyroot.in/careers",
+    "url": "https://skyroot.zohorecruit.in/jobs/Careers",
+    "atsProvider": "zoho",
+    "atsSlug": "skyroot",
     "startupId": "69202061-81b2-4f20-8e6b-00d43ed8f311",
     "employerType": "startup"
   },
