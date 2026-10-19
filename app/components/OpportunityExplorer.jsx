@@ -18,6 +18,8 @@ import { readShortlist,writeShortlist } from '../../lib/shortlist.js';
 import { pushShortlistToCloud, useAuthUser } from '../../lib/auth-client.js';
 import { trackEvent } from '../../lib/engagement-client.js';
 import { jobsFetch } from '../../lib/opportunities-client.js';
+import { scoreJobMatch, rankJobsByResume } from '../../lib/resume-matcher.js';
+import ResumeMatchModal from './ResumeMatchModal.jsx';
 const OpportunityMap=dynamic(()=>import('./OpportunityMap.jsx'),{ssr:false,loading:()=> <div className="op-map-status">Loading map…</div>});
 
 function money(salary) {
@@ -259,6 +261,50 @@ function ExclusivePins({ jobs, onOpen }) {
   );
 }
 
+/** Featured frontier AI & tier-1 opportunities shelf */
+function FeaturedSpotlight({ jobs, onOpen }) {
+  const featured = useMemo(() => {
+    const targets = ['notion', 'roche', 'sarvam', 'kantiv', 'rifa', 'synthio', 'truveta'];
+    const picks = [];
+    const seenCo = new Set();
+    for (const j of jobs || []) {
+      const co = (j.company || '').toLowerCase();
+      const isTarget = targets.some(t => co.includes(t));
+      const isAIOrTop = /ai|agent|deployed|model|infra|full[- ]?stack/i.test(j.title || '');
+      if (isTarget && isAIOrTop && !seenCo.has(co) && picks.length < 4) {
+        seenCo.add(co);
+        picks.push(j);
+      }
+    }
+    return picks;
+  }, [jobs]);
+
+  if (!featured.length) return null;
+
+  return (
+    <section className="op-spotlight-shelf" aria-label="Featured frontier roles">
+      <div className="op-spotlight-header">
+        <span className="op-spotlight-title">Featured frontier & AI roles</span>
+        <span className="op-spotlight-badge">Direct ATS</span>
+      </div>
+      <div className="op-spotlight-grid">
+        {featured.map((job) => (
+          <article key={job.id} className="op-spotlight-card" onClick={() => onOpen?.(job)}>
+            <div className="op-spotlight-top">
+              <span className="op-spotlight-co">{job.company}</span>
+              <span className="op-spotlight-loc">{job.work === 'remote' ? 'Remote (India)' : 'Hyderabad'}</span>
+            </div>
+            <h3 className="op-spotlight-role">{job.title}</h3>
+            <div className="op-spotlight-foot">
+              <span className="op-spotlight-apply">View role →</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function OpportunityExplorer({initial,variant='new',savedOnly=false}) {
   const { user: authUser } = useAuthUser();
   const params=useSearchParams(),router=useRouter(),pathname=usePathname();
@@ -271,6 +317,9 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   const [compare,setCompare]=useState(false),[areaA,setAreaA]=useState(''),[areaB,setAreaB]=useState(''),[comparison,setComparison]=useState(null);
   const [emailOpen,setEmailOpen]=useState(false),[email,setEmail]=useState(''),[emailState,setEmailState]=useState(''),[savedSearch,setSavedSearch]=useState(null);
   const [lastVisit,setLastVisit]=useState(null),[refresh,setRefresh]=useState(0);
+  const [resumeProfile, setResumeProfile] = useState(null);
+  const [resumeModalOpen, setResumeModalOpen] = useState(false);
+  const [matchOnly, setMatchOnly] = useState(false);
   const emailRef=useRef(null),sheetRef=useRef(null),abortDetail=useRef(null),initialRequest=useRef(true),detailRef=useRef(null);
   const filterQuery=useMemo(()=>{const p=new URLSearchParams();for(const k of FILTER_KEYS)if(filters[k])p.set(k,filters[k]);return p.toString();},[filters]);
   function change(patch) {
@@ -280,8 +329,29 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     if(pathname==='/' && !p.get('view')) p.set('view','jobs');
     startTransition(()=>{router.replace(`${pathname}?${p}`,{scroll:false});});
   }
+  function handleSaveResumeProfile(profile) {
+    setResumeProfile(profile);
+    try {
+      localStorage.setItem('mapmyhyd_resume_profile', JSON.stringify(profile));
+    } catch {}
+    setNotice(`Resume loaded: ${profile.skills?.length || 0} skills detected. Ranking jobs by match.`);
+  }
+  function handleClearResumeProfile() {
+    setResumeProfile(null);
+    setMatchOnly(false);
+    try {
+      localStorage.removeItem('mapmyhyd_resume_profile');
+    } catch {}
+    setNotice('Resume profile cleared.');
+  }
   useEffect(()=>{setQuery(filters.q);},[filters.q]);
   useEffect(()=>{if(query===filters.q)return;const t=setTimeout(()=>change({q:query}),450);return()=>clearTimeout(t);},[query,filters.q]);
+  useEffect(()=>{
+    try {
+      const saved = localStorage.getItem('mapmyhyd_resume_profile');
+      if (saved) setResumeProfile(JSON.parse(saved));
+    } catch {}
+  }, []);
   useEffect(()=>{
     setShortlist(readShortlist());setStorageReady(true);
     try{setLastVisit(localStorage.getItem('hyd-last-visit'));localStorage.setItem('hyd-last-visit',new Date().toISOString());}catch{}
@@ -388,7 +458,20 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     if(!compare||!areaA||!areaB)return;const c=new AbortController();setComparison(null);
     Promise.all([areaA,areaB].map(area=>{const p=new URLSearchParams(filterQuery);p.set('area',area);return jobsFetch('/api/v2/map?'+p,{signal:c.signal}).then(r=>r.json());})).then(setComparison).catch(()=>{});return()=>c.abort();
   },[compare,areaA,areaB,filterQuery]);
-  const visible=savedOnly?Object.values(shortlist.jobs).filter(s=>s.status!=='hidden').map(s=>s.job):(data?.jobs||[]).filter(j=>shortlist.jobs[j.id]?.status!=='hidden');
+  const visibleRaw = savedOnly
+    ? Object.values(shortlist.jobs).filter((s) => s.status !== 'hidden').map((s) => s.job)
+    : (data?.jobs || []).filter((j) => shortlist.jobs[j.id]?.status !== 'hidden');
+  const visible = useMemo(() => {
+    let list = visibleRaw;
+    if (resumeProfile && resumeProfile.skills?.length) {
+      const shouldSortByMatch = !filters.sort || filters.sort === 'newest';
+      list = rankJobsByResume(list, resumeProfile, shouldSortByMatch);
+      if (matchOnly) {
+        list = list.filter((j) => (j.resumeMatch?.score || 0) >= 70);
+      }
+    }
+    return list;
+  }, [visibleRaw, resumeProfile, filters.sort, matchOnly]);
   // Exclusive pin owns those rows — don't also show them as regular cards underneath.
   const feedJobs = useMemo(
     () => (savedOnly ? visible : visible.filter((j) => !j.sponsored && !j.exclusive)),
@@ -512,6 +595,48 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
             <button type="button" className="op-chip" aria-pressed={view === 'map'} onClick={() => setView('map')}>Map</button>
             <button
               type="button"
+              className={`op-chip ${resumeProfile ? 'op-chip-resume-active' : 'op-chip-resume'}`}
+              onClick={() => setResumeModalOpen(true)}
+              title={resumeProfile ? `${resumeProfile.skills?.length || 0} skills loaded. Click to edit.` : 'Match jobs with your resume'}
+            >
+              {resumeProfile ? `Resume: ${resumeProfile.skills?.length || 0} skills` : 'Match Resume'}
+            </button>
+            {resumeProfile && (
+              <button
+                type="button"
+                className="op-chip"
+                aria-pressed={matchOnly}
+                onClick={() => setMatchOnly((v) => !v)}
+              >
+                70%+ Match
+              </button>
+            )}
+            <button
+              type="button"
+              className="op-chip"
+              aria-pressed={filters.ai === 'yes'}
+              onClick={() => change({ ai: filters.ai === 'yes' ? '' : 'yes' })}
+            >
+              AI & Agents
+            </button>
+            <button
+              type="button"
+              className="op-chip"
+              aria-pressed={filters.work === 'remote'}
+              onClick={() => change({ work: filters.work === 'remote' ? '' : 'remote' })}
+            >
+              Remote
+            </button>
+            <button
+              type="button"
+              className="op-chip"
+              aria-pressed={filters.type === 'startup'}
+              onClick={() => change({ type: filters.type === 'startup' ? '' : 'startup' })}
+            >
+              Startups only
+            </button>
+            <button
+              type="button"
               className="op-chip"
               aria-pressed={filters.direct === 'yes'}
               onClick={() => change({ direct: filters.direct === 'yes' ? '' : 'yes' })}
@@ -556,11 +681,22 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
       </div>
     </div>
     {!savedOnly&&filters.level==='early'&&<p className="op-return op-alert-nudge">Get these early-career roles by email — <button type="button" className="op-text-btn" onClick={saveSearch}>alert me</button>.</p>}
-    {filterQuery&&!savedOnly&&<div className="op-active">{Object.entries(filters).filter(([,v])=>v).map(([k,v])=><button key={k} onClick={()=>change({[k]:''})}>{k}: {v} ×</button>)}<button onClick={()=>router.replace(pathname==='/'?'/?view=jobs':pathname,{scroll:false})}>Clear all</button></div>}
+    {filterQuery&&!savedOnly&&<div className="op-active">{Object.entries(filters).filter(([,v])=>v).map(([k,v])=>{
+      let label = `${k}: ${v}`;
+      if (k === 'ai' && v === 'yes') label = 'AI & Agents';
+      else if (k === 'work') label = `Work: ${readable(v)}`;
+      else if (k === 'type') label = `Type: ${v === 'startup' ? 'Startups' : readable(v)}`;
+      else if (k === 'direct' && v === 'yes') label = 'Direct ATS';
+      else if (k === 'hyd' && v === 'yes') label = 'Hyderabad only';
+      return <button key={k} onClick={()=>change({[k]:''})}>{label} ×</button>;
+    })}<button onClick={()=>router.replace(pathname==='/'?'/?view=jobs':pathname,{scroll:false})}>Clear all</button></div>}
     {newAvailable&&<button className="op-refresh" onClick={()=>setRefresh(v=>v+1)}>Updated matches available — refresh results</button>}
     {(error||notice||data?.stale)&&<p className="op-warning" role="status">{error||notice||'Showing cached results. Source checks are temporarily delayed.'}</p>}
     <div className={`op-workspace op-view-${view}${detail?' op-has-detail':''}`}>
       <section className={`op-results${busy ? ' op-results-loading' : ''}`} aria-label="Job results">
+        {!savedOnly && view === 'list' && !filters.q && (
+          <FeaturedSpotlight jobs={data?.jobs || []} onOpen={openJob} />
+        )}
         {!savedOnly && view === 'list' && (
           <ExclusivePins jobs={visible} onOpen={openJob} />
         )}
@@ -627,12 +763,42 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                         {job.area.split(',')[0]}
                       </span>
                     )}
+                    {job.resumeMatch && (
+                      <span
+                        className={`op-match-badge op-match-${
+                          job.resumeMatch.score >= 75
+                            ? 'high'
+                            : job.resumeMatch.score >= 50
+                            ? 'mid'
+                            : 'low'
+                        }`}
+                        title={`Resume match score: ${job.resumeMatch.score}%`}
+                      >
+                        {job.resumeMatch.score}% match
+                      </span>
+                    )}
                     {job.sponsored && (
                       <span className="op-featured-badge" title="Exclusive Mapping HYD listing">
                         {job.sponsoredLabel || 'Exclusive'}
                       </span>
                     )}
                   </div>
+
+                  {job.resumeMatch?.matchedSkills?.length > 0 && (
+                    <div className="op-matched-skills-line">
+                      <span className="op-matched-skills-label">Matched:</span>
+                      {job.resumeMatch.matchedSkills.slice(0, 5).map((s) => (
+                        <span key={s} className="op-matched-skill-tag">
+                          {s}
+                        </span>
+                      ))}
+                      {job.resumeMatch.matchedSkills.length > 5 && (
+                        <span className="op-matched-skills-label">
+                          +{job.resumeMatch.matchedSkills.length - 5} more
+                        </span>
+                      )}
+                    </div>
+                  )}
 
                   {job.snippet && <p className="op-card-snippet">{job.snippet}</p>}
 
@@ -785,6 +951,31 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
               )}
             </div>
 
+            {resumeProfile && (() => {
+              const dm = detail.resumeMatch || scoreJobMatch(detail, resumeProfile);
+              if (!dm) return null;
+              return (
+                <div className="op-detail-match-banner">
+                  <div className="op-detail-match-score">
+                    <span className="op-detail-match-pct">{dm.score}%</span>
+                    <span className="op-detail-match-label">Match</span>
+                  </div>
+                  <div className="op-detail-match-details">
+                    {dm.matchedSkills?.length > 0 && (
+                      <div className="op-detail-match-skills">
+                        <strong>Matching skills:</strong> {dm.matchedSkills.join(', ')}
+                      </div>
+                    )}
+                    {dm.missingSkills?.length > 0 && (
+                      <div className="op-detail-missing-skills">
+                        <strong>Other role skills:</strong> {dm.missingSkills.join(', ')}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+
             <div className="op-quick-facts-grid">
               <div className="op-fact-item">
                 <span className="op-fact-label">Experience</span>
@@ -878,5 +1069,12 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
         )}
       </footer>
     )}
+    <ResumeMatchModal
+      isOpen={resumeModalOpen}
+      onClose={() => setResumeModalOpen(false)}
+      onSaveProfile={handleSaveResumeProfile}
+      onClearProfile={handleClearResumeProfile}
+      currentProfile={resumeProfile}
+    />
   </main></>;
 }
