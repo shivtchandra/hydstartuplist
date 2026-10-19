@@ -81,7 +81,8 @@
     "active": true,
     "hydJobs": 66,
     "totalJobs": 68,
-    "verifiedAt": "2026-10-05T13:11:53.420Z"
+    "verifiedAt": "2026-10-05T13:11:53.420Z",
+    "allowRemote": true
   },
   {
     "id": "lever:paytmpayments",
@@ -151,7 +152,8 @@
     "totalJobs": 23,
     "verifiedAt": "2026-09-04T16:28:25.329Z",
     "employerType": "enterprise",
-    "website": "https://www.doordash.com"
+    "website": "https://www.doordash.com",
+    "allowRemote": true
   },
   {
     "id": "greenhouse:zenoti",
@@ -288,7 +290,8 @@
     "totalJobs": 202,
     "verifiedAt": "2026-09-24T20:11:01.931Z",
     "employerType": "enterprise",
-    "website": "https://www.brillio.com"
+    "website": "https://www.brillio.com",
+    "allowRemote": true
   },
   {
     "id": "workday:broadridge",
@@ -302,7 +305,8 @@
     "active": true,
     "hydJobs": 15,
     "totalJobs": 21,
-    "verifiedAt": "2026-10-05T13:11:51.446Z"
+    "verifiedAt": "2026-10-05T13:11:51.446Z",
+    "allowRemote": true
   },
   {
     "id": "greenhouse:neuraflash",
@@ -414,7 +418,8 @@
     "active": true,
     "hydJobs": 8,
     "totalJobs": 25,
-    "verifiedAt": "2026-10-05T13:05:46.261Z"
+    "verifiedAt": "2026-10-05T13:05:46.261Z",
+    "allowRemote": true
   },
   {
     "id": "smartrecruiters:micropyramidinformaticspvtltd",
@@ -484,7 +489,8 @@
     "totalJobs": 36,
     "verifiedAt": "2026-09-04T16:28:27.463Z",
     "employerType": "other",
-    "website": "https://www.freshprints.com"
+    "website": "https://www.freshprints.com",
+    "allowRemote": true
   },
   {
     "id": "smartrecruiters:freshworks",
@@ -526,7 +532,8 @@
     "active": true,
     "hydJobs": 5,
     "totalJobs": 362,
-    "verifiedAt": "2026-10-06T09:06:54.401Z"
+    "verifiedAt": "2026-10-06T09:06:54.401Z",
+    "allowRemote": true
   },
   {
     "id": "lever:weekdayworks",
@@ -596,7 +603,8 @@
     "totalJobs": 363,
     "verifiedAt": "2026-09-04T16:28:36.731Z",
     "employerType": "enterprise",
-    "website": "https://www.zscaler.com"
+    "website": "https://www.zscaler.com",
+    "allowRemote": true
   },
   {
     "id": "greenhouse:coinbase",
@@ -610,7 +618,8 @@
     "totalJobs": 188,
     "verifiedAt": "2026-09-04T16:28:32.233Z",
     "employerType": "enterprise",
-    "website": "https://www.coinbase.com"
+    "website": "https://www.coinbase.com",
+    "allowRemote": true
   },
   {
     "id": "lever:cred",
@@ -638,7 +647,8 @@
     "active": true,
     "hydJobs": 3,
     "totalJobs": 17,
-    "verifiedAt": "2026-10-05T13:05:43.879Z"
+    "verifiedAt": "2026-10-05T13:05:43.879Z",
+    "allowRemote": true
   },
   {
     "id": "workday:kyndryl",
@@ -778,7 +788,8 @@
     "totalJobs": 138,
     "verifiedAt": "2026-09-04T16:28:28.388Z",
     "employerType": "enterprise",
-    "website": "https://www.anaplan.com"
+    "website": "https://www.anaplan.com",
+    "allowRemote": true
   },
   {
     "id": "greenhouse:commvault",
@@ -876,7 +887,8 @@
     "active": true,
     "hydJobs": 1,
     "totalJobs": 2,
-    "verifiedAt": "2026-10-06T09:06:57.515Z"
+    "verifiedAt": "2026-10-06T09:06:57.515Z",
+    "allowRemote": true
   },
   {
     "id": "greenhouse:mongodb",
@@ -1179,7 +1191,8 @@
     "mapPin": false,
     "note": "jobs-only — daily via sync-ats-jobs",
     "employerType": "enterprise",
-    "website": "https://www.centific.com"
+    "website": "https://www.centific.com",
+    "allowRemote": true
   },
   {
     "id": "greenhouse:chainguard",
@@ -1319,7 +1332,8 @@
     "active": true,
     "note": "jobs-only — daily via sync-ats-jobs",
     "employerType": "other",
-    "website": "https://www.cyara.com"
+    "website": "https://www.cyara.com",
+    "allowRemote": true
   },
   {
     "id": "greenhouse:databricks",
@@ -2006,7 +2020,8 @@
     "startupId": null,
     "active": true,
     "note": "jobs-only — daily via sync-ats-jobs",
-    "employerType": "other"
+    "employerType": "other",
+    "allowRemote": true
   },
   {
     "id": "ashby:level-ai",
@@ -2644,7 +2659,8 @@
     "website": "https://synthiolabs.com",
     "startupId": "07b8d5ac-b8be-4809-bcbe-14e34ca6d344",
     "employerType": "startup",
-    "active": true
+    "active": true,
+    "allowRemote": true
   },
   {
     "id": "gem:system-two-security",
@@ -2855,7 +2871,8 @@
     "active": true,
     "note": "jobs-only — daily via sync-ats-jobs",
     "employerType": "enterprise",
-    "website": "https://www.viasat.com"
+    "website": "https://www.viasat.com",
+    "allowRemote": true
   },
   {
     "id": "lever:vogo",
@@ -3223,7 +3240,8 @@
     "website": "https://plane.so",
     "startupId": "3bc81153-50c5-4051-85b3-aa2bbcb3aab9",
     "employerType": "startup",
-    "active": true
+    "active": true,
+    "allowRemote": true
   },
   {
     "id": "smartrecruiters:loophealth",
@@ -3234,6 +3252,105 @@
     "website": "https://www.loophealth.com",
     "startupId": "d44906d9-9385-49b0-838e-71295dadfc5d",
     "employerType": "startup",
+    "active": true
+  },
+  {
+    "id": "lever:mactores",
+    "name": "Mactores",
+    "atsProvider": "lever",
+    "atsSlug": "mactores",
+    "boardUrl": "https://jobs.lever.co/mactores",
+    "website": "https://www.mactores.com",
+    "employerType": "other",
+    "allowRemote": true,
+    "active": true
+  },
+  {
+    "id": "ashby:interview-kickstart",
+    "name": "Interview Kickstart",
+    "atsProvider": "ashby",
+    "atsSlug": "interview-kickstart",
+    "boardUrl": "https://jobs.ashbyhq.com/interview-kickstart",
+    "website": "https://www.interviewkickstart.com",
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true
+  },
+  {
+    "id": "lever:sprinto",
+    "name": "Sprinto",
+    "atsProvider": "lever",
+    "atsSlug": "sprinto",
+    "boardUrl": "https://jobs.lever.co/Sprinto",
+    "website": "https://sprinto.com",
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true
+  },
+  {
+    "id": "lever:portcast",
+    "name": "Portcast",
+    "atsProvider": "lever",
+    "atsSlug": "portcast",
+    "boardUrl": "https://jobs.lever.co/portcast",
+    "website": "https://portcast.io",
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true
+  },
+  {
+    "id": "ashby:handshake",
+    "name": "Handshake",
+    "atsProvider": "ashby",
+    "atsSlug": "handshake",
+    "boardUrl": "https://jobs.ashbyhq.com/handshake",
+    "website": "https://joinhandshake.com",
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true
+  },
+  {
+    "id": "greenhouse:enterpret",
+    "name": "Enterpret",
+    "atsProvider": "greenhouse",
+    "atsSlug": "enterpret",
+    "boardUrl": "https://boards.greenhouse.io/enterpret",
+    "website": "https://enterpret.com",
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true
+  },
+  {
+    "id": "ashby:fal-ai",
+    "name": "Fal.ai",
+    "atsProvider": "ashby",
+    "atsSlug": "fal-ai",
+    "boardUrl": "https://jobs.ashbyhq.com/fal-ai",
+    "website": "https://fal.ai",
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true
+  },
+  {
+    "id": "ashby:cursor",
+    "name": "Cursor",
+    "atsProvider": "ashby",
+    "atsSlug": "cursor",
+    "boardUrl": "https://jobs.ashbyhq.com/cursor",
+    "website": "https://cursor.com",
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true
+  },
+  {
+    "id": "workday:postman",
+    "name": "Postman",
+    "atsProvider": "workday",
+    "atsSlug": "postman",
+    "boardUrl": "https://postman.wd108.myworkdayjobs.com/careers",
+    "website": "https://www.postman.com",
+    "employerType": "startup",
+    "allowRemote": true,
     "active": true
   }
 ]
