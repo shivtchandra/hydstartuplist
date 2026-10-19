@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "AutoApply — 1-Click Job Autofill",
+  "version": "1.0.0",
+  "description": "Instant 1-click ATS application autofill for Greenhouse, Lever, Ashby, Workday, BambooHR, and SmartRecruiters.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AutoApply Settings"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "autofill_now": {
+      "suggested_key": {
+        "default": "Alt+A",
+        "mac": "Alt+A"
+      },
+      "description": "Autofill job application form on the active page"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}
