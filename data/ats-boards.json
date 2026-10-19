@@ -159,13 +159,10 @@
     "atsProvider": "greenhouse",
     "atsSlug": "zenoti",
     "boardUrl": "https://boards.greenhouse.io/zenoti",
+    "website": "https://www.zenoti.com",
     "startupId": "ce8748f6-8eb8-487f-9a95-b49e928853cd",
-    "active": true,
-    "hydJobs": 22,
-    "totalJobs": 45,
-    "verifiedAt": "2026-09-04T18:12:22.117Z",
     "employerType": "startup",
-    "website": "https://www.zenoti.com"
+    "active": true
   },
   {
     "id": "greenhouse:accordionindia",
@@ -1219,9 +1216,10 @@
     "atsProvider": "smartrecruiters",
     "atsSlug": "cincyrtech",
     "boardUrl": "https://jobs.smartrecruiters.com/cincyrtech",
+    "website": "http://cincyrtech.com",
     "startupId": "6967c62a-0c77-41b7-969e-ad4452e67f58",
-    "active": true,
-    "employerType": "startup"
+    "employerType": "startup",
+    "active": true
   },
   {
     "id": "ashby:circle",
@@ -1277,12 +1275,10 @@
     "atsProvider": "keka",
     "atsSlug": "cognida",
     "boardUrl": "https://www.cognida.ai/careers/",
-    "mapPin": true,
+    "website": "https://www.cognida.ai",
     "startupId": "2e60659b-80fb-46ec-bddd-ad7cda61df73",
-    "active": true,
-    "note": "jobs-only — Keka embed; Hyd via geoFilter; daily via sync-ats-jobs",
     "employerType": "startup",
-    "website": "https://www.cognida.ai"
+    "active": true
   },
   {
     "id": "greenhouse:coherehealth",
@@ -1290,9 +1286,10 @@
     "atsProvider": "greenhouse",
     "atsSlug": "coherehealth",
     "boardUrl": "https://boards.greenhouse.io/coherehealth",
+    "website": "https://www.coherehealth.com",
     "startupId": "115e8003-db26-437d-9656-129cdcb4c6f6",
-    "active": true,
-    "employerType": "startup"
+    "employerType": "startup",
+    "active": true
   },
   {
     "id": "ashby:colonist",
@@ -1816,15 +1813,14 @@
   },
   {
     "id": "keka:ideyalabs",
-    "name": "ideyaLabs",
+    "name": "IDEYALABS TECH PRIVATE LIMITED",
     "atsProvider": "keka",
     "atsSlug": "ideyalabs",
     "boardUrl": "https://www.ideyalabs.com/careers/",
-    "mapPin": false,
-    "startupId": null,
-    "active": true,
-    "note": "jobs-only — daily via sync-ats-jobs",
-    "employerType": "other"
+    "website": "https://ideyalabs.com",
+    "startupId": "aca6b6a4-4684-4e2e-9796-4c0677b49934",
+    "employerType": "startup",
+    "active": true
   },
   {
     "id": "ashby:imagineart",
@@ -2137,9 +2133,10 @@
     "atsProvider": "smartrecruiters",
     "atsSlug": "nowfloats",
     "boardUrl": "https://jobs.smartrecruiters.com/nowfloats",
+    "website": "https://www.nowfloats.com",
     "startupId": "be523135-78a8-424f-a998-292c65e9aa0a",
-    "active": true,
-    "employerType": "startup"
+    "employerType": "startup",
+    "active": true
   },
   {
     "id": "freshteam:nxtwave",
@@ -2158,10 +2155,10 @@
     "atsProvider": "lever",
     "atsSlug": "oneimpression",
     "boardUrl": "https://jobs.lever.co/oneimpression",
+    "website": "https://www.oneimpression.io",
     "startupId": "d2283dd8-b2aa-4dab-b3a1-c7486462c90e",
-    "active": true,
     "employerType": "startup",
-    "website": "https://www.oneimpression.io"
+    "active": true
   },
   {
     "id": "ashby:openai",
@@ -2249,10 +2246,10 @@
     "atsProvider": "lever",
     "atsSlug": "paytm",
     "boardUrl": "https://jobs.lever.co/paytm",
+    "website": "https://paytm.com",
     "startupId": "6165678d-5c78-442b-8db7-301747ccc00e",
-    "active": true,
     "employerType": "startup",
-    "website": "https://paytm.com"
+    "active": true
   },
   {
     "id": "greenhouse:phdata",
@@ -2330,6 +2327,17 @@
     "note": "jobs-only — Zoho Recruit Careers (Hyd junior/.NET); daily via sync-ats-jobs",
     "employerType": "startup",
     "website": "https://www.productspace.com"
+  },
+  {
+    "id": "zoho:skyroot",
+    "name": "Skyroot Aerospace",
+    "atsProvider": "zoho",
+    "atsSlug": "skyroot",
+    "boardUrl": "https://skyroot.zohorecruit.in/jobs/Careers",
+    "website": "https://www.skyroot.in",
+    "startupId": "69202061-81b2-4f20-8e6b-00d43ed8f311",
+    "employerType": "startup",
+    "active": true
   },
   {
     "id": "eightfold:qualcomm",
@@ -2411,9 +2419,10 @@
     "atsProvider": "smartrecruiters",
     "atsSlug": "sanaari",
     "boardUrl": "https://jobs.smartrecruiters.com/sanaari",
+    "website": "https://www.sanaari.net",
     "startupId": "521efcb3-c00d-4723-bd5a-ea07c3b9504e",
-    "active": true,
-    "employerType": "startup"
+    "employerType": "startup",
+    "active": true
   },
   {
     "id": "linkedin:sentient",
@@ -2632,15 +2641,10 @@
     "atsProvider": "gem",
     "atsSlug": "synthio-labs",
     "boardUrl": "https://jobs.gem.com/synthio-labs",
-    "website": null,
-    "startupId": null,
-    "employerType": "other",
-    "active": true,
-    "hydJobs": 0,
-    "totalJobs": 11,
-    "verifiedAt": "2026-10-05T13:05:45.904Z",
-    "allowRemote": true,
-    "remoteJobs": 8
+    "website": "https://synthiolabs.com",
+    "startupId": "07b8d5ac-b8be-4809-bcbe-14e34ca6d344",
+    "employerType": "startup",
+    "active": true
   },
   {
     "id": "gem:system-two-security",
@@ -2859,10 +2863,10 @@
     "atsProvider": "lever",
     "atsSlug": "vogo",
     "boardUrl": "https://jobs.lever.co/vogo",
+    "website": "https://www.vogo.in",
     "startupId": "ea5fcf18-69d2-41fe-b991-9a07953fda35",
-    "active": true,
     "employerType": "startup",
-    "website": "https://www.vogo.in"
+    "active": true
   },
   {
     "id": "workday:wbd",
@@ -3119,5 +3123,117 @@
     "allowRemote": true,
     "active": true,
     "verifiedAt": "2026-10-17T23:13:28.420Z"
+  },
+  {
+    "id": "ashby:bolna",
+    "name": "Bolna AI",
+    "atsProvider": "ashby",
+    "atsSlug": "bolna",
+    "boardUrl": "https://jobs.ashbyhq.com/bolna",
+    "website": "https://bolna.ai",
+    "startupId": null,
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true,
+    "verifiedAt": "2026-10-19T12:42:58.829Z"
+  },
+  {
+    "id": "zoho:freyrenergy",
+    "name": "Freyr Energy",
+    "atsProvider": "zoho",
+    "atsSlug": "freyrenergy",
+    "boardUrl": "https://freyrenergy.zohorecruit.com/jobs/Careers",
+    "website": "https://www.freyrenergy.com",
+    "startupId": "a95d4efa-81cb-4110-b566-8b96b11efeb0",
+    "employerType": "startup",
+    "active": true
+  },
+  {
+    "id": "zoho:qualizeal",
+    "name": "Qualizeal",
+    "atsProvider": "zoho",
+    "atsSlug": "qualizeal",
+    "boardUrl": "https://qualizeal.zohorecruit.com/jobs/Careers",
+    "website": "https://www.qualizeal.com",
+    "startupId": "c042f5d6-f283-4fa5-a98a-43f117462db3",
+    "employerType": "startup",
+    "active": true
+  },
+  {
+    "id": "zoho:kanerika",
+    "name": "kanerika software private limited",
+    "atsProvider": "zoho",
+    "atsSlug": "kanerika",
+    "boardUrl": "https://kanerika.zohorecruit.com/jobs/Careers",
+    "website": "https://kanerika.com",
+    "startupId": "8296548c-20d8-4714-9a39-707727f0af40",
+    "employerType": "startup",
+    "active": true
+  },
+  {
+    "id": "zoho:nexivo",
+    "name": "NEXIVO CONSULTING PRIVATE LIMITED",
+    "atsProvider": "zoho",
+    "atsSlug": "nexivo",
+    "boardUrl": "https://nexivo.zohorecruit.com/jobs/Careers",
+    "website": "https://www.nexivo.co",
+    "startupId": "69a64b62-5159-463f-ad46-3b8a8dffc2f6",
+    "employerType": "startup",
+    "active": true
+  },
+  {
+    "id": "zoho:donatekart",
+    "name": "Donatekart",
+    "atsProvider": "zoho",
+    "atsSlug": "donatekart",
+    "boardUrl": "https://donatekart.zohorecruit.com/jobs/Careers",
+    "website": "https://www.donatekart.com",
+    "startupId": "67eb49f0-00bd-45c2-bee5-5815c80feb0a",
+    "employerType": "startup",
+    "active": true
+  },
+  {
+    "id": "zoho:froogal",
+    "name": "Froogal",
+    "atsProvider": "zoho",
+    "atsSlug": "froogal",
+    "boardUrl": "https://froogal.zohorecruit.com/jobs/Careers",
+    "website": "https://froogal.ai",
+    "startupId": "b3957ef7-752c-4301-b476-e46062165fd1",
+    "employerType": "startup",
+    "active": true
+  },
+  {
+    "id": "zoho:kheyti",
+    "name": "Kheyti",
+    "atsProvider": "zoho",
+    "atsSlug": "kheyti",
+    "boardUrl": "https://kheyti.zohorecruit.com/jobs/Careers",
+    "website": "https://www.kheyti.com",
+    "startupId": "cdd4c163-52b7-4444-a6a8-522ad1142fd7",
+    "employerType": "startup",
+    "active": true
+  },
+  {
+    "id": "ashby:plane",
+    "name": "Plane",
+    "atsProvider": "ashby",
+    "atsSlug": "plane",
+    "boardUrl": "https://jobs.ashbyhq.com/plane",
+    "website": "https://plane.so",
+    "startupId": "3bc81153-50c5-4051-85b3-aa2bbcb3aab9",
+    "employerType": "startup",
+    "active": true
+  },
+  {
+    "id": "smartrecruiters:loophealth",
+    "name": "Loop Health",
+    "atsProvider": "smartrecruiters",
+    "atsSlug": "loophealth",
+    "boardUrl": "https://jobs.smartrecruiters.com/loophealth",
+    "website": "https://www.loophealth.com",
+    "startupId": "d44906d9-9385-49b0-838e-71295dadfc5d",
+    "employerType": "startup",
+    "active": true
   }
 ]
