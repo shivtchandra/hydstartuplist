@@ -1,7 +1,10 @@
 import Link from "next/link";
+import fs from "fs";
+import path from "path";
 import SiteNav from "../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 import RemoteJobsList from "../../components/RemoteJobsList.jsx";
+import EuropeanRemoteDirectory from "../../components/EuropeanRemoteDirectory.jsx";
 import { getRemoteJobs } from "../../../lib/jobs.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import {
@@ -52,6 +55,17 @@ export default async function RemoteJobsPage() {
     { name: "Jobs", href: "/jobs" },
     { name: "Remote" },
   ];
+
+  let euCompanies = [];
+  let euJobs = [];
+  try {
+    const compFile = path.join(process.cwd(), "data", "european-remote-companies.json");
+    if (fs.existsSync(compFile)) euCompanies = JSON.parse(fs.readFileSync(compFile, "utf8"));
+    const jobsFile = path.join(process.cwd(), "data", "european-remote-jobs.json");
+    if (fs.existsSync(jobsFile)) euJobs = JSON.parse(fs.readFileSync(jobsFile, "utf8"));
+  } catch (err) {
+    console.error("European remote data error:", err);
+  }
 
   const faqLd = {
     "@context": "https://schema.org",
@@ -134,6 +148,8 @@ export default async function RemoteJobsPage() {
             ))}
           </div>
         </div>
+
+        <EuropeanRemoteDirectory companies={euCompanies} jobs={euJobs} />
 
         {jobs.length ? (
           <RemoteJobsList jobs={jobs} />

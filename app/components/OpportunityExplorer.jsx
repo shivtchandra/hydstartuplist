@@ -628,6 +628,21 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
             >
               Remote
             </button>
+            <Link
+              href="/jobs/remote"
+              className="op-chip"
+              style={{
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                borderColor: 'rgba(16, 185, 129, 0.35)',
+                color: '#059669',
+                background: 'rgba(16, 185, 129, 0.08)',
+                fontWeight: 600,
+              }}
+            >
+              European & Global Remote (360+)
+            </Link>
             <button
               type="button"
               className="op-chip"
