@@ -20,6 +20,7 @@ import { trackEvent } from '../../lib/engagement-client.js';
 import { jobsFetch } from '../../lib/opportunities-client.js';
 import { scoreJobMatch, rankJobsByResume } from '../../lib/resume-matcher.js';
 import ResumeMatchModal from './ResumeMatchModal.jsx';
+import ResumeTailorButton from './ResumeTailorButton.jsx';
 const OpportunityMap=dynamic(()=>import('./OpportunityMap.jsx'),{ssr:false,loading:()=> <div className="op-map-status">Loading map…</div>});
 
 function money(salary) {
@@ -938,17 +939,31 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                 </div>
               </div>
 
-              {detail.applyUrl && detail.status !== 'closed' && (
-                <a
-                  className="op-primary-apply-cta"
-                  href={detail.applyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackEvent('apply', variant)}
-                >
-                  Apply on official site →
-                </a>
-              )}
+              <div className="op-drawer-actions-stack">
+                {detail.applyUrl && detail.status !== 'closed' && (
+                  <a
+                    className="op-primary-apply-cta"
+                    href={detail.applyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('apply', variant)}
+                    style={{ marginTop: 0 }}
+                  >
+                    Apply on official site →
+                  </a>
+                )}
+                <ResumeTailorButton
+                  job={{
+                    title: detail.title,
+                    company: detail.company,
+                    description: detail.description || detail.snippet || '',
+                    skills: detail.skills || [],
+                    url: detail.applyUrl,
+                  }}
+                  className="op-tailor-action-btn"
+                  label="Tailor Resume for this Role (80%+ ATS Match)"
+                />
+              </div>
             </div>
 
             {resumeProfile && (() => {

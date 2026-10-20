@@ -7,17 +7,18 @@ test('unknown work arrangement remains explicitly searchable',()=>assert.equal(f
 test('unknown location stays in map-area result lists',()=>assert.equal(filterJobs(jobs,{bounds:'17,18,78,79'}).length,1));
 
 test('ATS jobs keep postedAt when sourcePostedAt is missing', () => {
+  const recentPost = new Date(Date.now() - 5 * 86400000).toISOString();
   const [job] = prepareJobs([{
     id: 'ats-workday-ncr-1',
     title: 'Quality Engineer',
     company: 'NCR Voyix',
     source: 'ats',
-    postedAt: '2026-09-04T19:10:22.383Z',
+    postedAt: recentPost,
     url: 'https://example.com/j',
     location: 'Hyderabad',
     status: 'active',
   }]);
-  assert.equal(job.sourcePostedAt, '2026-09-04T19:10:22.383Z');
+  assert.equal(job.sourcePostedAt, recentPost);
   assert.equal(filterJobs([job, ...jobs], {}).some(j => j.id === 'ats-workday-ncr-1'), true);
 });
 

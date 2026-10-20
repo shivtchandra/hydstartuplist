@@ -504,7 +504,8 @@
     "active": true,
     "hydJobs": 5,
     "totalJobs": 31,
-    "verifiedAt": "2026-10-05T13:05:43.985Z"
+    "verifiedAt": "2026-10-05T13:05:43.985Z",
+    "allowRemote": true
   },
   {
     "id": "workday:mastercard",
@@ -575,7 +576,8 @@
     "active": true,
     "hydJobs": 4,
     "totalJobs": 136,
-    "verifiedAt": "2026-10-05T13:05:43.941Z"
+    "verifiedAt": "2026-10-05T13:05:43.941Z",
+    "allowRemote": true
   },
   {
     "id": "greenhouse:schrdinger",
@@ -633,7 +635,8 @@
     "totalJobs": 14,
     "verifiedAt": "2026-09-04T16:28:44.112Z",
     "employerType": "other",
-    "website": "https://www.cred.club"
+    "website": "https://www.cred.club",
+    "allowRemote": true
   },
   {
     "id": "ashby:gainsight",
@@ -873,7 +876,8 @@
     "totalJobs": 51,
     "verifiedAt": "2026-09-24T20:11:01.932Z",
     "employerType": "enterprise",
-    "website": "https://www.meesho.com"
+    "website": "https://www.meesho.com",
+    "allowRemote": true
   },
   {
     "id": "smartrecruiters:mirantis",
@@ -902,7 +906,8 @@
     "totalJobs": 398,
     "verifiedAt": "2026-09-24T20:11:01.932Z",
     "employerType": "enterprise",
-    "website": "https://www.mongodb.com"
+    "website": "https://www.mongodb.com",
+    "allowRemote": true
   },
   {
     "id": "greenhouse:newrelic",
@@ -3352,5 +3357,131 @@
     "employerType": "startup",
     "allowRemote": true,
     "active": true
+  },
+  {
+    "id": "ashby:fairground",
+    "name": "Fairground",
+    "atsProvider": "ashby",
+    "atsSlug": "fairground",
+    "boardUrl": "https://jobs.ashbyhq.com/fairground",
+    "website": "https://www.fairground.com",
+    "startupId": null,
+    "employerType": "startup",
+    "active": true,
+    "hydJobs": 5,
+    "totalJobs": 5,
+    "verifiedAt": "2026-10-20T05:47:48.836Z"
+  },
+  {
+    "id": "greenhouse:mozilla",
+    "name": "Mozilla",
+    "atsProvider": "greenhouse",
+    "atsSlug": "mozilla",
+    "boardUrl": "https://boards.greenhouse.io/mozilla",
+    "website": "https://www.mozilla.org",
+    "startupId": null,
+    "employerType": "enterprise",
+    "active": true,
+    "allowRemote": true,
+    "hydJobs": 0,
+    "remoteJobs": 22,
+    "totalJobs": 96,
+    "verifiedAt": "2026-10-20T05:47:48.838Z"
+  },
+  {
+    "id": "greenhouse:wikimedia",
+    "name": "Wikimedia Foundation",
+    "atsProvider": "greenhouse",
+    "atsSlug": "wikimedia",
+    "boardUrl": "https://boards.greenhouse.io/wikimedia",
+    "website": "https://wikimediafoundation.org",
+    "startupId": null,
+    "employerType": "other",
+    "active": true,
+    "allowRemote": true,
+    "hydJobs": 0,
+    "remoteJobs": 13,
+    "totalJobs": 13,
+    "verifiedAt": "2026-10-20T05:47:48.838Z"
+  },
+  {
+    "id": "greenhouse:elastic",
+    "name": "Elastic",
+    "atsProvider": "greenhouse",
+    "atsSlug": "elastic",
+    "boardUrl": "https://boards.greenhouse.io/elastic",
+    "website": "https://www.elastic.co",
+    "startupId": null,
+    "employerType": "enterprise",
+    "active": true,
+    "allowRemote": true,
+    "hydJobs": 0,
+    "remoteJobs": 3,
+    "totalJobs": 377,
+    "verifiedAt": "2026-10-20T05:47:48.838Z"
+  },
+  {
+    "id": "greenhouse:groww",
+    "name": "Groww",
+    "atsProvider": "greenhouse",
+    "atsSlug": "groww",
+    "boardUrl": "https://boards.greenhouse.io/groww",
+    "website": "https://groww.in",
+    "startupId": null,
+    "employerType": "startup",
+    "active": true,
+    "allowRemote": true,
+    "hydJobs": 0,
+    "remoteJobs": 1,
+    "totalJobs": 10,
+    "verifiedAt": "2026-10-20T05:47:48.838Z"
+  },
+  {
+    "id": "ashby:deepgram",
+    "name": "Deepgram",
+    "atsProvider": "ashby",
+    "atsSlug": "deepgram",
+    "boardUrl": "https://jobs.ashbyhq.com/deepgram",
+    "website": "https://deepgram.com",
+    "startupId": null,
+    "employerType": "startup",
+    "active": true,
+    "allowRemote": true,
+    "hydJobs": 0,
+    "remoteJobs": 3,
+    "totalJobs": 91,
+    "verifiedAt": "2026-10-20T05:47:48.838Z"
+  },
+  {
+    "id": "ashby:temporal",
+    "name": "Temporal",
+    "atsProvider": "ashby",
+    "atsSlug": "temporal",
+    "boardUrl": "https://jobs.ashbyhq.com/temporal",
+    "website": "https://temporal.io",
+    "startupId": null,
+    "employerType": "startup",
+    "active": true,
+    "allowRemote": true,
+    "hydJobs": 0,
+    "remoteJobs": 3,
+    "totalJobs": 70,
+    "verifiedAt": "2026-10-20T05:47:48.838Z"
+  },
+  {
+    "id": "greenhouse:automatticcareers",
+    "name": "Automattic",
+    "atsProvider": "greenhouse",
+    "atsSlug": "automatticcareers",
+    "boardUrl": "https://boards.greenhouse.io/automatticcareers",
+    "website": "https://automattic.com",
+    "startupId": null,
+    "employerType": "enterprise",
+    "active": true,
+    "allowRemote": true,
+    "hydJobs": 0,
+    "remoteJobs": 12,
+    "totalJobs": 12,
+    "verifiedAt": "2026-10-20T06:00:00.000Z"
   }
 ]
