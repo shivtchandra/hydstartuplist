@@ -4,7 +4,7 @@ import SiteNav from "../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 import ShareJobButton from "../../components/ShareJobButton.jsx";
 import ResumeTailorButton from "../../components/ResumeTailorButton.jsx";
-import { getJobById, getJobsByArea, getJobsForCompany } from "../../../lib/jobs.js";
+import { getAllJobs, getJobById, getJobsByArea, getJobsForCompany } from "../../../lib/jobs.js";
 import { getStartupBySlug, getApproved } from "../../../lib/store.js";
 import { startupSlug, slugify } from "../../../lib/slug.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
@@ -38,9 +38,21 @@ import { jobExperienceDisplay } from "../../../lib/job-facets.js";
 // cap. A one-off render costs the same CPU either way; uncached it writes nothing.
 export const dynamic = "force-dynamic";
 
+async function getJobByUrlParam(urlId) {
+  const directId = jobIdFromUrl(urlId);
+  if (directId) {
+    const direct = await getJobById(directId);
+    if (direct) return direct;
+  }
+
+  const compact = String(urlId).split("~").pop();
+  if (!compact.startsWith("h-")) return null;
+  const jobs = await getAllJobs();
+  return jobs.find((job) => jobUrlId(job).split("~").pop() === compact) || null;
+}
+
 export async function generateMetadata({ params }) {
-  const id = jobIdFromUrl(params.id);
-  const job = await getJobById(id);
+  const job = await getJobByUrlParam(params.id);
   if (!job) return { title: "Job not found" };
 
   const title = `${job.title} at ${job.company} – Hyderabad Startup Jobs`;
@@ -95,8 +107,7 @@ function titleTokens(title) {
 }
 
 export default async function JobDetailPage({ params }) {
-  const id = jobIdFromUrl(params.id);
-  const job = await getJobById(id);
+  const job = await getJobByUrlParam(params.id);
   if (!job) notFound();
 
   const canonicalId = jobUrlId(job);

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { isGccProfileEligible, readGccs, verifiedGccProfiles } from "../lib/gccs.js";
+import { jobIdFromUrl, jobUrlId, legacyJobUrlId } from "../lib/jobs-seo.js";
 import {
   ROLE_AREA_MIN_EMPLOYERS,
   ROLE_AREA_MIN_JOBS,
@@ -12,6 +13,20 @@ assert.equal(roleAreaQualifies(5, 3), true, "the exact quality boundary must ind
 assert.equal(roleAreaQualifies(4, 3), false, "four jobs must remain noindex");
 assert.equal(roleAreaQualifies(5, 2), false, "two employers must remain noindex");
 assert.equal(roleAreaQualifies(0, 0), false, "empty combinations must remain noindex");
+
+const longJob = {
+  id: `priority-test-https://example.com/jobs/${"very-long-source-path-".repeat(20)}`,
+  company: "Example Company",
+  title: "Senior Software Engineer",
+  area: "Hyderabad",
+};
+const legacyLongId = legacyJobUrlId(longJob);
+const compactLongId = jobUrlId(longJob);
+assert.ok(legacyLongId.length > 255, "fixture must reproduce filesystem-unsafe job URLs");
+assert.ok(compactLongId.length <= 180, "canonical job URLs must remain filesystem-safe");
+assert.match(compactLongId, /~h-[a-z0-9]+$/);
+assert.equal(jobIdFromUrl(compactLongId), null, "compact job ids resolve through the live inventory");
+assert.equal(jobIdFromUrl(legacyLongId), longJob.id, "legacy reversible job URLs must remain readable");
 
 const gccs = readGccs();
 const profiles = verifiedGccProfiles();
