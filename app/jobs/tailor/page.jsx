@@ -5,7 +5,7 @@ import TailorClient from "./TailorClient.jsx";
 import { getAllJobs } from "../../../lib/jobs.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
 
 export async function generateMetadata() {
   const title = "ATS Resume Matcher & Reverse-Engineering Optimizer (Hyderabad Jobs)";
