@@ -5,6 +5,7 @@ import JobsBreadcrumbs from "../../../components/JobsBreadcrumbs.jsx";
 import { getJobsByRole } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 import { JOB_ROLE_LANDINGS, breadcrumbJsonLd, itemListJsonLd, jobUrlId, roleLanding, thinListingRobots } from "../../../../lib/jobs-seo.js";
+import { getQualifiedAreasForRole } from "../../../../lib/role-area-jobs.js";
 
 // This app redeploys multiple times a day, which already resets the ISR
 // cache — see app/jobs/company/[slug]/page.jsx.
@@ -39,7 +40,10 @@ export default async function RoleJobsPage({ params }) {
   const landing = roleLanding(params.role);
   if (!landing) notFound();
 
-  const jobs = await getJobsByRole(landing);
+  const [jobs, qualifiedAreas] = await Promise.all([
+    getJobsByRole(landing),
+    getQualifiedAreasForRole(landing.slug),
+  ]);
   const breadcrumbs = [
     { name: "Hyderabad Startup Map", href: "/" },
     { name: "Jobs", href: "/jobs" },
@@ -70,7 +74,7 @@ export default async function RoleJobsPage({ params }) {
 
         <div className="feed-list">
           {jobs.map((j) => (
-            <Link key={j.id} className="feed-row feed-row-link" href={`/jobs/${jobUrlId(j.id)}`}>
+            <Link key={j.id} className="feed-row feed-row-link" href={`/jobs/${jobUrlId(j)}`}>
               <div className="feed-row-body">
                 <div className="feed-row-name">{j.title}</div>
                 <div className="feed-row-sub">
@@ -80,6 +84,14 @@ export default async function RoleJobsPage({ params }) {
             </Link>
           ))}
         </div>
+        {qualifiedAreas.length > 0 && (
+          <section className="industry-section">
+            <h2>{landing.role} jobs by Hyderabad area</h2>
+            <div className="industry-other-links">
+              {qualifiedAreas.map((row) => <Link key={row.area.slug} href={`/jobs/in/${row.area.slug}/${landing.slug}`}>{row.area.area} ({row.jobs.length})</Link>)}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

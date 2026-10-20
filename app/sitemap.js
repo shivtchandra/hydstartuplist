@@ -7,13 +7,15 @@ import { INDUSTRY_LANDINGS } from "../lib/industries.js";
 import { AREA_LANDINGS } from "../lib/areas.js";
 import { TECH_PARKS } from "../lib/parks.js";
 import { STAGE_LANDINGS } from "../lib/stages.js";
+import { getQualifiedRoleAreaPairs } from "../lib/role-area-jobs.js";
+import { verifiedGccProfiles } from "../lib/gccs.js";
 
 /**
  * Hub sitemap only. Individual job URLs live in /sitemap-jobs.xml (recent-only).
  * Startup profile URLs stay crawlable via the map + internal links but are
  * omitted here while GSC reports mass "Discovered – currently not indexed".
  */
-export const revalidate = 86400;
+export const revalidate = 3600;
 
 const SITE_URL = getSiteUrl();
 
@@ -56,8 +58,9 @@ const STORY_SLUGS = [
   "t-hub-hyderabad",
 ];
 
-export default function sitemap() {
+export default async function sitemap() {
   const now = new Date();
+  const roleAreaPairs = await getQualifiedRoleAreaPairs().catch(() => []);
   const staticEntries = STATIC_ROUTES.map(({ path: p, priority, changeFrequency }) => ({
     url: `${SITE_URL}${p}`,
     lastModified: now,
@@ -142,6 +145,20 @@ export default function sitemap() {
     priority: 0.85,
   }));
 
+  const roleAreaEntries = roleAreaPairs.map((row) => ({
+    url: `${SITE_URL}/jobs/in/${row.area.slug}/${row.role.slug}`,
+    lastModified: row.updatedAt ? new Date(row.updatedAt) : now,
+    changeFrequency: "daily",
+    priority: 0.85,
+  }));
+
+  const gccProfileEntries = verifiedGccProfiles().map((gcc) => ({
+    url: `${SITE_URL}/gccs/${gcc.id}`,
+    lastModified: gcc.verifiedAt ? new Date(gcc.verifiedAt) : now,
+    changeFrequency: "weekly",
+    priority: 0.75,
+  }));
+
   // Dedupe story paths that also appear in STATIC_ROUTES
   const seen = new Set();
   return [
@@ -157,6 +174,8 @@ export default function sitemap() {
     ...sectorEntries,
     ...areaEntries,
     ...roleEntries,
+    ...roleAreaEntries,
+    ...gccProfileEntries,
   ].filter((e) => {
     if (seen.has(e.url)) return false;
     seen.add(e.url);

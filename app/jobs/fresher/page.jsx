@@ -3,8 +3,8 @@ import SiteNav from "../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 import FresherAlertCta from "../../components/FresherAlertCta.jsx";
 import FresherJobsList from "../../components/FresherJobsList.jsx";
-import FresherSalaryCalculator from "../../components/FresherSalaryCalculator.jsx";
 import CompanyScamShield from "../../components/CompanyScamShield.jsx";
+import VerificationNote from "../../components/VerificationNote.jsx";
 import { getFresherJobs, getFresherCompanies } from "../../../lib/jobs.js";
 import { prettyName } from "../../../lib/startupUi.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
@@ -22,9 +22,12 @@ export const revalidate = 604800;
 export async function generateMetadata() {
   const landing = FRESHER_JOBS_LANDING;
   const jobs = await getFresherJobs(landing.experienceLevels);
-  const title = `Startup Companies in Hyderabad for Freshers (${jobs.length} Live Openings 2026)`;
-  const description =
-    "Looking for startup companies in Hyderabad for freshers? Explore 100+ verified entry-level, junior software engineer, and intern openings at Hyderabad product startups.";
+  const title = jobs.length > 0
+    ? `Startup Companies in Hyderabad for Freshers (${jobs.length} Current Openings)`
+    : "Startup Companies in Hyderabad for Freshers";
+  const description = jobs.length > 0
+    ? `Explore ${jobs.length} current intern, trainee, junior, and entry-level openings at mapped Hyderabad startups and technology employers.`
+    : "Explore current intern, trainee, junior, and entry-level openings at mapped Hyderabad startups and technology employers.";
   const url = `${getSiteUrl()}/jobs/fresher`;
   return {
     title,
@@ -55,6 +58,14 @@ export default async function FresherJobsPage() {
   const landing = FRESHER_JOBS_LANDING;
   const jobs = await getFresherJobs(landing.experienceLevels);
   const fresherCompanies = await getFresherCompanies(landing.experienceLevels).catch(() => []);
+  const updatedAt = jobs.map((job) => Date.parse(job.postedAt || job.sourcePostedAt || job.fetchedAt || "")).filter(Number.isFinite).sort((a, b) => b - a)[0];
+  const updatedDate = updatedAt ? new Date(updatedAt).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10);
+  const locationCounts = new Map();
+  for (const job of jobs) {
+    const location = String(job.location || "Hyderabad").split(",")[0].trim();
+    if (location) locationCounts.set(location, (locationCounts.get(location) || 0) + 1);
+  }
+  const topLocations = [...locationCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([name]) => name);
   const breadcrumbs = [
     { name: "Hyderabad Startup Map", href: "/" },
     { name: "Jobs", href: "/jobs" },
@@ -85,7 +96,7 @@ export default async function FresherJobsPage() {
         name: "How can freshers apply to Hyderabad startups?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Use Mapping HYD to filter startups by live hiring status and click directly into verified ATS career portals (Workday, Greenhouse, Lever, Keka) without third-party recruitment middlemen.",
+          text: "Use Mapping HYD to filter current roles, then follow the source link or official employer application page shown on each listing.",
         },
       },
       {
@@ -128,11 +139,10 @@ export default async function FresherJobsPage() {
           <h1>{landing.title}</h1>
           <p className="jobs-intro">{landing.description}</p>
           <p className="form-sub">
-            {`${jobs.length} verified fresher / early-career role${
-              jobs.length === 1 ? "" : "s"
-            } right now, newest first. `}
-            <Link href="/stories/hyderabad-fresher-tech-hiring-guide-2026">Read 2026 Fresher Salary & Hiring Guide →</Link>
+            {`${jobs.length} current fresher / early-career role${jobs.length === 1 ? "" : "s"} across ${fresherCompanies.length} employer${fresherCompanies.length === 1 ? "" : "s"}${topLocations.length ? `, led by ${topLocations.join(", ")}` : ""}. Newest listings appear first. `}
+            <Link href="/stories/hyderabad-fresher-tech-hiring-guide-2026">Read the fresher hiring guide →</Link>
           </p>
+          <VerificationNote updatedAt={updatedDate} />
         </div>
 
         {/* Specialized Fresher Category Hubs */}
@@ -194,9 +204,6 @@ export default async function FresherJobsPage() {
           </section>
         )}
 
-        {/* Interactive Fresher Salary & Reality Check Calculator */}
-        <FresherSalaryCalculator />
-
         {/* Scam Shield / Company Legitimacy Checker */}
         <CompanyScamShield />
 
@@ -211,9 +218,9 @@ export default async function FresherJobsPage() {
             <Link href="/jobs">jobs in Hyderabad</Link> board.
           </p>
           <p className="industry-section-sub">
-            <strong>How do you filter out fake consultancies and Ameerpet placement scams?</strong> Mapping
-            HYD enforces a strict employer allowlist and denylist, scrubs 40+ staffing agencies, and crawls
-            direct company ATS portals (Greenhouse, Lever, Zoho, Freshteam, Keka) so every listing is 100% direct.
+            <strong>How do you filter out consultancies and training-placement ads?</strong> Mapping
+            HYD applies employer and staffing-source filters, then links each accepted role to its source listing
+            or employer application page. <Link href="/how-we-verify">Read the verification methodology.</Link>
           </p>
           <p className="industry-section-sub">
             <strong>What counts as a fresher role?</strong> Intern, fresher, trainee, GET (Graduate Engineer Trainee),

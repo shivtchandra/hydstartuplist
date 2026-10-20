@@ -129,7 +129,7 @@ export default function AreaDirectoryClient({
               <Link
                 key={j.id}
                 className="feed-row feed-row-link"
-                href={`/jobs/${jobUrlId(j.id)}`}
+                href={`/jobs/${jobUrlId(j)}`}
               >
                 <StartupLogo name={j.company} size={40} />
                 <div className="feed-row-body">

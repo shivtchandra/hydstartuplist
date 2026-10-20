@@ -1,4 +1,5 @@
 import Link from "next/link";
+import VerificationNote from "./VerificationNote.jsx";
 import {
   JOB_AREA_LANDINGS,
   JOB_SECTOR_LANDINGS,
@@ -9,7 +10,8 @@ import {
  * Crawlable jobs footer & directory index.
  * Styled as a sleek, integrated 4-column directory with accordion FAQ and bottom copyright.
  */
-export default function JobsSeoIndex({ jobCount = 0 }) {
+export default function JobsSeoIndex({ jobCount = 0, updatedAt = null }) {
+  const countLabel = jobCount ? `${jobCount.toLocaleString()} current` : "current";
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -19,7 +21,7 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
         name: "Where can I find startup and tech jobs in Hyderabad?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: `Mapping HYD tracks ${jobCount || "1,400+"} verified startup, GCC, and product company openings across Hyderabad — searchable by locality, experience level, and tech sector with direct ATS applications.`,
+          text: `Mapping HYD tracks ${countLabel} startup, GCC, and product-company openings across Hyderabad, searchable by locality, experience level, and sector with links to the source listing.`,
         },
       },
       {
@@ -35,7 +37,7 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
         name: "Which tech hubs in Hyderabad have the most hiring?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "HITEC City, Madhapur, Gachibowli, Financial District, and Nanakramguda account for over 85% of active tech hiring in Hyderabad.",
+          text: "Use the live area directories for Gachibowli, HITEC City, Madhapur, Financial District, Nanakramguda, and other Hyderabad hubs; each page displays its current role count.",
         },
       },
       {
@@ -43,7 +45,7 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
         name: "Is this job board free to use?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes, 100% free with no paywall or forced signups. All roles link directly to the official employer career portals.",
+          text: "Yes. The directory is free to browse and each role links to its source listing or official employer application page when available.",
         },
       },
     ],
@@ -59,8 +61,9 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
           <div className="jobs-dir-hero-text">
             <h2 className="jobs-dir-title">Explore Hyderabad Tech Careers</h2>
             <p className="jobs-dir-desc">
-              Tracking <strong>{jobCount ? `${jobCount.toLocaleString()}+` : "1,400+"} open roles</strong> across mapped startups, GCCs, and product companies in Hyderabad.
+              Tracking <strong>{countLabel} open roles</strong> across mapped startups, GCCs, and product companies in Hyderabad.
             </p>
+            <VerificationNote updatedAt={updatedAt} />
           </div>
           <div className="jobs-dir-hero-chips">
             <Link href="/jobs/remote" className="jobs-dir-hero-chip" style={{ background: "#ecfdf5", color: "#065f46", borderColor: "#a7f3d0", fontWeight: 700 }}>
@@ -157,7 +160,7 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
                 <span className="jobs-dir-faq-arrow" aria-hidden="true">▾</span>
               </summary>
               <div className="jobs-dir-faq-answer">
-                Mapping HYD tracks over {jobCount ? `${jobCount.toLocaleString()}+` : "1,400+"} verified startup, GCC, and product company openings across Hyderabad — searchable by locality (Gachibowli, HITEC City, Madhapur, Financial District), experience level, and tech sector with direct ATS applications.
+                Mapping HYD tracks {countLabel} startup, GCC, and product-company openings across Hyderabad — searchable by locality, experience level, and sector with links to the source listing.
               </div>
             </details>
 
@@ -178,7 +181,7 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
                 <span className="jobs-dir-faq-arrow" aria-hidden="true">▾</span>
               </summary>
               <div className="jobs-dir-faq-answer">
-                HITEC City, Madhapur, Gachibowli, Financial District, and Nanakramguda account for over 85% of active tech hiring in Hyderabad. You can filter all open positions by specific areas using the area filter.
+                Use the live area directories for HITEC City, Madhapur, Gachibowli, Financial District, Nanakramguda, and other hubs. Each directory shows its current role and employer counts.
               </div>
             </details>
 
@@ -188,7 +191,7 @@ export default function JobsSeoIndex({ jobCount = 0 }) {
                 <span className="jobs-dir-faq-arrow" aria-hidden="true">▾</span>
               </summary>
               <div className="jobs-dir-faq-answer">
-                Yes, 100% free with no paywall or forced signup. All jobs link directly to the employer official career page or ATS portal.
+                Yes. The directory is free to browse, and each job links to its source listing or official employer application page when available.
               </div>
             </details>
           </div>

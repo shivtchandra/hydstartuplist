@@ -24,6 +24,7 @@ import {
   JOB_AREA_LANDINGS,
 } from "../../../lib/jobs-seo.js";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
+import VerificationNote from "../../components/VerificationNote.jsx";
 
 // Rendered per request, not cached; see app/jobs/[id]/page.jsx. ~1,200
 // profile pages, mostly crawled about once per cache lifetime: caching them
@@ -51,7 +52,7 @@ export async function generateMetadata({ params }) {
 
   const description =
     roleCount > 0
-      ? `${name} is actively hiring in ${startup.area || "Hyderabad"}. Explore ${roleCount} verified open roles, office address, tech stack, and direct ATS application links with zero consultancies.`
+      ? `${name} has ${roleCount} current role${roleCount === 1 ? "" : "s"} listed in ${startup.area || "Hyderabad"}. Explore its office details and source application links.`
       : cleanDesc ||
         `${name} is a ${stage} ${startup.sector} startup based in ${startup.area || "Hyderabad"}.`;
   const url = `${getSiteUrl()}/startups/${params.slug}`;
@@ -121,7 +122,7 @@ function orgJsonLd(startup, slug, sponsored) {
         }
       : undefined,
     areaServed: startup.area || "Hyderabad",
-    sameAs: startup.website ? [startup.website] : undefined,
+    sameAs: [startup.website, startup.careers].filter(Boolean).length ? [startup.website, startup.careers].filter(Boolean) : undefined,
   };
   if (sponsored) data.additionalProperty = { "@type": "PropertyValue", name: "featured", value: true };
   return data;
@@ -193,6 +194,8 @@ export default async function StartupDetailPage({ params }) {
   const stage = fundingLabel(startup.fundingStage);
   const sectorColor = colorFor(startup.sector);
   const openRolesCount = hiring?.count || hiring?.roles?.length || 0;
+  const checkedAt = Date.parse(hiring?.checkedAt || "");
+  const verificationDate = Number.isFinite(checkedAt) ? new Date(checkedAt).toISOString().slice(0, 10) : null;
   const allStartups = await getApproved();
   const related = relatedStartups(startup, allStartups, 6);
   const { jobs: companyJobs } = await getJobsForStartupSlug(slug);
@@ -221,7 +224,7 @@ export default async function StartupDetailPage({ params }) {
   const areaHubName = String(startup.area || "").replace(/,\s*(Hyderabad|Telangana|India)\b.*$/i, "").trim();
   const postingLd = companyJobs.slice(0, 25).map((j) =>
     jobPostingJsonLd(j, {
-      pageUrl: `${getSiteUrl()}/jobs/${jobUrlId(j.id)}`,
+      pageUrl: `${getSiteUrl()}/jobs/${jobUrlId(j)}`,
       companyUrl: startup.website,
     })
   );
@@ -326,6 +329,9 @@ export default async function StartupDetailPage({ params }) {
             </Link>
           </div>
         </header>
+        <VerificationNote updatedAt={verificationDate}>
+          <>Company facts come from the Mapping HYD directory; open roles link to their source listing or the employer&apos;s official careers page. <Link href="/how-we-verify">How verification works →</Link></>
+        </VerificationNote>
 
         <div className="startup-layout">
           <div className="startup-main">
@@ -373,7 +379,7 @@ export default async function StartupDetailPage({ params }) {
                   {(companyJobs.length
                     ? companyJobs.slice(0, 20).map((j) => ({
                         key: j.id,
-                        href: `/jobs/${jobUrlId(j.id)}`,
+                        href: `/jobs/${jobUrlId(j)}`,
                         title: j.title,
                         sub: j.location || startup.area || "Hyderabad",
                         external: false,

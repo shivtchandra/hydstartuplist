@@ -1264,7 +1264,7 @@ export default function HomeClient({ initialStartups = [] }) {
           <div className="jobs-ticker-track">
             <div className="jobs-ticker-inner">
               {[...jobsList, ...jobsList].map((job, i) => (
-                <a key={i} href={`/jobs/${jobUrlId(job.id)}`} className="jobs-ticker-item">
+                <a key={i} href={`/jobs/${jobUrlId(job)}`} className="jobs-ticker-item">
                   <span className="jobs-ticker-co">{job.company}</span>
                   <span className="jobs-ticker-sep"> · </span>
                   {job.title}

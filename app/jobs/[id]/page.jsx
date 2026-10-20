@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 import ShareJobButton from "../../components/ShareJobButton.jsx";
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }) {
 
   const title = `${job.title} at ${job.company} – Hyderabad Startup Jobs`;
   const description = `Apply for ${job.title} at ${job.company} in ${job.location || "Hyderabad"}. Listed on Mapping HYD.`;
-  const url = `${getSiteUrl()}/jobs/${params.id}`;
+  const url = `${getSiteUrl()}/jobs/${jobUrlId(job)}`;
 
   const indexable = jobShouldIndex(job);
   const site = getSiteUrl();
@@ -99,7 +99,10 @@ export default async function JobDetailPage({ params }) {
   const job = await getJobById(id);
   if (!job) notFound();
 
-  const pageUrl = `${getSiteUrl()}/jobs/${params.id}`;
+  const canonicalId = jobUrlId(job);
+  if (params.id !== canonicalId) permanentRedirect(`/jobs/${canonicalId}`);
+
+  const pageUrl = `${getSiteUrl()}/jobs/${canonicalId}`;
   const companySlug = slugify(job.company);
   const startup = await getStartupBySlug(companySlug);
   const companyPath = startup ? `/jobs/company/${startupSlug(startup)}` : companyJobsPath(companySlug);
@@ -195,7 +198,7 @@ export default async function JobDetailPage({ params }) {
             {(job.source === "ats" || job.source === "careers" || job.atsProvider) && (
               <>
                 {" · "}
-                <span className="job-detail-badge jobs-type-badge jobs-type-direct" title="Direct from company careers ATS / 0% agency spam">
+                <span className="job-detail-badge jobs-type-badge jobs-type-direct" title="Source link provided by the employer or job feed">
                   Direct ATS
                 </span>
               </>
@@ -292,7 +295,7 @@ export default async function JobDetailPage({ params }) {
                   {similarNearby.map((j, i) => (
                     <span key={j.id}>
                       {i > 0 ? " · " : ""}
-                      <Link href={`/jobs/${jobUrlId(j.id)}`}>{j.title}</Link>
+                      <Link href={`/jobs/${jobUrlId(j)}`}>{j.title}</Link>
                       {" at "}
                       {j.company}
                     </span>

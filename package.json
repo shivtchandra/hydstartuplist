@@ -23,7 +23,8 @@
     "cron:priority": "node scripts/gh-cron.mjs sync-priority-careers",
     "cron:overlay": "node scripts/gh-cron.mjs rebuild-overlay",
     "newsletter:remote": "node scripts/send-remote-jobs-newsletter.mjs",
-    "newsletter:early": "node scripts/send-early-roles-newsletter.mjs"
+    "newsletter:early": "node scripts/send-early-roles-newsletter.mjs",
+    "check:seo-geo": "node scripts/check-seo-geo.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

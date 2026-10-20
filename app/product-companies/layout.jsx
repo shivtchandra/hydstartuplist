@@ -4,32 +4,22 @@ const SITE_URL = getSiteUrl();
 
 export const metadata = {
   alternates: { canonical: `${SITE_URL}/product-companies` },
-  title: "Top 100+ Product Companies in Hyderabad (2026 Directory + Live Jobs)",
+  title: "List of Product Based Companies in Hyderabad (2026 Directory + Direct ATS Jobs)",
   description:
-    "Complete directory of 1,000+ verified product software companies in Hyderabad with 400+ live jobs, direct ATS portals (Greenhouse/Lever/Ashby), office maps, and zero consultancies.",
+    "Browse a verified list of product based companies in Hyderabad with live jobs, direct company ATS links, office locations, funding stages, and fresher-friendly openings.",
   keywords: [
     "product based companies in hyderabad",
     "product companies in hyderabad",
-    "top product based companies in hyderabad",
     "product based companies in hyderabad hiring",
     "product based companies in hyderabad for freshers",
-    "what are product based companies in hyderabad",
-    "best product based companies in hyderabad",
     "product based companies list in hyderabad",
-    "top 100 product based companies in hyderabad",
-    "product based it companies in hyderabad",
-    "top 20 product based companies in hyderabad",
     "product based software companies in hyderabad",
-    "software product development company in hyderabad",
-    "product base company in hyderabad",
     "saas companies in hyderabad",
-    "hyderabad startup map",
-    "hyderabad startups map",
   ],
   openGraph: {
-    title: "Top 100+ Product Companies in Hyderabad (2026 Directory + Live Jobs)",
+    title: "List of Product Based Companies in Hyderabad (2026 Directory + Direct ATS Jobs)",
     description:
-      "Explore 1,000+ verified product software companies and startups in Hyderabad with live office pins, funding stages, and direct ATS job openings.",
+      "Explore verified product software companies and startups in Hyderabad with live office pins, funding stages, and direct ATS job openings.",
     url: `${SITE_URL}/product-companies`,
   },
 };
@@ -54,43 +44,6 @@ const JSONLD = {
         "@type": "Thing",
         name: "Software Product Companies in Hyderabad",
       },
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: [
-        {
-          "@type": "Question",
-          name: "What are the top product-based companies in Hyderabad?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Top product-based companies in Hyderabad include Microsoft IDC, Google, Amazon AWS, Salesforce, ServiceNow, Uber, AMD, Qualcomm, alongside homegrown SaaS unicorns like Darwinbox, Zenoti, HighRadius, and Keka HR.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Which product companies in Hyderabad are actively hiring?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Over 60+ verified product startups and tech companies in Hyderabad have active openings tracked on Mapping HYD, linking directly to company ATS portals (Greenhouse, Lever, Ashby, Workday) with zero recruitment consultancies.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "What are the top product-based companies in Hyderabad for freshers?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Startups and growth-stage product companies hiring entry-level talent and interns include Phenom, Darwinbox, Zenoti, Keka, HighRadius, alongside specialized deep-tech builders like Skyroot Aerospace and Dhruva Space.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "How many product-based startups are located in Hyderabad?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Mapping HYD tracks over 1,000+ verified product-based companies and software startups across HITEC City, Gachibowli, Madhapur, Knowledge City, and Financial District.",
-          },
-        },
-      ],
     },
   ],
 };

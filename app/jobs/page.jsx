@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { unstable_cache } from "next/cache";
-import { Suspense } from "react";
 import OpportunityExplorer from "../components/OpportunityExplorer.jsx";
 import { opportunityDataset, searchOpportunities } from "../../lib/opportunity-store.js";
 import SiteNav from "../components/SiteNav.jsx";
@@ -40,9 +39,10 @@ async function distinctRoleCount() {
 
 export async function generateMetadata() {
   const count = await distinctRoleCount();
-  const title = `Jobs in Hyderabad – ${count}+ Startup & Tech Openings`;
-  const description =
-    "Jobs in Hyderabad at 1,000+ mapped startups and tech companies. Browse the latest job vacancy in Hyderabad across Gachibowli, Madhapur, and HITEC City — including fresher jobs in Hyderabad, SaaS, and fintech.";
+  const title = count > 0 ? `Jobs in Hyderabad – ${count} Current Startup & Tech Openings` : "Jobs in Hyderabad – Startup & Tech Openings";
+  const description = count > 0
+    ? `Browse ${count} current jobs in Hyderabad from mapped startups, product companies, and GCC employers across Gachibowli, Madhapur, HITEC City, and other tech hubs.`
+    : "Browse current jobs in Hyderabad from mapped startups, product companies, and GCC employers across Gachibowli, Madhapur, HITEC City, and other tech hubs.";
   return {
     title,
     description,
@@ -103,13 +103,23 @@ export default async function JobsPage() {
     const initial = await getInitial().catch(() => ({ jobs: [], total: 0, stale: true }));
     if (buildPhase) initial.stale = true;
     const roleCount = await distinctRoleCount();
+    const breadcrumbs = [{ name: "Hyderabad Startup Map", href: "/" }, { name: "Jobs in Hyderabad" }];
+    const jsonLd = [
+      breadcrumbJsonLd(breadcrumbs),
+      itemListJsonLd(initial.jobs || [], "Live startup and tech jobs in Hyderabad"),
+    ];
     return (
       <>
+        {jsonLd.map((data) => (
+          <script
+            key={data["@type"]}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+          />
+        ))}
         <LegacyQueryRedirect />
-        <Suspense fallback={<p>Loading opportunities…</p>}>
-          <OpportunityExplorer initial={initial} />
-        </Suspense>
-        <JobsSeoIndex jobCount={roleCount || initial.total || 0} />
+        <OpportunityExplorer initial={initial} />
+        <JobsSeoIndex jobCount={roleCount || initial.total || 0} updatedAt={new Date().toISOString().slice(0, 10)} />
       </>
     );
   }

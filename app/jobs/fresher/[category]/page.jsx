@@ -4,6 +4,7 @@ import SiteNav from "../../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../../components/JobsBreadcrumbs.jsx";
 import FresherAlertCta from "../../../components/FresherAlertCta.jsx";
 import FresherJobsList from "../../../components/FresherJobsList.jsx";
+import VerificationNote from "../../../components/VerificationNote.jsx";
 import { getFresherJobs } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 import {
@@ -65,6 +66,16 @@ export default async function FresherCategoryPage({ params }) {
 
   const allJobs = await getFresherJobs(FRESHER_JOBS_LANDING.experienceLevels);
   const jobs = filterFresherJobsByCategory(allJobs, slug);
+  const employers = new Set(jobs.map((job) => job.company).filter(Boolean));
+  const locationCounts = new Map();
+  for (const job of jobs) {
+    const location = String(job.location || "Hyderabad").split(",")[0].trim();
+    if (location) locationCounts.set(location, (locationCounts.get(location) || 0) + 1);
+  }
+  const topLocations = [...locationCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([name]) => name);
+  const latestTimestamp = jobs.map((job) => Date.parse(job.postedAt || job.sourcePostedAt || job.fetchedAt || "")).filter(Number.isFinite).sort((a, b) => b - a)[0];
+  const updatedAt = latestTimestamp ? new Date(latestTimestamp).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10);
+  const compensationDisclosed = jobs.filter((job) => job.salary || job.salaryMin || job.salaryMax).length;
 
   const breadcrumbs = [
     { name: "Hyderabad Startup Map", href: "/" },
@@ -112,50 +123,27 @@ export default async function FresherCategoryPage({ params }) {
           </p>}
           <p className="jobs-intro">{cat.subheading}</p>
           <p className="form-sub">
-            {`${jobs.length} verified role${
-              jobs.length === 1 ? "" : "s"
-            } active right now. `}
+            {`${jobs.length} current role${jobs.length === 1 ? "" : "s"} across ${employers.size} employer${employers.size === 1 ? "" : "s"}. `}
             <Link href="/jobs/fresher">View all fresher roles →</Link>
           </p>
+          <VerificationNote updatedAt={updatedAt} />
         </div>
 
-        {/* 2026 Fresher Benchmark Card */}
-        {cat.benchmarks && (
-          <section className="fresher-tool-card" style={{ marginBottom: 24 }} aria-label={`${cat.categoryName} Market Benchmarks`}>
-            <div className="fresher-tool-header">
-              <span className="fresher-tool-kicker">Role Intelligence</span>
-              <h2 className="fresher-tool-title">{cat.categoryName} Market Benchmarks</h2>
-              <p className="fresher-tool-sub">
-                Hiring standards, realistic compensation, and key hubs across Hyderabad startups and tech centers.
-              </p>
+        <section className="fresher-tool-card" style={{ marginBottom: 24 }} aria-label={`${cat.categoryName} live listing snapshot`}>
+          <div className="fresher-tool-header">
+            <span className="fresher-tool-kicker">Live listing snapshot</span>
+            <h2 className="fresher-tool-title">Current {cat.categoryName} opportunities</h2>
+            <p className="fresher-tool-sub">These figures are calculated from the current listings shown on this page, not market estimates.</p>
+          </div>
+          <div className="fresher-metric-board">
+            <div className="fresher-metric-grid">
+              <div className="fresher-metric-cell"><span className="fresher-metric-lbl">Current roles</span><span className="fresher-metric-num">{jobs.length}</span><span className="fresher-metric-sub">Matching listings</span></div>
+              <div className="fresher-metric-cell"><span className="fresher-metric-lbl">Employers</span><span className="fresher-metric-num">{employers.size}</span><span className="fresher-metric-sub">Distinct companies</span></div>
+              <div className="fresher-metric-cell"><span className="fresher-metric-lbl">Top locations</span><span className="fresher-metric-num" style={{ fontSize: "16px" }}>{topLocations.join(", ") || "Hyderabad"}</span><span className="fresher-metric-sub">From current listings</span></div>
+              <div className="fresher-metric-cell"><span className="fresher-metric-lbl">Pay disclosed</span><span className="fresher-metric-num">{compensationDisclosed}</span><span className="fresher-metric-sub">Listings with employer pay data</span></div>
             </div>
-
-            <div className="fresher-metric-board">
-              <div className="fresher-metric-grid">
-                <div className="fresher-metric-cell">
-                  <span className="fresher-metric-lbl">Compensation</span>
-                  <span className="fresher-metric-num" style={{ fontSize: "16px" }}>{cat.benchmarks.typicalStipend}</span>
-                  <span className="fresher-metric-sub">Base pay / stipend</span>
-                </div>
-                <div className="fresher-metric-cell">
-                  <span className="fresher-metric-lbl">Target Experience</span>
-                  <span className="fresher-metric-num" style={{ fontSize: "16px" }}>{cat.benchmarks.duration}</span>
-                  <span className="fresher-metric-sub">Eligibility band</span>
-                </div>
-                <div className="fresher-metric-cell">
-                  <span className="fresher-metric-lbl">Key Tech Hubs</span>
-                  <span className="fresher-metric-num" style={{ fontSize: "16px" }}>{cat.benchmarks.topLocations}</span>
-                  <span className="fresher-metric-sub">Primary clusters</span>
-                </div>
-                <div className="fresher-metric-cell">
-                  <span className="fresher-metric-lbl">In-Demand Skills</span>
-                  <span className="fresher-metric-num" style={{ fontSize: "16px" }}>{cat.benchmarks.popularSkills}</span>
-                  <span className="fresher-metric-sub">ATS keyword filters</span>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
+          </div>
+        </section>
 
         {/* Quick Category Navigation */}
         <div className="fresher-chips" style={{ marginBottom: 24 }}>

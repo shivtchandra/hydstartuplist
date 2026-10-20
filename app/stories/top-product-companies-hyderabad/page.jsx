@@ -4,27 +4,21 @@ import { articleJsonLd } from "../../../lib/jobs-seo.js";
 import ArticleShell from "../../components/ArticleShell.jsx";
 
 const SLUG = "top-product-companies-hyderabad";
-const TITLE = "Top 50 Product Based Companies in Hyderabad (Tier 1 & High-Growth 2026 Guide)";
+const TITLE = "Hyderabad Product Company Salaries, Tech Stacks & Interview Guide (2026)";
 const DESCRIPTION =
-  "The comprehensive guide to product companies in Hyderabad: Tier-1 tech giants, unicorn startups, and high-growth builders. Includes tech stacks, salary expectations, and office locations.";
+  "A practical Hyderabad product-company career guide covering salary benchmarks, engineering stacks, interview preparation, and the differences between global teams and high-growth startups.";
 
 export const metadata = {
   alternates: { canonical: `${getSiteUrl()}/stories/${SLUG}` },
   title: `${TITLE}`,
   description: DESCRIPTION,
   keywords: [
-    "product based companies in hyderabad",
-    "top product based companies in hyderabad",
-    "product companies in hyderabad",
-    "what are product based companies in hyderabad",
-    "best product based companies in hyderabad",
-    "product based companies list in hyderabad",
-    "top 100 product based companies in hyderabad",
-    "top 20 product based companies in hyderabad",
-    "product based it companies in hyderabad",
-    "tier 1 companies in hyderabad",
-    "software companies in hyderabad",
-    "hyderabad product based companies",
+    "product company salaries hyderabad",
+    "product company interview preparation hyderabad",
+    "software engineer salary hyderabad product companies",
+    "product company tech stacks hyderabad",
+    "tier 1 tech company careers hyderabad",
+    "hyderabad product engineering careers",
   ],
   openGraph: {
     title: TITLE,

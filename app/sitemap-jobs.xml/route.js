@@ -38,7 +38,7 @@ export async function GET() {
       .sort((a, b) => postedMs(b) - postedMs(a))
       .slice(0, MAX_URLS)
       .map((j) => {
-        const url = `${site}/jobs/${jobUrlId(j.id)}`;
+        const url = `${site}/jobs/${jobUrlId(j)}`;
         const lastmod = postedMs(j)
           ? new Date(postedMs(j)).toISOString().slice(0, 10)
           : null;

@@ -258,7 +258,7 @@ export default async function IndustryDetailPage({ params }) {
             </p>
             <div className="feed-list">
               {jobs.map((j) => (
-                <Link key={j.id} className="feed-row feed-row-link" href={`/jobs/${jobUrlId(j.id)}`}>
+                <Link key={j.id} className="feed-row feed-row-link" href={`/jobs/${jobUrlId(j)}`}>
                   <div className="feed-row-body">
                     <div className="feed-row-name">{j.title}</div>
                     <div className="feed-row-sub">

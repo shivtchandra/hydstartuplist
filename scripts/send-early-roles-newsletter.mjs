@@ -84,7 +84,7 @@ const topCompanies = [...byCompany.entries()].sort((a, b) => b[1] - a[1]).slice(
 const fmt = (n) => Number(n || 0).toLocaleString("en-IN");
 const today = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Kolkata" });
 const utm = (url, content) => `${url}${url.includes("?") ? "&" : "?"}utm_source=newsletter&utm_medium=email&utm_campaign=early-roles&utm_content=${content}`;
-const jobPage = (j) => `${SITE}/jobs/${jobUrlId(j.id)}`;
+const jobPage = (j) => `${SITE}/jobs/${jobUrlId(j)}`;
 const jobUrl = (j) => utm(jobPage(j), "role");
 const fresherUrl = `${SITE}/jobs/fresher`;
 

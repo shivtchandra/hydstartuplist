@@ -143,7 +143,7 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
   }, [q]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function shareJob(j) {
-    const site = `${window.location.origin}/jobs/${jobUrlId(j.id)}`;
+    const site = `${window.location.origin}/jobs/${jobUrlId(j)}`;
     const text = `${j.title} at ${j.company} — ${j.location}\n${site}\nApply: ${j.url}`;
     const data = { title: `${j.title} at ${j.company}`, text, url: site };
     try {
@@ -432,7 +432,7 @@ export default function JobsClient({ initialJobs = [], fetchedAt = null, note = 
                 sector={j.sector}
                 size={40}
               />
-              <Link className="feed-row-body" href={`/jobs/${jobUrlId(j.id)}`}>
+              <Link className="feed-row-body" href={`/jobs/${jobUrlId(j)}`}>
                 <div className="feed-row-name">
                   {j.title}
                   {j.sponsored && <span className="sponsored-badge">Sponsored</span>}

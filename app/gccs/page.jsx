@@ -1,107 +1,122 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import SiteNav from "../components/SiteNav.jsx";
-import LoadingScreen from "../components/LoadingScreen.jsx";
-import { logoSrcs } from "../../lib/startupUi.js";
+import StartupLogo from "../components/StartupLogo.jsx";
+import VerificationNote from "../components/VerificationNote.jsx";
+import { readGccs, gccsUpdatedAt, isGccProfileEligible } from "../../lib/gccs.js";
+import { getAllJobs } from "../../lib/jobs.js";
+import { gccSpotlightIdSetAsync } from "../../lib/placements.js";
+import { getSiteUrl } from "../../lib/site-url.js";
 
-function GccLogoBadge({ name, website, size = 40 }) {
-  const srcs = logoSrcs(website);
-  const [stage, setStage] = useState(0);
-  if (stage < srcs.length) {
-    return (
-      <img
-        className="card-logo"
-        src={srcs[stage]}
-        alt=""
-        width={size}
-        height={size}
-        loading="lazy"
-        decoding="async"
-        referrerPolicy="no-referrer"
-        style={{ width: size, height: size }}
-        onLoad={(e) => {
-          if (e.currentTarget.naturalWidth <= 16 && e.currentTarget.naturalHeight <= 16) {
-            setStage((s) => s + 1);
-          }
-        }}
-        onError={() => setStage((s) => s + 1)}
-      />
-    );
-  }
+export const revalidate = 3600;
+
+function GccRow({ gcc, jobCount = 0 }) {
+  const profileEligible = isGccProfileEligible(gcc);
   return (
-    <div className="card-logo-fallback" style={{ width: size, height: size, background: "var(--accent-gradient)" }}>
-      {(name || "?").charAt(0).toUpperCase()}
+    <div className={`feed-row${gcc.sponsored ? " feed-row-sponsored" : ""}`}>
+      <StartupLogo name={gcc.name} website={gcc.website} size={40} />
+      <div className="feed-row-body">
+        <div className="feed-row-name">
+          {profileEligible ? <Link href={`/gccs/${gcc.id}`}>{gcc.name}</Link> : gcc.name}
+          {gcc.sponsored && <span className="sponsored-badge">Sponsored</span>}
+        </div>
+        <div className="feed-row-sub">
+          {[gcc.industry, gcc.area || "Hyderabad", gcc.functions?.join(" · ")].filter(Boolean).join(" · ")}
+        </div>
+        {jobCount > 0 && <div className="feed-row-desc">{jobCount} current tracked role{jobCount === 1 ? "" : "s"}</div>}
+      </div>
+      {gcc.careers && <a className="nls-more-link" href={gcc.careers} target="_blank" rel="noopener noreferrer">Official careers ↗</a>}
     </div>
   );
 }
 
-export default function GccsPage() {
-  const [gccs, setGccs] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("/api/gccs")
-      .then((r) => r.json())
-      .then((d) => { setGccs(d); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, []);
+export default async function GccsPage() {
+  const [spotlight, jobs] = await Promise.all([
+    gccSpotlightIdSetAsync().catch(() => new Set()),
+    getAllJobs().catch(() => []),
+  ]);
+  const gccs = readGccs().map((gcc) => ({ ...gcc, sponsored: spotlight.has(gcc.id) || gcc.sponsored === true }));
+  const updatedAt = gccsUpdatedAt() || new Date().toISOString().slice(0, 10);
+  const jobsByCompany = new Map();
+  for (const job of jobs) {
+    const key = String(job.company || "").trim().toLowerCase();
+    if (key) jobsByCompany.set(key, (jobsByCompany.get(key) || 0) + 1);
+  }
+  const groups = [...gccs.reduce((map, gcc) => {
+    const key = gcc.industry || "Other";
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(gcc);
+    return map;
+  }, new Map()).entries()].sort((a, b) => b[1].length - a[1].length);
+  const profileCount = gccs.filter(isGccProfileEligible).length;
+  const site = getSiteUrl();
+  const pageUrl = `${site}/gccs`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${pageUrl}#page`,
+        url: pageUrl,
+        name: "Global Capability Centers in Hyderabad",
+        description: `Directory of ${gccs.length} mapped GCC employers in Hyderabad with official career links.`,
+        dateModified: updatedAt,
+        spatialCoverage: { "@type": "City", name: "Hyderabad" },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${pageUrl}#gcc-list`,
+        name: "GCC companies in Hyderabad",
+        numberOfItems: gccs.length,
+        itemListElement: gccs.map((gcc, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: gcc.name,
+          url: isGccProfileEligible(gcc) ? `${site}/gccs/${gcc.id}` : gcc.careers,
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Mapping HYD", item: site },
+          { "@type": "ListItem", position: 2, name: "GCC companies in Hyderabad", item: pageUrl },
+        ],
+      },
+    ],
+  };
 
   return (
     <div className="page-with-nav">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <SiteNav active="gccs" />
-      <div className="feed-page">
-      <div className="feed-head">
-        <h1>Global Capability Centers hiring in Hyderabad</h1>
-        <p className="form-sub">
-          Large companies&apos; in-house Hyderabad engineering/ops centers — not startups, but major local
-          employers. Most run Workday-style ATS we can&apos;t reliably probe for live counts yet, so this is a
-          curated list of real, verified career pages rather than a job count — click through to search
-          Hyderabad roles directly on each company&apos;s own site. For startup roles, see{" "}
-          <Link href="/jobs">startup jobs in Hyderabad →</Link>
-        </p>
-      </div>
+      <div className="feed-page industry-page">
+        <header className="industry-head">
+          <p className="story-kicker">Hyderabad employer directory</p>
+          <h1>GCC Companies in Hyderabad</h1>
+          <p className="industry-lead">
+            Mapping HYD lists {gccs.length} global capability center employers with direct official career links. {profileCount} currently have evidence-complete Hyderabad profiles; the remaining companies stay directory-only until their local details are verified.
+          </p>
+          <VerificationNote updatedAt={updatedAt} />
+          <p className="industry-lead-soft">Looking specifically for openings? <Link href="/jobs">Browse current jobs in Hyderabad →</Link></p>
+        </header>
 
-      {loading && <LoadingScreen label="Rounding up the GCCs…" />}
-
-      {gccs.some((g) => g.sponsored) && (
-        <div className="gcc-spotlight-block">
-          <div className="spotlight-head" style={{ padding: "0 0 10px" }}>
-            <span className="spotlight-title">Hiring spotlight</span>
-            <span className="spotlight-sub">Sponsored GCC placements</span>
-          </div>
-          <div className="feed-list">
-            {gccs.filter((g) => g.sponsored).map((g) => (
-              <a key={g.id} className="feed-row feed-row-sponsored" href={g.careers} target="_blank" rel="noreferrer">
-                <GccLogoBadge name={g.name} website={g.website} />
-                <div className="feed-row-body">
-                  <div className="feed-row-name">
-                    {g.name}
-                    <span className="sponsored-badge">Sponsored</span>
-                  </div>
-                  <div className="feed-row-sub">{g.industry} · Hyderabad · Global Capability Center</div>
-                </div>
-                <span className="nls-more-link">View careers →</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className="feed-list">
-        {gccs.filter((g) => !g.sponsored).map((g) => (
-          <a key={g.id} className="feed-row" href={g.careers} target="_blank" rel="noreferrer">
-            <GccLogoBadge name={g.name} website={g.website} />
-            <div className="feed-row-body">
-              <div className="feed-row-name">{g.name}</div>
-              <div className="feed-row-sub">{g.industry} · Hyderabad · Global Capability Center</div>
+        {gccs.some((gcc) => gcc.sponsored) && (
+          <section className="gcc-spotlight-block" aria-label="Hiring spotlight">
+            <div className="spotlight-head" style={{ padding: "0 0 10px" }}><span className="spotlight-title">Hiring spotlight</span><span className="spotlight-sub">Sponsored placement</span></div>
+            <div className="feed-list">
+              {gccs.filter((gcc) => gcc.sponsored).map((gcc) => <GccRow key={gcc.id} gcc={gcc} jobCount={jobsByCompany.get(gcc.name.toLowerCase()) || 0} />)}
             </div>
-            <span className="nls-more-link">View careers →</span>
-          </a>
+          </section>
+        )}
+
+        {groups.map(([industry, rows]) => (
+          <section className="industry-section" key={industry}>
+            <h2>{industry} GCCs <span className="industry-facet-count">{rows.length}</span></h2>
+            <div className="feed-list">
+              {rows.filter((gcc) => !gcc.sponsored).map((gcc) => <GccRow key={gcc.id} gcc={gcc} jobCount={jobsByCompany.get(gcc.name.toLowerCase()) || 0} />)}
+            </div>
+          </section>
         ))}
       </div>
-      </div>
-</div>
+    </div>
   );
 }

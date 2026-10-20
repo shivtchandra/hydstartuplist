@@ -75,7 +75,7 @@ export default async function CompanyJobsPage({ params }) {
     itemListJsonLd(jobs, `${name} jobs in Hyderabad`),
     ...jobs.slice(0, 10).map((j) =>
       jobPostingJsonLd(j, {
-        pageUrl: `${getSiteUrl()}/jobs/${jobUrlId(j.id)}`,
+        pageUrl: `${getSiteUrl()}/jobs/${jobUrlId(j)}`,
         companyUrl: startup?.website,
         description: jobDescriptionForPage(j),
       })
@@ -146,7 +146,7 @@ export default async function CompanyJobsPage({ params }) {
         ) : (
           <div className="feed-list">
             {jobs.map((j) => (
-              <Link key={j.id} className="feed-row feed-row-link" href={`/jobs/${jobUrlId(j.id)}`}>
+              <Link key={j.id} className="feed-row feed-row-link" href={`/jobs/${jobUrlId(j)}`}>
                 <div className="feed-row-body">
                   <div className="feed-row-name">{j.title}</div>
                   <div className="feed-row-sub">

@@ -263,7 +263,12 @@
     "name": "HSBC",
     "industry": "Finance",
     "website": "https://www.hsbc.com",
-    "careers": "https://portal.careers.hsbc.com/careers?location=Hyderabad&domain=hsbc.com"
+    "careers": "https://portal.careers.hsbc.com/careers?location=Hyderabad&domain=hsbc.com",
+    "area": "Gachibowli, Hyderabad",
+    "officeAddress": "HSBC Software Development, Laxmi Cyber City, Whitefields, Gachibowli, Hyderabad, Telangana 500084, India",
+    "functions": ["Technology"],
+    "officialSourceUrl": "https://portal.careers.hsbc.com/careers?location=Hyderabad&domain=hsbc.com",
+    "verifiedAt": "2026-10-21"
   },
   {
     "id": "msd",
@@ -282,9 +287,14 @@
   {
     "id": "hartford",
     "name": "The Hartford",
-    "industry": "Finance",
+    "industry": "Insurance",
     "website": "https://www.thehartford.com",
-    "careers": "https://www.jointhehartford.com/jobs/in/"
+    "careers": "https://www.jointhehartford.com/jobs/in/",
+    "area": "Financial District, Hyderabad",
+    "officeAddress": "Kalyani Tech Park, Financial District, Nanakramguda, Hyderabad, Telangana 500032, India",
+    "functions": ["Data engineering", "Information technology", "Service operations"],
+    "officialSourceUrl": "https://www.jointhehartford.com/jobs/in/",
+    "verifiedAt": "2026-10-21"
   },
   {
     "id": "desri",
@@ -298,7 +308,12 @@
     "name": "State Street",
     "industry": "Finance",
     "website": "https://www.statestreet.com",
-    "careers": "https://careers.statestreet.com/global/en/search-results?keywords=&location=Hyderabad"
+    "careers": "https://careers.statestreet.com/global/en/search-results?keywords=&location=Hyderabad",
+    "area": "Knowledge City, Hyderabad",
+    "officeAddress": "Sattva Knowledge City, Madhapur, Hyderabad, Telangana 500032, India",
+    "functions": ["Investment operations", "Financial technology"],
+    "officialSourceUrl": "https://careers.statestreet.com/global/en/search-results?keywords=&location=Hyderabad",
+    "verifiedAt": "2026-10-21"
   },
   {
     "id": "jadeglobal",

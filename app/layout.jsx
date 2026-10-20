@@ -24,9 +24,9 @@ const jakarta = localFont({
 });
 
 const SITE_URL = getSiteUrl();
-const OG_TITLE = "Hyderabad Startup Map — 1,200+ Software, IT & Product Companies";
+const OG_TITLE = "Hyderabad Startup Map — Software, IT & Product Companies";
 const OG_DESC =
-  "Interactive map of 1,200+ software companies, IT offices, product startups, and GCCs in Hyderabad. Filter by area (HITEC City, Gachibowli, Madhapur), sector, funding, and live jobs.";
+  "Interactive map of software companies, IT offices, product startups, and GCCs in Hyderabad. Filter by area, sector, funding stage, and current jobs.";
 const OG_IMAGE = "/brand/og-card-v3.png"; // new path — WhatsApp ignores query-string cache busts
 
 const JSONLD = {
@@ -75,7 +75,7 @@ const JSONLD = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Hyderabad Startups Map — 1,200+ Software, IT & Product Companies",
+    default: "Hyderabad Startups Map — Software, IT & Product Companies",
     template: "%s | Mapping HYD",
   },
   description: OG_DESC,

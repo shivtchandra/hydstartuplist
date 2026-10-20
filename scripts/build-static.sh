@@ -47,7 +47,7 @@ add_params() {
 add_params "app/jobs/[id]/page.jsx" 'export async function generateStaticParams() {
   const { getAllJobs } = await import("../../../lib/jobs.js");
   const { jobUrlId } = await import("../../../lib/jobs-seo.js");
-  return (await getAllJobs()).map((j) => ({ id: jobUrlId(j.id) }));
+  return (await getAllJobs()).map((j) => ({ id: jobUrlId(j) }));
 }'
 COMPANY_PARAMS='export async function generateStaticParams() {
   const { getCompaniesWithJobs } = await import("../../../../lib/jobs.js");

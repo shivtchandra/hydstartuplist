@@ -140,7 +140,7 @@ export default function RemoteJobsList({ jobs }) {
                   sector={j.sector}
                   size={40}
                 />
-                <Link className="feed-row-body" href={`/jobs/${jobUrlId(j.id)}`}>
+                <Link className="feed-row-body" href={`/jobs/${jobUrlId(j)}`}>
                   <div className="feed-row-name">
                     {j.title}
                     {j.openings > 1 && (

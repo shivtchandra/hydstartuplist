@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
 import StartupLogo from "../../components/StartupLogo.jsx";
 import AreaDirectoryClient from "../../components/AreaDirectoryClient.jsx";
+import VerificationNote from "../../components/VerificationNote.jsx";
 import { AREA_LANDINGS, areaLanding, getAreaPage } from "../../../lib/areas.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
 import { prettyName } from "../../../lib/startupUi.js";
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }) {
     count > 0
       ? `Companies in ${landing.area}, Hyderabad: List of ${count} IT & Software Companies (2026)`
       : `Companies in ${landing.area}, Hyderabad: IT & Software Companies List (2026)`;
-  const description = `${landing.description} Browse ${count} verified tech companies and ${jobsCount > 0 ? `${jobsCount}+ live open jobs` : "careers"} in ${landing.area}, Hyderabad with direct ATS portals and zero consultancies.`;
+  const description = `${landing.description} Browse ${count} mapped tech companies and ${jobsCount > 0 ? `${jobsCount} current open jobs` : "official career links"} in ${landing.area}, Hyderabad.`;
   const url = `${getSiteUrl()}/areas/${params.slug}`;
   return {
     title,
@@ -72,16 +73,23 @@ export default async function AreaDetailPage({ params }) {
         ? `${top3.join(" and ")} ${top3.length === 1 ? "leads" : "lead"} ${landing.area} on this map.`
         : null;
 
+  const updatedAt = new Date().toISOString().slice(0, 10);
+  const pageUrl = `${getSiteUrl()}/areas/${landing.slug}`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
+    "@id": `${pageUrl}#page`,
     name: landing.title,
-    description: landing.description,
-    url: `${getSiteUrl()}/areas/${landing.slug}`,
-    about: {
+    description: answerLine,
+    url: pageUrl,
+    dateModified: updatedAt,
+    spatialCoverage: {
       "@type": "Place",
+      "@id": `${pageUrl}#place`,
       name: `${landing.area}, Hyderabad`,
+      address: { "@type": "PostalAddress", addressLocality: landing.area, addressRegion: "Telangana", addressCountry: "IN" },
     },
+    about: { "@id": `${pageUrl}#place` },
   };
   const itemListLd = {
     "@context": "https://schema.org",
@@ -152,6 +160,7 @@ export default async function AreaDetailPage({ params }) {
           <p className="industry-lead-soft">{landing.description}</p>
           <p className="industry-lead-soft">{landing.body}</p>
           {leadLine && <p className="industry-lead-soft">{leadLine}</p>}
+          <VerificationNote updatedAt={updatedAt} />
         </header>
 
         <section className="industry-stat-strip" aria-label="Area snapshot">

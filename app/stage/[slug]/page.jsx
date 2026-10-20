@@ -229,7 +229,7 @@ export default async function StageDetailPage({ params }) {
             </div>
             <div className="industry-jobs-grid">
               {jobs.map((j) => (
-                <Link key={j.id} href={`/jobs/${jobUrlId(j.id)}`} className="industry-job-card">
+                <Link key={j.id} href={`/jobs/${jobUrlId(j)}`} className="industry-job-card">
                   <div className="industry-job-top">
                     <span className="industry-job-title">{j.title}</span>
                     <span className="industry-job-company">{j.company}</span>

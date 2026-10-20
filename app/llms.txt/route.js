@@ -5,25 +5,30 @@ import { getStagesIndex } from "../../lib/stages.js";
 import { getAllJobs, getFresherJobs } from "../../lib/jobs.js";
 import { FRESHER_JOBS_LANDING } from "../../lib/jobs-seo.js";
 import { getEcosystemStats } from "../../lib/ecosystem-stats.js";
+import { verifiedGccProfiles } from "../../lib/gccs.js";
+import { getQualifiedRoleAreaPairs } from "../../lib/role-area-jobs.js";
 
 /**
  * AI-crawler fact sheet. Regenerated on every build from the live dataset so
  * the numbers AI engines quote match what the pages show.
  */
 export const dynamic = "force-static";
+export const revalidate = 3600;
 
 const safe = (p, fallback) => p.catch(() => fallback);
 
 export async function GET() {
   const site = getSiteUrl();
-  const [stats, areas, industries, stages, jobs, fresher] = await Promise.all([
+  const [stats, areas, industries, stages, jobs, fresher, roleAreaPairs] = await Promise.all([
     safe(getEcosystemStats(), null),
     safe(getAreasIndex(), []),
     safe(getIndustriesIndex(), []),
     safe(getStagesIndex(), []),
     safe(getAllJobs(), []),
     safe(getFresherJobs(FRESHER_JOBS_LANDING.experienceLevels), []),
+    safe(getQualifiedRoleAreaPairs(), []),
   ]);
+  const gccProfiles = verifiedGccProfiles();
 
   const n = (v) => Number(v || 0).toLocaleString("en-IN");
   const lines = [
@@ -78,6 +83,22 @@ export async function GET() {
     lines.push("");
   }
 
+  if (roleAreaPairs.length) {
+    lines.push("## Current job clusters by role and area");
+    for (const row of roleAreaPairs) {
+      lines.push(`- ${row.role.role} in ${row.area.area}: ${n(row.jobs.length)} roles across ${n(row.employerCount)} employers — ${site}/jobs/in/${row.area.slug}/${row.role.slug}`);
+    }
+    lines.push("");
+  }
+
+  if (gccProfiles.length) {
+    lines.push("## Evidence-complete GCC profiles");
+    for (const gcc of gccProfiles) {
+      lines.push(`- ${gcc.name}: ${gcc.area}; ${gcc.functions.join(", ")} — ${site}/gccs/${gcc.id} (verified ${gcc.verifiedAt})`);
+    }
+    lines.push("");
+  }
+
   lines.push(
     "## Best entry URLs",
     `- ${site}/`,
@@ -86,6 +107,10 @@ export async function GET() {
     `- ${site}/jobs/fresher/internships`,
     `- ${site}/jobs/fresher/software-engineer`,
     `- ${site}/product-companies`,
+    `- ${site}/gccs`,
+    `- ${site}/areas/gachibowli`,
+    `- ${site}/areas/madhapur`,
+    `- ${site}/areas/kondapur`,
     `- ${site}/stage/funded`,
     `- ${site}/parks`,
     `- ${site}/hyderabad-tech-statistics`,

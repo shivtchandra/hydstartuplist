@@ -4,7 +4,7 @@ import ExploreModes from './ExploreModes.jsx';
 import { useEffect,useMemo,useRef,useState,startTransition } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { usePathname,useRouter,useSearchParams } from 'next/navigation';
+import { usePathname,useRouter } from 'next/navigation';
 import SiteNav from './SiteNav.jsx';
 import MobileTabBar from './MobileTabBar.jsx';
 import StartupLogo from './StartupLogo.jsx';
@@ -308,7 +308,10 @@ function FeaturedSpotlight({ jobs, onOpen }) {
 
 export default function OpportunityExplorer({initial,variant='new',savedOnly=false}) {
   const { user: authUser } = useAuthUser();
-  const params=useSearchParams(),router=useRouter(),pathname=usePathname();
+  const router=useRouter(),pathname=usePathname();
+  // Keep the initial render URL-agnostic so Next can emit the real job cards in
+  // cached HTML. Query filters sync immediately after hydration.
+  const [params,setParams]=useState(()=>new URLSearchParams());
   const filters=useMemo(()=>readFilters(params),[params]);
   const [query,setQuery]=useState(filters.q),[data,setData]=useState(initial),[busy,setBusy]=useState(false),[error,setError]=useState('');
   const [view,setView]=useState('list'),[sheet,setSheet]=useState(false),[groups,setGroups]=useState([]),[mapVersion,setMapVersion]=useState('');
@@ -328,7 +331,16 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     for(const [key,value] of Object.entries(patch)){if(value)p.set(key,value);else p.delete(key);}
     p.delete('job');
     if(pathname==='/' && !p.get('view')) p.set('view','jobs');
+    setParams(p);
     startTransition(()=>{router.replace(`${pathname}?${p}`,{scroll:false});});
+  }
+  function clearFilters() {
+    const p=new URLSearchParams();
+    if(pathname==='/') p.set('view','jobs');
+    setParams(p);
+    setBusy(true);
+    const qs=p.toString();
+    startTransition(()=>router.replace(qs?`${pathname}?${qs}`:pathname,{scroll:false}));
   }
   function handleSaveResumeProfile(profile) {
     setResumeProfile(profile);
@@ -345,6 +357,12 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     } catch {}
     setNotice('Resume profile cleared.');
   }
+  useEffect(()=>{
+    const syncFromLocation=()=>setParams(new URLSearchParams(window.location.search));
+    syncFromLocation();
+    window.addEventListener('popstate',syncFromLocation);
+    return()=>window.removeEventListener('popstate',syncFromLocation);
+  },[]);
   useEffect(()=>{setQuery(filters.q);},[filters.q]);
   useEffect(()=>{if(query===filters.q)return;const t=setTimeout(()=>change({q:query}),450);return()=>clearTimeout(t);},[query,filters.q]);
   useEffect(()=>{
@@ -423,7 +441,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   function save(job,status='saved'){persist({...shortlist,jobs:{...shortlist.jobs,[job.id]:{job,status,at:new Date().toISOString()}}});if(status==='saved')trackEvent('save',variant);}
   async function shareJob(job){
     if(!job?.id) return;
-    const url = `${typeof window!=='undefined'?window.location.origin:''}/jobs/${jobUrlId(job.id)}`;
+    const url = `${typeof window!=='undefined'?window.location.origin:''}/jobs/${jobUrlId(job)}`;
     const title = `${job.title} at ${job.company}`;
     const text = `${title} — Hyderabad role on Mapping HYD`;
     try {
@@ -588,7 +606,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
           <aside className="op-filters-panel" aria-label="Filters">
             {filterFields}
             {FILTER_KEYS.filter((k) => k !== 'q' && filters[k]).length > 0 && (
-              <button type="button" className="op-filters-clear" onClick={() => { setBusy(true); startTransition(() => router.replace(pathname === '/' ? '/?view=jobs' : pathname, { scroll: false })); }}>Clear</button>
+              <button type="button" className="op-filters-clear" onClick={clearFilters}>Clear</button>
             )}
           </aside>
           <div className="op-shortcuts" role="group" aria-label="Quick options">
@@ -705,7 +723,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
       else if (k === 'direct' && v === 'yes') label = 'Direct ATS';
       else if (k === 'hyd' && v === 'yes') label = 'Hyderabad only';
       return <button key={k} onClick={()=>change({[k]:''})}>{label} ×</button>;
-    })}<button onClick={()=>router.replace(pathname==='/'?'/?view=jobs':pathname,{scroll:false})}>Clear all</button></div>}
+    })}<button onClick={clearFilters}>Clear all</button></div>}
     {newAvailable&&<button className="op-refresh" onClick={()=>setRefresh(v=>v+1)}>Updated matches available — refresh results</button>}
     {(error||notice||data?.stale)&&<p className="op-warning" role="status">{error||notice||'Showing cached results. Source checks are temporarily delayed.'}</p>}
     <div className={`op-workspace op-view-${view}${detail?' op-has-detail':''}`}>
@@ -747,7 +765,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                   <div className="op-card-title-line">
                   <a
                     className="op-card-title-link"
-                    href={'/jobs/' + jobUrlId(job.id)}
+                    href={'/jobs/' + jobUrlId(job)}
                     onClick={e => {
                       if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
                         e.preventDefault();
@@ -1053,7 +1071,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                 {detail.company} is tracked on the Hyderabad startup & tech directory.
               </p>
               <div className="op-employer-links">
-                <Link className="op-link-chip" href={'/jobs/' + jobUrlId(detail.id)}>
+                <Link className="op-link-chip" href={'/jobs/' + jobUrlId(detail)}>
                   Permanent Role Page ↗
                 </Link>
                 <button

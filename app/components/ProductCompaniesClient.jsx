@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import StartupLogo from "./StartupLogo.jsx";
+import VerificationNote from "./VerificationNote.jsx";
 import { jobUrlId } from "../../lib/jobs-seo.js";
 
 function timeAgo(iso) {
@@ -17,16 +18,25 @@ function timeAgo(iso) {
   return `${Math.floor(days / 30)}mo ago`;
 }
 
-export default function ProductCompaniesClient({ startups = [], jobs = [], summary = null }) {
+export default function ProductCompaniesClient({ startups = [], jobs = [], summary = null, updatedAt = null }) {
   const [activeTab, setActiveTab] = useState("companies");
   const [sector, setSector] = useState("");
+  const [area, setArea] = useState("");
   const [jobLevel, setJobLevel] = useState("all");
 
   const sectors = useMemo(
     () => [...new Set(startups.map((s) => s.sector).filter(Boolean))].sort(),
     [startups]
   );
-  const filteredStartups = sector ? startups.filter((s) => s.sector === sector) : startups;
+  const areas = useMemo(
+    () => [...new Set(startups.map((s) => s.area).filter(Boolean))].sort(),
+    [startups]
+  );
+  const filteredStartups = startups.filter((s) => (!sector || s.sector === sector) && (!area || s.area === area));
+  const comparisonStartups = useMemo(
+    () => [...startups].sort((a, b) => Number(b.hiring) - Number(a.hiring) || a.name.localeCompare(b.name)).slice(0, 25),
+    [startups]
+  );
 
   const filteredJobs = useMemo(() => {
     if (jobLevel === "all") return jobs;
@@ -44,13 +54,13 @@ export default function ProductCompaniesClient({ startups = [], jobs = [], summa
   return (
     <>
       <div className="feed-head">
-        <h1>Top Product Based Companies in Hyderabad</h1>
+        <h1>List of Product Based Companies in Hyderabad</h1>
         {summary && <p className="jobs-intro">{summary}</p>}
         <p className="form-sub">
-          {startups.length}+ verified product tech companies and startups in Hyderabad — building
-          their own software, tools, and platforms with live direct-apply career portals. Browse by sector or{" "}
-          <Link href="/">explore on the map →</Link>
+          Browse {startups.length.toLocaleString()} mapped product tech companies by sector, office area, hiring status, and current direct-apply roles. For an editorial comparison, see the{" "}
+          <Link href="/stories/top-product-companies-hyderabad">top product companies guide →</Link>
         </p>
+        <VerificationNote updatedAt={updatedAt} />
 
         {/* Dual Tab Switcher */}
         <div
@@ -131,6 +141,11 @@ export default function ProductCompaniesClient({ startups = [], jobs = [], summa
                   {s}
                 </button>
               ))}
+              <label className="sr-only" htmlFor="product-company-area">Filter product companies by area</label>
+              <select id="product-company-area" className="filter-chip" value={area} onChange={(event) => setArea(event.target.value)}>
+                <option value="">All areas</option>
+                {areas.map((name) => <option key={name} value={name}>{name}</option>)}
+              </select>
             </div>
           )
         ) : (
@@ -168,12 +183,32 @@ export default function ProductCompaniesClient({ startups = [], jobs = [], summa
       </div>
 
       {activeTab === "companies" ? (
-        <div className="feed-list">
+        <>
+          <section className="industry-section" aria-labelledby="product-company-comparison">
+            <h2 id="product-company-comparison">Compare product companies in Hyderabad</h2>
+            <p className="industry-section-sub">A quick live-data comparison of company sector, office area, hiring status, and official careers access.</p>
+            <div style={{ overflowX: "auto" }}>
+              <table className="product-compare-table">
+                <thead><tr><th>Company</th><th>Sector</th><th>Area</th><th>Hiring</th><th>Careers</th></tr></thead>
+                <tbody>
+                  {comparisonStartups.map((s) => (
+                    <tr key={s.id}>
+                      <td><Link href={`/startups/${s.slug || s.id}`}>{s.name}</Link></td>
+                      <td>{s.sector || "—"}</td><td>{s.area || "Hyderabad"}</td><td>{s.hiring ? "Current openings" : "No current flag"}</td>
+                      <td>{s.careers ? <a href={s.careers} target="_blank" rel="noopener noreferrer">Official careers ↗</a> : <Link href={`/startups/${s.slug || s.id}`}>Company profile</Link>}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <h2 className="jobs-dir-title">All mapped product companies</h2>
+          <div className="feed-list">
           {filteredStartups.map((s) => (
-            <Link key={s.id} className="feed-row" href={`/startups/${s.slug || s.id}`}>
+            <div key={s.id} className="feed-row">
               <StartupLogo name={s.name} website={s.website} size={40} />
               <div className="feed-row-body">
-                <div className="feed-row-name">{s.name}</div>
+                <div className="feed-row-name"><Link href={`/startups/${s.slug || s.id}`}>{s.name}</Link></div>
                 <div className="feed-row-sub">
                   {[s.sector, s.area, s.stage || s.fundingStage].filter(Boolean).join(" · ")}
                 </div>
@@ -182,18 +217,20 @@ export default function ProductCompaniesClient({ startups = [], jobs = [], summa
                 )}
               </div>
               {s.hiring && <span className="hiring-badge">Hiring</span>}
-            </Link>
+              {s.careers && <a className="nls-more-link" href={s.careers} target="_blank" rel="noopener noreferrer">Careers ↗</a>}
+            </div>
           ))}
           {filteredStartups.length === 0 && (
             <p style={{ color: "var(--text-muted)", padding: "32px 0" }}>
               No companies found for this filter.
             </p>
           )}
-        </div>
+          </div>
+        </>
       ) : (
         <div className="feed-list">
           {filteredJobs.map((j) => (
-            <Link key={j.id} className="feed-row" href={`/jobs/${jobUrlId(j.id)}`}>
+            <Link key={j.id} className="feed-row" href={`/jobs/${jobUrlId(j)}`}>
               <StartupLogo name={j.company} size={40} />
               <div className="feed-row-body">
                 <div className="feed-row-name">{j.title}</div>

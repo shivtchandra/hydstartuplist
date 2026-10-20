@@ -3,6 +3,7 @@ import ProductCompaniesClient from "../components/ProductCompaniesClient.jsx";
 import { getApproved, visibleHiring } from "../../lib/store.js";
 import { getAllJobs } from "../../lib/jobs.js";
 import { startupSlug } from "../../lib/slug.js";
+import { getSiteUrl } from "../../lib/site-url.js";
 
 export const revalidate = 86400;
 
@@ -24,6 +25,7 @@ export default async function ProductCompaniesPage() {
     oneLiner: s.oneLiner || null,
     description: s.description || null,
     hiring: !!(visibleHiring(s)?.active || s.hiring),
+    careers: s.careers || null,
   }));
 
   const startupNameSet = new Set(startups.map((s) => s.name.toLowerCase()));
@@ -57,12 +59,41 @@ export default async function ProductCompaniesPage() {
   });
   const hiringCount = startups.filter((s) => s.hiring).length;
   const summary = `Hyderabad has ${startups.length.toLocaleString()} product based companies and startups on this map. ${hiringCount.toLocaleString()} are hiring now${productJobs.length ? `, with ${productJobs.length.toLocaleString()} open roles` : ""}. The biggest sectors are ${topSectors.join(", ")}, and most are based in ${topAreas.join(", ")}.`;
+  const updatedAt = new Date().toISOString().slice(0, 10);
+  const site = getSiteUrl();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${site}/product-companies#page`,
+        url: `${site}/product-companies`,
+        name: "Product Based Companies in Hyderabad",
+        description: summary,
+        dateModified: updatedAt,
+        spatialCoverage: { "@type": "City", name: "Hyderabad" },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${site}/product-companies#companies`,
+        name: "Product based companies in Hyderabad",
+        numberOfItems: startups.length,
+        itemListElement: startups.slice(0, 100).map((startup, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: startup.name,
+          url: `${site}/startups/${startup.slug}`,
+        })),
+      },
+    ],
+  };
 
   return (
     <div className="page-with-nav">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <SiteNav active="" />
       <div className="feed-page">
-        <ProductCompaniesClient startups={startups} jobs={productJobs} summary={summary} />
+        <ProductCompaniesClient startups={startups} jobs={productJobs} summary={summary} updatedAt={updatedAt} />
       </div>
     </div>
   );
