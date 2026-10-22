@@ -60,7 +60,7 @@ export default function AreaDirectoryClient({
             transition: "all 0.15s ease",
           }}
         >
-          🏢 Mapped Companies ({startups.length})
+          Mapped Companies ({startups.length})
         </button>
         <button
           type="button"
@@ -83,7 +83,7 @@ export default function AreaDirectoryClient({
             transition: "all 0.15s ease",
           }}
         >
-          ⚡ Live Openings ({jobs.length})
+          Live Openings ({jobs.length})
         </button>
       </div>
 

@@ -94,7 +94,7 @@ export default function ProductCompaniesClient({ startups = [], jobs = [], summa
               transition: "all 0.15s ease",
             }}
           >
-            🏢 Companies ({startups.length})
+            Companies ({startups.length})
           </button>
           <button
             type="button"
@@ -117,7 +117,7 @@ export default function ProductCompaniesClient({ startups = [], jobs = [], summa
               transition: "all 0.15s ease",
             }}
           >
-            ⚡ Live Openings ({jobs.length})
+            Live Openings ({jobs.length})
           </button>
         </div>
 

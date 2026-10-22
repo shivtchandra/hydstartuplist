@@ -149,7 +149,7 @@ export default function RemoteJobsList({ jobs }) {
                   </div>
                   <div className="feed-row-sub">
                     <span className="jobs-co-line">{j.company}</span>
-                    <span style={{ color: "#059669", fontWeight: 600 }}> · 🌐 Remote</span>
+                    <span style={{ color: "#059669", fontWeight: 600 }}> · Remote</span>
                     {j.postedAt ? <> · {timeAgo(j.postedAt)}</> : null}
                     <span className="jobs-row-badges">
                       {j.level && j.level !== "unknown" && (
