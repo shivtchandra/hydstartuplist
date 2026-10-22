@@ -14,11 +14,11 @@ import { inferExperienceLevel, parseYearsRequirement } from "../../../../lib/job
 // Adzuna has no webhooks — we poll their search API on a short cadence and
 // upsert only new/changed listings into job_board/adzuna_latest.
 export const dynamic = "force-dynamic";
-export const maxDuration = 20;
+export const maxDuration = 30;
 
-const PAGES = 4;
+const PAGES = 8;
 const DESC_MAX = 4000;
-const ADZUNA_MAX_DAYS = 2;
+const ADZUNA_MAX_DAYS = 7;
 const ADZUNA_FRESHER_DAYS = 14;
 
 function isStillFresh(job, nowMs) {
@@ -100,15 +100,15 @@ export async function GET(req) {
     );
   }
 
-  // Pull newest IT jobs in Hyderabad. max_days_old stays tight so each poll
-  // is mostly "what changed"; we retain older-but-still-fresh rows from Firestore.
+  // Pull newest IT jobs in Hyderabad. max_days_old matches ADZUNA_MAX_DAYS so each poll
+  // refreshes the week's verified postings; we retain older-but-still-fresh rows from Firestore.
   const basePage = (page) => {
     const params = new URLSearchParams({
       app_id: appId,
       app_key: appKey,
       where: "Hyderabad",
       category: "it-jobs",
-      max_days_old: "2",
+      max_days_old: String(ADZUNA_MAX_DAYS),
       results_per_page: "50",
       sort_by: "date",
       "content-type": "application/json",
@@ -153,12 +153,8 @@ export async function GET(req) {
   };
 
   // Targeted pack for below 1-year / fresher openings in Hyderabad:
-  // - Top tech fresher and internship queries with 2 pages each (up to 100 results per term)
+  // - Top tech fresher, internship, and junior tech stack queries
   // - 14-day window for early-career roles (reflects true hiring cadence without dropping active drives)
-  // NOTE: "junior developer" / "junior engineer" removed — Adzuna full-text search returns
-  //   senior jobs that mention "junior" anywhere in the body (e.g., "mentor junior devs"),
-  //   and the exact-years guard can't catch every case.  The precise fresher terms below are
-  //   semantically cleaner and generate less noise.
   const FRESHER_IT_QUERIES = [
     { what: "intern", pages: [1, 2] },
     { what: "internship", pages: [1, 2] },
@@ -169,6 +165,11 @@ export async function GET(req) {
     { what: "trainee", pages: [1] },
     { what: "graduate engineer trainee", pages: [1] },
     { what: "associate software engineer", pages: [1] },
+    { what: "react developer fresher", pages: [1] },
+    { what: "python fresher", pages: [1] },
+    { what: "data analyst intern", pages: [1] },
+    { what: "full stack intern", pages: [1] },
+    { what: "qa intern", pages: [1] },
   ];
 
   // Broad entry roles outside it-jobs (operations, support, sales, general freshers).
