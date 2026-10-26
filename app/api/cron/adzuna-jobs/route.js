@@ -168,16 +168,31 @@ export async function GET(req) {
     { what: "react developer fresher", pages: [1] },
     { what: "python fresher", pages: [1] },
     { what: "data analyst intern", pages: [1] },
+    { what: "data science intern", pages: [1] },
+    { what: "machine learning intern", pages: [1] },
     { what: "full stack intern", pages: [1] },
     { what: "qa intern", pages: [1] },
+    { what: "cybersecurity intern", pages: [1] },
+    { what: "cloud intern", pages: [1] },
+    { what: "devops intern", pages: [1] },
+    { what: "graduate software engineer", pages: [1] },
+    { what: "campus hiring", pages: [1] },
   ];
 
-  // Broad entry roles outside it-jobs (operations, support, sales, general freshers).
+  // Broad entry roles outside it-jobs (operations, support, sales, finance, HR).
   const BROAD_ENTRY_QUERIES = [
     { what: "fresher", pages: [1, 2] },
     { what: "intern", pages: [1, 2] },
     { what: "internship", pages: [1] },
     { what: "trainee", pages: [1] },
+    { what: "apprentice", pages: [1] },
+    { what: "apprenticeship", pages: [1] },
+    { what: "management trainee", pages: [1] },
+    { what: "marketing intern", pages: [1] },
+    { what: "human resources intern", pages: [1] },
+    { what: "business development intern", pages: [1] },
+    { what: "finance intern", pages: [1] },
+    { what: "operations intern", pages: [1] },
     { what: "associate", pages: [1] },
   ];
 

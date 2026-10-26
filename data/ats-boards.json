@@ -3742,5 +3742,101 @@
     "employerType": "startup",
     "active": true,
     "allowRemote": true
+  },
+  {
+    "id": "htmlcareers:electronicarts",
+    "name": "Electronic Arts",
+    "atsProvider": "htmlcareers",
+    "atsSlug": "electronicarts",
+    "boardUrl": "https://jobs.ea.com/en_US/careers/SearchJobs/?search=Hyderabad&jobRecordsPerPage=100",
+    "website": "https://www.ea.com",
+    "employerType": "enterprise",
+    "mapPin": false,
+    "active": true,
+    "note": "jobs-only — official Avature Hyderabad search; refreshed via sync-ats-jobs"
+  },
+  {
+    "id": "workday:genpact",
+    "name": "Genpact",
+    "atsProvider": "workday",
+    "atsSlug": "genpact",
+    "boardUrl": "https://genpact.wd108.myworkdayjobs.com/en-US/External_Careers?q=Hyderabad",
+    "website": "https://www.genpact.com",
+    "employerType": "enterprise",
+    "active": true,
+    "note": "jobs-only — official Workday Hyderabad search"
+  },
+  {
+    "id": "workday:pwc",
+    "name": "PwC",
+    "atsProvider": "workday",
+    "atsSlug": "pwc",
+    "boardUrl": "https://pwc.wd3.myworkdayjobs.com/en-US/NonPublic_Postings?q=Hyderabad",
+    "website": "https://www.pwc.in",
+    "employerType": "enterprise",
+    "active": true,
+    "note": "jobs-only — official Workday Hyderabad search"
+  },
+  {
+    "id": "workday:jll",
+    "name": "JLL",
+    "atsProvider": "workday",
+    "atsSlug": "jll",
+    "boardUrl": "https://jll.wd1.myworkdayjobs.com/en-US/jllcareers?q=Hyderabad",
+    "website": "https://www.jll.co.in",
+    "employerType": "enterprise",
+    "active": true,
+    "note": "jobs-only — official Workday Hyderabad search"
+  },
+  {
+    "id": "workday:astreya",
+    "name": "Astreya",
+    "atsProvider": "workday",
+    "atsSlug": "astreya",
+    "boardUrl": "https://astreya.wd5.myworkdayjobs.com/en-US/life-at-astreya-opportunities?q=Hyderabad",
+    "website": "https://www.astreya.com",
+    "employerType": "enterprise",
+    "active": true,
+    "note": "jobs-only — official Workday Hyderabad search"
+  },
+  {
+    "id": "lever:valgenesis",
+    "name": "ValGenesis",
+    "atsProvider": "lever",
+    "atsSlug": "valgenesis",
+    "boardUrl": "https://jobs.lever.co/valgenesis",
+    "website": "https://www.valgenesis.com",
+    "employerType": "enterprise",
+    "active": true
+  },
+  {
+    "id": "greenhouse:zetaglobal",
+    "name": "Zeta Global",
+    "atsProvider": "greenhouse",
+    "atsSlug": "zetaglobal",
+    "boardUrl": "https://job-boards.greenhouse.io/zetaglobal",
+    "website": "https://zetaglobal.com",
+    "employerType": "enterprise",
+    "active": true
+  },
+  {
+    "id": "greenhouse:waymo",
+    "name": "Waymo",
+    "atsProvider": "greenhouse",
+    "atsSlug": "waymo",
+    "boardUrl": "https://job-boards.greenhouse.io/waymo",
+    "website": "https://waymo.com",
+    "employerType": "enterprise",
+    "active": true
+  },
+  {
+    "id": "greenhouse:redwoodsoftware",
+    "name": "Redwood Software",
+    "atsProvider": "greenhouse",
+    "atsSlug": "redwoodsoftware",
+    "boardUrl": "https://job-boards.greenhouse.io/redwoodsoftware",
+    "website": "https://www.redwood.com",
+    "employerType": "enterprise",
+    "active": true
   }
 ]
