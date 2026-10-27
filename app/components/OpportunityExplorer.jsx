@@ -347,7 +347,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     try {
       localStorage.setItem('mapmyhyd_resume_profile', JSON.stringify(profile));
     } catch {}
-    setNotice(`Resume loaded: ${profile.skills?.length || 0} skills detected. Ranking jobs by match.`);
+    setNotice(`Resume loaded: ${profile.skills?.length || 0} skills detected. Choose Best match to rank by fit.`);
   }
   function handleClearResumeProfile() {
     setResumeProfile(null);
