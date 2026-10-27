@@ -74,7 +74,7 @@ function postedWithinDay(job) {
 
 // The `intern` band also holds freshers, trainees and entry-level hires, so labelling it
 // "Internship" tells a job seeker something untrue about a full-time role.
-function readable(key) {return ({intern:'Intern & fresher',junior:'Early career',mid:'Mid-level',senior:'Senior',lead:'Lead',manager:'Manager',unknown:'Not specified',discovered:'New today',today:'Posted today',week:'This week',month:'This month',newest:'Newest',company:'Company',remote:'Remote',hybrid:'Hybrid',onsite:'On-site',early:'Early career'})[key]||key;}
+function readable(key) {return ({intern:'Intern & fresher',junior:'Early career',mid:'Mid-level',senior:'Senior',lead:'Lead',manager:'Manager',unknown:'Not specified',discovered:'New today',today:'Posted today',week:'This week',month:'This month',newest:'Newest',match:'Best match',company:'Company',remote:'Remote',hybrid:'Hybrid',onsite:'On-site',early:'Early career'})[key]||key;}
 
 /** Themed filter dropdown — replaces native <select> (avoids stuck focus rings). */
 function OpFilterSelect({ label, value, onChange, options, emptyLabel = 'Any', ariaLabel }) {
@@ -483,7 +483,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   const visible = useMemo(() => {
     let list = visibleRaw;
     if (resumeProfile && resumeProfile.skills?.length) {
-      const shouldSortByMatch = !filters.sort || filters.sort === 'newest';
+      const shouldSortByMatch = filters.sort === 'match';
       list = rankJobsByResume(list, resumeProfile, shouldSortByMatch);
       if (matchOnly) {
         list = list.filter((j) => (j.resumeMatch?.score || 0) >= 70);
@@ -514,7 +514,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
         ['work', 'Work', ['remote', 'hybrid', 'onsite', 'unknown']],
         ['type', 'Type', facet.types || []],
         ['when', 'Freshness', ['discovered', 'today', 'week', 'month']],
-        ['sort', 'Sort', ['newest', 'company']],
+        ['sort', 'Sort', ['newest', 'match', 'company']],
       ].map(([key, label, options]) => (
         <OpFilterSelect
           key={key}

@@ -3,8 +3,13 @@
 import { useState } from 'react';
 import ResumeTailorModal from './ResumeTailorModal.jsx';
 
+// Temporarily hidden in production while the resume and job-matching flows are repaired.
+const APPLY_COPILOT_ENABLED = false;
+
 export default function ResumeTailorButton({ job, className = "btn btn-ghost", label = "Prepare & apply" }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  if (!APPLY_COPILOT_ENABLED) return null;
 
   return (
     <>
