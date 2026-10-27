@@ -7,9 +7,9 @@ import { getSiteUrl } from "../../../lib/site-url.js";
 export const dynamic = "force-static";
 
 export async function generateMetadata() {
-  const title = "Factual Resume Tailor for Hyderabad Jobs";
+  const title = "Apply Copilot for Hyderabad Jobs";
   const description =
-    "Tailor your resume for a specific role using verified experience, honest match estimates, and clear prompts for missing evidence.";
+    "Prepare a truthful tailored resume, reusable application answers, and a private per-job application pack from one verified Candidate Passport.";
   const url = `${getSiteUrl()}/jobs/tailor`;
 
   return {
@@ -44,7 +44,7 @@ export default async function TailorPage() {
   const breadcrumbs = [
     { name: "Hyderabad Startup Map", href: "/" },
     { name: "Jobs", href: "/jobs" },
-    { name: "Resume ATS Optimizer" },
+    { name: "Apply Copilot" },
   ];
 
   return (
@@ -54,10 +54,10 @@ export default async function TailorPage() {
         <JobsBreadcrumbs items={breadcrumbs} />
 
         <header className="feed-head rt-page-intro">
-          <span>Resume tools</span>
-          <h1>Tailor the story. Keep every claim honest.</h1>
+          <span>Application copilot</span>
+          <h1>One career record. A better application every time.</h1>
           <p className="jobs-intro">
-            Bring a real job description and your existing resume. We will return a focused, editable version without inventing skills, metrics, or experience.
+            Save your verified Candidate Passport once, then prepare the role-specific resume, answers, and follow-up record without rebuilding everything for each application.
           </p>
         </header>
 

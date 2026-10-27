@@ -2,6 +2,14 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { analyzeResumeATS } from '../../lib/resume/ats-engine.js';
+import {
+  APPLICATION_PACKS_STORAGE_KEY,
+  PASSPORT_STORAGE_KEY,
+  buildExtensionHandoff,
+  createApplicationPack,
+  mergeApplicationPack,
+  normalizePassport,
+} from '../../lib/application-pack.js';
 
 const ROLE_SIGNAL_RE = /\b(responsibilit(?:y|ies)|requirements?|qualifications?|you will|what you(?:'|’)ll do|skills required|minimum qualifications?|preferred qualifications?|must have|nice to have|in this role)\b/i;
 const ROLE_ACTION_RE = /\b(build|design|develop|manage|lead|collaborate|analyze|own|deliver|maintain|implement|create|support|drive)\b/gi;
@@ -166,12 +174,17 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
   const [resumeText, setResumeText] = useState('');
   const [jobTitle, setJobTitle] = useState(job?.title || '');
   const [company, setCompany] = useState(job?.company || '');
+  const [applyUrl, setApplyUrl] = useState(job?.url || job?.applyUrl || '');
   const [jobDescription, setJobDescription] = useState(initialDescription);
   const [result, setResult] = useState(null);
   const [mode, setMode] = useState('');
   const [editableResume, setEditableResume] = useState('');
   const [activeTab, setActiveTab] = useState('resume');
   const [viewMode, setViewMode] = useState('preview');
+  const [passport, setPassport] = useState(() => normalizePassport());
+  const [applicationPacks, setApplicationPacks] = useState([]);
+  const [currentPack, setCurrentPack] = useState(null);
+  const [passportOpen, setPassportOpen] = useState(false);
   const [isReading, setIsReading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatingStep, setGeneratingStep] = useState(0);
@@ -184,14 +197,30 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    const saved = window.localStorage.getItem('mapmyhyd_master_resume_text') || '';
-    if (saved) setResumeText(saved);
+    try {
+      const storedPassport = JSON.parse(window.localStorage.getItem(PASSPORT_STORAGE_KEY) || '{}');
+      const legacyResume = window.localStorage.getItem('mapmyhyd_master_resume_text') || '';
+      const nextPassport = normalizePassport({
+        ...storedPassport,
+        masterResume: storedPassport.masterResume || legacyResume,
+      });
+      setPassport(nextPassport);
+      if (!nextPassport.fullName || !nextPassport.email) setPassportOpen(true);
+      if (nextPassport.masterResume) setResumeText(nextPassport.masterResume);
+
+      const storedPacks = JSON.parse(window.localStorage.getItem(APPLICATION_PACKS_STORAGE_KEY) || '[]');
+      if (Array.isArray(storedPacks)) setApplicationPacks(storedPacks.slice(0, 30));
+    } catch {
+      const legacyResume = window.localStorage.getItem('mapmyhyd_master_resume_text') || '';
+      if (legacyResume) setResumeText(legacyResume);
+    }
   }, []);
 
   useEffect(() => {
     if (!job) return;
     setJobTitle(job.title || '');
     setCompany(job.company || '');
+    setApplyUrl(job.url || job.applyUrl || '');
     setJobDescription(job.description || '');
   }, [job]);
 
@@ -247,9 +276,119 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
   }, [resumeText, jobDescription, jobTitle, jobSkills]);
   const unresolvedPlaceholders = useMemo(() => extractPlaceholders(editableResume), [editableResume]);
 
+  function updatePassport(patch) {
+    setPassport((current) => {
+      const next = normalizePassport({ ...current, ...patch, updatedAt: new Date().toISOString() });
+      window.localStorage.setItem(PASSPORT_STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  }
+
   function saveResumeText(value) {
     setResumeText(value);
     window.localStorage.setItem('mapmyhyd_master_resume_text', value);
+    updatePassport({ masterResume: value });
+  }
+
+  function saveApplicationPack(pack) {
+    setCurrentPack(pack);
+    setApplicationPacks((current) => {
+      const next = mergeApplicationPack(current, pack);
+      window.localStorage.setItem(APPLICATION_PACKS_STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  }
+
+  function sendPackToExtension(pack) {
+    const handoff = buildExtensionHandoff(pack, passport);
+    window.localStorage.setItem('mapmyhyd_active_application_pack', JSON.stringify(handoff));
+    window.postMessage({ type: 'MAPMYHYD_APPLICATION_PACK', payload: handoff }, window.location.origin);
+  }
+
+  async function copyApplicationAnswer(answer) {
+    try {
+      await navigator.clipboard.writeText(answer);
+      setNotice('Answer copied. Review it before submitting.');
+    } catch {
+      setError('Could not copy that answer. Select the text and copy it manually.');
+    }
+  }
+
+  function openOfficialApplication() {
+    if (!currentPack) return;
+    if (unresolvedPlaceholders.length) {
+      setActiveTab('resume');
+      setError('Finish the marked resume details before opening the application.');
+      return;
+    }
+
+    let officialUrl = '';
+    if (currentPack.job.url) {
+      try {
+        const parsed = new URL(currentPack.job.url);
+        if (parsed.protocol === 'https:' || parsed.protocol === 'http:') officialUrl = parsed.toString();
+      } catch {}
+      if (!officialUrl) {
+        setError('The official application URL is invalid. Edit the role details before continuing.');
+        return;
+      }
+    }
+
+    const updated = {
+      ...currentPack,
+      status: 'applying',
+      tailoredResume: editableResume,
+      updatedAt: new Date().toISOString(),
+    };
+    saveApplicationPack(updated);
+    sendPackToExtension(updated);
+
+    if (officialUrl) {
+      window.open(officialUrl, '_blank', 'noopener,noreferrer');
+      setNotice('Application opened. Your verified pack was handed to the Apply Copilot extension if installed.');
+    } else {
+      setNotice('Application pack is ready. Copy the resume and answers into the employer form.');
+    }
+  }
+
+  function markApplicationSubmitted() {
+    if (!currentPack) return;
+    const submittedAt = new Date().toISOString();
+    const updated = {
+      ...currentPack,
+      status: 'applied',
+      tailoredResume: editableResume,
+      submittedAt,
+      followUpAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      updatedAt: submittedAt,
+    };
+    saveApplicationPack(updated);
+    sendPackToExtension(updated);
+    setNotice(`Application saved as submitted${company ? ` for ${company}` : ''}.`);
+  }
+
+  function openSavedApplication(pack) {
+    if (!pack) return;
+    setCurrentPack(pack);
+    setJobTitle(pack.job?.title || '');
+    setCompany(pack.job?.company || '');
+    setApplyUrl(pack.job?.url || '');
+    setJobDescription(pack.job?.description || '');
+    setEditableResume(pack.tailoredResume || pack.masterResume || '');
+    setMode(pack.mode || 'safe-fallback');
+    setResult({
+      baseline: { overallScore: pack.baselineScore || 0 },
+      achievedAtsScore: pack.tailoredScore || 0,
+      tailoredBreakdown: {},
+      remainingMissingSkills: pack.remainingGaps || [],
+      placeholders: pack.placeholders || [],
+      warnings: pack.warnings || [],
+      changes: [],
+    });
+    setActiveTab('pack');
+    setViewMode('preview');
+    setError('');
+    setNotice('Opened the exact resume and answers saved for this application.');
   }
 
   async function readFile(file) {
@@ -284,6 +423,7 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
     const selected = sampleJobs[index];
     setJobTitle(selected.title || '');
     setCompany(selected.company || '');
+    setApplyUrl(selected.url || selected.applyUrl || '');
     setJobDescription(selected.description || '');
   }
 
@@ -313,10 +453,29 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'We could not tailor this resume.');
+      const generatedResume = data.tailored.fullTailoredResume || resumeText;
+      const generatedMode = data.mode || 'safe-fallback';
+      const pack = createApplicationPack({
+        passport: { ...passport, masterResume: resumeText },
+        resumeText,
+        tailoredResume: generatedResume,
+        job: {
+          ...job,
+          title: jobTitle,
+          company,
+          description: jobDescription,
+          url: applyUrl || job?.url || job?.applyUrl || '',
+        },
+        baseline: data.baseline,
+        tailored: data.tailored,
+        mode: generatedMode,
+      });
       setResult({ baseline: data.baseline, ...data.tailored });
-      setMode(data.mode || 'safe-fallback');
-      setEditableResume(data.tailored.fullTailoredResume || resumeText);
-      setActiveTab('resume');
+      setMode(generatedMode);
+      setEditableResume(generatedResume);
+      saveApplicationPack(pack);
+      sendPackToExtension(pack);
+      setActiveTab('pack');
       setViewMode('preview');
     } catch (requestError) {
       setError(requestError.message || 'We could not tailor this resume. Please try again.');
@@ -364,12 +523,12 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
     <section className={`rt-workspace ${isModal ? 'rt-workspace-modal' : 'rt-workspace-page'}`} ref={workspaceRef}>
       <header className="rt-header">
         <div className="rt-heading-copy">
-          <span className="rt-eyebrow"><SparkIcon /> Factual resume tailor</span>
-          <h2 id={isModal ? 'resume-tailor-title' : undefined}>{result ? 'Your tailored resume' : 'Make this resume fit the role'}</h2>
+          <span className="rt-eyebrow"><SparkIcon /> Mapping HYD Apply Copilot</span>
+          <h2 id={isModal ? 'resume-tailor-title' : undefined}>{result ? 'Your application pack is ready' : 'Prepare once. Apply without starting over.'}</h2>
           <p>
             {result
-              ? `${jobTitle}${company ? ` at ${company}` : ''} · every claim checked against your original resume`
-              : 'Sharper positioning, honest edits, and clear prompts wherever your resume needs real evidence.'}
+              ? `${jobTitle}${company ? ` at ${company}` : ''} · resume, answers, and evidence saved together`
+              : 'Keep one verified Candidate Passport, then create a truthful resume and application answers for every role.'}
           </p>
         </div>
         <div className="rt-header-actions">
@@ -398,6 +557,27 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
               </div>
               {selectedFileName && <span className="rt-file-name">{selectedFileName}</span>}
             </div>
+
+            <section className="rt-passport" aria-label="Candidate Passport">
+              <button type="button" className="rt-passport-summary" onClick={() => setPassportOpen((open) => !open)} aria-expanded={passportOpen}>
+                <span><strong>Candidate Passport</strong><small>{passport.fullName && passport.email ? 'Ready for form filling' : 'Add your reusable application details'}</small></span>
+                <i>{passportOpen ? 'Hide' : 'Edit'}</i>
+              </button>
+              {passportOpen && (
+                <div className="rt-passport-fields">
+                  <label className="rt-field"><span>Full name</span><input value={passport.fullName} onChange={(event) => updatePassport({ fullName: event.target.value })} autoComplete="name" /></label>
+                  <label className="rt-field"><span>Email</span><input type="email" value={passport.email} onChange={(event) => updatePassport({ email: event.target.value })} autoComplete="email" /></label>
+                  <label className="rt-field"><span>Phone</span><input value={passport.phone} onChange={(event) => updatePassport({ phone: event.target.value })} autoComplete="tel" /></label>
+                  <label className="rt-field"><span>Location</span><input value={passport.location} onChange={(event) => updatePassport({ location: event.target.value })} placeholder="Hyderabad, India" autoComplete="address-level2" /></label>
+                  <label className="rt-field"><span>LinkedIn</span><input value={passport.linkedin} onChange={(event) => updatePassport({ linkedin: event.target.value })} placeholder="https://linkedin.com/in/..." /></label>
+                  <label className="rt-field"><span>Portfolio / GitHub</span><input value={passport.portfolio || passport.github} onChange={(event) => updatePassport({ portfolio: event.target.value })} placeholder="https://..." /></label>
+                  <label className="rt-field"><span>Current role</span><input value={passport.currentTitle} onChange={(event) => updatePassport({ currentTitle: event.target.value })} /></label>
+                  <label className="rt-field"><span>Notice period</span><input value={passport.noticePeriod} onChange={(event) => updatePassport({ noticePeriod: event.target.value })} placeholder="Immediate / 30 days" /></label>
+                </div>
+              )}
+              <p>Stored only in this browser and reused for application forms. You stay in control.</p>
+            </section>
+
             <button
               type="button"
               className="rt-dropzone"
@@ -426,7 +606,18 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
               placeholder="Paste your complete resume here…"
               aria-label="Resume text"
             />
-            <p className="rt-privacy">Saved only in this browser. Sent to the server only when you choose Tailor resume.</p>
+            <p className="rt-privacy">Your master resume stays saved in this browser. Only the resume and selected role are sent when you create a pack.</p>
+            {applicationPacks.length > 0 && (
+              <section className="rt-saved-applications" aria-label="Saved applications">
+                <header><div><span>Application memory</span><h4>Your recent packs</h4></div><small>{applicationPacks.length} saved locally</small></header>
+                {applicationPacks.slice(0, 4).map((pack) => (
+                  <button type="button" key={pack.id} onClick={() => openSavedApplication(pack)}>
+                    <span><strong>{pack.job?.title || 'Role'}</strong><small>{pack.job?.company || 'Company'}</small></span>
+                    <i className={`is-${pack.status || 'ready'}`}>{pack.status || 'ready'}</i>
+                  </button>
+                ))}
+              </section>
+            )}
           </section>
 
           <aside className="rt-role-panel" aria-labelledby="rt-role-label">
@@ -458,6 +649,10 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
               </label>
             </div>
             <label className="rt-field">
+              <span>Official application URL <small>optional</small></span>
+              <input type="url" value={applyUrl} onChange={(event) => setApplyUrl(event.target.value)} placeholder="https://company.com/careers/..." />
+            </label>
+            <label className="rt-field">
               <span>Job description</span>
               <textarea
                 className={`rt-textarea rt-job-input ${jobDescription && !jobDescriptionIsUseful ? 'is-invalid' : ''}`}
@@ -478,9 +673,9 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
                 </div>
               )}
               <button type="button" className="rt-primary" onClick={generateResume} disabled={isReading}>
-                <SparkIcon /> Tailor resume
+                <SparkIcon /> Prepare application pack
               </button>
-              <p>No invented metrics or skills. Missing evidence stays clearly marked.</p>
+              <p>One request creates the tailored resume and reusable answers. No invented metrics or skills.</p>
             </div>
           </aside>
         </div>
@@ -501,6 +696,7 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
           <div className="rt-result-main">
             <nav className="rt-tabs" aria-label="Tailored resume views">
               {[
+                ['pack', 'Application pack'],
                 ['resume', 'Resume'],
                 ['changes', `Changes${result.changes?.length ? ` (${result.changes.length})` : ''}`],
                 ['match', 'Match details'],
@@ -514,6 +710,39 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
                 >{label}</button>
               ))}
             </nav>
+
+            {activeTab === 'pack' && currentPack && (
+              <section className="rt-pack" aria-label="Application pack">
+                <header className="rt-pack-hero">
+                  <span className={`rt-pack-status is-${currentPack.status}`}>{currentPack.status === 'applied' ? 'Submitted' : currentPack.status === 'applying' ? 'Application opened' : 'Ready to review'}</span>
+                  <h3>{currentPack.job.title}{currentPack.job.company ? ` at ${currentPack.job.company}` : ''}</h3>
+                  <p>Your resume, reusable answers, evidence, and role snapshot are saved together in this browser.</p>
+                  {currentPack.followUpAt && <small className="rt-follow-up">Follow up on {new Date(currentPack.followUpAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</small>}
+                </header>
+                <div className="rt-pack-checks">
+                  <div><strong>{currentPack.answers?.length || 0}</strong><span>answers prepared</span></div>
+                  <div><strong>{currentPack.matchedSkills?.length || 0}</strong><span>verified matching skills</span></div>
+                  <div><strong>{unresolvedPlaceholders.length}</strong><span>details left to verify</span></div>
+                </div>
+                <div className="rt-answer-list">
+                  {(currentPack.answers || []).map((answer) => (
+                    <article className="rt-answer-card" key={answer.id}>
+                      <header><div><span>Evidence-bound answer</span><h4>{answer.question}</h4></div><button type="button" onClick={() => copyApplicationAnswer(answer.answer)}>Copy</button></header>
+                      <p>{answer.answer}</p>
+                      <details><summary>Evidence used</summary>{answer.evidence.map((item) => <blockquote key={item}>{item}</blockquote>)}</details>
+                    </article>
+                  ))}
+                </div>
+                {applicationPacks.length > 1 && (
+                  <div className="rt-pack-history">
+                    <h4>Recent application packs</h4>
+                    {applicationPacks.slice(1, 5).map((pack) => (
+                      <div key={pack.id}><span>{pack.job?.title || 'Role'} · {pack.job?.company || 'Company'}</span><small>{pack.status || 'ready'}</small></div>
+                    ))}
+                  </div>
+                )}
+              </section>
+            )}
 
             {activeTab === 'resume' && (
               <article className="rt-resume-panel">
@@ -569,7 +798,9 @@ export default function ResumeTailorWorkspace({ job = null, sampleJobs = [], isM
               <p>{result.achievedAtsScore > (result.baseline?.overallScore || 0) ? `Up ${result.achievedAtsScore - (result.baseline?.overallScore || 0)} points` : result.achievedAtsScore === (result.baseline?.overallScore || 0) ? 'Same score, stronger ordering' : 'Evidence-first result'}</p>
             </div>
             <div className="rt-export-actions">
-              <button type="button" className="rt-primary" onClick={() => requestExport('pdf')}>Print / save PDF</button>
+              <button type="button" className="rt-primary" onClick={openOfficialApplication}>{currentPack?.job?.url ? 'Open official application →' : 'Ready for manual application'}</button>
+              <button type="button" onClick={markApplicationSubmitted} disabled={currentPack?.status === 'applied'}>{currentPack?.status === 'applied' ? 'Saved as submitted' : 'Mark as submitted'}</button>
+              <button type="button" onClick={() => requestExport('pdf')}>Print / save PDF</button>
               <button type="button" onClick={() => requestExport('copy')}>Copy resume</button>
               <button type="button" onClick={() => requestExport('markdown')}>Download Markdown</button>
             </div>

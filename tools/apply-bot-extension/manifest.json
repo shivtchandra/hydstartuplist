@@ -1,15 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "AutoApply — 1-Click Job Autofill",
-  "version": "1.0.0",
-  "description": "Instant 1-click ATS application autofill for Greenhouse, Lever, Ashby, Workday, BambooHR, and SmartRecruiters.",
+  "name": "Mapping HYD Apply Copilot",
+  "version": "1.1.0",
+  "description": "Review-first application assistance for Greenhouse, Lever, Ashby, Workday, BambooHR, and SmartRecruiters.",
   "permissions": [
     "storage",
     "activeTab"
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "AutoApply Settings"
+    "default_title": "Apply Copilot Settings"
   },
   "background": {
     "service_worker": "background.js"

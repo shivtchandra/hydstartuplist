@@ -1,6 +1,8 @@
 /**
- * AutoApply — Popup Script
+ * Mapping HYD Apply Copilot — Popup Script
  */
+
+let storedProfile = {};
 
 const fields = [
   "firstName",
@@ -24,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
     chrome.storage.local.get(["userProfile"], (res) => {
       if (res.userProfile) {
+        storedProfile = res.userProfile;
         for (const key of fields) {
           if (res.userProfile[key] !== undefined && document.getElementById(key)) {
             document.getElementById(key).value = res.userProfile[key];
@@ -55,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       if (tab?.id) {
         chrome.tabs.sendMessage(tab.id, { action: "autofill" }).catch(() => {
-          alert("Please refresh the job page once so AutoApply can attach to it!");
+          alert("Please refresh the job page once so Apply Copilot can attach to it.");
         });
         window.close();
       }
@@ -73,7 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
-      chrome.storage.local.set({ userProfile: profile }, () => {
+      storedProfile = { ...storedProfile, ...profile };
+      chrome.storage.local.set({ userProfile: storedProfile }, () => {
         const status = document.getElementById("save-status");
         if (status) {
           status.style.display = "block";

@@ -1,41 +1,47 @@
 /**
- * AutoApply — Form Filler Content Script
- * Tailored for Shiva Chandra T
- * Bulletproof ATS autofill engine
+ * Mapping HYD Apply Copilot — review-first ATS form assistant.
+ * Candidate facts arrive from the local extension profile or a Mapping HYD application pack.
  */
 
 const DEFAULT_PROFILE = {
-  firstName: "Shiva Chandra",
-  lastName: "Takkelapati",
-  fullName: "Shiva Chandra T",
-  email: "shivachandra9490@gmail.com",
-  phone: "9959041832",
-  fullPhone: "+919959041832",
-  city: "Hyderabad",
-  state: "Telangana",
-  country: "India",
-  location: "Hyderabad, Telangana, India",
-  linkedin: "https://www.linkedin.com/in/shiva-chandra-takkelapati-10ba3032b/",
-  github: "https://github.com/shivtchandra",
-  portfolio: "https://mapmyhyd.com",
-  college: "Gandhi Institute of Technology and Management (GITAM)",
-  degree: "B.E. Computer Science and Engineering",
-  graduationYear: "2025",
-  currentCompany: "Cognizant",
-  currentTitle: "Full-Stack Engineer",
-  noticePeriod: "Immediate / 15-30 days",
-  experienceYears: "1.5",
-  currentCtc: "8 LPA",
-  expectedCtc: "12-15 LPA",
-  summary: "Full-stack engineer building AI products end-to-end (Next.js/React, FastAPI/Node.js, Claude/Gemini LLM agent loops, RAG pipelines). Claude Certified Developer and AWS AI Practitioner."
+  firstName: "",
+  lastName: "",
+  fullName: "",
+  email: "",
+  phone: "",
+  fullPhone: "",
+  city: "",
+  state: "",
+  country: "",
+  location: "",
+  linkedin: "",
+  github: "",
+  portfolio: "",
+  college: "",
+  degree: "",
+  graduationYear: "",
+  currentCompany: "",
+  currentTitle: "",
+  noticePeriod: "",
+  experienceYears: "",
+  currentCtc: "",
+  expectedCtc: "",
+  summary: ""
 };
 
 let userProfile = {};
+let activeApplicationPack = null;
 
 // Load user-overridden profile from chrome.storage if available
 if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
-  chrome.storage.local.get(["userProfile"], (res) => {
+  chrome.storage.local.get(["userProfile", "activeApplicationPack"], (res) => {
     if (res.userProfile) userProfile = res.userProfile;
+    if (res.activeApplicationPack) activeApplicationPack = res.activeApplicationPack;
+  });
+  chrome.storage.onChanged?.addListener((changes, area) => {
+    if (area !== "local") return;
+    if (changes.userProfile?.newValue) userProfile = changes.userProfile.newValue;
+    if (changes.activeApplicationPack?.newValue) activeApplicationPack = changes.activeApplicationPack.newValue;
   });
 }
 
@@ -43,8 +49,8 @@ function getEffectiveProfile() {
   const p = { ...DEFAULT_PROFILE, ...userProfile };
   if (!p.firstName || !p.lastName) {
     const parts = (p.fullName || "").trim().split(/\s+/);
-    if (!p.firstName) p.firstName = parts[0] || "Shiva Chandra";
-    if (!p.lastName) p.lastName = parts.slice(1).join(" ") || "Takkelapati";
+    if (!p.firstName) p.firstName = parts[0] || "";
+    if (!p.lastName) p.lastName = parts.slice(1).join(" ") || "";
   }
   if (!p.fullName) {
     p.fullName = `${p.firstName || ""} ${p.lastName || ""}`.trim();
@@ -56,7 +62,7 @@ function getEffectiveProfile() {
  * Set value in a way that triggers React / Vue / Angular / Solid state listeners
  */
 function setReactInputValue(el, value) {
-  if (!el || value === undefined || value === null) return false;
+  if (!el || value === undefined || value === null || String(value).trim() === "") return false;
   try {
     el.focus();
 
@@ -85,7 +91,7 @@ function setReactInputValue(el, value) {
     el.classList.add("autoapply-field-highlight");
     return true;
   } catch (err) {
-    console.warn("AutoApply: error setting value for element", el, err);
+    console.warn("Apply Copilot: error setting value for element", el, err);
     return false;
   }
 }
@@ -286,10 +292,16 @@ function classifyField(el, desc) {
   if (/\b(current[\s_-]*(ctc|salary|compensation|package))\b/i.test(desc)) return "currentCtc";
   if (/\b(expected[\s_-]*(ctc|salary|compensation|package))\b/i.test(desc)) return "expectedCtc";
 
-  // 14. Summary / Cover Letter
+  // 14. Role-specific written answers supplied by the reviewed application pack.
+  if (/\b(why[\s_-]*(this|the)?[\s_-]*(company|role|position)|why[\s_-]*do[\s_-]*you[\s_-]*want|what[\s_-]*interests[\s_-]*you)\b/i.test(desc)) return "whyRole";
+  if (/\b(most[\s_-]*relevant[\s_-]*experience|describe[\s_-]*your[\s_-]*experience|relevant[\s_-]*background)\b/i.test(desc)) return "relevantExperience";
   if (/\b(summary|cover[\s_-]*letter|tell[\s_-]*us[\s_-]*about[\s_-]*yourself|bio|about[\s_-]*you)\b/i.test(desc)) return "summary";
 
   return null;
+}
+
+function getPackAnswer(id) {
+  return activeApplicationPack?.answers?.find((answer) => answer.id === id)?.answer || "";
 }
 
 /**
@@ -298,6 +310,7 @@ function classifyField(el, desc) {
 function runAutofill() {
   const p = getEffectiveProfile();
   let filledCount = 0;
+  let reviewCount = 0;
 
   // 1. Text Inputs and Textareas
   const inputs = Array.from(
@@ -381,88 +394,67 @@ function runAutofill() {
       case "expectedCtc":
         if (setReactInputValue(input, p.expectedCtc)) filledCount++;
         break;
-      case "summary":
-        if (!input.value) {
-          if (setReactInputValue(input, p.summary)) filledCount++;
-        }
+      case "whyRole": {
+        const answer = getPackAnswer("why-role");
+        if (answer && !input.value && setReactInputValue(input, answer)) filledCount++;
         break;
+      }
+      case "relevantExperience": {
+        const answer = getPackAnswer("relevant-experience");
+        if (answer && !input.value && setReactInputValue(input, answer)) filledCount++;
+        break;
+      }
+      case "summary": {
+        const answer = getPackAnswer("about-you") || p.summary;
+        if (answer && !input.value && setReactInputValue(input, answer)) filledCount++;
+        break;
+      }
     }
   }
 
-  // 2. Radio Buttons & Checkboxes (Work Authorization, Sponsorship, Consent)
+  // 2. Sensitive, legal, consent, and demographic questions always require human review.
+  const reviewGroups = new Set();
   const radios = Array.from(document.querySelectorAll("input[type='radio'], input[type='checkbox']"));
-  for (const r of radios) {
-    if (r.disabled) continue;
-    const parentContainer =
-      r.closest("fieldset, div[class*='group'], div[class*='question'], div[class*='field'], label") ||
-      r.parentElement;
-    const text = (parentContainer ? parentContainer.textContent : "").toLowerCase();
-    const valText = (r.value + " " + (r.nextSibling?.textContent || "")).toLowerCase();
-
-    // Legally authorized to work? -> Yes
-    if (/authorized to work|eligible to work|legal right to work/i.test(text)) {
-      if (/yes/i.test(valText) || r.value === "true" || r.value === "1") {
-        if (checkRadioOrCheckbox(r, true)) filledCount++;
+  for (const input of radios) {
+    if (input.disabled) continue;
+    const container = input.closest("fieldset, div[class*='group'], div[class*='question'], div[class*='field'], label") || input.parentElement;
+    const text = (container ? container.textContent : "").toLowerCase();
+    if (/authorized to work|eligible to work|legal right to work|sponsorship|visa|gender|sex|race|ethnic|disability|veteran|consent|privacy policy|terms/i.test(text)) {
+      const target = container || input;
+      target.classList.add("autoapply-review-required");
+      target.setAttribute("title", "Apply Copilot: review this answer yourself");
+      if (!reviewGroups.has(target)) {
+        reviewGroups.add(target);
+        reviewCount++;
       }
-    }
-
-    // Require visa sponsorship? -> No
-    if (/require sponsorship|visa sponsorship|need sponsorship/i.test(text)) {
-      if (/no/i.test(valText) || r.value === "false" || r.value === "0") {
-        if (checkRadioOrCheckbox(r, true)) filledCount++;
-      }
-    }
-
-    // Privacy policy / consent agreement checkboxes
-    if (/agree to|consent|privacy policy|terms/i.test(text) && r.type === "checkbox") {
-      if (checkRadioOrCheckbox(r, true)) filledCount++;
     }
   }
 
-  // 3. Dropdowns (<select>)
+  // 3. Fill only a verified country value; highlight every sensitive dropdown for review.
   const selects = Array.from(document.querySelectorAll("select"));
-  for (const sel of selects) {
-    if (sel.disabled) continue;
-    const desc = getFieldDescriptor(sel);
-    for (const opt of Array.from(sel.options)) {
-      const optText = opt.text.toLowerCase();
-      // Authorized to work -> Yes
-      if (/authorized|eligible/i.test(desc) && /^yes\b/i.test(optText)) {
-        sel.value = opt.value;
-        sel.dispatchEvent(new Event("change", { bubbles: true }));
-        sel.classList.add("autoapply-field-highlight");
+  for (const select of selects) {
+    if (select.disabled) continue;
+    const desc = getFieldDescriptor(select);
+    if (/authorized|eligible|sponsorship|visa|gender|sex|race|ethnic|disability|veteran|consent/i.test(desc)) {
+      select.classList.add("autoapply-review-required");
+      select.setAttribute("title", "Apply Copilot: review this answer yourself");
+      reviewCount++;
+      continue;
+    }
+    if (/country/i.test(desc) && p.country) {
+      const option = Array.from(select.options).find((item) => item.text.trim().toLowerCase() === p.country.trim().toLowerCase());
+      if (option) {
+        select.value = option.value;
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+        select.classList.add("autoapply-field-highlight");
         filledCount++;
-        break;
-      }
-      // Sponsorship -> No
-      if (/sponsorship/i.test(desc) && /^no\b/i.test(optText)) {
-        sel.value = opt.value;
-        sel.dispatchEvent(new Event("change", { bubbles: true }));
-        sel.classList.add("autoapply-field-highlight");
-        filledCount++;
-        break;
-      }
-      // Country -> India
-      if (/country/i.test(desc) && /^india\b/i.test(optText)) {
-        sel.value = opt.value;
-        sel.dispatchEvent(new Event("change", { bubbles: true }));
-        sel.classList.add("autoapply-field-highlight");
-        filledCount++;
-        break;
-      }
-      // Gender -> Male / Prefer not to say
-      if (/gender/i.test(desc) && (optText.includes("male") || optText.includes("decline") || optText.includes("prefer not"))) {
-        sel.value = opt.value;
-        sel.dispatchEvent(new Event("change", { bubbles: true }));
-        sel.classList.add("autoapply-field-highlight");
-        filledCount++;
-        break;
       }
     }
   }
 
   // 4. Highlight resume file upload input if present
   let resumeBoxFound = false;
+  const resumeFileName = activeApplicationPack?.fileName || "your tailored resume";
   const fileInputs = Array.from(document.querySelectorAll("input[type='file']"));
   for (const fi of fileInputs) {
     const desc = getFieldDescriptor(fi);
@@ -471,15 +463,16 @@ function runAutofill() {
       if (parent) {
         parent.style.outline = "2px dashed #f59e0b";
         parent.style.backgroundColor = "rgba(245, 158, 11, 0.08)";
-        parent.setAttribute("title", "AutoApply: Upload Shiva T Resume.pdf here");
+        parent.setAttribute("title", `Apply Copilot: upload ${resumeFileName} here`);
       }
       resumeBoxFound = true;
     }
   }
 
+  const reviewNote = reviewCount ? ` ${reviewCount} sensitive question${reviewCount === 1 ? "" : "s"} left for your review.` : "";
   const msg = resumeBoxFound
-    ? `✨ AutoApply: Filled ${filledCount} fields! 📄 Resume box highlighted (drag & drop Shiva T Resume.pdf)`
-    : `✨ AutoApply: Filled ${filledCount} fields!`;
+    ? `Apply Copilot filled ${filledCount} fields. Upload ${resumeFileName} in the highlighted box.${reviewNote}`
+    : `Apply Copilot filled ${filledCount} fields.${reviewNote}`;
   showToast(msg);
 }
 
@@ -518,7 +511,7 @@ function initFloatingPill() {
     <svg viewBox="0 0 24 24" fill="currentColor">
       <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
     </svg>
-    <span>⚡ Autofill Shiva (Alt+A)</span>
+    <span>Apply Copilot · Review & fill (Alt+A)</span>
   `;
 
   pill.addEventListener("click", () => {
@@ -527,6 +520,22 @@ function initFloatingPill() {
 
   document.body.appendChild(pill);
 }
+
+// Receive a reviewed Candidate Passport and application pack from Mapping HYD.
+window.addEventListener("message", (event) => {
+  if (event.source !== window || event.data?.type !== "MAPMYHYD_APPLICATION_PACK") return;
+  const trustedOrigin = /^https:\/\/(?:startups\.)?mapmyhyd\.com$/i.test(event.origin) || /^http:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?$/i.test(event.origin);
+  if (!trustedOrigin) return;
+
+  const payload = event.data.payload;
+  if (!payload?.profile || !payload?.activeApplicationPack) return;
+  userProfile = payload.profile;
+  activeApplicationPack = payload.activeApplicationPack;
+  if (typeof chrome !== "undefined" && chrome.storage?.local) {
+    chrome.storage.local.set({ userProfile, activeApplicationPack });
+  }
+  showToast(`Application pack ready for ${activeApplicationPack.job?.company || "this employer"}. Review every field before submitting.`);
+});
 
 // Listen for Alt+A shortcut
 window.addEventListener("keydown", (e) => {

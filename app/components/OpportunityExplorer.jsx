@@ -994,7 +994,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                     url: detail.applyUrl,
                   }}
                   className="op-tailor-action-btn"
-                  label="Tailor my resume"
+                  label="Prepare & apply"
                 />
               </div>
             </div>

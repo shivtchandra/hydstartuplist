@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AutoApply Settings</title>
+  <title>Apply Copilot Settings</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -108,77 +108,77 @@
 </head>
 <body>
   <div class="header">
-    <h2>⚡ AutoApply</h2>
-    <span style="font-size: 11px; color: #9ca3af;">Shiva Chandra T</span>
+    <h2>Apply Copilot</h2>
+    <span style="font-size: 11px; color: #9ca3af;">Review-first autofill</span>
   </div>
 
   <button id="btn-fill" class="btn-primary">
-    ⚡ Fill This Page (Alt+A)
+    Review & Fill This Page (Alt+A)
   </button>
 
   <div class="row">
     <div class="field-group">
       <label>First Name</label>
-      <input type="text" id="firstName" value="Shiva Chandra">
+      <input type="text" id="firstName" autocomplete="given-name">
     </div>
     <div class="field-group">
       <label>Last Name</label>
-      <input type="text" id="lastName" value="Takkelapati">
+      <input type="text" id="lastName" autocomplete="family-name">
     </div>
   </div>
 
   <div class="field-group">
     <label>Full Name</label>
-    <input type="text" id="fullName" value="Shiva Chandra T">
+    <input type="text" id="fullName" autocomplete="name">
   </div>
   <div class="field-group">
     <label>Email</label>
-    <input type="email" id="email" value="shivachandra9490@gmail.com">
+    <input type="email" id="email" autocomplete="email">
   </div>
   <div class="field-group">
-    <label>Phone (+91)</label>
-    <input type="text" id="phone" value="9959041832">
+    <label>Phone</label>
+    <input type="text" id="phone" autocomplete="tel">
   </div>
   <div class="field-group">
     <label>LinkedIn</label>
-    <input type="text" id="linkedin" value="https://www.linkedin.com/in/shiva-chandra-takkelapati-10ba3032b/">
+    <input type="text" id="linkedin" placeholder="https://linkedin.com/in/...">
   </div>
   <div class="field-group">
     <label>GitHub</label>
-    <input type="text" id="github" value="https://github.com/shivtchandra">
+    <input type="text" id="github" placeholder="https://github.com/...">
   </div>
   <div class="field-group">
     <label>Portfolio / Website</label>
-    <input type="text" id="portfolio" value="https://mapmyhyd.com">
+    <input type="text" id="portfolio" placeholder="https://...">
   </div>
   <div class="field-group">
     <label>Location</label>
-    <input type="text" id="location" value="Hyderabad, Telangana, India">
+    <input type="text" id="location" placeholder="Hyderabad, India">
   </div>
   <div class="field-group">
     <label>Notice Period</label>
-    <input type="text" id="noticePeriod" value="Immediate / 15-30 days">
+    <input type="text" id="noticePeriod" placeholder="Immediate / 30 days">
   </div>
 
   <div class="row">
     <div class="field-group">
       <label>Current Company</label>
-      <input type="text" id="currentCompany" value="Cognizant">
+      <input type="text" id="currentCompany">
     </div>
     <div class="field-group">
       <label>Current Title</label>
-      <input type="text" id="currentTitle" value="Full-Stack Engineer">
+      <input type="text" id="currentTitle">
     </div>
   </div>
 
   <div class="row">
     <div class="field-group">
       <label>Experience (Years)</label>
-      <input type="text" id="experienceYears" value="1.5">
+      <input type="text" id="experienceYears">
     </div>
     <div class="field-group">
       <label>Expected CTC</label>
-      <input type="text" id="expectedCtc" value="12-15 LPA">
+      <input type="text" id="expectedCtc">
     </div>
   </div>
 

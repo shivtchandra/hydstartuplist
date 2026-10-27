@@ -1,5 +1,5 @@
 /**
- * AutoApply — Background Service Worker
+ * Mapping HYD Apply Copilot — Background Service Worker
  */
 
 chrome.commands.onCommand.addListener(async (command) => {
