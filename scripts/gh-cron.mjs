@@ -3,6 +3,7 @@
  * Run heavy crons on GitHub Actions (not Vercel Fluid CPU).
  *
  *   node scripts/gh-cron.mjs sync-ats-jobs
+ *   node scripts/gh-cron.mjs sync-early-career-jobs
  *   node scripts/gh-cron.mjs check-hiring
  *   node scripts/gh-cron.mjs sync-priority-careers
  *   node scripts/gh-cron.mjs rebuild-overlay
@@ -30,6 +31,8 @@ if (!job) {
 
 const runners = {
   "sync-ats-jobs": async () => (await import("../lib/cron/sync-ats-jobs.js")).runSyncAtsJobs({}),
+  "sync-early-career-jobs": async () =>
+    (await import("../lib/cron/sync-ats-jobs.js")).runSyncAtsJobs({ earlyCareerOnly: true }),
   "check-hiring": async () => {
     const limit = parseInt(process.env.LIMIT || "40", 10);
     return (await import("../lib/cron/check-hiring.js")).runCheckHiring({ limit });

@@ -3838,5 +3838,38 @@
     "website": "https://www.redwood.com",
     "employerType": "enterprise",
     "active": true
+  },
+  {
+    "id": "zoho:arnimedica",
+    "name": "Arni Medica",
+    "atsProvider": "zoho",
+    "atsSlug": "arnimedica",
+    "boardUrl": "https://arnimedica.zohorecruit.in/jobs/Careers",
+    "website": "https://www.arnimedica.com",
+    "employerType": "startup",
+    "active": true,
+    "note": "Hyderabad/Patancheru medical-device roles, including graduate trainees"
+  },
+  {
+    "id": "workday:syniverse",
+    "name": "Syniverse",
+    "atsProvider": "workday",
+    "atsSlug": "syniverse",
+    "boardUrl": "https://syniverse.wd1.myworkdayjobs.com/en-US/SyniverseCareers?q=Hyderabad",
+    "website": "https://www.syniverse.com",
+    "employerType": "enterprise",
+    "active": true,
+    "note": "Official Workday Hyderabad feed with graduate apprentice roles"
+  },
+  {
+    "id": "htmlcareers:globallogic",
+    "name": "GlobalLogic",
+    "atsProvider": "htmlcareers",
+    "atsSlug": "globallogic",
+    "boardUrl": "https://www.globallogic.com/in/career-search-page/?location=hyderabad",
+    "website": "https://www.globallogic.com/in",
+    "employerType": "enterprise",
+    "active": true,
+    "note": "Official Hyderabad-filtered careers page, including fresher and junior roles"
   }
 ]

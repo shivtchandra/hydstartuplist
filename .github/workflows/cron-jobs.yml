@@ -4,8 +4,10 @@ name: Scheduled data refresh
 # Secrets: FIREBASE_SERVICE_ACCOUNT, SITE_URL, CRON_SECRET, optional FIRECRAWL_API_KEY
 on:
   schedule:
-    # Daily scrape backup at 01:17 UTC (06:47 IST).
+    # Daily full scrape at 01:17 UTC (06:47 IST).
     - cron: "17 1 * * *"
+    # Refresh verified fresher/graduate-heavy boards every four hours.
+    - cron: "17 5,9,13,17,21 * * *"
     - cron: "0 5 * * *"
     - cron: "0 2 * * *"
     - cron: "30 3 * * 0"
@@ -161,6 +163,28 @@ jobs:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           GITHUB_ACTIONS: "true"
         run: node scripts/gh-cron.mjs rebuild-overlay
+
+  sync-early-career:
+    if: github.event.schedule == '17 5,9,13,17,21 * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+      - name: Refresh early-career ATS boards
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.SITE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          GITHUB_ACTIONS: "true"
+          CRON_TIME_BUDGET_MS: "600000"
+          CRON_CONCURRENCY: "6"
+        run: node scripts/gh-cron.mjs sync-early-career-jobs
 
   fetch-news:
     if: github.event.schedule == '0 5 * * *'

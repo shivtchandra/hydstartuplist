@@ -19,6 +19,7 @@
     "fresher:gap:miss": "node scripts/fresher-gap-sweep.mjs --miss-only",
     "fresher:gap:csv": "node scripts/fresher-gap-sweep.mjs --csv",
     "cron:ats": "node scripts/gh-cron.mjs sync-ats-jobs",
+    "cron:early": "node scripts/gh-cron.mjs sync-early-career-jobs",
     "cron:hiring": "node scripts/gh-cron.mjs check-hiring",
     "cron:priority": "node scripts/gh-cron.mjs sync-priority-careers",
     "cron:overlay": "node scripts/gh-cron.mjs rebuild-overlay",

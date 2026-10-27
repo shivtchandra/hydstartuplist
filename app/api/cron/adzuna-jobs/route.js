@@ -1,7 +1,7 @@
 import { getAdminDb } from "../../../../lib/firebaseAdmin.js";
 import {
   normalizeSalary,
-  stripHtml,
+  jobDescriptionText,
   ADZUNA_FRESH_DAYS,
   isSpamOrConsultancyJob,
 } from "../../../../lib/job-content.js";
@@ -33,8 +33,9 @@ function isStillFresh(job, nowMs) {
 }
 
 function normalizeAdzunaResult(r, fetchedAt, nowMs = Date.now()) {
-  const description = r.description ? stripHtml(String(r.description)) : null;
   const tempTitle = r.title?.replace(/<[^>]+>/g, "").trim();
+  const company = r.company?.display_name || "Unknown";
+  const description = r.description ? jobDescriptionText(String(r.description), company) : null;
   const tempJob = { title: tempTitle, description };
   const level = inferExperienceLevel(tempTitle, description, tempJob);
   const isEarly = level === "intern" || level === "junior";
@@ -48,7 +49,7 @@ function normalizeAdzunaResult(r, fetchedAt, nowMs = Date.now()) {
   const job = {
     id: String(r.id),
     title: tempTitle,
-    company: r.company?.display_name || "Unknown",
+    company,
     location: r.location?.display_name || "Hyderabad",
     url: r.redirect_url,
     postedAt: r.created,

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-10",
+  "updatedAt": "2026-10-27",
   "notes": "Hyd early-career / fresher employer seeds for scripts/fresher-gap-sweep.mjs. Diff only — never auto-pin.",
   "candidates": [
     {
@@ -161,6 +161,38 @@
     {
       "name": "TakeMe2Space",
       "careers": "https://takeme2space.com/careers"
+    },
+    {
+      "name": "GlobalLogic",
+      "careers": "https://www.globallogic.com/in/career-search-page/?location=hyderabad"
+    },
+    {
+      "name": "Carelon Global Solutions",
+      "careers": "https://www.carelonglobal.in/careers/interns-and-graduates"
+    },
+    {
+      "name": "F5",
+      "careers": "https://www.f5.com/company/careers/early-careers/india"
+    },
+    {
+      "name": "Macquarie",
+      "careers": "https://www.macquarie.com/in/en/careers.html"
+    },
+    {
+      "name": "Arni Medica",
+      "careers": "https://www.arnimedica.com/careers/"
+    },
+    {
+      "name": "Syniverse",
+      "careers": "https://syniverse.wd1.myworkdayjobs.com/en-US/SyniverseCareers?q=Hyderabad"
+    },
+    {
+      "name": "Qualcomm",
+      "careers": "https://careers.qualcomm.com/careers?location=Hyderabad%2C++TS%2C++India"
+    },
+    {
+      "name": "Electronic Arts",
+      "careers": "https://jobs.ea.com/en_US/careers/SearchJobs/?search=Hyderabad"
     }
   ]
 }

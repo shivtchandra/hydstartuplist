@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isCuratedRemoteEligibleLocation } from "../lib/ats/geo.js";
+import { isCuratedRemoteEligibleLocation, isHydOrTelanganaLocation } from "../lib/ats/geo.js";
 
 test("remote-eligible locations: India / APAC / worldwide only", () => {
   for (const loc of ["Remote - India", "India - Remote", "India, Remote", "Remote, India", "Remote (India)", "Remote (APAC)", "Home based - Worldwide", "Remote - Anywhere", "Work from anywhere", "Remote - US; Remote - India"]) {
@@ -8,6 +8,12 @@ test("remote-eligible locations: India / APAC / worldwide only", () => {
   }
   for (const loc of ["U.S. Anywhere", "Ukraine Anywhere", "US Remote", "Canada Remote", "EMEA Remote", "Remote - US only", "Bengaluru, India", "London", "Germany (Remote)", "Sydney, Australia (Remote)", "Vietnam (Remote)", "California (Remote)", "Foster City, CA (Remote)", "Remote: San Mateo area", "Austin, TX (Remote)"]) {
     assert.equal(isCuratedRemoteEligibleLocation(loc), false, loc);
+  }
+});
+
+test("Hyderabad metro industrial locations are included", () => {
+  for (const loc of ["Patancheru, Telangana", "Sangareddy", "Medical Devices Park, Sultanpur"]) {
+    assert.equal(isHydOrTelanganaLocation(loc), true, loc);
   }
 });
 

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import SiteNav from "../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 import TailorClient from "./TailorClient.jsx";
@@ -8,9 +7,9 @@ import { getSiteUrl } from "../../../lib/site-url.js";
 export const dynamic = "force-static";
 
 export async function generateMetadata() {
-  const title = "ATS Resume Matcher & Reverse-Engineering Optimizer (Hyderabad Jobs)";
+  const title = "Factual Resume Tailor for Hyderabad Jobs";
   const description =
-    "Reverse-engineer ATS keyword algorithms, analyze missing skills, and tailor your resume into Google X-Y-Z action bullets to reach an 80%+ match rate.";
+    "Tailor your resume for a specific role using verified experience, honest match estimates, and clear prompts for missing evidence.";
   const url = `${getSiteUrl()}/jobs/tailor`;
 
   return {
@@ -54,12 +53,11 @@ export default async function TailorPage() {
       <div className="feed-page" style={{ maxWidth: '1000px', margin: '0 auto', padding: '24px 16px 0' }}>
         <JobsBreadcrumbs items={breadcrumbs} />
 
-        <header className="feed-head" style={{ marginBottom: '24px' }}>
-          <h1 style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span>ATS Resume Reverse-Engineer & Optimizer</span>
-          </h1>
-          <p className="jobs-intro" style={{ maxWidth: '750px', fontSize: '15px', lineHeight: '1.5' }}>
-            Modern Applicant Tracking Systems filter resumes based on keyword frequency, technical skills coverage, and title alignment. This tool runs the same deterministic audit, isolates critical gaps, and reframes your experience using the <strong>Google X-Y-Z formula</strong> to hit an <strong>80%+ match target</strong>.
+        <header className="feed-head rt-page-intro">
+          <span>Resume tools</span>
+          <h1>Tailor the story. Keep every claim honest.</h1>
+          <p className="jobs-intro">
+            Bring a real job description and your existing resume. We will return a focused, editable version without inventing skills, metrics, or experience.
           </p>
         </header>
 
