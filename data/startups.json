@@ -1,5 +1,22 @@
 [
   {
+    "id": "19a107e2-a434-4331-84a7-3b52635fe584",
+    "name": "Keyloop",
+    "website": "https://keyloop.com",
+    "sector": "SaaS",
+    "area": "Madhapur, Hyderabad",
+    "description": "Automotive retail technology company building software and digital platforms for dealerships and mobility businesses.",
+    "careers": "https://jobs.lever.co/keyloop?location=India%20%28Hyderabad%29",
+    "address": "Unit No. 902, 9th Floor, Building No. 12D, Raheja Mindspace, Madhapur, Hyderabad, Telangana 500081, India",
+    "lat": 17.437064353872334,
+    "lng": 78.38643861880747,
+    "locSource": "official-address+jll-building",
+    "status": "approved",
+    "atsProvider": "lever",
+    "atsSlug": "keyloop",
+    "atsBoardUrl": "https://jobs.lever.co/keyloop"
+  },
+  {
     "id": "ce8748f6-8eb8-487f-9a95-b49e928853cd",
     "name": "Zenoti",
     "website": "https://www.zenoti.com",
