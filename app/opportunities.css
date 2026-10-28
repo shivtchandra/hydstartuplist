@@ -2259,6 +2259,11 @@ body:has(.op-shell) .home-seo{
   background: #16a34a;
   box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
 }
+.op-shell .op-verified-label {
+  color: #15803d;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
 .op-shell .op-direct-badge {
   padding: 2px 8px;
   border: 0;

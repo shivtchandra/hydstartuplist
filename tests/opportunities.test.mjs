@@ -22,6 +22,25 @@ test('ATS jobs keep postedAt when sourcePostedAt is missing', () => {
   assert.equal(filterJobs([job, ...jobs], {}).some(j => j.id === 'ats-workday-ncr-1'), true);
 });
 
+test('prepareJobs does not promote a role re-dated after discovery', () => {
+  const now = Date.now();
+  const [job] = prepareJobs([{
+    id: 'ats-ashby-existing',
+    title: 'Backend Engineer',
+    company: 'Example',
+    source: 'ats',
+    atsProvider: 'ashby',
+    sourcePostedAt: new Date(now - 60 * 60000).toISOString(),
+    firstSeenAt: new Date(now - 10 * 86400000).toISOString(),
+    lastSeenAt: new Date(now).toISOString(),
+    url: 'https://example.com/existing',
+    location: 'Hyderabad',
+    status: 'active',
+  }]);
+  assert.equal(job.sourcePostedAt, null);
+  assert.equal(filterJobs([job], { when: 'today' }, now).length, 0);
+});
+
 test('sponsored jobs pin to top and bypass hyd-only filter', () => {
   const prepared = prepareJobs([
     {

@@ -50,6 +50,32 @@ test("leaves role-first descriptions intact", () => {
   assert.equal(jobDescriptionText(raw, "Acme"), raw);
 });
 
+test("skips generic recruiting copy when responsibilities follow", () => {
+  const raw = "We are looking for the most talented and driven people we can find. Responsibilities: Build APIs, review production incidents, and improve service reliability.";
+  assert.equal(jobDescriptionText(raw, "Bjak"), "Responsibilities: Build APIs, review production incidents, and improve service reliability.");
+});
+
+test("Lever prefers structured role sections over the company introduction", () => {
+  const normalized = normalizeAtsJob("lever", {
+    id: "keyloop-1",
+    text: "Support Analyst",
+    hostedUrl: "https://jobs.lever.co/keyloop/keyloop-1",
+    categories: { location: "India (Hyderabad)" },
+    descriptionPlain: "Keyloop bridges the gap between dealers and manufacturers. We build technology for the automotive industry.",
+    lists: [
+      { text: "Purpose of role", content: "<p>Own, diagnose, and resolve customer support cases through successful closure.</p>" },
+      { text: "Key Duties & Responsibilities", content: "<ul><li>Document solutions and escalate complex cases.</li></ul>" },
+    ],
+  }, {
+    boardUrl: "https://jobs.lever.co/keyloop",
+    slug: "keyloop",
+    companyName: "Keyloop",
+    geoFilter: true,
+  });
+  assert.match(normalized.descriptionText, /^Purpose of role Own, diagnose/);
+  assert.doesNotMatch(normalized.descriptionText, /bridges the gap/);
+});
+
 test("ATS providers remove company boilerplate before applying the storage cap", () => {
   const role = "What you'll do Build distributed systems, own production reliability, and improve developer tooling.";
   const raw = `${companyPitch("ExampleCo", 2200)}<h2>${role}</h2>`;

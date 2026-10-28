@@ -9,7 +9,7 @@ import SiteNav from './SiteNav.jsx';
 import MobileTabBar from './MobileTabBar.jsx';
 import StartupLogo from './StartupLogo.jsx';
 import { FILTER_KEYS,readFilters } from '../../lib/opportunities.js';
-import { freshnessLabel } from '../../lib/job-lifecycle.js';
+import { freshnessLabel, verificationLabel } from '../../lib/job-lifecycle.js';
 import { jobExperienceDisplay } from '../../lib/job-facets.js';
 import { jobUrlId } from '../../lib/jobs-seo.js';
 import { cleanJobDescriptionHtml, displayJobTitle } from '../../lib/job-content.js';
@@ -70,9 +70,9 @@ function CardIcon({ name, size = 13 }) {
     </svg>
   );
 }
-function postedWithinDay(job) {
-  const t = Date.parse(job.sourcePostedAt || job.postedAt || job.firstSeenAt || '');
-  return Number.isFinite(t) && Date.now() - t < 864e5;
+function verifiedWithinDay(job) {
+  const t = Date.parse(job.lastSeenAt || job.lastCheckedAt || job.fetchedAt || '');
+  return job.isDirect && Number.isFinite(t) && Date.now() - t < 864e5;
 }
 
 // The `intern` band also holds freshers, trainees and entry-level hires, so labelling it
@@ -863,8 +863,11 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
               </div>
 
               <div className="op-card-footer-row">
-                <span className={`op-card-timestamp${job.status !== 'closed' && postedWithinDay(job) ? ' is-fresh' : ''}`}>
+                <span className={`op-card-timestamp${job.status !== 'closed' && verifiedWithinDay(job) ? ' is-fresh' : ''}`}>
                   {job.status === 'closed' ? 'Closed' : freshnessLabel(job)}
+                  {job.status !== 'closed' && job.isDirect && verificationLabel(job) && (
+                    <span className="op-verified-label">{verificationLabel(job)}</span>
+                  )}
                   {job.isDirect && <span className="op-direct-badge" title="Direct from company careers ATS">Direct from careers page</span>}
                 </span>
                 {job.moreAtCompany && (
@@ -976,6 +979,9 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                     <span>{detail.area || detail.location || 'Hyderabad'}</span>
                     <span>·</span>
                     <span>{freshnessLabel(detail)}</span>
+                    {detail.isDirect && verificationLabel(detail) && (
+                      <><span>·</span><span className="op-verified-label">{verificationLabel(detail)}</span></>
+                    )}
                   </div>
                 </div>
               </div>

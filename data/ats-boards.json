@@ -3871,5 +3871,17 @@
     "employerType": "enterprise",
     "active": true,
     "note": "Official Hyderabad-filtered careers page, including fresher and junior roles"
+  },
+  {
+    "id": "lever:keyloop",
+    "name": "Keyloop",
+    "atsProvider": "lever",
+    "atsSlug": "keyloop",
+    "boardUrl": "https://jobs.lever.co/keyloop?location=India%20%28Hyderabad%29",
+    "website": "https://keyloop.com",
+    "startupId": "19a107e2-a434-4331-84a7-3b52635fe584",
+    "employerType": "enterprise",
+    "active": true,
+    "note": "Official Lever feed for Keyloop Hyderabad roles"
   }
 ]
