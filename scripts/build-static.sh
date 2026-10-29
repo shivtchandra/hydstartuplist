@@ -46,13 +46,13 @@ add_params() {
 }
 add_params "app/jobs/[id]/page.jsx" 'export async function generateStaticParams() {
   const { getAllJobs } = await import("../../../lib/jobs.js");
-  const { jobUrlId, jobShouldIndex } = await import("../../../lib/jobs-seo.js");
+  const { jobUrlId } = await import("../../../lib/jobs-seo.js");
   const jobs = await getAllJobs();
   // Cloudflare Pages limits total deployment to 20,000 files.
-  // Pre-render active, indexable openings (<= 30 days old) that search engines crawl,
-  // capped at 6,000 newest roles to strictly stay under the 19,500 file limit.
+  // Pre-render every current role while the feed fits the 6,000-page budget so
+  // fresher, internship and evergreen ATS links never fall through to a 404.
   return jobs
-    .filter((j) => j && j.status !== "closed" && jobShouldIndex(j, { maxAgeDays: 30 }))
+    .filter((j) => j && j.status !== "closed")
     .sort((a, b) => new Date(b.postedAt || b.sourcePostedAt || b.fetchedAt || 0) - new Date(a.postedAt || a.sourcePostedAt || a.fetchedAt || 0))
     .slice(0, 6000)
     .map((j) => ({ id: jobUrlId(j) }));
@@ -71,7 +71,8 @@ add_params "app/startups/[slug]/page.jsx" 'export async function generateStaticP
 
 HYD_STATIC_EXPORT=1 npx next build
 node scripts/static-redirects.mjs > out/_redirects
-echo "/jobs/* /jobs 302" >> out/_redirects
+# Do not add a /jobs/* catch-all: Cloudflare evaluates redirects before static
+# assets, so it would hide /jobs/fresher, company hubs, and permanent role pages.
 node -e '
   const files = process.argv.slice(1).map((r) => "/api/" + r);
   console.log(JSON.stringify({ version: 1, include: ["/api/*"], exclude: files }));

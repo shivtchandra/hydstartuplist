@@ -686,7 +686,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
               Direct ATS
             </button>
             {data?.shortcuts?.early && (
-              <button type="button" className="op-chip" aria-pressed={filters.level === 'early'} onClick={() => change({ level: filters.level === 'early' ? '' : 'early' })}>Early career</button>
+              <Link href="/jobs/fresher" className="op-chip">Freshers &amp; entry-level →</Link>
             )}
             {data?.shortcuts?.today && (
               <button type="button" className="op-chip" aria-pressed={filters.when === 'discovered'} onClick={() => change({ when: filters.when === 'discovered' ? '' : 'discovered' })}>New today</button>
