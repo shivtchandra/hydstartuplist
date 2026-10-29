@@ -15,11 +15,12 @@ export async function GET(req) {
   if (!db) return NextResponse.json({ boards: [], enabled: false, funnel: {}, byProduct: {}, byPage: [], googleLogins: { total: 0, popup: 0, onetap: 0 } });
 
   const productFilter = new URL(req.url).searchParams.get('product'); // startups | eateries | all
-  const [boards, usage, sessions, seriesSnap] = await Promise.all([
+  const [boards, usage, sessions, seriesSnap, atsFeedSnap] = await Promise.all([
     db.collection('board_status').get(),
     db.collection('background_usage').doc(new Date().toISOString().slice(0, 10)).get(),
     db.collection('engagement_sessions').where('started', '>=', Date.now() - 28 * 86400000).get(),
     db.doc('series_support/mapping-hyd').get().catch(() => null),
+    db.collection('job_board').doc('ats_latest').get().catch(() => null),
   ]);
   const seriesSupport = {
     count: seriesSnap?.exists ? Number(seriesSnap.data()?.count || 0) : 0,
@@ -87,20 +88,34 @@ export async function GET(req) {
     .sort((a, b) => b.views - a.views)
     .slice(0, 40);
 
+  const boardRows = boards.docs.map((d) => {
+    const b = d.data();
+    return {
+      boardId: b.boardId,
+      lastSuccessAt: b.lastSuccessAt || null,
+      overdue: !b.nextCheckAt || b.nextCheckAt < Date.now(),
+      failures: b.failures || 0,
+      error: b.error || null,
+      activeJobs: b.activeJobs || 0,
+      changes: b.changes || 0,
+      durationMs: b.durationMs || null,
+    };
+  });
+  const atsFeed = atsFeedSnap?.exists ? atsFeedSnap.data() : {};
+
   return NextResponse.json({
-    boards: boards.docs.map((d) => {
-      const b = d.data();
-      return {
-        boardId: b.boardId,
-        lastSuccessAt: b.lastSuccessAt || null,
-        overdue: !b.nextCheckAt || b.nextCheckAt < Date.now(),
-        failures: b.failures || 0,
-        error: b.error || null,
-        activeJobs: b.activeJobs || 0,
-        changes: b.changes || 0,
-        durationMs: b.durationMs || null,
-      };
-    }),
+    boards: boardRows,
+    sourceSummary: {
+      total: boardRows.length,
+      healthy: boardRows.filter((board) => !board.error && !board.overdue).length,
+      failed: boardRows.filter((board) => !!board.error).length,
+      overdue: boardRows.filter((board) => board.overdue).length,
+      activeJobs: boardRows.reduce((sum, board) => sum + board.activeJobs, 0),
+      registryBoards: atsFeed.boardCount || 0,
+      earlyCareerBoards: atsFeed.earlyCareerBoardCount || 0,
+      lastFeedSyncAt: atsFeed.fetchedAt || null,
+      lastSyncMode: atsFeed.lastSyncMode || null,
+    },
     usage: usage.data() || {},
     funnel,
     byProduct,

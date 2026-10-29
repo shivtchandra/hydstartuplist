@@ -29,9 +29,10 @@ test("GlobalLogic parser keeps Hyderabad roles and stable requisition ids", () =
 test("every fast-lane board id exists in the ATS registry", () => {
   const priorityIds = JSON.parse(fs.readFileSync(new URL("../data/early-career-boards.json", import.meta.url)));
   const boards = JSON.parse(fs.readFileSync(new URL("../data/ats-boards.json", import.meta.url)));
-  const boardIds = new Set(boards.map((board) => board.id));
-  assert.ok(priorityIds.length >= 20);
-  for (const id of priorityIds) assert.ok(boardIds.has(id), id);
+  const activeBoardIds = new Set(boards.filter((board) => board.active !== false).map((board) => board.id));
+  assert.ok(priorityIds.length >= 75);
+  assert.equal(new Set(priorityIds).size, priorityIds.length, "fast-lane board ids must be unique");
+  for (const id of priorityIds) assert.ok(activeBoardIds.has(id), id);
 });
 
 test("new first-party feeds use their official endpoints", () => {
