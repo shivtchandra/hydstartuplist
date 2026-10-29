@@ -28,7 +28,7 @@ function pinCircleHtml(s, small = false) {
   // Google returns a real favicon at 64px but its "no favicon" globe at 16px —
   // so a s2/favicons image that loads <=16px is the placeholder, not a logo.
   // Hide it and the coloured initial behind it shows through.
-  const onload = `if(this.naturalWidth&&this.naturalWidth<=16&&this.src.indexOf('google.com/s2')>-1)this.style.display='none'`;
+  const onload = `if(this.naturalWidth&&this.naturalWidth<=16&&this.src.indexOf('google.com/s2')>-1){this.style.display='none'}else{this.classList.add('is-loaded')}`;
   const img = primary ? `<img class="s-pin-logo" src="${primary}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onload="${onload}" onerror="${onerror}"/>` : "";
   const size = small ? " s-pin-sm" : "";
   const hiring = s.hiring ? " s-pin-hiring" : "";
@@ -94,6 +94,10 @@ function useLeafletMap(containerRef) {
   const startupsRef = useRef([]);
   const onSelectRef = useRef(null);
   const suppressTickRef = useRef(false);
+  const reconcileRafRef = useRef(0);
+  const movementTimerRef = useRef(0);
+  const markerSetKeyRef = useRef("");
+  const markerSetVersionRef = useRef(0);
   // Area blobs: only rebuild when the company set changes, not on every pan.
   // Rebuilding + CSS enter animation was the city-overview flicker.
   const areaModeKeyRef = useRef("");
@@ -147,6 +151,8 @@ function useLeafletMap(containerRef) {
     })().catch(()=>{if(!cancelled)setMapError(true);});
     return () => {
       cancelled = true;clearTimeout(timer);
+      if (reconcileRafRef.current) cancelAnimationFrame(reconcileRafRef.current);
+      if (movementTimerRef.current) window.clearTimeout(movementTimerRef.current);
       mapRef.current?.remove();mapRef.current=null;
       heroMarkersRef.current.clear();
       dotMarkersRef.current.clear();
@@ -174,7 +180,7 @@ function useLeafletMap(containerRef) {
 
       // Stable key for the filtered company set — pan/zoom inside area mode
       // must NOT recreate blobs (that replayed the enter animation = flicker).
-      const areaKey = `areas:${startups.length}:${startups[0]?.id ?? ""}:${startups[startups.length - 1]?.id ?? ""}`;
+      const areaKey = `areas:${markerSetVersionRef.current}`;
       if (areaModeKeyRef.current === areaKey && areaLayer.getLayers().length) {
         return;
       }
@@ -182,13 +188,18 @@ function useLeafletMap(containerRef) {
       areaModeKeyRef.current = areaKey;
       areaLayer.clearLayers();
 
-      const areas = buildStartupAreas(startups).sort((x, y) => y.count - x.count);
+      const allAreas = buildStartupAreas(startups).sort((x, y) => y.count - x.count);
+      const compactAreaView = map.getSize().x < 720;
+      // A city overview is a wayfinding layer, not a second directory. Keep the
+      // strongest neighbourhoods visible; search and the list retain every item.
+      const areas = allAreas.slice(0, compactAreaView ? 28 : 48);
       // Place at geographic centroids (eateries). Screen-space nudge on every
       // rebuild made blobs jump; skipping rebuilds above is the main fix.
-      // Drop only true screen overlaps at *build* time so labels stay readable.
       const placed = [];
       for (const a of areas) {
-        const size = a.count < 15 ? 52 : a.count < 60 ? 66 : a.count < 120 ? 76 : 86;
+        const size = compactAreaView
+          ? (a.count < 15 ? 44 : a.count < 60 ? 56 : a.count < 120 ? 66 : 76)
+          : (a.count < 15 ? 52 : a.count < 60 ? 66 : a.count < 120 ? 76 : 86);
         const origin = map.latLngToContainerPoint([a.lat, a.lng]);
         let spot = { x: origin.x, y: origin.y };
         let lat = a.lat;
@@ -266,14 +277,14 @@ function useLeafletMap(containerRef) {
     let { heroes, rest } = spotlight(located, bounds, {
       cellLat,
       cellLng,
-      filterKey: `${located.length}:${located[0]?.id ?? ""}`,
+      filterKey: `${markerSetVersionRef.current}:${located.length}`,
     });
 
     // Directory map (not a ranked food map): once you zoom into a neighbourhood,
     // every company in view should pop as a real pin — not stay a grey dot forever.
     // Eateries does the same when a filter set is small enough to show in full.
-    const SHOW_ALL_ZOOM = 14.4;
-    const SHOW_ALL_CAP = 140;
+    const SHOW_ALL_ZOOM = 15.6;
+    const SHOW_ALL_CAP = viewport.x < 720 ? 42 : 72;
     if (zoom >= SHOW_ALL_ZOOM || visible.length <= SHOW_ALL_CAP) {
       if (visible.length && visible.length <= 220) {
         heroes = visible;
@@ -314,7 +325,9 @@ function useLeafletMap(containerRef) {
 
     // When many companies are promoted, keep every logo visible but only label
     // the strongest few so names don't stack into mush.
-    const labelBudget = heroes.length > 60 ? 18 : heroes.length > 35 ? 28 : heroes.length;
+    const labelBudget = viewport.x < 720
+      ? Math.min(heroes.length, 10)
+      : heroes.length > 60 ? 18 : heroes.length > 35 ? 28 : heroes.length;
     const labelIds = new Set(
       [...heroes]
         .sort((a, b) => scoreOf(b) - scoreOf(a))
@@ -366,24 +379,41 @@ function useLeafletMap(containerRef) {
     }
   }, [ready, viewTick]);
 
-  function setMarkers(startups, onSelect) {
+  const setMarkers = useCallback((startups, onSelect) => {
     startupsRef.current = startups;
     onSelectRef.current = onSelect;
-    // Defer heavy marker reconcile so filter/toggle buttons paint immediately.
-    requestAnimationFrame(() => setViewTick((n) => n + 1));
-  }
 
-  function withSuppressedTicks(run) {
+    // A stable signature prevents unrelated page state (jobs, placements, modal
+    // state) from scheduling another Leaflet reconciliation for the same pins.
+    const nextKey = startups
+      .map((s) => `${s.id}:${s.sponsored ? 1 : 0}:${s.hiring ? 1 : 0}:${s.lat ?? ""}:${s.lng ?? ""}`)
+      .join("|");
+    if (nextKey === markerSetKeyRef.current) return;
+    markerSetKeyRef.current = nextKey;
+    markerSetVersionRef.current += 1;
+
+    // Only the newest scheduled reconcile may run. Without cancellation, quick
+    // filter changes replayed stale marker sets and looked like random flicker.
+    if (reconcileRafRef.current) cancelAnimationFrame(reconcileRafRef.current);
+    reconcileRafRef.current = requestAnimationFrame(() => {
+      reconcileRafRef.current = 0;
+      setViewTick((n) => n + 1);
+    });
+  }, []);
+
+  const withSuppressedTicks = useCallback((run) => {
     suppressTickRef.current = true;
+    if (movementTimerRef.current) window.clearTimeout(movementTimerRef.current);
     run();
-    // One rebuild after the animation settles
-    window.setTimeout(() => {
+    // One rebuild after the latest animation settles.
+    movementTimerRef.current = window.setTimeout(() => {
+      movementTimerRef.current = 0;
       suppressTickRef.current = false;
       setViewTick((n) => n + 1);
     }, 520);
-  }
+  }, []);
 
-  function flyTo(lat, lng) {
+  const flyTo = useCallback((lat, lng) => {
     if (mapRef.current && lat && lng) {
       withSuppressedTicks(() => {
         mapRef.current.flyTo([lat, lng], Math.max(mapRef.current.getZoom(), AREA_ENTER_ZOOM + 1.2), {
@@ -392,9 +422,9 @@ function useLeafletMap(containerRef) {
         });
       });
     }
-  }
+  }, [withSuppressedTicks]);
 
-  function fitToMarkers(startups) {
+  const fitToMarkers = useCallback((startups) => {
     const L = LRef.current;
     if (!L || !mapRef.current) return;
     const coords = startups.filter((s) => s.lat && s.lng).map((s) => [s.lat, s.lng]);
@@ -406,11 +436,11 @@ function useLeafletMap(containerRef) {
       }
       mapRef.current.flyToBounds(L.latLngBounds(coords), { padding: [60, 60], maxZoom: 15, duration: 0.45 });
     });
-  }
+  }, [withSuppressedTicks]);
 
-  function invalidateSize() {
+  const invalidateSize = useCallback(() => {
     mapRef.current?.invalidateSize({ animate: true });
-  }
+  }, []);
 
   return { ready, mapError, retryMap:()=>setRetry(n=>n+1), setMarkers, flyTo, fitToMarkers, invalidateSize };
 }
@@ -1354,7 +1384,11 @@ export default function HomeClient({ initialStartups = [] }) {
         </aside>
 
         <main className="map-area">
-          <div ref={mapContainerRef} className="map-full" aria-label="Hyderabad startup map" />
+          <div
+            ref={mapContainerRef}
+            className={`map-full ${ready ? "map-ready" : "map-loading"}`}
+            aria-label="Hyderabad startup map"
+          />
           {!ready&&!mapError&&<p className="startup-map-loading" role="status">Loading startup map…</p>}
           {mapError&&<div className="startup-map-loading" role="status"><p>The map is unavailable. Startup results still work.</p><button onClick={retryMap}>Retry map</button><button onClick={()=>{setSidebarOpen(true);setListOpen(true);}}>Browse startups</button></div>}
           {!sidebarOpen && (
