@@ -122,6 +122,7 @@ function useLeafletMap(containerRef) {
         wheelPxPerZoomLevel: 140,
         wheelDebounceTime: 40,
         bounceAtZoomLimits: false,
+        fadeAnimation: false,
         minZoom: 10.5,
         maxZoom: 18,
       });
@@ -131,8 +132,12 @@ function useLeafletMap(containerRef) {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
-        updateWhenIdle: true,
-        keepBuffer: 1,
+        // Load the next tile ring while the user pans instead of revealing the
+        // map background until moveend. A wider buffer also covers quick drags.
+        updateWhenIdle: false,
+        updateWhenZooming: true,
+        updateInterval: 100,
+        keepBuffer: 4,
       }).on("tileerror",()=>{if(!cancelled&&++tileErrors>=3)setMapError(true);}).addTo(mapRef.current);
       areaLayerRef.current = L.layerGroup().addTo(mapRef.current);
       spotLayerRef.current = L.layerGroup().addTo(mapRef.current);
