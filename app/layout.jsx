@@ -75,8 +75,8 @@ const JSONLD = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Hyderabad Startups Map — Software, IT & Product Companies",
-    template: "%s | Mapping HYD",
+    default: "Hyderabad Startup Map — Software, IT & Product Companies",
+    template: "%s | Hyderabad Startup Map",
   },
   description: OG_DESC,
   keywords: [

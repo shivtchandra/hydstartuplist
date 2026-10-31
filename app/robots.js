@@ -27,6 +27,6 @@ export default function robots() {
     ],
     // Hubs live in /sitemap.xml. /sitemap-jobs.xml is deliberately scoped to
     // recent openings only (see app/sitemap-jobs.xml/route.js) to stop crawl-budget flood.
-    sitemap: [`${SITE_URL}/sitemap.xml`, `${SITE_URL}/sitemap-jobs.xml`],
+    sitemap: [`${SITE_URL}/sitemap.xml`],
   };
 }

@@ -70,12 +70,11 @@ export async function generateMetadata({ params }) {
       `${job.company} careers Hyderabad`,
       "startup jobs Hyderabad",
     ],
-    // Stale openings: noindex + canonical to the jobs hub so crawl budget
-    // concentrates on evergreen landings instead of expired JobPosting URLs.
+    // Individual job pages are thin, short-lived scraped listings; indexing
+    // thousands of them triggered a site-wide quality demotion (Oct 2026).
+    // Keep them for users, but only the hubs are indexable.
     alternates: { canonical: indexable ? url : `${site}/jobs` },
-    robots: indexable
-      ? { index: true, follow: true }
-      : { index: false, follow: true, googleBot: { index: false, follow: true } },
+    robots: { index: false, follow: true, googleBot: { index: false, follow: true } },
     openGraph: {
       title,
       description,

@@ -11,7 +11,8 @@ import { jobUrlId } from "../../lib/jobs-seo.js";
 export const revalidate = 3600;
 export const dynamic = "force-dynamic";
 
-const MAX_URLS = 200;
+// 0 = empty feed: job detail pages are noindex (see app/jobs/[id]/page.jsx).
+const MAX_URLS = 0;
 const MAX_AGE_DAYS = 14;
 
 function esc(s) {
