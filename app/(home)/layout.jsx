@@ -2,7 +2,7 @@ import { getSiteUrl } from "../../lib/site-url.js";
 import HomeSeoIndex from "../components/HomeSeoIndex.jsx";
 
 export const metadata = {
-  alternates: { canonical: getSiteUrl() },
+  alternates: { canonical: `${getSiteUrl()}/` },
 };
 
 export default function HomeLayout({ children }) {
