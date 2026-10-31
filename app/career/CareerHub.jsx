@@ -37,7 +37,14 @@ const LEVELS = [
   ['lead', 'Lead (8y+)'],
   ['manager', 'Manager'],
 ];
-const LEVEL_LABEL = Object.fromEntries(LEVELS);
+const STAGE_PHRASE = {
+  intern: 'a student / fresher',
+  junior: 'a junior',
+  mid: 'a mid-level',
+  senior: 'a senior',
+  lead: 'a lead',
+  manager: 'a manager',
+};
 const CONTACT = [
   ['fullName', 'Full name'],
   ['email', 'Email'],
@@ -402,15 +409,57 @@ function ResumeStep({ store, update, onDone }) {
   return (
     <section className="ch-idcard">
       <div className="ch-id-top">
-        <div className="ch-avatar" aria-hidden="true">{(profile.name || '?').trim().charAt(0).toUpperCase()}</div>
         <div className="ch-id-name">
+          <p className="ch-kicker">{profile.source === 'fallback' ? 'Quick read · check below' : 'Read from your resume'}</p>
           <h2>{profile.name || 'Your profile'}</h2>
           {profile.headline && <p>{profile.headline}</p>}
         </div>
-        <span className={`ch-badge${profile.source === 'fallback' ? ' is-warn' : ''}`}>
-          {profile.source === 'fallback' ? 'Quick read' : 'Read by AI'}
-        </span>
+        <div className="ch-monogram" aria-hidden="true">
+          {(profile.name || '?').trim().split(/\s+/).slice(0, 2).map((w) => w.charAt(0).toUpperCase()).join('')}
+        </div>
       </div>
+
+      {/* One editable sentence instead of a form: reads like a pitch, edits like fields. */}
+      <p className="ch-madlib">
+        I&apos;m{' '}
+        <span className="ch-slot">
+          <select aria-label="Career stage" value={profile.level || 'mid'} onChange={(e) => patchProfile({ level: e.target.value })}>
+            {LEVELS.map(([k, l]) => <option key={k} value={k}>{STAGE_PHRASE[k] || l}</option>)}
+          </select>
+        </span>{' '}
+        with{' '}
+        <span className="ch-slot ch-slot-num">
+          <input
+            aria-label="Years of experience"
+            type="number"
+            min="0"
+            max="50"
+            value={profile.yearsExperience ?? 0}
+            onChange={(e) => patchProfile({ yearsExperience: Number(e.target.value) || 0 })}
+          />
+        </span>{' '}
+        {Number(profile.yearsExperience) === 1 ? 'year' : 'years'} of experience, looking for{' '}
+        <span className="ch-slot ch-slot-wide">
+          <textarea
+            aria-label="Roles you want"
+            rows={1}
+            value={(profile.targetTitles || []).join(', ')}
+            placeholder="roles you want"
+            onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
+            onChange={(e) => patchProfile({ targetTitles: e.target.value.split(',').map((t) => t.trim()).filter(Boolean).slice(0, 6) })}
+          />
+        </span>{' '}
+        roles,{' '}
+        <button
+          type="button"
+          className="ch-slot ch-slot-btn"
+          aria-pressed={Boolean(profile.openToRemote)}
+          onClick={() => patchProfile({ openToRemote: !profile.openToRemote })}
+        >
+          {profile.openToRemote ? 'open to remote' : 'office only'}
+        </button>
+        .
+      </p>
 
       {isEarlyCareer(profile) && (
         <p className="ch-fresher">
@@ -418,30 +467,6 @@ function ResumeStep({ store, update, onDone }) {
           surface internships and fresher roles first.
         </p>
       )}
-
-      <div className="ch-id-fields">
-        <label className="ch-field">
-          <span>Stage</span>
-          <select value={profile.level || 'mid'} onChange={(e) => patchProfile({ level: e.target.value })}>
-            {LEVELS.map(([k, l]) => <option key={k} value={k}>{l}</option>)}
-          </select>
-        </label>
-        <label className="ch-field">
-          <span>Years</span>
-          <input type="number" min="0" max="50" value={profile.yearsExperience ?? ''} onChange={(e) => patchProfile({ yearsExperience: Number(e.target.value) || 0 })} />
-        </label>
-        <label className="ch-field ch-span">
-          <span>Roles you want</span>
-          <input
-            value={(profile.targetTitles || []).join(', ')}
-            onChange={(e) => patchProfile({ targetTitles: e.target.value.split(',').map((t) => t.trim()).filter(Boolean).slice(0, 6) })}
-          />
-        </label>
-        <label className="ch-toggle">
-          <input type="checkbox" checked={Boolean(profile.openToRemote)} onChange={(e) => patchProfile({ openToRemote: e.target.checked })} />
-          <span>Open to remote</span>
-        </label>
-      </div>
 
       <div className="ch-receipts-head">
         <h3>Skills, with receipts</h3>
