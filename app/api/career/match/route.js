@@ -36,7 +36,7 @@ export async function POST(req) {
     const raw = await callOpenAIJson({
       apiKey: process.env.OPENAI_API_KEY,
       system: MATCH_SYSTEM,
-      prompt: buildMatchPrompt(resumeText, jobs),
+      prompt: buildMatchPrompt(resumeText, jobs, { earlyCareer: Boolean(body?.earlyCareer) }),
       schemaName: "job_matches",
       schema: MATCH_SCHEMA,
       effort: "low",

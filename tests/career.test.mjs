@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { skillMatcher, prefilterScore, shortlistJobs, foreignOnly } from "../lib/career/prefilter.js";
+import { skillMatcher, prefilterScore, shortlistJobs, foreignOnly, isEntryJob } from "../lib/career/prefilter.js";
+import { buildMatchPrompt } from "../lib/career/match-ai.js";
 import { validateProfile, fallbackProfile } from "../lib/career/profile-ai.js";
 import { validateMatches } from "../lib/career/match-ai.js";
 import { evidenceInText, normalizeForEvidence, callOpenAIJson, AIUnavailableError } from "../lib/career/openai.js";
@@ -140,4 +141,25 @@ test("country-restricted remote roles outside India are excluded", () => {
   assert.equal(foreignOnly({ title: "Engineer", location: "Home based - Worldwide" }), false);
   assert.equal(foreignOnly({ title: "Engineer (US/India)", location: "Remote" }), false);
   assert.equal(foreignOnly({ title: "QC Specialist (US Timezone)", location: "Remote" }), false);
+});
+
+test("fresher profiles favour entry roles and never see senior bands", () => {
+  const fresher = { ...profile, level: "intern", targetTitles: ["Software Engineering Intern", "Backend Engineer"] };
+  const jobs = [
+    { id: "i", title: "Software Engineering Intern", role: "Engineering", level: "intern" },
+    { id: "s", title: "Senior Backend Engineer", role: "Engineering", level: "senior" },
+    { id: "m", title: "Backend Engineer", role: "Engineering", level: "mid" },
+  ];
+  const out = shortlistJobs(jobs, fresher).map((r) => r.job.id);
+  assert.equal(out[0], "i");
+  assert.ok(!out.includes("s"));
+  assert.deepEqual(shortlistJobs(jobs, fresher, { entryOnly: true }).map((r) => r.job.id), ["i"]);
+  assert.equal(isEntryJob({ title: "Graduate Engineer Trainee", level: "unknown" }), true);
+  assert.equal(isEntryJob({ title: "Software Engineering Senior Associate", level: "unknown" }), false);
+});
+
+test("match prompt adds early-career rules only for freshers", () => {
+  const jobs = [{ id: "1", title: "Intern", company: "A", description: "x" }];
+  assert.match(buildMatchPrompt("resume", jobs, { earlyCareer: true }), /EARLY CAREER/);
+  assert.doesNotMatch(buildMatchPrompt("resume", jobs), /EARLY CAREER/);
 });
