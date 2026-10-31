@@ -9,7 +9,7 @@ import SiteFooter from "./components/SiteFooter.jsx";
 import { Analytics } from "@vercel/analytics/next";
 import localFont from "next/font/local";
 
-import { getSiteUrl, PARENT_ORG_ID, PARENT_SITE_URL } from "../lib/site-url.js";
+import { getSiteUrl } from "../lib/site-url.js";
 
 const outfit = localFont({
   src: "./fonts/Outfit.ttf",
@@ -36,10 +36,9 @@ const JSONLD = {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       url: `${SITE_URL}/`,
-      name: "Mapping HYD Startups",
+      name: "Hyderabad Startup Map",
       alternateName: [
         "Hyderabad Startups Map",
-        "Hyderabad Startup Map",
         "Hyderabad Startups",
         "Hyd Startups Map",
         "Startups MapMyHyd",
@@ -47,7 +46,7 @@ const JSONLD = {
       ],
       description: OG_DESC,
       inLanguage: "en-IN",
-      publisher: { "@id": PARENT_ORG_ID },
+      publisher: { "@id": `${SITE_URL}/#organization` },
       potentialAction: {
         "@type": "SearchAction",
         target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/?q={search_term_string}` },
@@ -56,11 +55,13 @@ const JSONLD = {
     },
     {
       "@type": "Organization",
-      // Parent brand entity (same @id as mapmyhyd.com) — not a separate org.
-      "@id": PARENT_ORG_ID,
-      name: "Mapping HYD",
-      alternateName: ["MapMyHyd", "Map My Hyd", "Hyderabad Startups Map"],
-      url: PARENT_SITE_URL,
+      // Own entity, not the mapmyhyd.com org: sharing that @id (Oct 15) made
+      // Google treat this host as part of the hub, which then took the
+      // "hyderabad startup map" result slot.
+      "@id": `${SITE_URL}/#organization`,
+      name: "Hyderabad Startup Map",
+      alternateName: ["Hyderabad Startups Map", "Hyd Startups Map"],
+      url: SITE_URL,
       logo: { "@type": "ImageObject", url: `${SITE_URL}/icon.svg` },
       founder: [{ "@id": `${SITE_URL}/#founder` }, { "@id": `${SITE_URL}/#cofounder` }],
       // TODO: add LinkedIn company page URL once it exists.
@@ -102,7 +103,7 @@ export const metadata = {
   openGraph: {
     title: OG_TITLE,
     description: OG_DESC,
-    siteName: "Mapping HYD",
+    siteName: "Hyderabad Startup Map",
     url: SITE_URL,
     type: "website",
     locale: "en_IN",

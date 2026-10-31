@@ -80,7 +80,7 @@ export async function generateMetadata({ params }) {
       description,
       url,
       type: "article",
-      siteName: "Mapping HYD",
+      siteName: "Hyderabad Startup Map",
     },
     twitter: {
       card: "summary_large_image",
