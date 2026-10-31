@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 async function callFastOpenAI(prompt, apiKey) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 8000);
+  const timeout = setTimeout(() => controller.abort(), 25000);
 
   try {
     const res = await fetch("https://api.openai.com/v1/responses", {
@@ -25,8 +25,8 @@ async function callFastOpenAI(prompt, apiKey) {
       signal: controller.signal,
       body: JSON.stringify({
         model: "gpt-6-luna",
-        reasoning: { effort: "none" },
-        max_output_tokens: 6000,
+        reasoning: { effort: "low" },
+        max_output_tokens: 9000,
         input: [
           {
             role: "system",
@@ -73,6 +73,7 @@ export async function POST(req) {
       jobTitle = "",
       company = "",
       jobSkills = [],
+      allowFallback = false,
     } = body || {};
 
     const cleanResume = String(resumeText || "").trim();
@@ -108,6 +109,7 @@ export async function POST(req) {
 
     let mode = "safe-fallback";
     let aiResult;
+    let aiFailure = null;
     const openaiKey = process.env.OPENAI_API_KEY;
 
     if (openaiKey) {
@@ -121,11 +123,28 @@ export async function POST(req) {
           baseline,
         });
         const rawResult = await callFastOpenAI(prompt, openaiKey);
-        aiResult = validateTailoredResult(rawResult, cleanResume);
+        aiResult = validateTailoredResult(rawResult, cleanResume, { jobTitle, company });
         mode = "openai";
       } catch (error) {
-        console.warn("Resume tailoring used the safe fallback:", error?.name || "provider_error");
+        aiFailure = error?.name === "AbortError" || /OpenAI request failed/.test(error?.message || "") ? "AI_UNAVAILABLE" : "AI_INVALID";
+        console.warn("Resume tailoring failed:", aiFailure, error?.message || "");
       }
+    }
+
+    // Don't pass off a reordered copy of the resume as "tailored" unless the user asked for it.
+    if (!aiResult && !allowFallback) {
+      const code = openaiKey ? aiFailure || "AI_UNAVAILABLE" : "AI_UNAVAILABLE";
+      return NextResponse.json(
+        {
+          error:
+            code === "AI_INVALID"
+              ? "The AI draft changed facts from your resume, so we discarded it. Try again, or use the safe version."
+              : "AI tailoring is unavailable right now. Try again shortly, or use the safe version.",
+          code,
+          baseline,
+        },
+        { status: code === "AI_INVALID" ? 502 : 503 }
+      );
     }
 
     if (!aiResult) {
@@ -136,6 +155,11 @@ export async function POST(req) {
         jobSkills,
         baseline,
       });
+      aiResult.coverLetter = "";
+      aiResult.screeningAnswers = [
+        { question: "What is your notice period?", answer: "[add your notice period]" },
+        { question: "What is your expected CTC?", answer: "[add your expected CTC]" },
+      ];
       if (!openaiKey) {
         aiResult.warnings = [
           "OpenAI is not configured, so this version only prioritizes verified content from your original resume.",

@@ -3,7 +3,6 @@ import { notFound, permanentRedirect } from "next/navigation";
 import SiteNav from "../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
 import ShareJobButton from "../../components/ShareJobButton.jsx";
-import ResumeTailorButton from "../../components/ResumeTailorButton.jsx";
 import { getAllJobs, getJobById, getJobsByArea, getJobsForCompany } from "../../../lib/jobs.js";
 import { getStartupBySlug, getApproved } from "../../../lib/store.js";
 import { startupSlug, slugify } from "../../../lib/slug.js";
@@ -233,15 +232,9 @@ export default async function JobDetailPage({ params }) {
           >
             Apply →
           </a>
-          <ResumeTailorButton
-            job={{
-              title: job.title,
-              company: job.company,
-              description: job.description || descriptionHtml,
-              skills: job.skills || [],
-              url: job.url,
-            }}
-          />
+          <Link className="btn btn-ghost" href={`/career?job=${encodeURIComponent(job.id)}`}>
+            Tailor resume &amp; apply
+          </Link>
           <ShareJobButton url={pageUrl} title={`${job.title} at ${job.company}`} />
           <Link className="btn btn-ghost" href={companyPath}>
             Company jobs

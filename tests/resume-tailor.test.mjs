@@ -101,3 +101,18 @@ test('validator accepts factual edits and tracks embedded placeholders', () => {
   assert.deepEqual(extractGuidedPlaceholders(result.fullTailoredResume), ['[add a verified outcome or scale]']);
   assert.doesNotMatch(stripGuidedPlaceholders(result.fullTailoredResume), /\[add/);
 });
+
+test('validator permits factual education formatting changes', () => {
+  const source = resume.replace('JNTU, 2022', 'JNTU, 2022.');
+  const tailored = source.replace(
+    'B.Tech in Computer Science, JNTU, 2022.',
+    '**B.Tech in Computer Science**, JNTU | 2022',
+  );
+
+  assert.doesNotThrow(() => validateTailoredResult({
+    fullTailoredResume: tailored,
+    changes: [],
+    placeholders: [],
+    warnings: [],
+  }, source));
+});

@@ -18,12 +18,7 @@ import { readShortlist,writeShortlist } from '../../lib/shortlist.js';
 import { pushShortlistToCloud, useAuthUser } from '../../lib/auth-client.js';
 import { trackEvent } from '../../lib/engagement-client.js';
 import { jobsFetch } from '../../lib/opportunities-client.js';
-import { scoreJobMatch, rankJobsByResume } from '../../lib/resume-matcher.js';
-import ResumeMatchModal from './ResumeMatchModal.jsx';
-import ResumeTailorButton from './ResumeTailorButton.jsx';
 
-// Temporarily disabled while recommendation quality is rebuilt around verified evidence.
-const RESUME_MATCHING_ENABLED = false;
 const OpportunityMap=dynamic(()=>import('./OpportunityMap.jsx'),{ssr:false,loading:()=> <div className="op-map-status">Loading map…</div>});
 
 function money(salary) {
@@ -324,9 +319,6 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   const [compare,setCompare]=useState(false),[areaA,setAreaA]=useState(''),[areaB,setAreaB]=useState(''),[comparison,setComparison]=useState(null);
   const [emailOpen,setEmailOpen]=useState(false),[email,setEmail]=useState(''),[emailState,setEmailState]=useState(''),[savedSearch,setSavedSearch]=useState(null);
   const [lastVisit,setLastVisit]=useState(null),[refresh,setRefresh]=useState(0);
-  const [resumeProfile, setResumeProfile] = useState(null);
-  const [resumeModalOpen, setResumeModalOpen] = useState(false);
-  const [matchOnly, setMatchOnly] = useState(false);
   const emailRef=useRef(null),sheetRef=useRef(null),abortDetail=useRef(null),initialRequest=useRef(true),detailRef=useRef(null);
   const filterQuery=useMemo(()=>{const p=new URLSearchParams();for(const k of FILTER_KEYS)if(filters[k])p.set(k,filters[k]);return p.toString();},[filters]);
   function change(patch) {
@@ -345,21 +337,6 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     const qs=p.toString();
     startTransition(()=>router.replace(qs?`${pathname}?${qs}`:pathname,{scroll:false}));
   }
-  function handleSaveResumeProfile(profile) {
-    setResumeProfile(profile);
-    try {
-      localStorage.setItem('mapmyhyd_resume_profile', JSON.stringify(profile));
-    } catch {}
-    setNotice(`Resume loaded: ${profile.skills?.length || 0} skills detected. Choose Best match to rank by fit.`);
-  }
-  function handleClearResumeProfile() {
-    setResumeProfile(null);
-    setMatchOnly(false);
-    try {
-      localStorage.removeItem('mapmyhyd_resume_profile');
-    } catch {}
-    setNotice('Resume profile cleared.');
-  }
   useEffect(()=>{
     const syncFromLocation=()=>setParams(new URLSearchParams(window.location.search));
     syncFromLocation();
@@ -368,13 +345,6 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   },[]);
   useEffect(()=>{setQuery(filters.q);},[filters.q]);
   useEffect(()=>{if(query===filters.q)return;const t=setTimeout(()=>change({q:query}),450);return()=>clearTimeout(t);},[query,filters.q]);
-  useEffect(()=>{
-    if (!RESUME_MATCHING_ENABLED) return;
-    try {
-      const saved = localStorage.getItem('mapmyhyd_resume_profile');
-      if (saved) setResumeProfile(JSON.parse(saved));
-    } catch {}
-  }, []);
   useEffect(()=>{
     setShortlist(readShortlist());setStorageReady(true);
     try{setLastVisit(localStorage.getItem('hyd-last-visit'));localStorage.setItem('hyd-last-visit',new Date().toISOString());}catch{}
@@ -484,17 +454,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   const visibleRaw = savedOnly
     ? Object.values(shortlist.jobs).filter((s) => s.status !== 'hidden').map((s) => s.job)
     : (data?.jobs || []).filter((j) => shortlist.jobs[j.id]?.status !== 'hidden');
-  const visible = useMemo(() => {
-    let list = visibleRaw;
-    if (RESUME_MATCHING_ENABLED && resumeProfile && resumeProfile.skills?.length) {
-      const shouldSortByMatch = filters.sort === 'match';
-      list = rankJobsByResume(list, resumeProfile, shouldSortByMatch);
-      if (matchOnly) {
-        list = list.filter((j) => (j.resumeMatch?.score || 0) >= 70);
-      }
-    }
-    return list;
-  }, [visibleRaw, resumeProfile, filters.sort, matchOnly]);
+  const visible = visibleRaw;
   // Exclusive pin owns those rows — don't also show them as regular cards underneath.
   const feedJobs = useMemo(
     () => (savedOnly ? visible : visible.filter((j) => !j.sponsored && !j.exclusive)),
@@ -518,7 +478,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
         ['work', 'Work', ['remote', 'hybrid', 'onsite', 'unknown']],
         ['type', 'Type', facet.types || []],
         ['when', 'Freshness', ['discovered', 'today', 'week', 'month']],
-        ['sort', 'Sort', RESUME_MATCHING_ENABLED ? ['newest', 'match', 'company'] : ['newest', 'company']],
+        ['sort', 'Sort', ['newest', 'company']],
       ].map(([key, label, options]) => (
         <OpFilterSelect
           key={key}
@@ -616,28 +576,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
           <div className="op-shortcuts" role="group" aria-label="Quick options">
             <button type="button" className="op-chip" aria-pressed={view === 'list'} onClick={() => setView('list')}>All jobs</button>
             <button type="button" className="op-chip" aria-pressed={view === 'map'} onClick={() => setView('map')}>Map</button>
-            {RESUME_MATCHING_ENABLED && (
-              <>
-                <button
-                  type="button"
-                  className={`op-chip ${resumeProfile ? 'op-chip-resume-active' : 'op-chip-resume'}`}
-                  onClick={() => setResumeModalOpen(true)}
-                  title={resumeProfile ? `${resumeProfile.skills?.length || 0} skills loaded. Click to edit.` : 'Match jobs with your resume'}
-                >
-                  {resumeProfile ? `Resume: ${resumeProfile.skills?.length || 0} skills` : 'Match Resume'}
-                </button>
-                {resumeProfile && (
-                  <button
-                    type="button"
-                    className="op-chip"
-                    aria-pressed={matchOnly}
-                    onClick={() => setMatchOnly((v) => !v)}
-                  >
-                    70%+ Match
-                  </button>
-                )}
-              </>
-            )}
+            <Link className="op-chip" href="/career">Match my resume</Link>
             <button
               type="button"
               className="op-chip"
@@ -805,42 +744,12 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                         {job.area.split(',')[0]}
                       </span>
                     )}
-                    {RESUME_MATCHING_ENABLED && job.resumeMatch && (
-                      <span
-                        className={`op-match-badge op-match-${
-                          job.resumeMatch.score >= 75
-                            ? 'high'
-                            : job.resumeMatch.score >= 50
-                            ? 'mid'
-                            : 'low'
-                        }`}
-                        title={`Resume match score: ${job.resumeMatch.score}%`}
-                      >
-                        {job.resumeMatch.score}% match
-                      </span>
-                    )}
                     {job.sponsored && (
                       <span className="op-featured-badge" title="Exclusive Mapping HYD listing">
                         {job.sponsoredLabel || 'Exclusive'}
                       </span>
                     )}
                   </div>
-
-                  {RESUME_MATCHING_ENABLED && job.resumeMatch?.matchedSkills?.length > 0 && (
-                    <div className="op-matched-skills-line">
-                      <span className="op-matched-skills-label">Matched:</span>
-                      {job.resumeMatch.matchedSkills.slice(0, 5).map((s) => (
-                        <span key={s} className="op-matched-skill-tag">
-                          {s}
-                        </span>
-                      ))}
-                      {job.resumeMatch.matchedSkills.length > 5 && (
-                        <span className="op-matched-skills-label">
-                          +{job.resumeMatch.matchedSkills.length - 5} more
-                        </span>
-                      )}
-                    </div>
-                  )}
 
                   {job.snippet && <p className="op-card-snippet">{job.snippet}</p>}
 
@@ -999,44 +908,11 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                     Apply on official site →
                   </a>
                 )}
-                <ResumeTailorButton
-                  job={{
-                    title: detail.title,
-                    company: detail.company,
-                    description: detail.description || detail.snippet || '',
-                    skills: detail.skills || [],
-                    url: detail.applyUrl,
-                  }}
-                  className="op-tailor-action-btn"
-                  label="Prepare & apply"
-                />
+                <Link className="op-tailor-action-btn" href={`/career?job=${encodeURIComponent(detail.id)}`}>
+                  Tailor resume &amp; apply
+                </Link>
               </div>
             </div>
-
-            {RESUME_MATCHING_ENABLED && resumeProfile && (() => {
-              const dm = detail.resumeMatch || scoreJobMatch(detail, resumeProfile);
-              if (!dm) return null;
-              return (
-                <div className="op-detail-match-banner">
-                  <div className="op-detail-match-score">
-                    <span className="op-detail-match-pct">{dm.score}%</span>
-                    <span className="op-detail-match-label">Match</span>
-                  </div>
-                  <div className="op-detail-match-details">
-                    {dm.matchedSkills?.length > 0 && (
-                      <div className="op-detail-match-skills">
-                        <strong>Matching skills:</strong> {dm.matchedSkills.join(', ')}
-                      </div>
-                    )}
-                    {dm.missingSkills?.length > 0 && (
-                      <div className="op-detail-missing-skills">
-                        <strong>Other role skills:</strong> {dm.missingSkills.join(', ')}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })()}
 
             <div className="op-quick-facts-grid">
               <div className="op-fact-item">
@@ -1130,15 +1006,6 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
           </>
         )}
       </footer>
-    )}
-    {RESUME_MATCHING_ENABLED && (
-      <ResumeMatchModal
-        isOpen={resumeModalOpen}
-        onClose={() => setResumeModalOpen(false)}
-        onSaveProfile={handleSaveResumeProfile}
-        onClearProfile={handleClearResumeProfile}
-        currentProfile={resumeProfile}
-      />
     )}
   </main></>;
 }
