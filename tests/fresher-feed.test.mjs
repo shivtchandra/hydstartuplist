@@ -231,3 +231,22 @@ test("expanding an employer lifts the cap for that employer only", () => {
   assert.ok(rows.filter((j) => j.company === "NxtWave").every((j) => !j.moreAtCompany));
   assert.equal(rows.filter((j) => j.moreAtCompany).length, 1);
 });
+
+test("early career and fresher roles infer distinct role facets instead of falling back to Other", async () => {
+  const { inferRoleType } = await import("../lib/job-facets.js");
+  const cases = [
+    ["Junior Software Engineer", "Engineering"],
+    ["Graduate Engineer Trainee", "Engineering"],
+    ["Associate Software Engineer", "Engineering"],
+    ["React Developer Intern", "Engineering"],
+    ["Junior Data Analyst", "Data"],
+    ["Associate Data Scientist", "Data"],
+    ["QA Testing Intern", "Engineering"],
+    ["Product Operations Trainee", "Operations"],
+    ["Talent Acquisition Intern", "People/HR"],
+  ];
+  for (const [title, expected] of cases) {
+    assert.equal(inferRoleType(title), expected, `Role facet mismatch for ${title}`);
+  }
+});
+

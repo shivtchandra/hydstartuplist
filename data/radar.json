@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-05",
+  "updatedAt": "2026-11-01",
   "headline": "Radar",
   "blurb": "Hand-picked hard-to-find employers — not an Inc42/Greenhouse scrape. Depth (founders, aliases, miss rationale) is curated research. Split by geo: Hyderabad map, San Francisco seed, full-remote Gem boards. Public Hyd map/jobs stay free.",
   "geos": {
@@ -1810,7 +1810,7 @@
         "hardware"
       ],
       "why": "HITEC deeptech / makers hardware — small board easy to skip in SaaS-heavy Hyd scrapes.",
-      "careers": "https://www.makershive.com/careers",
+      "careers": "https://makershive.io",
       "jobMode": "hyd-office",
       "geo": "hyd",
       "missReasons": [
@@ -2943,6 +2943,652 @@
       "exclusiveTier": "watch",
       "tierNote": "Added Oct 2026 from verified careers boards.",
       "verifyStatus": "published"
+    },
+    {
+      "startupId": "bf32a9f2-767f-492d-b991-1b6e0bfc7676",
+      "name": "Tensrai",
+      "tags": [
+        "physical-ai",
+        "robotics",
+        "deep-tech",
+        "hard-to-find"
+      ],
+      "why": "Physical AI and retrofittable autonomy startup building vision-language-action (VLA) models for mobile robotics. Raised $404k pre-seed in Oct 2026 from Hyderabad Angels, Finvolve, India Accelerator.",
+      "careers": "https://tensrai.com",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "funding-list",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "Tensrai Technologies",
+        "Tensrai AI"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Sai Nikhil Rao Gona",
+            "role": "Co-founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/sai-nikhil-rao-gona"
+          },
+          {
+            "name": "Venkata Sai Charan Chalamalasetty",
+            "role": "Co-founder",
+            "linkedin": "https://www.linkedin.com/in/venkata-sai-charan"
+          },
+          {
+            "name": "Harshith Uppalapati",
+            "role": "Co-founder",
+            "linkedin": "https://www.linkedin.com/in/harshith-uppalapati"
+          },
+          {
+            "name": "Vivek Datta",
+            "role": "Co-founder",
+            "linkedin": "https://www.linkedin.com/in/vivek-datta"
+          }
+        ],
+        "stealthSignals": [
+          "Pre-seed round closed Oct 2026 led by Hyderabad Angels, India Accelerator, Finvolve",
+          "Physical AI / VLA navigation stack retrofittable on legacy industrial machines",
+          "Direct founder hiring and on-site engineering team in Hyderabad (no external ATS)",
+          "Missed by standard IT scrapers due to deep-tech/physical robotics classification"
+        ],
+        "sources": [
+          {
+            "type": "company",
+            "url": "https://tensrai.com",
+            "note": "Physical AI & Autonomy platform"
+          },
+          {
+            "type": "news",
+            "url": "https://finsmes.com/2026/10/tensrai-raises-404k-in-pre-seed-funding.html",
+            "note": "Hyderabad Angels pre-seed announcement"
+          }
+        ],
+        "researchNotes": "Tensrai is developing Physical AI platforms that bring retrofittable autonomy to industrial mobile robotics and heavy machinery. Their software layers vision-language-action (VLA) models, multimodal perception, and edge inference to automate complex manipulation and site navigation without requiring expensive robotic replacements. Backed by Hyderabad Angels and India Accelerator with operations in Hyderabad.",
+        "lastVerified": "2026-11-01"
+      },
+      "founderNames": [
+        "Sai Nikhil Rao Gona",
+        "Venkata Sai Charan Chalamalasetty",
+        "Harshith Uppalapati",
+        "Vivek Datta"
+      ],
+      "exclusiveTier": "core",
+      "tierNote": "Verified pre-seed physical AI robotics platform with strong local VC syndication.",
+      "verifyStatus": "published"
+    },
+    {
+      "startupId": "04dcd8c9-7e78-4662-9b48-40c3d93068bb",
+      "name": "Turocrates AI",
+      "tags": [
+        "healthtech",
+        "ai",
+        "cancer-diagnostics",
+        "hard-to-find"
+      ],
+      "why": "Digital pathology AI operating system (TuroPath) solving histopathology diagnostic backlogs; incubated at T-Hub and backed by WTFund and SINE IIT-Bombay.",
+      "careers": "https://turocrates.ai",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "Turocrates",
+        "TuroPath"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Swapnil Bhat",
+            "role": "Co-founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/swapnil-bhat"
+          },
+          {
+            "name": "Maulik Shah",
+            "role": "Co-founder & CTO",
+            "linkedin": "https://www.linkedin.com/in/maulik-shah"
+          },
+          {
+            "name": "Dr. Devansh Lalwani",
+            "role": "Chief Medical Officer",
+            "linkedin": "https://www.linkedin.com/in/devansh-lalwani"
+          }
+        ],
+        "stealthSignals": [
+          "Supported by T-Hub Hyderabad and WTFund (Nikhil Kamath grant)",
+          "Patented histopathology compression algorithm reducing whole-slide gigabyte images by 80%",
+          "Direct research hiring through biomedical networks, absent from traditional job portals",
+          "Clinical trial deployments across diagnostic laboratory networks in Telangana"
+        ],
+        "sources": [
+          {
+            "type": "company",
+            "url": "https://turocrates.ai",
+            "note": "TuroPath precision oncology AI platform"
+          },
+          {
+            "type": "news",
+            "url": "https://tracxn.com/d/companies/turocrates",
+            "note": "T-Hub & SINE IIT-B backing"
+          }
+        ],
+        "researchNotes": "Turocrates develops TuroPath, an AI operating system for clinical histopathology and oncological screening. The system addresses critical pathologist shortages across India by automating whole-slide image analysis, identifying malignant cell clusters, and integrating directly with laboratory information management systems (LIMS). Co-founded by IIT Bombay and ISRO alumni with medical leadership from Johns Hopkins fellowship.",
+        "lastVerified": "2026-11-01"
+      },
+      "founderNames": [
+        "Swapnil Bhat",
+        "Maulik Shah",
+        "Dr. Devansh Lalwani"
+      ],
+      "exclusiveTier": "core",
+      "tierNote": "Digital pathology AI foundation platform validated at T-Hub and WTFund.",
+      "verifyStatus": "published"
+    },
+    {
+      "startupId": "6647a6fa-e6b3-48ef-9290-b254f1b3c001",
+      "name": "HYLENR",
+      "tags": [
+        "clean-tech",
+        "deep-tech",
+        "fusion",
+        "hard-to-find"
+      ],
+      "why": "Pioneering Low Energy Nuclear Reaction (LENR / cold fusion) clean energy amplifier at IIIT Hyderabad. Raised $3M pre-Series A.",
+      "careers": "https://hylenr.com",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "HYLENR Clean Energy",
+        "Hylenr Technologies"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Siddhartha Durairajan",
+            "role": "Founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/siddhartha-durairajan"
+          },
+          {
+            "name": "Shree Ram Muthoju",
+            "role": "Co-founder & Chief Technology Officer",
+            "linkedin": "https://www.linkedin.com/in/shree-ram-muthoju"
+          }
+        ],
+        "stealthSignals": [
+          "Patented Low Energy Nuclear Reaction (LENR) reactor device amplifying electrical input into high thermal energy",
+          "Lab located on IIIT-Hyderabad CIE campus (C-Block Vindhya)",
+          "Closed $3M round; deep physics and materials science recruitment absent from IT portals",
+          "Addressed industrial decarbonization and steam generation with zero carbon emissions"
+        ],
+        "sources": [
+          {
+            "type": "company",
+            "url": "https://hylenr.com",
+            "note": "Clean thermal energy from Low Energy Nuclear Reaction"
+          },
+          {
+            "type": "news",
+            "url": "https://yourstory.com/2026/08/hylenr-low-energy-nuclear-reactors-clean-tech",
+            "note": "LENR demonstration at IIIT Hyderabad"
+          }
+        ],
+        "researchNotes": "HYLENR has developed an internationally patented Low Energy Nuclear Reaction reactor that produces clean thermal energy by multiplying kilowatt input into megawatt thermal output without radioactive waste or critical mass runaway. Lab headquartered at CIE IIIT-Hyderabad with applications in steam generation, heavy manufacturing, and aerospace thermal systems.",
+        "lastVerified": "2026-11-01"
+      },
+      "founderNames": [
+        "Siddhartha Durairajan",
+        "Shree Ram Muthoju"
+      ],
+      "exclusiveTier": "core",
+      "tierNote": "Deep-tech frontier clean energy lab headquartered at CIE IIIT-H campus.",
+      "verifyStatus": "published"
+    },
+    {
+      "startupId": "42776c17-3a87-4647-bcfa-f089ebdb9728",
+      "name": "L2 Aero",
+      "tags": [
+        "defense-tech",
+        "radar",
+        "deep-tech",
+        "hard-to-find"
+      ],
+      "why": "Deep-tech subsurface radar & AI sensing platform for defense and critical infrastructure. Selected for CIE IIIT-Hyderabad Avishkar 2026 cohort.",
+      "careers": "https://cie.iiit.ac.in",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "L2 Aero Technologies"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "L2 Aero Founders Team",
+            "role": "Founding Engineering Team",
+            "linkedin": "https://www.linkedin.com/school/iiit-hyderabad/"
+          }
+        ],
+        "stealthSignals": [
+          "Selected among top 5 from 110+ applicants for CIE IIIT-H Avishkar 2026 Venture Studio",
+          "Deep tech radar signal processing and neural synthetic aperture subsurface mapping",
+          "Defense and strategic subterranean reconnaissance focus keeps company offline from mainstream job boards",
+          "Direct research incubation and lab access at IIIT-Hyderabad"
+        ],
+        "sources": [
+          {
+            "type": "news",
+            "url": "https://www.deccanchronicle.com/southern-states/telangana/cie-at-iiit-hyderabad-selects-startups-for-avishkar-venture-studio-cohort-1896791",
+            "note": "IIIT-H Avishkar 2026 Cohort announcement"
+          }
+        ],
+        "researchNotes": "L2 Aero develops AI-powered ground-penetrating radar and subsurface anomaly detection hardware and signal processing software. Targeting defense border security, subterranean utility mapping, and structural flaw detection, the startup operates from the Center for Innovation and Entrepreneurship (CIE) at IIIT-Hyderabad.",
+        "lastVerified": "2026-11-01"
+      },
+      "founderNames": [
+        "L2 Aero Founders Team"
+      ],
+      "exclusiveTier": "core",
+      "tierNote": "Subsurface defense radar and sensing incubated at CIE IIIT-H.",
+      "verifyStatus": "published"
+    },
+    {
+      "startupId": "4c227c7d-d2b7-4535-b050-27586e51ef7d",
+      "name": "SentraAuth Technologies",
+      "tags": [
+        "cybersecurity",
+        "ai",
+        "biometrics",
+        "hard-to-find"
+      ],
+      "why": "Continuous zero-trust behavioral biometrics AI platform incubated at CIE IIIT-Hyderabad (Avishkar 2026 cohort).",
+      "careers": "https://cie.iiit.ac.in",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "SentraAuth",
+        "SentraAuth Tech"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "SentraAuth Founding Team",
+            "role": "Founders",
+            "linkedin": "https://www.linkedin.com/school/iiit-hyderabad/"
+          }
+        ],
+        "stealthSignals": [
+          "Winner of CIE IIIT-H Avishkar 2026 cohort incubation",
+          "Behavioral biometric authentication running passively without intrusive user prompts",
+          "Protects against session hijacking and automated credential-stuffing attacks",
+          "Under-the-radar stealth team conducting pilot testing in enterprise BFSI"
+        ],
+        "sources": [
+          {
+            "type": "news",
+            "url": "https://www.deccanchronicle.com/southern-states/telangana/cie-at-iiit-hyderabad-selects-startups-for-avishkar-venture-studio-cohort-1896791",
+            "note": "IIIT-H Avishkar announcement"
+          }
+        ],
+        "researchNotes": "SentraAuth Technologies is building a continuous authentication engine that models user interaction patterns (keystroke dynamics, touchscreen velocity, pointer trajectories, and sensor signatures) to maintain perpetual session integrity. Incubated at CIE IIIT-Hyderabad.",
+        "lastVerified": "2026-11-01"
+      },
+      "founderNames": [
+        "SentraAuth Founding Team"
+      ],
+      "exclusiveTier": "core",
+      "tierNote": "Behavioral biometrics AI platform incubated at CIE IIIT-H.",
+      "verifyStatus": "published"
+    },
+    {
+      "startupId": "a6ca297a-33bd-4b95-ad96-356177602dfd",
+      "name": "Lemurian Labs",
+      "tags": [
+        "semiconductor",
+        "spatial-ai",
+        "compilers",
+        "hard-to-find"
+      ],
+      "why": "Frontier AI hardware architecture and spatial computing compilers. Core parallel systems engineering team operates in Hyderabad.",
+      "careers": "https://lemurianlabs.com/careers",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "us-hq-hyd-office",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "Lemurian"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Jay Dawani",
+            "role": "Co-founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/jaydawani"
+          },
+          {
+            "name": "Vassil Dimitrov",
+            "role": "Co-founder & Chief Scientist",
+            "linkedin": "https://www.linkedin.com/in/vassil-dimitrov"
+          }
+        ],
+        "stealthSignals": [
+          "Delivers alternative spatial compute paradigms for foundation models, reducing power costs by up to 10x",
+          "Hyderabad systems and compiler lab develops LLVM backends and digital arithmetic microarchitecture",
+          "US/Canada corporate presence masks Hyderabad engineering team from standard local job sweeps",
+          "Hires senior systems engineers and compiler architects via personal outreach"
+        ],
+        "sources": [
+          {
+            "type": "company",
+            "url": "https://lemurianlabs.com",
+            "note": "Accelerated spatial computing for AI"
+          },
+          {
+            "type": "careers",
+            "url": "https://lemurianlabs.com/careers"
+          }
+        ],
+        "researchNotes": "Lemurian Labs is redesigning foundational compute for AI. Rather than relying on traditional GPU matrix multiplying arrays, Lemurian develops ultra-efficient spatial computing hardware and compiler software that drastically lowers power consumption for LLMs and deep learning models. Engineering lab in Financial District, Hyderabad.",
+        "lastVerified": "2026-11-01"
+      },
+      "founderNames": [
+        "Jay Dawani",
+        "Vassil Dimitrov"
+      ],
+      "exclusiveTier": "core",
+      "tierNote": "Spatial AI silicon and compiler systems team in Hyderabad.",
+      "verifyStatus": "published"
+    },
+    {
+      "startupId": "f6e5f721-48cd-41d5-8f1d-3669f6eb9cc3",
+      "name": "RACEnergy",
+      "tags": [
+        "ev",
+        "battery-tech",
+        "clean-tech",
+        "hard-to-find"
+      ],
+      "why": "High-utilization swappable battery network and smart powertrain tech for commercial 3-wheelers. Backed by Micelio and GrowX.",
+      "careers": "https://www.linkedin.com/company/racenergy/jobs/",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "marketing-careers",
+        "funding-list"
+      ],
+      "aliases": [
+        "RACEnergy India",
+        "RAC Energy"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Arun Sreyas",
+            "role": "Co-founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/arunsreyas"
+          },
+          {
+            "name": "Gautham Maheswaran",
+            "role": "Co-founder & COO",
+            "linkedin": "https://www.linkedin.com/in/gautham-maheswaran"
+          }
+        ],
+        "stealthSignals": [
+          "Over 10 million green kilometers powered across Hyderabad commercial fleets",
+          "Proprietary liquid-cooled battery swapping stations and automated latching mechanisms",
+          "Hardware-heavy recruitment across battery electronics, embedded firmware, and thermal design",
+          "Bypasses standard tech job aggregators with direct hiring on LinkedIn"
+        ],
+        "sources": [
+          {
+            "type": "company",
+            "url": "https://www.racenergy.in",
+            "note": "Battery Swapping Technology for Light Electric Vehicles"
+          },
+          {
+            "type": "careers",
+            "url": "https://www.linkedin.com/company/racenergy/jobs/"
+          }
+        ],
+        "researchNotes": "RACEnergy builds modular swappable battery packs and automated swapping stations tailored to India's rugged automotive duty cycles. Co-founded by BITS Pilani alumni Arun Sreyas and Gautham Maheswaran, the company has deployed thousands of battery packs across Hyderabad, eliminating EV charging downtime for commercial auto drivers.",
+        "lastVerified": "2026-11-01"
+      },
+      "founderNames": [
+        "Arun Sreyas",
+        "Gautham Maheswaran"
+      ],
+      "exclusiveTier": "core",
+      "tierNote": "Hardware and battery swapping deep-tech ecosystem based in Secunderabad/Bowenpally.",
+      "verifyStatus": "published"
+    },
+    {
+      "startupId": "03a90cc8-3a11-4b5f-b8ab-dfef9f407311",
+      "name": "NemoCare",
+      "tags": [
+        "healthtech",
+        "iot",
+        "biomedical",
+        "hard-to-find"
+      ],
+      "why": "Wearable IoT continuous monitoring platform (Raksha) preventing neonatal hypothermia and apnea; backed by Bill & Melinda Gates Foundation, BIRAC, T-Hub.",
+      "careers": "https://nemocare.in",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "NemoCare Wellness",
+        "Nemocare"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Pratyush Rai",
+            "role": "Co-founder & CEO",
+            "linkedin": "https://www.linkedin.com/in/pratyush-rai"
+          },
+          {
+            "name": "Manoj Sanker",
+            "role": "Co-founder",
+            "linkedin": "https://www.linkedin.com/in/manoj-sanker"
+          }
+        ],
+        "stealthSignals": [
+          "Selected for Gates Foundation Grand Challenges and BIRAC BIG grant",
+          "Clinical grade pulse oximetry, skin temperature, and motion tracking integrated into a wearable neonatal band",
+          "Incubated at CfHE (IIT Hyderabad) and operational out of T-Hub Phase 2",
+          "Niche biomedical hardware and embedded signal engineering team rarely visible on standard job portals"
+        ],
+        "sources": [
+          {
+            "type": "company",
+            "url": "https://nemocare.in",
+            "note": "Nemocare Raksha Neonatal Monitoring"
+          }
+        ],
+        "researchNotes": "NemoCare builds Nemocare Raksha, an innovative wireless IoT wearable for newborns in neonatal intensive care units (NICUs) and rural health centers. It continuously tracks vitals (heart rate, SpO2, respiratory rate, and temperature) using patented sensor fusion algorithms, alerting nurses to critical conditions like hypothermia and apnea before complications arise.",
+        "lastVerified": "2026-11-01"
+      },
+      "founderNames": [
+        "Pratyush Rai",
+        "Manoj Sanker"
+      ],
+      "exclusiveTier": "core",
+      "tierNote": "Biomedical IoT sensor innovator based at T-Hub Phase 2.",
+      "verifyStatus": "published"
+    },
+    {
+      "startupId": "609708d6-9289-4150-a75c-030337690ae2",
+      "name": "Stylique AI",
+      "tags": [
+        "ai",
+        "generative-ai",
+        "fashion-tech",
+        "hard-to-find"
+      ],
+      "why": "AI fashion pattern generation platform incubated at CIE IIIT-Hyderabad (Avishkar 2026 cohort).",
+      "careers": "https://cie.iiit.ac.in",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "Yoko Styles",
+        "Stylique"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Stylique AI Founders Team",
+            "role": "Founders",
+            "linkedin": "https://www.linkedin.com/school/iiit-hyderabad/"
+          }
+        ],
+        "stealthSignals": [
+          "Winner of CIE IIIT-H Avishkar 2026 cohort",
+          "Transforms 2D design sketches into parametrically graded CAD sewing files",
+          "Reduces sampling and garment prototyping turnaround time from weeks to minutes",
+          "Pre-seed stealth stage with academic mentoring from IIIT-Hyderabad researchers"
+        ],
+        "sources": [
+          {
+            "type": "news",
+            "url": "https://www.deccanchronicle.com/southern-states/telangana/cie-at-iiit-hyderabad-selects-startups-for-avishkar-venture-studio-cohort-1896791",
+            "note": "IIIT-H Avishkar announcement"
+          }
+        ],
+        "researchNotes": "Stylique AI (operating as Yoko Styles) is building an intelligent CAD automation platform for the apparel and fashion manufacturing industry. By leveraging deep learning models trained on textile mechanics and pattern geometry, the software converts sketches and rendered imagery into production-grade vector sewing patterns.",
+        "lastVerified": "2026-11-01"
+      },
+      "founderNames": [
+        "Stylique AI Founders Team"
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "Generative AI fashion CAD engine incubated at CIE IIIT-H.",
+      "verifyStatus": "published"
+    },
+    {
+      "startupId": "fae561f9-c237-411a-a2a7-e16dd2777c91",
+      "name": "Mimansa Play",
+      "tags": [
+        "healthtech",
+        "speech-ai",
+        "pediatric",
+        "hard-to-find"
+      ],
+      "why": "AI-based speech and language therapy development platform for neurodivergent children; incubated at CIE IIIT-Hyderabad.",
+      "careers": "https://cie.iiit.ac.in",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "Mimansa"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Mimansa Play Founders Team",
+            "role": "Founders",
+            "linkedin": "https://www.linkedin.com/school/iiit-hyderabad/"
+          }
+        ],
+        "stealthSignals": [
+          "Selected for CIE IIIT-H Avishkar 2026 Cohort",
+          "Gamified acoustic analysis and real-time speech pathology feedback models",
+          "Designed for non-verbal and speech-delayed children to access continuous home therapy",
+          "Early clinical validation in Telangana pediatric speech clinics"
+        ],
+        "sources": [
+          {
+            "type": "news",
+            "url": "https://www.deccanchronicle.com/southern-states/telangana/cie-at-iiit-hyderabad-selects-startups-for-avishkar-venture-studio-cohort-1896791",
+            "note": "IIIT-H Avishkar cohort"
+          }
+        ],
+        "researchNotes": "Mimansa Play combines pediatric speech-language pathology with speech recognition and acoustic analysis. By packaging evidence-based articulation drills into interactive games, children with speech sound disorders and language delays receive real-time pronunciation guidance.",
+        "lastVerified": "2026-11-01"
+      },
+      "founderNames": [
+        "Mimansa Play Founders Team"
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "Pediatric speech-language pathology AI incubated at CIE IIIT-H.",
+      "verifyStatus": "published"
+    },
+    {
+      "startupId": "2634e18d-1b5e-417a-8e20-5863e76c0692",
+      "name": "Comply Ark Solution",
+      "tags": [
+        "enterprise",
+        "compliance",
+        "dpdpa",
+        "hard-to-find"
+      ],
+      "why": "Automated Digital Personal Data Protection Act (DPDPA) compliance & privacy engineering engine; incubated at CIE IIIT-Hyderabad.",
+      "careers": "https://cie.iiit.ac.in",
+      "jobMode": "hyd-office",
+      "geo": "hyd",
+      "missReasons": [
+        "incubator",
+        "marketing-careers"
+      ],
+      "aliases": [
+        "Comply Ark",
+        "ComplyArk"
+      ],
+      "depth": {
+        "founders": [
+          {
+            "name": "Comply Ark Founding Team",
+            "role": "Founders",
+            "linkedin": "https://www.linkedin.com/school/iiit-hyderabad/"
+          }
+        ],
+        "stealthSignals": [
+          "Selected for CIE IIIT-H Avishkar 2026 Cohort",
+          "Automated discovery of personally identifiable information (PII) across enterprise data stores",
+          "Built specifically to help Indian enterprises meet strict DPDPA 2023 compliance deadlines",
+          "Stealth enterprise B2B sales through Hyderabad IT corridor networks"
+        ],
+        "sources": [
+          {
+            "type": "news",
+            "url": "https://www.deccanchronicle.com/southern-states/telangana/cie-at-iiit-hyderabad-selects-startups-for-avishkar-venture-studio-cohort-1896791",
+            "note": "IIIT-H Avishkar cohort"
+          }
+        ],
+        "researchNotes": "Comply Ark Solution builds an automated privacy governance and compliance automation system. The platform maps data lineage, manages user consent logs, and handles data erasure requests to ensure enterprise compliance with India's Digital Personal Data Protection Act (DPDPA).",
+        "lastVerified": "2026-11-01"
+      },
+      "founderNames": [
+        "Comply Ark Founding Team"
+      ],
+      "exclusiveTier": "watch",
+      "tierNote": "DPDPA privacy engineering and automated governance incubated at CIE IIIT-H.",
+      "verifyStatus": "published"
     }
   ],
   "missReasons": {
@@ -3118,7 +3764,15 @@
       "Logy.AI",
       "Startoon Labs",
       "Dhruva Space",
-      "JEH Aerospace"
+      "JEH Aerospace",
+      "Tensrai",
+      "Turocrates AI",
+      "HYLENR",
+      "L2 Aero",
+      "SentraAuth Technologies",
+      "Lemurian Labs",
+      "RACEnergy",
+      "NemoCare"
     ],
     "watch": [
       "Synthio Labs",
@@ -3151,7 +3805,10 @@
       "AdOnMo",
       "Landeed",
       "Enmovil",
-      "ekincare"
+      "ekincare",
+      "Stylique AI",
+      "Mimansa Play",
+      "Comply Ark Solution"
     ],
     "demote": [],
     "cut": [],
