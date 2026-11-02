@@ -7,8 +7,7 @@ import { getJobsForStartupSlug } from "../../../../lib/jobs.js";
 import { getSiteUrl } from "../../../../lib/site-url.js";
 import { prettyName } from "../../../../lib/startupUi.js";
 import { startupSlug } from "../../../../lib/slug.js";
-import { breadcrumbJsonLd, itemListJsonLd, jobPostingJsonLd, jobUrlId, thinListingRobots } from "../../../../lib/jobs-seo.js";
-import { jobDescriptionForPage } from "../../../../lib/job-content.js";
+import { breadcrumbJsonLd, itemListJsonLd, jobUrlId, thinListingRobots } from "../../../../lib/jobs-seo.js";
 
 // Rendered per request, not cached; see app/jobs/[id]/page.jsx. Long-tail
 // pages crawled about once per cache lifetime turned every crawler hit into
@@ -73,13 +72,6 @@ export default async function CompanyJobsPage({ params }) {
   const jsonLd = [
     breadcrumbJsonLd(breadcrumbs),
     itemListJsonLd(jobs, `${name} jobs in Hyderabad`),
-    ...jobs.slice(0, 10).map((j) =>
-      jobPostingJsonLd(j, {
-        pageUrl: `${getSiteUrl()}/jobs/${jobUrlId(j)}`,
-        companyUrl: startup?.website,
-        description: jobDescriptionForPage(j),
-      })
-    ),
   ];
 
   return (

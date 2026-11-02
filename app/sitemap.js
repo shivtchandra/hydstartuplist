@@ -1,19 +1,28 @@
 import { getSiteUrl } from "../lib/site-url.js";
-import { JOB_SECTOR_LANDINGS, JOB_AREA_LANDINGS, JOB_ROLE_LANDINGS } from "../lib/jobs-seo.js";
-import { FRESHER_CATEGORIES } from "../lib/fresher-seo.js";
-import { REMOTE_CATEGORIES } from "../lib/remote-seo.js";
+import {
+  JOB_SECTOR_LANDINGS,
+  JOB_AREA_LANDINGS,
+  JOB_ROLE_LANDINGS,
+  FRESHER_JOBS_LANDING,
+  thinListingRobots,
+} from "../lib/jobs-seo.js";
+import { FRESHER_CATEGORIES, filterFresherJobsByCategory } from "../lib/fresher-seo.js";
+import { REMOTE_CATEGORIES, filterRemoteJobsByCategory } from "../lib/remote-seo.js";
+import { getJobsByArea, getJobsByRole, getJobsBySector, getFresherJobs, getRemoteJobs } from "../lib/jobs.js";
 import { TELANGANA_COLLEGES } from "../lib/colleges.js";
 import { INDUSTRY_LANDINGS } from "../lib/industries.js";
 import { AREA_LANDINGS } from "../lib/areas.js";
 import { TECH_PARKS } from "../lib/parks.js";
 import { STAGE_LANDINGS } from "../lib/stages.js";
-import { getQualifiedRoleAreaPairs } from "../lib/role-area-jobs.js";
 import { verifiedGccProfiles } from "../lib/gccs.js";
 
 /**
  * Hub sitemap only. Individual job URLs live in /sitemap-jobs.xml (recent-only).
  * Startup profile URLs stay crawlable via the map + internal links but are
  * omitted here while GSC reports mass "Discovered – currently not indexed".
+ * Role x area pages are also omitted: their job counts move between build workers,
+ * so a listed pair could render noindex. lastModified appears only where a real
+ * change date exists; a build timestamp on every URL tells Google nothing.
  */
 export const revalidate = 3600;
 
@@ -60,103 +69,103 @@ const STORY_SLUGS = [
   "t-hub-hyderabad",
 ];
 
+// Same test the hub pages use for their robots tag, so the sitemap never submits
+// a noindex URL. A failed lookup keeps the hub rather than dropping it.
+async function indexableHubs(hubs, countJobs, min) {
+  const flags = await Promise.all(
+    hubs.map((hub) =>
+      countJobs(hub)
+        .then((count) => thinListingRobots(count, { min }).index)
+        .catch(() => true)
+    )
+  );
+  return hubs.filter((_, i) => flags[i]);
+}
+
 export default async function sitemap() {
-  const now = new Date();
-  const roleAreaPairs = await getQualifiedRoleAreaPairs().catch(() => []);
   const staticEntries = STATIC_ROUTES.map(({ path: p, priority, changeFrequency }) => ({
     url: `${SITE_URL}${p}`,
-    lastModified: now,
     changeFrequency,
     priority,
   }));
 
   const storyEntries = STORY_SLUGS.map((slug) => ({
     url: `${SITE_URL}/stories/${slug}`,
-    lastModified: now,
     changeFrequency: "monthly",
     priority: 0.65,
   }));
 
   const industryEntries = INDUSTRY_LANDINGS.map((s) => ({
     url: `${SITE_URL}/industries/${s.slug}`,
-    lastModified: now,
     changeFrequency: "daily",
     priority: 0.8,
   }));
 
   const techAreaEntries = AREA_LANDINGS.map((a) => ({
     url: `${SITE_URL}/areas/${a.slug}`,
-    lastModified: now,
     changeFrequency: "daily",
     priority: 0.8,
   }));
 
   const techParkEntries = TECH_PARKS.map((p) => ({
     url: `${SITE_URL}/parks/${p.slug}`,
-    lastModified: now,
     changeFrequency: "daily",
     priority: 0.8,
   }));
 
   const stageEntries = STAGE_LANDINGS.map((s) => ({
     url: `${SITE_URL}/stage/${s.slug}`,
-    lastModified: now,
     changeFrequency: "daily",
     priority: 0.8,
   }));
 
-  const sectorEntries = JOB_SECTOR_LANDINGS.map((s) => ({
+  const sectorEntries = (await indexableHubs(JOB_SECTOR_LANDINGS, async (s) => (await getJobsBySector(s.sector)).length)).map((s) => ({
     url: `${SITE_URL}/jobs/sector/${s.slug}`,
-    lastModified: now,
     changeFrequency: "daily",
     priority: 0.8,
   }));
 
-  const roleEntries = JOB_ROLE_LANDINGS.map((r) => ({
+  const roleEntries = (await indexableHubs(JOB_ROLE_LANDINGS, async (r) => (await getJobsByRole(r)).length)).map((r) => ({
     url: `${SITE_URL}/jobs/role/${r.slug}`,
-    lastModified: now,
     changeFrequency: "daily",
     priority: 0.8,
   }));
 
-  const areaEntries = JOB_AREA_LANDINGS.map((a) => ({
+  const areaEntries = (await indexableHubs(JOB_AREA_LANDINGS, async (a) => (await getJobsByArea(a.area)).length)).map((a) => ({
     url: `${SITE_URL}/jobs/in/${a.slug}`,
-    lastModified: now,
     changeFrequency: "daily",
     priority: 0.8,
   }));
 
-  const fresherCategoryEntries = FRESHER_CATEGORIES.map((c) => ({
+  const fresherJobs = await getFresherJobs(FRESHER_JOBS_LANDING.experienceLevels).catch(() => null);
+  const fresherCategories = fresherJobs
+    ? FRESHER_CATEGORIES.filter((c) => filterFresherJobsByCategory(fresherJobs, c.slug).length > 0)
+    : FRESHER_CATEGORIES;
+  const fresherCategoryEntries = fresherCategories.map((c) => ({
     url: `${SITE_URL}/jobs/fresher/${c.slug}`,
-    lastModified: now,
     changeFrequency: "daily",
     priority: 0.9,
   }));
 
-  const remoteCategoryEntries = REMOTE_CATEGORIES.map((c) => ({
+  const remoteJobs = await getRemoteJobs().catch(() => null);
+  const remoteCategories = remoteJobs
+    ? REMOTE_CATEGORIES.filter((c) => filterRemoteJobsByCategory(remoteJobs, c.slug).length > 0)
+    : REMOTE_CATEGORIES;
+  const remoteCategoryEntries = remoteCategories.map((c) => ({
     url: `${SITE_URL}/jobs/remote/${c.slug}`,
-    lastModified: now,
     changeFrequency: "daily",
     priority: 0.9,
   }));
 
   const collegeEntries = TELANGANA_COLLEGES.map((c) => ({
     url: `${SITE_URL}/colleges/${c.slug}`,
-    lastModified: now,
-    changeFrequency: "daily",
-    priority: 0.85,
-  }));
-
-  const roleAreaEntries = roleAreaPairs.map((row) => ({
-    url: `${SITE_URL}/jobs/in/${row.area.slug}/${row.role.slug}`,
-    lastModified: row.updatedAt ? new Date(row.updatedAt) : now,
     changeFrequency: "daily",
     priority: 0.85,
   }));
 
   const gccProfileEntries = verifiedGccProfiles().map((gcc) => ({
     url: `${SITE_URL}/gccs/${gcc.id}`,
-    lastModified: gcc.verifiedAt ? new Date(gcc.verifiedAt) : now,
+    ...(gcc.verifiedAt ? { lastModified: new Date(gcc.verifiedAt) } : {}),
     changeFrequency: "weekly",
     priority: 0.75,
   }));
@@ -176,7 +185,6 @@ export default async function sitemap() {
     ...sectorEntries,
     ...areaEntries,
     ...roleEntries,
-    ...roleAreaEntries,
     ...gccProfileEntries,
   ].filter((e) => {
     if (seen.has(e.url)) return false;

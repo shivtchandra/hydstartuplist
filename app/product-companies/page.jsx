@@ -58,7 +58,7 @@ export default async function ProductCompaniesPage() {
     return a && a.toLowerCase() !== "hyderabad" ? a : null;
   });
   const hiringCount = startups.filter((s) => s.hiring).length;
-  const summary = `Hyderabad has ${startups.length.toLocaleString()} product based companies and startups on this map. ${hiringCount.toLocaleString()} are hiring now${productJobs.length ? `, with ${productJobs.length.toLocaleString()} open roles` : ""}. The biggest sectors are ${topSectors.join(", ")}, and most are based in ${topAreas.join(", ")}.`;
+  const summary = `This directory lists ${startups.length.toLocaleString()} Hyderabad startups and tech companies, including product based companies. ${hiringCount.toLocaleString()} are hiring now${productJobs.length ? `, with ${productJobs.length.toLocaleString()} open roles` : ""}. The biggest sectors are ${topSectors.join(", ")}, and most are based in ${topAreas.join(", ")}.`;
   const updatedAt = new Date().toISOString().slice(0, 10);
   const site = getSiteUrl();
   const jsonLd = {
@@ -76,7 +76,7 @@ export default async function ProductCompaniesPage() {
       {
         "@type": "ItemList",
         "@id": `${site}/product-companies#companies`,
-        name: "Product based companies in Hyderabad",
+        name: "Hyderabad startups and tech companies",
         numberOfItems: startups.length,
         itemListElement: startups.slice(0, 100).map((startup, index) => ({
           "@type": "ListItem",

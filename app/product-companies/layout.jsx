@@ -6,7 +6,7 @@ export const metadata = {
   alternates: { canonical: `${SITE_URL}/product-companies` },
   title: "List of Product Based Companies in Hyderabad (2026 Directory + Direct ATS Jobs)",
   description:
-    "Browse a verified list of product based companies in Hyderabad with live jobs, direct company ATS links, office locations, funding stages, and fresher-friendly openings.",
+    "Browse Hyderabad startups and tech companies, including product based companies, with live jobs, direct company ATS links, office locations, funding stages, and fresher-friendly openings.",
   keywords: [
     "product based companies in hyderabad",
     "product companies in hyderabad",
@@ -19,7 +19,7 @@ export const metadata = {
   openGraph: {
     title: "List of Product Based Companies in Hyderabad (2026 Directory + Direct ATS Jobs)",
     description:
-      "Explore verified product software companies and startups in Hyderabad with live office pins, funding stages, and direct ATS job openings.",
+      "Explore Hyderabad startups and tech companies, including product based companies, with live office pins, funding stages, and direct ATS job openings.",
     url: `${SITE_URL}/product-companies`,
   },
 };
@@ -39,7 +39,7 @@ const JSONLD = {
       name: "Product Based Companies in Hyderabad",
       url: `${SITE_URL}/product-companies`,
       description:
-        "Comprehensive directory of product-based software companies and startups located in Hyderabad.",
+        "Directory of startups and tech companies located in Hyderabad, including product based companies.",
       about: {
         "@type": "Thing",
         name: "Software Product Companies in Hyderabad",

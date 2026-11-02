@@ -2,9 +2,10 @@ import { getSiteUrl } from "../lib/site-url.js";
 
 export default function robots() {
   const SITE_URL = getSiteUrl();
-  // /jobs/*~ and /jobs/h- = individual job pages (see jobUrlId); hubs like
-  // /jobs/fresher stay crawlable. Stops Googlebot burning crawl on ~6k noindexed listings.
-  const disallow = ["/admin/", "/shiva/", "/api/", "/jobs/*~", "/jobs/h-"];
+  // Individual job pages must stay crawlable while they leave the index: a
+  // Disallow here would hide their noindex tag from Google. Re-block /jobs/*~ and
+  // /jobs/h- only once Search Console shows those URLs are out of the index.
+  const disallow = ["/admin/", "/shiva/", "/api/"];
 
   return {
     rules: [

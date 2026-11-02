@@ -4,15 +4,19 @@ import SiteNav from "../../../../components/SiteNav.jsx";
 import JobsBreadcrumbs from "../../../../components/JobsBreadcrumbs.jsx";
 import VerificationNote from "../../../../components/VerificationNote.jsx";
 import { getSiteUrl } from "../../../../../lib/site-url.js";
-import { breadcrumbJsonLd, itemListJsonLd, jobUrlId } from "../../../../../lib/jobs-seo.js";
+import { JOB_AREA_LANDINGS, JOB_ROLE_LANDINGS, breadcrumbJsonLd, itemListJsonLd, jobUrlId } from "../../../../../lib/jobs-seo.js";
 import { slugify } from "../../../../../lib/slug.js";
-import { getQualifiedRoleAreaPairs, getRoleAreaData } from "../../../../../lib/role-area-jobs.js";
+import { getRoleAreaData } from "../../../../../lib/role-area-jobs.js";
 
 export const revalidate = 3600;
 
-export async function generateStaticParams() {
-  const pairs = await getQualifiedRoleAreaPairs().catch(() => []);
-  return pairs.map((row) => ({ area: row.area.slug, role: row.role.slug }));
+// Prebuild every pair, not just the qualified ones: job counts move between
+// build workers, so hubs could link to pairs this list had left out (live 404s).
+// Pairs below the threshold render noindex, see buildRoleAreaData.
+export function generateStaticParams() {
+  return JOB_AREA_LANDINGS.flatMap((area) =>
+    JOB_ROLE_LANDINGS.map((role) => ({ area: area.slug, role: role.slug }))
+  );
 }
 
 export async function generateMetadata({ params }) {

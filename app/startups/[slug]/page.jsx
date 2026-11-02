@@ -18,7 +18,6 @@ import { cleanCompanyDescription, fundingLabel } from "../../../lib/company-qual
 import { areaSlugForName } from "../../../lib/areas.js";
 import {
   breadcrumbJsonLd,
-  jobPostingJsonLd,
   jobUrlId,
   JOB_SECTOR_LANDINGS,
   JOB_AREA_LANDINGS,
@@ -222,12 +221,6 @@ export default async function StartupDetailPage({ params }) {
   const summary = factsSummary(startup, displayName, stage, Math.max(companyJobs.length, hiring?.roles?.length || 0));
   const areaHubSlug = areaSlugForName(startup.area);
   const areaHubName = String(startup.area || "").replace(/,\s*(Hyderabad|Telangana|India)\b.*$/i, "").trim();
-  const postingLd = companyJobs.slice(0, 25).map((j) =>
-    jobPostingJsonLd(j, {
-      pageUrl: `${getSiteUrl()}/jobs/${jobUrlId(j)}`,
-      companyUrl: startup.website,
-    })
-  );
 
   return (
     <div className="page-with-nav" style={{ "--sector-color": sectorColor }}>
@@ -243,13 +236,6 @@ export default async function StartupDetailPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbLd) }}
       />
-      {postingLd.map((data) => (
-        <script
-          key={data["@id"]}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-        />
-      ))}
       <SiteNav />
 
       <div className="startup-page-wrap">
