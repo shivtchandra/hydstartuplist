@@ -97,7 +97,7 @@ export default function EuropeanRemoteDirectory({ companies = [], jobs = [] }) {
                 boxShadow: activeTab === "roles" ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
               }}
             >
-              Live Remote Roles ({filteredJobs.length})
+              European Remote Roles ({filteredJobs.length})
             </button>
             <button
               type="button"

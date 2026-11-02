@@ -21,7 +21,7 @@ export async function generateMetadata() {
   const jobs = await getRemoteJobs();
   const title = `Remote Tech & Startup Jobs in India (${jobs.length} Verified Openings 2026)`;
   const description =
-    "Looking for verified remote jobs in India? Explore 450+ remote software engineer, AI, product, and tech openings at product startups. 100% direct ATS portals, zero consultancy spam.";
+    `Looking for verified remote jobs in India? Explore ${jobs.length} remote software engineer, AI, product, and tech openings at product startups. 100% direct ATS portals, zero consultancy spam.`;
   const url = `${getSiteUrl()}/jobs/remote`;
 
   return {
@@ -76,7 +76,7 @@ export default async function RemoteJobsPage() {
         name: "Are these remote jobs open to candidates across India?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. All remote listings indexed here accept applicants located anywhere in India (including Hyderabad, Bengaluru, Pune, Delhi NCR, and tier-2/3 cities).",
+          text: "Roles limited to another country are filtered out. Some postings only say \"Remote\" without naming who can apply, so check eligibility on the employer's page before applying.",
         },
       },
       {
@@ -149,8 +149,6 @@ export default async function RemoteJobsPage() {
           </div>
         </div>
 
-        <EuropeanRemoteDirectory companies={euCompanies} jobs={euJobs} />
-
         {jobs.length ? (
           <RemoteJobsList jobs={jobs} />
         ) : (
@@ -162,11 +160,13 @@ export default async function RemoteJobsPage() {
           </div>
         )}
 
+        <EuropeanRemoteDirectory companies={euCompanies} jobs={euJobs} />
+
         <section className="industry-section" aria-label="FAQ" style={{ marginTop: 32 }}>
           <h2>Frequently Asked Questions About Remote Jobs</h2>
           <p className="industry-section-sub">
-            <strong>Are these remote jobs open to candidates across India?</strong> Yes. All listings indexed on this
-            page accept applicants based anywhere in India, including Hyderabad, Bengaluru, Pune, and remote tier-2 cities.
+            <strong>Are these remote jobs open to candidates across India?</strong> Roles limited to another country are
+            filtered out. Some postings only say &quot;Remote&quot; without naming who can apply, so check eligibility on the employer&apos;s page before applying.
           </p>
           <p className="industry-section-sub">
             <strong>How do you filter out fake consultancies and placement agencies?</strong> We crawl direct ATS career

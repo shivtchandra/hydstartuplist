@@ -8,6 +8,7 @@ import { usePathname,useRouter } from 'next/navigation';
 import SiteNav from './SiteNav.jsx';
 import MobileTabBar from './MobileTabBar.jsx';
 import StartupLogo from './StartupLogo.jsx';
+import ClientOnly from './ClientOnly.jsx';
 import { FILTER_KEYS,readFilters } from '../../lib/opportunities.js';
 import { freshnessLabel, verificationLabel } from '../../lib/job-lifecycle.js';
 import { jobExperienceDisplay } from '../../lib/job-facets.js';
@@ -320,6 +321,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   const [emailOpen,setEmailOpen]=useState(false),[email,setEmail]=useState(''),[emailState,setEmailState]=useState(''),[savedSearch,setSavedSearch]=useState(null);
   const [lastVisit,setLastVisit]=useState(null),[refresh,setRefresh]=useState(0);
   const emailRef=useRef(null),sheetRef=useRef(null),abortDetail=useRef(null),initialRequest=useRef(true),detailRef=useRef(null);
+  const resultsScroll=useRef(0),wasDetailOpen=useRef(false);
   const filterQuery=useMemo(()=>{const p=new URLSearchParams();for(const k of FILTER_KEYS)if(filters[k])p.set(k,filters[k]);return p.toString();},[filters]);
   function change(patch) {
     const p=new URLSearchParams(params.toString());
@@ -339,9 +341,15 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   }
   useEffect(()=>{
     const syncFromLocation=()=>setParams(new URLSearchParams(window.location.search));
+    const syncJob=()=>{
+      const id=window.history.state?.opJob||null;
+      setSelectedJobId(id);
+      if(!id)setDetail(null);
+    };
+    const onPopState=()=>{syncFromLocation();syncJob();};
     syncFromLocation();
-    window.addEventListener('popstate',syncFromLocation);
-    return()=>window.removeEventListener('popstate',syncFromLocation);
+    window.addEventListener('popstate',onPopState);
+    return()=>window.removeEventListener('popstate',onPopState);
   },[]);
   useEffect(()=>{setQuery(filters.q);},[filters.q]);
   useEffect(()=>{if(query===filters.q)return;const t=setTimeout(()=>change({q:query}),450);return()=>clearTimeout(t);},[query,filters.q]);
@@ -408,9 +416,19 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     window.addEventListener('keydown', onKeyDown);
     if(detailRef.current) {
       detailRef.current.scrollTo({ top: 0, behavior: 'instant' });
+      // Phones swap the list for the panel in place, which left the title and Apply off-screen.
+      if(window.matchMedia('(max-width:1023px)').matches) detailRef.current.scrollIntoView({ block: 'start', behavior: 'instant' });
     }
     return () => window.removeEventListener('keydown', onKeyDown);
   },[detail?.id]);
+  const detailOpen=Boolean(detail);
+  useEffect(()=>{
+    if(detailOpen){wasDetailOpen.current=true;return;}
+    if(!wasDetailOpen.current)return;
+    wasDetailOpen.current=false;
+    // The list is display:none while a job is open on phones, so wait for it to lay out.
+    requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo({top:resultsScroll.current,behavior:'instant'})));
+  },[detailOpen]);
   function persist(next){if(writeShortlist(next)){startTransition(()=>{setShortlist(next);setNotice('');});if(authUser?.uid)pushShortlistToCloud(authUser.uid,next);}else setNotice('This browser could not save locally. Allow site storage and try again.');}
   function save(job,status='saved'){persist({...shortlist,jobs:{...shortlist.jobs,[job.id]:{job,status,at:new Date().toISOString()}}});if(status==='saved')trackEvent('save',variant);}
   async function shareJob(job){
@@ -442,8 +460,19 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
       fetch('/api/follows',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device,company,follow:following})}).catch(()=>{});
     }catch{}
   }
-  function openJob(job){setView('list');setSelectedJobId(job.id);}
-  function closeJob(){setSelectedJobId(null);setDetail(null);}
+  // A history entry per open job makes browser Back close the job instead of leaving /jobs.
+  function openJob(job){
+    // Read history, not state: the title link and its card both fire this on one tap.
+    if(!window.history.state?.opJob){
+      resultsScroll.current=window.scrollY;
+      window.history.pushState({...window.history.state,opJob:job.id},'',window.location.href);
+    }
+    setView('list');setSelectedJobId(job.id);
+  }
+  function closeJob(){
+    if(window.history.state?.opJob){window.history.back();return;}
+    setSelectedJobId(null);setDetail(null);
+  }
   async function loadMore(){if(!data.nextCursor)return;setBusy(true);try{const r=await jobsFetch(`/api/v2/jobs?${filterQuery}&cursor=${encodeURIComponent(data.nextCursor)}`);if(!r.ok)throw Error();const d=await r.json();if(d.reset){setNewAvailable(true);return;}setData(prev=>({...d,jobs:[...prev.jobs,...d.jobs]}));}catch{setError('Could not load more roles. Try again.');}finally{setBusy(false);}}
   function saveSearch(){const entry={name:filters.q||filters.role||'Hyderabad roles',filters:{...filters},at:new Date().toISOString()};persist({...shortlist,searches:[entry,...shortlist.searches.filter(s=>JSON.stringify(s.filters)!==JSON.stringify(entry.filters))].slice(0,20)});setSavedSearch(entry);setEmailOpen(true);}
   async function subscribe(e){e.preventDefault();setEmailState('Sending confirmation…');try{const r=await fetch('/api/alerts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,filters:savedSearch?.filters||filters,frequency:'daily'})});const d=await r.json();setEmailState(d.message||d.error||'Check your email.');}catch{setEmailState('Could not subscribe. Your search is still saved on this device.');}}
@@ -773,10 +802,10 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
 
               <div className="op-card-footer-row">
                 <span className={`op-card-timestamp${job.status !== 'closed' && verifiedWithinDay(job) ? ' is-fresh' : ''}`}>
-                  {job.status === 'closed' ? 'Closed' : freshnessLabel(job)}
-                  {job.status !== 'closed' && job.isDirect && verificationLabel(job) && (
+                  {job.status === 'closed' ? 'Closed' : <ClientOnly>{() => freshnessLabel(job)}</ClientOnly>}
+                  <ClientOnly>{() => job.status !== 'closed' && job.isDirect && verificationLabel(job) && (
                     <span className="op-verified-label">{verificationLabel(job)}</span>
-                  )}
+                  )}</ClientOnly>
                   {job.isDirect && <span className="op-direct-badge" title="Direct from company careers ATS">Direct from careers page</span>}
                 </span>
                 {job.moreAtCompany && (
@@ -819,7 +848,9 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                 ? 'Save a role while exploring. Find it here when you are ready.'
                 : 'Try fewer filters, or save this search for later.'}
             </p>
-            <Link href="/jobs">Browse roles ↗</Link>
+            {savedOnly
+              ? <Link href="/jobs">Browse roles ↗</Link>
+              : <button type="button" onClick={clearFilters}>Clear filters</button>}
             {!savedOnly && <button onClick={saveSearch}>Save this search</button>}
           </div>
         )}
@@ -887,10 +918,10 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                   <div className="op-detail-meta-line">
                     <span>{detail.area || detail.location || 'Hyderabad'}</span>
                     <span>·</span>
-                    <span>{freshnessLabel(detail)}</span>
-                    {detail.isDirect && verificationLabel(detail) && (
+                    <span><ClientOnly>{() => freshnessLabel(detail)}</ClientOnly></span>
+                    <ClientOnly>{() => detail.isDirect && verificationLabel(detail) && (
                       <><span>·</span><span className="op-verified-label">{verificationLabel(detail)}</span></>
-                    )}
+                    )}</ClientOnly>
                   </div>
                 </div>
               </div>

@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { isInvalidJobListing, jobSnippet, plausibleSalary, stripHtml } from "../lib/job-content.js";
 import { inferExperienceLevel, inferRoleType, isOpenToFreshers } from "../lib/job-facets.js";
 import { applyJobDetail, fetchJobDetails, jobDetailUrl } from "../lib/ats/job-details.js";
-import { isCuratedRemoteEligibleLocation } from "../lib/ats/geo.js";
+import { isCuratedRemoteEligibleLocation, isForeignRemoteListing } from "../lib/ats/geo.js";
 
 const NOW = Date.parse("2026-11-02T00:00:00Z");
 
@@ -92,4 +92,19 @@ test("remote filter keeps India and open-world roles, rejects other places", () 
   for (const bad of ["Remote - CA", "Malta Office (Remote)", "Bydgoszcz (Remote)", "BZ - Sao Paulo (Remote)", "Nebraska (Remote)", "Remote, Slovakia", "SpotDraft Inc. NY (Remote)"]) {
     assert.equal(isCuratedRemoteEligibleLocation(bad), false, bad);
   }
+});
+
+test("foreign remote rows go whichever source wrote them; India and unclear rows stay", () => {
+  for (const job of [
+    { title: "Enterprise Solutions Engineer - USA", location: "Remote" },
+    { title: "Account Executive - Spain - Mid-Market", location: "Remote" },
+    { title: "Backend Engineer", location: "Nebraska (Remote)" },
+  ]) assert.equal(isForeignRemoteListing(job), true, job.title);
+  for (const job of [
+    { title: "Backend Engineer", location: "Remote" },
+    { title: "Help us scale infrastructure", location: "Remote" },
+    { title: "Solutions Engineer - India", location: "Remote" },
+    { title: "Designer - USA", location: "Hyderabad (Remote)" },
+    { title: "Designer", location: "Gachibowli" },
+  ]) assert.equal(isForeignRemoteListing(job), false, job.title);
 });

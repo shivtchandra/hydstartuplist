@@ -3,6 +3,7 @@
 import { Fragment, useMemo, useState } from "react";
 import Link from "next/link";
 import StartupLogo from "./StartupLogo.jsx";
+import ClientOnly from "./ClientOnly.jsx";
 import { jobUrlId } from "../../lib/jobs-seo.js";
 import { roleFacetKey } from "../../lib/job-facets.js";
 import { capEmployerShare, employerShareKey } from "../../lib/opportunities.js";
@@ -157,7 +158,7 @@ export default function FresherJobsList({ jobs }) {
                 <div className="feed-row-sub">
                   <span className="jobs-co-line">{j.company}</span>
                   {place ? <> · {place}</> : null}
-                  {j.postedAt ? <> · {timeAgo(j.postedAt)}</> : null}
+                  {j.postedAt ? <ClientOnly>{() => <> · {timeAgo(j.postedAt)}</>}</ClientOnly> : null}
                   <span className="jobs-row-badges">
                     <span className="jobs-facet-badge">{bandLabel}</span>
                     {j._role !== "Other" && <span className="jobs-facet-badge">{j._role}</span>}
