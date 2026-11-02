@@ -47,15 +47,16 @@ add_params() {
 add_params "app/jobs/[id]/page.jsx" 'export async function generateStaticParams() {
   const { getAllJobs } = await import("../../../lib/jobs.js");
   const { jobUrlId } = await import("../../../lib/jobs-seo.js");
-  const jobs = await getAllJobs();
+  const { opportunityDataset } = await import("../../../lib/opportunity-store.js");
+  const [jobs, dataset] = await Promise.all([getAllJobs(), opportunityDataset()]);
   // Cloudflare Pages limits total deployment to 20,000 files.
-  // Pre-render every current role while the feed fits the 6,000-page budget so
-  // fresher, internship and evergreen ATS links never fall through to a 404.
-  return jobs
+  // Roles the jobs board lists come first so its links never fall through to a
+  // 404; the rest of the 6,000-page budget goes to the newest remaining roles.
+  const newestFirst = jobs
     .filter((j) => j && j.status !== "closed")
-    .sort((a, b) => new Date(b.postedAt || b.sourcePostedAt || b.fetchedAt || 0) - new Date(a.postedAt || a.sourcePostedAt || a.fetchedAt || 0))
-    .slice(0, 6000)
-    .map((j) => ({ id: jobUrlId(j) }));
+    .sort((a, b) => new Date(b.postedAt || b.sourcePostedAt || b.fetchedAt || 0) - new Date(a.postedAt || a.sourcePostedAt || a.fetchedAt || 0));
+  const ids = new Set([...dataset.jobs, ...newestFirst].map((j) => jobUrlId(j)));
+  return [...ids].slice(0, 6000).map((id) => ({ id }));
 }'
 COMPANY_PARAMS='export async function generateStaticParams() {
   const { getCompaniesWithJobs } = await import("../../../../lib/jobs.js");
@@ -77,6 +78,8 @@ node -e '
   const files = process.argv.slice(1).map((r) => "/api/" + r);
   console.log(JSON.stringify({ version: 1, include: ["/api/*"], exclude: files }));
 ' "${STATIC_API[@]}" > out/_routes.json
+
+node scripts/check-job-pages.mjs
 
 files=$(find out -type f | wc -l | tr -d ' ')
 echo "static export: ${files} files, $(du -sh out | cut -f1)"
