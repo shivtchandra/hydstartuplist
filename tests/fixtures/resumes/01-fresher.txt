@@ -1,0 +1,26 @@
+ARJUN VARMA
+Hyderabad, India | +91 90000 10001 | arjun.varma@example.com | https://github.com/arjun-example
+
+SUMMARY
+Final-year computer science graduate who has built web apps and small data projects. Looking for an entry-level software role.
+
+SKILLS
+Python, Java, JavaScript, React, Node.js, SQL, MySQL, Git, HTML, CSS
+
+PROJECTS
+Campus Bus Tracker | React, Node.js, MySQL
+- Built a web app that shows live bus locations for a campus of 2,000 students.
+- Wrote REST APIs for routes and stops, and tuned two slow MySQL queries.
+Expense Splitter | Python, Flask
+- Built a bill-splitting app used by 40 hostel residents.
+- Added CSV export and login with hashed passwords.
+Library Book Recommender | Python, pandas
+- Built a recommender from 12,000 borrowing records using cosine similarity.
+
+EXPERIENCE
+Summer Intern — Vasavi Software Labs | May 2025 – Jul 2025
+- Fixed 18 bugs in an internal attendance portal written in Java.
+- Wrote unit tests for the leave module.
+
+EDUCATION
+B.Tech, Computer Science — JNTU Hyderabad | 2022 – 2026 | CGPA 8.1/10

@@ -1,8 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isInvalidJobListing, jobSnippet, plausibleSalary, stripHtml } from "../lib/job-content.js";
-import { inferExperienceLevel, inferRoleType, isOpenToFreshers } from "../lib/job-facets.js";
-import { applyJobDetail, fetchJobDetails, jobDetailUrl } from "../lib/ats/job-details.js";
+import { fixMojibake, isInvalidJobListing, jobDescriptionText, jobSnippet, plausibleSalary, stripHtml } from "../lib/job-content.js";
+import { inferExperienceLevel, inferRoleType, isOpenToFreshers, parseYearsRequirement, workplaceFromText } from "../lib/job-facets.js";
+import { applyJobDetail, fetchFullJobText, fetchJobDetails, jobDetailUrl, parseAtsJobId } from "../lib/ats/job-details.js";
+import { isEntryJob } from "../lib/career/prefilter.js";
+import { prepareJobs } from "../lib/opportunities.js";
+import { jobUrlId } from "../lib/jobs-seo.js";
 import { isCuratedRemoteEligibleLocation, isForeignRemoteListing } from "../lib/ats/geo.js";
 
 const NOW = Date.parse("2026-11-02T00:00:00Z");
@@ -50,7 +53,7 @@ test("isOpenToFreshers hides stated experience, doctoral roles and stale rows", 
   assert.equal(isOpenToFreshers({ ...base, postedAt: "2026-06-01T00:00:00Z" }, NOW), false);
   assert.equal(
     isOpenToFreshers({ ...base, postedAt: "2026-06-01T00:00:00Z", atsProvider: "workday", lastSeenAt: "2026-11-01T00:00:00Z" }, NOW),
-    true,
+    false,
   );
 });
 
@@ -107,4 +110,90 @@ test("foreign remote rows go whichever source wrote them; India and unclear rows
     { title: "Designer - USA", location: "Hyderabad (Remote)" },
     { title: "Designer", location: "Gachibowli" },
   ]) assert.equal(isForeignRemoteListing(job), false, job.title);
+});
+
+test("Fresher-open tag needs a recent role with no stated 2+ years", () => {
+  const base = { title: "Associate Software Engineer", location: "Hyderabad", postedAt: "2026-10-20T00:00:00Z" };
+  assert.equal(isEntryJob(base, NOW), true);
+  assert.equal(isEntryJob({ ...base, experience: "2-5 years" }, NOW), false);
+  assert.equal(isEntryJob({ ...base, title: "Junior Linux Kernel Engineer", postedAt: "2024-03-01T00:00:00Z" }, NOW), false);
+});
+
+test("prepareJobs drops roles past 180 days even when seen live", () => {
+  const live = { id: "a", title: "Software Engineer", company: "Acme", location: "Hyderabad", url: "https://acme.com/1", atsProvider: "greenhouse", lastSeenAt: new Date().toISOString() };
+  const age = (days) => new Date(Date.now() - days * 86400000).toISOString();
+  assert.equal(prepareJobs([{ ...live, postedAt: age(100) }]).length, 1);
+  assert.equal(prepareJobs([{ ...live, postedAt: age(300) }]).length, 0);
+});
+
+test("Career hub links resolve to exported job URLs, not raw ids", () => {
+  assert.match(jobUrlId({ id: "ats-greenhouse-canonical-8249005", company: "Canonical", title: "Graduate Software Engineer", location: "Home based - Worldwide" }), /^canonical-graduate-software-engineer-/);
+});
+
+const BOARDS = [
+  { atsProvider: "greenhouse", atsSlug: "tide", name: "Tide" },
+  { atsProvider: "ashby", atsSlug: "interview-kickstart", name: "Interview Kickstart" },
+  { atsProvider: "ashby", atsSlug: "interview", name: "Interview" },
+];
+
+test("parseAtsJobId picks the longest known slug", () => {
+  assert.deepEqual(parseAtsJobId("ats-ashby-interview-kickstart-bf2a-48", BOARDS), { provider: "ashby", slug: "interview-kickstart", externalId: "bf2a-48" });
+  assert.equal(parseAtsJobId("ats-lever-unknown-1", BOARDS), null);
+  assert.equal(parseAtsJobId("5948204216", BOARDS), null);
+});
+
+test("fetchFullJobText returns the role and drops a split company heading", async () => {
+  const content = "<p>A BOUT TIDE At Tide, we help SMEs save time and money.</p><h3>About the role</h3><p>You will build payment APIs. Requirements: 2 years of Python.</p>";
+  const seen = [];
+  const fetchImpl = async (url) => { seen.push(url); return { ok: true, json: async () => ({ content }) }; };
+  const text = await fetchFullJobText({ id: "ats-greenhouse-tide-99" }, BOARDS, { fetchImpl });
+  assert.equal(seen[0], "https://boards-api.greenhouse.io/v1/boards/tide/jobs/99");
+  assert.match(text, /build payment APIs/);
+  assert.doesNotMatch(text, /help SMEs/);
+});
+
+test("fetchFullJobText makes no request for unknown boards and survives failures", async () => {
+  let calls = 0;
+  const fetchImpl = async () => { calls += 1; return { ok: false, status: 404 }; };
+  assert.equal(await fetchFullJobText({ id: "http://evil.example/x" }, BOARDS, { fetchImpl }), null);
+  assert.equal(calls, 0);
+  assert.equal(await fetchFullJobText({ id: "ats-greenhouse-tide-99" }, BOARDS, { fetchImpl }), null);
+  assert.equal(calls, 1);
+});
+
+test("broken encoding and IBM's intro do not reach job cards", () => {
+  assert.equal(fixMojibake("Youâ€™ll work – itâ€™s â€œgoodâ€\u009d"), `You'll work – it's "good"`);
+  const ibm = "Introduction A career in IBM Consulting is built on long-term client relationships. Youâ€™ll work with clients worldwide on many projects across the business. Your role and responsibilities Build and test SAP manufacturing solutions with client teams every day across plants.";
+  assert.match(jobSnippet(ibm, 170, "IBM"), /^Build and test SAP/);
+});
+
+test("years requirement is read from common posting phrasings", () => {
+  const years = (t) => parseYearsRequirement(`${"Long role description text. ".repeat(10)} ${t}`);
+  assert.equal(years("Needs 7+ years’ experience in Java.").lo, 7);
+  assert.deepEqual(years("Experience Range: 8-12 years"), { lo: 8, hi: 12 });
+  assert.deepEqual(years("7 to 11 years of expertise in testing"), { lo: 7, hi: 11 });
+  assert.deepEqual(years("9 12 years of experience with SAP"), { lo: 9, hi: 12 });
+  assert.equal(years("A minimum of 3 years in support").lo, 3);
+});
+
+test("work type comes only from statements about the job", () => {
+  assert.equal(workplaceFromText("Work mode: Hybrid. Based in Hyderabad."), "hybrid");
+  assert.equal(workplaceFromText("You will be 3 days a week in the office."), "hybrid");
+  assert.equal(workplaceFromText("This is a work from office role."), "onsite");
+  assert.equal(workplaceFromText("Build hybrid cloud platforms for clients."), null);
+  assert.equal(workplaceFromText("Some remote teams use our product."), null);
+});
+
+test("job function beats a domain word in the title", () => {
+  assert.equal(inferRoleType("Senior Software Engineer (Full Stack) - Clinical Hub"), "Engineering");
+  assert.equal(inferRoleType("Information Security Analyst"), "Engineering");
+  assert.equal(inferRoleType("Product Manager - HR Technology"), "Product");
+  assert.equal(inferRoleType("Strategic Account Manager"), "Sales");
+  assert.equal(inferRoleType("English to Serbian Review Lead for UI"), null);
+  assert.equal(inferRoleType("Data Engineer"), "Data");
+});
+
+test("IBM postings store the role text, not the company introduction", () => {
+  const html = "<p><b>Introduction</b></p><p>At IBM we build things together.</p><p>Your role and responsibilities</p><p>Design and ship APIs for clients in Hyderabad every day.</p>";
+  assert.match(jobDescriptionText(html), /^Your role and responsibilities/);
 });

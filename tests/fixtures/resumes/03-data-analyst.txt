@@ -1,0 +1,23 @@
+FATIMA SHAIK
+Hyderabad, India | +91 90000 10003 | fatima.shaik@example.com
+
+PROFILE
+Data analyst with 2 years turning sales and operations data into dashboards and decisions.
+
+SKILLS
+SQL, Excel, Power BI, Tableau, Python, pandas, A/B testing, Google Analytics
+
+EXPERIENCE
+Data Analyst — Kirana Direct | Jun 2024 – Present
+- Built Power BI dashboards tracking 14 sales KPIs across 6 cities, used in the weekly leadership review.
+- Wrote SQL pipelines that cut monthly reporting from 3 days to 4 hours.
+- Ran 5 A/B tests on checkout, one of which lifted conversion by 6%.
+Business Analyst Intern — Medora Health | Jan 2024 – May 2024
+- Cleaned 80,000 patient appointment records in Excel and Python.
+- Found a no-show pattern that led to a reminder call pilot.
+
+EDUCATION
+B.Com (Honours) — Osmania University | 2020 – 2023
+
+CERTIFICATIONS
+Google Data Analytics Professional Certificate

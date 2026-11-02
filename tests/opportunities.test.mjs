@@ -70,7 +70,7 @@ test('sponsored jobs pin to top and bypass hyd-only filter', () => {
 });
 
 test("prepareJobs keeps old ATS postings still live on their board, drops stale scraped ones", () => {
-  const old = new Date(Date.now() - 200 * 86400000).toISOString();
+  const old = new Date(Date.now() - 100 * 86400000).toISOString();
   const now = new Date().toISOString();
   const jobs = prepareJobs([
     { id: "a", title: "Graduate Software Engineer", company: "Canonical", url: "https://x/a", postedAt: old, lastSeenAt: now, atsProvider: "greenhouse", source: "ats" },

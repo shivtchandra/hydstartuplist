@@ -1,0 +1,24 @@
+MEERA IYER
+Bengaluru, India | +91 90000 10002 | meera.iyer@example.com | https://linkedin.com/in/meera-example
+
+SUMMARY
+Backend engineer with 5 years building payment and order services in Java and Go. Owns services from design through on-call.
+
+TECHNICAL SKILLS
+Languages: Java, Go, Python, SQL
+Frameworks: Spring Boot, gRPC
+Data: PostgreSQL, Redis, Kafka, Elasticsearch
+Infrastructure: AWS, Docker, Kubernetes, Terraform, Prometheus, Grafana
+
+EXPERIENCE
+Senior Software Engineer — Northwind Payments | Mar 2023 – Present
+- Led the rewrite of the refunds service in Go, cutting p99 latency from 900ms to 180ms.
+- Designed an idempotent Kafka consumer handling 6,000 events per second.
+- Mentored 3 engineers and ran the on-call rotation for a team of 8.
+Software Engineer — Bluecart Retail | Jul 2020 – Feb 2023
+- Built order-management APIs in Spring Boot serving 1.2 million orders a month.
+- Moved reporting off the primary database to a read replica, reducing load by 35%.
+- Introduced contract tests, lowering production incidents from 9 to 3 per quarter.
+
+EDUCATION
+B.E., Information Technology — PES University | 2016 – 2020

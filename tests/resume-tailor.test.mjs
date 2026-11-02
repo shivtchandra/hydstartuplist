@@ -7,7 +7,11 @@ import {
   extractGuidedPlaceholders,
   hasMeaningfulJobDescription,
   stripGuidedPlaceholders,
+  signedLetter,
+  truthfulHeadline,
+  unchangedShare,
   validateTailoredResult,
+  verifiedChanges,
 } from '../lib/resume/tailor.js';
 
 const resume = `# Asha Rao
@@ -102,6 +106,57 @@ test('validator accepts factual edits and tracks embedded placeholders', () => {
   assert.doesNotMatch(stripGuidedPlaceholders(result.fullTailoredResume), /\[add/);
 });
 
+test('change notes must quote both resumes and show a real move', () => {
+  const source = '- Built dashboards for live cloud services.\n- Tuned PostgreSQL queries for the vendor panel.';
+  const reworded = source.replace('Tuned PostgreSQL queries', 'Sped up PostgreSQL queries');
+  const swapped = source.split('\n').reverse().join('\n');
+  const note = (before, after) => ({ section: 'Experience', before, after, reason: 'x' });
+  const keep = (changes, output) => verifiedChanges(changes, source, output).length;
+
+  assert.equal(keep([note('Tuned PostgreSQL queries', 'Sped up PostgreSQL queries')], reworded), 1);
+  assert.equal(keep([note('Original experience bullets.', 'Sped up PostgreSQL queries')], reworded), 0);
+  assert.equal(keep([note('Tuned PostgreSQL queries', 'Tuned PostgreSQL queries')], source), 0);
+  assert.equal(keep([note('Built dashboards', 'Tuned PostgreSQL queries')], source), 0);
+  assert.equal(keep([note('Built dashboards', 'Tuned PostgreSQL queries')], swapped), 1);
+});
+
+test('blanks are removed from the summary and when asking about a skill, kept for a missing outcome', () => {
+  const ask = '[Add verified workplace technology, or IT support experience, if applicable.]';
+  const tailored = resume
+    .replace('Built a React dashboard used by internal operations teams.', `Built a React dashboard used by internal operations teams. [add a verified outcome or scale] ${ask}`)
+    .replace(/^(SUMMARY|Summary)\n(.*)$/m, `$1\n$2 [add your strongest result]`);
+  const result = validateTailoredResult({ fullTailoredResume: tailored, changes: [], placeholders: [{ prompt: ask }], warnings: [] }, resume);
+  assert.doesNotMatch(result.fullTailoredResume, /if applicable|strongest result/);
+  assert.match(result.fullTailoredResume, /\[add a verified outcome or scale\]/);
+  assert.deepEqual(result.placeholders.map((p) => p.prompt), ['[add a verified outcome or scale]']);
+});
+
+test('a resume without clear headings can be rewritten, but credentials still cannot be invented', () => {
+  const messy = 'Neha Kulkarni\nQuality Analyst at Finbridge Technologies, wrote 450 test cases with Selenium and REST APIs.\nB.Tech (ECE) GITAM University 2017 - 2021';
+  const tidy = '# Neha Kulkarni\n## EXPERIENCE\n### Quality Analyst — Finbridge Technologies\n- Wrote 450 test cases with Selenium and REST API checks.\n## EDUCATION\n- B.Tech (ECE) — GITAM University | 2017 - 2021';
+  assert.match(validateTailoredResult({ fullTailoredResume: tidy, changes: [], placeholders: [], warnings: [] }, messy).fullTailoredResume, /GITAM/);
+  assert.throws(
+    () => validateTailoredResult({ fullTailoredResume: `${tidy}\n- Master of Business Administration, Harvard Business School`, changes: [], placeholders: [], warnings: [] }, messy),
+    /unsupported credentials/,
+  );
+});
+
+test('headline cannot claim a title the candidate never held', () => {
+  const source = '# Priya\n\n## Experience\nRegional Sales Manager — Malabar Foods | 2022 - Present\n- Managed accounts.';
+  const head = (title) => `# Priya\n**${title} | Negotiation**\n\n## EXPERIENCE`;
+  assert.match(truthfulHeadline(head('Account Executive'), source), /^\*\*Regional Sales Manager \| Negotiation\*\*$/m);
+  assert.match(truthfulHeadline(head('Regional Sales Manager'), source), /^\*\*Regional Sales Manager \| Negotiation\*\*$/m);
+  assert.match(truthfulHeadline(head('Software Engineer'), '# Asha\nBuilt a quiz app in React as a teacher.'), /^\*\*Negotiation\*\*$/m);
+});
+
+test('a near copy of the source is called out', () => {
+  assert.equal(unchangedShare(resume, resume), 1);
+  const full = `${resume}\n- ${'Shipped internal tools for the operations team every quarter. '.repeat(10)}`;
+  const check = (source) => validateTailoredResult({ fullTailoredResume: source, changes: [], placeholders: [], warnings: [] }, source).warnings.join(' ');
+  assert.match(check(full), /stays very close/);
+  assert.match(check(resume), /little detail/);
+});
+
 test('validator permits factual education formatting changes', () => {
   const source = resume.replace('JNTU, 2022', 'JNTU, 2022.');
   const tailored = source.replace(
@@ -115,4 +170,16 @@ test('validator permits factual education formatting changes', () => {
     placeholders: [],
     warnings: [],
   }, source));
+});
+
+test('a lowercase source title is capitalised in the headline', () => {
+  const out = truthfulHeadline('# A B\n**support engineer | Linux**\n## SUMMARY\nText', 'A B\nsupport engineer at Sagar Tech');
+  assert.match(out, /^\*\*Support Engineer \| Linux\*\*$/m);
+});
+
+test('a cover letter gets the candidate name once', () => {
+  const resume = '# NEHA KULKARNI\nPune | n@example.com';
+  assert.equal(signedLetter('Thank you.', resume), 'Thank you.\n\nSincerely,\nNeha Kulkarni');
+  assert.equal(signedLetter('Thank you.\n\nRegards,\nNeha Kulkarni', resume), 'Thank you.\n\nRegards,\nNeha Kulkarni');
+  assert.equal(signedLetter('', resume), '');
 });

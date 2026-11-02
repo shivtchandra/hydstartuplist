@@ -1,0 +1,19 @@
+NEHA  KULKARNI
+EXPERIENCE                                      CONTACT
+Quality Analyst                                 neha.kulkarni@example.com
+Finbridge Technologies                          +91 90000 10010
+Jan 2023 -                                      Hyderabad
+Present
+ Wrote 450 test cases for the lending
+app across web and mobile                       SKILLS
+ Automated 180 regression tests with           Selenium
+Selenium and Java, cutting the regression       Java
+cycle from 5 days to 1                          Postman
+ Found and tracked 300+ defects in Jira        Jira
+                                                SQL
+Junior Test Engineer                            TestNG
+Orbit Infosoft
+Jul 2021 - Dec 2022                             EDUCATION
+ API testing with Postman for 3 products       B.Tech (ECE)
+ Wrote SQL checks for data migration           GITAM University
+                                                2017 - 2021

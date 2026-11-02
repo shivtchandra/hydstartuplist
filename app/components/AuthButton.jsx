@@ -93,6 +93,14 @@ export default function AuthButton({ compact = false }) {
           </div>
           <div className="tn-auth-menu-rule" role="separator" />
           <Link
+            href="/career"
+            className="tn-auth-menu-item"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+          >
+            Resume Hub
+          </Link>
+          <Link
             href="/saved"
             className="tn-auth-menu-item"
             role="menuitem"

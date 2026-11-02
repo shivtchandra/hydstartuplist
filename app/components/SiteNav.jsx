@@ -107,6 +107,9 @@ export default function SiteNav({ active = "", mode }) {
           )}
 
           <nav className="tn-links" aria-label="Site">
+            <Link href="/career" className={pathname.startsWith("/career") ? "active" : undefined}>
+              Resume Hub
+            </Link>
             <AuthButton />
             <Link href="/saved" className={linkActive("saved") ? "active" : undefined}>
               Saved

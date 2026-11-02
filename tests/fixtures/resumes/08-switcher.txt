@@ -1,0 +1,24 @@
+SUNITA PAWAR
+Nagpur, India | +91 90000 10008 | sunita.pawar@example.com | https://github.com/sunita-example
+
+SUMMARY
+Maths teacher of 7 years moving into software development after a 10-month full-stack course. Comfortable explaining hard ideas and working to deadlines.
+
+TECHNICAL SKILLS
+JavaScript, React, Node.js, Express, MongoDB, Git, HTML, CSS
+
+PROJECTS
+QuizMaker | React, Node.js, MongoDB
+- Built a quiz app used by 120 students at my school, with auto-marking and class reports.
+Attendance Bot | Node.js
+- Automated daily attendance summaries for 6 classes, saving teachers 30 minutes a week.
+
+EXPERIENCE
+Senior Mathematics Teacher — St. Xavier's High School | Jun 2018 – Jul 2025
+- Taught 200 students a year across grades 8 to 10, with a 96% board pass rate.
+- Coordinated the school timetable for 35 teachers.
+
+EDUCATION
+Full-Stack Web Development Certificate — Masai School | 2025
+B.Ed — RTM Nagpur University | 2017
+B.Sc, Mathematics — RTM Nagpur University | 2016

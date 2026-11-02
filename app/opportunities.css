@@ -1103,23 +1103,25 @@ body:has(.op-shell) .home-seo{
   border-color: #a7f3d0;
 }
 
-.op-tag-role {
-  background: #faf5ff;
-  color: #6b21a8;
-  border-color: #e9d5ff;
-}
-
 .op-tag-work {
   background: #eff6ff;
   color: #1e40af;
   border-color: #bfdbfe;
 }
 
-.op-tag-openings {
-  background: #fff1f2;
-  color: #9f1239;
-  border-color: #fecdd3;
-  font-weight: 600;
+.op-card-tailor {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: -8px 0;
+  color: var(--accent-primary);
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.op-card-tailor:hover {
+  text-decoration: underline;
 }
 
 .op-card-footer-row {
@@ -2231,9 +2233,7 @@ body:has(.op-shell) .home-seo{
 }
 .op-shell .op-tag-pill .op-card-icon { opacity: 0.7; }
 .op-shell .op-tag-salary { background: #e9f9ef; color: #047857; font-weight: 650; }
-.op-shell .op-tag-role { background: #f3efff; color: #5b21b6; }
 .op-shell .op-tag-work { background: #eaf2ff; color: #1d4ed8; }
-.op-shell .op-tag-openings { background: #fff0f1; color: #9f1239; }
 
 .op-shell .op-card-footer-row {
   margin-top: 14px;

@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 async function callFastOpenAI(prompt, apiKey) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 25000);
+  const timeout = setTimeout(() => controller.abort(), 60000);
 
   try {
     const res = await fetch("https://api.openai.com/v1/responses", {
@@ -25,8 +25,8 @@ async function callFastOpenAI(prompt, apiKey) {
       signal: controller.signal,
       body: JSON.stringify({
         model: "gpt-6-luna",
-        reasoning: { effort: "low" },
-        max_output_tokens: 9000,
+        reasoning: { effort: "medium" },
+        max_output_tokens: 12000,
         input: [
           {
             role: "system",

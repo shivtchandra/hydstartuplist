@@ -809,11 +809,11 @@
     "verifiedAt": "2026-10-06T09:07:04.540Z"
   },
   {
-    "id": "greenhouse:inovalon",
+    "id": "ashby:inovalon",
     "name": "Inovalon",
-    "atsProvider": "greenhouse",
+    "atsProvider": "ashby",
     "atsSlug": "inovalon",
-    "boardUrl": "https://boards.greenhouse.io/inovalon",
+    "boardUrl": "https://jobs.ashbyhq.com/inovalon",
     "startupId": null,
     "active": true,
     "hydJobs": 1,
@@ -3118,8 +3118,9 @@
     "startupId": null,
     "employerType": "startup",
     "allowRemote": true,
-    "active": true,
-    "verifiedAt": "2026-10-17T23:13:28.420Z"
+    "active": false,
+    "verifiedAt": "2026-10-17T23:13:28.420Z",
+    "note": "Ashby board removed; no public feed found on tempo.new/careers"
   },
   {
     "id": "ashby:elevenlabs",
@@ -3756,7 +3757,7 @@
     "employerType": "enterprise",
     "mapPin": false,
     "active": true,
-    "note": "jobs-only — official Avature Hyderabad search; refreshed via sync-ats-jobs"
+    "note": "jobs-only \u2014 official Avature Hyderabad search; refreshed via sync-ats-jobs"
   },
   {
     "id": "workday:genpact",
@@ -3767,7 +3768,7 @@
     "website": "https://www.genpact.com",
     "employerType": "enterprise",
     "active": true,
-    "note": "jobs-only — official Workday Hyderabad search"
+    "note": "jobs-only \u2014 official Workday Hyderabad search"
   },
   {
     "id": "workday:pwc",
@@ -3778,7 +3779,7 @@
     "website": "https://www.pwc.in",
     "employerType": "enterprise",
     "active": true,
-    "note": "jobs-only — official Workday Hyderabad search"
+    "note": "jobs-only \u2014 official Workday Hyderabad search"
   },
   {
     "id": "workday:jll",
@@ -3789,7 +3790,7 @@
     "website": "https://www.jll.co.in",
     "employerType": "enterprise",
     "active": true,
-    "note": "jobs-only — official Workday Hyderabad search"
+    "note": "jobs-only \u2014 official Workday Hyderabad search"
   },
   {
     "id": "workday:astreya",
@@ -3800,7 +3801,7 @@
     "website": "https://www.astreya.com",
     "employerType": "enterprise",
     "active": true,
-    "note": "jobs-only — official Workday Hyderabad search"
+    "note": "jobs-only \u2014 official Workday Hyderabad search"
   },
   {
     "id": "lever:valgenesis",
@@ -4392,5 +4393,33 @@
     "hydJobs": 23,
     "totalJobs": 891,
     "verifiedAt": "2026-11-02"
+  },
+  {
+    "id": "workday:factset",
+    "name": "FactSet",
+    "atsProvider": "workday",
+    "atsSlug": "factset",
+    "boardUrl": "https://factset.wd108.myworkdayjobs.com/FactSetCareers",
+    "startupId": null,
+    "active": true,
+    "mapPin": false,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "verifiedAt": "2026-11-03T00:00:00.000Z",
+    "website": "https://www.factset.com"
+  },
+  {
+    "id": "workday:agilent",
+    "name": "Agilent",
+    "atsProvider": "workday",
+    "atsSlug": "agilent",
+    "boardUrl": "https://agilent.wd5.myworkdayjobs.com/Agilent_Careers",
+    "startupId": null,
+    "active": true,
+    "mapPin": false,
+    "note": "jobs-only \u2014 daily via sync-ats-jobs",
+    "employerType": "enterprise",
+    "verifiedAt": "2026-11-03T00:00:00.000Z",
+    "website": "https://www.agilent.com"
   }
 ]

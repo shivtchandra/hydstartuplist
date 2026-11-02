@@ -6,7 +6,7 @@ import "./career.css";
 export const dynamic = "force-static";
 
 export async function generateMetadata() {
-  const title = "Career Hub — Match, Tailor & Apply to Hyderabad Jobs";
+  const title = "Resume Hub — Match, Tailor & Apply to Hyderabad Jobs";
   const description =
     "Upload your resume once. See which Hyderabad jobs actually fit and why, then get a tailored resume, cover letter and answers for each one before you apply.";
   const url = `${getSiteUrl()}/career`;

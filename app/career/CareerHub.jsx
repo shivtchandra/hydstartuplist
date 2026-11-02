@@ -6,10 +6,12 @@
 // Design idea: every claim has a receipt — skills and matches show the resume
 // line that proves them.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { RESUME_CSS, findResumeBlanks, resumeHtml, resumePrintDocument } from '../../lib/resume/layout.js';
 import { extractResumeText } from '../../lib/resume/parse-client.js';
 import { isEarlyCareer, isEntryJob, shortlistJobs } from '../../lib/career/prefilter.js';
 import { profileHash } from '../../lib/career/openai.js';
 import { jobsFetch } from '../../lib/opportunities-client.js';
+import { jobUrlId } from '../../lib/jobs-seo.js';
 import {
   PASSPORT_STORAGE_KEY,
   buildExtensionHandoff,
@@ -20,15 +22,18 @@ import {
 const STORE_KEY = 'mapmyhyd_career_v2';
 const SHORTLIST = 40;
 const BATCH = 8;
+// Enough to reach requirements once the company intro is gone, without paying AI costs for all of it.
+const MATCH_TEXT_MAX = 3000;
 const MIN_DESCRIPTION = 300;
 const BOARD = [
   { id: 'saved', label: 'Saved' },
-  { id: 'tailored', label: 'Pack ready' },
   { id: 'applied', label: 'Applied' },
   { id: 'interview', label: 'Interview' },
   { id: 'offer', label: 'Offer' },
   { id: 'rejected', label: 'Closed' },
 ];
+// Older saved applications can say 'tailored'; a job with a resume ready is still just saved.
+const boardStatus = (status) => (status === 'tailored' ? 'saved' : status);
 const LEVELS = [
   ['intern', 'Student / fresher'],
   ['junior', 'Junior (0–2y)'],
@@ -84,6 +89,16 @@ async function postJson(url, body) {
   }
 }
 
+/** Full postings from the employer, by job id. Missing ids just keep their stored text. */
+async function loadFullJobTexts(jobs) {
+  const chunks = [];
+  for (let i = 0; i < jobs.length; i += 10) chunks.push(jobs.slice(i, i + 10));
+  const results = await Promise.all(chunks.map((chunk) => postJson('/api/career/job-text', {
+    jobs: chunk.map((j) => ({ id: j.id, url: j.url })),
+  })));
+  return Object.assign({}, ...results.map((r) => r.data?.texts || {}));
+}
+
 async function loadJobDetail(id) {
   try {
     const res = await jobsFetch(`/api/v2/jobs/detail?id=${encodeURIComponent(id)}`);
@@ -107,53 +122,10 @@ function safeName(s) {
   return String(s || '').replace(/[^a-z0-9]+/gi, '_').replace(/^_|_$/g, '').slice(0, 40) || 'resume';
 }
 
-function download(name, text, type = 'text/markdown') {
-  const url = URL.createObjectURL(new Blob([text], { type }));
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = name;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-}
-
-// Resume text → simple blocks shared by the on-page paper preview and print.
-function resumeBlocks(text) {
-  const blocks = [];
-  String(text || '').split('\n').forEach((raw, i) => {
-    const line = raw.trim();
-    if (!line) return;
-    if (/^[-•*▪◦]\s+/.test(line)) blocks.push({ kind: 'li', text: line.replace(/^[-•*▪◦]\s+/, '') });
-    else if (i === 0 || (!blocks.length)) blocks.push({ kind: 'name', text: line.replace(/^#+\s*/, '') });
-    else if (/^#+\s/.test(line) || (line.length < 40 && line === line.toUpperCase() && /[A-Z]/.test(line))) {
-      blocks.push({ kind: 'h', text: line.replace(/^#+\s*/, '') });
-    } else blocks.push({ kind: 'p', text: line });
-  });
-  return blocks;
-}
-
-// Plain, single-column, ATS-safe print layout.
 function printResume(text, title) {
-  let html = '';
-  let inList = false;
-  for (const b of resumeBlocks(text)) {
-    if (inList && b.kind !== 'li') { html += '</ul>'; inList = false; }
-    if (b.kind === 'li') { if (!inList) { html += '<ul>'; inList = true; } html += `<li>${escapeHtml(b.text)}</li>`; }
-    else if (b.kind === 'name') html += `<h1>${escapeHtml(b.text)}</h1>`;
-    else if (b.kind === 'h') html += `<h2>${escapeHtml(b.text)}</h2>`;
-    else html += `<p>${escapeHtml(b.text)}</p>`;
-  }
-  if (inList) html += '</ul>';
   const w = window.open('', '_blank');
   if (!w) return;
-  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(title)}</title><style>
-    body{font:11pt/1.4 Arial,Helvetica,sans-serif;color:#111;max-width:720px;margin:32px auto;padding:0 24px}
-    h1{font-size:18pt;margin:0 0 4px}h2{font-size:11.5pt;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #999;margin:16px 0 6px;padding-bottom:2px}
-    p{margin:2px 0}ul{margin:4px 0 4px 18px;padding:0}li{margin:2px 0}@page{margin:14mm}
-  </style></head><body>${html}<script>window.onload=()=>{window.print()}</script></body></html>`);
+  w.document.write(resumePrintDocument(text, title));
   w.document.close();
 }
 
@@ -173,13 +145,26 @@ function stamp(app, status) {
   return { ...app, status, dates: { ...(app.dates || {}), [status]: app.dates?.[status] || new Date().toISOString() } };
 }
 
+const HUB_PATHS = { resume: '/career?view=resume', matches: '/career/matches', tracker: '/career/applications' };
+const HUB_TABS = [['matches', 'Jobs'], ['tracker', 'My applications']];
+
+function viewFromUrl() {
+  const query = new URLSearchParams(location.search);
+  if (query.get('job')) return 'pack';
+  if (location.pathname.startsWith('/career/matches')) return 'matches';
+  if (location.pathname.startsWith('/career/applications')) return 'tracker';
+  return query.get('view') === 'resume' ? 'resume' : 'matches';
+}
+
 export default function CareerHub() {
   const [store, setStore] = useState(null);
   const [view, setView] = useState('resume');
+  const [matchesOpened, setMatchesOpened] = useState(false);
   const [passport, setPassport] = useState(() => normalizePassport({}));
   const [pendingJob, setPendingJob] = useState('');
   const [packJob, setPackJob] = useState(null);
   const [packJobError, setPackJobError] = useState('');
+  const [autoBuild, setAutoBuild] = useState('');
   const hydrated = useRef(false);
 
   useEffect(() => {
@@ -188,9 +173,25 @@ export default function CareerHub() {
     setPassport(readPassport());
     const jobParam = new URLSearchParams(location.search).get('job');
     if (jobParam) setPendingJob(jobParam);
-    setView(s.profile ? (jobParam ? 'pack' : 'matches') : 'resume');
+    setView(s.profile ? viewFromUrl() : 'resume');
     hydrated.current = true;
   }, []);
+
+  useEffect(() => {
+    function onPop() {
+      const job = new URLSearchParams(location.search).get('job');
+      if (job) {
+        setPendingJob(job);
+        setPackJob((cur) => (cur?.id === job ? cur : null));
+      }
+      setView(viewFromUrl());
+    }
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  // Stays mounted once opened, so changing tabs doesn't stop a match run.
+  if (view === 'matches' && !matchesOpened) setMatchesOpened(true);
 
   useEffect(() => {
     if (!hydrated.current || !store) return;
@@ -219,91 +220,100 @@ export default function CareerHub() {
     } catch {}
   }, []);
 
-  const openPack = useCallback((job) => {
+  const go = useCallback((next) => {
+    setView(next);
+    try { history.pushState(null, '', HUB_PATHS[next]); } catch {}
+    window.scrollTo({ top: 0 });
+  }, []);
+
+  // build is true only when the person tapped "Tailor resume", so opening a link never spends a pack.
+  const openPack = useCallback((job, build = false) => {
+    if (build) setAutoBuild(job.id);
     setPackJob(null);
     setPendingJob(job.id);
     setView('pack');
     update((s) => (s.applications[job.id]
       ? {}
       : { applications: { ...s.applications, [job.id]: stamp({ job: pickJob(job) }, 'saved') } }));
-    try { history.replaceState(null, '', `/career?job=${encodeURIComponent(job.id)}`); } catch {}
+    try { history.pushState(null, '', `/career?job=${encodeURIComponent(job.id)}`); } catch {}
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [update]);
 
   if (!store) return <div className="ch-shell"><div className="ch-skeleton" /></div>;
 
-  const apps = Object.values(store.applications || {});
-  const scoredCount = Object.keys(store.matches || {}).length;
-  const packCount = apps.filter((a) => a.pack).length;
-  const appliedCount = apps.filter((a) => ['applied', 'interview', 'offer'].includes(a.status)).length;
+  const appCount = Object.keys(store.applications || {}).length;
   const early = isEarlyCareer(store.profile);
-
-  const rail = [
-    { id: 'resume', n: '01', label: 'Resume', value: store.profile ? (store.profile.name || 'Ready') : 'Add yours', done: Boolean(store.profile) },
-    { id: 'matches', n: '02', label: 'Matches', value: store.profile ? `${scoredCount} read` : '—', done: scoredCount > 0, locked: !store.profile },
-    { id: 'pack', n: '03', label: 'Apply pack', value: packJob ? packJob.company : `${packCount} ready`, done: packCount > 0, locked: !store.profile },
-    { id: 'tracker', n: '04', label: 'Applications', value: `${appliedCount} applied`, done: appliedCount > 0 },
-  ];
 
   return (
     <div className={`ch-shell${store.profile ? '' : ' is-new'}`}>
-      <header className="ch-hero">
-        <p className="ch-kicker"><span className="ch-dot" />Career hub · Hyderabad</p>
-        <h1>
-          Apply to jobs you <em>actually</em> fit.
-          <span>With a resume rewritten for each one.</span>
-        </h1>
-        {!store.profile && (
+      {store.profile ? (
+        <>
+          <header className="ch-hubbar">
+            <h1>Resume Hub</h1>
+            <button type="button" className="ch-text-btn" onClick={() => go('resume')}>Your resume</button>
+          </header>
+          <nav className="ch-tabs-hub" aria-label="Resume Hub">
+            {HUB_TABS.map(([id, label]) => (
+              <button key={id} type="button" className={view === id ? 'is-on' : ''} aria-current={view === id ? 'page' : undefined} onClick={() => go(id)}>
+                {label}{id === 'tracker' && appCount > 0 && <span>{appCount}</span>}
+              </button>
+            ))}
+          </nav>
+        </>
+      ) : (
+        <header className="ch-hero">
+          <p className="ch-kicker"><span className="ch-dot" />Resume Hub</p>
+          <h1>
+            The right resume for <em>every</em> job.
+            <span>Ready in about a minute.</span>
+          </h1>
           <p className="ch-lede">
-            Drop your resume once. We read every live job description against it and show the line in your resume
-            that backs each match. Then we draft a tailored resume, cover letter and answers. You check them and apply
-            on the company&apos;s own site. Nothing is sent without you.
+            Upload your resume once. Tap a job. Download a resume written for it, then apply on the
+            company&apos;s own site. Nothing is sent without you.
           </p>
-        )}
-      </header>
+        </header>
+      )}
 
-      <nav className="ch-rail" aria-label="Career hub">
-        {rail.map((r) => (
-          <button
-            key={r.id}
-            type="button"
-            className={`ch-rail-item${view === r.id ? ' is-active' : ''}${r.done ? ' is-done' : ''}`}
-            disabled={r.locked}
-            onClick={() => setView(r.id)}
-            aria-current={view === r.id ? 'step' : undefined}
-          >
-            <span className="ch-rail-n">{r.done ? '✓' : r.n}</span>
-            <span className="ch-rail-text">
-              <span className="ch-rail-label">{r.label}</span>
-              <span className="ch-rail-value">{r.value}</span>
-            </span>
-          </button>
-        ))}
-      </nav>
-
-      <div className="ch-stage" key={view}>
-        {view === 'resume' && (
-          <ResumeStep store={store} update={update} onDone={() => setView(pendingJob ? 'pack' : 'matches')} />
-        )}
-        {view === 'matches' && store.profile && (
-          <MatchesStep store={store} update={update} onPick={openPack} early={early} />
-        )}
-        {view === 'pack' && store.profile && (
-          <PackStep
-            store={store}
-            update={update}
-            job={packJob}
-            jobError={packJobError}
-            loading={Boolean(pendingJob) && !packJob && !packJobError}
-            passport={passport}
-            savePassport={savePassport}
-            onBrowse={() => setView('matches')}
-          />
-        )}
-        {view === 'tracker' && <TrackerStep store={store} update={update} onOpen={openPack} />}
-      </div>
+      {matchesOpened && store.profile && (
+        <div className="ch-stage" hidden={view !== 'matches'}>
+          <MatchesStep store={store} update={update} onPick={(job) => openPack(job, true)} early={early} />
+        </div>
+      )}
+      {view !== 'matches' && (
+        <div className="ch-stage" key={view}>
+          {view === 'resume' && (
+            <ResumeStep store={store} update={update} onDone={() => { if (pendingJob) { setAutoBuild(pendingJob); setView('pack'); } else go('matches'); }} />
+          )}
+          {view === 'pack' && store.profile && (
+            <>
+              <button type="button" className="ch-text-btn ch-back" onClick={() => go('matches')}>← Back to jobs</button>
+              <PackStep
+                store={store}
+                update={update}
+                job={packJob}
+                jobError={packJobError}
+                loading={Boolean(pendingJob) && !packJob && !packJobError}
+                passport={passport}
+                savePassport={savePassport}
+                autoBuild={autoBuild}
+                onAutoBuilt={() => setAutoBuild('')}
+                onBrowse={() => go('matches')}
+              />
+            </>
+          )}
+          {view === 'tracker' && <TrackerStep store={store} update={update} onOpen={openPack} onBrowse={() => go('matches')} />}
+        </div>
+      )}
     </div>
   );
+}
+
+const VERDICT_LABEL = { strong: 'Strong match', good: 'Good match', stretch: 'Stretch', poor: 'Long shot' };
+
+// Scores move a few points between runs, so people see the verdict and only sorting uses the number.
+function FitLabel({ match }) {
+  if (!match) return null;
+  return <span className={`ch-fit-pill is-${match.verdict}`}>{VERDICT_LABEL[match.verdict]}</span>;
 }
 
 // ---------------------------------------------------------------- Resume
@@ -329,8 +339,10 @@ function ResumeStep({ store, update, onDone }) {
     setBusy('');
     if (!ok || !data.profile) { setError(data.error || 'Could not read your resume. Try again.'); return; }
     const hash = profileHash(clean);
+    const firstUpload = !profile;
     update((s) => ({ resumeText: clean, profile: data.profile, resumeHash: hash, matches: s.resumeHash === hash ? s.matches : {} }));
     if (data.mode === 'fallback') setNotice('AI was busy, so this is a quick keyword read. Matches improve once it is back. Re-read later.');
+    else if (firstUpload) onDone();
   }
 
   async function takeFile(file) {
@@ -396,11 +408,7 @@ function ResumeStep({ store, update, onDone }) {
             {error && <p className="ch-error">{error}</p>}
           </div>
         </div>
-        <ol className="ch-promises">
-          <li><b>Matched on proof.</b> Each match shows the line in your resume that earns it, and what is missing.</li>
-          <li><b>Never invented.</b> Tailoring rewords and reorders. If a number or skill isn&apos;t in your resume, it&apos;s dropped.</li>
-          <li><b>Stays with you.</b> Saved in this browser only. No account. You apply on the employer&apos;s own site.</li>
-        </ol>
+        <p className="ch-small ch-muted">Saved in this browser only, no account. If a number or skill isn&apos;t in your resume, it isn&apos;t added.</p>
       </section>
     );
   }
@@ -489,7 +497,7 @@ function ResumeStep({ store, update, onDone }) {
       <p className="ch-legend"><i className="is-core" />used at work <i className="is-used" />in a project <i className="is-mentioned" />listed only</p>
 
       <div className="ch-id-foot">
-        <button type="button" className="ch-cta" onClick={onDone}>See my matches →</button>
+        <button type="button" className="ch-cta" onClick={onDone}>Back to jobs →</button>
         <details className="ch-edit-resume">
           <summary>Edit or replace resume</summary>
           <textarea className="ch-input" rows={10} value={text} onChange={(e) => setText(e.target.value)} />
@@ -537,10 +545,13 @@ function MatchesStep({ store, update, onPick, early }) {
     const top = shortlistJobs(jobs, profile, { limit: SHORTLIST, entryOnly: mode === 'entry' });
     setProgress(0.15);
     setPhase(`Reading ${top.length} job descriptions…`);
-    const details = await Promise.all(top.map((r) => loadJobDetail(r.job.id)));
+    const [details, fullTexts] = await Promise.all([
+      Promise.all(top.map((r) => loadJobDetail(r.job.id))),
+      loadFullJobTexts(top.filter((r) => !store.matches?.[r.job.id]).map((r) => r.job)),
+    ]);
     if (id !== runId.current) return;
     const next = top.map((r, i) => {
-      const description = String(details[i]?.description || '');
+      const description = String(fullTexts[r.job.id] || details[i]?.description || '');
       return { ...r, job: { ...r.job, applyUrl: details[i]?.applyUrl || r.job.applyUrl }, description, hasInfo: description.length >= MIN_DESCRIPTION };
     });
     setRows(next);
@@ -555,7 +566,7 @@ function MatchesStep({ store, update, onPick, early }) {
       const { ok, data } = await postJson('/api/career/match', {
         resumeText,
         earlyCareer: isEarlyCareer(profile),
-        jobs: batch.map((r) => ({ id: r.job.id, title: r.job.title, company: r.job.company, experience: r.job.experience || '', description: r.description.slice(0, 6000) })),
+        jobs: batch.map((r) => ({ id: r.job.id, title: r.job.title, company: r.job.company, experience: r.job.experience || '', description: r.description.slice(0, MATCH_TEXT_MAX) })),
       });
       if (!ok) {
         failed += batch.length;
@@ -608,6 +619,8 @@ function MatchesStep({ store, update, onPick, early }) {
         )}
       </div>
 
+      <details className="ch-filter-more">
+      <summary>Filters</summary>
       <div className="ch-filters">
         <select aria-label="Minimum fit" value={filters.min} onChange={(e) => setFilters((f) => ({ ...f, min: Number(e.target.value) }))}>
           <option value={0}>Any fit</option>
@@ -626,6 +639,7 @@ function MatchesStep({ store, update, onPick, early }) {
         </label>
         <button type="button" className="ch-text-btn" onClick={run} disabled={Boolean(phase)}>↻ Refresh</button>
       </div>
+      </details>
 
       {phase && (
         <div className="ch-scanbar" role="status">
@@ -658,26 +672,17 @@ function MatchesStep({ store, update, onPick, early }) {
   );
 }
 
-function FitRing({ match, size = 64 }) {
-  if (!match) return <div className="ch-ring is-none" style={{ width: size, height: size }}><span>—</span></div>;
-  return (
-    <div className={`ch-ring is-${match.verdict}`} style={{ width: size, height: size, '--p': match.score }}>
-      <span><b>{match.score}</b><small>{match.verdict}</small></span>
-    </div>
-  );
-}
-
 function MatchCard({ row, rank, onPick, app }) {
   const { job, match, hasInfo, reasons } = row;
   const meta = [job.company, job.location?.split(',')[0], job.work === 'remote' ? 'Remote' : '', job.experience, postedLabel(job)].filter(Boolean);
   return (
     <article className={`ch-match${rank === 1 ? ' is-top' : ''}`}>
-      <FitRing match={match} />
       <div className="ch-match-body">
         <div className="ch-match-title">
           <h3>{job.title}</h3>
+          <FitLabel match={match} />
           {isEntryJob(job) && <span className="ch-tag">Fresher-open</span>}
-          {app && <span className="ch-tag is-app">{BOARD.find((b) => b.id === app.status)?.label || 'Saved'}</span>}
+          {app && <span className="ch-tag is-app">{BOARD.find((b) => b.id === boardStatus(app.status))?.label || 'Saved'}</span>}
         </div>
         <p className="ch-meta">{meta.join(' · ')}</p>
         {match ? (
@@ -688,7 +693,7 @@ function MatchCard({ row, rank, onPick, app }) {
                 <summary>
                   <span className="ch-proof-ok">{match.met.length} proven</span>
                   {match.gaps.length > 0 && <span className="ch-proof-gap">{match.gaps.length} missing</span>}
-                  <span className="ch-proof-cta">See receipts</span>
+                  <span className="ch-proof-cta">See why</span>
                 </summary>
                 <ul>
                   {match.met.map((m) => (
@@ -710,8 +715,8 @@ function MatchCard({ row, rank, onPick, app }) {
         )}
       </div>
       <div className="ch-match-actions">
-        <button type="button" className="ch-cta ch-cta-sm" onClick={() => onPick(job)}>{app?.pack ? 'Open pack' : 'Tailor & apply'}</button>
-        <a className="ch-text-btn" href={`/jobs/${encodeURIComponent(job.id)}`} target="_blank" rel="noreferrer">Job post ↗</a>
+        <button type="button" className="ch-cta ch-cta-sm" onClick={() => onPick(job)}>{app?.pack ? 'Open resume' : 'Tailor resume'}</button>
+        <a className="ch-text-btn" href={`/jobs/${jobUrlId(job)}`} target="_blank" rel="noreferrer">Job post ↗</a>
       </div>
     </article>
   );
@@ -719,22 +724,84 @@ function MatchCard({ row, rank, onPick, app }) {
 
 // ---------------------------------------------------------------- Apply pack
 
-function PackStep({ store, update, job, jobError, loading, passport, savePassport, onBrowse }) {
+const PACK_STAGES = [
+  'Reading the full job post',
+  'Checking your fit',
+  'Rewording your resume',
+  'Writing your cover letter',
+  'Drafting screening answers',
+];
+const PACK_STAGE_MS = 7000;
+const PACK_WRITING_STAGE = 2;
+// Under this, the match scoring means a core requirement is missing, so ask before building.
+const FIT_WARN_BELOW = 65;
+const LONG_SHOT_BELOW = 40;
+
+// The first two stages are real requests. The rest are paced to one AI call, so the last
+// stage holds until the pack really arrives.
+function PackBuilding({ phase }) {
+  const [tick, setTick] = useState(0);
+  const writing = phase === 'writing';
+
+  useEffect(() => {
+    if (!writing) return undefined;
+    const timer = setInterval(() => setTick((t) => t + 1), PACK_STAGE_MS);
+    return () => clearInterval(timer);
+  }, [writing]);
+
+  const current = phase === 'reading' ? 0 : phase === 'fit' ? 1 : Math.min(PACK_WRITING_STAGE + tick, PACK_STAGES.length - 1);
+
+  return (
+    <div className="ch-building">
+      <div className="ch-build-paper" aria-hidden="true">
+        <i /><i /><i /><i /><i /><i />
+        <span className="ch-scan" />
+      </div>
+      <div className="ch-build-copy">
+        <h3>Tailoring your resume</h3>
+        <ol className="ch-build-steps" role="status">
+          {PACK_STAGES.map((label, i) => (
+            <li key={label} className={i < current ? 'is-done' : i === current ? 'is-active' : ''} aria-current={i === current ? 'step' : undefined}>
+              {label}
+            </li>
+          ))}
+        </ol>
+        <p className="ch-small ch-muted">Usually takes under a minute.</p>
+      </div>
+    </div>
+  );
+}
+
+function PackStep({ store, update, job, jobError, loading, passport, savePassport, onBrowse, autoBuild, onAutoBuilt }) {
   const app = job ? store.applications?.[job.id] : null;
   const pack = app?.pack || null;
   const [busy, setBusy] = useState(false);
+  const [packPhase, setPackPhase] = useState('writing');
+  const [fitAcceptedFor, setFitAcceptedFor] = useState('');
+  const fullText = useRef({ id: '', text: '' });
+  const [pastedDescription, setPastedDescription] = useState('');
+  const [needsPaste, setNeedsPaste] = useState(false);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState('');
   const [editing, setEditing] = useState(false);
   const [tab, setTab] = useState('resume');
+  const autoStarted = useRef('');
+
+  useEffect(() => {
+    if (!job || autoBuild !== job.id || autoStarted.current === job.id) return;
+    autoStarted.current = job.id;
+    onAutoBuilt();
+    const known = store.matches?.[job.id];
+    if (!store.applications?.[job.id]?.pack && !(known && known.score < FIT_WARN_BELOW)) generate(false);
+  }, [job?.id, autoBuild]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!job) {
     return (
       <section className="ch-empty-state">
         {loading ? <div className="ch-card-skel" /> : (
           <>
-            <p>{jobError || 'Pick a job from your matches and we will build its application pack here.'}</p>
-            <button type="button" className="ch-cta" onClick={onBrowse}>Browse matches</button>
+            <p>{jobError || 'Pick a job and we will tailor your resume for it here.'}</p>
+            <button type="button" className="ch-cta" onClick={onBrowse}>See jobs</button>
           </>
         )}
       </section>
@@ -755,20 +822,54 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
     update((s) => ({ applications: { ...s.applications, [job.id]: stamp(s.applications[job.id] || { job: pickJob(job) }, status) } }));
   }
 
-  async function generate(allowFallback = false) {
+  async function generate(allowFallback = false, fitAccepted = fitAcceptedFor === job.id) {
     setBusy(true);
     setError(null);
+    let jobDescription = pastedDescription.trim();
+    if (!jobDescription) {
+      if (fullText.current.id !== job.id) {
+        setPackPhase('reading');
+        const full = await loadFullJobTexts([job]);
+        fullText.current = { id: job.id, text: full[job.id] || '' };
+      }
+      jobDescription = fullText.current.text || description || `${job.title} at ${job.company}`;
+    }
+    // Jobs opened from a link skip the matches step, so score them before spending a pack.
+    if (!pack && !match && !fitAccepted) {
+      setPackPhase('fit');
+      const fit = await postJson('/api/career/match', {
+        resumeText: store.resumeText,
+        earlyCareer: isEarlyCareer(store.profile),
+        jobs: [{ id: job.id, title: job.title, company: job.company, experience: job.experience || '', description: jobDescription.slice(0, MATCH_TEXT_MAX) }],
+      });
+      const found = fit.ok ? fit.data.matches?.[job.id] : null;
+      if (found) {
+        update((s) => ({ matches: { ...s.matches, [job.id]: found } }));
+        if (found.score < FIT_WARN_BELOW) {
+          setBusy(false);
+          return;
+        }
+      }
+    }
+    setPackPhase('writing');
     const { ok, data } = await postJson('/api/resume/tailor', {
       resumeText: store.resumeText,
-      jobDescription: description || `${job.title} at ${job.company}`,
+      jobDescription,
       jobTitle: job.title,
       company: job.company,
       jobSkills: Array.isArray(job.skills) ? job.skills : [],
       allowFallback,
     });
     setBusy(false);
+    if (data.code === 'WEAK_JOB_DESCRIPTION') {
+      setNeedsPaste(true);
+      setError({ message: pastedDescription.trim()
+        ? 'That still looks like company information. Paste the responsibilities and requirements.'
+        : 'We could not read this job from the company site.' });
+      return;
+    }
     if (!ok || !data.tailored) {
-      setError({ message: data.error || 'Could not build the pack right now.', canFallback: data.code === 'AI_UNAVAILABLE' || data.code === 'AI_INVALID' });
+      setError({ message: data.error || 'Could not tailor your resume right now.', canFallback: data.code === 'AI_UNAVAILABLE' || data.code === 'AI_INVALID' });
       return;
     }
     const t = data.tailored;
@@ -826,11 +927,10 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
 
   const head = (
     <header className="ch-pack-head">
-      <FitRing match={match} size={72} />
       <div>
-        <p className="ch-kicker">Application pack</p>
         <h2>{job.title}</h2>
         <p className="ch-meta">{[job.company, job.location?.split(',')[0], postedLabel(job)].filter(Boolean).join(' · ')}</p>
+        <FitLabel match={match} />
       </div>
     </header>
   );
@@ -839,25 +939,43 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
     return (
       <section className="ch-pack">
         {head}
-        <div className="ch-brief">
-          <div>
-            <h3>What you will get</h3>
-            <ul className="ch-checklist is-static">
-              <li>A resume reordered and reworded for this role, with every change listed</li>
-              <li>A short cover letter grounded in your real experience</li>
-              <li>Answers to the usual screening questions</li>
-            </ul>
-            {match?.gaps?.length > 0 && <p className="ch-small ch-muted">We won&apos;t pretend you have: {match.gaps.join(', ')}.</p>}
-            {description.length < MIN_DESCRIPTION && <p className="ch-note">This post has little description, so the pack will be more general.</p>}
-          </div>
-          <div className="ch-brief-cta">
-            <button type="button" className="ch-cta" onClick={() => generate(false)} disabled={busy}>
-              {busy ? 'Writing your pack…' : 'Build my pack'}
-            </button>
-            {busy && <p className="ch-small ch-muted">Takes about 20–30 seconds.</p>}
-            <button type="button" className="ch-text-btn" onClick={onBrowse}>← Back to matches</button>
+        {busy ? <PackBuilding phase={packPhase} /> : match && match.score < FIT_WARN_BELOW && fitAcceptedFor !== job.id ? (
+        <div className="ch-fit-warn">
+          <h3>{match.score < LONG_SHOT_BELOW ? 'This looks like a long shot' : 'This one is a stretch'}</h3>
+          {match.why && <p>{match.why}</p>}
+          {match.gaps?.length > 0 && <p className="ch-small"><b>Not shown in your resume:</b> {match.gaps.join(', ').replace(/([^…])$/, '$1.')}</p>}
+          <p className="ch-small ch-muted">Tailoring cannot add experience you don&apos;t have, so your time may go further on a closer match.</p>
+          <div className="ch-row">
+            <button type="button" className="ch-cta" onClick={onBrowse}>See better jobs</button>
+            <button type="button" className="ch-ghost" onClick={() => { setFitAcceptedFor(job.id); generate(false, true); }}>Tailor anyway</button>
           </div>
         </div>
+        ) : (
+        <div className="ch-brief">
+          <div>
+            <h3>Tailor your resume for this job</h3>
+            <p className="ch-small ch-muted">About 30 seconds. You check everything before you apply.</p>
+            {needsPaste && (
+              <div className="ch-paste-jd">
+                <label className="ch-small" htmlFor="ch-paste-jd">
+                  Copy the responsibilities and requirements from{' '}
+                  <a href={job.applyUrl || job.url} target="_blank" rel="noreferrer">the job post ↗</a>, paste them here, then tailor your resume.
+                </label>
+                <textarea
+                  id="ch-paste-jd"
+                  className="ch-input"
+                  rows={8}
+                  value={pastedDescription}
+                  onChange={(e) => setPastedDescription(e.target.value)}
+                />
+              </div>
+            )}
+          </div>
+          <div className="ch-brief-cta">
+            <button type="button" className="ch-cta" onClick={() => generate(false)}>Tailor my resume</button>
+          </div>
+        </div>
+        )}
         {error && (
           <div className="ch-error">
             {error.message}
@@ -872,54 +990,69 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
     );
   }
 
-  const openPlaceholders = [...new Set(pack.resume.match(/\[[^\]\n]{3,80}\]/g) || [])];
+  const openPlaceholders = findResumeBlanks(pack.resume);
   const fileBase = `${safeName(passport.fullName || store.profile?.name)}_${safeName(job.company)}`;
   const done = pack.done || {};
-  const steps = [
-    { key: 'fill', label: openPlaceholders.length ? `Fill ${openPlaceholders.length} blank${openPlaceholders.length > 1 ? 's' : ''} in your resume` : 'No blanks to fill', ok: openPlaceholders.length === 0 },
-    { key: 'pdf', label: 'Save the resume as PDF', ok: done.pdf },
-    { key: 'cover', label: 'Copy the cover letter', ok: done.cover },
-    { key: 'open', label: `Open ${job.company || 'the employer'}'s application`, ok: done.open },
-    { key: 'applied', label: 'Mark as applied', ok: ['applied', 'interview', 'offer'].includes(app?.status) },
-  ];
-  const progress = steps.filter((s) => s.ok).length;
+  const applied = ['applied', 'interview', 'offer'].includes(app?.status);
+  const blanks = openPlaceholders.length;
+  // One main button at a time: it moves along as each step is done.
+  const nextStep = blanks ? 'fill' : !done.pdf ? 'pdf' : !done.open && job.applyUrl ? 'open' : applied ? '' : 'applied';
+  const stepClass = (key) => `${nextStep === key ? 'ch-cta' : 'ch-ghost'}`;
+  const changeCount = (pack.changes || []).length;
+  const noteCount = (pack.warnings || []).length;
 
   return (
     <section className="ch-pack">
       {head}
-      <div className="ch-desk">
-        <div className="ch-desk-main">
-          <div className="ch-tabs" role="tablist">
-            {[['resume', 'Resume'], ['cover', 'Cover letter'], ['answers', `Answers (${(pack.answers || []).length})`], ['changes', `Changes (${(pack.changes || []).length})`]].map(([k, l]) => (
-              <button key={k} type="button" role="tab" aria-selected={tab === k} className={tab === k ? 'is-on' : ''} onClick={() => setTab(k)}>{l}</button>
-            ))}
-          </div>
+      <div className="ch-actions">
+        {blanks > 0 && <button type="button" className={stepClass('fill')} onClick={() => { setTab('resume'); setEditing(true); }}>Fill {blanks} blank{blanks > 1 ? 's' : ''}</button>}
+        <button type="button" className={stepClass('pdf')} onClick={() => { printResume(pack.resume, `${fileBase}_Resume`); tick('pdf'); }}>Download PDF</button>
+        <button type="button" className={stepClass('open')} onClick={openApplication} disabled={!job.applyUrl}>Apply on company site ↗</button>
+        {(done.open || applied) && (
+          <button type="button" className={stepClass('applied')} onClick={() => setStatus('applied')} disabled={applied}>{applied ? 'Applied ✓' : 'I applied'}</button>
+        )}
+      </div>
+      {error && <p className="ch-error">{error.message}</p>}
+      <div className="ch-tabs" role="tablist">
+        {[['resume', 'Resume'], ['cover', 'Cover letter'], ['answers', `Answers (${(pack.answers || []).length})`]].map(([k, l]) => (
+          <button key={k} type="button" role="tab" aria-selected={tab === k} className={tab === k ? 'is-on' : ''} onClick={() => setTab(k)}>{l}</button>
+        ))}
+      </div>
 
           {tab === 'resume' && (
             <div className="ch-sheet-wrap">
               <div className="ch-sheet-tools">
                 <button type="button" className="ch-text-btn" onClick={() => setEditing((v) => !v)}>{editing ? 'Done editing' : '✎ Edit'}</button>
                 <button type="button" className="ch-text-btn" onClick={() => copy('resume', pack.resume)}>{copied === 'resume' ? 'Copied ✓' : 'Copy'}</button>
-                <button type="button" className="ch-text-btn" onClick={() => download(`${fileBase}_Resume.md`, pack.resume)}>.md</button>
+                <button type="button" className="ch-text-btn" onClick={() => generate(false)} disabled={busy}>{busy ? 'Rewriting…' : '↻ Rewrite'}</button>
               </div>
+              {(changeCount > 0 || noteCount > 0) && (
+                <details className="ch-review">
+                  <summary>{changeCount} change{changeCount === 1 ? '' : 's'} made{noteCount ? `, ${noteCount} note${noteCount === 1 ? '' : 's'}` : ''}. See them</summary>
+                  {pack.warnings?.length > 0 && (
+                    <div className="ch-honest">
+                      {pack.warnings.map((w) => <p key={w}>{w}</p>)}
+                    </div>
+                  )}
+                  <div className="ch-diff">
+                    {(pack.changes || []).map((c, i) => (
+                      <div key={i} className="ch-diff-item">
+                        <span className="ch-diff-sec">{c.section}</span>
+                        {c.before && <p className="ch-del">{c.before}</p>}
+                        <p className="ch-add">{c.after}</p>
+                        {c.reason && <p className="ch-why ch-muted">{c.reason}</p>}
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              )}
               {editing ? (
                 <textarea className="ch-sheet ch-sheet-edit" value={pack.resume} onChange={(e) => setPack({ resume: e.target.value })} />
               ) : (
-                <article className="ch-sheet" onDoubleClick={() => setEditing(true)}>
-                  {resumeBlocks(pack.resume).map((b, i) => {
-                    const parts = b.text.split(/(\[[^\]\n]{3,80}\])/g).map((p, j) => (/^\[.*\]$/.test(p) ? <mark key={j} className="ch-blank">{p}</mark> : p));
-                    if (b.kind === 'name') return <h1 key={i}>{parts}</h1>;
-                    if (b.kind === 'h') return <h2 key={i}>{parts}</h2>;
-                    if (b.kind === 'li') return <p key={i} className="li">{parts}</p>;
-                    return <p key={i}>{parts}</p>;
-                  })}
-                </article>
-              )}
-              {pack.warnings?.length > 0 && (
-                <div className="ch-honest">
-                  <b>Kept honest</b>
-                  {pack.warnings.map((w) => <p key={w}>{w}</p>)}
-                </div>
+                <>
+                  <style dangerouslySetInnerHTML={{ __html: RESUME_CSS }} />
+                  <article className="ch-sheet rz" onDoubleClick={() => setEditing(true)} dangerouslySetInnerHTML={{ __html: resumeHtml(pack.resume) }} />
+                </>
               )}
             </div>
           )}
@@ -967,105 +1100,97 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
             </div>
           )}
 
-          {tab === 'changes' && (
-            <div className="ch-diff">
-              {(pack.changes || []).length === 0 && <p className="ch-muted">No line-level changes were recorded.</p>}
-              {(pack.changes || []).map((c, i) => (
-                <div key={i} className="ch-diff-item">
-                  <span className="ch-diff-sec">{c.section}</span>
-                  {c.before && <p className="ch-del">{c.before}</p>}
-                  <p className="ch-add">{c.after}</p>
-                  {c.reason && <p className="ch-why ch-muted">{c.reason}</p>}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <aside className="ch-desk-rail">
-          <div className="ch-launch">
-            <p className="ch-kicker">Your checklist · {progress}/{steps.length}</p>
-            <div className="ch-meter"><span style={{ width: `${(progress / steps.length) * 100}%` }} /></div>
-            <ul className="ch-checklist">
-              {steps.map((s) => <li key={s.key} className={s.ok ? 'is-ok' : ''}>{s.label}</li>)}
-            </ul>
-            {openPlaceholders.length > 0 && (
-              <p className="ch-blanks">{openPlaceholders.slice(0, 4).map((p) => <mark key={p} className="ch-blank">{p}</mark>)}</p>
-            )}
-            <button type="button" className="ch-ghost ch-block" onClick={() => { printResume(pack.resume, `${fileBase}_Resume`); tick('pdf'); }}>Save resume as PDF</button>
-            <button type="button" className="ch-cta ch-block" onClick={openApplication} disabled={!job.applyUrl}>Open application ↗</button>
-            <button
-              type="button"
-              className="ch-ghost ch-block"
-              onClick={() => setStatus('applied')}
-              disabled={['applied', 'interview', 'offer'].includes(app?.status)}
-            >
-              {['applied', 'interview', 'offer'].includes(app?.status) ? 'Applied ✓' : 'I applied'}
-            </button>
-            <button type="button" className="ch-text-btn" onClick={() => generate(false)} disabled={busy}>{busy ? 'Rewriting…' : '↻ Regenerate pack'}</button>
-          </div>
-        </aside>
-      </div>
     </section>
   );
 }
 
 // ---------------------------------------------------------------- Tracker
 
-function TrackerStep({ store, update, onOpen }) {
+function TrackerStep({ store, update, onOpen, onBrowse }) {
+  const [filter, setFilter] = useState('all');
+  const [removed, setRemoved] = useState(null);
   const apps = Object.values(store.applications || {});
+  const shown = apps
+    .filter((a) => filter === 'all' || boardStatus(a.status) === filter)
+    .sort((a, b) => Date.parse(b.dates?.[b.status] || 0) - Date.parse(a.dates?.[a.status] || 0));
 
   function move(id, status) {
     update((s) => ({ applications: { ...s.applications, [id]: stamp(s.applications[id], status) } }));
   }
 
-  function remove(id) {
+  function remove(app) {
+    setRemoved(app);
     update((s) => {
       const next = { ...s.applications };
-      delete next[id];
+      delete next[app.job.id];
       return { applications: next };
     });
   }
 
+  function undo() {
+    update((s) => ({ applications: { ...s.applications, [removed.job.id]: removed } }));
+    setRemoved(null);
+  }
+
+  const undoBar = removed && (
+    <p className="ch-undo" role="status">
+      Removed {removed.job.title}.
+      <button type="button" className="ch-text-btn" onClick={undo}>Undo</button>
+    </p>
+  );
+
   if (!apps.length) {
     return (
-      <section className="ch-empty-state">
-        <p>Your board is empty. Every job you tailor lands here, so you can follow it from saved to offer.</p>
-      </section>
+      <>
+        {undoBar}
+        <section className="ch-empty-state">
+          <p>No applications yet. Jobs you tailor a resume for show up here.</p>
+          <button type="button" className="ch-cta" onClick={onBrowse}>See jobs</button>
+        </section>
+      </>
     );
   }
 
   return (
-    <section className="ch-board">
-      {BOARD.map((col) => {
-        const items = apps
-          .filter((a) => a.status === col.id)
-          .sort((a, b) => Date.parse(b.dates?.[col.id] || 0) - Date.parse(a.dates?.[col.id] || 0));
-        return (
-          <div key={col.id} className={`ch-col is-${col.id}`}>
-            <h3>{col.label}<span>{items.length}</span></h3>
-            {items.map((a) => {
-              const i = BOARD.findIndex((b) => b.id === a.status);
-              const when = a.dates?.[a.status];
-              return (
-                <div key={a.job.id} className="ch-ticket">
-                  <button type="button" className="ch-ticket-title" onClick={() => onOpen(a.job)}>{a.job.title}</button>
+    <section>
+      <div className="ch-filter" role="group" aria-label="Filter by status">
+        {[{ id: 'all', label: 'All' }, ...BOARD].map((b) => {
+          const count = b.id === 'all' ? apps.length : apps.filter((a) => boardStatus(a.status) === b.id).length;
+          if (!count && (b.id === 'offer' || b.id === 'rejected')) return null;
+          return (
+            <button key={b.id} type="button" className={`${filter === b.id ? 'is-on' : ''}${count ? '' : ' is-empty'}`} aria-pressed={filter === b.id} onClick={() => setFilter(b.id)}>
+              {b.label} <span>{count}</span>
+            </button>
+          );
+        })}
+      </div>
+      {undoBar}
+      {shown.length ? (
+        <ul className="ch-apps">
+          {shown.map((a) => {
+            const when = a.dates?.[a.status];
+            return (
+              <li key={a.job.id} className="ch-app">
+                <div className="ch-app-main">
+                  <button type="button" className="ch-app-title" onClick={() => onOpen(a.job)}>{a.job.title}</button>
                   <p className="ch-meta">{a.job.company}{when ? ` · ${new Date(when).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}` : ''}</p>
-                  <div className="ch-ticket-actions">
-                    {i < BOARD.length - 2 && (
-                      <button type="button" className="ch-text-btn" onClick={() => move(a.job.id, BOARD[i + 1].id)}>→ {BOARD[i + 1].label}</button>
-                    )}
-                    <select aria-label="Move to" value={a.status} onChange={(e) => move(a.job.id, e.target.value)}>
-                      {BOARD.map((b) => <option key={b.id} value={b.id}>{b.label}</option>)}
-                    </select>
-                    <button type="button" className="ch-text-btn ch-danger" aria-label="Remove" onClick={() => remove(a.job.id)}>×</button>
-                  </div>
                 </div>
-              );
-            })}
-          </div>
-        );
-      })}
+                <FitLabel match={store.matches?.[a.job.id]} />
+                <select className="ch-app-status" aria-label={`Status of ${a.job.title}`} value={boardStatus(a.status)} onChange={(e) => move(a.job.id, e.target.value)}>
+                  {BOARD.map((b) => <option key={b.id} value={b.id}>{b.label}</option>)}
+                </select>
+                <button type="button" className="ch-ghost ch-app-open" onClick={() => onOpen(a.job, !a.pack)}>{a.pack ? 'Open resume' : 'Tailor resume'}</button>
+                <details className="ch-app-more">
+                  <summary aria-label={`More actions for ${a.job.title}`}>⋯</summary>
+                  <button type="button" onClick={() => remove(a)}>Remove</button>
+                </details>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p className="ch-small ch-muted ch-app-none">Nothing in this status yet.</p>
+      )}
     </section>
   );
 }

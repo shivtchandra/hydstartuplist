@@ -1,0 +1,24 @@
+RAHUL DSOUZA
+Pune, India | +91 90000 10004 | rahul.dsouza@example.com | https://rahuldesign.example.com
+
+ABOUT
+Product designer with 4 years designing mobile and web apps for consumer fintech. I care about clear flows and small details.
+
+TOOLS
+Figma, Sketch, Adobe Illustrator, Framer, Maze, HTML, CSS
+
+WORK
+Product Designer — Paisa Bazaar Labs | Aug 2023 – Present
+- Redesigned the loan application flow, reducing drop-off from 62% to 41%.
+- Built a design system of 120 components used by 3 product teams.
+- Ran 25 usability sessions and shared findings with engineering every sprint.
+UI/UX Designer — Studio Kolam | Jun 2021 – Jul 2023
+- Designed 9 client apps across health, travel and retail.
+- Created onboarding illustrations and motion specs for a travel app with 500,000 downloads.
+
+SELECTED WORK
+Metro Pass App — redesign concept that won a college design award.
+Kolam Icons — open icon set of 300 icons with 2,000 downloads.
+
+EDUCATION
+B.Des, Interaction Design — MIT Institute of Design | 2017 – 2021

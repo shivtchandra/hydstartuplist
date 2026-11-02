@@ -787,9 +787,6 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                       <span className="op-tag-pill op-tag-salary"><CardIcon name="pay" />{salaryPill}</span>
                     )}
                     {expDisplay && <span className="op-tag-pill op-tag-exp"><CardIcon name="exp" />{expDisplay}</span>}
-                    {job.role && job.role !== 'Other' && (
-                      <span className="op-tag-pill op-tag-role"><CardIcon name="role" />{job.role}</span>
-                    )}
                     {job.work && job.work !== 'unknown' && (
                       <span className="op-tag-pill op-tag-work"><CardIcon name="work" />{readable(job.work)}</span>
                     )}
@@ -804,10 +801,14 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                 <span className={`op-card-timestamp${job.status !== 'closed' && verifiedWithinDay(job) ? ' is-fresh' : ''}`}>
                   {job.status === 'closed' ? 'Closed' : <ClientOnly>{() => freshnessLabel(job)}</ClientOnly>}
                   <ClientOnly>{() => job.status !== 'closed' && job.isDirect && verificationLabel(job) && (
-                    <span className="op-verified-label">{verificationLabel(job)}</span>
+                    <span className="op-verified-label" title={`${verificationLabel(job)}, direct from the company's careers page`}>Verified</span>
                   )}</ClientOnly>
-                  {job.isDirect && <span className="op-direct-badge" title="Direct from company careers ATS">Direct from careers page</span>}
                 </span>
+                {job.status !== 'closed' && (
+                  <Link className="op-card-tailor" href={`/career?job=${encodeURIComponent(job.id)}`} onClick={e => e.stopPropagation()}>
+                    Tailor resume →
+                  </Link>
+                )}
                 {job.moreAtCompany && (
                   <button
                     type="button"

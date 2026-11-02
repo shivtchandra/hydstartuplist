@@ -10,6 +10,12 @@ export const metadata = {
 
 const FEATURED = [
   {
+    href: "/career",
+    kicker: "Apply",
+    title: "Resume Hub",
+    blurb: "See which jobs fit your resume, then get a tailored resume and cover letter.",
+  },
+  {
     href: "/jobs",
     kicker: "Hiring",
     title: "Jobs in Hyderabad",

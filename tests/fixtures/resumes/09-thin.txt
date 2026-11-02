@@ -1,0 +1,5 @@
+Vikram Rao
+vikram.rao@example.com | 90000 10009 | Vizag
+Worked as support engineer at Sagar Tech from 2023 to 2025, handling customer tickets and Linux servers.
+Know Linux, Bash and some Python.
+B.Sc Computer Science, Andhra University, 2023

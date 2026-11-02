@@ -81,6 +81,7 @@ export default function SiteFooter() {
             <Link href="/jobs/sector/saas">SaaS jobs</Link>
             <Link href="/jobs/sector/ai">AI &amp; ML jobs</Link>
             <Link href="/jobs/role/software-engineer">Software engineer jobs</Link>
+            <Link href="/career">Resume Hub</Link>
           </FooterSection>
 
           <FooterSection title="Guides & data" label="Guides and insights">
