@@ -61,7 +61,8 @@ function normalizeAdzunaResult(r, fetchedAt, nowMs = Date.now()) {
         ? description.slice(0, DESC_MAX)
         : description
       : null,
-    salary: normalizeSalary(r.salary_min, r.salary_max),
+    // A predicted figure is Adzuna's estimate, not the employer's offer.
+    salary: String(r.salary_is_predicted) === "1" ? null : normalizeSalary(r.salary_min, r.salary_max),
     source: "adzuna",
   };
   if (isSpamOrConsultancyJob(job)) return null;
