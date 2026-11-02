@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { isInvalidJobListing, jobSnippet, plausibleSalary, stripHtml } from "../lib/job-content.js";
 import { inferExperienceLevel, inferRoleType, isOpenToFreshers } from "../lib/job-facets.js";
 import { applyJobDetail, fetchJobDetails, jobDetailUrl } from "../lib/ats/job-details.js";
+import { isCuratedRemoteEligibleLocation } from "../lib/ats/geo.js";
 
 const NOW = Date.parse("2026-11-02T00:00:00Z");
 
@@ -82,4 +83,13 @@ test("fetchJobDetails respects the limit and stops on 429", async () => {
   const none = await fetchJobDetails("workday", meta, "a", rows, { concurrency: 1, fetchImpl: blocked });
   assert.equal(none.size, 0);
   assert.equal(calls, 1);
+});
+
+test("remote filter keeps India and open-world roles, rejects other places", () => {
+  for (const ok of ["Remote", "India (Remote)", "Remote - India", "Mumbai, MH (Remote)", "Bengaluru (Remote)", "Remote, Worldwide", "Home based - Worldwide", "APAC (Remote)", "Any Location (Remote)"]) {
+    assert.equal(isCuratedRemoteEligibleLocation(ok), true, ok);
+  }
+  for (const bad of ["Remote - CA", "Malta Office (Remote)", "Bydgoszcz (Remote)", "BZ - Sao Paulo (Remote)", "Nebraska (Remote)", "Remote, Slovakia", "SpotDraft Inc. NY (Remote)"]) {
+    assert.equal(isCuratedRemoteEligibleLocation(bad), false, bad);
+  }
 });
