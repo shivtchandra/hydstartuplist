@@ -58,12 +58,15 @@ jobs:
           GH_DISPATCH_TOKEN: ${{ secrets.GH_DISPATCH_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
+          umask 077
+          worker_secrets_file="$(mktemp --suffix=.json "$RUNNER_TEMP/startups-api-secrets.XXXXXX")"
+          trap 'rm -f "$worker_secrets_file"' EXIT
+          export WORKER_SECRETS_FILE="$worker_secrets_file"
           node -e '
             const names = ["FIREBASE_SERVICE_ACCOUNT","ADMIN_PASSCODE","ALERT_TOKEN_SECRET","ALERTS_ENABLED","RESEND_API_KEY","RESEND_WEBHOOK_SECRET","RAZORPAY_KEY_ID","RAZORPAY_KEY_SECRET","RAZORPAY_WEBHOOK_SECRET","FEATURED_UPI_VPA","NEWSLETTER_FROM","CRON_SECRET","GOOGLE_MAPS_API_KEY","MAIL_DAILY_LIMIT","MAIL_MONTHLY_LIMIT","GH_DISPATCH_TOKEN","OPENAI_API_KEY"];
             const out = {};
             for (const n of names) if (process.env[n]) out[n] = process.env[n];
-            require("fs").writeFileSync("secrets.json", JSON.stringify(out));
+            require("fs").writeFileSync(process.env.WORKER_SECRETS_FILE, JSON.stringify(out), { mode: 0o600 });
             console.log("syncing", Object.keys(out).join(", "));
           '
-          npx wrangler secret bulk secrets.json
-          rm -f secrets.json
+          npx wrangler secret bulk "$worker_secrets_file"
