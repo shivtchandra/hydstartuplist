@@ -160,6 +160,7 @@ export default function CareerHub() {
   const [store, setStore] = useState(null);
   const [view, setView] = useState('resume');
   const [matchesOpened, setMatchesOpened] = useState(false);
+  const [rewriteOpened, setRewriteOpened] = useState(false);
   const [passport, setPassport] = useState(() => normalizePassport({}));
   const [pendingJob, setPendingJob] = useState('');
   const [packJob, setPackJob] = useState(null);
@@ -196,8 +197,9 @@ export default function CareerHub() {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
-  // Stays mounted once opened, so changing tabs doesn't stop a match run.
+  // Keep background work and drafts alive when switching Hub sections.
   if (view === 'matches' && !matchesOpened) setMatchesOpened(true);
+  if (view === 'rewrite' && !rewriteOpened) setRewriteOpened(true);
 
   useEffect(() => {
     if (!hydrated.current || !store) return;
@@ -255,8 +257,12 @@ export default function CareerHub() {
       {store.profile ? (
         <>
           <header className="ch-hubbar">
-            <h1>Resume Hub</h1>
-            <button type="button" className="ch-text-btn" onClick={() => go('resume')}>Your resume</button>
+            <div>
+              <p className="ch-hub-eyebrow">Your next move</p>
+              <h1>Resume Hub</h1>
+              <p className="ch-hub-description">Find your fit. Make your experience count.</p>
+            </div>
+            <button type="button" className="ch-resume-link" onClick={() => go('resume')}>Your resume <span aria-hidden="true">↗</span></button>
           </header>
           <nav className="ch-tabs-hub" aria-label="Resume Hub">
             {HUB_TABS.map(([id, label]) => (
@@ -285,7 +291,12 @@ export default function CareerHub() {
           <MatchesStep store={store} update={update} onPick={(job) => openPack(job, true)} early={early} />
         </div>
       )}
-      {view !== 'matches' && (
+      {rewriteOpened && store.profile && (
+        <div className="ch-stage" hidden={view !== 'rewrite'}>
+          <RoleRewriteStep key={store.resumeHash} store={store} update={update} />
+        </div>
+      )}
+      {view !== 'matches' && (view !== 'rewrite' || !store.profile) && (
         <div className="ch-stage" key={view}>
           {(view === 'resume' || (view === 'rewrite' && !store.profile)) && (
             <ResumeStep store={store} update={update} onDone={() => { if (pendingJob) { setAutoBuild(pendingJob); setView('pack'); } else go(viewFromUrl() === 'rewrite' ? 'rewrite' : 'matches'); }} />
@@ -525,7 +536,8 @@ function ResumeStep({ store, update, onDone }) {
 
 function RoleRewriteStep({ store, update }) {
   const saved = store.roleRewrite?.resumeHash === store.resumeHash ? store.roleRewrite : null;
-  const [target, setTarget] = useState(saved?.target || store.profile.targetTitles?.[0] || '');
+  const draft = store.roleRewriteDraft?.resumeHash === store.resumeHash ? store.roleRewriteDraft : null;
+  const [target, setTarget] = useState(draft?.target ?? saved?.target ?? store.profile.targetTitles?.[0] ?? '');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [editing, setEditing] = useState(false);
@@ -542,8 +554,10 @@ function RoleRewriteStep({ store, update }) {
       });
       const text = data.tailored?.fullTailoredResume;
       if (!ok || !text) { setError(data.error || 'Could not rewrite your resume. Try again.'); return; }
-      update({ roleRewrite: { target: role, text, resumeHash: store.resumeHash,
-        changes: Array.isArray(data.tailored.changes) ? data.tailored.changes : [] } });
+      update((current) => current.resumeHash === store.resumeHash ? {
+        roleRewrite: { target: role, text, resumeHash: store.resumeHash,
+          changes: Array.isArray(data.tailored.changes) ? data.tailored.changes : [] },
+      } : {});
       setEditing(false);
     } catch {
       setError('Could not reach the resume service. Check your connection and try again.');
@@ -566,7 +580,11 @@ function RoleRewriteStep({ store, update }) {
         <label htmlFor="ch-target-role">Target role</label>
         <div className="ch-row">
           <input id="ch-target-role" className="ch-input" value={target} minLength={3} maxLength={160}
-            placeholder="Frontend developer, data analyst…" required onChange={(event) => setTarget(event.target.value)} />
+            placeholder="Frontend developer, data analyst…" required onChange={(event) => {
+              const target = event.target.value;
+              setTarget(target);
+              update({ roleRewriteDraft: { target, resumeHash: store.resumeHash } });
+            }} />
           <button className="ch-cta" type="submit" disabled={busy || target.trim().length < 3}>
             {busy ? 'Rewriting…' : 'Rewrite for this role'}
           </button>
@@ -607,6 +625,39 @@ function RoleRewriteStep({ store, update }) {
 }
 
 // ---------------------------------------------------------------- Matches
+
+function ShortlistBuilding({ phase, progress }) {
+  const stages = ['Finding relevant roles', 'Reading job descriptions', 'Comparing your experience'];
+  const current = progress < 0.15 ? 0 : progress < 0.2 ? 1 : 2;
+
+  return (
+    <div className="ch-building ch-shortlist-building">
+      <div className="ch-shortlist-art" aria-hidden="true">
+        <div className="ch-build-paper">
+          <i /><i /><i /><i /><i /><i />
+          <span className="ch-scan" />
+        </div>
+        <span className="ch-shortlist-seal">↔</span>
+      </div>
+      <div className="ch-build-copy">
+        <p className="ch-loading-kicker">Your next move, taking shape</p>
+        <h2>Building your shortlist</h2>
+        <p className="ch-loading-description">Finding roles that fit the skills and experience in your resume.</p>
+        <ol className="ch-build-steps" aria-label="Shortlist progress">
+          {stages.map((label, i) => (
+            <li key={label} className={i < current ? 'is-done' : i === current ? 'is-active' : ''} aria-current={i === current ? 'step' : undefined}>
+              {label}
+            </li>
+          ))}
+        </ol>
+        <div className="ch-loading-progress" role="progressbar" aria-label="Building your shortlist" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress * 100)} aria-valuetext={phase}>
+          <span style={{ transform: `scaleX(${progress})` }} />
+        </div>
+        <p className="ch-loading-status" role="status" aria-atomic="true">{phase}</p>
+      </div>
+    </div>
+  );
+}
 
 function MatchesStep({ store, update, onPick, early }) {
   const { profile, resumeText, resumeHash } = store;
@@ -707,9 +758,11 @@ function MatchesStep({ store, update, onPick, early }) {
   const recommended = ranked.filter(isRecommendedRow);
   const review = ranked.filter((r) => !isRecommendedRow(r));
   const assessed = rows?.filter((r) => cachedMatch(r.job.id)).length || 0;
+  const activeFilterCount = Number(Boolean(filters.min)) + Number(Boolean(filters.posted)) + Number(filters.remote);
+  const formatCount = (value) => value.toLocaleString('en-IN');
 
   return (
-    <section>
+    <section aria-label="Your job matches">
       <div className="ch-matches-head">
         <div className="ch-seg" role="tablist" aria-label="Which roles">
           <button type="button" role="tab" aria-selected={mode === 'best'} className={mode === 'best' ? 'is-on' : ''} onClick={() => setMode('best')}>
@@ -719,20 +772,23 @@ function MatchesStep({ store, update, onPick, early }) {
             Internships &amp; fresher{entryTotal ? <span className="ch-seg-n">{entryTotal}</span> : null}
           </button>
         </div>
-        {rows && !phase && (
-          <p className="ch-summary">
-            <b>{availableTotal}</b> unique roles available · <b>{rows.length}</b> shortlisted · <b>{assessed}</b> assessed
-          </p>
-        )}
       </div>
+      {rows && !phase && (
+        <dl className="ch-summary" aria-label="Shortlist overview">
+          <div><dt>Roles available</dt><dd>{formatCount(availableTotal)}</dd></div>
+          <div><dt>In your shortlist</dt><dd>{formatCount(rows.length)}</dd></div>
+          <div><dt>Assessed for fit</dt><dd>{formatCount(assessed)}</dd></div>
+        </dl>
+      )}
 
-      <div className="ch-shortlist-intro">
-        <h2>{phase ? 'Building your shortlist' : `${recommended.length} ${recommended.length === 1 ? 'role' : 'roles'} worth reviewing`}</h2>
-        <p>Good skill alignment, no stated experience shortfall, and seen on the source within 7 days.</p>
-      </div>
-
-      <details className="ch-filter-more">
-      <summary>Filters</summary>
+      {!phase && <div className="ch-results-toolbar">
+        <div className="ch-shortlist-intro" aria-live="polite">
+          <p className="ch-results-eyebrow">Selected for your profile</p>
+          <h2>{phase ? 'Building your shortlist' : recommended.length === 0 ? 'No clear matches yet' : `${recommended.length} ${recommended.length === 1 ? 'role' : 'roles'} worth reviewing`}</h2>
+          <p>Based on your skills, experience requirements and source activity in the last 7 days.</p>
+        </div>
+        <details className={`ch-filter-more${activeFilterCount ? ' is-active' : ''}`}>
+        <summary><span aria-hidden="true">☷</span> Filters{activeFilterCount > 0 && <span className="ch-filter-count">{activeFilterCount}</span>}</summary>
       <div className="ch-filters">
         <select aria-label="Minimum fit" value={filters.min} onChange={(e) => setFilters((f) => ({ ...f, min: Number(e.target.value) }))}>
           <option value={0}>Any fit</option>
@@ -749,16 +805,13 @@ function MatchesStep({ store, update, onPick, early }) {
           <input type="checkbox" checked={filters.remote} onChange={(e) => setFilters((f) => ({ ...f, remote: e.target.checked }))} />
           <span>Remote only</span>
         </label>
+        {activeFilterCount > 0 && <button type="button" className="ch-text-btn" onClick={() => setFilters({ min: 0, remote: false, posted: 0 })}>Clear filters</button>}
         <button type="button" className="ch-text-btn" onClick={run} disabled={Boolean(phase)}>↻ Refresh</button>
       </div>
       </details>
+      </div>}
 
-      {phase && (
-        <div className="ch-scanbar" role="status">
-          <span style={{ transform: `scaleX(${progress})` }} />
-          <p>{phase}</p>
-        </div>
-      )}
+      {phase && <ShortlistBuilding phase={phase} progress={progress} />}
       {error && <p className="ch-note">{error}</p>}
       {mode === 'entry' && rows && !phase && rows.length < 10 && (
         <p className="ch-note">
@@ -767,17 +820,15 @@ function MatchesStep({ store, update, onPick, early }) {
         </p>
       )}
       {rows && !phase && ranked.length === 0 && <p className="ch-empty">Nothing matches these filters. Loosen them a little.</p>}
-      {!rows && phase && <div className="ch-list">{[0, 1, 2].map((i) => <div key={i} className="ch-card-skel" />)}</div>}
-
       {rows && !phase && recommended.length === 0 && ranked.length > 0 && (
         <p className="ch-empty">No roles clear every shortlist check yet. Review the roles below to confirm experience, requirements or availability.</p>
       )}
-      <div className="ch-list">
+      {!phase && <div className="ch-list">
         {recommended.map((r, i) => <MatchCard key={r.job.id} row={r} rank={i + 1} onPick={onPick} app={store.applications?.[r.job.id]} />)}
-      </div>
-      {review.length > 0 && (
+      </div>}
+      {!phase && review.length > 0 && (
         <details className="ch-more-roles">
-          <summary>More roles to review <span>{review.length}</span></summary>
+          <summary><span className="ch-more-label">More roles to review <span className="ch-more-description">Explore roles that need a closer look</span></span><span className="ch-more-count">{formatCount(review.length)}</span><span className="ch-more-chevron" aria-hidden="true">⌄</span></summary>
           <p className="ch-muted ch-small">These need a closer look at experience, requirements, availability or skill gaps.</p>
           <div className="ch-list">
             {review.map((r) => <MatchCard key={r.job.id} row={r} onPick={onPick} app={store.applications?.[r.job.id]} />)}
@@ -795,30 +846,40 @@ function MatchCard({ row, rank, onPick, app }) {
   return (
     <article className={`ch-match${rank === 1 ? ' is-top' : ''}`}>
       <div className="ch-match-body">
-        <div className="ch-match-title">
-          <h3>{job.title}</h3>
-          {match && confidence === 'sufficient' && !['check', 'outside'].includes(eligibility.status) && <FitLabel match={match} />}
-          {isEntryJob(job) && <span className="ch-tag">Fresher-open</span>}
-          {app && <span className="ch-tag is-app">{BOARD.find((b) => b.id === boardStatus(app.status))?.label || 'Saved'}</span>}
+        <div className="ch-role-heading">
+          <span className="ch-company-mark" aria-hidden="true">{(job.company || job.title).slice(0, 1).toUpperCase()}</span>
+          <div className="ch-role-heading-copy">
+            <div className="ch-match-title">
+              <h3>{job.title}</h3>
+            </div>
+            <p className="ch-meta">{meta.join(' · ')}</p>
+          </div>
+          <div className="ch-role-badges">
+            {match && confidence === 'sufficient' && !['check', 'outside'].includes(eligibility.status) && <FitLabel match={match} />}
+            {isEntryJob(job) && <span className="ch-tag">Fresher-open</span>}
+            {app && <span className="ch-tag is-app">{BOARD.find((b) => b.id === boardStatus(app.status))?.label || 'Saved'}</span>}
+          </div>
         </div>
-        <p className="ch-meta">{meta.join(' · ')}</p>
-        <p className="ch-meta">{typeof job.salary === 'string' && job.salary ? job.salary : 'Salary not disclosed'} · {availability.label}</p>
+        <div className="ch-role-facts">
+          <span>{typeof job.salary === 'string' && job.salary ? job.salary : 'Salary not disclosed'}</span>
+          <span className={availability.recent ? 'ch-source-recent' : ''}>{availability.label}</span>
+        </div>
         <div className="ch-checks">
           <span className={eligibility.status === 'met' ? 'is-clear' : ''}>{eligibility.label}</span>
           <span>{confidence === 'limited' ? 'Limited requirements' : 'Requirements available'}</span>
         </div>
-        {eligibility.reason && <p className="ch-blocker">{eligibility.reason}</p>}
+        {eligibility.reason && <p className="ch-blocker ch-experience-note">{eligibility.reason}</p>}
         {match ? (
           <>
-            {match.why && confidence === 'sufficient' && <p className="ch-why">{match.why}</p>}
+            {match.why && confidence === 'sufficient' && <div className="ch-match-insight"><p className="ch-insight-label">Why this role</p><p className="ch-why">{match.why}</p></div>}
             {confidence === 'limited' && <p className="ch-why ch-muted">The description does not provide enough requirements for a reliable fit assessment. Read the full role first.</p>}
-            {match.gaps.length > 0 && <p className="ch-blocker">Not shown in your resume: {match.gaps[0]}</p>}
+            {match.gaps.length > 0 && <p className="ch-blocker ch-resume-gap"><strong>Resume gap</strong>{match.gaps[0]}</p>}
             {(match.met.length > 0 || match.gaps.length > 0) && (
               <details className="ch-proof">
                 <summary>
                   <span className="ch-proof-ok">{match.met.length} supported</span>
                   {match.gaps.length > 0 && <span className="ch-proof-gap">{match.gaps.length} not shown</span>}
-                  <span className="ch-proof-cta">See why</span>
+                  <span className="ch-proof-cta">View evidence</span>
                 </summary>
                 <ul>
                   {match.met.map((m) => (
@@ -840,8 +901,8 @@ function MatchCard({ row, rank, onPick, app }) {
         )}
       </div>
       <div className="ch-match-actions">
-        <a className="ch-cta ch-cta-sm" href={`/jobs/${jobUrlId(job)}`} target="_blank" rel="noreferrer">View role ↗</a>
-        {(canTailor || app?.pack) && <button type="button" className="ch-text-btn" onClick={() => onPick(job)}>{app?.pack ? 'Open resume' : 'Tailor resume'}</button>}
+        <a className="ch-role-link" href={`/jobs/${jobUrlId(job)}`} target="_blank" rel="noreferrer">View full role <span aria-hidden="true">↗</span><span className="ch-sr-only"> (opens in a new tab)</span></a>
+        {(canTailor || app?.pack) && <button type="button" className="ch-cta ch-cta-sm" onClick={() => onPick(job)}>{app?.pack ? 'Open resume' : 'Tailor resume'}<span aria-hidden="true">→</span></button>}
       </div>
     </article>
   );
