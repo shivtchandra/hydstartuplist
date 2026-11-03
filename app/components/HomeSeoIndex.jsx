@@ -1,19 +1,14 @@
-// Server-rendered SEO index for the homepage.
-//
-// The homepage itself is a client-side map ("use client"), so its initial HTML
-// is an empty shell — Googlebot sees "Loading…" and no content or links on the
-// site's highest-authority page. This block ships real, crawlable content in
-// the server HTML: a keyword-bearing intro plus ~60 links into the SSR
-// /startups/[slug] pages, grouped by sector and area. It sits below the map
-// (the .app pane is 100vh; the body scrolls), so it's genuine reachable
-// content, not a hidden stuffing block.
+// Server-rendered directory summary, company links and factual answers.
+// The map already receives SSR company results; this section adds context,
+// methodology and matching structured data, visible without a client-side reveal.
 import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { getApproved, visibleHiring } from "../../lib/store.js";
 import { startupSlug } from "../../lib/slug.js";
 import { prettyName, colorFor } from "../../lib/startupUi.js";
 import { industrySlugForSector } from "../../lib/industries.js";
-import HomeSeoReveal from "./HomeSeoReveal.jsx";
+import { homeAnswers, homeAnswerSchema } from "../../lib/home-answers.js";
+import { getSiteUrl } from "../../lib/site-url.js";
 
 const getApprovedCached = unstable_cache(
   async () => getApproved(),
@@ -78,51 +73,14 @@ export default async function HomeSeoIndex() {
     }));
 
   const hiringCount = all.filter((s) => visibleHiring(s)).length;
-  const year = new Date().getFullYear();
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How many companies in Hyderabad are on this map?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `Mapping HYD lists ${total.toLocaleString()}+ companies in Hyderabad across tech areas, updated for ${year}.`,
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How many startups are mapped in Hyderabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `Mapping HYD lists ${total.toLocaleString()}+ startups across Hyderabad tech areas, updated for ${year}.`,
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Where can I find startup jobs in Hyderabad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Open https://startups.mapmyhyd.com/jobs for jobs in Hyderabad, or https://startups.mapmyhyd.com/jobs/fresher for fresher and early-career roles. Free, no signup.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is Mapping HYD Startups free?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Browse the map, company pages, and jobs without an account.",
-        },
-      },
-    ],
-  };
+  const snapshotDate = new Date();
+  const answers = homeAnswers({ total, hiringCount, sectorCount: sectorMap.size });
+  const faqLd = homeAnswerSchema(answers, getSiteUrl());
 
   return (
     <section className="home-seo" aria-label="Hyderabad Startup Directory">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <HomeSeoReveal>
+      <div id="home-seo-directory" className="home-seo-reveal is-open is-inview">
         <div className="home-seo-inner">
           <header className="home-seo-head home-seo-step">
             <h1>
@@ -130,16 +88,16 @@ export default async function HomeSeoIndex() {
               <span className="home-seo-h1-sub">Companies, jobs &amp; funding</span>
             </h1>
             <p className="home-seo-sub">
-              Interactive map of startups and product companies across HITEC City, Gachibowli, Madhapur, and beyond — plus open jobs and funding, updated for {year}.
+              {answers[0].answer}
             </p>
             <dl className="home-seo-stats">
               <div>
-                <dt>Startups</dt>
-                <dd>{total.toLocaleString()}+</dd>
+                <dt>Company listings</dt>
+                <dd>{total.toLocaleString("en-IN")}</dd>
               </div>
               <div>
-                <dt>Hiring now</dt>
-                <dd>{hiringCount || "60+"}</dd>
+                <dt>Hiring signals</dt>
+                <dd>{hiringCount.toLocaleString("en-IN")}</dd>
               </div>
               <div>
                 <dt>Sectors</dt>
@@ -147,9 +105,11 @@ export default async function HomeSeoIndex() {
               </div>
             </dl>
             <p className="home-seo-updated">
-              Updated {new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+              Counts calculated <time dateTime={snapshotDate.toISOString()}>{snapshotDate.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" })}</time>
               {" · "}
-              <Link href="/hyderabad-tech-statistics">See all statistics</Link>
+              <Link href="/hyderabad-tech-statistics">Statistics</Link>
+              {" · "}<Link href="/how-we-verify">Sources and verification</Link>
+              {" · "}<Link href="/about">Who runs Mapping HYD</Link>
             </p>
             <nav className="home-seo-actions" aria-label="Explore">
               <Link href="/jobs">Jobs in Hyderabad</Link>
@@ -164,7 +124,7 @@ export default async function HomeSeoIndex() {
 
           <div className="home-seo-sectors-section home-seo-step">
             <div className="home-seo-section-title-wrap">
-              <h3 className="home-seo-section-title">Explore by sector</h3>
+              <h2 className="home-seo-section-title">Explore by sector</h2>
               <Link href="/industries" className="home-seo-view-all">View all industries →</Link>
             </div>
 
@@ -194,33 +154,20 @@ export default async function HomeSeoIndex() {
             </div>
           </div>
 
-          <section className="home-seo-faq home-seo-step" aria-label="FAQ">
-            <h2 className="home-seo-section-title">FAQ</h2>
-            <details>
-              <summary>How many startups are on Mapping HYD?</summary>
-              <p>
-                This directory lists <strong>{total.toLocaleString()}+</strong> Hyderabad startups across HITEC City,
-                Gachibowli, Madhapur, and more — updated for {year}. See the{" "}
-                <Link href="/hyderabad-tech-statistics">full statistics</Link>.
-              </p>
-            </details>
-            <details>
-              <summary>Where can I find jobs in Hyderabad?</summary>
-              <p>
-                <Link href="/jobs">Browse live openings</Link> or jump to{" "}
-                <Link href="/jobs/fresher">fresher jobs in Hyderabad</Link> — free, no signup.
-              </p>
-            </details>
-            <details>
-              <summary>Is Mapping HYD Startups free?</summary>
-              <p>
-                Yes. Browse the map, company pages, and jobs without creating an account.{" "}
-                <Link href="/submit">Submit your company</Link> if you are missing.
-              </p>
-            </details>
+          <section id="questions" className="home-seo-faq home-seo-step" aria-label="Questions about the Hyderabad company directory">
+            <h2 className="home-seo-section-title">Using the Hyderabad company directory</h2>
+            {answers.map(({ question, answer, links }) => (
+              <article key={question} className="home-answer">
+                <h3>{question}</h3>
+                <p>{answer}</p>
+                <nav aria-label={question}>{links.map(({ href, label }) => (
+                  <Link key={href} href={href}>{label}</Link>
+                ))}</nav>
+              </article>
+            ))}
           </section>
         </div>
-      </HomeSeoReveal>
+      </div>
     </section>
   );
 }

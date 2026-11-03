@@ -41,7 +41,7 @@ export default function SoftLoginBanner({ force = false }) {
   }, []);
 
   useEffect(() => {
-    if (!ready || user) {
+    if (!ready || user || (!force && pathname === "/")) {
       setShow(false);
       return;
     }

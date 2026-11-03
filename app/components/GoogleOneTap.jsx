@@ -69,7 +69,7 @@ export default function GoogleOneTap({ force = false }) {
   const lastPromptPath = useRef("");
 
   useEffect(() => {
-    if (!ready || user) {
+    if (!ready || user || (!force && pathname === "/")) {
       cancelGoogleOneTap();
       return undefined;
     }

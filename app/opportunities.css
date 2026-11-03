@@ -11,6 +11,11 @@
 .startup-map-loading button{margin-right:8px;padding:8px 12px;border:1px solid var(--line);border-radius:var(--radius-control);background:white;cursor:pointer}
 @media(max-width:767px){.startup-workspace .topnav-row{display:flex;flex-wrap:wrap;overflow:visible;gap:10px;height:auto;min-height:52px;padding:8px 12px}.startup-workspace .tn-search{display:flex!important;order:3;flex:1 0 100%;width:100%;height:40px}.startup-workspace .tn-search input{font-size:13px}.startup-workspace .topnav-filters{gap:6px;padding:8px 12px}.startup-workspace .filter-pills button{padding:6px 9px}}
 .startup-map-loading{position:absolute;top:16px;left:16px;z-index:500;background:white;padding:12px;border-radius:8px;font-size:13px}
+.app-body.map-failed .sidebar{width:100%;border-right:0;transition:none}
+.app-body.map-failed .map-area{display:none}
+.startup-map-fallback{margin:12px 0;padding:12px;border:1px solid var(--border-subtle);border-radius:12px;background:var(--surface-card)}
+.startup-map-fallback p{margin:0 0 8px;font-size:13px;line-height:1.5}
+.startup-map-fallback button{padding:8px 12px;border:1px solid var(--border-subtle);border-radius:8px;background:var(--surface-card);color:var(--text-main);font:inherit;cursor:pointer}
  .explore-modes{display:flex;gap:3px;padding:3px;border:1px solid var(--line);border-radius:8px;background:var(--surface-3);width:max-content;flex-shrink:0}
 .explore-modes a{padding:7px 15px;border-radius:var(--radius-control);text-decoration:none;color:var(--ink-2);font-size:12px;font-weight:650;min-height:32px;display:flex;align-items:center}
 .explore-modes a[aria-current=page]{background:white;color:var(--accent-text);box-shadow:0 1px 3px #17242b12}

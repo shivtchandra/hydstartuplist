@@ -7578,6 +7578,9 @@ body:has(.startup-page-wrap) {
   margin-top: 28px;
   max-width: 42rem;
 }
+.home-answer{padding:18px 0;border-top:1px solid #e3e8e4;max-width:48rem}
+.home-answer h3{margin:0 0 8px;font-size:1rem;line-height:1.4;color:var(--text-main)}
+.home-answer nav{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:10px;font-size:.85rem}
 .home-seo-faq p {
   color: var(--ink-soft, #5a5a5a);
   font-size: 14.5px;
