@@ -106,8 +106,10 @@ function useLeafletMap(containerRef) {
   const [viewTick, setViewTick] = useState(0);
 
   useEffect(() => {
-    let cancelled = false;setMapError(false);setReady(false);
-    const timer=setTimeout(()=>{if(!cancelled&&!mapRef.current)setMapError(true);},8000);
+    let cancelled = false;
+    let tilesLoaded = 0;
+    setMapError(false);setReady(false);
+    const timer=setTimeout(()=>{if(!cancelled&&tilesLoaded===0)setMapError(true);},8000);
     (async () => {
       const L = (await import("leaflet")).default;
       await import("leaflet/dist/leaflet.css");
@@ -138,7 +140,14 @@ function useLeafletMap(containerRef) {
         updateWhenZooming: true,
         updateInterval: 100,
         keepBuffer: 4,
-      }).on("tileerror",()=>{if(!cancelled&&++tileErrors>=3)setMapError(true);}).addTo(mapRef.current);
+      }).on("tileload", () => {
+        if (cancelled) return;
+        tilesLoaded++;
+        clearTimeout(timer);
+        setMapError(false);
+      }).on("tileerror", () => {
+        if (!cancelled && ++tileErrors >= 3 && tilesLoaded === 0) setMapError(true);
+      }).addTo(mapRef.current);
       areaLayerRef.current = L.layerGroup().addTo(mapRef.current);
       spotLayerRef.current = L.layerGroup().addTo(mapRef.current);
       let tickRaf = 0;
@@ -152,7 +161,7 @@ function useLeafletMap(containerRef) {
           setViewTick((n) => n + 1);
         });
       });
-      clearTimeout(timer);setReady(true);
+      setReady(true);
     })().catch(()=>{if(!cancelled)setMapError(true);});
     return () => {
       cancelled = true;clearTimeout(timer);
@@ -1186,7 +1195,14 @@ export default function HomeClient({ initialStartups = [] }) {
     return () => clearTimeout(t);
   }, []);
 
+  function handleRetryMap() {
+    setSidebarOpen(window.innerWidth > 768);
+    setListOpen(false);
+    retryMap();
+  }
+
   function toggleSidebar() {
+    if (mapError) { handleRetryMap(); return; }
     const next = !sidebarOpen;
     setSidebarOpen(next);
     if (typeof window !== "undefined" && window.innerWidth <= 768) setListOpen(next);
@@ -1242,14 +1258,14 @@ export default function HomeClient({ initialStartups = [] }) {
             type="button"
             className="sb-toggle-pill"
             onClick={toggleSidebar}
-            title={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
-            aria-label={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
+            title={mapError ? "Retry map" : sidebarOpen ? "Hide sidebar" : "Show sidebar"}
+            aria-label={mapError ? "Retry map" : sidebarOpen ? "Hide sidebar" : "Show sidebar"}
           >
             <svg viewBox="0 0 24 24" width="15" height="15" fill="none">
               <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="2" />
               <path d="M9 3v18" stroke="currentColor" strokeWidth="2" />
             </svg>
-            <span>{sidebarOpen ? "Hide list" : "Show list"}</span>
+            <span>{mapError ? "Retry map" : sidebarOpen ? "Hide list" : "Show list"}</span>
           </button>
           <Dropdown value={sector} onChange={(v) => startTransition(() => setSector(v))} options={sectors} placeholder="All sectors" counts={sectorCounts} />
           <Dropdown value={fundingStage} onChange={(v) => startTransition(() => setFundingStage(v))} options={stages} placeholder="All stages" counts={stageCounts} />
@@ -1311,7 +1327,7 @@ export default function HomeClient({ initialStartups = [] }) {
         </div>
       )}
 
-      <div className={`app-body${sidebarOpen ? "" : " sidebar-closed"}${listOpen ? " list-open" : ""}`}>
+      <div className={`app-body${sidebarOpen || mapError ? "" : " sidebar-closed"}${listOpen || mapError ? " list-open" : ""}${mapError ? " map-failed" : ""}`}>
         <aside className="sidebar">
           <div className="sb-inner">
             <div className="sb-head">
@@ -1324,6 +1340,10 @@ export default function HomeClient({ initialStartups = [] }) {
                 {hiringInView > 0 && <span className="sb-hiring"> · {hiringInView} hiring now</span>}
               </div>
               <p className="sb-desc">Filter startups by sector, funding stage, and open job roles on the map.</p>
+              {mapError && <div className="startup-map-fallback" role="status">
+                <p>The map couldn’t load. Browse companies below, or try the map again.</p>
+                <button type="button" onClick={handleRetryMap}>Retry map</button>
+              </div>}
               <div className="sb-tabs">
                 <button className={sidebarView === "list" ? "on" : ""} onClick={() => setSidebarView("list")}>Startups</button>
                 <button className={sidebarView === "areas" ? "on" : ""} onClick={() => setSidebarView("areas")}>Areas</button>
@@ -1395,7 +1415,6 @@ export default function HomeClient({ initialStartups = [] }) {
             aria-label="Hyderabad startup map"
           />
           {!ready&&!mapError&&<p className="startup-map-loading" role="status">Loading startup map…</p>}
-          {mapError&&<div className="startup-map-loading" role="status"><p>The map is unavailable. Startup results still work.</p><button onClick={retryMap}>Retry map</button><button onClick={()=>{setSidebarOpen(true);setListOpen(true);}}>Browse startups</button></div>}
           {!sidebarOpen && (
             <MapFeaturedChrome
               startups={sponsoredPins}
@@ -1413,6 +1432,7 @@ export default function HomeClient({ initialStartups = [] }) {
 
       <MobileTabBar
         onMapTab={() => {
+          if (mapError) { handleRetryMap(); return; }
           setSidebarOpen(false);
           setListOpen(false);
           setTimeout(invalidateSize, 260);
