@@ -6,14 +6,14 @@ import {
   createSafeFallback,
   hasMeaningfulJobDescription,
   stripGuidedPlaceholders,
-  validateTailoredResult,
+  generateValidatedTailoring,
 } from "../../../../lib/resume/tailor.js";
 
 export const dynamic = "force-dynamic";
 
-async function callFastOpenAI(prompt, apiKey) {
+async function callFastOpenAI(prompt, apiKey, timeoutMs = 60000) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 60000);
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const res = await fetch("https://api.openai.com/v1/responses", {
@@ -24,7 +24,7 @@ async function callFastOpenAI(prompt, apiKey) {
       },
       signal: controller.signal,
       body: JSON.stringify({
-        model: "gpt-6-luna",
+        model: process.env.RESUME_TAILOR_MODEL || "gpt-6.1-sol",
         reasoning: { effort: "medium" },
         max_output_tokens: 12000,
         input: [
@@ -74,11 +74,16 @@ export async function POST(req) {
       company = "",
       jobSkills = [],
       allowFallback = false,
+      rewriteMode = "job",
     } = body || {};
+    if (!["job", "role"].includes(rewriteMode)) {
+      return NextResponse.json({ error: "Choose a job-specific or role-general rewrite.", code: "INVALID_REWRITE_MODE" }, { status: 400 });
+    }
+    const general = rewriteMode === "role";
 
     const cleanResume = String(resumeText || "").trim();
     const cleanDescription = String(jobDescription || "").trim();
-    if (cleanResume.length < 80 || !jobTitle || !cleanDescription) {
+    if (cleanResume.length < 80 || !String(jobTitle).trim() || (!general && !cleanDescription)) {
       return NextResponse.json(
         { error: "Add your resume and a complete target role before tailoring.", code: "MISSING_INPUT" },
         { status: 400 }
@@ -90,7 +95,7 @@ export async function POST(req) {
         { status: 413 }
       );
     }
-    if (!hasMeaningfulJobDescription(cleanDescription)) {
+    if (!general && !hasMeaningfulJobDescription(cleanDescription)) {
       return NextResponse.json(
         {
           error: "This looks like company information rather than a complete job description. Paste the role responsibilities and requirements.",
@@ -109,6 +114,8 @@ export async function POST(req) {
 
     let mode = "safe-fallback";
     let aiResult;
+    let repairAttempts = 0;
+    let compressionAttempts = 0;
     let aiFailure = null;
     const openaiKey = process.env.OPENAI_API_KEY;
 
@@ -121,9 +128,19 @@ export async function POST(req) {
           company,
           jobSkills,
           baseline,
+          rewriteMode,
         });
-        const rawResult = await callFastOpenAI(prompt, openaiKey);
-        aiResult = validateTailoredResult(rawResult, cleanResume, { jobTitle, company });
+        const deadline = Date.now() + 85000;
+        const generated = await generateValidatedTailoring({
+          prompt,
+          resumeText: cleanResume,
+          jobTitle,
+          company,
+          generate: (requestPrompt) => callFastOpenAI(requestPrompt, openaiKey, Math.min(60000, Math.max(1, deadline - Date.now()))),
+        });
+        aiResult = generated.tailored;
+        repairAttempts = generated.repairAttempts;
+        compressionAttempts = generated.compressionAttempts;
         mode = "openai";
       } catch (error) {
         aiFailure = error?.name === "AbortError" || /OpenAI request failed/.test(error?.message || "") ? "AI_UNAVAILABLE" : "AI_INVALID";
@@ -167,6 +184,10 @@ export async function POST(req) {
       }
     }
 
+    if (general) {
+      aiResult.coverLetter = "";
+      aiResult.screeningAnswers = [];
+    }
     const scoreableResume = stripGuidedPlaceholders(aiResult.fullTailoredResume);
     const tailoredScore = analyzeResumeATS({
       resumeText: scoreableResume,
@@ -185,6 +206,9 @@ export async function POST(req) {
         remainingMissingSkills: tailoredScore.missingSkills,
       },
       mode,
+      repairAttempts,
+      compressionAttempts,
+      rewriteMode,
     });
   } catch (error) {
     console.error("Resume tailor failed:", error?.name || "unknown_error");

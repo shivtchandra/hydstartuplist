@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
+import { matchingDescription } from "../../../../lib/career/prefilter.js";
 import { readGuardedJson } from "../../../../lib/career/guard.js";
 import { AIUnavailableError, callOpenAIJson } from "../../../../lib/career/openai.js";
 import {
   MATCH_BATCH,
-  MATCH_SCHEMA,
+  matchSchemaForJobs,
   MATCH_SYSTEM,
   MIN_DESCRIPTION,
   buildMatchPrompt,
@@ -25,8 +26,9 @@ export async function POST(req) {
       id: String(j.id),
       title: String(j.title).slice(0, 200),
       company: String(j.company || "").slice(0, 120),
+      location: String(j.location || "").slice(0, 200),
       experience: j.experience ? String(j.experience).slice(0, 60) : "",
-      description: String(j.description).slice(0, 6000),
+      description: matchingDescription(j.description),
     }));
   if (resumeText.length < 80 || !jobs.length) {
     return NextResponse.json({ error: "Need resume text and at least one job with a description.", code: "MISSING_INPUT" }, { status: 400 });
@@ -38,12 +40,14 @@ export async function POST(req) {
       system: MATCH_SYSTEM,
       prompt: buildMatchPrompt(resumeText, jobs, { earlyCareer: Boolean(body?.earlyCareer) }),
       schemaName: "job_matches",
-      schema: MATCH_SCHEMA,
+      schema: matchSchemaForJobs(jobs.map((job) => job.id)),
       effort: "low",
       maxOutputTokens: 5000,
       timeoutMs: 28000,
     });
-    return NextResponse.json({ matches: validateMatches(raw, resumeText, jobs.map((j) => j.id)) });
+    const years = Number(body?.yearsExperience);
+    const profile = { yearsExperience: Number.isFinite(years) && years >= 0 && years <= 45 ? years : undefined };
+    return NextResponse.json({ matches: validateMatches(raw, resumeText, jobs.map((j) => j.id), { jobs, profile }) });
   } catch (err) {
     const code = err instanceof AIUnavailableError ? err.code : "AI_INVALID";
     console.warn("career match failed:", code);

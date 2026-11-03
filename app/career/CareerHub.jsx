@@ -8,7 +8,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { RESUME_CSS, findResumeBlanks, resumeHtml, resumePrintDocument } from '../../lib/resume/layout.js';
 import { extractResumeText } from '../../lib/resume/parse-client.js';
-import { isEarlyCareer, isEntryJob, shortlistJobs } from '../../lib/career/prefilter.js';
+import { isEarlyCareer, isEntryJob, shortlistJobs, curateJobs, experienceEligibility, assessmentConfidence, availabilityInfo, isRecommendedRow, foreignOnly, matchingDescription } from '../../lib/career/prefilter.js';
 import { profileHash } from '../../lib/career/openai.js';
 import { jobsFetch } from '../../lib/opportunities-client.js';
 import { jobUrlId } from '../../lib/jobs-seo.js';
@@ -23,7 +23,6 @@ const STORE_KEY = 'mapmyhyd_career_v2';
 const SHORTLIST = 40;
 const BATCH = 8;
 // Enough to reach requirements once the company intro is gone, without paying AI costs for all of it.
-const MATCH_TEXT_MAX = 3000;
 const MIN_DESCRIPTION = 300;
 const BOARD = [
   { id: 'saved', label: 'Saved' },
@@ -63,7 +62,8 @@ const CONTACT = [
 function readStore() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
-    if (saved && typeof saved === 'object') return { matches: {}, applications: {}, ...saved };
+    if (saved && typeof saved === 'object') return { applications: {}, ...saved,
+      matches: Object.fromEntries(Object.entries(saved.matches || {}).filter(([, match]) => match?.assessmentVersion === 4)) };
   } catch {}
   // One-time migration from the old Apply Copilot keys.
   const out = { resumeText: '', profile: null, resumeHash: '', matches: {}, applications: {} };
@@ -145,15 +145,15 @@ function stamp(app, status) {
   return { ...app, status, dates: { ...(app.dates || {}), [status]: app.dates?.[status] || new Date().toISOString() } };
 }
 
-const HUB_PATHS = { resume: '/career?view=resume', matches: '/career/matches', tracker: '/career/applications' };
-const HUB_TABS = [['matches', 'Jobs'], ['tracker', 'My applications']];
+const HUB_PATHS = { resume: '/career?view=resume', matches: '/career/matches', rewrite: '/career?view=rewrite', tracker: '/career/applications' };
+const HUB_TABS = [['matches', 'Jobs'], ['rewrite', 'Rewrite resume'], ['tracker', 'My applications']];
 
 function viewFromUrl() {
   const query = new URLSearchParams(location.search);
   if (query.get('job')) return 'pack';
   if (location.pathname.startsWith('/career/matches')) return 'matches';
   if (location.pathname.startsWith('/career/applications')) return 'tracker';
-  return query.get('view') === 'resume' ? 'resume' : 'matches';
+  return ['resume', 'rewrite'].includes(query.get('view')) ? query.get('view') : 'matches';
 }
 
 export default function CareerHub() {
@@ -281,8 +281,8 @@ export default function CareerHub() {
       )}
       {view !== 'matches' && (
         <div className="ch-stage" key={view}>
-          {view === 'resume' && (
-            <ResumeStep store={store} update={update} onDone={() => { if (pendingJob) { setAutoBuild(pendingJob); setView('pack'); } else go('matches'); }} />
+          {(view === 'resume' || (view === 'rewrite' && !store.profile)) && (
+            <ResumeStep store={store} update={update} onDone={() => { if (pendingJob) { setAutoBuild(pendingJob); setView('pack'); } else go(viewFromUrl() === 'rewrite' ? 'rewrite' : 'matches'); }} />
           )}
           {view === 'pack' && store.profile && (
             <>
@@ -301,6 +301,7 @@ export default function CareerHub() {
               />
             </>
           )}
+          {view === 'rewrite' && store.profile && <RoleRewriteStep store={store} update={update} />}
           {view === 'tracker' && <TrackerStep store={store} update={update} onOpen={openPack} onBrowse={() => go('matches')} />}
         </div>
       )}
@@ -514,13 +515,103 @@ function ResumeStep({ store, update, onDone }) {
   );
 }
 
+// ---------------------------------------------------------- Role-based rewrite
+
+function RoleRewriteStep({ store, update }) {
+  const saved = store.roleRewrite?.resumeHash === store.resumeHash ? store.roleRewrite : null;
+  const [target, setTarget] = useState(saved?.target || store.profile.targetTitles?.[0] || '');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const [editing, setEditing] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  async function generate(event) {
+    event.preventDefault();
+    const role = target.trim();
+    if (role.length < 3 || busy) return;
+    setBusy(true); setError(''); setCopied(false);
+    try {
+      const { ok, data } = await postJson('/api/resume/tailor', {
+        resumeText: store.resumeText, jobTitle: role, rewriteMode: 'role',
+      });
+      const text = data.tailored?.fullTailoredResume;
+      if (!ok || !text) { setError(data.error || 'Could not rewrite your resume. Try again.'); return; }
+      update({ roleRewrite: { target: role, text, resumeHash: store.resumeHash,
+        changes: Array.isArray(data.tailored.changes) ? data.tailored.changes : [] } });
+      setEditing(false);
+    } catch {
+      setError('Could not reach the resume service. Check your connection and try again.');
+    } finally { setBusy(false); }
+  }
+
+  async function copy() {
+    try { await navigator.clipboard.writeText(saved.text); setCopied(true); }
+    catch { setError('Could not copy. Use Edit text to select and copy your resume.'); }
+  }
+
+  const changes = (saved?.changes || []).filter((change) => typeof change.before === 'string' && typeof change.after === 'string');
+  return (
+    <section className="ch-role-rewrite">
+      <div className="ch-shortlist-intro">
+        <h2>A resume for your next role</h2>
+        <p>Choose a role to focus your experience. For a particular vacancy, use Tailor resume on its job card.</p>
+      </div>
+      <form className="ch-role-form" onSubmit={generate}>
+        <label htmlFor="ch-target-role">Target role</label>
+        <div className="ch-row">
+          <input id="ch-target-role" className="ch-input" value={target} minLength={3} maxLength={160}
+            placeholder="Frontend developer, data analyst…" required onChange={(event) => setTarget(event.target.value)} />
+          <button className="ch-cta" type="submit" disabled={busy || target.trim().length < 3}>
+            {busy ? 'Rewriting…' : 'Rewrite for this role'}
+          </button>
+        </div>
+        <p className="ch-small ch-muted">General role version. No vacancy match score or company-specific application answers.</p>
+      </form>
+      {error && <p className="ch-error" role="alert">{error}</p>}
+      {busy && <p className="ch-note" role="status">Focusing your summary, skills and achievements while preserving your source experience.</p>}
+      {saved && (
+        <div className="ch-role-result">
+          <div className="ch-receipts-head">
+            <h3>Draft for {saved.target}</h3>
+            <div className="ch-row">
+              <button type="button" className="ch-text-btn" onClick={copy}>{copied ? 'Copied' : 'Copy'}</button>
+              <button type="button" className="ch-text-btn" onClick={() => setEditing(!editing)}>{editing ? 'Preview' : 'Edit text'}</button>
+              <button type="button" className="ch-ghost" onClick={() => printResume(saved.text, saved.target + ' resume')}>Print / save PDF</button>
+            </div>
+          </div>
+          <p className="ch-small ch-muted">Review wording and facts before using this version. Your original resume stays available below.</p>
+          {editing ? (
+            <textarea aria-label="Rewritten resume" className="ch-input" rows={24} value={saved.text}
+              onChange={(event) => update({ roleRewrite: { ...saved, text: event.target.value } })} />
+          ) : (
+            <><style>{RESUME_CSS}</style><div className="ch-paper" dangerouslySetInnerHTML={{ __html: resumeHtml(saved.text) }} /></>
+          )}
+          {changes.length > 0 && (
+            <details className="ch-proof"><summary>Review wording changes ({changes.length})</summary>
+              <ul>{changes.map((change, index) => <li key={index}><span>{change.before}</span><em>{change.after}</em></li>)}</ul>
+            </details>
+          )}
+          <details className="ch-proof"><summary>Compare with your original resume</summary>
+            <pre className="ch-role-source">{store.resumeText}</pre>
+          </details>
+        </div>
+      )}
+    </section>
+  );
+}
+
 // ---------------------------------------------------------------- Matches
 
 function MatchesStep({ store, update, onPick, early }) {
   const { profile, resumeText, resumeHash } = store;
-  const [mode, setMode] = useState(early ? 'entry' : 'best');
+  const cachedMatch = (jobId) => {
+    const match = store.matches?.[jobId];
+    return match?.assessmentVersion === 4 && match.assessedYears === (profile.yearsExperience ?? null) ? match : null;
+  };
+  const [mode, setMode] = useState(early && Number(profile.yearsExperience || 0) < 1 ? 'entry' : 'best');
   const [rows, setRows] = useState(null);
   const [entryTotal, setEntryTotal] = useState(0);
+  const [availableTotal, setAvailableTotal] = useState(0);
   const [phase, setPhase] = useState('');
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState('');
@@ -531,7 +622,8 @@ function MatchesStep({ store, update, onPick, early }) {
     const id = ++runId.current;
     setError('');
     setProgress(0.05);
-    setPhase('Scanning every live job…');
+    setRows(null);
+    setPhase('Checking available roles…');
     let index;
     try {
       index = await (await fetch('/data/jobs-index.json')).json();
@@ -540,23 +632,25 @@ function MatchesStep({ store, update, onPick, early }) {
       setPhase('');
       return;
     }
-    const jobs = index.jobs || [];
-    setEntryTotal(jobs.filter(isEntryJob).length);
+    const jobs = curateJobs(index.jobs || []);
+    setAvailableTotal(jobs.length);
+    setEntryTotal(jobs.filter((job) => isEntryJob(job)).length);
     const top = shortlistJobs(jobs, profile, { limit: SHORTLIST, entryOnly: mode === 'entry' });
     setProgress(0.15);
     setPhase(`Reading ${top.length} job descriptions…`);
     const [details, fullTexts] = await Promise.all([
       Promise.all(top.map((r) => loadJobDetail(r.job.id))),
-      loadFullJobTexts(top.filter((r) => !store.matches?.[r.job.id]).map((r) => r.job)),
+      loadFullJobTexts(top.map((r) => r.job)),
     ]);
     if (id !== runId.current) return;
     const next = top.map((r, i) => {
-      const description = String(fullTexts[r.job.id] || details[i]?.description || '');
-      return { ...r, job: { ...r.job, applyUrl: details[i]?.applyUrl || r.job.applyUrl }, description, hasInfo: description.length >= MIN_DESCRIPTION };
-    });
+      const description = String(fullTexts[r.job.id] || details[i]?.description || r.job.description || '');
+      const job = { ...r.job, ...details[i], description };
+      return { ...r, job, description, hasInfo: description.length >= MIN_DESCRIPTION };
+    }).filter((r) => !foreignOnly(r.job));
     setRows(next);
 
-    const todo = next.filter((r) => r.hasInfo && !store.matches?.[r.job.id]);
+    const todo = next.filter((r) => r.hasInfo && !cachedMatch(r.job.id));
     let failed = 0;
     for (let i = 0; i < todo.length; i += BATCH) {
       if (id !== runId.current) return;
@@ -566,7 +660,8 @@ function MatchesStep({ store, update, onPick, early }) {
       const { ok, data } = await postJson('/api/career/match', {
         resumeText,
         earlyCareer: isEarlyCareer(profile),
-        jobs: batch.map((r) => ({ id: r.job.id, title: r.job.title, company: r.job.company, experience: r.job.experience || '', description: r.description.slice(0, MATCH_TEXT_MAX) })),
+        yearsExperience: profile.yearsExperience,
+        jobs: batch.map((r) => ({ id: r.job.id, title: r.job.title, company: r.job.company, location: r.job.location || '', experience: r.job.experience || '', description: matchingDescription(r.description) })),
       });
       if (!ok) {
         failed += batch.length;
@@ -578,35 +673,41 @@ function MatchesStep({ store, update, onPick, early }) {
     if (id !== runId.current) return;
     setProgress(1);
     setPhase('');
-    if (failed) setError('Some jobs could not be read by AI right now. They show a quick estimate. Try Refresh later.');
+    if (failed) setError('Some descriptions could not be assessed. Find those roles under More roles to review, or try Refresh.');
   }, [profile, resumeText, resumeHash, store.matches, update, mode]);
 
-  const profileKey = JSON.stringify([mode, profile.level, profile.roleFamilies, profile.targetTitles, (profile.skills || []).map((s) => s.name), profile.openToRemote]);
+  const profileKey = JSON.stringify([mode, resumeHash, profile.level, profile.yearsExperience, profile.roleFamilies, profile.targetTitles, (profile.skills || []).map((s) => s.name), profile.openToRemote]);
   useEffect(() => { run(); return () => { runId.current += 1; }; }, [profileKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const ranked = useMemo(() => {
     if (!rows) return [];
     return rows
-      .map((r) => ({ ...r, match: store.matches?.[r.job.id] || null }))
+      .map((r) => {
+        const match = cachedMatch(r.job.id);
+        return { ...r, match, eligibility: experienceEligibility(r.job, profile),
+          confidence: assessmentConfidence(r.description, match), availability: availabilityInfo(r.job) };
+      })
       .filter((r) => {
         if (filters.remote && r.job.work !== 'remote') return false;
         if (filters.posted) { const d = daysAgo(r.job); if (d === null || d > filters.posted) return false; }
         if (filters.min && (!r.match || r.match.score < filters.min)) return false;
         return true;
       })
-      .sort((a, b) => (b.match ? b.match.score : -1) - (a.match ? a.match.score : -1) || b.score - a.score);
-  }, [rows, store.matches, filters]);
+      .sort((a, b) => Number(isRecommendedRow(b)) - Number(isRecommendedRow(a)) ||
+        Number(b.availability.recent) - Number(a.availability.recent) ||
+        (b.match?.score ?? -1) - (a.match?.score ?? -1) || b.score - a.score);
+  }, [rows, store.matches, filters, profile]);
 
-  const scored = ranked.filter((r) => r.match);
-  const pending = ranked.filter((r) => !r.match);
-  const strong = scored.filter((r) => r.match.score >= 65).length;
+  const recommended = ranked.filter(isRecommendedRow);
+  const review = ranked.filter((r) => !isRecommendedRow(r));
+  const assessed = rows?.filter((r) => cachedMatch(r.job.id)).length || 0;
 
   return (
     <section>
       <div className="ch-matches-head">
         <div className="ch-seg" role="tablist" aria-label="Which roles">
           <button type="button" role="tab" aria-selected={mode === 'best'} className={mode === 'best' ? 'is-on' : ''} onClick={() => setMode('best')}>
-            Best fit for you
+            Your shortlist
           </button>
           <button type="button" role="tab" aria-selected={mode === 'entry'} className={mode === 'entry' ? 'is-on' : ''} onClick={() => setMode('entry')}>
             Internships &amp; fresher{entryTotal ? <span className="ch-seg-n">{entryTotal}</span> : null}
@@ -614,9 +715,14 @@ function MatchesStep({ store, update, onPick, early }) {
         </div>
         {rows && !phase && (
           <p className="ch-summary">
-            <b>{strong}</b> good or strong {strong === 1 ? 'fit' : 'fits'} out of <b>{rows.length}</b> {mode === 'entry' ? 'entry-level roles' : 'roles'} we read for you.
+            <b>{availableTotal}</b> unique roles available · <b>{rows.length}</b> shortlisted · <b>{assessed}</b> assessed
           </p>
         )}
+      </div>
+
+      <div className="ch-shortlist-intro">
+        <h2>{phase ? 'Building your shortlist' : `${recommended.length} ${recommended.length === 1 ? 'role' : 'roles'} worth reviewing`}</h2>
+        <p>Good skill alignment, no stated experience shortfall, and seen on the source within 7 days.</p>
       </div>
 
       <details className="ch-filter-more">
@@ -651,48 +757,61 @@ function MatchesStep({ store, update, onPick, early }) {
       {mode === 'entry' && rows && !phase && rows.length < 10 && (
         <p className="ch-note">
           Only {rows.length} fresher-open roles fit your profile right now. Try adding broader roles on your resume card,
-          or check Best fit, where some junior roles without a fresher label appear.
+          or check Your shortlist for junior roles without a fresher label.
         </p>
       )}
       {rows && !phase && ranked.length === 0 && <p className="ch-empty">Nothing matches these filters. Loosen them a little.</p>}
       {!rows && phase && <div className="ch-list">{[0, 1, 2].map((i) => <div key={i} className="ch-card-skel" />)}</div>}
 
+      {rows && !phase && recommended.length === 0 && ranked.length > 0 && (
+        <p className="ch-empty">No roles clear every shortlist check yet. Review the roles below to confirm experience, requirements or availability.</p>
+      )}
       <div className="ch-list">
-        {scored.map((r, i) => <MatchCard key={r.job.id} row={r} rank={i + 1} onPick={onPick} app={store.applications?.[r.job.id]} />)}
+        {recommended.map((r, i) => <MatchCard key={r.job.id} row={r} rank={i + 1} onPick={onPick} app={store.applications?.[r.job.id]} />)}
       </div>
-      {pending.length > 0 && (
-        <>
-          <h3 className="ch-section-title">{scored.length ? 'Title-only estimates' : 'Roles to check'}<span>No full description, so these are scored on title, level and recency</span></h3>
+      {review.length > 0 && (
+        <details className="ch-more-roles">
+          <summary>More roles to review <span>{review.length}</span></summary>
+          <p className="ch-muted ch-small">These need a closer look at experience, requirements, availability or skill gaps.</p>
           <div className="ch-list">
-            {pending.map((r) => <MatchCard key={r.job.id} row={r} onPick={onPick} app={store.applications?.[r.job.id]} />)}
+            {review.map((r) => <MatchCard key={r.job.id} row={r} onPick={onPick} app={store.applications?.[r.job.id]} />)}
           </div>
-        </>
+        </details>
       )}
     </section>
   );
 }
 
 function MatchCard({ row, rank, onPick, app }) {
-  const { job, match, hasInfo, reasons } = row;
-  const meta = [job.company, job.location?.split(',')[0], job.work === 'remote' ? 'Remote' : '', job.experience, postedLabel(job)].filter(Boolean);
+  const { job, match, hasInfo, reasons, eligibility, confidence, availability } = row;
+  const meta = [...new Set([job.company, job.location?.split(',')[0], job.work === 'remote' ? 'Remote' : '', job.experience, postedLabel(job)].filter(Boolean))];
+  const canTailor = hasInfo && confidence === 'sufficient' && eligibility.status !== 'outside';
   return (
     <article className={`ch-match${rank === 1 ? ' is-top' : ''}`}>
       <div className="ch-match-body">
         <div className="ch-match-title">
           <h3>{job.title}</h3>
-          <FitLabel match={match} />
+          {match && confidence === 'sufficient' && !['check', 'outside'].includes(eligibility.status) && <FitLabel match={match} />}
           {isEntryJob(job) && <span className="ch-tag">Fresher-open</span>}
           {app && <span className="ch-tag is-app">{BOARD.find((b) => b.id === boardStatus(app.status))?.label || 'Saved'}</span>}
         </div>
         <p className="ch-meta">{meta.join(' · ')}</p>
+        <p className="ch-meta">{typeof job.salary === 'string' && job.salary ? job.salary : 'Salary not disclosed'} · {availability.label}</p>
+        <div className="ch-checks">
+          <span className={eligibility.status === 'met' ? 'is-clear' : ''}>{eligibility.label}</span>
+          <span>{confidence === 'limited' ? 'Limited requirements' : 'Requirements available'}</span>
+        </div>
+        {eligibility.reason && <p className="ch-blocker">{eligibility.reason}</p>}
         {match ? (
           <>
-            {match.why && <p className="ch-why">{match.why}</p>}
+            {match.why && confidence === 'sufficient' && <p className="ch-why">{match.why}</p>}
+            {confidence === 'limited' && <p className="ch-why ch-muted">The description does not provide enough requirements for a reliable fit assessment. Read the full role first.</p>}
+            {match.gaps.length > 0 && <p className="ch-blocker">Not shown in your resume: {match.gaps[0]}</p>}
             {(match.met.length > 0 || match.gaps.length > 0) && (
               <details className="ch-proof">
                 <summary>
-                  <span className="ch-proof-ok">{match.met.length} proven</span>
-                  {match.gaps.length > 0 && <span className="ch-proof-gap">{match.gaps.length} missing</span>}
+                  <span className="ch-proof-ok">{match.met.length} supported</span>
+                  {match.gaps.length > 0 && <span className="ch-proof-gap">{match.gaps.length} not shown</span>}
                   <span className="ch-proof-cta">See why</span>
                 </summary>
                 <ul>
@@ -709,14 +828,14 @@ function MatchCard({ row, rank, onPick, app }) {
           </>
         ) : (
           <p className="ch-why ch-muted">
-            {hasInfo ? 'Reading this one…' : 'No full description from the employer.'}
-            {reasons?.length ? ` Looks relevant: ${reasons.join(', ')}.` : ''}
+            {hasInfo ? 'Assessment pending. Review the role requirements before applying.' : 'Needs the full job description before we can assess fit or tailor your resume.'}
+            {reasons?.length ? ` Title signals: ${reasons.slice(0, 2).join(', ')}.` : ''}
           </p>
         )}
       </div>
       <div className="ch-match-actions">
-        <button type="button" className="ch-cta ch-cta-sm" onClick={() => onPick(job)}>{app?.pack ? 'Open resume' : 'Tailor resume'}</button>
-        <a className="ch-text-btn" href={`/jobs/${jobUrlId(job)}`} target="_blank" rel="noreferrer">Job post ↗</a>
+        <a className="ch-cta ch-cta-sm" href={`/jobs/${jobUrlId(job)}`} target="_blank" rel="noreferrer">View role ↗</a>
+        {(canTailor || app?.pack) && <button type="button" className="ch-text-btn" onClick={() => onPick(job)}>{app?.pack ? 'Open resume' : 'Tailor resume'}</button>}
       </div>
     </article>
   );
@@ -840,7 +959,8 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
       const fit = await postJson('/api/career/match', {
         resumeText: store.resumeText,
         earlyCareer: isEarlyCareer(store.profile),
-        jobs: [{ id: job.id, title: job.title, company: job.company, experience: job.experience || '', description: jobDescription.slice(0, MATCH_TEXT_MAX) }],
+        yearsExperience: store.profile.yearsExperience,
+        jobs: [{ id: job.id, title: job.title, company: job.company, location: job.location || '', experience: job.experience || '', description: matchingDescription(jobDescription) }],
       });
       const found = fit.ok ? fit.data.matches?.[job.id] : null;
       if (found) {

@@ -141,12 +141,19 @@ test('a resume without clear headings can be rewritten, but credentials still ca
   );
 });
 
-test('headline cannot claim a title the candidate never held', () => {
-  const source = '# Priya\n\n## Experience\nRegional Sales Manager — Malabar Foods | 2022 - Present\n- Managed accounts.';
+test('unsupported headline titles are removed without restoring an unrelated old profession', () => {
+  const source = '# Priya\n\n## Experience\nRegional Sales Manager — Malabar Foods | 2022 - Present\n- Managed accounts through negotiation.';
   const head = (title) => `# Priya\n**${title} | Negotiation**\n\n## EXPERIENCE`;
-  assert.match(truthfulHeadline(head('Account Executive'), source), /^\*\*Regional Sales Manager \| Negotiation\*\*$/m);
+  assert.match(truthfulHeadline(head('Account Executive'), source), /^\*\*Negotiation\*\*$/m);
   assert.match(truthfulHeadline(head('Regional Sales Manager'), source), /^\*\*Regional Sales Manager \| Negotiation\*\*$/m);
-  assert.match(truthfulHeadline(head('Software Engineer'), '# Asha\nBuilt a quiz app in React as a teacher.'), /^\*\*Negotiation\*\*$/m);
+  assert.doesNotMatch(truthfulHeadline(head('Software Engineer'), '# Asha\nBuilt a quiz app in React as a teacher.'), /Software Engineer|Negotiation/);
+});
+
+test('skills-only headlines retain source evidence and reject unsupported claims in every position', () => {
+  const source = '# Asha\nTeacher who built a React frontend with TypeScript.';
+  const output = truthfulHeadline('# Asha\n**React | Senior Frontend Engineer | TypeScript | Kubernetes**\n## SUMMARY\nBuilt a frontend.', source);
+  assert.match(output, /^\*\*React \| TypeScript\*\*$/m);
+  assert.doesNotMatch(output, /Senior|Kubernetes|Teacher/);
 });
 
 test('a near copy of the source is called out', () => {
@@ -173,7 +180,7 @@ test('validator permits factual education formatting changes', () => {
 });
 
 test('a lowercase source title is capitalised in the headline', () => {
-  const out = truthfulHeadline('# A B\n**support engineer | Linux**\n## SUMMARY\nText', 'A B\nsupport engineer at Sagar Tech');
+  const out = truthfulHeadline('# A B\n**support engineer | Linux**\n## SUMMARY\nText', 'A B\nsupport engineer at Sagar Tech using Linux');
   assert.match(out, /^\*\*Support Engineer \| Linux\*\*$/m);
 });
 

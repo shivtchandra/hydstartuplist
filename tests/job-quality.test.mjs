@@ -53,7 +53,7 @@ test("isOpenToFreshers hides stated experience, doctoral roles and stale rows", 
   assert.equal(isOpenToFreshers({ ...base, postedAt: "2026-06-01T00:00:00Z" }, NOW), false);
   assert.equal(
     isOpenToFreshers({ ...base, postedAt: "2026-06-01T00:00:00Z", atsProvider: "workday", lastSeenAt: "2026-11-01T00:00:00Z" }, NOW),
-    false,
+    true,
   );
 });
 
@@ -117,13 +117,16 @@ test("Fresher-open tag needs a recent role with no stated 2+ years", () => {
   assert.equal(isEntryJob(base, NOW), true);
   assert.equal(isEntryJob({ ...base, experience: "2-5 years" }, NOW), false);
   assert.equal(isEntryJob({ ...base, title: "Junior Linux Kernel Engineer", postedAt: "2024-03-01T00:00:00Z" }, NOW), false);
+  assert.equal(isEntryJob({ ...base, title: "Junior Linux Kernel Engineer", postedAt: "2024-03-01T00:00:00Z", atsProvider: "greenhouse", lastSeenAt: new Date(NOW).toISOString() }, NOW), true);
 });
 
-test("prepareJobs drops roles past 180 days even when seen live", () => {
+test("prepareJobs keeps verified evergreen openings and still drops stale listings", () => {
   const live = { id: "a", title: "Software Engineer", company: "Acme", location: "Hyderabad", url: "https://acme.com/1", atsProvider: "greenhouse", lastSeenAt: new Date().toISOString() };
   const age = (days) => new Date(Date.now() - days * 86400000).toISOString();
   assert.equal(prepareJobs([{ ...live, postedAt: age(100) }]).length, 1);
-  assert.equal(prepareJobs([{ ...live, postedAt: age(300) }]).length, 0);
+  assert.equal(prepareJobs([{ ...live, postedAt: age(300) }]).length, 1);
+  assert.equal(prepareJobs([{ ...live, postedAt: age(300), lastSeenAt: age(7) }]).length, 0);
+  assert.equal(prepareJobs([{ ...live, postedAt: age(300), status: "closed" }]).length, 0);
 });
 
 test("Career hub links resolve to exported job URLs, not raw ids", () => {

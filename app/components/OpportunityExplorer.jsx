@@ -73,7 +73,7 @@ function verifiedWithinDay(job) {
 
 // The `intern` band also holds freshers, trainees and entry-level hires, so labelling it
 // "Internship" tells a job seeker something untrue about a full-time role.
-function readable(key) {return ({intern:'Intern & fresher',junior:'Early career',mid:'Mid-level',senior:'Senior',lead:'Lead',manager:'Manager',unknown:'Not specified',discovered:'New today',today:'Posted today',week:'This week',month:'This month',newest:'Newest',match:'Best match',company:'Company',remote:'Remote',hybrid:'Hybrid',onsite:'On-site',early:'Early career'})[key]||key;}
+function readable(key) {return ({intern:'Intern & fresher',junior:'Early career',mid:'Mid-level',senior:'Senior',lead:'Lead',manager:'Manager',unknown:'Not specified',discovered:'New today',today:'Posted today',week:'This week',month:'This month',newest:'Newest',match:'Best match',company:'Company',remote:'Remote',hybrid:'Hybrid',onsite:'On-site',early:'Early career (0–2 yrs)',fresher:'Freshers & internships'})[key]||key;}
 
 /** Themed filter dropdown — replaces native <select> (avoids stuck focus rings). */
 function OpFilterSelect({ label, value, onChange, options, emptyLabel = 'Any', ariaLabel }) {
@@ -503,7 +503,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
       </div>
       {[
         ['role', 'Role', facet.roles || []],
-        ['level', 'Experience', ['early', ...(facet.levels || [])]],
+        ['level', 'Experience', ['fresher', 'early', ...(facet.levels || [])]],
         ['work', 'Work', ['remote', 'hybrid', 'onsite', 'unknown']],
         ['type', 'Type', facet.types || []],
         ['when', 'Freshness', ['discovered', 'today', 'week', 'month']],
@@ -578,12 +578,31 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     <div className="op-hero">
       <header className="op-heading">
         <div>
-          <h1>{savedOnly ? 'Your shortlist' : 'Jobs in Hyderabad'}</h1>
+          <h1>{savedOnly ? 'Your shortlist' : filters.level === 'fresher' ? 'Fresher jobs in Hyderabad' : filters.level === 'early' ? 'Early-career jobs in Hyderabad' : 'Jobs in Hyderabad'}</h1>
           <p>{savedOnly ? 'Roles and searches you save stay on this device.' : 'Live roles straight from company career pages, refreshed daily.'}</p>
         </div>
         {!savedOnly && <Link className="op-company-link" href="/?view=companies">Browse companies →</Link>}
       </header>
       {!savedOnly && <>
+        <div className="op-career-switch" role="group" aria-label="Career stage">
+          {[
+            ['', 'All experience', data?.careerCounts?.all],
+            ['fresher', 'Freshers & internships', data?.careerCounts?.fresher],
+            ['early', 'Early career (0–2 yrs)', data?.careerCounts?.early],
+          ].map(([value, label, count]) => (
+            <button key={value || 'all'} type="button" aria-pressed={filters.level === value}
+              onClick={() => { setView('list'); change({ level: value }); }}>
+              {label}{Number.isFinite(count) && <span>{count.toLocaleString('en-IN')}</span>}
+            </button>
+          ))}
+        </div>
+        {['fresher', 'early'].includes(filters.level) && (
+          <p className="op-career-note">
+            {filters.level === 'fresher'
+              ? 'Internships, graduate openings and roles accepting zero years. Check the skills and graduation criteria in each posting.'
+              : 'Includes freshers and roles with a minimum of one or two years. The exact experience requirement stays visible on each role.'}
+          </p>
+        )}
         {!mapHome && (
           <div className="op-search">
             <label className="op-query"><span className="sr-only">Role, skill, or company</span><input placeholder="Role, skill, or company" value={query} onChange={(e) => setQuery(e.target.value)} /></label>
@@ -603,7 +622,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
             )}
           </aside>
           <div className="op-shortcuts" role="group" aria-label="Quick options">
-            <button type="button" className="op-chip" aria-pressed={view === 'list'} onClick={() => setView('list')}>All jobs</button>
+            <button type="button" className="op-chip" aria-pressed={view === 'list'} onClick={() => setView('list')}>List</button>
             <button type="button" className="op-chip" aria-pressed={view === 'map'} onClick={() => setView('map')}>Map</button>
             <Link className="op-chip" href="/career">Match my resume</Link>
             <button
@@ -653,9 +672,6 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
             >
               Direct ATS
             </button>
-            {data?.shortcuts?.early && (
-              <Link href="/jobs/fresher" className="op-chip">Freshers &amp; entry-level →</Link>
-            )}
             {data?.shortcuts?.today && (
               <button type="button" className="op-chip" aria-pressed={filters.when === 'discovered'} onClick={() => change({ when: filters.when === 'discovered' ? '' : 'discovered' })}>New today</button>
             )}

@@ -277,6 +277,13 @@ body:has(.op-shell) {
 /* Desktop filters: single horizontal row under the hero */
 .op-filters-panel{display:none}
 .op-hero{display:block;margin-bottom:4px}
+.op-career-switch{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.op-career-switch button{display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:9px 15px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:13px;font-weight:650;cursor:pointer}
+.op-career-switch button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--surface-1,#fff)}
+.op-career-switch button span{font-size:12px;font-variant-numeric:tabular-nums;opacity:.75}
+.op-career-switch button:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}
+.op-career-note{max-width:75ch;margin:-6px 0 18px;color:var(--ink-2);font-size:13px;line-height:1.5}
+@media(max-width:600px){.op-career-switch{gap:6px}.op-career-switch button{padding:9px 11px;font-size:12px}}
 
 @media (min-width:1024px){
   .op-filters-panel{

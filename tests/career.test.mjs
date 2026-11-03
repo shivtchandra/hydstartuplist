@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { skillMatcher, prefilterScore, shortlistJobs, foreignOnly, isEntryJob } from "../lib/career/prefilter.js";
-import { buildMatchPrompt } from "../lib/career/match-ai.js";
+import { skillMatcher, prefilterScore, shortlistJobs, foreignOnly, isEntryJob, curateJobs, experienceEligibility, assessmentConfidence, availabilityInfo, isRecommendedRow, matchingDescription } from "../lib/career/prefilter.js";
+import { buildMatchPrompt, matchSchemaForJobs, missingRequiredDegree } from "../lib/career/match-ai.js";
 import { validateProfile, fallbackProfile } from "../lib/career/profile-ai.js";
 import { validateMatches } from "../lib/career/match-ai.js";
 import { evidenceInText, normalizeForEvidence, callOpenAIJson, AIUnavailableError } from "../lib/career/openai.js";
@@ -143,6 +143,23 @@ test("country-restricted remote roles outside India are excluded", () => {
   assert.equal(foreignOnly({ title: "QC Specialist (US Timezone)", location: "Remote" }), false);
 });
 
+test("country-specific remote titles and full-text location headers are excluded", () => {
+  for (const country of ["Croatia", "Slovenia", "Luxembourg", "Switzerland"]) {
+    assert.equal(foreignOnly({ title: `Software Engineer - City, ${country}`, location: "Remote" }), true);
+  }
+  assert.equal(foreignOnly({ title: "Software Engineer - Kolkata, India", location: "Remote" }), false);
+  assert.equal(foreignOnly({ title: "Software Engineer - US Timezone", location: "Remote" }), false);
+  assert.equal(foreignOnly({ title: "Intern", location: "Remote", description: "Program Location: Remote (US)* Duration: 4 months" }), true);
+  assert.equal(foreignOnly({ title: "Engineer", location: "Hyderabad", description: "We have offices in Germany and France." }), false);
+  const posting = { title: "Software Engineer, AI Data", company: "Example", location: "Remote", work: "remote" };
+  const rows = curateJobs([
+    { ...posting, id: "foreign", title: posting.title + " - Split, Croatia" },
+    { ...posting, id: "kolkata", title: posting.title + " - Kolkata, India" },
+    { ...posting, id: "kochi", title: posting.title + " - Kochi, India" },
+  ]);
+  assert.deepEqual(rows.map((job) => job.id), ["kolkata"]);
+});
+
 test("fresher profiles favour entry roles and never see senior bands", () => {
   const fresher = { ...profile, level: "intern", targetTitles: ["Software Engineering Intern", "Backend Engineer"] };
   const jobs = [
@@ -158,8 +175,92 @@ test("fresher profiles favour entry roles and never see senior bands", () => {
   assert.equal(isEntryJob({ title: "Software Engineering Senior Associate", level: "unknown" }), false);
 });
 
+test("shortlist merges prefixed reposts, preserves locations, and drops closed jobs", () => {
+  const base = { company: "Guild", title: "Python & Next.js Developer (Freshers)", location: "Hyderabad", role: "Engineering" };
+  const jobs = [
+    { ...base, id: "a" },
+    { ...base, id: "b", title: "Job Opening: Python and Next.js Developer (Freshers)" },
+    { ...base, id: "c", location: "Bengaluru" },
+    { ...base, id: "closed", title: "Other", status: "closed" },
+  ];
+  assert.deepEqual(curateJobs(jobs).map((j) => j.id), ["a", "c"]);
+  assert.equal(curateJobs([{ ...base, id: "url-a", url: "https://example.com/jobs/1?utm_source=a" },
+    { ...base, id: "url-b", url: "https://example.com/jobs/1?utm_source=b" }]).length, 1);
+});
+
+test("explicit experience requirements gate freshers independently of titles and AI scores", () => {
+  const fresher = { ...profile, level: "intern", yearsExperience: 0 };
+  const senior = { id: "s", title: "Backend Engineer", role: "Engineering", level: "mid", experience: "4-6 years" };
+  assert.equal(experienceEligibility(senior, fresher).status, "outside");
+  assert.equal(shortlistJobs([senior], fresher).length, 0);
+  assert.equal(experienceEligibility({ experience: "1-2 years" }, fresher).status, "check");
+  assert.equal(experienceEligibility({ experience: "0-2 years" }, fresher).status, "met");
+  assert.equal(isEntryJob({ title: "Associate Engineer", level: "junior", experience: "1-2 years" }), false);
+  assert.equal(isEntryJob({ title: "Associate Engineer", level: "junior", description: "Minimum 3 years of experience" }), false);
+  assert.equal(experienceEligibility({}, fresher).status, "unknown");
+});
+
+test("incomplete job evidence and experience shortfalls cannot receive a good match", () => {
+  const met = [{ requirement: "Java", evidence: "Java" }, { requirement: "Spring", evidence: "Spring Boot" }];
+  const result = { jobId: "1", score: 95, why: "Your skills align.", met, gaps: [], confidence: "sufficient" };
+  const job = { id: "1", description: "Requirements: Java and Spring Boot. ".repeat(15), experience: "4-6 years" };
+  const options = { jobs: [job], profile: { yearsExperience: 0 } };
+  const senior = validateMatches({ results: [result] }, RESUME, ["1"], options)["1"];
+  assert.ok(senior.score <= 39);
+  assert.equal(senior.assessmentVersion, 4);
+  assert.equal(senior.assessedYears, 0);
+  const limited = validateMatches({ results: [{ ...result, confidence: "limited" }] }, RESUME, ["1"], { jobs: [{ ...job, experience: "0-2 years" }] })["1"];
+  assert.ok(limited.score <= 64);
+  assert.equal(limited.confidence, "limited");
+  assert.equal(assessmentConfidence(job.description, { why: "The abbreviated posting does not reveal full requirements." }), "limited");
+});
+
+test("recommendations require recent source evidence, adequate requirements and no experience shortfall", () => {
+  const now = Date.parse("2026-11-03T00:00:00Z");
+  assert.equal(availabilityInfo({ fetchedAt: "2026-11-03T00:00:00Z" }, now).recent, false);
+  assert.equal(availabilityInfo({ lastSeenAt: "2026-10-01T00:00:00Z" }, now).recent, false);
+  const availability = availabilityInfo({ lastSeenAt: "2026-11-02T00:00:00Z", status: "active" }, now);
+  assert.equal(availability.recent, true);
+  const row = { match: { score: 90 }, confidence: "sufficient", eligibility: { status: "met" }, availability };
+  assert.equal(isRecommendedRow(row), true);
+  assert.equal(isRecommendedRow({ ...row, eligibility: { status: "check" } }), false);
+  assert.equal(isRecommendedRow({ ...row, confidence: "limited" }), false);
+  assert.equal(isRecommendedRow({ ...row, availability: { recent: false } }), false);
+});
+
+test("mandatory degree levels cannot be replaced by unrelated tenure or an associate degree", () => {
+  const job = { description: "Master’s /Bachelor’s degree in Business, Marketing or Healthcare. 2-5 years of sales, preferably in healthcare." };
+  assert.match(missingRequiredDegree(job, "Associate of Business Administration. Ten years of sales."), /required bachelor's/);
+  assert.equal(missingRequiredDegree(job, "Bachelor of Science in Computer Science"), "");
+  assert.equal(missingRequiredDegree({ description: "Bachelor's degree preferred." }, "Associate degree"), "");
+  assert.equal(missingRequiredDegree({ description: "Bachelor's degree or equivalent practical experience." }, "Associate degree and ten years of sales"), "");
+  const results = [{ jobId: "degree", score: 90, why: "Relevant sales.", confidence: "sufficient", met: [], gaps: [] }];
+  const match = validateMatches({ results }, "Associate of Business Administration", ["degree"], { jobs: [{ id: "degree", ...job }] }).degree;
+  assert.ok(match.score < 65);
+  assert.match(match.gaps[0], /required bachelor's/);
+});
+
+test("matching preserves late requirements and marks any remaining omitted source", () => {
+  const source = "Company context. ".repeat(250) + "Required: Ubuntu or Linux experience.";
+  assert.ok(source.indexOf("Required:") > 3000);
+  assert.match(matchingDescription(source), /Required: Ubuntu or Linux experience/);
+  assert.equal(matchingDescription("Complete short description"), "Complete short description");
+  const long = matchingDescription("Long source. ".repeat(1000));
+  assert.ok(long.length <= 6000);
+  assert.match(long, /source continues beyond this excerpt/);
+});
+
+test("match response schema requires the complete batch and exact requested identifiers", () => {
+  const schema = matchSchemaForJobs(["ats-example-one", "12345"]);
+  assert.match(buildMatchPrompt("resume", [{ id: "1", title: "Engineer", company: "Example", location: "Hyderabad" }]), /Location: Hyderabad/);
+  assert.equal(schema.properties.results.minItems, 2);
+  assert.equal(schema.properties.results.maxItems, 2);
+  assert.deepEqual(schema.properties.results.items.properties.jobId.enum, ["ats-example-one", "12345"]);
+});
+
 test("match prompt adds early-career rules only for freshers", () => {
   const jobs = [{ id: "1", title: "Intern", company: "A", description: "x" }];
   assert.match(buildMatchPrompt("resume", jobs, { earlyCareer: true }), /EARLY CAREER/);
   assert.doesNotMatch(buildMatchPrompt("resume", jobs), /EARLY CAREER/);
+  assert.match(buildMatchPrompt("resume", jobs), /Separate decisive eligibility\/core-work requirements from supporting practices/);
 });

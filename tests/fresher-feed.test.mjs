@@ -87,6 +87,13 @@ test("experience field and startYear are respected when prepareJobs-style job ob
   );
 });
 
+test("company staffing boilerplate and graduate education do not imply zero-experience eligibility", () => {
+  assert.equal(inferExperienceLevel("Business Development Executive", "We support sourcing across levels freshers to leadership. We are looking for a business development executive."), null);
+  assert.equal(inferExperienceLevel("SAP MM Consultant", "Educational Background: Any Graduate. This role handles SAP MM implementation."), null);
+  assert.equal(inferExperienceLevel("Software Developer", "Experience: Fresher. Build and test applications."), "intern");
+  assert.equal(inferExperienceLevel("Software Developer", "Recent university graduates are welcome to apply."), "intern");
+});
+
 test("genuine entry-level postings still resolve to the fresher bands", () => {
   const intern = [
     "React Native Intern",
