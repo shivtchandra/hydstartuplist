@@ -241,6 +241,8 @@ a:hover:not(.btn) {
 .tn-brand {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
   gap: 10px;
   font-family: var(--font-heading);
   font-size: 19px;
@@ -253,6 +255,7 @@ a:hover:not(.btn) {
 .cmd-mark {
   width: 36px;
   height: 36px;
+  flex-shrink: 0;
   background: var(--accent-gradient);
   border-radius: 10px;
   display: flex;
@@ -275,6 +278,7 @@ a:hover:not(.btn) {
 /* Navbar Search Input */
 .tn-search {
   flex: 1;
+  min-width: 0;
   max-width: 440px;
   position: relative;
   display: flex;
@@ -318,6 +322,8 @@ a:hover:not(.btn) {
 .tn-links {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
   gap: 6px;
 }
 
@@ -342,6 +348,8 @@ a:hover:not(.btn) {
 
 .tn-cta {
   height: 40px;
+  flex-shrink: 0;
+  white-space: nowrap;
   padding: 0 18px;
   font-size: 13.5px;
   font-weight: 600;
@@ -2824,6 +2832,47 @@ a:hover:not(.btn) {
   .tn-title-full {
     display: inline;
   }
+}
+
+/* Compact the desktop controls without moving navigation to another row. */
+@media (min-width: 769px) and (max-width: 1479px) {
+  .topnav-row { padding-inline: 16px; gap: 8px; }
+  .tn-title-full { display: none; }
+  .tn-title-short { display: inline; }
+  .tn-brand { font-size: 16px; gap: 8px; }
+  .tn-brand .cmd-mark { width: 32px; height: 32px; }
+  .topnav-row .tn-links { gap: 4px; }
+  .topnav-row .tn-links a { padding-inline: 8px; font-size: 13px; }
+  .topnav-row .tn-auth-trigger { max-width: 80px; }
+  .tn-cta { padding-inline: 12px; font-size: 13px; }
+}
+
+@media (min-width: 769px) and (max-width: 1199px) {
+  .topnav-row .tn-search { flex: 0 0 36px; max-width: 36px; }
+  .tn-search input { padding-inline: 36px 0; color: transparent; cursor: pointer; }
+  .tn-search input::placeholder { color: transparent; }
+  .tn-search svg { left: 10px; }
+  .tn-search input:focus {
+    position: absolute;
+    right: 0;
+    width: min(320px, calc(100vw - 40px));
+    padding-inline: 12px;
+    color: var(--text-main);
+    background: var(--surface-card);
+    cursor: text;
+    z-index: 2;
+  }
+  .tn-search input:focus::placeholder { color: var(--text-muted); }
+  .tn-search:focus-within svg { opacity: 0; }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .topnav-row .tn-links a[href="/radar"],
+  .topnav-row .tn-links a[href="/gccs"] { display: none; }
+  .topnav-row .tn-links a { padding-inline: 6px; }
+  .topnav-row .explore-modes a { padding-inline: 8px; }
+  .topnav-row .tn-cta { width: 36px; padding: 0; font-size: 0; }
+  .topnav-row .tn-cta::after { content: "+"; font-size: 22px; }
 }
 
 

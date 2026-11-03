@@ -38,7 +38,7 @@
 .op-map-home .op-job:first-child{border-top:0}
 .op-map-home .op-job:hover{background:var(--surface-2)}
 .op-map-home .op-footer{margin-top:18px;padding-top:16px}
-@media(min-width:768px) and (max-width:1023px){.tn-links{display:flex!important;gap:12px}.tn-links a{font-size:12px}}
+@media(min-width:769px) and (max-width:1023px){.tn-links{display:flex!important;gap:12px}.tn-links a{font-size:12px}}
 @media(max-width:1023px){
  .op-map-home .op-workspace{display:flex;flex-direction:column}
  .op-map-home .op-view-map .op-context{display:block;order:-1;width:100%;height:260px}

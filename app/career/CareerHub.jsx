@@ -171,15 +171,21 @@ export default function CareerHub() {
     const s = readStore();
     setStore(s);
     setPassport(readPassport());
-    const jobParam = new URLSearchParams(location.search).get('job');
-    if (jobParam) setPendingJob(jobParam);
+    const params = new URLSearchParams(location.search);
+    const jobParam = params.get('job');
+    if (jobParam) {
+      setPendingJob(jobParam);
+      if (params.get('rewrite') === '1') setAutoBuild(jobParam);
+    }
     setView(s.profile ? viewFromUrl() : 'resume');
     hydrated.current = true;
   }, []);
 
   useEffect(() => {
     function onPop() {
-      const job = new URLSearchParams(location.search).get('job');
+      const params = new URLSearchParams(location.search);
+      const job = params.get('job');
+      setAutoBuild(params.get('rewrite') === '1' ? job || '' : '');
       if (job) {
         setPendingJob(job);
         setPackJob((cur) => (cur?.id === job ? cur : null));
@@ -226,7 +232,7 @@ export default function CareerHub() {
     window.scrollTo({ top: 0 });
   }, []);
 
-  // build is true only when the person tapped "Tailor resume", so opening a link never spends a pack.
+  // Only explicit rewrite actions generate a draft; saved application links just open it.
   const openPack = useCallback((job, build = false) => {
     if (build) setAutoBuild(job.id);
     setPackJob(null);
@@ -235,7 +241,7 @@ export default function CareerHub() {
     update((s) => (s.applications[job.id]
       ? {}
       : { applications: { ...s.applications, [job.id]: stamp({ job: pickJob(job) }, 'saved') } }));
-    try { history.pushState(null, '', `/career?job=${encodeURIComponent(job.id)}`); } catch {}
+    try { history.pushState(null, '', `/career?job=${encodeURIComponent(job.id)}${build ? '&rewrite=1' : ''}`); } catch {}
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [update]);
 
@@ -554,7 +560,7 @@ function RoleRewriteStep({ store, update }) {
     <section className="ch-role-rewrite">
       <div className="ch-shortlist-intro">
         <h2>A resume for your next role</h2>
-        <p>Choose a role to focus your experience. For a particular vacancy, use Tailor resume on its job card.</p>
+        <p>Choose a role to focus your experience. For a particular vacancy, use Rewrite resume on its job card.</p>
       </div>
       <form className="ch-role-form" onSubmit={generate}>
         <label htmlFor="ch-target-role">Target role</label>
@@ -904,15 +910,20 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
   const [copied, setCopied] = useState('');
   const [editing, setEditing] = useState(false);
   const [tab, setTab] = useState('resume');
+  const [preview, setPreview] = useState('changes');
   const autoStarted = useRef('');
 
   useEffect(() => {
-    if (!job || autoBuild !== job.id || autoStarted.current === job.id) return;
-    autoStarted.current = job.id;
+    const request = `${job?.id}:${store.resumeHash}`;
+    if (!job || autoBuild !== job.id || autoStarted.current === request) return;
+    autoStarted.current = request;
     onAutoBuilt();
-    const known = store.matches?.[job.id];
-    if (!store.applications?.[job.id]?.pack && !(known && known.score < FIT_WARN_BELOW)) generate(false);
-  }, [job?.id, autoBuild]); // eslint-disable-line react-hooks/exhaustive-deps
+    const saved = store.applications?.[job.id]?.pack;
+    if (!saved?.resume || saved.resumeHash !== store.resumeHash) {
+      setFitAcceptedFor(job.id);
+      generate(false, true);
+    }
+  }, [job?.id, autoBuild, store.resumeHash]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!job) {
     return (
@@ -995,6 +1006,7 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
     const t = data.tailored;
     setPack({
       resume: t.fullTailoredResume || '',
+      resumeHash: store.resumeHash,
       changes: t.changes || [],
       placeholders: t.placeholders || [],
       warnings: t.warnings || [],
@@ -1004,6 +1016,8 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
       done: {},
       createdAt: new Date().toISOString(),
     });
+    setPreview('changes');
+    setEditing(false);
     setStatus('tailored');
   }
 
@@ -1055,6 +1069,8 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
     </header>
   );
 
+  if (busy) return <section className="ch-pack">{head}<PackBuilding phase={packPhase} /></section>;
+
   if (!pack) {
     return (
       <section className="ch-pack">
@@ -1074,7 +1090,7 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
         <div className="ch-brief">
           <div>
             <h3>Tailor your resume for this job</h3>
-            <p className="ch-small ch-muted">About 30 seconds. You check everything before you apply.</p>
+            <p className="ch-small ch-muted">Usually around a minute. Your saved original is ready to reuse for other jobs.</p>
             {needsPaste && (
               <div className="ch-paste-jd">
                 <label className="ch-small" htmlFor="ch-paste-jd">
@@ -1120,10 +1136,13 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
   const stepClass = (key) => `${nextStep === key ? 'ch-cta' : 'ch-ghost'}`;
   const changeCount = (pack.changes || []).length;
   const noteCount = (pack.warnings || []).length;
+  const sameSource = pack.resumeHash === store.resumeHash;
+  const showingOriginal = preview === 'original';
 
   return (
     <section className="ch-pack">
       {head}
+      <p className="ch-small ch-muted">Your original stays saved on this device. Each job gets its own draft.</p>
       <div className="ch-actions">
         {blanks > 0 && <button type="button" className={stepClass('fill')} onClick={() => { setTab('resume'); setEditing(true); }}>Fill {blanks} blank{blanks > 1 ? 's' : ''}</button>}
         <button type="button" className={stepClass('pdf')} onClick={() => { printResume(pack.resume, `${fileBase}_Resume`); tick('pdf'); }}>Download PDF</button>
@@ -1141,10 +1160,16 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
 
           {tab === 'resume' && (
             <div className="ch-sheet-wrap">
+              <div className="ch-preview-modes" role="group" aria-label="Resume preview">
+                {[['changes', 'Highlight changes'], ['clean', 'Clean draft'], ['original', 'Saved original']].map(([key, label]) => (
+                  <button key={key} type="button" className="ch-ghost" aria-pressed={preview === key} onClick={() => { setPreview(key); setEditing(false); }} disabled={key === 'changes' && !sameSource}>{label}</button>
+                ))}
+              </div>
+              <p className="ch-small ch-muted">{showingOriginal ? 'Your saved original. Editing a job draft never changes this resume.' : preview === 'changes' && sameSource ? 'Highlighted wording is added or rewritten. Copy and PDF always use the clean draft.' : !sameSource ? 'This draft used an older saved resume. Rewrite to use your current original.' : 'Clean draft, ready to copy or download.'}</p>
               <div className="ch-sheet-tools">
-                <button type="button" className="ch-text-btn" onClick={() => setEditing((v) => !v)}>{editing ? 'Done editing' : '✎ Edit'}</button>
+                <button type="button" className="ch-text-btn" onClick={() => { setPreview('clean'); setEditing((v) => !v); }}>{editing ? 'Done editing' : '✎ Edit draft'}</button>
                 <button type="button" className="ch-text-btn" onClick={() => copy('resume', pack.resume)}>{copied === 'resume' ? 'Copied ✓' : 'Copy'}</button>
-                <button type="button" className="ch-text-btn" onClick={() => generate(false)} disabled={busy}>{busy ? 'Rewriting…' : '↻ Rewrite'}</button>
+                <button type="button" className="ch-text-btn" onClick={() => generate(false, true)} disabled={busy}>{busy ? 'Rewriting…' : '↻ Rewrite again'}</button>
               </div>
               {(changeCount > 0 || noteCount > 0) && (
                 <details className="ch-review">
@@ -1171,7 +1196,7 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
               ) : (
                 <>
                   <style dangerouslySetInnerHTML={{ __html: RESUME_CSS }} />
-                  <article className="ch-sheet rz" onDoubleClick={() => setEditing(true)} dangerouslySetInnerHTML={{ __html: resumeHtml(pack.resume) }} />
+                  <article className="ch-sheet rz" onDoubleClick={() => { if (!showingOriginal) setEditing(true); }} dangerouslySetInnerHTML={{ __html: resumeHtml(showingOriginal ? store.resumeText : pack.resume, { original: !showingOriginal && preview === 'changes' && sameSource ? store.resumeText : undefined }) }} />
                 </>
               )}
             </div>

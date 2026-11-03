@@ -821,8 +821,8 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                   )}</ClientOnly>
                 </span>
                 {job.status !== 'closed' && (
-                  <Link className="op-card-tailor" href={`/career?job=${encodeURIComponent(job.id)}`} onClick={e => e.stopPropagation()}>
-                    Tailor resume →
+                  <Link className="op-card-tailor" href={`/career?job=${encodeURIComponent(job.id)}&rewrite=1`} onClick={e => e.stopPropagation()}>
+                    Rewrite resume →
                   </Link>
                 )}
                 {job.moreAtCompany && (
@@ -956,8 +956,8 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                     Apply on official site →
                   </a>
                 )}
-                <Link className="op-tailor-action-btn" href={`/career?job=${encodeURIComponent(detail.id)}`}>
-                  Tailor resume &amp; apply
+                <Link className="op-tailor-action-btn" href={`/career?job=${encodeURIComponent(detail.id)}&rewrite=1`}>
+                  Rewrite resume &amp; apply
                 </Link>
               </div>
             </div>

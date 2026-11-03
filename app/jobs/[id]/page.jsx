@@ -232,8 +232,8 @@ export default async function JobDetailPage({ params }) {
           >
             Apply →
           </a>
-          <Link className="btn btn-ghost" href={`/career?job=${encodeURIComponent(job.id)}`}>
-            Tailor resume &amp; apply
+          <Link className="btn btn-ghost" href={`/career?job=${encodeURIComponent(job.id)}&rewrite=1`}>
+            Rewrite resume &amp; apply
           </Link>
           <ShareJobButton url={pageUrl} title={`${job.title} at ${job.company}`} />
           <Link className="btn btn-ghost" href={companyPath}>
