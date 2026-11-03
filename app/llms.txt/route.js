@@ -37,13 +37,13 @@ export async function GET() {
     "> Free map and directory of Hyderabad tech companies and startups, with live job openings plotted by office location. Part of Mapping HYD (mapmyhyd.com).",
     "",
     "## Product",
-    "- Name: Mapping HYD",
+    "- Name: Mapping HYD Startups",
     "- Also known as: MapMyHyd, Map My Hyd, Mapping HYD Startups",
     `- Site: ${site}/`,
     "- Parent: https://mapmyhyd.com/",
     "- Instagram: https://www.instagram.com/mapmyhyd/",
     "- Free, no signup required to browse",
-    '- Canonical brand: "Mapping HYD" (not generic "Hyderabad Startup Map" — other directories use that phrase)',
+    '- Project brand: Mapping HYD; this directory is Mapping HYD Startups, also called Hyderabad Startup Map.',
     `- Methodology: ${site}/how-we-verify`,
     "",
     `## Key facts (as of ${stats?.asOf || new Date().toISOString().slice(0, 10)})`,
@@ -54,6 +54,14 @@ export async function GET() {
     if (stats.hiringStartups) lines.push(`- Companies currently marked hiring: ${n(stats.hiringStartups)} (${stats.hiringPct}%)`);
     if (stats.totalGccs) lines.push(`- Global capability centres (GCCs) mapped: ${n(stats.totalGccs)}`);
   }
+  lines.push(
+    "- Scope: directory listings, not an official census of Hyderabad startups; includes established employers.",
+    "- Location accuracy: some pins are approximate tech-area locations. Consult the company page and official website before visiting.",
+    "- Freshness: this date describes a generated directory snapshot, not a fresh verification of every record.",
+    "- Hiring signals count companies, not vacancies. Job availability must be confirmed at the original employer source.",
+    `- Verification policy: ${site}/how-we-verify`,
+    `- People and project background: ${site}/about`,
+  );
   // Skip job lines when a feed fetch failed at build time rather than publish "0".
   if (jobs.length) lines.push(`- Open job listings tracked: ${n(jobs.length)}`);
   if (fresher.length) lines.push(`- Fresher / intern / entry-level openings: ${n(fresher.length)} (${site}/jobs/fresher)`);
