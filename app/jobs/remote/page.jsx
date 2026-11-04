@@ -19,9 +19,9 @@ export const revalidate = 604800;
 
 export async function generateMetadata() {
   const jobs = await getRemoteJobs();
-  const title = `Remote Tech & Startup Jobs in India (${jobs.length} Verified Openings 2026)`;
+  const title = "Remote Tech & Startup Jobs in India – Verified Openings 2026";
   const description =
-    `Looking for verified remote jobs in India? Explore ${jobs.length} remote software engineer, AI, product, and tech openings at product startups. 100% direct ATS portals, zero consultancy spam.`;
+    "Looking for verified remote jobs in India? Explore remote software engineer, AI, product, and tech openings at product startups. 100% direct ATS portals, zero consultancy spam.";
   const url = `${getSiteUrl()}/jobs/remote`;
 
   return {

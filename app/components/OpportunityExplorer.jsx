@@ -2,6 +2,7 @@
 
 import ExploreModes from './ExploreModes.jsx';
 import { useEffect,useMemo,useRef,useState,startTransition } from 'react';
+import { sessionState, useSessionState } from '../../lib/session-state.js';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { usePathname,useRouter } from 'next/navigation';
@@ -312,17 +313,49 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   // cached HTML. Query filters sync immediately after hydration.
   const [params,setParams]=useState(()=>new URLSearchParams());
   const filters=useMemo(()=>readFilters(params),[params]);
-  const [query,setQuery]=useState(filters.q),[data,setData]=useState(initial),[busy,setBusy]=useState(false),[error,setError]=useState('');
-  const [view,setView]=useState('list'),[sheet,setSheet]=useState(false),[groups,setGroups]=useState([]),[mapVersion,setMapVersion]=useState('');
+  const [query,setQuery]=useState(filters.q),[data,setRawData]=useState(initial),[busy,setBusy]=useState(false),[error,setError]=useState('');
+  const [view,setView]=useSessionState(`jobs:${pathname}:view`,'list'),[sheet,setSheet]=useState(false),[groups,setGroups]=useState([]),[mapVersion,setMapVersion]=useState('');
   const [selectedJobId,setSelectedJobId]=useState(null);
   const [detail,setDetail]=useState(null),[detailError,setDetailError]=useState(''),[newAvailable,setNewAvailable]=useState(false);
   const [shortlist,setShortlist]=useState({jobs:{},companies:[],searches:[]}),[storageReady,setStorageReady]=useState(false),[notice,setNotice]=useState('');
-  const [compare,setCompare]=useState(false),[areaA,setAreaA]=useState(''),[areaB,setAreaB]=useState(''),[comparison,setComparison]=useState(null);
-  const [emailOpen,setEmailOpen]=useState(false),[email,setEmail]=useState(''),[emailState,setEmailState]=useState(''),[savedSearch,setSavedSearch]=useState(null);
+  const [compare,setCompare]=useSessionState(`jobs:${pathname}:compare`,false),[areaA,setAreaA]=useSessionState(`jobs:${pathname}:area-a`,''),[areaB,setAreaB]=useSessionState(`jobs:${pathname}:area-b`,''),[comparison,setComparison]=useState(null);
+  const [emailOpen,setEmailOpen]=useState(false),[email,setEmail]=useSessionState('jobs:email-draft',''),[emailState,setEmailState]=useState(''),[savedSearch,setSavedSearch]=useState(null);
   const [lastVisit,setLastVisit]=useState(null),[refresh,setRefresh]=useState(0);
   const emailRef=useRef(null),sheetRef=useRef(null),abortDetail=useRef(null),initialRequest=useRef(true),detailRef=useRef(null);
-  const resultsScroll=useRef(0),wasDetailOpen=useRef(false);
+  const resultsScroll=useRef(0),wasDetailOpen=useRef(false),queryTimer=useRef(null);
   const filterQuery=useMemo(()=>{const p=new URLSearchParams();for(const k of FILTER_KEYS)if(filters[k])p.set(k,filters[k]);return p.toString();},[filters]);
+  const resultsKey=`jobs:${pathname}:results:${filterQuery}`;
+  const activeResultsKey=useRef(resultsKey);
+  activeResultsKey.current=resultsKey;
+  function setData(next){
+    setRawData(current=>{
+      if(activeResultsKey.current!==resultsKey)return current;
+      const result=typeof next==='function'?next(current):next;
+      sessionState.set(resultsKey,{data:result,scroll:resultsScroll.current,at:Date.now()},null,false);
+      return result;
+    });
+  }
+  function rememberResults(){
+    resultsScroll.current=window.scrollY;
+    const cached=sessionState.get(resultsKey,null,false);
+    if(!busy&&query===filters.q&&data?.jobs){
+      sessionState.set(resultsKey,{data,scroll:resultsScroll.current,at:cached?.data===data?cached.at:Date.now()},null,false);
+    }else if(cached){
+      sessionState.set(resultsKey,{...cached,scroll:resultsScroll.current},null,false);
+    }
+  }
+  useEffect(()=>{
+    const onScroll=()=>{
+      if(window.location.pathname===pathname&&!wasDetailOpen.current)resultsScroll.current=window.scrollY;
+    };
+    window.addEventListener('scroll',onScroll,{passive:true});
+    return()=>{
+      window.removeEventListener('scroll',onScroll);
+      const key=activeResultsKey.current;
+      const cached=sessionState.get(key,null,false);
+      if(cached)sessionState.set(key,{...cached,scroll:resultsScroll.current},null,false);
+    };
+  },[pathname]);
   function change(patch) {
     const p=new URLSearchParams(params.toString());
     for(const [key,value] of Object.entries(patch)){if(value)p.set(key,value);else p.delete(key);}
@@ -348,11 +381,38 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
     };
     const onPopState=()=>{syncFromLocation();syncJob();};
     syncFromLocation();
+    syncJob();
     window.addEventListener('popstate',onPopState);
     return()=>window.removeEventListener('popstate',onPopState);
   },[]);
   useEffect(()=>{setQuery(filters.q);},[filters.q]);
-  useEffect(()=>{if(query===filters.q)return;const t=setTimeout(()=>change({q:query}),450);return()=>clearTimeout(t);},[query,filters.q]);
+  useEffect(()=>{
+    if(query===filters.q)return;
+    const timer=setTimeout(()=>{queryTimer.current=null;change({q:query});},450);
+    queryTimer.current=timer;
+    return()=>{clearTimeout(timer);if(queryTimer.current===timer)queryTimer.current=null;};
+  },[query,filters.q]);
+  useEffect(()=>{
+    function beforeNavigation(event){
+      if(window.location.pathname!==pathname||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      const link=event.target.closest?.('a[href]');
+      if(!link||link.target==='_blank'||link.hasAttribute('download'))return;
+      const destination=new URL(link.href,window.location.href);
+      if(destination.origin!==window.location.origin||destination.pathname===pathname)return;
+      clearTimeout(queryTimer.current);queryTimer.current=null;
+      rememberResults();
+      // Save unfinished search text into the current Back entry without starting
+      // a competing router navigation after the user has chosen another page.
+      if(query!==filters.q){
+        const search=new URLSearchParams(window.location.search);
+        if(query)search.set('q',query);else search.delete('q');
+        const suffix=search.toString();
+        window.history.replaceState(window.history.state,'',pathname+(suffix?'?'+suffix:''));
+      }
+    }
+    document.addEventListener('click',beforeNavigation,true);
+    return()=>document.removeEventListener('click',beforeNavigation,true);
+  },[pathname,query,filters.q,data,busy,resultsKey]);
   useEffect(()=>{
     setShortlist(readShortlist());setStorageReady(true);
     try{setLastVisit(localStorage.getItem('hyd-last-visit'));localStorage.setItem('hyd-last-visit',new Date().toISOString());}catch{}
@@ -362,6 +422,13 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   },[variant]);
   useEffect(()=>{
     const c=new AbortController();let alive=true;
+    const cached=sessionState.get(resultsKey,null,false);
+    if(cached?.data?.jobs&&!cached.data.stale&&Date.now()-cached.at<300000&&refresh===0){
+      initialRequest.current=false;
+      setRawData(cached.data);setBusy(false);resultsScroll.current=cached.scroll||0;
+      if(!window.history.state?.opJob)requestAnimationFrame(()=>window.scrollTo({top:resultsScroll.current,behavior:'instant'}));
+      return()=>c.abort();
+    }
     if(initialRequest.current && !filterQuery && initial?.jobs && !initial.stale && refresh===0){initialRequest.current=false;setBusy(false);return()=>c.abort();}
     initialRequest.current=false;setBusy(true);setError('');
     jobsFetch(`/api/v2/jobs?${filterQuery}`,{signal:c.signal}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(d=>{
@@ -372,7 +439,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
       .catch(e=>{if(alive && e.name!=='AbortError')setError('Could not refresh jobs. Your previous results are still here.');})
       .finally(()=>{if(alive)setBusy(false);});
     return()=>{alive=false;c.abort();};
-  },[filterQuery,refresh]);
+  },[filterQuery,refresh,resultsKey]);
   useEffect(()=>{
     if(view!=='map' && !compare) return;
     const c=new AbortController();
@@ -464,7 +531,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   function openJob(job){
     // Read history, not state: the title link and its card both fire this on one tap.
     if(!window.history.state?.opJob){
-      resultsScroll.current=window.scrollY;
+      rememberResults();
       window.history.pushState({...window.history.state,opJob:job.id},'',window.location.href);
     }
     setView('list');setSelectedJobId(job.id);
@@ -822,7 +889,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                 </span>
                 {job.status !== 'closed' && (
                   <Link className="op-card-tailor" href={`/career?job=${encodeURIComponent(job.id)}&rewrite=1`} onClick={e => e.stopPropagation()}>
-                    Rewrite resume →
+                    Tailor resume →
                   </Link>
                 )}
                 {job.moreAtCompany && (
@@ -957,7 +1024,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                   </a>
                 )}
                 <Link className="op-tailor-action-btn" href={`/career?job=${encodeURIComponent(detail.id)}&rewrite=1`}>
-                  Rewrite resume &amp; apply
+                  Tailor resume &amp; apply
                 </Link>
               </div>
             </div>

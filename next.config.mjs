@@ -15,6 +15,9 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Direct resume shortcut to canonical career hub
+      { source: "/resume", destination: "/career", permanent: true },
+      { source: "/jobs/tailor", destination: "/career", permanent: true },
       // Redirect Vercel preview URL to canonical domain, except /api and /insights:
       // Cloudflare Pages proxies (functions/api, functions/insights) call these endpoints.
       {

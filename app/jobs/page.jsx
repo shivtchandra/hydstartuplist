@@ -38,11 +38,9 @@ async function distinctRoleCount() {
 }
 
 export async function generateMetadata() {
-  const count = await distinctRoleCount();
-  const title = count > 0 ? `Jobs in Hyderabad – ${count} Current Startup & Tech Openings` : "Jobs in Hyderabad – Startup & Tech Openings";
-  const description = count > 0
-    ? `Browse ${count} current jobs in Hyderabad from mapped startups, product companies, and GCC employers across Gachibowli, Madhapur, HITEC City, and other tech hubs.`
-    : "Browse current jobs in Hyderabad from mapped startups, product companies, and GCC employers across Gachibowli, Madhapur, HITEC City, and other tech hubs.";
+  const title = "Jobs in Hyderabad – Startup & Tech Openings";
+  const description =
+    "Browse current jobs in Hyderabad from mapped startups, product companies, and GCC employers across Gachibowli, Madhapur, HITEC City, and other tech hubs. Verified direct career roles refreshed daily.";
   return {
     title,
     description,

@@ -116,6 +116,8 @@ export async function POST(req) {
     let aiResult;
     let repairAttempts = 0;
     let compressionAttempts = 0;
+    let qualityAttempts = 0;
+    let qualityIssues = [];
     let aiFailure = null;
     const openaiKey = process.env.OPENAI_API_KEY;
 
@@ -136,11 +138,16 @@ export async function POST(req) {
           resumeText: cleanResume,
           jobTitle,
           company,
+          jobDescription: cleanDescription,
+          jobSkills,
+          rewriteMode,
           generate: (requestPrompt) => callFastOpenAI(requestPrompt, openaiKey, Math.min(60000, Math.max(1, deadline - Date.now()))),
         });
         aiResult = generated.tailored;
         repairAttempts = generated.repairAttempts;
         compressionAttempts = generated.compressionAttempts;
+        qualityAttempts = generated.qualityAttempts;
+        qualityIssues = generated.qualityIssues;
         mode = "openai";
       } catch (error) {
         aiFailure = error?.name === "AbortError" || /OpenAI request failed/.test(error?.message || "") ? "AI_UNAVAILABLE" : "AI_INVALID";
@@ -208,6 +215,8 @@ export async function POST(req) {
       mode,
       repairAttempts,
       compressionAttempts,
+      qualityAttempts,
+      qualityIssues,
       rewriteMode,
     });
   } catch (error) {

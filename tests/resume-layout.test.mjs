@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { findResumeBlanks, parseResumeLayout, resumeHtml } from "../lib/resume/layout.js";
+import { findResumeBlanks, parseResumeLayout, resumeHtml, resumePrintDocument } from "../lib/resume/layout.js";
 import { linkPdfItems } from "../lib/resume/parse-client.js";
 
 const SAMPLE = `# SHIVA CHANDRA T
@@ -45,6 +45,16 @@ test("resume text cannot inject markup or script links", () => {
   const html = resumeHtml('NAME\n<img src=x onerror=alert(1)> [x](javascript:alert(1))');
   assert.doesNotMatch(html, /<img/);
   assert.doesNotMatch(html, /href="javascript/);
+});
+
+test("PDF export keeps selectable resume text, links and standard headings in a single-column document", () => {
+  const document = resumePrintDocument(SAMPLE, 'Resume');
+  assert.match(document, /@page\{size:A4/);
+  assert.match(document, /SHIVA CHANDRA T/);
+  assert.match(document, /Cognizant/);
+  assert.match(document, /href="https:\/\/linkedin\.com\/in\/x"/);
+  assert.doesNotMatch(document, /<(?:canvas|img|table)\b/i);
+  assert.doesNotMatch(document, /rz-change|<mark class="rz-change/);
 });
 
 test("long blanks are caught, links are not blanks", () => {

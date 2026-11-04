@@ -6,6 +6,8 @@
 // Design idea: every claim has a receipt — skills and matches show the resume
 // line that proves them.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { sessionState, useSessionState } from '../../lib/session-state.js';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { RESUME_CSS, findResumeBlanks, resumeHtml, resumePrintDocument } from '../../lib/resume/layout.js';
 import { extractResumeText } from '../../lib/resume/parse-client.js';
 import { isEarlyCareer, isEntryJob, shortlistJobs, curateJobs, experienceEligibility, assessmentConfidence, availabilityInfo, isRecommendedRow, foreignOnly, matchingDescription } from '../../lib/career/prefilter.js';
@@ -157,7 +159,10 @@ function viewFromUrl() {
 }
 
 export default function CareerHub() {
-  const [store, setStore] = useState(null);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const locationKey = pathname + '?' + searchParams.toString();
+  const [store, setStore] = useSessionState('career:data', null, { persist: false });
   const [view, setView] = useState('resume');
   const [matchesOpened, setMatchesOpened] = useState(false);
   const [rewriteOpened, setRewriteOpened] = useState(false);
@@ -166,10 +171,11 @@ export default function CareerHub() {
   const [packJob, setPackJob] = useState(null);
   const [packJobError, setPackJobError] = useState('');
   const [autoBuild, setAutoBuild] = useState('');
-  const hydrated = useRef(false);
+  const mounted = useRef(false);
 
   useEffect(() => {
-    const s = readStore();
+    mounted.current = true;
+    const s = sessionState.get('career:data', null, false) || readStore();
     setStore(s);
     setPassport(readPassport());
     const params = new URLSearchParams(location.search);
@@ -179,7 +185,8 @@ export default function CareerHub() {
       if (params.get('rewrite') === '1') setAutoBuild(jobParam);
     }
     setView(s.profile ? viewFromUrl() : 'resume');
-    hydrated.current = true;
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); } catch {}
+    return () => { mounted.current = false; };
   }, []);
 
   useEffect(() => {
@@ -197,14 +204,22 @@ export default function CareerHub() {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
+  // Next can reuse this client component when only the job/query changes.
+  useEffect(() => {
+    if (!store) return;
+    const params = new URLSearchParams(location.search);
+    const job = params.get('job');
+    if (job) {
+      setPendingJob(job);
+      setPackJob(current => current?.id === job ? current : null);
+    }
+    setAutoBuild(params.get('rewrite') === '1' ? job || '' : '');
+    setView(store.profile ? viewFromUrl() : 'resume');
+  }, [locationKey, Boolean(store?.profile)]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Keep background work and drafts alive when switching Hub sections.
   if (view === 'matches' && !matchesOpened) setMatchesOpened(true);
   if (view === 'rewrite' && !rewriteOpened) setRewriteOpened(true);
-
-  useEffect(() => {
-    if (!hydrated.current || !store) return;
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch {}
-  }, [store]);
 
   useEffect(() => {
     if (!pendingJob) return;
@@ -218,7 +233,14 @@ export default function CareerHub() {
     return () => { cancelled = true; };
   }, [pendingJob]);
 
-  const update = useCallback((patch) => setStore((s) => ({ ...s, ...(typeof patch === 'function' ? patch(s) : patch) })), []);
+  const update = useCallback((patch) => setStore((s) => {
+    if (!s) return s;
+    const next = { ...s, ...(typeof patch === 'function' ? patch(s) : patch) };
+    // Persist here as well as during rendering: background work can finish while
+    // the Hub is unmounted on another route.
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(next)); } catch {}
+    return next;
+  }), [setStore]);
 
   const savePassport = useCallback((next) => {
     setPassport(next);
@@ -237,7 +259,7 @@ export default function CareerHub() {
   // Only explicit rewrite actions generate a draft; saved application links just open it.
   const openPack = useCallback((job, build = false) => {
     if (build) setAutoBuild(job.id);
-    setPackJob(null);
+    setPackJob(current => current?.id === job.id ? current : null);
     setPendingJob(job.id);
     setView('pack');
     update((s) => (s.applications[job.id]
@@ -259,8 +281,8 @@ export default function CareerHub() {
           <header className="ch-hubbar">
             <div>
               <p className="ch-hub-eyebrow">Your next move</p>
-              <h1>Resume Hub</h1>
-              <p className="ch-hub-description">Find your fit. Make your experience count.</p>
+              <h1>{view === 'pack' ? 'Tailor your resume' : 'Resume Hub'}</h1>
+              <p className="ch-hub-description">{view === 'pack' ? 'A separate draft for your selected job.' : 'Find your fit. Make your experience count.'}</p>
             </div>
             <button type="button" className="ch-resume-link" onClick={() => go('resume')}>Your resume <span aria-hidden="true">↗</span></button>
           </header>
@@ -299,7 +321,7 @@ export default function CareerHub() {
       {view !== 'matches' && (view !== 'rewrite' || !store.profile) && (
         <div className="ch-stage" key={view}>
           {(view === 'resume' || (view === 'rewrite' && !store.profile)) && (
-            <ResumeStep store={store} update={update} onDone={() => { if (pendingJob) { setAutoBuild(pendingJob); setView('pack'); } else go(viewFromUrl() === 'rewrite' ? 'rewrite' : 'matches'); }} />
+            <ResumeStep store={store} update={update} onDone={() => { if (!mounted.current) return; if (pendingJob) { setAutoBuild(pendingJob); setView('pack'); } else go(viewFromUrl() === 'rewrite' ? 'rewrite' : 'matches'); }} />
           )}
           {view === 'pack' && store.profile && (
             <>
@@ -318,7 +340,6 @@ export default function CareerHub() {
               />
             </>
           )}
-          {view === 'rewrite' && store.profile && <RoleRewriteStep store={store} update={update} />}
           {view === 'tracker' && <TrackerStep store={store} update={update} onOpen={openPack} onBrowse={() => go('matches')} />}
         </div>
       )}
@@ -337,23 +358,26 @@ function FitLabel({ match }) {
 // ---------------------------------------------------------------- Resume
 
 function ResumeStep({ store, update, onDone }) {
-  const [text, setText] = useState(store.resumeText || '');
-  const [busy, setBusy] = useState('');
-  const [error, setError] = useState('');
-  const [notice, setNotice] = useState('');
+  const scope = `career:resume:${store.resumeHash || 'new'}`;
+  const [text, setText] = useSessionState(scope + ':text', store.resumeText || '');
+  const [busy, setBusy] = useSessionState(scope + ':busy', '', { persist: false });
+  const [error, setError] = useSessionState(scope + ':error', '', { persist: false });
+  const [notice, setNotice] = useSessionState(scope + ':notice', '', { persist: false });
   const [drag, setDrag] = useState(false);
-  const [paste, setPaste] = useState(false);
-  const [openSkill, setOpenSkill] = useState('');
+  const [paste, setPaste] = useSessionState(scope + ':paste', false);
+  const [openSkill, setOpenSkill] = useSessionState(scope + ':skill', '');
   const fileRef = useRef(null);
   const profile = store.profile;
 
-  async function analyze(source) {
+  async function analyze(source, operation) {
+    const request = operation ?? sessionState.set(scope + ':request', value => value + 1, 0, false);
     const clean = String(source ?? text).trim();
-    if (clean.length < 80) { setError('That looks too short. Add your full resume.'); return; }
+    if (clean.length < 80) { setError('That looks too short. Add your full resume.'); setBusy(''); return; }
     setError('');
     setNotice('');
     setBusy('Reading your resume…');
     const { ok, data } = await postJson('/api/career/profile', { resumeText: clean });
+    if (request !== sessionState.get(scope + ':request', 0, false)) return;
     setBusy('');
     if (!ok || !data.profile) { setError(data.error || 'Could not read your resume. Try again.'); return; }
     const hash = profileHash(clean);
@@ -365,13 +389,16 @@ function ResumeStep({ store, update, onDone }) {
 
   async function takeFile(file) {
     if (!file) return;
+    const request = sessionState.set(scope + ':request', value => value + 1, 0, false);
     setError('');
     setBusy('Opening your file…');
     try {
       const extracted = await extractResumeText(file);
+      if (request !== sessionState.get(scope + ':request', 0, false)) return;
       setText(extracted);
-      await analyze(extracted);
+      await analyze(extracted, request);
     } catch (err) {
+      if (request !== sessionState.get(scope + ':request', 0, false)) return;
       setError(err.message);
       setBusy('');
     }
@@ -537,16 +564,17 @@ function ResumeStep({ store, update, onDone }) {
 function RoleRewriteStep({ store, update }) {
   const saved = store.roleRewrite?.resumeHash === store.resumeHash ? store.roleRewrite : null;
   const draft = store.roleRewriteDraft?.resumeHash === store.resumeHash ? store.roleRewriteDraft : null;
-  const [target, setTarget] = useState(draft?.target ?? saved?.target ?? store.profile.targetTitles?.[0] ?? '');
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState('');
-  const [editing, setEditing] = useState(false);
+  const scope = `career:rewrite:${store.resumeHash}`;
+  const [target, setTarget] = useSessionState(scope + ':target', draft?.target ?? saved?.target ?? store.profile.targetTitles?.[0] ?? '');
+  const [busy, setBusy] = useSessionState(scope + ':busy', false, { persist: false });
+  const [error, setError] = useSessionState(scope + ':error', '', { persist: false });
+  const [editing, setEditing] = useSessionState(scope + ':editing', false);
   const [copied, setCopied] = useState(false);
 
   async function generate(event) {
     event.preventDefault();
     const role = target.trim();
-    if (role.length < 3 || busy) return;
+    if (role.length < 3 || sessionState.get(scope + ':busy', false, false)) return;
     setBusy(true); setError(''); setCopied(false);
     try {
       const { ok, data } = await postJson('/api/resume/tailor', {
@@ -574,7 +602,7 @@ function RoleRewriteStep({ store, update }) {
     <section className="ch-role-rewrite">
       <div className="ch-shortlist-intro">
         <h2>A resume for your next role</h2>
-        <p>Choose a role to focus your experience. For a particular vacancy, use Rewrite resume on its job card.</p>
+        <p>Choose a role to focus your experience. For a particular vacancy, use Tailor resume on its job card.</p>
       </div>
       <form className="ch-role-form" onSubmit={generate}>
         <label htmlFor="ch-target-role">Target role</label>
@@ -665,18 +693,20 @@ function MatchesStep({ store, update, onPick, early }) {
     const match = store.matches?.[jobId];
     return match?.assessmentVersion === 4 && match.assessedYears === (profile.yearsExperience ?? null) ? match : null;
   };
-  const [mode, setMode] = useState(early && Number(profile.yearsExperience || 0) < 1 ? 'entry' : 'best');
-  const [rows, setRows] = useState(null);
-  const [entryTotal, setEntryTotal] = useState(0);
-  const [availableTotal, setAvailableTotal] = useState(0);
-  const [phase, setPhase] = useState('');
-  const [progress, setProgress] = useState(0);
-  const [error, setError] = useState('');
-  const [filters, setFilters] = useState({ min: 0, remote: false, posted: 0 });
-  const runId = useRef(0);
+  const [mode, setMode] = useSessionState(`career:matches-mode:${resumeHash}`, early && Number(profile.yearsExperience || 0) < 1 ? 'entry' : 'best');
+  const matchKey = JSON.stringify([mode, resumeHash, profile.level, profile.yearsExperience, profile.roleFamilies, profile.targetTitles, (profile.skills || []).map((s) => s.name), profile.openToRemote]);
+  const scope = 'career:matches:' + matchKey;
+  const [rows, setRows] = useSessionState(scope + ':rows', null, { persist: false });
+  const [entryTotal, setEntryTotal] = useSessionState(scope + ':entry-total', 0, { persist: false });
+  const [availableTotal, setAvailableTotal] = useSessionState(scope + ':total', 0, { persist: false });
+  const [phase, setPhase] = useSessionState(scope + ':phase', '', { persist: false });
+  const [progress, setProgress] = useSessionState(scope + ':progress', 0, { persist: false });
+  const [error, setError] = useSessionState(scope + ':error', '', { persist: false });
+  const [filters, setFilters] = useSessionState(`career:matches-filters:${resumeHash}:${mode}`, { min: 0, remote: false, posted: 0 });
 
   const run = useCallback(async () => {
-    const id = ++runId.current;
+    const id = sessionState.set(scope + ':run', value => value + 1, 0, false);
+    const active = () => id === sessionState.get(scope + ':run', 0, false);
     setError('');
     setProgress(0.05);
     setRows(null);
@@ -699,7 +729,7 @@ function MatchesStep({ store, update, onPick, early }) {
       Promise.all(top.map((r) => loadJobDetail(r.job.id))),
       loadFullJobTexts(top.map((r) => r.job)),
     ]);
-    if (id !== runId.current) return;
+    if (!active()) return;
     const next = top.map((r, i) => {
       const description = String(fullTexts[r.job.id] || details[i]?.description || r.job.description || '');
       const job = { ...r.job, ...details[i], description };
@@ -710,7 +740,7 @@ function MatchesStep({ store, update, onPick, early }) {
     const todo = next.filter((r) => r.hasInfo && !cachedMatch(r.job.id));
     let failed = 0;
     for (let i = 0; i < todo.length; i += BATCH) {
-      if (id !== runId.current) return;
+      if (!active()) return;
       setProgress(0.2 + 0.8 * (i / Math.max(1, todo.length)));
       setPhase(`Comparing your resume with each job… ${Math.min(i + BATCH, todo.length)} of ${todo.length}`);
       const batch = todo.slice(i, i + BATCH);
@@ -725,16 +755,17 @@ function MatchesStep({ store, update, onPick, early }) {
         if (data.code === 'RATE_LIMITED' || data.code === 'AI_UNAVAILABLE' || !data.code) break;
         continue;
       }
-      update((s) => (s.resumeHash === resumeHash ? { matches: { ...s.matches, ...data.matches } } : {}));
+      update((s) => (active() && s.resumeHash === resumeHash && s.profile?.yearsExperience === profile.yearsExperience ? { matches: { ...s.matches, ...data.matches } } : {}));
     }
-    if (id !== runId.current) return;
+    if (!active()) return;
     setProgress(1);
     setPhase('');
     if (failed) setError('Some descriptions could not be assessed. Find those roles under More roles to review, or try Refresh.');
-  }, [profile, resumeText, resumeHash, store.matches, update, mode]);
+  }, [profile, resumeText, resumeHash, store.matches, update, mode, scope]);
 
-  const profileKey = JSON.stringify([mode, resumeHash, profile.level, profile.yearsExperience, profile.roleFamilies, profile.targetTitles, (profile.skills || []).map((s) => s.name), profile.openToRemote]);
-  useEffect(() => { run(); return () => { runId.current += 1; }; }, [profileKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!sessionState.get(scope + ':rows', null, false) && !sessionState.get(scope + ':phase', '', false)) run();
+  }, [matchKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const ranked = useMemo(() => {
     if (!rows) return [];
@@ -925,15 +956,18 @@ const LONG_SHOT_BELOW = 40;
 
 // The first two stages are real requests. The rest are paced to one AI call, so the last
 // stage holds until the pack really arrives.
-function PackBuilding({ phase }) {
-  const [tick, setTick] = useState(0);
+function PackBuilding({ phase, startedAt }) {
+  const [tick, setTick] = useState(() => startedAt ? Math.floor((Date.now() - startedAt) / PACK_STAGE_MS) : 0);
   const writing = phase === 'writing';
 
   useEffect(() => {
     if (!writing) return undefined;
-    const timer = setInterval(() => setTick((t) => t + 1), PACK_STAGE_MS);
+    const start = startedAt || Date.now();
+    const update = () => setTick(Math.max(0, Math.floor((Date.now() - start) / PACK_STAGE_MS)));
+    update();
+    const timer = setInterval(update, 1000);
     return () => clearInterval(timer);
-  }, [writing]);
+  }, [writing, startedAt]);
 
   const current = phase === 'reading' ? 0 : phase === 'fit' ? 1 : Math.min(PACK_WRITING_STAGE + tick, PACK_STAGES.length - 1);
 
@@ -961,17 +995,19 @@ function PackBuilding({ phase }) {
 function PackStep({ store, update, job, jobError, loading, passport, savePassport, onBrowse, autoBuild, onAutoBuilt }) {
   const app = job ? store.applications?.[job.id] : null;
   const pack = app?.pack || null;
-  const [busy, setBusy] = useState(false);
-  const [packPhase, setPackPhase] = useState('writing');
-  const [fitAcceptedFor, setFitAcceptedFor] = useState('');
+  const scope = `career:pack:${job?.id || 'loading'}:${store.resumeHash}`;
+  const [busy, setBusy] = useSessionState(scope + ':busy', false, { persist: false });
+  const [packPhase, setPackPhase] = useSessionState(scope + ':phase', 'writing', { persist: false });
+  const [writingStartedAt, setWritingStartedAt] = useSessionState(scope + ':writing-started', 0, { persist: false });
+  const [fitAcceptedFor, setFitAcceptedFor] = useSessionState(scope + ':accepted', '');
   const fullText = useRef({ id: '', text: '' });
-  const [pastedDescription, setPastedDescription] = useState('');
-  const [needsPaste, setNeedsPaste] = useState(false);
-  const [error, setError] = useState(null);
+  const [pastedDescription, setPastedDescription] = useSessionState(scope + ':description', '');
+  const [needsPaste, setNeedsPaste] = useSessionState(scope + ':needs-description', false);
+  const [error, setError] = useSessionState(scope + ':error', null, { persist: false });
   const [copied, setCopied] = useState('');
-  const [editing, setEditing] = useState(false);
-  const [tab, setTab] = useState('resume');
-  const [preview, setPreview] = useState('changes');
+  const [editing, setEditing] = useSessionState(scope + ':editing', false);
+  const [tab, setTab] = useSessionState(scope + ':tab', 'resume');
+  const [preview, setPreview] = useSessionState(scope + ':preview', 'changes');
   const autoStarted = useRef('');
 
   useEffect(() => {
@@ -979,6 +1015,9 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
     if (!job || autoBuild !== job.id || autoStarted.current === request) return;
     autoStarted.current = request;
     onAutoBuilt();
+    if (sessionState.get(scope + ':auto-started', false, false)) return;
+    sessionState.set(scope + ':auto-started', true, false, false);
+    if (sessionState.get(scope + ':busy', false, false)) return;
     const saved = store.applications?.[job.id]?.pack;
     if (!saved?.resume || saved.resumeHash !== store.resumeHash) {
       setFitAcceptedFor(job.id);
@@ -1004,16 +1043,20 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
 
   function setPack(patch) {
     update((s) => {
+      if (s.resumeHash !== store.resumeHash) return {};
       const cur = s.applications[job.id] || stamp({ job: pickJob(job) }, 'saved');
       return { applications: { ...s.applications, [job.id]: { ...cur, pack: { ...(cur.pack || {}), ...patch } } } };
     });
   }
 
   function setStatus(status) {
-    update((s) => ({ applications: { ...s.applications, [job.id]: stamp(s.applications[job.id] || { job: pickJob(job) }, status) } }));
+    update((s) => s.resumeHash === store.resumeHash
+      ? { applications: { ...s.applications, [job.id]: stamp(s.applications[job.id] || { job: pickJob(job) }, status) } }
+      : {});
   }
 
   async function generate(allowFallback = false, fitAccepted = fitAcceptedFor === job.id) {
+    if (sessionState.get(scope + ':busy', false, false)) return;
     setBusy(true);
     setError(null);
     let jobDescription = pastedDescription.trim();
@@ -1044,6 +1087,7 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
       }
     }
     setPackPhase('writing');
+    setWritingStartedAt(Date.now());
     const { ok, data } = await postJson('/api/resume/tailor', {
       resumeText: store.resumeText,
       jobDescription,
@@ -1130,13 +1174,13 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
     </header>
   );
 
-  if (busy) return <section className="ch-pack">{head}<PackBuilding phase={packPhase} /></section>;
+  if (busy) return <section className="ch-pack">{head}<PackBuilding phase={packPhase} startedAt={writingStartedAt} /></section>;
 
   if (!pack) {
     return (
       <section className="ch-pack">
         {head}
-        {busy ? <PackBuilding phase={packPhase} /> : match && match.score < FIT_WARN_BELOW && fitAcceptedFor !== job.id ? (
+        {busy ? <PackBuilding phase={packPhase} startedAt={writingStartedAt} /> : match && match.score < FIT_WARN_BELOW && fitAcceptedFor !== job.id ? (
         <div className="ch-fit-warn">
           <h3>{match.score < LONG_SHOT_BELOW ? 'This looks like a long shot' : 'This one is a stretch'}</h3>
           {match.why && <p>{match.why}</p>}
@@ -1313,8 +1357,8 @@ function PackStep({ store, update, job, jobError, loading, passport, savePasspor
 // ---------------------------------------------------------------- Tracker
 
 function TrackerStep({ store, update, onOpen, onBrowse }) {
-  const [filter, setFilter] = useState('all');
-  const [removed, setRemoved] = useState(null);
+  const [filter, setFilter] = useSessionState('career:tracker:filter', 'all');
+  const [removed, setRemoved] = useSessionState('career:tracker:undo', null);
   const apps = Object.values(store.applications || {});
   const shown = apps
     .filter((a) => filter === 'all' || boardStatus(a.status) === filter)

@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { extractSkills } from '../lib/resume/ats-engine.js';
 import { unchangedShare } from '../lib/resume/tailor.js';
+import { assessRewriteQuality } from '../lib/resume/rewrite-guidance.js';
 
 // Public examples only. Contact details are deliberately removed before requests.
 const sampleRoot = process.env.REWRITE_SAMPLES_DIR || '/Users/shivat/Documents/place finder/hyderabad-eateries-map/.mini/resume-matching-eval';
@@ -41,7 +42,8 @@ for (const spec of cases.filter((item) => !selected || selected.includes(item.id
     const sourceSkills = new Set(extractSkills(source));
     const novelSkills = extractSkills(output).filter((value) => !sourceSkills.has(value));
     const unsupportedClaims = spec.unsupported.filter((value) => normalize(output).includes(normalize(value)) && !normalize(source).includes(normalize(value)));
-    const summary = { id: spec.id, split: spec.split, rewriteMode, status, mode: data.mode, latencyMs: Date.now() - started, code: data.code, sourceWords: source.split(/\s+/).length, outputWords: output.split(/\s+/).filter(Boolean).length, missingQuantities, novelQuantities, novelSkills, unsupportedClaims, changes: data?.tailored?.changes?.length || 0, unchangedShare: output ? unchangedShare(source, output) : null, warnings: data?.tailored?.warnings || [], passedMechanicalChecks: status === 200 && data.mode === 'openai' && !missingQuantities.length && !novelQuantities.length && !novelSkills.length && !unsupportedClaims.length };
+    const qualityIssues = output ? assessRewriteQuality(output, source, request) : [];
+    const summary = { qualityIssues, qualityAttempts: data?.qualityAttempts || 0, passedEditorialChecks: Boolean(output) && qualityIssues.length === 0, id: spec.id, split: spec.split, rewriteMode, status, mode: data.mode, latencyMs: Date.now() - started, code: data.code, sourceWords: source.split(/\s+/).length, outputWords: output.split(/\s+/).filter(Boolean).length, missingQuantities, novelQuantities, novelSkills, unsupportedClaims, changes: data?.tailored?.changes?.length || 0, unchangedShare: output ? unchangedShare(source, output) : null, warnings: data?.tailored?.warnings || [], passedMechanicalChecks: status === 200 && data.mode === 'openai' && !missingQuantities.length && !novelQuantities.length && !novelSkills.length && !unsupportedClaims.length };
     await fs.writeFile(path.join(outDir, `${spec.id}-${rewriteMode}.json`), JSON.stringify({ sourceUrl: sample.source, syntheticJobDescription: rewriteMode === 'job', request, response: data, summary }, null, 2));
     rows.push(summary);
     console.log(JSON.stringify({ id: spec.id, rewriteMode, status, mode: data.mode, passed: summary.passedMechanicalChecks }));

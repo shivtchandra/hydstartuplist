@@ -32,6 +32,7 @@ const STATIC_ROUTES = [
   // "/" so the homepage entry matches the URL Google indexes (GSC showed
   // "No referring sitemaps" for https://startups.mapmyhyd.com/).
   { path: "/", priority: 1.0, changeFrequency: "daily" },
+  { path: "/career", priority: 0.95, changeFrequency: "daily" },
   { path: "/jobs/fresher", priority: 0.95, changeFrequency: "daily" },
   { path: "/jobs/remote", priority: 0.95, changeFrequency: "daily" },
   { path: "/colleges", priority: 0.9, changeFrequency: "daily" },

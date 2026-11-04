@@ -22,12 +22,9 @@ export const revalidate = 604800;
 export async function generateMetadata() {
   const landing = FRESHER_JOBS_LANDING;
   const jobs = await getFresherJobs(landing.experienceLevels);
-  const title = jobs.length > 0
-    ? `Startup Companies in Hyderabad for Freshers (${jobs.length} Current Openings)`
-    : "Startup Companies in Hyderabad for Freshers";
-  const description = jobs.length > 0
-    ? `Explore ${jobs.length} current intern, trainee, junior, and entry-level openings at mapped Hyderabad startups and technology employers.`
-    : "Explore current intern, trainee, junior, and entry-level openings at mapped Hyderabad startups and technology employers.";
+  const title = "Startup Companies in Hyderabad for Freshers – Entry Level & Intern Openings";
+  const description =
+    "Explore current intern, trainee, junior, and entry-level openings at mapped Hyderabad startups and technology employers. 100% direct career links, zero consultancy spam.";
   const url = `${getSiteUrl()}/jobs/fresher`;
   return {
     title,

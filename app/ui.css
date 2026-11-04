@@ -307,6 +307,94 @@
   justify-content: center;
 }
 
+/* ── Smart not-found fallback ───────────────────────────── */
+.nf-container {
+  max-width: 36rem;
+  margin: var(--space-8) auto;
+  padding: var(--space-6) var(--space-5);
+  text-align: center;
+}
+.nf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 4px 12px;
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-4);
+}
+.nf-container h1 {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-heading);
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  color: var(--ink);
+  line-height: var(--lh-tight);
+}
+.nf-lede {
+  margin: 0 0 var(--space-6);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+}
+.nf-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+.nf-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-primary);
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: var(--radius-control);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+.nf-btn-primary:hover {
+  background: var(--accent-hover);
+  color: #ffffff;
+}
+.nf-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  background: #ffffff;
+  color: var(--ink);
+  padding: 10px 18px;
+  border-radius: var(--radius-control);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.nf-btn-secondary:hover {
+  background: var(--surface-2);
+  border-color: var(--ink-3);
+}
+.nf-more-title {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin-bottom: var(--space-3);
+}
+.nf-container .ui-chip-row {
+  justify-content: center;
+}
+
 /* ── Existing classes aligned to the primitives ──────────── */
 .btn,
 .btn-ghost,
