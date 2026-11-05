@@ -1,5 +1,268 @@
 [
   {
+    "id": "accelerizeindiaai",
+    "name": "ACCELERIZE INDIA (AI)",
+    "url": "https://www.accelerize360.com/careers",
+    "startupId": "7abbaf4e-c399-451b-9fc4-279d55f6c870",
+    "employerType": "startup"
+  },
+  {
+    "id": "accenture",
+    "name": "Accenture",
+    "url": "https://www.accenture.com/us-en/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "adonmo",
+    "name": "AdOnMo",
+    "url": "https://adonmo.com/careers",
+    "startupId": "8c0b7076-0d16-4c5e-a840-db1d29a26ab0",
+    "employerType": "startup"
+  },
+  {
+    "id": "aganitha",
+    "name": "Aganitha AI",
+    "url": "https://www.aganitha.ai/careers",
+    "startupId": "6238609b-918f-4741-a2ae-1ef96706c01b",
+    "employerType": "startup"
+  },
+  {
+    "id": "agilent",
+    "name": "Agilent",
+    "url": "https://www.agilent.com/en/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "altiushub",
+    "name": "AltiusHub",
+    "url": "https://altiushub.com/careers",
+    "startupId": "a8668de6-a2bd-4570-b982-b5391190d434",
+    "employerType": "startup"
+  },
+  {
+    "id": "altzentechnologies",
+    "name": "ALTZEN TECHNOLOGIES",
+    "url": "https://www.altzentech.com/careers",
+    "startupId": "f1b51e29-01ec-4371-8861-775fb00750e6",
+    "employerType": "startup"
+  },
+  {
+    "id": "americanairlines",
+    "name": "American Airlines",
+    "url": "https://jobs.aa.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "apollomicrosystems",
+    "name": "Apollo Micro Systems",
+    "url": "https://www.apollo-micro.com/careers",
+    "startupId": "fb5fd7a4-e468-46f0-9c9c-bbd1c4e7750d",
+    "employerType": "startup"
+  },
+  {
+    "id": "apple",
+    "name": "Apple",
+    "url": "https://www.apple.com/careers/in/",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "asbl",
+    "name": "ASBL",
+    "url": "https://www.asbl.in/careers",
+    "startupId": "cdc90ae3-f1c0-40d1-bea1-85cad243572f",
+    "employerType": "startup"
+  },
+  {
+    "id": "att",
+    "name": "AT&T",
+    "url": "https://www.att.jobs",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "atlan",
+    "name": "Atlan",
+    "url": "https://jobs.ashbyhq.com/atlan",
+    "atsProvider": "ashby",
+    "atsSlug": "atlan",
+    "employerType": "startup"
+  },
+  {
+    "id": "avyarthdigitalsolutions",
+    "name": "Avyarth Digital Solutions",
+    "url": "http://www.avyarthdigital.com/careers",
+    "startupId": "698c5590-269b-4090-a7b1-48a018dadd7e",
+    "employerType": "startup"
+  },
+  {
+    "id": "axiriumaerospace",
+    "name": "Axirium Aerospace",
+    "url": "https://www.axirium.aero/",
+    "startupId": "fb3ea0ee-85d3-4d5d-9834-246aa8b19bd0",
+    "employerType": "startup"
+  },
+  {
+    "id": "axptechnologies",
+    "name": "AXP Technologies",
+    "url": "https://ahex.co/careers",
+    "startupId": "d2a18af2-f7c5-4e7f-9205-35d2bbfcaf12",
+    "employerType": "startup"
+  },
+  {
+    "id": "beato",
+    "name": "BeatO",
+    "url": "https://beatoapp.com/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "bespokeaistylist",
+    "name": "BeSpoke AI Stylist",
+    "url": "https://www.bespokeaistylist.com/careers",
+    "startupId": "a6200eea-8411-4383-87f7-ef9423eed98a",
+    "employerType": "startup"
+  },
+  {
+    "id": "bhanzu",
+    "name": "Bhanzu",
+    "url": "https://bhanzu.com/careers",
+    "startupId": "dea7c8a3-14b7-47bb-85b1-4e27488cc688",
+    "employerType": "startup"
+  },
+  {
+    "id": "bizionictechnologies",
+    "name": "BIZIONIC TECHNOLOGIES",
+    "url": "https://www.bizionictech.com/careers",
+    "startupId": "ebed2dec-aa8b-4eca-bc39-576fe1d5e567",
+    "employerType": "startup"
+  },
+  {
+    "id": "bjak",
+    "name": "Bjak AI Engineering",
+    "url": "https://bjak.my/en/career",
+    "employerType": "startup"
+  },
+  {
+    "id": "bluecopa",
+    "name": "Bluecopa",
+    "url": "https://bluecopa.com/careers",
+    "startupId": "e69bec8b-3e20-4064-a915-2befa9fc7a81",
+    "employerType": "startup"
+  },
+  {
+    "id": "browserstack",
+    "name": "BrowserStack",
+    "url": "https://boards.greenhouse.io/browserstack",
+    "atsProvider": "greenhouse",
+    "atsSlug": "browserstack",
+    "employerType": "startup"
+  },
+  {
+    "id": "bsitsoftwareservices",
+    "name": "BSIT Software Services",
+    "url": "http://www.bsitsoftware.com/careers",
+    "startupId": "b4a776c9-48b5-4df8-bb65-a78766e54acb",
+    "employerType": "startup"
+  },
+  {
+    "id": "bwjtechsolutions",
+    "name": "BWJ Tech Solutions",
+    "url": "https://bwjts.com/careers",
+    "startupId": "33880c85-0208-4123-80c0-53136cac2981",
+    "employerType": "startup"
+  },
+  {
+    "id": "cal-com",
+    "name": "Cal.com",
+    "url": "https://cal.com/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "callhealth",
+    "name": "CallHealth",
+    "url": "https://www.callhealth.com/careers",
+    "startupId": "a38502c4-d394-43b5-96c9-b1ddfc5cc3b3",
+    "employerType": "startup"
+  },
+  {
+    "id": "callippussolutions",
+    "name": "Callippus Solutions",
+    "url": "https://callippus.co.uk/careers",
+    "startupId": "38f1c4e3-7069-43c7-81de-28664942726a",
+    "employerType": "startup"
+  },
+  {
+    "id": "cambayconsultingindia",
+    "name": "CAMBAY CONSULTING INDIA",
+    "url": "https://cambayengineering.com/careers",
+    "startupId": "1779e527-4c50-4240-bcfd-71ca2f98118c",
+    "employerType": "startup"
+  },
+  {
+    "id": "citigroup",
+    "name": "Citigroup",
+    "url": "https://jobs.citi.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "citiussolutions",
+    "name": "CITIUS SOLUTIONS",
+    "url": "https://www.citiuskbe.com/careers",
+    "startupId": "83a27689-621e-4768-b6de-3da477fe22d4",
+    "employerType": "startup"
+  },
+  {
+    "id": "cloud4io",
+    "name": "Cloud4.io",
+    "url": "https://www.cloud4c.com/careers",
+    "startupId": "c7f8052f-f4e5-436a-b51d-dc5f130fa1d1",
+    "employerType": "startup"
+  },
+  {
+    "id": "coforge",
+    "name": "Coforge",
+    "url": "https://careers.coforge.com/coforge/",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "cognix",
+    "name": "CogniX",
+    "url": "https://www.cognixsoft.com/careers",
+    "startupId": "5f911924-91ad-4cde-b458-b5ca800db001",
+    "employerType": "startup"
+  },
+  {
+    "id": "cosmoserve",
+    "name": "Cosmoserve Space",
+    "url": "https://cosmoserve.space/#Careers",
+    "startupId": "7a67e031-fb8b-4ad0-a5b9-13a2119fcd0b",
+    "employerType": "startup"
+  },
+  {
+    "id": "costco",
+    "name": "Costco",
+    "url": "https://careers.costco.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "coxqualitytechnologysolutions",
+    "name": "COX QUALITY TECHNOLOGY SOLUTIONS",
+    "url": "https://www.qualitythought.in/careers",
+    "startupId": "330c4cdb-cbb7-47a2-b361-2f287dfaf51b",
+    "employerType": "startup"
+  },
+  {
+    "id": "curefit",
+    "name": "Curefit / Cult.fit",
+    "url": "https://cult.fit/careers",
+    "employerType": "startup"
+  },
+  {
     "id": "darwinbox",
     "name": "Darwinbox",
     "url": "https://darwinbox.com/careers",
@@ -7,10 +270,748 @@
     "employerType": "startup"
   },
   {
+    "id": "datainfinityintelligence",
+    "name": "Data Infinity Intelligence",
+    "url": "https://datamites.com/careers",
+    "startupId": "0d0b0bfe-8f3a-4f16-b481-c49da81b4f9a",
+    "employerType": "startup"
+  },
+  {
+    "id": "daxvtechnologies",
+    "name": "DAXV TECHNOLOGIES",
+    "url": "https://daxvtech.com/careers",
+    "startupId": "34f1cb44-b02c-4d5d-8129-3671aedd12e6",
+    "employerType": "startup"
+  },
+  {
+    "id": "dazn",
+    "name": "DAZN",
+    "url": "https://careers.dazn.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "deccanai",
+    "name": "Deccan AI",
+    "url": "https://deccan.ai/careers",
+    "startupId": "b08fd626-8198-4b65-859e-7f2e10376de7",
+    "employerType": "startup"
+  },
+  {
+    "id": "deloitte-usi",
+    "name": "Deloitte USI",
+    "url": "https://www.deloitte.com/us/en/careers.html",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "designtechsemiconductors",
+    "name": "DESIGNTECH SEMICONDUCTORS",
+    "url": "http://www.designtechsys.com/careers",
+    "startupId": "cc101dbe-bc98-4535-9679-472d84c379f1",
+    "employerType": "startup"
+  },
+  {
+    "id": "devorkssolutions",
+    "name": "Devorks Solutions",
+    "url": "http://devorks.com/careers",
+    "startupId": "703595ae-8b9e-44d9-8242-9fdb64f95c38",
+    "employerType": "startup"
+  },
+  {
+    "id": "dexamindssoftware",
+    "name": "DEXAMINDS SOFTWARE",
+    "url": "https://dexaminds.com/careers",
+    "startupId": "9f508c17-64ea-4261-824a-09961f8f3d38",
+    "employerType": "startup"
+  },
+  {
+    "id": "dhruvaspace",
+    "name": "Dhruva Space",
+    "url": "https://www.dhruvaspace.com/careers",
+    "startupId": "9d051ab6-67fd-4c4c-a31e-ec952ca7d636",
+    "employerType": "startup"
+  },
+  {
+    "id": "digiedzesoftsolutions",
+    "name": "DIGIEDZE SOFT SOLUTIONS",
+    "url": "https://www.digiedze.com/careers",
+    "startupId": "1091a4bb-4054-4f19-80bf-8e2673c0456a",
+    "employerType": "startup"
+  },
+  {
+    "id": "digitalmapoutsolutionsindia",
+    "name": "DIGITAL MAPOUT SOLUTIONS INDIA",
+    "url": "http://www.mapouteng.com/careers",
+    "startupId": "f097de18-3a0c-4901-a416-1be6c9fae91c",
+    "employerType": "startup"
+  },
+  {
+    "id": "driveittechnologies",
+    "name": "DRIVEIT TECHNOLOGIES",
+    "url": "https://driveittech.in/careers",
+    "startupId": "7a6da264-644e-4153-9e7e-b17fc79715da",
+    "employerType": "startup"
+  },
+  {
+    "id": "duckduckgo",
+    "name": "DuckDuckGo",
+    "url": "https://duckduckgo.com/hiring",
+    "employerType": "startup"
+  },
+  {
+    "id": "ekincare",
+    "name": "ekincare",
+    "url": "https://www.ekincare.com/careers",
+    "startupId": "47a34793-9c94-4000-9be3-a452bfa09965",
+    "employerType": "startup"
+  },
+  {
+    "id": "elililly",
+    "name": "Eli Lilly",
+    "url": "https://careers.lilly.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "emobomosoft",
+    "name": "eMoboMo Soft",
+    "url": "http://www.emobomo.com/careers",
+    "startupId": "05d11410-7975-4f84-84c5-93e25d715416",
+    "employerType": "startup"
+  },
+  {
+    "id": "enmovil",
+    "name": "Enmovil",
+    "url": "https://www.enmovil.com/careers",
+    "startupId": "2aecf295-a845-4b97-8fdb-29218304ec1b",
+    "employerType": "startup"
+  },
+  {
+    "id": "eon-space-labs",
+    "name": "Eon Space Labs",
+    "url": "https://www.eonspacelabs.com",
+    "employerType": "startup"
+  },
+  {
+    "id": "esktechnologies",
+    "name": "ESK TECHNOLOGIES",
+    "url": "http://www.esktec.com/careers",
+    "startupId": "17b4aba4-3a74-4039-8fde-fcaad90c030e",
+    "employerType": "startup"
+  },
+  {
+    "id": "eztaxin",
+    "name": "EZTax.in",
+    "url": "https://eztax.in/careers",
+    "startupId": "667d915c-3ca2-4abb-bacd-50ef6efb2f0b",
+    "employerType": "startup"
+  },
+  {
+    "id": "facilio",
+    "name": "Facilio",
+    "url": "https://facilio.com/careers",
+    "startupId": "d05b9710-7258-4e5a-b027-cc8969b692be",
+    "employerType": "startup"
+  },
+  {
+    "id": "factset",
+    "name": "FactSet",
+    "url": "https://www.factset.com/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "fitterfly",
+    "name": "Fitterfly",
+    "url": "https://www.fitterfly.com/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "fixitytechnologies",
+    "name": "FIXITY TECHNOLOGIES",
+    "url": "https://fixitytech.com/careers",
+    "startupId": "769823c5-7711-466f-a447-aee473b470f0",
+    "employerType": "startup"
+  },
+  {
+    "id": "fly-io",
+    "name": "Fly.io",
+    "url": "https://fly.io/jobs",
+    "employerType": "startup"
+  },
+  {
+    "id": "franklintempleton",
+    "name": "Franklin Templeton",
+    "url": "https://www.franklintempletoncareers.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "ghost",
+    "name": "Ghost Foundation",
+    "url": "https://ghost.org/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "goldmansachs",
+    "name": "Goldman Sachs",
+    "url": "https://www.goldmansachs.com/careers/",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "google",
+    "name": "Google",
+    "url": "https://careers.google.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "gradioustechnologies",
+    "name": "Gradious Technologies",
+    "url": "https://www.gradious.com/careers",
+    "startupId": "cbeb9544-4590-42af-9a18-20ff591badfc",
+    "employerType": "startup"
+  },
+  {
+    "id": "gradright",
+    "name": "GradRight",
+    "url": "https://gradright.com/careers",
+    "startupId": "42f0a99e-a66b-471f-be72-2a69fc05ecaf",
+    "employerType": "startup"
+  },
+  {
+    "id": "gtmbuddy",
+    "name": "GTM Buddy",
+    "url": "https://gtmbuddy.ai/careers#openroles",
+    "startupId": "003fa9e4-ee53-44e7-b486-11cded258f29",
+    "employerType": "startup"
+  },
+  {
+    "id": "harvested-robotics",
+    "name": "Harvested Robotics",
+    "url": "https://harvestedrobotics.zohorecruit.in/jobs/Careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "hca",
+    "name": "HCA Healthcare",
+    "url": "https://careers.hcahealthcare.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "healthifyme",
+    "name": "HealthifyMe",
+    "url": "https://www.healthifyme.com/careers/",
+    "employerType": "startup"
+  },
+  {
+    "id": "hylenr",
+    "name": "HYLENR",
+    "url": "https://www.hylenr.com",
+    "employerType": "startup"
+  },
+  {
+    "id": "icertis",
+    "name": "Icertis",
+    "url": "https://boards.greenhouse.io/icertis",
+    "atsProvider": "greenhouse",
+    "atsSlug": "icertis",
+    "employerType": "startup"
+  },
+  {
+    "id": "infocussoftwaresolutions",
+    "name": "In Focus Software Solutions",
+    "url": "https://www.focussoftnet.com/careers",
+    "startupId": "0e5bd52a-55dc-4cec-bc59-26800dcf51aa",
+    "employerType": "startup"
+  },
+  {
+    "id": "incrivelsoft",
+    "name": "INCRIVELSOFT",
+    "url": "https://incrivelsoft.com/careers",
+    "startupId": "399f184c-fec1-466b-a94d-bddb8994c384",
+    "employerType": "startup"
+  },
+  {
+    "id": "indianeagle",
+    "name": "Indian Eagle",
+    "url": "https://www.indianeagle.com/careers",
+    "startupId": "1356b624-9c3c-44c8-af59-6f118e7dff36",
+    "employerType": "startup"
+  },
+  {
+    "id": "indrajaal",
+    "name": "Indrajaal (Grene Robotics)",
+    "url": "https://indrajaal.com/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "innovaccer",
+    "name": "Innovaccer",
+    "url": "https://boards.greenhouse.io/innovaccer",
+    "atsProvider": "greenhouse",
+    "atsSlug": "innovaccer",
+    "employerType": "startup"
+  },
+  {
+    "id": "innoworkssoftwaresolutions",
+    "name": "INNOWORKS SOFTWARE SOLUTIONS",
+    "url": "https://innoworks.tech/careers",
+    "startupId": "4e8dc01a-71e1-4f3a-8e4a-9354d0621bb1",
+    "employerType": "startup"
+  },
+  {
+    "id": "isapiinfotech",
+    "name": "ISAPI INFOTECH",
+    "url": "http://www.isapiinfotech.com/careers",
+    "startupId": "1025ba83-735f-4c65-8570-444a6e17d5a8",
+    "employerType": "startup"
+  },
+  {
+    "id": "ispatialtechnosolutions",
+    "name": "iSpatial Techno Solutions",
+    "url": "http://www.ispatialtec.com/careers",
+    "startupId": "b4232f9d-df86-4dfd-ac3e-f3fd57c4d803",
+    "employerType": "startup"
+  },
+  {
+    "id": "jaggaer",
+    "name": "Jaggaer",
+    "url": "https://www.jaggaer.com/careers/",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "jehaerospace",
+    "name": "JEH Aerospace",
+    "url": "https://www.jehaerospace.com/careers",
+    "startupId": "e8d2551b-4093-4b99-b129-76518b8c34ff",
+    "employerType": "startup"
+  },
+  {
+    "id": "jeh-aerospace",
+    "name": "JEH Aerospace",
+    "url": "https://www.jeh.aero",
+    "employerType": "startup"
+  },
+  {
+    "id": "kaizenplatforms",
+    "name": "Kaizen Platforms",
+    "url": "http://www.kaizentek.com/careers",
+    "startupId": "503fb8f8-ef25-4d6d-9a3f-82c6f1f790de",
+    "employerType": "startup"
+  },
+  {
+    "id": "kanzooglobal",
+    "name": "KANZOO GLOBAL",
+    "url": "http://kanzooglobal.com/careers",
+    "startupId": "fc09c3e9-4356-4ca0-8c1e-9a1570a51533",
+    "employerType": "startup"
+  },
+  {
+    "id": "keka",
+    "name": "Keka HR",
+    "url": "https://www.keka.com/careers",
+    "startupId": "e482154d-3340-4422-9154-cbef089ab82a",
+    "employerType": "startup"
+  },
+  {
+    "id": "kenyttechnologies",
+    "name": "Kenyt Technologies",
+    "url": "https://www.kenyt.ai/",
+    "startupId": "b20a4113-4958-42cf-af1e-c90bc28d288e",
+    "employerType": "startup"
+  },
+  {
+    "id": "keyloop",
+    "name": "Keyloop",
+    "url": "https://jobs.lever.co/keyloop?location=India%20%28Hyderabad%29",
+    "startupId": "19a107e2-a434-4331-84a7-3b52635fe584",
+    "atsProvider": "lever",
+    "atsSlug": "keyloop",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "kinichitlabs",
+    "name": "KINICH IT LABS",
+    "url": "https://kinichitlabs.com/careers",
+    "startupId": "b7d3e486-ff06-4e01-9b81-041ee1764006",
+    "employerType": "startup"
+  },
+  {
+    "id": "krishnasdigitaltechnologiesand",
+    "name": "Krishnas Digital Technologies and Softlabs",
+    "url": "http://www.krishnasdigitech.in/careers",
+    "startupId": "612be558-a2a7-41cb-b26e-fe1a68d55dbb",
+    "employerType": "startup"
+  },
+  {
+    "id": "kyndryl",
+    "name": "Kyndryl",
+    "url": "https://kyndryl.wd5.myworkdayjobs.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "laminar",
+    "name": "Laminar",
+    "url": "https://www.ycombinator.com/companies/laminar/jobs",
+    "employerType": "startup"
+  },
+  {
+    "id": "landeed",
+    "name": "Landeed",
+    "url": "https://www.landeed.com/careers",
+    "startupId": "f6a83417-9b8d-4313-94e0-8c1012b758a1",
+    "employerType": "startup"
+  },
+  {
+    "id": "lemurian-labs",
+    "name": "Lemurian Labs",
+    "url": "https://www.lemurianlabs.com",
+    "employerType": "startup"
+  },
+  {
+    "id": "locus",
+    "name": "Locus",
+    "url": "https://locus.sh/careers",
+    "startupId": "eefe559b-bdab-426d-a9fe-b686881759e1",
+    "employerType": "startup"
+  },
+  {
+    "id": "logy-ai",
+    "name": "Logy.AI",
+    "url": "https://logy.ai",
+    "employerType": "startup"
+  },
+  {
+    "id": "lpl",
+    "name": "LPL Financial",
+    "url": "https://www.lpl.com/about-lpl/careers.html",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
     "id": "mapmygenome",
     "name": "MapmyGenome",
     "url": "https://careers.mapmygenome.in/view-jobs",
     "startupId": "161c329a-3c74-4b52-8e8b-d340fe68b712",
+    "employerType": "startup"
+  },
+  {
+    "id": "marriott",
+    "name": "Marriott",
+    "url": "https://careers.marriott.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "marutdrones",
+    "name": "MARUT Drones",
+    "url": "https://marutdrones.com/careers",
+    "startupId": "2a0e9715-21af-43d9-89ff-f2ff7ee4fee5",
+    "employerType": "startup"
+  },
+  {
+    "id": "mathworks",
+    "name": "MathWorks",
+    "url": "https://in.mathworks.com/company/jobs/opportunities/search?location%5B%5D=430",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "mempagetechnologies",
+    "name": "Mempage Technologies",
+    "url": "http://www.mempagetech.com/careers",
+    "startupId": "82b6a312-a17e-40dd-a440-152044d1061c",
+    "employerType": "startup"
+  },
+  {
+    "id": "metanovaai",
+    "name": "METANOVA AI",
+    "url": "https://metanovaai.com/careers",
+    "startupId": "ee3e0245-ce7e-4fbf-8d5b-025c470a7772",
+    "employerType": "startup"
+  },
+  {
+    "id": "micron",
+    "name": "Micron",
+    "url": "https://micron.com/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "microsoft",
+    "name": "Microsoft",
+    "url": "https://careers.microsoft.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "nayanagroup",
+    "name": "Nayana Group",
+    "url": "https://nayanagroup.com/careers",
+    "startupId": "51cba742-0f60-4d9c-adc8-e3c9d7064611",
+    "employerType": "startup"
+  },
+  {
+    "id": "nemocare",
+    "name": "NemoCare",
+    "url": "https://nemo.care",
+    "employerType": "startup"
+  },
+  {
+    "id": "nemosoft",
+    "name": "NemoSoft",
+    "url": "https://nemosoftltd.net/career",
+    "startupId": "3f9c82a0-882a-4f61-b734-616c96c774fd",
+    "employerType": "startup"
+  },
+  {
+    "id": "netradyne",
+    "name": "Netradyne",
+    "url": "https://boards.greenhouse.io/netradyne",
+    "atsProvider": "greenhouse",
+    "atsSlug": "netradyne",
+    "employerType": "startup"
+  },
+  {
+    "id": "niramaihealth",
+    "name": "Niramai Health",
+    "url": "https://www.niramai.com/careers",
+    "startupId": "59a4b05b-33ec-4246-8205-2349c69bae62",
+    "employerType": "startup"
+  },
+  {
+    "id": "novartis",
+    "name": "Novartis",
+    "url": "https://www.novartis.com/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "ntnlitsolutions",
+    "name": "NTNL IT SOLUTIONS",
+    "url": "http://www.ntnlinfra.com/careers",
+    "startupId": "8559a822-a7f2-478e-a4b5-44831d74345f",
+    "employerType": "startup"
+  },
+  {
+    "id": "nuacemai",
+    "name": "NUACEM AI",
+    "url": "https://nuacem.com/careers",
+    "startupId": "2fbfd652-ce3b-4d37-b23e-78f95d70be97",
+    "employerType": "startup"
+  },
+  {
+    "id": "nxtwave",
+    "name": "NxtWave",
+    "url": "https://nxtwave.freshteam.com/jobs",
+    "startupId": "496c8550-86e8-43ae-ac47-7d7d2d0ea63f",
+    "employerType": "startup",
+    "note": "Freshteam board — fresher / early-career heavy"
+  },
+  {
+    "id": "olaelectric",
+    "name": "Ola Electric",
+    "url": "https://www.olaelectric.com/careers",
+    "startupId": "3cbfc03b-c294-4040-bdc0-7cc73bff4d58",
+    "employerType": "startup"
+  },
+  {
+    "id": "olivaskinhairclinic",
+    "name": "Oliva Skin & Hair Clinic",
+    "url": "https://www.olivaclinic.com/careers",
+    "startupId": "0aca3af3-618e-4118-a714-7a8bd62c8a63",
+    "employerType": "startup"
+  },
+  {
+    "id": "omniebeeglobalsolutions",
+    "name": "OMNIEBEE GLOBAL SOLUTIONS",
+    "url": "https://omniebeeglobalsolutions.com/careers",
+    "startupId": "fc26c609-e11b-4e37-92f0-a7d5171c6f8f",
+    "employerType": "startup"
+  },
+  {
+    "id": "optum",
+    "name": "Optum",
+    "url": "https://www.optum.com/careers.html",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "orbitnexatechnologies",
+    "name": "ORBITNEXA TECHNOLOGIES",
+    "url": "https://www.orbitnexa.com/careers",
+    "startupId": "f621b595-59b5-4028-b0e7-c2caaa7be23a",
+    "employerType": "startup"
+  },
+  {
+    "id": "pepsico",
+    "name": "PepsiCo",
+    "url": "https://www.pepsicojobs.com",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "perceptyne",
+    "name": "Perceptyne",
+    "url": "https://www.perceptyne.com/career",
+    "startupId": "faa9cdc5-08a9-43e9-8d60-d86cb4f5a448",
+    "employerType": "startup"
+  },
+  {
+    "id": "persistent",
+    "name": "Persistent",
+    "url": "https://careers.persistent.com/explore-opportunities",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "pidatacenters",
+    "name": "Pi Datacenters",
+    "url": "https://www.pidatacenters.com/careers",
+    "startupId": "7566fb7b-eb4c-4cad-8886-bd7a46210f8f",
+    "employerType": "startup"
+  },
+  {
+    "id": "piprasolutions",
+    "name": "PIPRA SOLUTIONS",
+    "url": "https://pipra.solutions/careers",
+    "startupId": "aabba0eb-2a28-4f22-af8f-2ed8fcd37cb7",
+    "employerType": "startup"
+  },
+  {
+    "id": "pixelstatesolutionsdevelopment",
+    "name": "PIXELSTAT E-SOLUTIONS DEVELOPMENT",
+    "url": "http://www.pixelstat.com/careers",
+    "startupId": "01f38f44-6dad-46ca-bdfc-e3ad18cd7c24",
+    "employerType": "startup"
+  },
+  {
+    "id": "plane",
+    "name": "Plane (MakePlane)",
+    "url": "https://plane.so/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "posthog",
+    "name": "PostHog",
+    "url": "https://posthog.com/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "postman",
+    "name": "Postman",
+    "url": "https://boards.greenhouse.io/postman",
+    "atsProvider": "greenhouse",
+    "atsSlug": "postman",
+    "employerType": "startup"
+  },
+  {
+    "id": "prakmasglobalinnovations",
+    "name": "PRAKMAS GLOBAL INNOVATIONS",
+    "url": "https://www.prakmas.com/careers",
+    "startupId": "a45e4751-e1e0-4ded-aa55-e68efe192df4",
+    "employerType": "startup"
+  },
+  {
+    "id": "prodapt",
+    "name": "Prodapt",
+    "url": "https://careers.prodapt.com/jobs?location=Telangana,%20India",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "provatetechnologies",
+    "name": "PROVATE TECHNOLOGIES",
+    "url": "https://provate.net/careers",
+    "startupId": "771db3bc-abc7-47f8-add1-3d9fb0b4f110",
+    "employerType": "startup"
+  },
+  {
+    "id": "pureev",
+    "name": "Pure EV",
+    "url": "https://www.pureev.in/careers",
+    "startupId": "f5aed858-3a02-4380-8079-7398a22f56b0",
+    "employerType": "startup"
+  },
+  {
+    "id": "qpactsolutions",
+    "name": "Qpact Solutions",
+    "url": "https://qpactsolutions.com/careers",
+    "startupId": "7e150055-3a53-4987-b5b6-6e46e8bac7da",
+    "employerType": "startup"
+  },
+  {
+    "id": "rainiersoftechsolutions",
+    "name": "Rainier Softech Solutions",
+    "url": "http://rainiersoft.com/careers",
+    "startupId": "997321f1-2a3d-4a2d-91b9-665e6521f75b",
+    "employerType": "startup"
+  },
+  {
+    "id": "razorpay",
+    "name": "Razorpay",
+    "url": "https://jobs.lever.co/razorpay",
+    "atsProvider": "lever",
+    "atsSlug": "razorpay",
+    "employerType": "startup"
+  },
+  {
+    "id": "recykal",
+    "name": "Recykal",
+    "url": "https://recykal.com/careers",
+    "startupId": "6a49a27c-5a1b-4d8e-b26a-3a605fefba75",
+    "employerType": "startup"
+  },
+  {
+    "id": "redhealth",
+    "name": "RED.Health",
+    "url": "https://www.red.health/careers",
+    "startupId": "57a74765-464b-4b20-86ea-e2ef397b8551",
+    "employerType": "startup"
+  },
+  {
+    "id": "rekisemarine",
+    "name": "Rekise Marine",
+    "url": "https://www.rekise.com/careers",
+    "startupId": "e7e6f60f-9658-4bc0-bb39-420e64510107",
+    "employerType": "startup"
+  },
+  {
+    "id": "religentsystems",
+    "name": "RELIGENT SYSTEMS",
+    "url": "https://religentsystems.com/careers",
+    "startupId": "93b890ee-8c49-4adb-99fd-e056e9b36311",
+    "employerType": "startup"
+  },
+  {
+    "id": "resend",
+    "name": "Resend",
+    "url": "https://resend.com/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "salesforce",
+    "name": "Salesforce",
+    "url": "https://www.salesforce.com/company/careers/",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "sanofi",
+    "name": "Sanofi",
+    "url": "https://www.sanofi.com/en/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "sarvam",
+    "name": "Sarvam AI",
+    "url": "https://jobs.ashbyhq.com/sarvam",
+    "atsProvider": "ashby",
+    "atsSlug": "sarvam",
     "employerType": "startup"
   },
   {
@@ -23,130 +1024,24 @@
     "employerType": "startup"
   },
   {
-    "id": "keka",
-    "name": "Keka HR",
-    "url": "https://www.keka.com/careers",
-    "startupId": "e482154d-3340-4422-9154-cbef089ab82a",
+    "id": "slykotechnologies",
+    "name": "Slyko Technologies",
+    "url": "http://slyko.tech/careers",
+    "startupId": "b49ee630-c71a-4cc1-a47f-5f336c74ce1e",
     "employerType": "startup"
   },
   {
-    "id": "coforge",
-    "name": "Coforge",
-    "url": "https://careers.coforge.com/coforge/",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "trianz",
-    "name": "Trianz",
-    "url": "https://recruit.trianz.com/trianz/jobslist",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "ust",
-    "name": "UST",
-    "url": "https://www.ust.com/en/jobsearch",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "mathworks",
-    "name": "MathWorks",
-    "url": "https://in.mathworks.com/company/jobs/opportunities/search?location%5B%5D=430",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "persistent",
-    "name": "Persistent",
-    "url": "https://careers.persistent.com/explore-opportunities",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "prodapt",
-    "name": "Prodapt",
-    "url": "https://careers.prodapt.com/jobs?location=Telangana,%20India",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "keyloop",
-    "name": "Keyloop",
-    "url": "https://jobs.lever.co/keyloop?location=India%20%28Hyderabad%29",
-    "startupId": "19a107e2-a434-4331-84a7-3b52635fe584",
-    "atsProvider": "lever",
-    "atsSlug": "keyloop",
-    "employerType": "enterprise"
-  },
-  {
-    "id": "nxtwave",
-    "name": "NxtWave",
-    "url": "https://nxtwave.freshteam.com/jobs",
-    "startupId": "496c8550-86e8-43ae-ac47-7d7d2d0ea63f",
-    "employerType": "startup",
-    "note": "Freshteam board — fresher / early-career heavy"
-  },
-  {
-    "id": "ekincare",
-    "name": "ekincare",
-    "url": "https://www.ekincare.com/careers",
-    "startupId": "47a34793-9c94-4000-9be3-a452bfa09965",
+    "id": "smartsearchsolutions",
+    "name": "Smart Search Solutions",
+    "url": "http://www.smartsearchsolutions.in/careers",
+    "startupId": "a51dd4ac-d0d5-4e59-9921-0064af05858b",
     "employerType": "startup"
   },
   {
-    "id": "redhealth",
-    "name": "RED.Health",
-    "url": "https://www.red.health/careers",
-    "startupId": "57a74765-464b-4b20-86ea-e2ef397b8551",
-    "employerType": "startup"
-  },
-  {
-    "id": "callhealth",
-    "name": "CallHealth",
-    "url": "https://www.callhealth.com/careers",
-    "startupId": "a38502c4-d394-43b5-96c9-b1ddfc5cc3b3",
-    "employerType": "startup"
-  },
-  {
-    "id": "enmovil",
-    "name": "Enmovil",
-    "url": "https://www.enmovil.com/careers",
-    "startupId": "2aecf295-a845-4b97-8fdb-29218304ec1b",
-    "employerType": "startup"
-  },
-  {
-    "id": "gradright",
-    "name": "GradRight",
-    "url": "https://gradright.com/careers",
-    "startupId": "42f0a99e-a66b-471f-be72-2a69fc05ecaf",
-    "employerType": "startup"
-  },
-  {
-    "id": "whatfix",
-    "name": "Whatfix",
-    "url": "https://boards.greenhouse.io/whatfix",
-    "atsProvider": "greenhouse",
-    "atsSlug": "whatfix",
-    "employerType": "startup"
-  },
-  {
-    "id": "icertis",
-    "name": "Icertis",
-    "url": "https://boards.greenhouse.io/icertis",
-    "atsProvider": "greenhouse",
-    "atsSlug": "icertis",
-    "employerType": "startup"
-  },
-  {
-    "id": "innovaccer",
-    "name": "Innovaccer",
-    "url": "https://boards.greenhouse.io/innovaccer",
-    "atsProvider": "greenhouse",
-    "atsSlug": "innovaccer",
-    "employerType": "startup"
-  },
-  {
-    "id": "netradyne",
-    "name": "Netradyne",
-    "url": "https://boards.greenhouse.io/netradyne",
-    "atsProvider": "greenhouse",
-    "atsSlug": "netradyne",
+    "id": "smartifysoftwaresolutions",
+    "name": "SMARTIFY SOFTWARE SOLUTIONS",
+    "url": "https://smartifysol.com/careers",
+    "startupId": "559aa744-2e04-41ab-9765-fb371eb1ef27",
     "employerType": "startup"
   },
   {
@@ -158,57 +1053,82 @@
     "employerType": "startup"
   },
   {
-    "id": "postman",
-    "name": "Postman",
-    "url": "https://boards.greenhouse.io/postman",
-    "atsProvider": "greenhouse",
-    "atsSlug": "postman",
+    "id": "starbuzz",
+    "name": "Starbuzz",
+    "url": "https://starbuzz.ai/",
+    "startupId": "19b2005d-498f-4336-b25e-a3301ad3a530",
     "employerType": "startup"
   },
   {
-    "id": "browserstack",
-    "name": "BrowserStack",
-    "url": "https://boards.greenhouse.io/browserstack",
-    "atsProvider": "greenhouse",
-    "atsSlug": "browserstack",
-    "employerType": "startup"
-  },
-  {
-    "id": "razorpay",
-    "name": "Razorpay",
-    "url": "https://jobs.lever.co/razorpay",
-    "atsProvider": "lever",
-    "atsSlug": "razorpay",
-    "employerType": "startup"
-  },
-  {
-    "id": "sarvam",
-    "name": "Sarvam AI",
-    "url": "https://jobs.ashbyhq.com/sarvam",
-    "atsProvider": "ashby",
-    "atsSlug": "sarvam",
-    "employerType": "startup"
-  },
-  {
-    "id": "atlan",
-    "name": "Atlan",
-    "url": "https://jobs.ashbyhq.com/atlan",
-    "atsProvider": "ashby",
-    "atsSlug": "atlan",
-    "employerType": "startup"
-  },
-  {
-    "id": "zluri",
-    "name": "Zluri",
-    "url": "https://jobs.ashbyhq.com/zluri",
-    "atsProvider": "ashby",
-    "atsSlug": "zluri",
+    "id": "startoon-labs",
+    "name": "Startoon Labs",
+    "url": "https://startoonlabs.com/careers.php",
     "employerType": "startup"
   },
   {
     "id": "sugarfit",
     "name": "Sugar.fit",
     "url": "https://sugarfit.com/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "supervity",
+    "name": "Supervity",
+    "url": "https://www.supervity.ai/",
+    "startupId": "9b173e6d-a5d4-4f94-bcbb-2d81982ecca2",
+    "employerType": "startup"
+  },
+  {
+    "id": "tmobile",
+    "name": "T-Mobile",
+    "url": "https://www.t-mobile.com/careers",
+    "startupId": null,
+    "employerType": "enterprise"
+  },
+  {
+    "id": "takeme2space",
+    "name": "TakeMe2Space",
+    "url": "https://www.tm2.space/about-tm2s",
+    "startupId": "e819b8ec-db34-4dec-9489-e40280ff97b5",
+    "employerType": "startup"
+  },
+  {
+    "id": "takshaxonlin",
+    "name": "TAKSHA X ONLIN",
+    "url": "https://www.onlin.in/careers",
+    "startupId": "15f2edd4-7379-4838-bd51-26c31735362e",
+    "employerType": "startup"
+  },
+  {
+    "id": "talent21consulting",
+    "name": "TALENT21 CONSULTING",
+    "url": "https://talent21.in/careers",
+    "startupId": "d40660ba-1f36-4ad0-bfa8-f4b92b20f159",
+    "employerType": "startup"
+  },
+  {
+    "id": "tempo-labs",
+    "name": "Tempo Labs",
+    "url": "https://www.tempolabs.ai/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "trianz",
+    "name": "Trianz",
+    "url": "https://recruit.trianz.com/trianz/jobslist",
+    "employerType": "enterprise"
+  },
+  {
+    "id": "trigger-dev",
+    "name": "Trigger.dev",
+    "url": "https://trigger.dev/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "turbohire",
+    "name": "TurboHire",
+    "url": "https://turbohire.co/careers",
+    "startupId": "dcbd7266-c446-45a9-b97d-8b8520f90bde",
     "employerType": "startup"
   },
   {
@@ -220,279 +1140,24 @@
     "employerType": "startup"
   },
   {
-    "id": "curefit",
-    "name": "Curefit / Cult.fit",
-    "url": "https://cult.fit/careers",
-    "employerType": "startup"
-  },
-  {
-    "id": "healthifyme",
-    "name": "HealthifyMe",
-    "url": "https://www.healthifyme.com/careers/",
-    "employerType": "startup"
-  },
-  {
-    "id": "fitterfly",
-    "name": "Fitterfly",
-    "url": "https://www.fitterfly.com/careers",
-    "employerType": "startup"
-  },
-  {
-    "id": "beato",
-    "name": "BeatO",
-    "url": "https://beatoapp.com/careers",
-    "employerType": "startup"
-  },
-  {
-    "id": "zylahealth",
-    "name": "Zyla Health",
-    "url": "https://zyla.in/careers",
-    "employerType": "startup"
-  },
-  {
-    "id": "deccanai",
-    "name": "Deccan AI",
-    "url": "https://deccan.ai/careers",
-    "startupId": "b08fd626-8198-4b65-859e-7f2e10376de7",
-    "employerType": "startup"
-  },
-  {
-    "id": "perceptyne",
-    "name": "Perceptyne",
-    "url": "https://www.perceptyne.com/career",
-    "startupId": "faa9cdc5-08a9-43e9-8d60-d86cb4f5a448",
-    "employerType": "startup"
-  },
-  {
-    "id": "aganitha",
-    "name": "Aganitha AI",
-    "url": "https://www.aganitha.ai/careers",
-    "startupId": "6238609b-918f-4741-a2ae-1ef96706c01b",
-    "employerType": "startup"
-  },
-  {
-    "id": "landeed",
-    "name": "Landeed",
-    "url": "https://www.landeed.com/careers",
-    "startupId": "f6a83417-9b8d-4313-94e0-8c1012b758a1",
-    "employerType": "startup"
-  },
-  {
-    "id": "altiushub",
-    "name": "AltiusHub",
-    "url": "https://altiushub.com/careers",
-    "startupId": "a8668de6-a2bd-4570-b982-b5391190d434",
-    "employerType": "startup"
-  },
-  {
-    "id": "gtmbuddy",
-    "name": "GTM Buddy",
-    "url": "https://gtmbuddy.ai/careers#openroles",
-    "startupId": "003fa9e4-ee53-44e7-b486-11cded258f29",
-    "employerType": "startup"
-  },
-  {
-    "id": "dhruvaspace",
-    "name": "Dhruva Space",
-    "url": "https://www.dhruvaspace.com/careers",
-    "startupId": "9d051ab6-67fd-4c4c-a31e-ec952ca7d636",
-    "employerType": "startup"
-  },
-  {
-    "id": "jehaerospace",
-    "name": "JEH Aerospace",
-    "url": "https://www.jehaerospace.com/careers",
-    "startupId": "e8d2551b-4093-4b99-b129-76518b8c34ff",
-    "employerType": "startup"
-  },
-  {
-    "id": "recykal",
-    "name": "Recykal",
-    "url": "https://recykal.com/careers",
-    "startupId": "6a49a27c-5a1b-4d8e-b26a-3a605fefba75",
-    "employerType": "startup"
-  },
-  {
-    "id": "pureev",
-    "name": "Pure EV",
-    "url": "https://www.pureev.in/careers",
-    "startupId": "f5aed858-3a02-4380-8079-7398a22f56b0",
-    "employerType": "startup"
-  },
-  {
-    "id": "bhanzu",
-    "name": "Bhanzu",
-    "url": "https://bhanzu.com/careers",
-    "startupId": "dea7c8a3-14b7-47bb-85b1-4e27488cc688",
-    "employerType": "startup"
-  },
-  {
-    "id": "marutdrones",
-    "name": "MARUT Drones",
-    "url": "https://marutdrones.com/careers",
-    "startupId": "2a0e9715-21af-43d9-89ff-f2ff7ee4fee5",
-    "employerType": "startup"
-  },
-  {
-    "id": "takeme2space",
-    "name": "TakeMe2Space",
-    "url": "https://www.tm2.space/about-tm2s",
-    "startupId": "e819b8ec-db34-4dec-9489-e40280ff97b5",
-    "employerType": "startup"
-  },
-  {
-    "id": "cosmoserve",
-    "name": "Cosmoserve Space",
-    "url": "https://cosmoserve.space/#Careers",
-    "startupId": "7a67e031-fb8b-4ad0-a5b9-13a2119fcd0b",
-    "employerType": "startup"
-  },
-  {
-    "id": "bluecopa",
-    "name": "Bluecopa",
-    "url": "https://bluecopa.com/careers",
-    "startupId": "e69bec8b-3e20-4064-a915-2befa9fc7a81",
-    "employerType": "startup"
-  },
-  {
-    "id": "turbohire",
-    "name": "TurboHire",
-    "url": "https://turbohire.co/careers",
-    "startupId": "dcbd7266-c446-45a9-b97d-8b8520f90bde",
-    "employerType": "startup"
-  },
-  {
-    "id": "adonmo",
-    "name": "AdOnMo",
-    "url": "https://adonmo.com/careers",
-    "startupId": "8c0b7076-0d16-4c5e-a840-db1d29a26ab0",
-    "employerType": "startup"
-  },
-  {
-    "id": "microsoft",
-    "name": "Microsoft",
-    "url": "https://careers.microsoft.com",
+    "id": "ubs",
+    "name": "UBS",
+    "url": "https://www.ubs.com/global/en/careers.html",
     "startupId": null,
     "employerType": "enterprise"
   },
   {
-    "id": "google",
-    "name": "Google",
-    "url": "https://careers.google.com",
-    "startupId": null,
+    "id": "ust",
+    "name": "UST",
+    "url": "https://www.ust.com/en/jobsearch",
     "employerType": "enterprise"
   },
   {
-    "id": "salesforce",
-    "name": "Salesforce",
-    "url": "https://www.salesforce.com/company/careers/",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "deloitte-usi",
-    "name": "Deloitte USI",
-    "url": "https://www.deloitte.com/us/en/careers.html",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "goldmansachs",
-    "name": "Goldman Sachs",
-    "url": "https://www.goldmansachs.com/careers/",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "franklintempleton",
-    "name": "Franklin Templeton",
-    "url": "https://www.franklintempletoncareers.com",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "novartis",
-    "name": "Novartis",
-    "url": "https://www.novartis.com/careers",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "micron",
-    "name": "Micron",
-    "url": "https://micron.com/careers",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "accenture",
-    "name": "Accenture",
-    "url": "https://www.accenture.com/us-en/careers",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "att",
-    "name": "AT&T",
-    "url": "https://www.att.jobs",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "elililly",
-    "name": "Eli Lilly",
-    "url": "https://careers.lilly.com",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "tmobile",
-    "name": "T-Mobile",
-    "url": "https://www.t-mobile.com/careers",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "apple",
-    "name": "Apple",
-    "url": "https://www.apple.com/careers/in/",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "citigroup",
-    "name": "Citigroup",
-    "url": "https://jobs.citi.com",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "sanofi",
-    "name": "Sanofi",
-    "url": "https://www.sanofi.com/en/careers",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "optum",
-    "name": "Optum",
-    "url": "https://www.optum.com/careers.html",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "pepsico",
-    "name": "PepsiCo",
-    "url": "https://www.pepsicojobs.com",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "factset",
-    "name": "FactSet",
-    "url": "https://www.factset.com/careers",
-    "startupId": null,
-    "employerType": "enterprise"
+    "id": "vancorglobalservices",
+    "name": "VANCOR GLOBAL SERVICES",
+    "url": "https://www.vancor.ai/careers",
+    "startupId": "51920e7d-a332-45f7-8912-b5d05e75d7d5",
+    "employerType": "startup"
   },
   {
     "id": "vanguard",
@@ -502,39 +1167,25 @@
     "employerType": "enterprise"
   },
   {
-    "id": "marriott",
-    "name": "Marriott",
-    "url": "https://careers.marriott.com",
-    "startupId": null,
-    "employerType": "enterprise"
+    "id": "vishmukatechworks",
+    "name": "VISHMUKA TECHWORKS",
+    "url": "http://www.vishmuka.in/careers",
+    "startupId": "1e03d2f1-026c-41cf-9fc4-fcb5d174bd45",
+    "employerType": "startup"
   },
   {
-    "id": "agilent",
-    "name": "Agilent",
-    "url": "https://www.agilent.com/en/careers",
-    "startupId": null,
-    "employerType": "enterprise"
+    "id": "vistawaystech",
+    "name": "VISTAWAYSTECH",
+    "url": "https://vistawaystech.com/careers",
+    "startupId": "2addbda7-a74c-48f8-8d21-c3ebe8fa8b14",
+    "employerType": "startup"
   },
   {
-    "id": "americanairlines",
-    "name": "American Airlines",
-    "url": "https://jobs.aa.com",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "jaggaer",
-    "name": "Jaggaer",
-    "url": "https://www.jaggaer.com/careers/",
-    "startupId": null,
-    "employerType": "enterprise"
-  },
-  {
-    "id": "costco",
-    "name": "Costco",
-    "url": "https://careers.costco.com",
-    "startupId": null,
-    "employerType": "enterprise"
+    "id": "webstokinnovations",
+    "name": "WEBSTOK INNOVATIONS",
+    "url": "https://www.webstok.in/careers",
+    "startupId": "4376aea7-0ccf-4318-a245-24abd4e2b26d",
+    "employerType": "startup"
   },
   {
     "id": "westernunion",
@@ -544,38 +1195,59 @@
     "employerType": "enterprise"
   },
   {
-    "id": "hca",
-    "name": "HCA Healthcare",
-    "url": "https://careers.hcahealthcare.com",
-    "startupId": null,
-    "employerType": "enterprise"
+    "id": "whatfix",
+    "name": "Whatfix",
+    "url": "https://boards.greenhouse.io/whatfix",
+    "atsProvider": "greenhouse",
+    "atsSlug": "whatfix",
+    "employerType": "startup"
   },
   {
-    "id": "lpl",
-    "name": "LPL Financial",
-    "url": "https://www.lpl.com/about-lpl/careers.html",
-    "startupId": null,
-    "employerType": "enterprise"
+    "id": "xbattery-energy",
+    "name": "Xbattery Energy",
+    "url": "https://xbattery.energy",
+    "employerType": "startup"
   },
   {
-    "id": "ubs",
-    "name": "UBS",
-    "url": "https://www.ubs.com/global/en/careers.html",
-    "startupId": null,
-    "employerType": "enterprise"
+    "id": "xlrkonnect",
+    "name": "XLR KONNECT",
+    "url": "https://konnectnxt.com/careers",
+    "startupId": "97a01cd1-2ee5-40c7-998c-24ceaea96c69",
+    "employerType": "startup"
   },
   {
-    "id": "dazn",
-    "name": "DAZN",
-    "url": "https://careers.dazn.com",
-    "startupId": null,
-    "employerType": "enterprise"
+    "id": "zenpytechnologies",
+    "name": "ZEN PY TECHNOLOGIES",
+    "url": "https://www.zentechnologies.com/careers",
+    "startupId": "ad6057cc-b135-4c54-8d03-c941dfded508",
+    "employerType": "startup"
   },
   {
-    "id": "kyndryl",
-    "name": "Kyndryl",
-    "url": "https://kyndryl.wd5.myworkdayjobs.com",
-    "startupId": null,
-    "employerType": "enterprise"
+    "id": "zignaai",
+    "name": "Zigna AI",
+    "url": "https://www.zignaai.com/careers",
+    "startupId": "9609b254-b872-4e65-8b21-cff7aee71958",
+    "employerType": "startup"
+  },
+  {
+    "id": "zluri",
+    "name": "Zluri",
+    "url": "https://jobs.ashbyhq.com/zluri",
+    "atsProvider": "ashby",
+    "atsSlug": "zluri",
+    "employerType": "startup"
+  },
+  {
+    "id": "zylahealth",
+    "name": "Zyla Health",
+    "url": "https://zyla.in/careers",
+    "employerType": "startup"
+  },
+  {
+    "id": "zyphercode",
+    "name": "ZYPHERCODE",
+    "url": "https://www.zypher-code.com/careers",
+    "startupId": "6f553502-4475-4631-9d39-ed7cead84dd8",
+    "employerType": "startup"
   }
 ]

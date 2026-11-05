@@ -155,22 +155,6 @@ export async function POST(req) {
       }
     }
 
-    // Don't pass off a reordered copy of the resume as "tailored" unless the user asked for it.
-    if (!aiResult && !allowFallback) {
-      const code = openaiKey ? aiFailure || "AI_UNAVAILABLE" : "AI_UNAVAILABLE";
-      return NextResponse.json(
-        {
-          error:
-            code === "AI_INVALID"
-              ? "The AI draft changed facts from your resume, so we discarded it. Try again, or use the safe version."
-              : "AI tailoring is unavailable right now. Try again shortly, or use the safe version.",
-          code,
-          baseline,
-        },
-        { status: code === "AI_INVALID" ? 502 : 503 }
-      );
-    }
-
     if (!aiResult) {
       aiResult = createSafeFallback({
         resumeText: cleanResume,
@@ -184,11 +168,9 @@ export async function POST(req) {
         { question: "What is your notice period?", answer: "[add your notice period]" },
         { question: "What is your expected CTC?", answer: "[add your expected CTC]" },
       ];
-      if (!openaiKey) {
-        aiResult.warnings = [
-          "OpenAI is not configured, so this version only prioritizes verified content from your original resume.",
-        ];
-      }
+      aiResult.warnings = [
+        "AI tailoring is temporarily paused. This version prioritized and structured verified content from your original resume.",
+      ];
     }
 
     if (general) {

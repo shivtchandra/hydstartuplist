@@ -1,12 +1,13 @@
 import Link from "next/link";
 import fs from "fs";
 import path from "path";
-import SiteNav from "../../components/SiteNav.jsx";
-import JobsBreadcrumbs from "../../components/JobsBreadcrumbs.jsx";
-import RemoteJobsList from "../../components/RemoteJobsList.jsx";
+import { unstable_cache } from "next/cache";
+import OpportunityExplorer from "../../components/OpportunityExplorer.jsx";
 import EuropeanRemoteDirectory from "../../components/EuropeanRemoteDirectory.jsx";
+import { searchOpportunities } from "../../../lib/opportunity-store.js";
 import { getRemoteJobs } from "../../../lib/jobs.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
+import { isNextProductionBuild } from "../../../lib/build-phase.js";
 import {
   breadcrumbJsonLd,
   itemListJsonLd,
@@ -49,7 +50,15 @@ export async function generateMetadata() {
 
 export default async function RemoteJobsPage() {
   const landing = REMOTE_JOBS_LANDING;
-  const jobs = await getRemoteJobs();
+  const buildPhase = isNextProductionBuild();
+  const getInitial = unstable_cache(
+    () => searchOpportunities({ work: "remote" }),
+    ["jobs-initial-remote-opportunities", buildPhase ? "build" : "runtime"],
+    { revalidate: buildPhase ? 60 : 86400, tags: ["public-jobs"] }
+  );
+  const initial = await getInitial().catch(() => ({ jobs: [], total: 0, stale: true }));
+  if (buildPhase) initial.stale = true;
+
   const breadcrumbs = [
     { name: "Hyderabad Startup Map", href: "/" },
     { name: "Jobs", href: "/jobs" },
@@ -82,8 +91,10 @@ export default async function RemoteJobsPage() {
       {
         "@type": "Question",
         name: "How are these remote jobs verified?",
-        answer:
-          "Mapping HYD crawls direct ATS career portals (Greenhouse, Lever, Ashby, Workday, Keka) and filters out third-party staffing agencies, ensuring 100% direct company listings.",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Mapping HYD crawls direct ATS career portals (Greenhouse, Lever, Ashby, Workday, Keka) and filters out third-party staffing agencies, ensuring 100% direct company listings.",
+        },
       },
       {
         "@type": "Question",
@@ -106,12 +117,12 @@ export default async function RemoteJobsPage() {
 
   const jsonLd = [
     breadcrumbJsonLd(breadcrumbs),
-    itemListJsonLd(jobs, landing.title),
+    itemListJsonLd(initial.jobs || [], landing.title),
     faqLd,
   ];
 
   return (
-    <div className="page-with-nav">
+    <>
       {jsonLd.map((data, i) => (
         <script
           key={data["@type"] + i}
@@ -119,21 +130,15 @@ export default async function RemoteJobsPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
         />
       ))}
-      <SiteNav active="jobs" />
-      <div className="feed-page">
-        <JobsBreadcrumbs items={breadcrumbs} />
-        <div className="feed-head">
-          <h1>{landing.title}</h1>
-          <p className="jobs-intro">{landing.description}</p>
-          <p className="form-sub">
-            {`${jobs.length} verified remote role${
-              jobs.length === 1 ? "" : "s"
-            } right now, newest first. Direct ATS application links only.`}
-          </p>
-        </div>
-
+      <OpportunityExplorer
+        initial={initial}
+        lockedFilters={{ work: "remote" }}
+        title="Remote Startup & Tech Jobs in India"
+        subtitle="Explore verified remote software engineer, AI, product, and tech openings across India. 100% direct ATS links with zero consultancy spam."
+        breadcrumbs={breadcrumbs}
+      >
         {/* Remote Specialization Category Hubs */}
-        <div style={{ marginBottom: 20 }}>
+        <div style={{ marginTop: 28, marginBottom: 20 }}>
           <p style={{ fontSize: "11px", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 10px" }}>
             Filter Remote Specialization
           </p>
@@ -148,17 +153,6 @@ export default async function RemoteJobsPage() {
             ))}
           </div>
         </div>
-
-        {jobs.length ? (
-          <RemoteJobsList jobs={jobs} />
-        ) : (
-          <div className="fresher-empty">
-            <p className="form-sub">
-              No remote openings matched right now. Check{" "}
-              <Link href="/jobs">all tech jobs</Link> or check back after the next 6-hour scrape.
-            </p>
-          </div>
-        )}
 
         <EuropeanRemoteDirectory companies={euCompanies} jobs={euJobs} />
 
@@ -178,7 +172,7 @@ export default async function RemoteJobsPage() {
             applied AI/ML, data science, product management, and UX design are the most common remote tech opportunities.
           </p>
         </section>
-      </div>
-    </div>
+      </OpportunityExplorer>
+    </>
   );
 }

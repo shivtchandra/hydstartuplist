@@ -87,6 +87,17 @@ test("shortlist drops weak jobs and caps the list", () => {
   assert.deepEqual(out.map((r) => r.job.id).sort(), ["1", "3"]);
 });
 
+test("shortlist excludes ancient jobs and respects maxDays", () => {
+  const now = Date.now();
+  const jobs = [
+    { id: "recent", title: "Java Developer", role: "Engineering", level: "mid", postedAt: new Date(now - 2 * 86400000).toISOString() },
+    { id: "ancient", title: "Backend Engineer", role: "Engineering", level: "mid", postedAt: new Date(now - 365 * 86400000).toISOString() },
+  ];
+  const weekOnly = shortlistJobs(jobs, profile, { limit: 10, now, maxDays: 7 });
+  assert.equal(weekOnly.length, 1);
+  assert.equal(weekOnly[0].job.id, "recent");
+});
+
 test("match validator keeps requested jobs, drops fake evidence, caps unproven scores", () => {
   const out = validateMatches(
     {

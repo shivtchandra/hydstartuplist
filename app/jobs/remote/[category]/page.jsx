@@ -32,7 +32,7 @@ export async function generateMetadata({ params }) {
 
   const allJobs = await getRemoteJobs();
   const jobs = filterRemoteJobsByCategory(allJobs, slug);
-  const title = `${cat.metaTitle || cat.title} (${jobs.length} Active Roles)`;
+  const title = cat.metaTitle || cat.title;
   const url = `${getSiteUrl()}/jobs/remote/${cat.slug}`;
 
   return {

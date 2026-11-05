@@ -5644,10 +5644,10 @@
       }
     ],
     "spotlight": true,
-    "atsProvider": null,
-    "atsSlug": null,
-    "atsBoardUrl": null,
-    "atsClassifiedAt": "2026-10-19T16:15:39.707Z",
+    "atsProvider": "keka",
+    "atsSlug": "keka",
+    "atsBoardUrl": "https://hr.keka.com/careers",
+    "atsClassifiedAt": "2026-11-04T19:20:46.420Z",
     "hiring": {
       "active": true,
       "count": 22,

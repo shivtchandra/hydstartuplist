@@ -702,7 +702,7 @@ function MatchesStep({ store, update, onPick, early }) {
   const [phase, setPhase] = useSessionState(scope + ':phase', '', { persist: false });
   const [progress, setProgress] = useSessionState(scope + ':progress', 0, { persist: false });
   const [error, setError] = useSessionState(scope + ':error', '', { persist: false });
-  const [filters, setFilters] = useSessionState(`career:matches-filters:${resumeHash}:${mode}`, { min: 0, remote: false, posted: 0 });
+  const [filters, setFilters] = useSessionState(`career:matches-filters-v2:${resumeHash}:${mode}`, { min: 0, remote: false, posted: 7 });
 
   const run = useCallback(async () => {
     const id = sessionState.set(scope + ':run', value => value + 1, 0, false);
@@ -722,7 +722,7 @@ function MatchesStep({ store, update, onPick, early }) {
     const jobs = curateJobs(index.jobs || []);
     setAvailableTotal(jobs.length);
     setEntryTotal(jobs.filter((job) => isEntryJob(job)).length);
-    const top = shortlistJobs(jobs, profile, { limit: SHORTLIST, entryOnly: mode === 'entry' });
+    const top = shortlistJobs(jobs, profile, { limit: SHORTLIST, entryOnly: mode === 'entry', maxDays: filters.posted > 0 ? filters.posted : 7 });
     setProgress(0.15);
     setPhase(`Reading ${top.length} job descriptions…`);
     const [details, fullTexts] = await Promise.all([
@@ -761,7 +761,7 @@ function MatchesStep({ store, update, onPick, early }) {
     setProgress(1);
     setPhase('');
     if (failed) setError('Some descriptions could not be assessed. Find those roles under More roles to review, or try Refresh.');
-  }, [profile, resumeText, resumeHash, store.matches, update, mode, scope]);
+  }, [profile, resumeText, resumeHash, store.matches, update, mode, scope, filters.posted]);
 
   useEffect(() => {
     if (!sessionState.get(scope + ':rows', null, false) && !sessionState.get(scope + ':phase', '', false)) run();
@@ -789,7 +789,7 @@ function MatchesStep({ store, update, onPick, early }) {
   const recommended = ranked.filter(isRecommendedRow);
   const review = ranked.filter((r) => !isRecommendedRow(r));
   const assessed = rows?.filter((r) => cachedMatch(r.job.id)).length || 0;
-  const activeFilterCount = Number(Boolean(filters.min)) + Number(Boolean(filters.posted)) + Number(filters.remote);
+  const activeFilterCount = Number(Boolean(filters.min)) + Number(Boolean(filters.posted !== 7)) + Number(filters.remote);
   const formatCount = (value) => value.toLocaleString('en-IN');
 
   return (
@@ -828,15 +828,16 @@ function MatchesStep({ store, update, onPick, early }) {
           <option value={85}>Strong only</option>
         </select>
         <select aria-label="Posted" value={filters.posted} onChange={(e) => setFilters((f) => ({ ...f, posted: Number(e.target.value) }))}>
-          <option value={0}>Posted any time</option>
           <option value={7}>Last 7 days</option>
+          <option value={14}>Last 14 days</option>
           <option value={30}>Last 30 days</option>
+          <option value={0}>Posted any time</option>
         </select>
         <label className="ch-toggle">
           <input type="checkbox" checked={filters.remote} onChange={(e) => setFilters((f) => ({ ...f, remote: e.target.checked }))} />
           <span>Remote only</span>
         </label>
-        {activeFilterCount > 0 && <button type="button" className="ch-text-btn" onClick={() => setFilters({ min: 0, remote: false, posted: 0 })}>Clear filters</button>}
+        {activeFilterCount > 0 && <button type="button" className="ch-text-btn" onClick={() => setFilters({ min: 0, remote: false, posted: 7 })}>Clear filters</button>}
         <button type="button" className="ch-text-btn" onClick={run} disabled={Boolean(phase)}>↻ Refresh</button>
       </div>
       </details>
@@ -933,7 +934,8 @@ function MatchCard({ row, rank, onPick, app }) {
       </div>
       <div className="ch-match-actions">
         <a className="ch-role-link" href={`/jobs/${jobUrlId(job)}`} target="_blank" rel="noreferrer">View full role <span aria-hidden="true">↗</span><span className="ch-sr-only"> (opens in a new tab)</span></a>
-        {(canTailor || app?.pack) && <button type="button" className="ch-cta ch-cta-sm" onClick={() => onPick(job)}>{app?.pack ? 'Open resume' : 'Tailor resume'}<span aria-hidden="true">→</span></button>}
+        {/* {(canTailor || app?.pack) && <button type="button" className="ch-cta ch-cta-sm" onClick={() => onPick(job)}>{app?.pack ? 'Open resume' : 'Tailor resume'}<span aria-hidden="true">→</span></button>} */}
+        {app?.pack && <button type="button" className="ch-cta ch-cta-sm" onClick={() => onPick(job)}>Open resume<span aria-hidden="true">→</span></button>}
       </div>
     </article>
   );

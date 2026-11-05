@@ -9,6 +9,7 @@ import { usePathname,useRouter } from 'next/navigation';
 import SiteNav from './SiteNav.jsx';
 import MobileTabBar from './MobileTabBar.jsx';
 import StartupLogo from './StartupLogo.jsx';
+import JobsBreadcrumbs from './JobsBreadcrumbs.jsx';
 import ClientOnly from './ClientOnly.jsx';
 import { FILTER_KEYS,readFilters } from '../../lib/opportunities.js';
 import { freshnessLabel, verificationLabel } from '../../lib/job-lifecycle.js';
@@ -306,13 +307,30 @@ function FeaturedSpotlight({ jobs, onOpen }) {
   );
 }
 
-export default function OpportunityExplorer({initial,variant='new',savedOnly=false}) {
+export default function OpportunityExplorer({
+  initial,
+  variant = 'new',
+  savedOnly = false,
+  lockedFilters = null,
+  title = null,
+  subtitle = null,
+  breadcrumbs = null,
+  children = null,
+}) {
   const { user: authUser } = useAuthUser();
   const router=useRouter(),pathname=usePathname();
   // Keep the initial render URL-agnostic so Next can emit the real job cards in
   // cached HTML. Query filters sync immediately after hydration.
   const [params,setParams]=useState(()=>new URLSearchParams());
-  const filters=useMemo(()=>readFilters(params),[params]);
+  const filters=useMemo(()=>{
+    const f=readFilters(params);
+    if(lockedFilters){
+      for(const [k,v] of Object.entries(lockedFilters)){
+        if(v) f[k]=v;
+      }
+    }
+    return f;
+  },[params,lockedFilters]);
   const [query,setQuery]=useState(filters.q),[data,setRawData]=useState(initial),[busy,setBusy]=useState(false),[error,setError]=useState('');
   const [view,setView]=useSessionState(`jobs:${pathname}:view`,'list'),[sheet,setSheet]=useState(false),[groups,setGroups]=useState([]),[mapVersion,setMapVersion]=useState('');
   const [selectedJobId,setSelectedJobId]=useState(null);
@@ -358,11 +376,15 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   },[pathname]);
   function change(patch) {
     const p=new URLSearchParams(params.toString());
-    for(const [key,value] of Object.entries(patch)){if(value)p.set(key,value);else p.delete(key);}
+    for(const [key,value] of Object.entries(patch)){
+      if(lockedFilters && key in lockedFilters) continue;
+      if(value)p.set(key,value);else p.delete(key);
+    }
     p.delete('job');
     if(pathname==='/' && !p.get('view')) p.set('view','jobs');
     setParams(p);
-    startTransition(()=>{router.replace(`${pathname}?${p}`,{scroll:false});});
+    const qs = p.toString();
+    startTransition(()=>{router.replace(qs ? `${pathname}?${qs}` : pathname,{scroll:false});});
   }
   function clearFilters() {
     const p=new URLSearchParams();
@@ -429,7 +451,10 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
       if(!window.history.state?.opJob)requestAnimationFrame(()=>window.scrollTo({top:resultsScroll.current,behavior:'instant'}));
       return()=>c.abort();
     }
-    if(initialRequest.current && !filterQuery && initial?.jobs && !initial.stale && refresh===0){initialRequest.current=false;setBusy(false);return()=>c.abort();}
+    const initialMatchesQuery = lockedFilters
+      ? filterQuery === new URLSearchParams(Object.entries(lockedFilters).filter(([,v])=>v)).toString()
+      : !filterQuery;
+    if(initialRequest.current && initialMatchesQuery && initial?.jobs && !initial.stale && refresh===0){initialRequest.current=false;setBusy(false);return()=>c.abort();}
     initialRequest.current=false;setBusy(true);setError('');
     jobsFetch(`/api/v2/jobs?${filterQuery}`,{signal:c.signal}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(d=>{
       if(!alive) return;
@@ -560,14 +585,16 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
   const facet=data?.facets||{};
   const filterFields = (
     <div className="op-filter-grid">
-      <div className="op-filter-area">
-        <OpFilterSelect
-          label="Area"
-          value={filters.area}
-          onChange={(v) => change({ area: v })}
-          options={['Hyderabad', ...(facet.areas || []).filter(a => a !== 'Hyderabad')].map(a => ({ value: a, label: a }))}
-        />
-      </div>
+      {!lockedFilters?.area && (
+        <div className="op-filter-area">
+          <OpFilterSelect
+            label="Area"
+            value={filters.area}
+            onChange={(v) => change({ area: v })}
+            options={['Hyderabad', ...(facet.areas || []).filter(a => a !== 'Hyderabad')].map(a => ({ value: a, label: a }))}
+          />
+        </div>
+      )}
       {[
         ['role', 'Role', facet.roles || []],
         ['level', 'Experience', ['fresher', 'early', ...(facet.levels || [])]],
@@ -575,7 +602,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
         ['type', 'Type', facet.types || []],
         ['when', 'Freshness', ['discovered', 'today', 'week', 'month']],
         ['sort', 'Sort', ['newest', 'company']],
-      ].map(([key, label, options]) => (
+      ].filter(([key]) => !(lockedFilters && key in lockedFilters)).map(([key, label, options]) => (
         <OpFilterSelect
           key={key}
           label={label}
@@ -639,14 +666,31 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
         <MobileTabBar />
       </div>
     ) : (
-      <SiteNav active={savedOnly ? 'saved' : pathname === '/jobs' ? 'jobs' : ''} />
+      <SiteNav active={savedOnly ? 'saved' : pathname.startsWith('/jobs') ? 'jobs' : ''} />
     )}
     <main className={`op-shell${mapHome ? ' op-map-home' : ''}`} id="main-content">
     <div className="op-hero">
+      {breadcrumbs && <JobsBreadcrumbs items={breadcrumbs} />}
       <header className="op-heading">
         <div>
-          <h1>{savedOnly ? 'Your shortlist' : filters.level === 'fresher' ? 'Fresher jobs in Hyderabad' : filters.level === 'early' ? 'Early-career jobs in Hyderabad' : 'Jobs in Hyderabad'}</h1>
-          <p>{savedOnly ? 'Roles and searches you save stay on this device.' : 'Live roles straight from company career pages, refreshed daily.'}</p>
+          <h1>
+            {savedOnly
+              ? 'Your shortlist'
+              : title
+              ? (typeof title === 'function' ? title(filters) : title)
+              : filters.level === 'fresher'
+              ? (lockedFilters?.work === 'remote' ? 'Remote Fresher Jobs in India' : 'Fresher jobs in Hyderabad')
+              : filters.level === 'early'
+              ? (lockedFilters?.work === 'remote' ? 'Remote Early-Career Jobs in India' : 'Early-career jobs in Hyderabad')
+              : (lockedFilters?.work === 'remote' ? 'Remote Startup & Tech Jobs in India' : 'Jobs in Hyderabad')}
+          </h1>
+          <p>
+            {savedOnly
+              ? 'Roles and searches you save stay on this device.'
+              : subtitle || (lockedFilters?.work === 'remote'
+                ? 'Verified remote software engineer, AI, product, and tech openings across India. 100% direct ATS portals with zero consultancy spam.'
+                : 'Live roles straight from company career pages, refreshed daily.')}
+          </p>
         </div>
         {!savedOnly && <Link className="op-company-link" href="/?view=companies">Browse companies →</Link>}
       </header>
@@ -700,29 +744,33 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
             >
               AI & Agents
             </button>
-            <button
-              type="button"
-              className="op-chip"
-              aria-pressed={filters.work === 'remote'}
-              onClick={() => change({ work: filters.work === 'remote' ? '' : 'remote' })}
-            >
-              Remote
-            </button>
-            <Link
-              href="/jobs/remote"
-              className="op-chip"
-              style={{
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                borderColor: 'rgba(16, 185, 129, 0.35)',
-                color: '#059669',
-                background: 'rgba(16, 185, 129, 0.08)',
-                fontWeight: 600,
-              }}
-            >
-              European & Global Remote (360+)
-            </Link>
+            {!lockedFilters?.work && (
+              <button
+                type="button"
+                className="op-chip"
+                aria-pressed={filters.work === 'remote'}
+                onClick={() => change({ work: filters.work === 'remote' ? '' : 'remote' })}
+              >
+                Remote
+              </button>
+            )}
+            {!lockedFilters?.work && (
+              <Link
+                href="/jobs/remote"
+                className="op-chip"
+                style={{
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  borderColor: 'rgba(16, 185, 129, 0.35)',
+                  color: '#059669',
+                  background: 'rgba(16, 185, 129, 0.08)',
+                  fontWeight: 600,
+                }}
+              >
+                European & Global Remote (360+)
+              </Link>
+            )}
             <button
               type="button"
               className="op-chip"
@@ -742,15 +790,19 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
             {data?.shortcuts?.today && (
               <button type="button" className="op-chip" aria-pressed={filters.when === 'discovered'} onClick={() => change({ when: filters.when === 'discovered' ? '' : 'discovered' })}>New today</button>
             )}
-            <button
-              type="button"
-              className="op-chip"
-              aria-pressed={filters.hyd === 'yes'}
-              onClick={() => change({ hyd: filters.hyd === 'yes' ? '' : 'yes' })}
-            >
-              Hyderabad only
-            </button>
-            <button type="button" className="op-chip" aria-pressed={compare} onClick={() => setCompare((v) => !v)}>Compare areas</button>
+            {!lockedFilters?.work && (
+              <button
+                type="button"
+                className="op-chip"
+                aria-pressed={filters.hyd === 'yes'}
+                onClick={() => change({ hyd: filters.hyd === 'yes' ? '' : 'yes' })}
+              >
+                Hyderabad only
+              </button>
+            )}
+            {!lockedFilters?.work && (
+              <button type="button" className="op-chip" aria-pressed={compare} onClick={() => setCompare((v) => !v)}>Compare areas</button>
+            )}
           </div>
         </div>
       </>}
@@ -774,7 +826,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
       </div>
     </div>
     {!savedOnly&&filters.level==='early'&&<p className="op-return op-alert-nudge">Get these early-career roles by email — <button type="button" className="op-text-btn" onClick={saveSearch}>alert me</button>.</p>}
-    {filterQuery&&!savedOnly&&<div className="op-active">{Object.entries(filters).filter(([,v])=>v).map(([k,v])=>{
+    {filterQuery&&!savedOnly&&<div className="op-active">{Object.entries(filters).filter(([k,v])=>v && !(lockedFilters && k in lockedFilters)).map(([k,v])=>{
       let label = `${k}: ${v}`;
       if (k === 'ai' && v === 'yes') label = 'AI & Agents';
       else if (k === 'work') label = `Work: ${readable(v)}`;
@@ -887,11 +939,11 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                     <span className="op-verified-label" title={`${verificationLabel(job)}, direct from the company's careers page`}>Verified</span>
                   )}</ClientOnly>
                 </span>
-                {job.status !== 'closed' && (
+                {/* {job.status !== 'closed' && (
                   <Link className="op-card-tailor" href={`/career?job=${encodeURIComponent(job.id)}&rewrite=1`} onClick={e => e.stopPropagation()}>
                     Tailor resume →
                   </Link>
-                )}
+                )} */}
                 {job.moreAtCompany && (
                   <button
                     type="button"
@@ -943,6 +995,7 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
             Load more roles
           </button>
         )}
+        {children}
       </section>
 
       {detail && (
@@ -1023,9 +1076,9 @@ export default function OpportunityExplorer({initial,variant='new',savedOnly=fal
                     Apply on official site →
                   </a>
                 )}
-                <Link className="op-tailor-action-btn" href={`/career?job=${encodeURIComponent(detail.id)}&rewrite=1`}>
+                {/* <Link className="op-tailor-action-btn" href={`/career?job=${encodeURIComponent(detail.id)}&rewrite=1`}>
                   Tailor resume &amp; apply
-                </Link>
+                </Link> */}
               </div>
             </div>
 
