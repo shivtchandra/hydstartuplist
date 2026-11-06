@@ -4594,5 +4594,66 @@
     "allowRemote": true,
     "active": true,
     "verifiedAt": "2026-11-04T19:20:46.401Z"
+  },
+  {
+    "id": "ashby:unstructured",
+    "name": "Unstructured",
+    "atsProvider": "ashby",
+    "atsSlug": "unstructured",
+    "boardUrl": "https://jobs.ashbyhq.com/unstructured",
+    "website": "https://unstructured.io",
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true,
+    "verifiedAt": "2026-11-06T13:39:18.972Z"
+  },
+  {
+    "id": "ashby:prefect",
+    "name": "Prefect",
+    "atsProvider": "ashby",
+    "atsSlug": "prefect",
+    "boardUrl": "https://jobs.ashbyhq.com/prefect",
+    "website": "https://www.prefect.io",
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true,
+    "verifiedAt": "2026-11-06T13:39:18.973Z"
+  },
+  {
+    "id": "lever:fly",
+    "name": "Fly.io",
+    "atsProvider": "lever",
+    "atsSlug": "fly",
+    "boardUrl": "https://jobs.lever.co/fly",
+    "website": "https://fly.io",
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true,
+    "verifiedAt": "2026-11-06T13:39:18.973Z"
+  },
+  {
+    "id": "ashby:mem0",
+    "name": "Mem0",
+    "atsProvider": "ashby",
+    "atsSlug": "mem0",
+    "boardUrl": "https://jobs.ashbyhq.com/mem0",
+    "website": "https://mem0.ai",
+    "employerType": "startup",
+    "allowRemote": true,
+    "active": true,
+    "verifiedAt": "2026-11-06T13:39:18.973Z"
+  },
+  {
+    "id": "greenhouse:truefoundry",
+    "name": "TrueFoundry",
+    "atsProvider": "greenhouse",
+    "atsSlug": "truefoundry",
+    "boardUrl": "https://boards.greenhouse.io/truefoundry",
+    "website": "https://www.truefoundry.com",
+    "employerType": "startup",
+    "allowRemote": true,
+    "earlyCareerPriority": true,
+    "active": true,
+    "verifiedAt": "2026-11-06T13:39:18.973Z"
   }
 ]

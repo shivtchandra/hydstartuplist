@@ -15,6 +15,7 @@ import { AREA_LANDINGS } from "../lib/areas.js";
 import { TECH_PARKS } from "../lib/parks.js";
 import { STAGE_LANDINGS } from "../lib/stages.js";
 import { verifiedGccProfiles } from "../lib/gccs.js";
+import { withLastModified } from "../lib/lastmod.js";
 
 /**
  * Hub sitemap only. Individual job URLs live in /sitemap-jobs.xml (recent-only).
@@ -22,7 +23,9 @@ import { verifiedGccProfiles } from "../lib/gccs.js";
  * omitted here while GSC reports mass "Discovered – currently not indexed".
  * Role x area pages are also omitted: their job counts move between build workers,
  * so a listed pair could render noindex. lastModified appears only where a real
- * change date exists; a build timestamp on every URL tells Google nothing.
+ * change date exists; a build timestamp on every URL tells Google nothing. Route
+ * dates come from git history of each page template and its imports, skipping
+ * CI bot commits (scripts/gen-lastmod.mjs -> lib/lastmod.gen.json).
  */
 export const revalidate = 3600;
 
@@ -173,7 +176,7 @@ export default async function sitemap() {
 
   // Dedupe story paths that also appear in STATIC_ROUTES
   const seen = new Set();
-  return [
+  return withLastModified([
     ...staticEntries,
     ...fresherCategoryEntries,
     ...remoteCategoryEntries,
@@ -191,5 +194,5 @@ export default async function sitemap() {
     if (seen.has(e.url)) return false;
     seen.add(e.url);
     return true;
-  });
+  }));
 }

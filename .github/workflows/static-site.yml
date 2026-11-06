@@ -71,6 +71,8 @@ jobs:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history: scripts/gen-lastmod.mjs dates sitemap entries from git
       - uses: actions/setup-node@v4
         with:
           node-version: "20"

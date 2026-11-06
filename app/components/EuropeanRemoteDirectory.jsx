@@ -5,16 +5,18 @@ import Link from "next/link";
 
 const COUNTRIES = [
   "All Countries",
+  "Global Remote",
+  "United States",
   "United Kingdom",
+  "Sweden",
+  "Netherlands",
   "Germany",
   "France",
-  "Netherlands",
-  "Sweden",
-  "Estonia",
-  "Switzerland",
   "Ireland",
   "Spain",
   "Portugal",
+  "Switzerland",
+  "Estonia",
 ];
 
 export default function EuropeanRemoteDirectory({ companies = [], jobs = [] }) {
@@ -71,13 +73,13 @@ export default function EuropeanRemoteDirectory({ companies = [], jobs = [] }) {
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 20 }}>
           <div>
             <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 99, background: "rgba(16, 185, 129, 0.12)", color: "#059669", fontSize: 11, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 8 }}>
-              Verified European Tech Hub
+              Verified Global & Boutique Hub
             </div>
             <h2 style={{ fontSize: 20, fontWeight: 700, margin: "0 0 6px", color: "var(--text-main, #0f172a)" }}>
-              European Startups Hiring Remotely
+              Boutique & Global Startups Hiring Remotely
             </h2>
             <p style={{ margin: 0, fontSize: 13, color: "var(--text-muted, #64748b)", lineHeight: 1.5, maxWidth: 650 }}>
-              Curated index of 100 technology companies across 10 European nations hiring remote engineers. Direct ATS portals with verified zero consultancy spam.
+              Curated index of technology startups, open-source maintainers, and boutique engineering labs hiring remote engineers. Direct ATS portals with verified zero consultancy spam.
             </p>
           </div>
 
@@ -97,7 +99,7 @@ export default function EuropeanRemoteDirectory({ companies = [], jobs = [] }) {
                 boxShadow: activeTab === "roles" ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
               }}
             >
-              European Remote Roles ({filteredJobs.length})
+              Remote Roles ({filteredJobs.length})
             </button>
             <button
               type="button"

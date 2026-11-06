@@ -70,6 +70,7 @@ add_params "app/startups/[slug]/page.jsx" 'export async function generateStaticP
   return (await getApproved()).filter((s) => s.active !== false).map((s) => ({ slug: startupSlug(s) }));
 }'
 
+node scripts/gen-lastmod.mjs
 HYD_STATIC_EXPORT=1 npx next build
 node scripts/static-redirects.mjs > out/_redirects
 # Do not add a /jobs/* catch-all: Cloudflare evaluates redirects before static
