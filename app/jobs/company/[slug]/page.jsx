@@ -32,7 +32,7 @@ export async function generateMetadata({ params }) {
     title,
     description,
     alternates: { canonical: url },
-    robots: thinListingRobots(count, { min: 1 }),
+    robots: thinListingRobots(count, { min: 3 }),
     openGraph: {
       title,
       description,

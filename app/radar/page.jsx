@@ -8,6 +8,8 @@ export const metadata = {
   description:
     "A hand-picked list of Hyderabad startups and employers that are easy to miss: what they build and where to apply. Sign in free for founder links and full research briefs.",
   alternates: { canonical: `${getSiteUrl()}/radar` },
+  // Client-rendered list: the HTML Google gets has ~2 words, so keep it out of the index.
+  robots: { index: false, follow: true, googleBot: { index: false, follow: true } },
   openGraph: {
     title: "Radar: Hard-to-Find Hyderabad Startups & Employers",
     description: "A hand-picked list of Hyderabad employers that are easy to miss, researched by Mapping HYD.",

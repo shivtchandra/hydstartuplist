@@ -35,13 +35,11 @@ const STATIC_ROUTES = [
   // "/" so the homepage entry matches the URL Google indexes (GSC showed
   // "No referring sitemaps" for https://startups.mapmyhyd.com/).
   { path: "/", priority: 1.0, changeFrequency: "daily" },
-  { path: "/career", priority: 0.95, changeFrequency: "daily" },
   { path: "/jobs/fresher", priority: 0.95, changeFrequency: "daily" },
   { path: "/jobs/remote", priority: 0.95, changeFrequency: "daily" },
   { path: "/colleges", priority: 0.9, changeFrequency: "daily" },
   { path: "/jobs", priority: 0.95, changeFrequency: "hourly" },
   { path: "/how-we-verify", priority: 0.6, changeFrequency: "monthly" },
-  { path: "/feed", priority: 0.9, changeFrequency: "hourly" },
   { path: "/news", priority: 0.8, changeFrequency: "daily" },
   { path: "/product-companies", priority: 0.85, changeFrequency: "weekly" },
   { path: "/gccs", priority: 0.7, changeFrequency: "weekly" },
@@ -52,7 +50,6 @@ const STATIC_ROUTES = [
   { path: "/insights", priority: 0.7, changeFrequency: "weekly" },
   { path: "/hyderabad-tech-statistics", priority: 0.9, changeFrequency: "weekly" },
   { path: "/about", priority: 0.5, changeFrequency: "monthly" },
-  { path: "/radar", priority: 0.7, changeFrequency: "weekly" },
   { path: "/stories", priority: 0.7, changeFrequency: "weekly" },
   { path: "/stories/hyderabad-fresher-tech-hiring-guide-2026", priority: 0.85, changeFrequency: "monthly" },
   { path: "/stories/top-product-companies-hyderabad", priority: 0.8, changeFrequency: "monthly" },
@@ -60,7 +57,6 @@ const STATIC_ROUTES = [
   { path: "/stories/hyderabad-startup-hiring-report-2026", priority: 0.75, changeFrequency: "monthly" },
   { path: "/stories/t-hub-hyderabad", priority: 0.8, changeFrequency: "monthly" },
   { path: "/newsletter", priority: 0.6, changeFrequency: "monthly" },
-  { path: "/submit", priority: 0.5, changeFrequency: "monthly" },
 ];
 
 const STORY_SLUGS = [

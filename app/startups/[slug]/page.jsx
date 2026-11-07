@@ -6,6 +6,7 @@ import { getStartupBySlug, getApproved, visibleHiring } from "../../../lib/store
 import { getJobsForStartupSlug } from "../../../lib/jobs.js";
 import { startupSlug } from "../../../lib/slug.js";
 import { getSiteUrl } from "../../../lib/site-url.js";
+import { profileRobots } from "../../../lib/profile-seo.js";
 import {
   colorFor,
   prettyName,
@@ -61,6 +62,7 @@ export async function generateMetadata({ params }) {
     title,
     description,
     alternates: { canonical: url },
+    robots: profileRobots(startup, roleCount),
     openGraph: {
       title,
       description,

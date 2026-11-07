@@ -16,7 +16,8 @@ export async function generateMetadata() {
     title,
     description,
     alternates: { canonical: url },
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+    // Client-rendered tool; the static HTML has no text for Google to rank.
+    robots: { index: false, follow: true, googleBot: { index: false, follow: true } },
     openGraph: { title, description, url, type: "website" },
     keywords: [
       "ai resume tailor",
