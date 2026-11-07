@@ -1853,7 +1853,7 @@
     "active": true,
     "mapPin": false,
     "note": "jobs-only — daily via sync-ats-jobs",
-    "employerType": "other",
+    "employerType": "startup",
     "website": "https://www.highradius.com",
     "earlyCareerPriority": true
   },
@@ -3203,7 +3203,8 @@
     "employerType": "startup",
     "allowRemote": true,
     "active": true,
-    "verifiedAt": "2026-10-17T23:13:28.420Z"
+    "verifiedAt": "2026-10-17T23:13:28.420Z",
+    "earlyCareerPriority": true
   },
   {
     "id": "ashby:buffer",
@@ -3425,7 +3426,9 @@
     "website": "https://cursor.com",
     "employerType": "startup",
     "allowRemote": true,
-    "active": true
+    "active": true,
+    "startupId": null,
+    "earlyCareerPriority": false
   },
   {
     "id": "workday:postman",
@@ -3531,7 +3534,8 @@
     "hydJobs": 0,
     "remoteJobs": 3,
     "totalJobs": 91,
-    "verifiedAt": "2026-10-20T05:47:48.838Z"
+    "verifiedAt": "2026-10-20T05:47:48.838Z",
+    "earlyCareerPriority": false
   },
   {
     "id": "ashby:temporal",
@@ -4655,5 +4659,90 @@
     "earlyCareerPriority": true,
     "active": true,
     "verifiedAt": "2026-11-06T13:39:18.973Z"
+  },
+  {
+    "id": "keka:zenwork",
+    "name": "Zenwork",
+    "atsProvider": "keka",
+    "atsSlug": "zenwork",
+    "boardUrl": "https://zenwork.keka.com/careers",
+    "website": "https://www.zenwork.com",
+    "startupId": "ffc3538d-a9cc-4652-bf4f-de337bc141d0",
+    "employerType": "startup",
+    "active": true,
+    "earlyCareerPriority": true
+  },
+  {
+    "id": "keka:exploringinfinities",
+    "name": "Bhanzu",
+    "atsProvider": "keka",
+    "atsSlug": "exploringinfinities",
+    "boardUrl": "https://exploringinfinities.keka.com/careers",
+    "website": "https://www.bhanzu.com",
+    "startupId": "dea7c8a3-14b7-47bb-85b1-4e27488cc688",
+    "employerType": "startup",
+    "active": true,
+    "earlyCareerPriority": true
+  },
+  {
+    "id": "keka:halamobility",
+    "name": "Hala Mobility",
+    "atsProvider": "keka",
+    "atsSlug": "halamobility",
+    "boardUrl": "https://halamobility.keka.com/careers",
+    "website": "https://www.halamobility.com",
+    "startupId": "8d16f7a7-2959-4b20-a328-783c8931f0f5",
+    "employerType": "startup",
+    "active": true,
+    "earlyCareerPriority": true
+  },
+  {
+    "id": "keka:marut",
+    "name": "MARUT Drones",
+    "atsProvider": "keka",
+    "atsSlug": "marut",
+    "boardUrl": "https://marut.keka.com/careers",
+    "website": "https://www.marutdrones.com",
+    "startupId": "2a0e9715-21af-43d9-89ff-f2ff7ee4fee5",
+    "employerType": "startup",
+    "active": true,
+    "earlyCareerPriority": true
+  },
+  {
+    "id": "zoho:ekincare",
+    "name": "ekincare",
+    "atsProvider": "zoho",
+    "atsSlug": "ekincare",
+    "boardUrl": "https://ekincare.zohorecruit.in/jobs/Careers",
+    "website": "https://www.ekincare.com",
+    "startupId": "47a34793-9c94-4000-9be3-a452bfa09965",
+    "employerType": "startup",
+    "active": true,
+    "earlyCareerPriority": true
+  },
+  {
+    "id": "zoho:brightchamps",
+    "name": "BrightChamps",
+    "atsProvider": "zoho",
+    "atsSlug": "brightchamps",
+    "boardUrl": "https://brightchamps.zohorecruit.in/jobs/Careers",
+    "website": "https://www.brightchamps.com",
+    "startupId": "1da9dde3-d931-44e9-a1a9-8e52dc175ac9",
+    "employerType": "startup",
+    "active": true,
+    "allowRemote": true
+  },
+  {
+    "id": "ashby:anyscale",
+    "name": "Anyscale",
+    "atsProvider": "ashby",
+    "atsSlug": "anyscale",
+    "boardUrl": "https://jobs.ashbyhq.com/anyscale",
+    "website": "https://anyscale.com",
+    "startupId": null,
+    "employerType": "startup",
+    "active": true,
+    "allowRemote": true,
+    "earlyCareerPriority": false
   }
 ]

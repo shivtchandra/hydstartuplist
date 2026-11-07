@@ -145,10 +145,10 @@
         "publishedAt": "2021-11-23T08:00:00.000Z"
       }
     ],
-    "atsProvider": null,
-    "atsSlug": null,
+    "atsProvider": "keka",
+    "atsSlug": "zenwork",
     "atsBoardUrl": null,
-    "atsClassifiedAt": "2026-10-19T16:13:53.912Z"
+    "atsClassifiedAt": "2026-11-07T20:42:48.209Z"
   },
   {
     "id": "f36e2087-ad53-4bfc-93eb-5baf6203711b",
@@ -423,10 +423,10 @@
         "publishedAt": "2026-05-12T07:00:00.000Z"
       }
     ],
-    "atsProvider": null,
-    "atsSlug": null,
+    "atsProvider": "zoho",
+    "atsSlug": "ekincare",
     "atsBoardUrl": null,
-    "atsClassifiedAt": "2026-10-19T16:13:53.515Z"
+    "atsClassifiedAt": "2026-11-07T20:42:48.212Z"
   },
   {
     "id": "7372f646-6774-40d5-bd4a-32b3d714ec2a",
@@ -522,10 +522,10 @@
         "publishedAt": "2023-04-27T07:00:00.000Z"
       }
     ],
-    "atsProvider": null,
-    "atsSlug": null,
+    "atsProvider": "zoho",
+    "atsSlug": "brightchamps",
     "atsBoardUrl": null,
-    "atsClassifiedAt": "2026-10-19T16:13:54.394Z"
+    "atsClassifiedAt": "2026-11-07T20:42:48.212Z"
   },
   {
     "id": "6a49a27c-5a1b-4d8e-b26a-3a605fefba75",
@@ -1299,10 +1299,10 @@
       }
     ],
     "spotlight": true,
-    "atsProvider": null,
-    "atsSlug": null,
+    "atsProvider": "keka",
+    "atsSlug": "marut",
     "atsBoardUrl": null,
-    "atsClassifiedAt": "2026-10-19T16:14:07.219Z"
+    "atsClassifiedAt": "2026-11-07T20:42:48.212Z"
   },
   {
     "id": "cbeb9544-4590-42af-9a18-20ff591badfc",
@@ -1380,10 +1380,10 @@
         "publishedAt": "2026-08-13T05:29:17.000Z"
       }
     ],
-    "atsProvider": null,
-    "atsSlug": null,
+    "atsProvider": "keka",
+    "atsSlug": "halamobility",
     "atsBoardUrl": null,
-    "atsClassifiedAt": "2026-10-19T16:14:07.256Z"
+    "atsClassifiedAt": "2026-11-07T20:42:48.212Z"
   },
   {
     "id": "0788abe8-7f51-4345-8584-bb58dd7311cc",
@@ -1610,10 +1610,10 @@
       }
     ],
     "spotlight": true,
-    "atsProvider": null,
-    "atsSlug": null,
+    "atsProvider": "keka",
+    "atsSlug": "exploringinfinities",
     "atsBoardUrl": null,
-    "atsClassifiedAt": "2026-10-19T16:14:10.117Z"
+    "atsClassifiedAt": "2026-11-07T20:42:48.212Z"
   },
   {
     "id": "0362bb93-dba2-4306-85e8-cdccfe8d1954",

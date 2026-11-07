@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {prepareJobs,filterJobs,mapGroups,careerStageCounts,jobSummary} from '../lib/opportunities.js';
+import {prepareJobs,filterJobs,mapGroups,careerStageCounts,jobSummary,capEmployerShare} from '../lib/opportunities.js';
 import {freshnessLabel} from '../lib/job-lifecycle.js';
 const jobs=prepareJobs([{id:'1',title:'Front-end JS developer',company:'A',url:'https://a.com/1',location:'Hyderabad',description:'JavaScript',firstSeenAt:'2026-09-01',status:'active'},{id:'2',title:'Backend engineer',company:'B',url:'https://b.com/2',status:'closed'}]);
 test('skill aliases share the same results',()=>assert.equal(filterJobs(jobs,{q:'frontend javascript'}).length,1));
@@ -50,7 +50,7 @@ test('sponsored jobs pin to top and bypass hyd-only filter', () => {
       company: 'HydCo',
       url: 'https://a.com/h',
       location: 'Hyderabad',
-      postedAt: '2026-09-23T18:00:00.000Z',
+      postedAt: new Date(Date.now() - 86400000).toISOString(),
       status: 'active',
     },
     {
@@ -59,7 +59,7 @@ test('sponsored jobs pin to top and bypass hyd-only filter', () => {
       company: 'Punarvi Energies Ltd.',
       url: 'https://www.punarvienergies.com/careers/?role=bdm',
       location: 'Vijayawada, Andhra Pradesh',
-      postedAt: '2026-09-23',
+      postedAt: new Date(Date.now() - 86400000).toISOString(),
       status: 'active',
       sponsored: true,
     },
@@ -110,4 +110,49 @@ test("prepareJobs keeps old ATS postings still live on their board, drops stale 
     { id: "b", title: "Data Analyst", company: "Old Co", url: "https://x/b", postedAt: old, lastSeenAt: now, source: "adzuna" },
   ]);
   assert.deepEqual(jobs.map((j) => j.id), ["a"]);
+});
+
+test("startups outrank corporate enterprise back-office listings on default feed", () => {
+  const now = Date.now();
+  const today = new Date(now - 3600000).toISOString();
+  const jobs = [
+    {
+      id: "ibm-hr",
+      title: "Process Innovation Professional - HR Operations",
+      company: "IBM",
+      employerType: "enterprise",
+      category: "enterprise",
+      role: "People/HR",
+      postedAt: today,
+      location: "Hyderabad",
+      status: "active",
+    },
+    {
+      id: "skyroot-tech",
+      title: "Avionics FPGA Engineer",
+      company: "Skyroot Aerospace",
+      employerType: "startup",
+      category: "startup",
+      role: "Engineering",
+      postedAt: today,
+      location: "Hyderabad",
+      status: "active",
+    },
+  ];
+  const ranked = filterJobs(jobs, {}, now);
+  assert.equal(ranked[0].id, "skyroot-tech");
+});
+
+test("capEmployerShare restricts enterprise to 2 and startups to 3", () => {
+  const jobs = [
+    { id: "e1", company: "BigCorp", employerType: "enterprise" },
+    { id: "e2", company: "BigCorp", employerType: "enterprise" },
+    { id: "e3", company: "BigCorp", employerType: "enterprise" },
+    { id: "s1", company: "CoolStartup", employerType: "startup" },
+    { id: "s2", company: "CoolStartup", employerType: "startup" },
+    { id: "s3", company: "CoolStartup", employerType: "startup" },
+  ];
+  const capped = capEmployerShare(jobs, 3);
+  assert.equal(capped.filter(j => j.company === "BigCorp").length, 2);
+  assert.equal(capped.filter(j => j.company === "CoolStartup").length, 3);
 });
