@@ -29,13 +29,13 @@
   },
   {
     "name": "Wise",
-    "country": "United Kingdom",
-    "hq": "London",
-    "sector": "Cross-Border FinTech",
-    "remoteScope": "EMEA / India / Hybrid",
+    "country": "Estonia",
+    "hq": "Tallinn",
+    "sector": "FinTech & Money Transfers",
+    "remoteScope": "Global / Remote Flexible",
     "atsProvider": "smartrecruiters",
     "atsSlug": "wise",
-    "boardUrl": "https://wise.com/careers"
+    "boardUrl": "https://jobs.smartrecruiters.com/wise"
   },
   {
     "name": "Monzo",
@@ -487,16 +487,6 @@
     "remoteScope": "Sweden / EMEA Remote",
     "atsProvider": "teamtailor",
     "boardUrl": "https://www.epidemicsound.com/careers/"
-  },
-  {
-    "name": "Wise",
-    "country": "Estonia",
-    "hq": "Tallinn",
-    "sector": "FinTech & Money Transfers",
-    "remoteScope": "Global / Remote Flexible",
-    "atsProvider": "smartrecruiters",
-    "atsSlug": "wise",
-    "boardUrl": "https://jobs.smartrecruiters.com/wise"
   },
   {
     "name": "Pipedrive",
@@ -1182,5 +1172,165 @@
     "atsProvider": "ashby",
     "atsSlug": "kantiv",
     "boardUrl": "https://jobs.ashbyhq.com/kantiv"
+  },
+  {
+    "name": "Linear",
+    "country": "Global Remote",
+    "hq": "San Francisco",
+    "sector": "Developer Tools",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "linear",
+    "boardUrl": "https://jobs.ashbyhq.com/linear"
+  },
+  {
+    "name": "Resend",
+    "country": "Global Remote",
+    "hq": "San Francisco",
+    "sector": "Developer Tools & Email",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "resend",
+    "boardUrl": "https://jobs.ashbyhq.com/resend"
+  },
+  {
+    "name": "LiveKit",
+    "country": "Global Remote",
+    "hq": "San Francisco",
+    "sector": "AI & Real-Time Video",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "livekit",
+    "boardUrl": "https://jobs.ashbyhq.com/livekit"
+  },
+  {
+    "name": "LangChain",
+    "country": "Global Remote",
+    "hq": "San Francisco",
+    "sector": "LLM Orchestration Frameworks",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "langchain",
+    "boardUrl": "https://jobs.ashbyhq.com/langchain"
+  },
+  {
+    "name": "Replit",
+    "country": "Global Remote",
+    "hq": "San Francisco",
+    "sector": "AI Software Creation",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "replit",
+    "boardUrl": "https://jobs.ashbyhq.com/replit"
+  },
+  {
+    "name": "Deepgram",
+    "country": "Global Remote",
+    "hq": "Ann Arbor / Global",
+    "sector": "Speech AI Foundation Models",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "deepgram",
+    "boardUrl": "https://jobs.ashbyhq.com/deepgram"
+  },
+  {
+    "name": "Anyscale",
+    "country": "Global Remote",
+    "hq": "San Francisco",
+    "sector": "Distributed Ray AI Infrastructure",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "anyscale",
+    "boardUrl": "https://jobs.ashbyhq.com/anyscale"
+  },
+  {
+    "name": "Vapi",
+    "country": "Global Remote",
+    "hq": "San Francisco",
+    "sector": "Voice AI Platform for Developers",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "vapi",
+    "boardUrl": "https://jobs.ashbyhq.com/vapi"
+  },
+  {
+    "name": "Modal",
+    "country": "Global Remote",
+    "hq": "New York",
+    "sector": "Serverless Cloud AI Compute",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "modal",
+    "boardUrl": "https://jobs.ashbyhq.com/modal"
+  },
+  {
+    "name": "Dust",
+    "country": "France",
+    "hq": "Paris",
+    "sector": "Enterprise AI Agents",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "dust",
+    "boardUrl": "https://jobs.ashbyhq.com/dust"
+  },
+  {
+    "name": "Braintrust",
+    "country": "Global Remote",
+    "hq": "San Francisco",
+    "sector": "AI Evaluation & Observability",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "braintrust",
+    "boardUrl": "https://jobs.ashbyhq.com/braintrust"
+  },
+  {
+    "name": "Poolside",
+    "country": "France",
+    "hq": "Paris",
+    "sector": "Foundation AI for Code",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "poolside",
+    "boardUrl": "https://jobs.ashbyhq.com/poolside"
+  },
+  {
+    "name": "Pinecone",
+    "country": "Global Remote",
+    "hq": "New York",
+    "sector": "Vector Databases for AI",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "ashby",
+    "atsSlug": "pinecone",
+    "boardUrl": "https://jobs.ashbyhq.com/pinecone"
+  },
+  {
+    "name": "Chainguard",
+    "country": "Global Remote",
+    "hq": "Kirkland",
+    "sector": "Software Supply Chain Security",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "greenhouse",
+    "atsSlug": "chainguard",
+    "boardUrl": "https://boards.greenhouse.io/chainguard"
+  },
+  {
+    "name": "Netlify",
+    "country": "Global Remote",
+    "hq": "San Francisco",
+    "sector": "Web Development Cloud",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "greenhouse",
+    "atsSlug": "netlify",
+    "boardUrl": "https://boards.greenhouse.io/netlify"
+  },
+  {
+    "name": "Cockroach Labs",
+    "country": "United States",
+    "hq": "New York",
+    "sector": "Distributed Cloud SQL",
+    "remoteScope": "100% Global Remote",
+    "atsProvider": "greenhouse",
+    "atsSlug": "cockroachlabs",
+    "boardUrl": "https://boards.greenhouse.io/cockroachlabs"
   }
 ]
