@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
   const landing = roleLanding(params.role);
   if (!landing) return { title: "Role jobs not found" };
   const jobs = await getJobsByRole(landing);
-  const title = `${landing.title} – ${jobs.length} Open Roles`;
+  const title = `${landing.title} | Mapping HYD`;
   const url = `${getSiteUrl()}/jobs/role/${params.role}`;
   return {
     title,

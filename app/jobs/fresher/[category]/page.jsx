@@ -36,7 +36,7 @@ export async function generateMetadata({ params }) {
 
   const allJobs = await getFresherJobs(FRESHER_JOBS_LANDING.experienceLevels);
   const jobs = filterFresherJobsByCategory(allJobs, slug);
-  const title = `${cat.metaTitle || cat.title} (${jobs.length} Active Roles)`;
+  const title = cat.metaTitle || `${cat.title} | Mapping HYD`;
   const url = `${getSiteUrl()}/jobs/fresher/${cat.slug}`;
 
   return {

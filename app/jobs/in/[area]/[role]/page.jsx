@@ -23,7 +23,7 @@ export async function generateMetadata({ params }) {
   const data = await getRoleAreaData(params.area, params.role);
   if (!data) return { title: "Job location or role not found" };
   const url = `${getSiteUrl()}/jobs/in/${data.area.slug}/${data.role.slug}`;
-  const title = `${data.title} (${data.jobs.length} Open Roles)`;
+  const title = `${data.title} | Mapping HYD`;
   return {
     title,
     description: data.description,

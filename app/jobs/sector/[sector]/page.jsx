@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
   const landing = sectorLanding(params.sector);
   if (!landing) return { title: "Sector jobs not found" };
   const jobs = await getJobsBySector(landing.sector);
-  const title = `${landing.title} – ${jobs.length} Open Roles`;
+  const title = `${landing.title} | Mapping HYD`;
   const url = `${getSiteUrl()}/jobs/sector/${params.sector}`;
   return {
     title,
